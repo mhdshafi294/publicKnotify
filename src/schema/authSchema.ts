@@ -23,10 +23,15 @@ export const signUpSchema = z
       .string()
       .min(1, "error-message.password")
       .min(8, "error-message.password-short"),
+    terms: z.boolean(),
   })
   .refine((data) => data.password === data.password_confirmation, {
     message: "Passwords must match",
     path: ["password_confirmation"],
+  })
+  .refine((data) => data.terms, {
+    message: "error-message.terms",
+    path: ["terms"],
   });
 
 export const forgotPasswordSchema = z.object({

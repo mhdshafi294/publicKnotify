@@ -40,6 +40,14 @@ const config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        greeny: {
+          DEFAULT: "hsl(var(--greeny))",
+          foreground: "hsl(var(--greeny-foreground))",
+        },
+        greeny_lighter: {
+          DEFAULT: "hsl(var(--greeny_lighter))",
+          foreground: "hsl(var(--greeny_lighter-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
