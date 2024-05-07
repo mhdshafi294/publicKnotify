@@ -66,9 +66,13 @@ export const authOptions: AuthOptions = {
       credentials: {
         phone: {},
         password: {},
+        type: {},
       },
       async authorize(credentials, req) {
-        const res = await axiosInstance.post(LOGIN_URL, credentials);
+        const res = await axios.post(
+          `https://notify-back.r-link.io/${credentials!.type}${LOGIN_URL}`,
+          credentials
+        );
         const response = res.data;
         const user = response?.user;
         if (user) {

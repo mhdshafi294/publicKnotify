@@ -13,8 +13,18 @@ export const loginSchema = z.object({
 
 export const signUpSchema = z
   .object({
-    name: z.string().min(1, "error-message.email"),
-    phone: z.string().min(1, "error-message.email"),
+    full_name: z.string().min(1, "error-message.email"),
+    phone: z
+      .string()
+      .min(1, "error-message.email")
+      .refine(
+        (value) => {
+          return !isNaN(Number(value));
+        },
+        {
+          message: "error-message.phone-invalid",
+        }
+      ),
     password: z
       .string()
       .min(1, "error-message.password")
@@ -23,6 +33,28 @@ export const signUpSchema = z
       .string()
       .min(1, "error-message.password")
       .min(8, "error-message.password-short"),
+    docs: z
+      .instanceof(File)
+      .optional()
+      .refine(
+        (data) => {
+          if (!data?.name) return true;
+          return ["png", "jpg", "jpeg", "webp", "pdf"].includes(data?.type);
+        },
+        {
+          message: "error-message.docs",
+        }
+      )
+      .refine(
+        (data) => {
+          if (!data?.name) return true;
+          return data?.size < 5 * 1024 * 1024;
+        },
+        {
+          message: "error-message.docs-size",
+        }
+      ),
+    type: z.string(),
     terms: z.boolean(),
   })
   .refine((data) => data.password === data.password_confirmation, {
@@ -32,7 +64,19 @@ export const signUpSchema = z
   .refine((data) => data.terms, {
     message: "error-message.terms",
     path: ["terms"],
-  });
+  })
+  .refine(
+    (data) => {
+      if (data.type === "compnay" && !data.docs) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "error-message.docs",
+      path: ["docs"],
+    }
+  );
 
 export const forgotPasswordSchema = z.object({
   email: z
