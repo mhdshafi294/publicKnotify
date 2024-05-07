@@ -49,7 +49,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     formData.append("password", data.password);
     formData.append("password_confirmation", data.password_confirmation);
     if (type === "company" && data.documents)
-      formData.append("documents", data.documents);
+      formData.append("document", data.documents);
 
     await axiosInstance
       .post(`${type}${REGISTER_URL}`, formData)
@@ -121,7 +121,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           label="I accept the terms and privacy policy"
         />
         <Button
-          // disabled={isPending}
+          disabled={loading}
           className="w-full capitalize mt-8"
           type="submit"
         >
