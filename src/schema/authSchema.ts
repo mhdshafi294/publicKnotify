@@ -33,13 +33,19 @@ export const signUpSchema = z
       .string()
       .min(1, "error-message.password")
       .min(8, "error-message.password-short"),
-    docs: z
+    documents: z
       .instanceof(File)
       .optional()
       .refine(
         (data) => {
           if (!data?.name) return true;
-          return ["png", "jpg", "jpeg", "webp", "pdf"].includes(data?.type);
+          return [
+            "image/png",
+            "image/jpg",
+            "image/jpeg",
+            "image/webp",
+            "application/pdf",
+          ].includes(data?.type);
         },
         {
           message: "error-message.docs",
@@ -67,14 +73,14 @@ export const signUpSchema = z
   })
   .refine(
     (data) => {
-      if (data.type === "compnay" && !data.docs) {
+      if (data.type === "compnay" && !data.documents) {
         return false;
       }
       return true;
     },
     {
-      message: "error-message.docs",
-      path: ["docs"],
+      message: "error-message.documents",
+      path: ["documents"],
     }
   );
 

@@ -35,7 +35,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
       phone: "",
       password: "",
       password_confirmation: "",
-      docs: new File([], ""),
+      documents: new File([], ""),
       type: type,
       terms: false,
     },
@@ -43,27 +43,16 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
 
   const handleSubmit = async (data: signUpSchema) => {
     setLoading(true);
-    let sigUpData = {};
-
-    if (type === "company") {
-      sigUpData = {
-        full_name: data.full_name,
-        phone: data.phone,
-        password: data.password,
-        password_confirmation: data.password_confirmation,
-        docs: data.docs,
-      };
-    } else {
-      sigUpData = {
-        full_name: data.full_name,
-        phone: data.phone,
-        password: data.password,
-        password_confirmation: data.password_confirmation,
-      };
-    }
+    const formData = new FormData();
+    formData.append("full_name", data.full_name);
+    formData.append("phone", data.phone);
+    formData.append("password", data.password);
+    formData.append("password_confirmation", data.password_confirmation);
+    if (type === "company" && data.documents)
+      formData.append("documents", data.documents);
 
     await axiosInstance
-      .post(`${type}${REGISTER_URL}`, sigUpData)
+      .post(`${type}${REGISTER_URL}`, formData)
       .then((res) => {
         const response = res.data;
         setLoading(false);
@@ -118,7 +107,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             />
           </div>
           {type === "company" && (
-            <FormFileInput name="docs" label="docs" control={form.control} />
+            <FormFileInput
+              name="documents"
+              label="Docs"
+              control={form.control}
+            />
           )}
         </div>
         <FormCheckbox
