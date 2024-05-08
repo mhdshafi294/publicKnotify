@@ -21,9 +21,6 @@ export interface CustomUser {
   updated_at?: string | null;
 }
 export const authOptions: AuthOptions = {
-  pages: {
-    signIn: "/login",
-  },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       // * When we update the session
@@ -62,15 +59,18 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.APPLE_SECRET as string,
     }),
     CredentialsProvider({
-      name: "Credentials",
+      name: "login",
       credentials: {
         phone: {},
         password: {},
         type: {},
       },
+      type: "credentials",
       async authorize(credentials, req) {
+        const type = credentials?.type;
+
         const res = await axios.post(
-          `https://notify-back.r-link.io/${credentials!.type}${LOGIN_URL}`,
+          `https://notify-back.r-link.io/${type}${LOGIN_URL}`,
           credentials
         );
         const response = res.data;

@@ -1,10 +1,17 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z
+  phone: z
     .string()
     .min(1, "error-message.email")
-    .email("error-message.email-invalid"),
+    .refine(
+      (value) => {
+        return !isNaN(Number(value));
+      },
+      {
+        message: "error-message.phone-invalid",
+      }
+    ),
   password: z
     .string()
     .min(1, "error-message.password")
