@@ -92,17 +92,24 @@ export const signUpSchema = z
   );
 
 export const forgotPasswordSchema = z.object({
-  email: z
+  phone: z
     .string()
     .min(1, "error-message.email")
-    .email("error-message.email-invalid"),
+    .refine(
+      (value) => {
+        return !isNaN(Number(value));
+      },
+      {
+        message: "error-message.phone-invalid",
+      }
+    ),
 });
 
 export const checkCodeSchema = z.object({
   code: z
     .string()
-    .min(6, "error-message.otp-invalid")
-    .max(6, "error-message.otp-invalid"),
+    .min(4, "error-message.otp-invalid")
+    .max(4, "error-message.otp-invalid"),
 });
 
 export const resetPasswordSchema = z

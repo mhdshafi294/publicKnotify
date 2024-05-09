@@ -13,7 +13,6 @@ import ButtonLoader from "@/components/ui/button-loader";
 import { Link, useRouter } from "@/navigation";
 import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
-import signInAxios from "@/services/sign-in";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 
@@ -36,27 +35,32 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const handleSubmit = async (data: loginSchema) => {
     setLoading(true);
     try {
-      // await signInAxios(data, type);
-      signIn("credentials", {
+      const signInResponse = await signIn("credentials", {
         phone: data.phone,
         password: data.password,
         type: type,
         redirect: false,
-        // callbackUrl: "/", // TODO: Add callback url
+        callbackUrl: "/", // TODO: Add callback url
       });
-      toast.success("Signed In successfully!.");
-      router.push("/");
+      if (signInResponse!.ok) {
+        setLoading(false);
+        toast.success("Signed In successfully!.");
+        router.push("/");
+      } else {
+        setLoading(false);
+        toast.error("The selected phone or its password is invalid.");
+      }
     } catch (error) {
       const err = error as AxiosError;
+      setLoading(false);
       if (err.response?.status == 422) {
         console.log(err);
-        toast.error("The phone has already been taken.");
+        toast.error("The selected phone is invalid.");
       } else {
         console.log(err);
         toast.error("Something went wrong.please try again!");
       }
     }
-    setLoading(false);
   };
 
   return (
@@ -81,7 +85,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
               href="/forgot-password"
               className="text-sm opacity-50 font-light hover:opacity-100 duration-300"
             >
-              Forget password
+              Forgot password
             </Link>
           </div>
         </div>

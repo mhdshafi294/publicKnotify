@@ -12,21 +12,21 @@ export interface CustomSession {
   expires: ISODateString;
 }
 export interface CustomUser {
-  id?: string | null;
-  name?: string | null;
-  email?: string | null;
-  profile_image?: string | null;
-  token?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
+  id?: number;
+  full_name?: string;
+  phone?: string;
+  image?: string | null;
+  access_token?: string;
+  type?: string;
 }
+
 export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       // * When we update the session
-      if (trigger === "update" && session?.profile_image) {
+      if (trigger === "update" && session?.image) {
         const user: CustomUser = token.user as CustomUser;
-        user.profile_image = session?.profile_image;
+        user.image = session?.image;
         console.log("The token is", token);
       }
       if (user) {
@@ -34,7 +34,6 @@ export const authOptions: AuthOptions = {
       }
       return token;
     },
-
     async session({
       session,
       token,
@@ -68,9 +67,8 @@ export const authOptions: AuthOptions = {
       type: "credentials",
       async authorize(credentials, req) {
         const type = credentials?.type;
-
-        const res = await axios.post(
-          `https://notify-back.r-link.io/${type}${LOGIN_URL}`,
+        const res = await axiosInstance.post(
+          `${type}${LOGIN_URL}`,
           credentials
         );
         const response = res.data;

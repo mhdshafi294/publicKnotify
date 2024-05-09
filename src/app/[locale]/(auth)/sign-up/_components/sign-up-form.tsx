@@ -43,8 +43,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     setLoading(true);
     try {
       await signUp(data, type);
-      toast.success("Account created successfully!.");
-      router.push("/sign-in");
+      toast.warning("Please verify your account!.");
+      router.push(`${type}/verification-code?phone=${data.phone}`);
     } catch (error) {
       const err = error as AxiosError;
       if (err.response?.status == 422) {

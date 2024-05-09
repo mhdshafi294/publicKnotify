@@ -3,6 +3,7 @@ import Env from "./env";
 export const API_URL = Env.API_URL;
 export const LOGIN_URL = "/login";
 export const REGISTER_URL = "/register";
+export const VERIFICATION_CODE = "/verification-code";
 export const CHECK_CREDENTIALS = "/checkCredentials";
 export const LOGOUT_URL = "/logout";
 
