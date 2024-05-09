@@ -16,7 +16,7 @@ import FormCheckbox from "@/components/ui/form-checkbox";
 import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
 import FormFileInput from "@/components/ui/form-input-file";
-import signUp from "@/services/sign-up";
+import signUp from "@/services/auth/sign-up";
 
 interface SignUpFormProps {
   type: "podcaster" | "user" | "company";

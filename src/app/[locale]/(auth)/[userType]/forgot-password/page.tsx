@@ -11,9 +11,9 @@ import { useRouter } from "@/navigation";
 import { Form } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 
-import confirmVerificationCode from "@/services/auth/verification-code";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import forgotPassword from "@/services/auth/forgot-password";
 
 const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,8 +29,10 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const handleSubmit = async (data: forgotPasswordSchema) => {
     setLoading(true);
     try {
-      await confirmVerificationCode(data, params.userType);
-      router.push(`/sign-in?userType=${params.userType}`);
+      await forgotPassword(data, params.userType);
+      router.push(
+        `/check-code?userType=${params.userType}&phone=${data.phone}`
+      );
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
