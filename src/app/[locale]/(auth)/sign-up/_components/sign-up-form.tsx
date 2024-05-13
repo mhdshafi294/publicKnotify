@@ -66,7 +66,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           handleSubmit(data);
         })}
       >
-        <div className="flex flex-col items-center gap-7">
+        <div className="flex flex-col items-center gap-7 min-w-[358px]">
           <h2 className="text-[32px] font-black mb-1">Sign Up</h2>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
             <FormInput name="full_name" label="Name" control={form.control} />
@@ -89,13 +89,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
               name="documents"
               label="Docs"
               control={form.control}
+              className="w-[280px]"
             />
           )}
         </div>
         <FormCheckbox
           name="terms"
           control={form.control}
-          className="rounded-full size-7"
+          className="rounded-full size-4"
           label="I accept the terms and privacy policy"
         />
         <Button
@@ -105,12 +106,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
         >
           {loading ? <ButtonLoader /> : "Continue"}
         </Button>
-        <p className="text-center mt-5 font-light md:text-xl">
+        <p className="text-center mt-5 font-light text-sm">
           Do you already have an account?{" "}
           <Link
             locale="en"
             href="/sign-in"
-            className="font-bold md:text-xl text-greeny"
+            className="font-bold text-sm text-greeny"
           >
             Sign In
           </Link>

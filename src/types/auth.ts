@@ -1,7 +1,7 @@
 import {
   checkCodeSchema,
   forgotPasswordSchema,
-  resetPasswordSchema,
+  newPasswordSchema,
 } from "@/schema/authSchema";
 
 export type LoginResponse = {

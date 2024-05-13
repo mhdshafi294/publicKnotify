@@ -15,6 +15,7 @@ import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
+import sendCode from "@/services/auth/send-code";
 
 interface SignInFormProps {
   type: "podcaster" | "user" | "company";
@@ -42,10 +43,17 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         redirect: false,
         callbackUrl: "/", // TODO: Add callback url
       });
+      console.log(signInResponse);
       if (signInResponse!.ok) {
+        // TODO: handle not authorized user yet
         setLoading(false);
         toast.success("Signed In successfully!.");
         router.push("/");
+      } else if (signInResponse?.error?.includes("434")) {
+        setLoading(false);
+        await sendCode({ phone: data.phone }, type);
+        router.push(`/${type}/verification-code?phone=${data.phone}`);
+        toast.warning("A new verification code has been sent to your phone");
       } else {
         setLoading(false);
         toast.error("The selected phone or its password is invalid.");
@@ -53,7 +61,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
     } catch (error) {
       const err = error as AxiosError;
       setLoading(false);
-      if (err.response?.status == 422) {
+      if (err.response?.status == 434) {
+        await sendCode({ phone: data.phone }, type);
+        router.push(`/${type}/verification-code?phone=${data.phone}`);
+        toast.warning("A new verification code has been sent to your phone");
+      } else if (err.response?.status == 422) {
         console.log(err);
         toast.error("The selected phone is invalid.");
       } else {
@@ -82,7 +94,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
               className="mb-2"
             />
             <Link
-              href="/forgot-password"
+              href={`${type}/forgot-password`}
               className="text-sm opacity-50 font-light hover:opacity-100 duration-300"
             >
               Forgot password

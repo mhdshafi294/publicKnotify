@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 import { notFound } from "next/navigation";
 
@@ -11,6 +12,23 @@ import { IntlProvider } from "@/providers/IntlProvider";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
+});
+
+const fontLato = Lato({
+  weight: [
+    "100",
+    "300",
+    "400",
+    "700",
+    "900",
+    "100",
+    "300",
+    "400",
+    "700",
+    "900",
+  ],
+  subsets: ["latin"],
+  variable: "--font-lato",
 });
 
 export const metadata: Metadata = {
@@ -54,9 +72,7 @@ export default async function RootLayout({
       dir={locale === "ar" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
-      <body
-        className={cn("min-h-screen  font-sans antialiased", fontSans.variable)}
-      >
+      <body className={cn("min-h-screen antialiased", fontLato.className)}>
         <IntlProvider locale={locale} messages={messages}>
           {children}
         </IntlProvider>

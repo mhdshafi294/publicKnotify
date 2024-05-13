@@ -24,6 +24,7 @@ function FormFileInput<T extends FieldValues>({
   name,
   label,
   labelClassName,
+  className,
   ...props
 }: PropsType<T>) {
   return (
@@ -38,7 +39,10 @@ function FormFileInput<T extends FieldValues>({
           <FormControl>
             <div className="relative cursor-pointer">
               <Input
-                className="w-full bg-greeny opacity-0 cursor-pointer"
+                className={cn(
+                  "w-full bg-greeny opacity-0 cursor-pointer",
+                  className
+                )}
                 type="file"
                 onChange={(e) =>
                   field.onChange(

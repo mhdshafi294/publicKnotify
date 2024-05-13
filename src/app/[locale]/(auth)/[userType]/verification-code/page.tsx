@@ -45,9 +45,10 @@ const VerificationCode = ({
 
   const handleSubmit = async (data: checkCodeSchema) => {
     setLoading(true);
+    console.log(data);
     try {
       await confirmVerificationCode(
-        data,
+        data.code,
         searchParams.phone as string,
         params.userType
       );
@@ -81,7 +82,7 @@ const VerificationCode = ({
                   We have sent the verification code to your phone number
                 </FormLabel>
                 <FormControl>
-                  <InputOTP maxLength={4} containerClassName="gap-6">
+                  <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
                     </InputOTPGroup>

@@ -45,14 +45,17 @@ const CheckCode = ({
 
   const handleSubmit = async (data: checkCodeSchema) => {
     setLoading(true);
+    console.log(data);
     try {
       await ConfirmCheckCode(
-        data,
+        data.code,
         searchParams.phone as string,
         params.userType
       );
-      toast.success("Account created successfully!.");
-      router.push(`/sign-in?userType=${params.userType}`);
+      toast.success("Confirmed!");
+      router.push(
+        `/${params.userType}/new-password?phone=${searchParams.phone}&code=${data.code}`
+      );
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
@@ -64,7 +67,7 @@ const CheckCode = ({
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Verification Code</h2>
+      <h2>OTP Code</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
@@ -78,10 +81,10 @@ const CheckCode = ({
             render={({ field }) => (
               <FormItem className="w-full flex flex-col items-center gap-16">
                 <FormLabel>
-                  We have sent the verification code to your phone number
+                  We have sent a verification code to your phone number
                 </FormLabel>
                 <FormControl>
-                  <InputOTP maxLength={4} containerClassName="gap-6">
+                  <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
                       <InputOTPSlot index={0} />
                     </InputOTPGroup>

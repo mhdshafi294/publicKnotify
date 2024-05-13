@@ -3,16 +3,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const SignUp = () => {
   return (
-    <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center">
-      <Tabs defaultValue="podcaster" className="w-full py-8">
-        <TabsList className="w-full h-fit grid grid-cols-3 bg-transparent text-white rounded-md border-white/50 border mb-12">
-          <TabsTrigger value="user" className="font-normal text-xl">
+    <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
+      <Tabs
+        defaultValue="podcaster"
+        className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
+      >
+        <TabsList className="w-full h-14 grid grid-cols-3 bg-transparent text-white rounded-md mb-6 px-0 border border-white md:border-none md:border-transparent">
+          <TabsTrigger
+            value="user"
+            className="font-normal md:px-0 md:place-self-start"
+          >
             User
           </TabsTrigger>
-          <TabsTrigger value="podcaster" className="font-normal text-xl">
+          <TabsTrigger
+            value="podcaster"
+            className="font-normal md:px-0 md:place-self-center"
+          >
             Podcaster
           </TabsTrigger>
-          <TabsTrigger value="company" className="font-normal text-xl">
+          <TabsTrigger
+            value="company"
+            className="font-normal md:px-0 md:place-self-end"
+          >
             Company
           </TabsTrigger>
         </TabsList>

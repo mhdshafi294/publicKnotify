@@ -4,33 +4,44 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 
-import { forgotPasswordSchema } from "@/schema/authSchema";
+import { newPasswordSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
+import newPassword from "@/services/auth/new-password";
 
 import { Form } from "@/components/ui/form";
-import FormInput from "@/components/ui/form-input";
-
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import sendCode from "@/services/auth/send-code";
+import PasswordInput from "@/components/ui/password-input";
 
-const ForgotPassword = ({ params }: { params: { userType: string } }) => {
+const NewPassword = ({
+  params,
+  searchParams,
+}: {
+  params: { userType: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  const form = useForm<forgotPasswordSchema>({
-    resolver: zodResolver(forgotPasswordSchema),
+  const form = useForm<newPasswordSchema>({
+    resolver: zodResolver(newPasswordSchema),
     defaultValues: {
-      phone: "",
+      new_password: "",
+      new_password_confirmation: "",
     },
   });
 
-  const handleSubmit = async (data: forgotPasswordSchema) => {
+  const handleSubmit = async (data: newPasswordSchema) => {
     setLoading(true);
     try {
-      await sendCode(data, params.userType);
-      router.push(`/${params.userType}/check-code?&phone=${data.phone}`);
+      await newPassword(
+        data,
+        searchParams.phone as string,
+        searchParams.code as string,
+        params.userType
+      );
+      router.push(`/sign-in?userType=${params.userType}`);
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
@@ -45,12 +56,23 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
       <h2>Verification Code</h2>
       <Form {...form}>
         <form
-          className="w-full mt-6 md:px-0 flex flex-col items-center"
+          className="w-full mt-6 md:px-0 flex flex-col gap-9 items-center"
           onSubmit={form.handleSubmit((data) => {
             handleSubmit(data);
           })}
         >
-          <FormInput name="phone" label="Phone" control={form.control} />
+          <PasswordInput
+            name={"new_password"}
+            label={"New Password"}
+            control={form.control}
+            className=""
+          />
+          <PasswordInput
+            name={"new_password_confirmation"}
+            label={"Confirm New Password"}
+            control={form.control}
+            className=""
+          />
           <Button
             disabled={loading}
             className="md:w-[360px] capitalize mx-auto mt-14"
@@ -64,4 +86,4 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   );
 };
 
-export default ForgotPassword;
+export default NewPassword;

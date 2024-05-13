@@ -3,7 +3,7 @@ import { VERIFICATION_CODE } from "@/lib/apiEndPoints";
 import { checkCodeSchema } from "@/schema/authSchema";
 
 const confirmVerificationCode = async (
-  code: checkCodeSchema,
+  code: string,
   phone: string,
   type: string
 ) => {

@@ -112,7 +112,7 @@ export const checkCodeSchema = z.object({
     .max(4, "error-message.otp-invalid"),
 });
 
-export const resetPasswordSchema = z
+export const newPasswordSchema = z
   .object({
     new_password: z
       .string()
@@ -131,4 +131,4 @@ export type loginSchema = z.infer<typeof loginSchema>;
 export type signUpSchema = z.infer<typeof signUpSchema>;
 export type forgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;
 export type checkCodeSchema = z.infer<typeof checkCodeSchema>;
-export type resetPasswordSchema = z.infer<typeof resetPasswordSchema>;
+export type newPasswordSchema = z.infer<typeof newPasswordSchema>;
