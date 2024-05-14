@@ -54,9 +54,12 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         await sendCode({ phone: data.phone }, type);
         router.push(`/${type}/verification-code?phone=${data.phone}`);
         toast.warning("A new verification code has been sent to your phone");
-      } else {
+      } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
         toast.error("The selected phone or its password is invalid.");
+      } else {
+        setLoading(false);
+        toast.error("An error occurred. Please try again.");
       }
     } catch (error) {
       const err = error as AxiosError;

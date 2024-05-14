@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const ClerkLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full min-h-screen w-full flex items-center justify-center">
       <div className="absolute inset-0 h-full min-h-screen w-screen -z-10">
@@ -18,4 +18,4 @@ const ClerkLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ClerkLayout;
+export default AuthLayout;

@@ -1,6 +1,39 @@
 {
   "Index": {
-    "title": "Hello world!",
-    "language": "language"
+    "title": "title",
+    "language": "language",
+    "new": "new",
+    "edit": "edit",
+    "delete": "delete",
+    "create": "create",
+    "update": "update",
+    "cancel": "cancel",
+    "save": "save",
+    "close": "close",
+    "yes": "yes",
+    "no": "no",
+    "back": "back",
+    "next": "next",
+    "previous": "previous",
+    "first": "first",
+    "last": "last",
+    "filter": "filter",
+    "search": "search",
+    "notifications": "notifications",
+    "settings": "settings",
+    "profile": "profile",
+    "logout": "logout",
+    "sign-in": "sign in",
+    "register": "register",
+    "sign-up": "sign up",
+    "sign-in-with": "sign in with",
+    "sign-up-with": "sign up with",
+    "password-reset": "password reset",
+    "password-reset-form": "password reset form",
+    "password-reset-link-sent": "password reset link sent",
+    "password-reset-link-sent-desc": "check your phone for the reset link"
+  },
+  "notifications": {
+    "notifications": "notifications"
   }
 }

@@ -7,7 +7,8 @@ import { notFound } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { IntlProvider } from "@/providers/IntlProvider";
+import { NextIntlClientProvider } from "next-intl";
+import AuthProvider from "@/providers/AuthProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -73,9 +74,9 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={cn("min-h-screen antialiased", fontLato.className)}>
-        <IntlProvider locale={locale} messages={messages}>
-          {children}
-        </IntlProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <AuthProvider>{children}</AuthProvider>
+        </NextIntlClientProvider>
       </body>
       <Toaster />
     </html>

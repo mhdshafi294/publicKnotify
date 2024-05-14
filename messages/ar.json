@@ -1,6 +1,39 @@
 {
   "Index": {
     "title": "مرحبا",
-    "language": "اللغة"
+    "language": "اللغة",
+    "new": "جديد",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "create": "إنشاء",
+    "update": "رفع",
+    "cancel": "الغاء",
+    "save": "حفظ",
+    "close": "اغلاق",
+    "yes": "نعم",
+    "no": "لا",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "first": "الاول",
+    "last": "الاخير",
+    "filter": "فلتر",
+    "search": "بحث",
+    "notifications": "الاشعارات",
+    "settings": "الاعدادات",
+    "profile": "الملف الشخصي",
+    "logout": "خروج",
+    "sign-in": "تسجيل الدخول",
+    "register": "التسجيل",
+    "sign-up": "التسجيل",
+    "sign-in-with": "تسجيل دخول باستخدام",
+    "sign-up-with": "التسجيل باستخدام",
+    "password-reset": "اعادة تعيين كلمة المرور",
+    "password-reset-form": "اعادة تعيين كلمة المرور",
+    "password-reset-link-sent": "تم ارسال رابط اعادة تعيين كلمة المرور",
+    "password-reset-link-sent-desc": "يرجى التحقق من بريدك الالكتروني والتحقق من الرابط الذي ارسلته لتعيين كلمة مرور جديدة"
+  },
+  "notifications": {
+    "notifications": "notifications"
   }
 }
