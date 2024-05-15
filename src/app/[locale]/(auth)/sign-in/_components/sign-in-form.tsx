@@ -45,7 +45,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       });
       console.log(signInResponse);
       if (signInResponse!.ok) {
-        // TODO: handle not authorized user yet
         setLoading(false);
         toast.success("Signed In successfully!.");
         router.push("/");
@@ -57,6 +56,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
         toast.error("The selected phone or its password is invalid.");
+      } else if (signInResponse?.error?.includes("403")) {
+        setLoading(false);
+        toast.warning("You have been blocked by the admin. Please contact us.");
       } else {
         setLoading(false);
         toast.error("An error occurred. Please try again.");

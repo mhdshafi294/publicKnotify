@@ -12,8 +12,6 @@ const DesktopNavbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
-  console.log(pathname);
-
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
