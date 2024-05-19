@@ -15,4 +15,4 @@ export type LoginResponse = {
 };
 
 export type checkCodeBody = checkCodeSchema & forgotPasswordSchema;
-export type resetPasswordBody = checkCodeBody & resetPasswordSchema;
+// export type resetPasswordBody = checkCodeBody & resetPasswordSchema;
