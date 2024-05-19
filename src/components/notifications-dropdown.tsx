@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import NotificationContent from "./notification-content";
+// import NotificationContent from "./notification-content";
 
 import useNotificationStore from "@/store/use-notification-store";
 
