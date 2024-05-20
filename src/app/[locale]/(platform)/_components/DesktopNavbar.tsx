@@ -7,6 +7,7 @@ import { mainNavLinks } from "@/config/links";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/navigation";
 import { useSession } from "next-auth/react";
+import UserOptions from "./user-0ptions";
 
 const DesktopNavbar = () => {
   const pathname = usePathname();
@@ -15,16 +16,7 @@ const DesktopNavbar = () => {
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
-      {status === "unauthenticated" ? (
-        <Link
-          href="/sign-in"
-          className={cn(buttonVariants({ variant: "default" }), "")}
-        >
-          Sign in
-        </Link>
-      ) : (
-        <div></div> // TODO: implement User Dropdown component
-      )}
+      <UserOptions />
       <NotificationsDropdown />
       <div className="flex justify-end gap-5">
         {mainNavLinks.map((link) => {

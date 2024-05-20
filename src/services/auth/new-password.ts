@@ -4,11 +4,15 @@ import { newPasswordSchema } from "@/schema/authSchema";
 
 const newPassword = async (
   newPasswordData: newPasswordSchema,
-  phone: string,
+  phone: { code: string; phone: string },
   code: string,
   type: string
 ) => {
-  const body = { phone, code, ...newPasswordData };
+  const body = {
+    phone: `${phone.code}${phone.phone}`,
+    code,
+    ...newPasswordData,
+  };
   const { data } = await axiosInstance.post(`${type}${EDIT_PASSWORD}`, body);
   return data.data;
 };

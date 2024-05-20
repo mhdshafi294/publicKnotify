@@ -52,7 +52,7 @@ const VerificationCode = ({
         searchParams.phone as string,
         params.userType
       );
-      toast.success("Account created successfully!.");
+      toast.success("Account verified successfully!. Now you can sign in!");
       router.push(`/sign-in?userType=${params.userType}`);
     } catch (error) {
       const err = error as AxiosError;

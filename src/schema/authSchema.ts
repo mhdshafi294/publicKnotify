@@ -1,16 +1,19 @@
 import { z } from "zod";
 
+const phoneRegex = new RegExp(
+  /^[+]?[(]?[0-9]{1,3}(?:[-\s]?[0-9]{1,4})?[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im
+);
+
 export const loginSchema = z.object({
   phone: z
-    .string()
-    .min(1, "error-message.email")
+    .object({
+      code: z.string(),
+      phone: z.string(),
+    })
+    .refine((data) => data.phone.length !== 0, "error-message.phone")
     .refine(
-      (value) => {
-        return !isNaN(Number(value));
-      },
-      {
-        message: "error-message.phone-invalid",
-      }
+      (data) => phoneRegex.test(`${data.code}${data.phone}`),
+      "error-message.phone-invalid"
     ),
   password: z
     .string()
@@ -22,15 +25,14 @@ export const signUpSchema = z
   .object({
     full_name: z.string().min(1, "error-message.email"),
     phone: z
-      .string()
-      .min(1, "error-message.email")
+      .object({
+        code: z.string(),
+        phone: z.string(),
+      })
+      .refine((data) => data.phone.length !== 0, "error-message.phone")
       .refine(
-        (value) => {
-          return !isNaN(Number(value));
-        },
-        {
-          message: "error-message.phone-invalid",
-        }
+        (data) => phoneRegex.test(`${data.code}${data.phone}`),
+        "error-message.phone-invalid"
       ),
     password: z
       .string()
@@ -93,15 +95,14 @@ export const signUpSchema = z
 
 export const forgotPasswordSchema = z.object({
   phone: z
-    .string()
-    .min(1, "error-message.email")
+    .object({
+      code: z.string(),
+      phone: z.string(),
+    })
+    .refine((data) => data.phone.length !== 0, "error-message.phone")
     .refine(
-      (value) => {
-        return !isNaN(Number(value));
-      },
-      {
-        message: "error-message.phone-invalid",
-      }
+      (data) => phoneRegex.test(`${data.code}${data.phone}`),
+      "error-message.phone-invalid"
     ),
 });
 
