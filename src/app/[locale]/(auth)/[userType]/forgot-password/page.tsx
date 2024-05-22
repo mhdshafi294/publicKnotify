@@ -8,12 +8,20 @@ import { forgotPasswordSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
 
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import sendCode from "@/services/auth/send-code";
+import PhoneNumberInput from "@/components/phone-number-input";
 
 const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +30,10 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const form = useForm<forgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
-      phone: "",
+      phone: {
+        code: "",
+        phone: "",
+      },
     },
   });
 
@@ -50,7 +61,22 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
             handleSubmit(data);
           })}
         >
-          <FormInput name="phone" label="Phone" control={form.control} />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <PhoneNumberInput
+                    phone={field.value}
+                    setPhone={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button
             disabled={loading}
             className="md:w-[360px] capitalize mx-auto mt-14"

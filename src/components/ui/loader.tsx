@@ -13,11 +13,11 @@ const buttonVariant = cva("loading", {
       infinity: "loading-infinity",
     },
     size: {
-      default: "w-6",
-      xs: "w-4",
-      sm: "w-5",
-      lg: "w-10",
-      xl: "w-16",
+      default: "size-6",
+      xs: "size-4",
+      sm: "size-5",
+      lg: "size-10",
+      xl: "size-16",
     },
   },
   defaultVariants: {

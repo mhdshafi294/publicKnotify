@@ -31,7 +31,7 @@ const ResponsivePopover: FC<PropsType> = ({
 
   if (isDesktop) {
     return (
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open}>
         <PopoverContent className="sm:max-w-[475px]">
           <h5 className="capitalize">{title}</h5>
           {description ? <p>{description}</p> : null}
@@ -42,7 +42,7 @@ const ResponsivePopover: FC<PropsType> = ({
     );
   }
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open}>
       <DrawerContent>
         <DrawerHeader className="text-start capitalize">
           <DrawerTitle>{title}</DrawerTitle>

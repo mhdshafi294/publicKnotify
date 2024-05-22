@@ -7,7 +7,14 @@ import { AxiosError } from "axios";
 import { Link, useRouter } from "@/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema } from "@/schema/authSchema";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import PasswordInput from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
@@ -17,6 +24,7 @@ import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
 import FormFileInput from "@/components/ui/form-input-file";
 import signUp from "@/services/auth/sign-up";
+import PhoneNumberInput from "@/components/phone-number-input";
 
 interface SignUpFormProps {
   type: "podcaster" | "user" | "company";
@@ -30,7 +38,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       full_name: "",
-      phone: "",
+      phone: {
+        code: "",
+        phone: "",
+      },
       password: "",
       password_confirmation: "",
       documents: new File([], ""),
@@ -44,7 +55,9 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     try {
       await signUp(data, type);
       toast.warning("Please verify your account!.");
-      router.push(`${type}/verification-code?phone=${data.phone}`);
+      router.push(
+        `${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+      );
     } catch (error) {
       const err = error as AxiosError;
       if (err.response?.status == 422) {
@@ -70,7 +83,22 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           <h2 className="text-[32px] font-black mb-1">Sign Up</h2>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
             <FormInput name="full_name" label="Name" control={form.control} />
-            <FormInput name="phone" label="Phone" control={form.control} />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <PhoneNumberInput
+                      phone={field.value}
+                      setPhone={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
             <PasswordInput

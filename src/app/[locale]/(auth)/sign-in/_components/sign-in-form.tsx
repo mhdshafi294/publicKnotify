@@ -5,7 +5,14 @@ import { AxiosError } from "axios";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schema/authSchema";
-import { Form } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import PasswordInput from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
@@ -16,6 +23,7 @@ import { GoogleLogin } from "@/components/google-login";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import sendCode from "@/services/auth/send-code";
+import PhoneNumberInput from "@/components/phone-number-input";
 
 interface SignInFormProps {
   type: "podcaster" | "user" | "company";
@@ -28,7 +36,10 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const form = useForm<loginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      phone: "",
+      phone: {
+        code: "",
+        phone: "",
+      },
       password: "",
     },
   });
@@ -37,7 +48,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
     setLoading(true);
     try {
       const signInResponse = await signIn("credentials", {
-        phone: data.phone,
+        phone: `${data.phone.code}${data.phone.phone}`,
         password: data.password,
         type: type,
         redirect: false,
@@ -51,7 +62,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       } else if (signInResponse?.error?.includes("434")) {
         setLoading(false);
         await sendCode({ phone: data.phone }, type);
-        router.push(`/${type}/verification-code?phone=${data.phone}`);
+        router.push(
+          `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+        );
         toast.warning("A new verification code has been sent to your phone");
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
@@ -68,7 +81,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       setLoading(false);
       if (err.response?.status == 434) {
         await sendCode({ phone: data.phone }, type);
-        router.push(`/${type}/verification-code?phone=${data.phone}`);
+        router.push(
+          `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+        );
         toast.warning("A new verification code has been sent to your phone");
       } else if (err.response?.status == 422) {
         console.log(err);
@@ -90,7 +105,22 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       >
         <div className="flex flex-col items-center gap-9 w-[358px]">
           <h2 className="text-[32px] font-black mb-1">Sign In</h2>
-          <FormInput name="phone" label="Phone" control={form.control} />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <PhoneNumberInput
+                    phone={field.value}
+                    setPhone={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="w-full">
             <PasswordInput
               name={"password"}

@@ -8,7 +8,11 @@ const newPassword = async (
   code: string,
   type: string
 ) => {
-  const body = { phone, code, ...newPasswordData };
+  const body = {
+    phone: phone,
+    code,
+    ...newPasswordData,
+  };
   const { data } = await axiosInstance.post(`${type}${EDIT_PASSWORD}`, body);
   return data.data;
 };
