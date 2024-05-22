@@ -8,7 +8,7 @@ const SignUp = () => {
         defaultValue="podcaster"
         className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
       >
-        <TabsList className="w-full h-14 grid grid-cols-3 bg-transparent text-white rounded-md mb-6 px-0 border border-white md:border-none md:border-transparent">
+        <TabsList className="w-full h-14 grid grid-cols-3 bg-transparent text-white rounded-md mb-6 px-0 border-none border-transparent">
           <TabsTrigger
             value="user"
             className="font-normal md:px-0 md:place-self-start"
