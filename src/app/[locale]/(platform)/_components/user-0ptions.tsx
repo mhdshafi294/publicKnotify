@@ -1,6 +1,6 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { signOut, useSession } from "next-auth/react";
@@ -21,7 +21,6 @@ const UserOptions = () => {
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   console.log(session?.user);
-  console.log(open);
 
   return (
     <Fragment>

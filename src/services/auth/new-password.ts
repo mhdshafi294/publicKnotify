@@ -4,12 +4,12 @@ import { newPasswordSchema } from "@/schema/authSchema";
 
 const newPassword = async (
   newPasswordData: newPasswordSchema,
-  phone: { code: string; phone: string },
+  phone: string,
   code: string,
   type: string
 ) => {
   const body = {
-    phone: `${phone.code}${phone.phone}`,
+    phone: phone,
     code,
     ...newPasswordData,
   };
