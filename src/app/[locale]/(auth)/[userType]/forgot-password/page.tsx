@@ -41,7 +41,9 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
     setLoading(true);
     try {
       await sendCode(data, params.userType);
-      router.push(`/${params.userType}/check-code?&phone=${data.phone}`);
+      router.push(
+        `/${params.userType}/check-code?&phone=${data.phone.code}${data.phone.phone}`
+      );
     } catch (error) {
       const err = error as AxiosError;
       console.log(err);
@@ -53,7 +55,10 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
 
   return (
     <div className="md:w-[360px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Verification Code</h2>
+      <h2>Forgot Password</h2>
+      <p className="text-xs">
+        Please enter your phone number so we can send you a verification code
+      </p>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"

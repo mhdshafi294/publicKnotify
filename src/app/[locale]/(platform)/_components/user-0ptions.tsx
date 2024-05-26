@@ -14,13 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOutIcon, Settings, User } from "lucide-react";
-import { useMediaQuery } from "@/hooks/use-media-query";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
-  const isDesktop = useMediaQuery("(min-width: 640px)");
-
-  console.log(session?.user);
 
   return (
     <Fragment>

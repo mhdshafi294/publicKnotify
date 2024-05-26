@@ -74,7 +74,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   return (
     <Form {...form}>
       <form
-        className="w-full px-5 md:px-0"
+        className="w-full px-0"
         onSubmit={form.handleSubmit((data) => {
           handleSubmit(data);
         })}
@@ -150,7 +150,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             <span className="text-white text-lg font-bold leading-5">OR</span>
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
           </div>
-          <div className="flex justify-between w-full max-w-[70px]">
+          <div className="flex justify-between w-full max-w-[70px] mb-5">
             <AppleLogin />
             <GoogleLogin />
           </div>
