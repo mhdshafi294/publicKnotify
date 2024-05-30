@@ -9,6 +9,8 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { NextIntlClientProvider } from "next-intl";
 import AuthProvider from "@/providers/AuthProvider";
+import QueryProvider from "@/providers/QueryClientProvider";
+import queryClient from "@/lib/queryClient";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -75,7 +77,9 @@ export default async function RootLayout({
     >
       <body className={cn("min-h-screen antialiased", fontLato.className)}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <QueryProvider>{children} </QueryProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
       <Toaster />

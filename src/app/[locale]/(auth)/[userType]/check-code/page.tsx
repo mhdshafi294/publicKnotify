@@ -25,6 +25,8 @@ import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 
 import ConfirmCheckCode from "@/services/auth/check-code";
+import { useMutation } from "@tanstack/react-query";
+import { ConfirmCheckCodeAction } from "@/app/actions/authActions";
 
 const CheckCode = ({
   params,
@@ -33,7 +35,6 @@ const CheckCode = ({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<checkCodeSchema>({
@@ -43,26 +44,29 @@ const CheckCode = ({
     },
   });
 
-  const handleSubmit = async (data: checkCodeSchema) => {
-    setLoading(true);
-    console.log(data);
-    try {
-      await ConfirmCheckCode(
-        data.code,
-        searchParams.phone as string,
-        params.userType
-      );
+  const {
+    data,
+    mutate: server_ConfirmCheckCode,
+    isPending,
+  } = useMutation({
+    mutationFn: ConfirmCheckCodeAction,
+    onSuccess: () => {
       toast.success("Confirmed!");
       router.push(
         `/${params.userType}/new-password?phone=${searchParams.phone}&code=${data.code}`
       );
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
+    },
+    onError: () => {
       toast.error("Something went wrong.please try again!");
-    } finally {
-      setLoading(false);
-    }
+    },
+  });
+
+  const handleSubmit = async (data: checkCodeSchema) => {
+    server_ConfirmCheckCode({
+      code: data.code,
+      phone: searchParams.phone as string,
+      type: params.userType,
+    });
   };
 
   return (
@@ -104,11 +108,11 @@ const CheckCode = ({
             )}
           />
           <Button
-            disabled={loading}
+            disabled={isPending}
             className="w-[264px] capitalize mx-auto mt-20"
             type="submit"
           >
-            {loading ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : "Confirm"}
           </Button>
         </form>
       </Form>
