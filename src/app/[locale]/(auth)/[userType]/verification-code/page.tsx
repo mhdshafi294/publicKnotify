@@ -78,9 +78,9 @@ const VerificationCode = ({
     //   setLoading(false);
     // }
     server_confirmVerificationCodeAction({
-      code,
-      phone,
-      type,
+      code: data.code,
+      phone: searchParams.phone as string,
+      type: params.userType,
     });
   };
 
