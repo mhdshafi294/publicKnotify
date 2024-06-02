@@ -77,6 +77,7 @@ const VerificationCode = ({
     // } finally {
     //   setLoading(false);
     // }
+
     server_confirmVerificationCodeAction({
       code: data.code,
       phone: searchParams.phone as string,

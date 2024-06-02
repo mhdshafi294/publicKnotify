@@ -10,6 +10,9 @@ export const EDIT_PASSWORD = "/edit-password";
 export const CHECK_CREDENTIALS = "/checkCredentials";
 export const LOGOUT_URL = "/logout";
 
+export const PODCAST = "/podcast";
+export const TRENDING = `${PODCAST}/trending`;
+
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";
 export const UPDATE_PROFILE = "/update/profile";

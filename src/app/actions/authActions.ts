@@ -11,22 +11,6 @@ import sendCode from "@/services/auth/send-code";
 import signUp from "@/services/auth/sign-up";
 import confirmVerificationCode from "@/services/auth/verification-code";
 
-// // export const signInAction = async (
-// //   phone: string,
-// //   password: string,
-// //   type: string
-// // ) => {
-// //   // TODO
-// //   const signInResponse = await signIn("credentials", {
-// //     phone: phone,
-// //     password: password,
-// //     type: type,
-// //     redirect: false,
-// //     callbackUrl: "/", // TODO: Add callback url
-// //   });
-// //   return signInResponse;
-// // };
-
 export const signUpAction = async ({
   formData,
   type,
