@@ -44,6 +44,8 @@ const CheckCode = ({
     },
   });
 
+  const code = form.getValues("code");
+
   const {
     data,
     mutate: server_ConfirmCheckCode,
@@ -53,7 +55,7 @@ const CheckCode = ({
     onSuccess: () => {
       toast.success("Confirmed!");
       router.push(
-        `/${params.userType}/new-password?phone=${searchParams.phone}&code=${data.code}`
+        `/${params.userType}/new-password?phone=${searchParams.phone}&code=${code}`
       );
     },
     onError: () => {

@@ -60,24 +60,6 @@ const VerificationCode = ({
   });
 
   const handleSubmit = async (data: checkCodeSchema) => {
-    // setLoading(true);
-    // console.log(data);
-    // try {
-    //   await confirmVerificationCode(
-    //     data.code,
-    //     searchParams.phone as string,
-    //     params.userType
-    //   );
-    //   toast.success("Account verified successfully!. Now you can sign in!");
-    //   router.push(`/sign-in?userType=${params.userType}`);
-    // } catch (error) {
-    //   const err = error as AxiosError;
-    //   console.log(err);
-    //   toast.error("Something went wrong.please try again!");
-    // } finally {
-    //   setLoading(false);
-    // }
-
     server_confirmVerificationCodeAction({
       code: data.code,
       phone: searchParams.phone as string,

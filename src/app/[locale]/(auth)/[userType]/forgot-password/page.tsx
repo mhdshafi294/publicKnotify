@@ -36,6 +36,8 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
     },
   });
 
+  const phone = form.getValues("phone");
+
   const {
     data,
     mutate: server_sendCodeAction,
@@ -45,7 +47,9 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
     onSuccess: () => {
       toast.success("Confirmed!");
       router.push(
-        `/${params.userType}/check-code?&phone=${data.phone.code}${data.phone.phone}`
+        `/${params.userType}/check-code?&phone=${phone?.code}${
+          phone?.phone as string
+        }`
       );
     },
     onError: () => {

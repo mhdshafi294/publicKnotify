@@ -52,7 +52,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     },
   });
 
-  const phone = form.watch("phone");
+  const phone = form.getValues("phone");
 
   const {
     data,

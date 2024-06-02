@@ -1,6 +1,7 @@
 import axiosInstance from "@/lib/axios.config";
 import { EDIT_PASSWORD } from "@/lib/apiEndPoints";
 import { newPasswordSchema } from "@/schema/authSchema";
+import { ApiResponse } from "@/types";
 
 const newPassword = async ({
   newPasswordData,
@@ -18,8 +19,11 @@ const newPassword = async ({
     code,
     ...newPasswordData,
   };
-  const { data } = await axiosInstance.post(`${type}${EDIT_PASSWORD}`, body);
-  return data.data;
+  const { data } = await axiosInstance.post<ApiResponse>(
+    `${type}${EDIT_PASSWORD}`,
+    body
+  );
+  return data;
 };
 
 export default newPassword;
