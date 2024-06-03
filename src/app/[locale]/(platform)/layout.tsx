@@ -4,7 +4,7 @@ import Navbar from "@/app/[locale]/(platform)/_components/navbar/Navbar";
 
 const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full min-h-screen w-full flex items-center justify-center">
+    <div className="h-full min-h-screen w-full">
       <Navbar />
       {children}
     </div>

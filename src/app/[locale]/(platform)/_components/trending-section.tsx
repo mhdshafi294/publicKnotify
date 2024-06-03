@@ -1,6 +1,9 @@
 "use client";
 
 import { getTrendingAction } from "@/app/actions/podcastActions";
+import TriangleToLeft from "@/components/icons/triangle-to-left";
+import TriangleToRight from "@/components/icons/triangle-to-right";
+import { Button } from "@/components/ui/button";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
@@ -43,9 +46,19 @@ const TrendingSection = ({
 
   console.log(data);
   return (
-    <div>
-      TrendingSection
-      <div></div>
+    <div className="w-full space-y-5">
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-2xl">Trending Podcasts</h2>
+        <div className="flex justify-end items-center gap-3">
+          <Button variant="ghost" className="group hover:bg-secondary">
+            <TriangleToLeft className="group-hover: fill-white" />
+          </Button>
+          <Button variant="ghost" className="group hover:bg-secondary">
+            <TriangleToRight className="group-hover: fill-white" />
+          </Button>
+        </div>
+      </div>
+      <div className="w-full h-60 bg-greeny"></div>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/navigation";
+import { useSession } from "next-auth/react";
 
 const locales = [
   { locale: "en" as const, name: "English" },
@@ -27,6 +28,7 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(Array.from(searchParams.entries()));
+  const { data: session, status } = useSession();
 
   return (
     <div>
@@ -45,13 +47,27 @@ export function LanguageSwitcher() {
           <DropdownMenuSeparator />
           {locales.map(({ locale, name }) => {
             const href = `/${pathname.split("/").slice(2).join("/")}?${params}`;
-            return (
-              <Link key={locale} href="/" locale={locale}>
-                <DropdownMenuItem className="px-4 py-1">
-                  {name}
-                </DropdownMenuItem>
-              </Link>
-            );
+            if (session) {
+              return (
+                <Link
+                  key={locale}
+                  href={`/${session.user?.type}`}
+                  locale={locale}
+                >
+                  <DropdownMenuItem className="px-4 py-1">
+                    {name}
+                  </DropdownMenuItem>
+                </Link>
+              );
+            } else {
+              return (
+                <Link key={locale} href={`/`} locale={locale}>
+                  <DropdownMenuItem className="px-4 py-1">
+                    {name}
+                  </DropdownMenuItem>
+                </Link>
+              );
+            }
           })}
         </DropdownMenuContent>
       </DropdownMenu>

@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 export default function Home({
   params,
@@ -13,12 +14,13 @@ export default function Home({
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-start gap-10 p-24">
-        <p>{t("title")}</p>
-        <p>{t("new")}</p>
-        {/* <p>{t("title")}</p> */}
-        <TrendingSection params={params} searchParams={searchParams} />
-      </main>
+      <MaxWidthContainer className="mt-20">
+        <main className="flex min-h-screen flex-col items-start justify-start gap-10 w-full">
+          <h1 className="sr-only">Knotify Home Page</h1>
+          {/* <p>{t("title")}</p> */}
+          <TrendingSection params={params} searchParams={searchParams} />
+        </main>
+      </MaxWidthContainer>
     </>
   );
 }

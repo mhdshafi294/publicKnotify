@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { Lato } from "next/font/google";
 import "./globals.css";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
@@ -11,6 +11,7 @@ import { NextIntlClientProvider } from "next-intl";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
 import queryClient from "@/lib/queryClient";
+import { useSession } from "next-auth/react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
