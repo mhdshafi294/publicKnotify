@@ -15,6 +15,6 @@ export type Podcast = {
 };
 
 export type PodcastsResponse = ApiResponse & {
-  Podcasts: Podcast[];
+  podcasts: Podcast[];
   pagination: Pagination;
 };

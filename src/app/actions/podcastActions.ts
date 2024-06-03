@@ -3,7 +3,7 @@
 import getTrending from "@/services/podcast/get-trending";
 
 export const getTrendingAction = async ({
-  count,
+  count = "12",
   search,
   category_id,
   page,

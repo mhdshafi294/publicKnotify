@@ -15,7 +15,7 @@ export default function Home({
   return (
     <>
       <MaxWidthContainer className="mt-20">
-        <main className="flex min-h-screen flex-col items-start justify-start gap-10 w-full">
+        <main className="flex flex-col items-start justify-start gap-10 w-full">
           <h1 className="sr-only">Knotify Home Page</h1>
           {/* <p>{t("title")}</p> */}
           <TrendingSection params={params} searchParams={searchParams} />
