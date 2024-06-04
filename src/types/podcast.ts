@@ -6,6 +6,12 @@ export type Podcaster = {
   image: string;
 };
 
+export type Category = {
+  id: number;
+  name: string;
+  created_at: string;
+};
+
 export type Podcast = {
   id: number;
   thumbnail: string;
@@ -17,4 +23,8 @@ export type Podcast = {
 export type PodcastsResponse = ApiResponse & {
   podcasts: Podcast[];
   pagination: Pagination;
+};
+
+export type CategoryResponse = ApiResponse & {
+  categories: Category[];
 };

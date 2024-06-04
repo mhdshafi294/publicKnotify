@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import CategorySecrtion from "../_components/category-secrtion";
 
 export default function Home({
   params,
@@ -21,6 +22,7 @@ export default function Home({
             <h1 className="sr-only">Knotify Home Page</h1>
             <TrendingSection params={params} searchParams={searchParams} />
           </div>
+          <CategorySecrtion />
         </main>
       </MaxWidthContainer>
     </>
