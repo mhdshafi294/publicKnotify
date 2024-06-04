@@ -32,14 +32,14 @@ const PodcastCard: React.FC<PodCastCardProps> = ({
         {isFavorite ? (
           <Button
             variant="outline"
-            className="p-0 outline-none border-none h-fit"
+            className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
           >
-            <Heart size={20} fill="red" stroke="red" />
+            <Heart size={20} fill="#004FFF" stroke="#004FFF" />
           </Button>
         ) : (
           <Button
             variant="outline"
-            className="p-0 outline-none border-none h-fit"
+            className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
           >
             <Heart size={20} />
           </Button>
