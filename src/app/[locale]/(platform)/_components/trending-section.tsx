@@ -79,45 +79,6 @@ const TrendingSection = ({
               />
             </CarouselItem>
           ))}
-          {data?.podcasts.map((project) => (
-            <CarouselItem
-              key={project.id}
-              className="basis-1/2 md:basis-1/4 xl:basis-1/6"
-            >
-              <PodcastCard
-                thumbnail={project.thumbnail}
-                name={project.name}
-                podcaster_name={project.podcaster.full_name}
-                isFavorite={project.isFavorite}
-              />
-            </CarouselItem>
-          ))}
-          {data?.podcasts.map((project) => (
-            <CarouselItem
-              key={project.id}
-              className="basis-1/2 md:basis-1/4 xl:basis-1/6"
-            >
-              <PodcastCard
-                thumbnail={project.thumbnail}
-                name={project.name}
-                podcaster_name={project.podcaster.full_name}
-                isFavorite={project.isFavorite}
-              />
-            </CarouselItem>
-          ))}
-          {data?.podcasts.map((project) => (
-            <CarouselItem
-              key={project.id}
-              className="basis-1/2 md:basis-1/4 xl:basis-1/6"
-            >
-              <PodcastCard
-                thumbnail={project.thumbnail}
-                name={project.name}
-                podcaster_name={project.podcaster.full_name}
-                isFavorite={project.isFavorite}
-              />
-            </CarouselItem>
-          ))}
         </CarouselContent>
       </Carousel>
     </div>
