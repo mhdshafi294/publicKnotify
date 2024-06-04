@@ -1,6 +1,6 @@
 import { ApiResponse, Pagination } from ".";
 
-export type Podcaster = {
+export type PodcastPodcaster = {
   id: number;
   full_name: string;
   image: string;
@@ -16,7 +16,7 @@ export type Podcast = {
   id: number;
   thumbnail: string;
   name: string;
-  podcaster: Podcaster;
+  podcaster: PodcastPodcaster;
   isFavorite: boolean;
 };
 

@@ -1,9 +1,11 @@
 "use client";
 
 import { getTrendingAction } from "@/app/actions/podcastActions";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
 import TriangleToLeft from "@/components/icons/triangle-to-left";
 import TriangleToRight from "@/components/icons/triangle-to-right";
 import PodcastCard from "@/components/podcast-card";
+import PodcasterCard from "@/components/podcaster-card";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -18,7 +20,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
-const TrendingSection = ({
+const PodcastersSection = ({
   params,
   searchParams,
 }: {
@@ -29,12 +31,11 @@ const TrendingSection = ({
 
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
     useQuery({
-      queryKey: ["projects", page],
+      queryKey: ["podcasters", page],
       queryFn: () =>
-        getTrendingAction({
+        getPodcastersAction({
           count: searchParams.count as string,
           search: searchParams.search as string,
-          category_id: searchParams.category_id as string,
           page: page.toString(),
           type: params.userType as string,
         }),
@@ -59,23 +60,22 @@ const TrendingSection = ({
     <div className="w-full space-y-5">
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
         <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl">Trending Podcasts</h2>
+          <h2 className="font-bold text-2xl">Top 10 Podcasters</h2>
           <div className="flex relative justify-end items-center -translate-x-20">
             <CarouselPrevious />
             <CarouselNext onClick={() => setPage((prev) => prev + 1)} />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
-          {data?.podcasts.map((project) => (
+          {data?.podcasters.map((podcaster) => (
             <CarouselItem
-              key={project.id}
+              key={podcaster.id}
               className="basis-1/2 md:basis-1/4 xl:basis-1/6"
             >
-              <PodcastCard
-                thumbnail={project.thumbnail}
-                name={project.name}
-                podcaster_name={project.podcaster.full_name}
-                isFavorite={project.isFavorite}
+              <PodcasterCard
+                full_name={podcaster.image}
+                image={podcaster.full_name}
+                is_favorite={podcaster.is_favorite}
               />
             </CarouselItem>
           ))}
@@ -85,4 +85,4 @@ const TrendingSection = ({
   );
 };
 
-export default TrendingSection;
+export default PodcastersSection;

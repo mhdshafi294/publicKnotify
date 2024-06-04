@@ -12,6 +12,7 @@ export const LOGOUT_URL = "/logout";
 
 export const PODCAST = "/podcast";
 export const TRENDING = `${PODCAST}/trending`;
+export const PODCASTER = `/podcaster`;
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

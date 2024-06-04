@@ -15,12 +15,12 @@ export const getTrendingAction = async ({
   page: string;
   type: string;
 }) => {
-  const newPasswordResponse = await getTrending({
+  const getTrendingResponse = await getTrending({
     count,
     search,
     category_id,
     page,
     type,
   });
-  return newPasswordResponse;
+  return getTrendingResponse;
 };
