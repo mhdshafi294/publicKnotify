@@ -17,7 +17,7 @@ const PodcastersSection = async ({
 }) => {
   const data = await getPodcasters({
     count: "10",
-    search: searchParams.search as string,
+    search: "",
     page: "1",
     type: params.userType as string,
   });

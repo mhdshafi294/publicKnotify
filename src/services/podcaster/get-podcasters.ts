@@ -9,7 +9,7 @@ const getPodcasters = async ({
   type,
 }: {
   count: string;
-  search: string;
+  search?: string;
   page: string;
   type: string;
 }) => {
