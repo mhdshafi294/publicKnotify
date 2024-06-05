@@ -54,7 +54,6 @@ const TrendingSection = ({
     return <div>Fetching...</div>;
   }
 
-  console.log(data);
   return (
     <div className="w-full space-y-5">
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
@@ -62,7 +61,7 @@ const TrendingSection = ({
           <h2 className="font-bold text-2xl">Trending Podcasts</h2>
           <div className="flex relative justify-end items-center -translate-x-20">
             <CarouselPrevious />
-            <CarouselNext onClick={() => setPage((prev) => prev + 1)} />
+            <CarouselNext />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
