@@ -4,6 +4,9 @@ import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import PodcastCardPlayButton from "./podcast-card-play-button";
+import { Separator } from "./ui/separator";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { ScrollArea } from "./ui/scroll-area";
 
 type PodCastCardProps = {
   podcast: Podcast;
@@ -28,12 +31,30 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
         <Popover>
           <PopoverTrigger asChild>
             {podcast.is_favorite ? (
-              <Heart size={20} fill="#004FFF" stroke="#004FFF" />
+              <Heart
+                size={20}
+                fill="#004FFF"
+                stroke="#004FFF"
+                className="cursor-pointer hover:stroke-primary"
+              />
             ) : (
-              <Heart size={20} />
+              <Heart
+                size={20}
+                className="cursor-pointer hover:stroke-primary duration-300"
+              />
             )}
           </PopoverTrigger>
-          <PopoverContent></PopoverContent>
+          <PopoverContent>
+            <p>Add to your Favorite lists</p>
+            <Separator />
+            <ScrollArea className="h-80">
+              <ToggleGroup type="single">
+                <ToggleGroupItem value="a">A</ToggleGroupItem>
+                <ToggleGroupItem value="b">B</ToggleGroupItem>
+                <ToggleGroupItem value="c">C</ToggleGroupItem>
+              </ToggleGroup>
+            </ScrollArea>
+          </PopoverContent>
         </Popover>
       </div>
     </div>
