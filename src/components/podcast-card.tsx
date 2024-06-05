@@ -12,7 +12,7 @@ type PodCastCardProps = {
   podcast: Podcast;
 };
 
-export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
+export const PodcastCard: React.FC<PodCastCardProps> = async ({ podcast }) => {
   return (
     <div className="w-full flex group transition-colors duration-300 hover:bg-secondary/50 p-3 flex-col gap-2 rounded-lg overflow-hidden">
       <div className="relative aspect-video rounded-lg">
