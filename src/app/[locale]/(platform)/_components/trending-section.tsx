@@ -46,7 +46,18 @@ const TrendingSection = ({
     return <div>Something went wrong. Please try again</div>;
   }
 
+<<<<<<< HEAD
   console.log(data);
+=======
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isFetching) {
+    return <div>Fetching...</div>;
+  }
+
+>>>>>>> 744113525169bb6d3e5a7d811a36c0c94e083477
   return (
     <div className="w-full space-y-5">
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
@@ -54,7 +65,7 @@ const TrendingSection = ({
           <h2 className="font-bold text-2xl">Trending Podcasts</h2>
           <div className="flex relative justify-end items-center -translate-x-20">
             <CarouselPrevious />
-            <CarouselNext onClick={() => setPage((prev) => prev + 1)} />
+            <CarouselNext />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">

@@ -23,8 +23,8 @@ const DesktopNavbar = () => {
           if (link.label === "New Publish") {
             return (
               <Link
-                key={link.href}
-                href={`${session?.user?.type}/${link.href}`}
+                key={link.id}
+                href={`/${session?.user?.type}/${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
                   " text-white hover:text-white border-white bg-secondary hover:bg-white/5"
@@ -37,7 +37,7 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.href}
-                href={`${session?.user?.type}/${link.href}`}
+                href={`/${session?.user?.type}/${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
 
