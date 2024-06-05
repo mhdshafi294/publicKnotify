@@ -7,18 +7,21 @@ type FavoritePopoverProps = {
   triggerSize: number;
 };
 
-const FavoritePopover: React.FC<FavoritePopoverProps> = () => {
+const FavoritePopover: React.FC<FavoritePopoverProps> = ({
+  is_favorite,
+  triggerSize,
+}) => {
   return (
-    <Popoverr>
-          <PopoverTrigger asChild>
-            {podcast.isFavorite ? (
-              <Heart size={20} fill="#004FFF" stroke="#004FFF" />
-            ) : (
-              <Heart size={20} />
-            )}
-          </PopoverTrigger>
-          <PopoverContent></PopoverContent>
-        </Popover>
+    <Popover>
+      <PopoverTrigger asChild>
+        {is_favorite ? (
+          <Heart size={20} fill="#004FFF" stroke="#004FFF" />
+        ) : (
+          <Heart size={20} />
+        )}
+      </PopoverTrigger>
+      <PopoverContent></PopoverContent>
+    </Popover>
   );
 };
 
