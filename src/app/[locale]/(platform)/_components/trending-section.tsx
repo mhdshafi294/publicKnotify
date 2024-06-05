@@ -46,18 +46,6 @@ const TrendingSection = ({
     return <div>Something went wrong. Please try again</div>;
   }
 
-<<<<<<< HEAD
-  console.log(data);
-=======
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (isFetching) {
-    return <div>Fetching...</div>;
-  }
-
->>>>>>> 744113525169bb6d3e5a7d811a36c0c94e083477
   return (
     <div className="w-full space-y-5">
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
@@ -75,7 +63,7 @@ const TrendingSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
                 >
                   <PodcastCardLoading />
                 </CarouselItem>
@@ -86,7 +74,7 @@ const TrendingSection = ({
             data?.podcasts.map((podcast) => (
               <CarouselItem
                 key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
               >
                 <PodcastCard
                   thumbnail={podcast.thumbnail}

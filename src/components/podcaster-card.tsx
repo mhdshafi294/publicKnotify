@@ -16,31 +16,31 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
   is_favorite: isFavorite,
 }) => {
   return (
-    <div className="w-full flex flex-col gap-1 rounded-lg overflow-hidden">
-      <div className="relative lg:h-36 aspect-square rounded-lg">
+    <div className="w-full flex flex-col gap-3 rounded-lg overflow-hidden">
+      <div className="relative aspect-square rounded-lg">
         <Image
           src={image ? image : "/podcaster-filler.webp"}
           alt={`${name} thumbnail`}
           fill
-          className="object-cover"
+          className="object-cover rounded-lgn "
         />
       </div>
-      <h3 className="font-bold text-sm text-wrap">{full_name}</h3>
+
       <div className="flex items-center justify-between">
-        <p className="text-xs font-medium">{full_name}</p>
+        <h3 className="font-bold text-xs text-wrap capitalize">{full_name}</h3>
         {isFavorite ? (
           <Button
             variant="outline"
             className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
           >
-            <Heart size={20} fill="#004FFF" stroke="#004FFF" />
+            <Heart size={16} fill="#004FFF" stroke="#004FFF" />
           </Button>
         ) : (
           <Button
             variant="outline"
             className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
           >
-            <Heart size={20} />
+            <Heart size={16} />
           </Button>
         )}
       </div>
@@ -51,8 +51,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
 export const PodcasterCardLoading = () => {
   return (
     <div className="w-full flex flex-col gap-2 rounded-lg overflow-hidden">
-      <Skeleton className="relative lg:h-36 aspect-square rounded-lg" />
-      <Skeleton className="h-3 w-10" />
+      <Skeleton className="relative aspect-square rounded-lg" />
       <div className="flex items-center justify-between">
         <Skeleton className="h-3 w-16" />
         <Skeleton className="size-3" />

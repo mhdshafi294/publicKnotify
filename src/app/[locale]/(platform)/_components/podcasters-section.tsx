@@ -46,10 +46,10 @@ const PodcastersSection = ({
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl">Top 10 Podcasters</h2>
-          {/* <div className="flex relative justify-end items-center -translate-x-20">
+          <div className="flex relative justify-end items-center -translate-x-20">
             <CarouselPrevious />
             <CarouselNext />
-          </div> */}
+          </div>
         </div>
         <CarouselContent className="w-full mt-5">
           {isPending ? (
@@ -58,7 +58,7 @@ const PodcastersSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/3 md:basis-1/5 lg:basis-[10%]"
+                  className="basis-1/3 md:basis-1/5 lg:basis-1/6"
                 >
                   <PodcasterCardLoading />
                 </CarouselItem>
@@ -69,7 +69,7 @@ const PodcastersSection = ({
             data?.podcasters.map((podcaster) => (
               <CarouselItem
                 key={podcaster.id}
-                className="basis-1/3 md:basis-1/5 lg:basis-[10%]"
+                className="basis-1/3 md:basis-1/5 lg:basis-1/6"
               >
                 <PodcasterCard
                   full_name={podcaster.full_name}
