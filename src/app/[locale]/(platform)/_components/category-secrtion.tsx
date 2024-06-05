@@ -1,6 +1,5 @@
 import getCategory from "@/services/podcast/get-category";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
 import CategoryCard from "./category-card";
 
 const CategorySecrtion = async () => {
