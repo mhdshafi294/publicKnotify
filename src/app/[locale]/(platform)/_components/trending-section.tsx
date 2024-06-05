@@ -80,12 +80,7 @@ const TrendingSection = ({
                   key={podcast.id}
                   className="basis-1/2 md:basis-1/4 lg:basis-1/5"
                 >
-                  <PodcastCard
-                    thumbnail={podcast.thumbnail}
-                    name={podcast.name}
-                    podcaster_name={podcast.podcaster.full_name}
-                    isFavorite={podcast.isFavorite}
-                  />
+                  <PodcastCard podcast={podcast} />
                 </CarouselItem>
               ))
             )
