@@ -20,7 +20,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
       <div className="relative aspect-square rounded-lg">
         <Image
           src={image ? image : "/podcaster-filler.webp"}
-          alt={`${name} thumbnail`}
+          alt={`${full_name} thumbnail`}
           fill
           className="object-cover rounded-lgn "
         />

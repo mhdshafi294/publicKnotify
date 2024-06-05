@@ -1,10 +1,7 @@
 "use client";
 
 import { getTrendingAction } from "@/app/actions/podcastActions";
-import TriangleToLeft from "@/components/icons/triangle-to-left";
-import TriangleToRight from "@/components/icons/triangle-to-right";
 import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -12,10 +9,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Heart, HeartCrack, HeartHandshakeIcon, HeartOff } from "lucide-react";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 import React, { useState } from "react";
 
 const TrendingSection = ({
@@ -25,20 +23,23 @@ const TrendingSection = ({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const [page, setPage] = useState(1);
-
-  const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-    useQuery({
-      queryKey: ["projects", page],
-      queryFn: () =>
+  const { isPending, isError, error, data, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["trending"],
+      queryFn: ({ pageParam }) =>
         getTrendingAction({
-          count: searchParams.count as string,
-          search: searchParams.search as string,
-          category_id: searchParams.category_id as string,
-          page: page.toString(),
+          count: "10",
+          page: pageParam.toString(),
           type: params.userType as string,
         }),
-      placeholderData: keepPreviousData,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.pagination.next_page_url) {
+          return lastPage.pagination.current_page + 1;
+        } else {
+          undefined;
+        }
+      },
     });
 
   if (isError) {
@@ -53,9 +54,9 @@ const TrendingSection = ({
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl">Trending Podcasts</h2>
-          <div className="flex relative justify-end items-center -translate-x-20">
+          <div className="flex relative justify-end items-center end-[80px]">
             <CarouselPrevious />
-            <CarouselNext />
+            <CarouselNext onClick={() => fetchNextPage()} />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
@@ -70,18 +71,36 @@ const TrendingSection = ({
                   <PodcastCardLoading />
                 </CarouselItem>
               ))
-          ) : data?.podcasts.length === 0 ? (
+          ) : data?.pages[0].podcasts.length === 0 ? (
             <p>No podcasts to load</p>
           ) : (
-            data?.podcasts.map((podcast) => (
-              <CarouselItem
-                key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-              >
-                <PodcastCard podcast={podcast} />
-              </CarouselItem>
-            ))
+            data?.pages.map((page) =>
+              page.podcasts.map((podcast) => (
+                <CarouselItem
+                  key={podcast.id}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcastCard
+                    thumbnail={podcast.thumbnail}
+                    name={podcast.name}
+                    podcaster_name={podcast.podcaster.full_name}
+                    isFavorite={podcast.isFavorite}
+                  />
+                </CarouselItem>
+              ))
+            )
           )}
+          {isFetchingNextPage &&
+            Array(20)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcastCardLoading />
+                </CarouselItem>
+              ))}
         </CarouselContent>
       </Carousel>
     </div>

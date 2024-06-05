@@ -13,8 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOutIcon, Settings, TriangleRight, User } from "lucide-react";
-import TriangleToRight from "@/components/icons/triangle-to-right";
+import { LogOutIcon, Settings, User } from "lucide-react";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -31,19 +30,16 @@ const UserOptions = () => {
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <div className="flex items-center gap-2 cursor-pointer">
-              <Avatar className="cursor-pointer">
-                <AvatarImage
-                  src={session?.user?.image!}
-                  alt={session?.user?.full_name}
-                  className="object-cover "
-                />
-                <AvatarFallback className="uppercase text-black">
-                  {session?.user?.full_name?.slice(0, 2) as string}
-                </AvatarFallback>
-              </Avatar>
-              <TriangleToRight className="rotate-90 fill-primary size-4" />
-            </div>
+            <Avatar className="cursor-pointer">
+              <AvatarImage
+                src={session?.user?.image!}
+                alt={session?.user?.full_name}
+                className="object-cover "
+              />
+              <AvatarFallback className="uppercase text-black">
+                {session?.user?.full_name?.slice(0, 2) as string}
+              </AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-background border-none shadow-2xl w-screen md:w-56">
             <DropdownMenuLabel>

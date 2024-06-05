@@ -11,8 +11,8 @@ const getTrending = async ({
   type,
 }: {
   count: string;
-  search: string;
-  category_id: string;
+  search?: string;
+  category_id?: string;
   page: string;
   type: string;
 }) => {
