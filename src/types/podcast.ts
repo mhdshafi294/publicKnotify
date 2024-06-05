@@ -17,7 +17,8 @@ export type Podcast = {
   thumbnail: string;
   name: string;
   podcaster: PodcastPodcaster;
-  isFavorite: boolean;
+  type: "video" | "audio";
+  is_favorite: boolean;
 };
 
 export type PodcastsResponse = ApiResponse & {
