@@ -3,7 +3,7 @@
 import { getTrendingAction } from "@/app/actions/podcastActions";
 import TriangleToLeft from "@/components/icons/triangle-to-left";
 import TriangleToRight from "@/components/icons/triangle-to-right";
-import PodcastCard from "@/components/podcast-card";
+import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -46,14 +46,6 @@ const TrendingSection = ({
     return <div>Something went wrong. Please try again</div>;
   }
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (isFetching) {
-    return <div>Fetching...</div>;
-  }
-
   console.log(data);
   return (
     <div className="w-full space-y-5">
@@ -66,19 +58,34 @@ const TrendingSection = ({
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
-          {data?.podcasts.map((project) => (
-            <CarouselItem
-              key={project.id}
-              className="basis-1/2 md:basis-1/4 xl:basis-1/6"
-            >
-              <PodcastCard
-                thumbnail={project.thumbnail}
-                name={project.name}
-                podcaster_name={project.podcaster.full_name}
-                isFavorite={project.isFavorite}
-              />
-            </CarouselItem>
-          ))}
+          {isPending ? (
+            Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                >
+                  <PodcastCardLoading />
+                </CarouselItem>
+              ))
+          ) : data?.podcasts.length === 0 ? (
+            <p>No podcasts to load</p>
+          ) : (
+            data?.podcasts.map((podcast) => (
+              <CarouselItem
+                key={podcast.id}
+                className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+              >
+                <PodcastCard
+                  thumbnail={podcast.thumbnail}
+                  name={podcast.name}
+                  podcaster_name={podcast.podcaster.full_name}
+                  isFavorite={podcast.isFavorite}
+                />
+              </CarouselItem>
+            ))
+          )}
         </CarouselContent>
       </Carousel>
     </div>
