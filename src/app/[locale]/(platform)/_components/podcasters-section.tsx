@@ -70,11 +70,11 @@ const PodcastersSection = ({
           {data?.podcasters.map((podcaster) => (
             <CarouselItem
               key={podcaster.id}
-              className="basis-1/2 md:basis-1/4 xl:basis-1/6"
+              className="basis-1/3 md:basis-1/5 lg:basis-1/12"
             >
               <PodcasterCard
-                full_name={podcaster.image}
-                image={podcaster.full_name}
+                full_name={podcaster.full_name}
+                image={podcaster.image}
                 is_favorite={podcaster.is_favorite}
               />
             </CarouselItem>
