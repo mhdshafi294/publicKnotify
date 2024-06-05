@@ -14,6 +14,7 @@ const PodcastCardPlayButton: React.FC<PropsType> = ({ podcastId, type }) => {
   return (
     <Button
       size="icon"
+      onClick={() => setPodcastId(podcastId)}
       className="absolute shadow rounded-full opacity-0 group-hover:opacity-100 translate-y-4 transition-all duration-300 group-hover:translate-y-0 bottom-4 end-4"
     >
       <Play className="size-5 fill-foreground" />

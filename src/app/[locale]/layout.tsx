@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
-import { Lato } from "next/font/google";
+import { Inter as FontSans, Lato } from "next/font/google";
+import { notFound } from "next/navigation";
 import "./globals.css";
-import { notFound, redirect } from "next/navigation";
 
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { NextIntlClientProvider } from "next-intl";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
-import queryClient from "@/lib/queryClient";
-import { useSession } from "next-auth/react";
+import { NextIntlClientProvider } from "next-intl";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,18 +16,7 @@ const fontSans = FontSans({
 });
 
 const fontLato = Lato({
-  weight: [
-    "100",
-    "300",
-    "400",
-    "700",
-    "900",
-    "100",
-    "300",
-    "400",
-    "700",
-    "900",
-  ],
+  weight: ["300", "400", "700", "900", "100", "300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-lato",
 });
