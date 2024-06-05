@@ -7,12 +7,13 @@ import PodcastCardPlayButton from "./podcast-card-play-button";
 import { Separator } from "./ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { ScrollArea } from "./ui/scroll-area";
+import FavoritePopover from "./favorite-popover";
 
 type PodCastCardProps = {
   podcast: Podcast;
 };
 
-export const PodcastCard: React.FC<PodCastCardProps> = async ({ podcast }) => {
+export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
   return (
     <div className="w-full flex group transition-colors duration-300 hover:bg-secondary/50 p-3 flex-col gap-2 rounded-lg overflow-hidden">
       <div className="relative aspect-video rounded-lg">
@@ -28,34 +29,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = async ({ podcast }) => {
       <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium">{podcast.podcaster.full_name}</p>
-        <Popover>
-          <PopoverTrigger asChild>
-            {podcast.is_favorite ? (
-              <Heart
-                size={20}
-                fill="#004FFF"
-                stroke="#004FFF"
-                className="cursor-pointer hover:stroke-primary"
-              />
-            ) : (
-              <Heart
-                size={20}
-                className="cursor-pointer hover:stroke-primary duration-300"
-              />
-            )}
-          </PopoverTrigger>
-          <PopoverContent>
-            <p>Add to your Favorite lists</p>
-            <Separator />
-            <ScrollArea className="h-80">
-              <ToggleGroup type="single">
-                <ToggleGroupItem value="a">A</ToggleGroupItem>
-                <ToggleGroupItem value="b">B</ToggleGroupItem>
-                <ToggleGroupItem value="c">C</ToggleGroupItem>
-              </ToggleGroup>
-            </ScrollArea>
-          </PopoverContent>
-        </Popover>
+        <FavoritePopover isFavorite={podcast.is_favorite} />
       </div>
     </div>
   );

@@ -1,4 +1,10 @@
-import { PodcasterCard } from "@/components/podcaster-card";
+"use client";
+
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import {
+  PodcasterCard,
+  PodcasterCardLoading,
+} from "@/components/podcaster-card";
 import {
   Carousel,
   CarouselContent,
@@ -7,48 +13,90 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import getPodcasters from "@/services/podcaster/get-podcasters";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-const PodcastersSection = async ({
+const PodcastersSection = ({
   params,
   searchParams,
 }: {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const data = await getPodcasters({
-    count: "10",
-    search: "",
-    page: "1",
-    type: params.userType as string,
-  });
+  const { isPending, isError, error, data, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["topPodcasters"],
+      queryFn: ({ pageParam }) =>
+        getPodcastersAction({
+          count: "12",
+          page: pageParam.toString(),
+          type: params.userType as string,
+        }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.pagination.next_page_url) {
+          return lastPage.pagination.current_page + 1;
+        } else {
+          undefined;
+        }
+      },
+    });
+
+  if (isError) {
+    console.log(error);
+    return <div>Something went wrong. Please try again</div>;
+  }
 
   return (
     <div className="w-full space-y-5">
       <Carousel opts={{ slidesToScroll: "auto" }} className="">
         <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl">Top 10 Podcasters</h2>
+          <h2 className="font-bold text-2xl">Top Podcasters</h2>
           <div className="flex relative justify-end items-center end-[80px]">
             <CarouselPrevious />
-            <CarouselNext />
+            <CarouselNext onClick={() => fetchNextPage()} />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
-          {data?.podcasters.length === 0 ? (
+          {isPending ? (
+            Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcasterCardLoading />
+                </CarouselItem>
+              ))
+          ) : data?.pages[0].podcasters.length === 0 ? (
             <p>No podcasters to load</p>
           ) : (
-            data?.podcasters.map((podcaster) => (
-              <CarouselItem
-                key={podcaster.id}
-                className="basis-1/3 md:basis-1/5 lg:basis-1/6"
-              >
-                <PodcasterCard
-                  full_name={podcaster.full_name}
-                  image={podcaster.image}
-                  is_favorite={podcaster.is_favorite}
-                />
-              </CarouselItem>
-            ))
+            data?.pages.map((page) =>
+              page.podcasters.map((podcaster) => (
+                <CarouselItem
+                  key={podcaster.id}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcasterCard
+                    full_name={podcaster.full_name}
+                    image={podcaster.image}
+                    is_favorite={podcaster.is_favorite}
+                  />
+                </CarouselItem>
+              ))
+            )
           )}
+          {isFetchingNextPage &&
+            Array(20)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcasterCardLoading />
+                </CarouselItem>
+              ))}
         </CarouselContent>
       </Carousel>
     </div>

@@ -12,7 +12,7 @@ const Player = () => {
   const setPodcastId = usePlayerStore((state) => state.setPodcastId);
   return (
     <Fragment>
-      <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-0")} />
+      <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-5")} />
       <footer
         className={cn(
           "fixed transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-secondary w-full",
