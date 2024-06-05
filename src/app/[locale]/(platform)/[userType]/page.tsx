@@ -16,7 +16,7 @@ export default function Home({
 
   return (
     <>
-      <MaxWidthContainer className="mt-20">
+      <MaxWidthContainer className="mt-10">
         <main className="flex flex-col items-start justify-start gap-10 w-full">
           <h1 className="sr-only">Knotify Home Page</h1>
           {/* <p>{t("title")}</p> */}
