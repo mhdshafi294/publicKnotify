@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import country from "country-list-js";
-import { AxiosError } from "axios";
 
 import { Link, useRouter } from "@/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +23,6 @@ import FormCheckbox from "@/components/ui/form-checkbox";
 import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
 import FormFileInput from "@/components/ui/form-input-file";
-import signUp from "@/services/auth/sign-up";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { useMutation } from "@tanstack/react-query";
 import { signUpAction } from "@/app/actions/authActions";

@@ -1,5 +1,6 @@
 "use server";
 
+import AddToFavorite from "@/services/podcast/add-to-favorite";
 import getMyFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categoris-list";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getTrending from "@/services/podcast/get-trending";
@@ -40,7 +41,7 @@ export const getMyFavoriteCategoriesListAction = async ({
   return getMyFavoriteCategoriesListResponse;
 };
 
-export const getPodcasDataAction = async ({
+export const getPodcastDataAction = async ({
   id,
   type,
 }: {
@@ -48,4 +49,16 @@ export const getPodcasDataAction = async ({
   id: number;
 }) => {
   return await getPodcastDetails(type, id);
+};
+
+export const AddToFavoriteAction = async ({
+  categories,
+  podcastId,
+  type,
+}: {
+  categories: string[];
+  podcastId: string;
+  type: string;
+}) => {
+  return await AddToFavorite({ categories, podcastId, type });
 };

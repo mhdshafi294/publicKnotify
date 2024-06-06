@@ -5,19 +5,17 @@ import { PodcastsResponse } from "@/types/podcast";
 
 const AddToFavorite = async ({
   categories,
-  PodcastId,
+  podcastId,
   type,
 }: {
   categories: string[];
-  PodcastId: string;
+  podcastId: string;
   type: string;
 }) => {
-  const { data } = await axiosInstance.get<PodcastsResponse>(
-    `/${type}${ADD_FAVORITES}/${PodcastId}`,
+  const { data } = await axiosInstance.post<PodcastsResponse>(
+    `/${type}${ADD_FAVORITES}/${podcastId}`,
     {
-      params: {
-        categories,
-      },
+      category_names: categories,
     }
   );
   return data;

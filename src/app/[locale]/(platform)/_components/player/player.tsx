@@ -1,5 +1,5 @@
 "use client";
-import { getPodcasDataAction } from "@/app/actions/podcastActions";
+import { getPodcastDataAction } from "@/app/actions/podcastActions";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ const Player = () => {
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
     enabled: !!podcastId,
-    queryFn: () => getPodcasDataAction({ type: "user", id: podcastId! }),
+    queryFn: () => getPodcastDataAction({ type: "user", id: podcastId! }),
   });
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);

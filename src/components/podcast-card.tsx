@@ -29,7 +29,10 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
       <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium">{podcast.podcaster.full_name}</p>
-        <FavoritePopover isFavorite={podcast.is_favorite} />
+        <FavoritePopover
+          isFavorite={podcast.is_favorite}
+          podcastId={podcast.id.toString()}
+        />
       </div>
     </div>
   );
