@@ -56,7 +56,7 @@ const TrendingSection = ({
           <h2 className="font-bold text-2xl">Trending Podcasts</h2>
           <div className="flex relative justify-end items-center end-[80px]">
             <CarouselPrevious />
-            <CarouselNext onClick={() => fetchNextPage()} />
+            <CarouselNext />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">

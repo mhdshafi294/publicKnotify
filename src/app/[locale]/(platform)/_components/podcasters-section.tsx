@@ -53,7 +53,7 @@ const PodcastersSection = ({
           <h2 className="font-bold text-2xl">Top Podcasters</h2>
           <div className="flex relative justify-end items-center end-[80px]">
             <CarouselPrevious />
-            <CarouselNext onClick={() => fetchNextPage()} />
+            <CarouselNext />
           </div>
         </div>
         <CarouselContent className="w-full mt-5">
@@ -63,7 +63,7 @@ const PodcastersSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
                 >
                   <PodcasterCardLoading />
                 </CarouselItem>
@@ -75,7 +75,7 @@ const PodcastersSection = ({
               page.podcasters.map((podcaster) => (
                 <CarouselItem
                   key={podcaster.id}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
                 >
                   <PodcasterCard
                     full_name={podcaster.full_name}
@@ -92,7 +92,7 @@ const PodcastersSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
                 >
                   <PodcasterCardLoading />
                 </CarouselItem>

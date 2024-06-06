@@ -13,6 +13,7 @@ export const LOGOUT_URL = "/logout";
 export const PODCAST = "/podcast";
 export const TRENDING = `${PODCAST}/trending`;
 export const FAVORITES_CATEGORIES = `${PODCAST}/my-favorite-categories`;
+export const ADD_FAVORITES = `${PODCAST}/add-to-favorite`;
 export const PODCASTER = `/podcaster`;
 
 export const POST_URL = "/post";
