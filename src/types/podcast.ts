@@ -4,12 +4,22 @@ export type PodcastPodcaster = {
   id: number;
   full_name: string;
   image: string;
+  spotify_account: string | null;
+  youtube_account: string | null;
+};
+
+export type HashTag = {
+  id: number;
+  name: string;
+  podcast_id: number;
 };
 
 export type Category = {
   id: number;
   name: string;
   created_at: string;
+  podcasts_count: number;
+  image: string;
 };
 
 export type Podcast = {
@@ -28,4 +38,18 @@ export type PodcastsResponse = ApiResponse & {
 
 export type CategoryResponse = ApiResponse & {
   categories: Category[];
+};
+
+export type PodcastDetails = {
+  id: number;
+  background: string;
+  created_at: string;
+  name: string;
+  podcast: string;
+  summary: string;
+  thumbnail: string;
+  type: "audio" | "video";
+  categories: Category[];
+  podcaster: PodcastPodcaster;
+  hashTags: HashTag[];
 };

@@ -10,11 +10,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useQuery,
+  useInfiniteQuery
 } from "@tanstack/react-query";
-import React, { useState } from "react";
 
 const TrendingSection = ({
   params,

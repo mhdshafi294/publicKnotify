@@ -1,6 +1,5 @@
+import { TRENDING } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { EDIT_PASSWORD, TRENDING } from "@/lib/apiEndPoints";
-import { newPasswordSchema } from "@/schema/authSchema";
 import { PodcastsResponse } from "@/types/podcast";
 
 const getTrending = async ({
