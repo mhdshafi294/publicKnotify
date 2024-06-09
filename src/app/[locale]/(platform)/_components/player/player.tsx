@@ -13,13 +13,15 @@ import { ElementRef, Fragment, useEffect, useRef, useState } from "react";
 const Player = () => {
   const podcastId = usePlayerStore((state) => state.podcastId);
   const setPodcastId = usePlayerStore((state) => state.setPodcastId);
+  const isPlaying = usePlayerStore((state) => state.isRunning);
+  const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
+  const toggleRunning = usePlayerStore((state) => state.toggleRunning);
   const ref = useRef<ElementRef<"audio">>(null);
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
     enabled: !!podcastId,
     queryFn: () => getPodcastDataAction({ type: "user", id: podcastId! }),
   });
-  const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -50,6 +52,7 @@ const Player = () => {
         };
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isError, isPending]);
 
   useEffect(() => {
@@ -75,15 +78,18 @@ const Player = () => {
   }, [isPlaying]);
 
   const togglePlayPause = () => {
+    toggleRunning();
+  };
+
+  useEffect(() => {
     if (ref.current) {
-      if (isPlaying) {
+      if (!isPlaying) {
         ref.current.pause();
       } else {
         ref.current.play();
       }
-      setIsPlaying((prev) => !prev);
     }
-  };
+  }, [isPlaying]);
 
   const handleTimeChange = (value: number[]) => {
     setSliderValue(value);
@@ -123,14 +129,6 @@ const Player = () => {
           podcastId ? "translate-y-0" : "translate-y-full"
         )}
       >
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setPodcastId(null)}
-          className="absolute end-0 top-0 hover:bg-transparent hover:text-foreground/80"
-        >
-          <X />
-        </Button>
         {!isError && !isPending && data ? (
           <div className="flex justify-start items-center h-full gap-2">
             <div className="h-full">
@@ -215,15 +213,25 @@ const Player = () => {
             <span className="text-xs">{formatTime(duration)}</span>
           </div>
         </div>
-        <div className="flex gap-2 justify-start items-center">
-          <Volume2 />
-          <Slider
-            className="w-40"
-            max={1}
-            step={0.01}
-            value={[volume]}
-            onValueChange={(value) => setVolume(value[0])}
-          />
+        <div className="flex justify-start items-center">
+          <div className="flex gap-2 justify-start items-center">
+            <Volume2 />
+            <Slider
+              className="w-32"
+              max={1}
+              step={0.01}
+              value={[volume]}
+              onValueChange={(value) => setVolume(value[0])}
+            />
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setPodcastId(null)}
+            className="hover:bg-transparent hover:text-foreground/80"
+          >
+            <X />
+          </Button>
         </div>
       </footer>
     </Fragment>
