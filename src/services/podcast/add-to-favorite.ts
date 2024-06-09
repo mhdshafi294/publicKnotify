@@ -1,7 +1,6 @@
 import axiosInstance from "@/lib/axios.config";
 import { ADD_FAVORITES } from "@/lib/apiEndPoints";
-import { newPasswordSchema } from "@/schema/authSchema";
-import { PodcastsResponse } from "@/types/podcast";
+import { ApiResponse } from "@/types";
 
 const AddToFavorite = async ({
   categories,
@@ -12,7 +11,7 @@ const AddToFavorite = async ({
   podcastId: string;
   type: string;
 }) => {
-  const { data } = await axiosInstance.post<PodcastsResponse>(
+  const { data } = await axiosInstance.post<ApiResponse>(
     `/${type}${ADD_FAVORITES}/${podcastId}`,
     {
       category_names: categories,

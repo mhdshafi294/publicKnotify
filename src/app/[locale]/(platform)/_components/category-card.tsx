@@ -11,15 +11,14 @@ const CategoryCard: FC<PropsType> = ({ category }) => {
   return (
     <Link
       href="/"
-      className="bg-secondary flex justify-start items-center border rounded-xl w-48 gap-2 p-4"
+      className="bg-background flex justify-start items-center border rounded-xl w-48 gap-2 p-4"
       key={category.id}
     >
-      <div>
+      <div className="size-14 relative">
         <Image
-          width={50}
-          height={50}
-          className="rounded"
-          src={category.image}
+          fill
+          className="rounded object-cover"
+          src={category.image ? category.image : "/podcast-filler.webp"}
           alt={category.name}
         />
       </div>

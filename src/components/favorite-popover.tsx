@@ -16,6 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AddToFavoriteAction,
   getMyFavoriteCategoriesListAction,
+  RemoveFromFavoriteAction,
 } from "@/app/actions/podcastActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -49,6 +50,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     (category) => category.name
   );
 
+  const [isFavorite, setIsFavorite] = useState(is_favorite);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     favorite_Categories_names
   );
@@ -56,7 +58,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   const {
     data: categories,
     isPending: isCategoriesPending,
-    isError,
+    isError: isCategoriesError,
   } = useQuery({
     queryKey: ["favorite_categories", session.data?.user?.id],
     queryFn: () =>
@@ -73,9 +75,27 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     mutationFn: AddToFavoriteAction,
     onSuccess: () => {
       toast.success("added successfully.");
+      setIsFavorite(true);
     },
     onError: (error) => {
       console.log(error);
+    },
+  });
+
+  const {
+    data: removeFromFavoriteResponse,
+    mutate: server_RemoveFromFavoriteAction,
+    isPending: isRemoveFavoritePending,
+  } = useMutation({
+    mutationFn: RemoveFromFavoriteAction,
+    onSuccess: () => {
+      toast.success("Unfavorited successfully.");
+      setSelectedItems([]);
+      setIsFavorite(false);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error("Something went wrong.please try again.");
     },
   });
 
@@ -128,10 +148,17 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     });
   };
 
+  const handleUnFavorite = async () => {
+    server_RemoveFromFavoriteAction({
+      podcastId,
+      type: session?.data?.user?.type!,
+    });
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        {is_favorite ? (
+        {isFavorite ? (
           <Heart
             size={triggerSize}
             fill="#004FFF"
@@ -158,7 +185,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
           <ToggleGroup type="multiple" className="mt-2 flex-wrap" size={"sm"}>
             {isCategoriesPending ? (
               <div>Loading...</div>
-            ) : isError ? (
+            ) : isCategoriesError ? (
               <div>Error</div>
             ) : (
               categories.map((category, index) => (
@@ -210,8 +237,9 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
                   variant="destructive"
                   size="sm"
                   className="font-semibold h-7 w-full"
+                  onClick={handleUnFavorite}
                 >
-                  Unfavourite
+                  {isRemoveFavoritePending ? <ButtonLoader /> : "Unfavourite"}
                 </Button>
               </TooltipTrigger>
               <TooltipContent

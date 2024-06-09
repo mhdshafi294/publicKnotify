@@ -4,6 +4,7 @@ import AddToFavorite from "@/services/podcast/add-to-favorite";
 import getMyFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categoris-list";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getTrending from "@/services/podcast/get-trending";
+import RemoveFromFavorite from "@/services/podcast/remove-from-favorite";
 
 export const getTrendingAction = async ({
   count = "12",
@@ -61,4 +62,14 @@ export const AddToFavoriteAction = async ({
   type: string;
 }) => {
   return await AddToFavorite({ categories, podcastId, type });
+};
+
+export const RemoveFromFavoriteAction = async ({
+  podcastId,
+  type,
+}: {
+  podcastId: string;
+  type: string;
+}) => {
+  return await RemoveFromFavorite({ podcastId, type });
 };
