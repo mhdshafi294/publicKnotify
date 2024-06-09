@@ -43,10 +43,10 @@ export type Podcast = {
   podcaster: PodcastPodcaster;
   type: "video" | "audio";
   is_favorite: boolean;
-  favourites_category: favourite_category[];
+  favourites_category: Favourite_Category[];
 };
 
-export type favourite_category = {
+export type Favourite_Category = {
   id: number;
   name: string;
   created_at: string;

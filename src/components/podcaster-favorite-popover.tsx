@@ -17,10 +17,10 @@ import {
   AddToFavoriteAction,
   getMyFavoriteCategoriesListAction,
   RemoveFromFavoriteAction,
-} from "@/app/actions/podcastActions";
+} from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category, favourite_category } from "@/types/podcast";
+import { Category, Favourite_Category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -30,27 +30,28 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
-type FavoritePopoverProps = {
+type PodcasterFavoritePopoverProps = {
   isFavorite: boolean;
   triggerSize?: number;
-  podcastId: string;
-  favorite_Categories: favourite_category[];
+  podcasterId: string;
+  favorited_Categories: Favourite_Category[];
 };
 
-const FavoritePopover: React.FC<FavoritePopoverProps> = ({
+const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   isFavorite: is_favorite,
   triggerSize = 20,
-  podcastId,
-  favorite_Categories,
+  podcasterId,
+  favorited_Categories,
 }) => {
   const session = useSession();
   const queryClient = useQueryClient();
 
-  const favorite_Categories_names = favorite_Categories.map(
+  const favorite_Categories_names = favorited_Categories.map(
     (category) => category.name
   );
 
   const [isFavorite, setIsFavorite] = useState(is_favorite);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     favorite_Categories_names
   );
@@ -76,6 +77,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     onSuccess: () => {
       toast.success("added successfully.");
       setIsFavorite(true);
+      setIsOpen(false);
     },
     onError: (error) => {
       console.log(error);
@@ -92,6 +94,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
       toast.success("Unfavorited successfully.");
       setSelectedItems([]);
       setIsFavorite(false);
+      setIsOpen(false);
     },
     onError: (error) => {
       console.log(error);
@@ -143,20 +146,20 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   const handleSubmit = async () => {
     server_AddToFavoriteAction({
       categories: selectedItems,
-      podcastId,
+      podcasterId,
       type: session?.data?.user?.type!,
     });
   };
 
   const handleUnFavorite = async () => {
     server_RemoveFromFavoriteAction({
-      podcastId,
+      podcasterId,
       type: session?.data?.user?.type!,
     });
   };
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {isFavorite ? (
           <Heart
@@ -261,4 +264,4 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   );
 };
 
-export default FavoritePopover;
+export default PodcasterFavoritePopover;

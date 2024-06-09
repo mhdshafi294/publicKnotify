@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import PodcastCardPlayButton from "./podcast-card-play-button";
 
-import FavoritePopover from "./favorite-popover";
+import PodcastFavoritePopover from "./podcast-favorite-popover";
 
 type PodCastCardProps = {
   podcast: Podcast;
@@ -25,10 +25,10 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
       <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
       <div className="flex items-center justify-between">
         <p className="text-xs font-medium">{podcast.podcaster.full_name}</p>
-        <FavoritePopover
+        <PodcastFavoritePopover
           isFavorite={podcast.is_favorite}
           podcastId={podcast.id.toString()}
-          favorite_Categories={podcast.favourites_category}
+          favorited_Categories={podcast.favourites_category}
         />
       </div>
     </div>

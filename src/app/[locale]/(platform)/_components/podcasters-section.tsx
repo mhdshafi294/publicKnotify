@@ -77,11 +77,7 @@ const PodcastersSection = ({
                   key={podcaster.id}
                   className="basis-1/2 md:basis-1/4 lg:basis-1/6"
                 >
-                  <PodcasterCard
-                    full_name={podcaster.full_name}
-                    image={podcaster.image}
-                    is_favorite={podcaster.is_favorite}
-                  />
+                  <PodcasterCard podcaster={podcaster} />
                 </CarouselItem>
               ))
             )

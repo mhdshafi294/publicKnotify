@@ -3,46 +3,34 @@ import React from "react";
 import { Button } from "./ui/button";
 import { Heart } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { Podcaster } from "@/types/podcaster";
+import PodcasterFavoritePopover from "./podcaster-favorite-popover";
 
 type PodCasterCardProps = {
-  full_name?: string;
-  image?: string;
-  is_favorite: boolean;
+  podcaster: Podcaster;
 };
 
-export const PodcasterCard: React.FC<PodCasterCardProps> = ({
-  full_name,
-  image,
-  is_favorite: isFavorite,
-}) => {
+export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
   return (
     <div className="w-full flex flex-col gap-3 rounded-lg overflow-hidden">
       <div className="relative aspect-square rounded-lg">
         <Image
-          src={image ? image : "/podcaster-filler.webp"}
-          alt={`${full_name} thumbnail`}
+          src={podcaster.image ? podcaster.image : "/podcaster-filler.webp"}
+          alt={`${podcaster.full_name} thumbnail`}
           fill
           className="object-cover rounded-lg"
         />
       </div>
 
       <div className="flex items-center justify-between">
-        <h3 className="font-bold text-xs text-wrap capitalize">{full_name}</h3>
-        {isFavorite ? (
-          <Button
-            variant="outline"
-            className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
-          >
-            <Heart size={16} fill="#004FFF" stroke="#004FFF" />
-          </Button>
-        ) : (
-          <Button
-            variant="outline"
-            className="p-0 outline-none border-none h-fit hover:bg-transparent hover:text-primary"
-          >
-            <Heart size={16} />
-          </Button>
-        )}
+        <h3 className="font-bold text-xs text-wrap capitalize">
+          {podcaster.full_name}
+        </h3>
+        <PodcasterFavoritePopover
+          isFavorite={podcaster.is_favorite}
+          podcasterId={podcaster.id.toString()}
+          favorited_Categories={podcaster.categories}
+        />
       </div>
     </div>
   );

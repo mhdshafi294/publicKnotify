@@ -80,7 +80,12 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
             <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="bg-input" align="start" side="top">
+        <PopoverContent
+          className="bg-input"
+          align="start"
+          side="bottom"
+          avoidCollisions={false}
+        >
           <Command className="bg-input">
             <CommandInput placeholder="Select country" />
             <CommandEmpty>No country</CommandEmpty>

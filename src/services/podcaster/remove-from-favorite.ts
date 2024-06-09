@@ -1,16 +1,16 @@
 import axiosInstance from "@/lib/axios.config";
-import { PODCAST, REMOVE_FROM_FAVORITES } from "@/lib/apiEndPoints";
+import { PODCASTER, REMOVE_FROM_FAVORITES } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
 const RemoveFromFavorite = async ({
-  podcastId,
+  podcasterId,
   type,
 }: {
-  podcastId: string;
+  podcasterId: string;
   type: string;
 }) => {
   const { data } = await axiosInstance.get<ApiResponse>(
-    `/${type}${PODCAST}${REMOVE_FROM_FAVORITES}/${podcastId}`
+    `/${type}${PODCASTER}${REMOVE_FROM_FAVORITES}/${podcasterId}`
   );
   return data;
 };
