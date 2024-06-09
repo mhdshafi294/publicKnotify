@@ -1,6 +1,7 @@
 "use client";
 import { getPodcastDataAction } from "@/app/actions/podcastActions";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import usePlayerStore from "@/store/use-player-store";
@@ -134,11 +135,11 @@ const Player = () => {
           <div className="flex justify-start items-center h-full gap-2">
             <div className="h-full">
               <Image
-                className="object-cover w-full h-full bg-indigo-500 rounded"
+                className="object-cover w-full h-full max-w-[64px] max-h-[64px] bg-indigo-500 rounded"
                 width={64}
                 height={64}
                 src={data.background}
-                alt="test"
+                alt={data.name}
               />
             </div>
             <div>
@@ -151,13 +152,22 @@ const Player = () => {
             </div>
             <audio ref={ref} src={data.podcast}></audio>
           </div>
-        ) : null}
+        ) : (
+          <div className="flex justify-start items-center h-full gap-2">
+            <Skeleton className="size-[64px]" />
+            <div className=" ms-1 space-y-2">
+              <Skeleton className="w-[150px] h-3" />
+              <Skeleton className="w-[100px] h-1.5" />
+            </div>
+          </div>
+        )}
 
         <div className="h-full w-2/5 gap-1 max-w-screen-md flex flex-col justify-center items-center">
           <div className="flex justify-center items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
+              disabled={isPending || isError}
               onClick={() => skipTime(-10)}
               className="relative hover:bg-transparent hover:text-foreground/80"
             >
@@ -170,6 +180,7 @@ const Player = () => {
               onClick={togglePlayPause}
               variant="ghost"
               size="icon"
+              disabled={isPending || isError}
               className="bg-foreground hover:scale-105 transition-all size-10 text-background flex justify-center items-center rounded-full"
             >
               {isPlaying ? (
@@ -181,6 +192,7 @@ const Player = () => {
             <Button
               variant="ghost"
               size="icon"
+              disabled={isPending || isError}
               onClick={() => skipTime(10)}
               className="relative hover:bg-transparent hover:text-foreground/80"
             >
@@ -196,6 +208,7 @@ const Player = () => {
               className="w-full"
               max={duration}
               step={1}
+              disabled={isPending || isError}
               value={sliderValue}
               onValueChange={handleTimeChange}
             />
