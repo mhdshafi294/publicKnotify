@@ -1,12 +1,8 @@
 import { Podcast } from "@/types/podcast";
-import { Heart } from "lucide-react";
 import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import PodcastCardPlayButton from "./podcast-card-play-button";
-import { Separator } from "./ui/separator";
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-import { ScrollArea } from "./ui/scroll-area";
+
 import FavoritePopover from "./favorite-popover";
 
 type PodCastCardProps = {
@@ -32,6 +28,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
         <FavoritePopover
           isFavorite={podcast.is_favorite}
           podcastId={podcast.id.toString()}
+          favorite_Categories={podcast.favourites_category}
         />
       </div>
     </div>

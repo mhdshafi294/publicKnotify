@@ -9,9 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  useInfiniteQuery
-} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 const TrendingSection = ({
   params,
@@ -44,7 +42,7 @@ const TrendingSection = ({
     return <div>Something went wrong. Please try again</div>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="w-full space-y-5">

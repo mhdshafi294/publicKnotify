@@ -65,7 +65,7 @@ export default async function RootLayout({
       <body className={cn("min-h-screen antialiased", fontLato.className)}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
-            <QueryProvider>{children} </QueryProvider>
+            <QueryProvider>{children}</QueryProvider>
           </AuthProvider>
         </NextIntlClientProvider>
       </body>

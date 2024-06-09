@@ -1,5 +1,19 @@
 import { ApiResponse, Pagination } from ".";
 
+export type PodcastDetails = {
+  id: number;
+  background: string;
+  created_at: string;
+  name: string;
+  podcast: string;
+  summary: string;
+  thumbnail: string;
+  type: "audio" | "video";
+  categories: Category[];
+  podcaster: PodcastPodcaster;
+  hashTags: HashTag[];
+};
+
 export type PodcastPodcaster = {
   id: number;
   full_name: string;
@@ -29,6 +43,13 @@ export type Podcast = {
   podcaster: PodcastPodcaster;
   type: "video" | "audio";
   is_favorite: boolean;
+  favourites_category: favourite_category[];
+};
+
+export type favourite_category = {
+  id: number;
+  name: string;
+  created_at: string;
 };
 
 export type PodcastsResponse = ApiResponse & {
@@ -38,18 +59,4 @@ export type PodcastsResponse = ApiResponse & {
 
 export type CategoryResponse = ApiResponse & {
   categories: Category[];
-};
-
-export type PodcastDetails = {
-  id: number;
-  background: string;
-  created_at: string;
-  name: string;
-  podcast: string;
-  summary: string;
-  thumbnail: string;
-  type: "audio" | "video";
-  categories: Category[];
-  podcaster: PodcastPodcaster;
-  hashTags: HashTag[];
 };
