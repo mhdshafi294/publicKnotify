@@ -2,17 +2,17 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 
 import { newPasswordSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
-import newPassword from "@/services/auth/new-password";
 
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import PasswordInput from "@/components/ui/password-input";
+import { useMutation } from "@tanstack/react-query";
+import { newPasswordAction } from "@/app/actions/authActions";
 
 const NewPassword = ({
   params,
@@ -21,7 +21,6 @@ const NewPassword = ({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<newPasswordSchema>({
@@ -32,23 +31,27 @@ const NewPassword = ({
     },
   });
 
-  const handleSubmit = async (data: newPasswordSchema) => {
-    setLoading(true);
-    try {
-      await newPassword(
-        data,
-        searchParams.phone as string,
-        searchParams.code as string,
-        params.userType
-      );
+  const {
+    data,
+    mutate: server_newPasswordAction,
+    isPending,
+  } = useMutation({
+    mutationFn: newPasswordAction,
+    onSuccess: () => {
       router.push(`/sign-in?userType=${params.userType}`);
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
+    },
+    onError: () => {
       toast.error("Something went wrong.please try again!");
-    } finally {
-      setLoading(false);
-    }
+    },
+  });
+
+  const handleSubmit = async (data: newPasswordSchema) => {
+    server_newPasswordAction({
+      newPasswordData: data,
+      phone: searchParams.phone as string,
+      code: searchParams.code as string,
+      type: params.userType,
+    });
   };
 
   return (
@@ -74,11 +77,11 @@ const NewPassword = ({
             className=""
           />
           <Button
-            disabled={loading}
+            disabled={isPending}
             className="md:w-[360px] capitalize mx-auto mt-14"
             type="submit"
           >
-            {loading ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : "Confirm"}
           </Button>
         </form>
       </Form>

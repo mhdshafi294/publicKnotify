@@ -27,9 +27,13 @@ const countriesCode = (
   }))
   .map((country, index) => ({ ...country, id: index + 1 }));
 
+type PhoneWithCodeType = {
+  code: string;
+  phone: string;
+};
 type PropsType = {
-  setPhone: Dispatch<SetStateAction<{ code: string; phone: string }>>;
-  phone: { code: string; phone: string };
+  setPhone: Dispatch<SetStateAction<PhoneWithCodeType>>;
+  phone: PhoneWithCodeType;
 };
 
 const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
@@ -60,6 +64,7 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputField, code]);
+
   return (
     <div className="flex justify-center overflow-hidden w-full items-center border border-input rounded-md ">
       <Popover open={openPopover} onOpenChange={setOpenPopover}>

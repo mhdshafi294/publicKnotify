@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import country from "country-list-js";
 
 import { Link, useRouter } from "@/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,15 +23,15 @@ import FormCheckbox from "@/components/ui/form-checkbox";
 import { AppleLogin } from "@/components/apple-login";
 import { GoogleLogin } from "@/components/google-login";
 import FormFileInput from "@/components/ui/form-input-file";
-import signUp from "@/services/auth/sign-up";
 import PhoneNumberInput from "@/components/phone-number-input";
+import { useMutation } from "@tanstack/react-query";
+import { signUpAction } from "@/app/actions/authActions";
 
 interface SignUpFormProps {
   type: "podcaster" | "user" | "company";
 }
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm<signUpSchema>({
@@ -50,31 +50,53 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     },
   });
 
-  const handleSubmit = async (data: signUpSchema) => {
-    setLoading(true);
-    try {
-      await signUp(data, type);
+  const phone = form.getValues("phone");
+
+  const {
+    data,
+    mutate: server_signUp,
+    isPending,
+  } = useMutation({
+    mutationFn: signUpAction,
+    onSuccess: () => {
       toast.warning("Please verify your account!.");
       router.push(
-        `${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+        `${type}/verification-code?phone=${phone.code}${phone.phone}`
       );
-    } catch (error) {
-      const err = error as AxiosError;
-      if (err.response?.status == 422) {
-        console.log(err);
+    },
+    onError: (error) => {
+      if (error.message.includes("422")) {
         toast.error("The phone has already been taken.");
       } else {
-        console.log(err);
         toast.error("Something went wrong.please try again!");
       }
-    }
-    setLoading(false);
+    },
+  });
+
+  const handleSubmit = async (data: signUpSchema) => {
+    const formData = new FormData();
+    const countriesCode = (
+      Object.values(country.all) as {
+        name: string;
+        dialing_code: string;
+        iso2: string;
+      }[]
+    ).find((country) => country.dialing_code === data.phone.code)?.iso2;
+    formData.append("full_name", data.full_name);
+    formData.append("phone", `${data.phone.code}${data.phone.phone}`);
+    formData.append("iso_code", countriesCode!);
+    formData.append("password", data.password);
+    formData.append("password_confirmation", data.password_confirmation);
+    if (type === "company" && data.documents)
+      formData.append("document", data.documents);
+
+    server_signUp({ formData, type });
   };
 
   return (
     <Form {...form}>
       <form
-        className="w-full px-5 md:px-0"
+        className="w-full px-0"
         onSubmit={form.handleSubmit((data) => {
           handleSubmit(data);
         })}
@@ -128,11 +150,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           label="I accept the terms and privacy policy"
         />
         <Button
-          disabled={loading}
+          disabled={isPending}
           className="w-full capitalize mt-8"
           type="submit"
         >
-          {loading ? <ButtonLoader /> : "Continue"}
+          {isPending ? <ButtonLoader /> : "Continue"}
         </Button>
         <p className="text-center mt-5 font-light text-sm">
           Do you already have an account?{" "}

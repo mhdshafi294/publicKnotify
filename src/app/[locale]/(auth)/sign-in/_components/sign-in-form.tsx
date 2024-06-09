@@ -58,10 +58,10 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       if (signInResponse!.ok) {
         setLoading(false);
         toast.success("Signed In successfully!.");
-        router.push("/");
+        router.push(`/${type}`);
       } else if (signInResponse?.error?.includes("434")) {
         setLoading(false);
-        await sendCode({ phone: data.phone }, type);
+        await sendCode({ body: { phone: data.phone }, type });
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
@@ -80,7 +80,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       const err = error as AxiosError;
       setLoading(false);
       if (err.response?.status == 434) {
-        await sendCode({ phone: data.phone }, type);
+        await sendCode({ body: { phone: data.phone }, type });
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
@@ -98,7 +98,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   return (
     <Form {...form}>
       <form
-        className="w-fit px-5 md:px-0"
+        className="w-fit px-0"
         onSubmit={form.handleSubmit((data) => {
           handleSubmit(data);
         })}

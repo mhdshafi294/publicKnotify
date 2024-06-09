@@ -1,17 +1,18 @@
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/language-switcher";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
+import { Suspense } from "react";
 
-export default function Home() {
-  const t = useTranslations("Index");
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  if (session) {
+    redirect(`/${session?.user?.type}`);
+  }
 
   return (
-    <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        {/* <p>{t("title")}</p> */}
-      </main>
-    </>
+    <MaxWidthContainer className="mt-20 flex flex-col justify-center items-center">
+      <h2 className="text-5xl">Hello There!</h2>
+    </MaxWidthContainer>
   );
 }

@@ -25,6 +25,8 @@ import {
 import confirmVerificationCode from "@/services/auth/verification-code";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import { useMutation } from "@tanstack/react-query";
+import { confirmVerificationCodeAction } from "@/app/actions/authActions";
 
 const VerificationCode = ({
   params,
@@ -43,24 +45,26 @@ const VerificationCode = ({
     },
   });
 
-  const handleSubmit = async (data: checkCodeSchema) => {
-    setLoading(true);
-    console.log(data);
-    try {
-      await confirmVerificationCode(
-        data.code,
-        searchParams.phone as string,
-        params.userType
-      );
-      toast.success("Account verified successfully!. Now you can sign in!");
+  const {
+    data,
+    mutate: server_confirmVerificationCodeAction,
+    isPending,
+  } = useMutation({
+    mutationFn: confirmVerificationCodeAction,
+    onSuccess: () => {
       router.push(`/sign-in?userType=${params.userType}`);
-    } catch (error) {
-      const err = error as AxiosError;
-      console.log(err);
+    },
+    onError: () => {
       toast.error("Something went wrong.please try again!");
-    } finally {
-      setLoading(false);
-    }
+    },
+  });
+
+  const handleSubmit = async (data: checkCodeSchema) => {
+    server_confirmVerificationCodeAction({
+      code: data.code,
+      phone: searchParams.phone as string,
+      type: params.userType,
+    });
   };
 
   return (

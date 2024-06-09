@@ -45,7 +45,7 @@ const NotificationsDropdown = () => {
             <p className="  text-lg">{t("notifications.notifications")}</p>
             <div className="text-primary bg-greeny rounded-full py-1 px-2 text-center flex justify-center items-center gap-1 text-sm">
               <span>{unread}</span>{" "}
-              <span className="-translate-y-[1px]">{t("index.new")}</span>
+              <span className="-translate-y-[1px]">{t("Index.new")}</span>
             </div>
           </div>
           <Separator />

@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const SignUp = () => {
   return (
-    <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
+    <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[3dvh] lg:pt-[7dvh] pb-[2dvh]">
       <Tabs
         defaultValue="podcaster"
         className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
