@@ -19,7 +19,7 @@ import {
 } from "@/app/actions/podcastActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category } from "@/types/podcast";
+import { Category, favourite_category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -33,16 +33,25 @@ type FavoritePopoverProps = {
   isFavorite: boolean;
   triggerSize?: number;
   podcastId: string;
+  favorite_Categories: favourite_category[];
 };
 
 const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   isFavorite: is_favorite,
   triggerSize = 20,
   podcastId,
+  favorite_Categories,
 }) => {
   const session = useSession();
+  const queryClient = useQueryClient();
 
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const favorite_Categories_names = favorite_Categories.map(
+    (category) => category.name
+  );
+
+  const [selectedItems, setSelectedItems] = useState<string[]>(
+    favorite_Categories_names
+  );
 
   const {
     data: categories,
@@ -70,15 +79,6 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     },
   });
 
-  const handleSubmit = async () => {
-    server_AddToFavoriteAction({
-      categories: selectedItems,
-      podcastId,
-      type: session?.data?.user?.type!,
-    });
-  };
-
-  const queryClient = useQueryClient();
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       const createdCategory = event.currentTarget.value;
@@ -118,6 +118,14 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
         ? prevSelectedItems.filter((i) => i !== item)
         : [...prevSelectedItems, item]
     );
+  };
+
+  const handleSubmit = async () => {
+    server_AddToFavoriteAction({
+      categories: selectedItems,
+      podcastId,
+      type: session?.data?.user?.type!,
+    });
   };
 
   return (

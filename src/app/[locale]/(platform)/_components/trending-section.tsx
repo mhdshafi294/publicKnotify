@@ -42,7 +42,7 @@ const TrendingSection = ({
     return <div>Something went wrong. Please try again</div>;
   }
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div className="w-full space-y-5">
