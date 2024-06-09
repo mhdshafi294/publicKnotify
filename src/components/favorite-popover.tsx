@@ -51,6 +51,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   );
 
   const [isFavorite, setIsFavorite] = useState(is_favorite);
+  const [isOpen, setIsOpen] = useState(false);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     favorite_Categories_names
   );
@@ -76,6 +77,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
     onSuccess: () => {
       toast.success("added successfully.");
       setIsFavorite(true);
+      setIsOpen(false);
     },
     onError: (error) => {
       console.log(error);
@@ -92,6 +94,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
       toast.success("Unfavorited successfully.");
       setSelectedItems([]);
       setIsFavorite(false);
+      setIsOpen(false);
     },
     onError: (error) => {
       console.log(error);
@@ -156,7 +159,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   };
 
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {isFavorite ? (
           <Heart
