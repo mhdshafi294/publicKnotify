@@ -2,7 +2,7 @@ import { FAVORITES_CATEGORIES, PODCASTER } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { CategoryResponse } from "@/types/podcast";
 
-const getMyPodcastFavoriteCategoriesList = async ({
+const getMyPodcasterFavoriteCategoriesList = async ({
   type,
 }: {
   type: string;
@@ -13,4 +13,4 @@ const getMyPodcastFavoriteCategoriesList = async ({
   return data.categories;
 };
 
-export default getMyPodcastFavoriteCategoriesList;
+export default getMyPodcasterFavoriteCategoriesList;

@@ -1,7 +1,7 @@
 "use server";
 
 import AddPodcastToFavorite from "@/services/podcaster/add-to-favorite";
-import getMyPodcastFavoriteCategoriesList from "@/services/podcaster/get-my-favorite-categoris-list";
+import getMyPodcasterFavoriteCategoriesList from "@/services/podcaster/get-my-favorite-categoris-list";
 import getPodcasters from "@/services/podcaster/get-podcasters";
 import RemoveFromFavorite from "@/services/podcaster/remove-from-favorite";
 
@@ -25,17 +25,17 @@ export const getPodcastersAction = async ({
   return getPodcastersResponse;
 };
 
-export const getMyFavoriteCategoriesListAction = async ({
-  type,
-}: {
-  type: string;
-}) => {
-  const getMyFavoriteCategoriesListResponse =
-    await getMyPodcastFavoriteCategoriesList({
-      type,
-    });
-  return getMyFavoriteCategoriesListResponse;
-};
+// export const getMyFavoriteCategoriesListAction = async ({
+//   type,
+// }: {
+//   type: string;
+// }) => {
+//   const getMyFavoriteCategoriesListResponse =
+//     await getMyPodcasterFavoriteCategoriesList({
+//       type,
+//     });
+//   return getMyFavoriteCategoriesListResponse;
+// };
 
 export const AddToFavoriteAction = async ({
   categories,

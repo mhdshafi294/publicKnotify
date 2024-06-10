@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -15,7 +15,6 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AddToFavoriteAction,
-  getMyFavoriteCategoriesListAction,
   RemoveFromFavoriteAction,
 } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
@@ -29,6 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
 
 type PodcasterFavoritePopoverProps = {
   isFavorite: boolean;
@@ -69,7 +69,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   });
 
   const {
-    data,
+    data: addToFavoriteResponse,
     mutate: server_AddToFavoriteAction,
     isPending: isAddFavoritePending,
   } = useMutation({
@@ -103,6 +103,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   });
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    event.stopPropagation();
     if (event.key === "Enter") {
       const createdCategory = event.currentTarget.value;
       queryClient.setQueryData(
@@ -132,6 +133,8 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       });
 
       event.currentTarget.value = "";
+    } else {
+      return;
     }
   };
 
@@ -175,11 +178,20 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
           />
         )}
       </PopoverTrigger>
-      <PopoverContent className="px-0">
+      <PopoverContent
+        className="px-0"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        forceMount
+      >
         <p className="px-4 w-full text-sm">Add to favorite lists</p>
         <Separator className="mt-2 bg-slate-900" />
         <Input
+          onFocus={(e) => e.stopPropagation()}
           onKeyDown={createNewCategory}
+          type="text"
           placeholder="Create new list, press ENTER to add"
           className="h-full bg-secondary/30 outline-none border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-none"
         />
@@ -200,7 +212,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
                     selectedItems.includes(category.name) ? "on" : "off"
                   }
                   className={cn(
-                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background`
+                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background data-[state=on]:font-semibold`
                   )}
                 >
                   <span>{category.name}</span>

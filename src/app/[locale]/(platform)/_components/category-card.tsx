@@ -14,7 +14,7 @@ const CategoryCard: FC<PropsType> = ({ category }) => {
       className="bg-background flex justify-start items-center border rounded-xl w-48 gap-2 p-4"
       key={category.id}
     >
-      <div className="size-14 relative">
+      <div className="size-10 relative">
         <Image
           fill
           className="rounded object-cover"

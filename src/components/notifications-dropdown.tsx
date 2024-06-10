@@ -27,7 +27,7 @@ const NotificationsDropdown = () => {
     <div className="relative">
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
-          <Button variant="secondary" size="icon" className="">
+          <Button variant="secondary" size="icon" className="bg-transparent">
             <span className="sr-only">notifications</span>
             <BellRing strokeWidth={1.5} className="stroke-white" />
             {unreadNotifications && !isOpen ? (

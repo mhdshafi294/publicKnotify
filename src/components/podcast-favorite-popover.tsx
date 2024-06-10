@@ -69,7 +69,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
   });
 
   const {
-    data,
+    data: addToFavoriteResponse,
     mutate: server_AddToFavoriteAction,
     isPending: isAddFavoritePending,
   } = useMutation({
@@ -132,7 +132,9 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
       });
 
       event.currentTarget.value = "";
-    }
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.stopPropagation();
+    } else return;
   };
 
   const handleToggle = (item: string) => {
@@ -175,7 +177,11 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
           />
         )}
       </PopoverTrigger>
-      <PopoverContent className="px-0">
+      <PopoverContent
+        className="px-0"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        forceMount
+      >
         <p className="px-4 w-full text-sm">Add to favorite lists</p>
         <Separator className="mt-2 bg-slate-900" />
         <Input
@@ -200,7 +206,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
                     selectedItems.includes(category.name) ? "on" : "off"
                   }
                   className={cn(
-                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background`
+                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background data-[state=on]:font-semibold`
                   )}
                 >
                   <span>{category.name}</span>
