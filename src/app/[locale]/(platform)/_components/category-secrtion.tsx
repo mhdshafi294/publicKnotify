@@ -8,7 +8,7 @@ const CategorySecrtion = async () => {
 
   return (
     <div className="w-full space-y-5">
-      <h2 className="font-bold text-2xl">{t("title")}</h2>
+      <h2 className="font-bold text-2xl capitalize">{t("moods")}</h2>
       <div className="w-full flex gap-4 justify-start items-center flex-wrap">
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />

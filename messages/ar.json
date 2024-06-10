@@ -31,7 +31,8 @@
     "password-reset": "اعادة تعيين كلمة المرور",
     "password-reset-form": "اعادة تعيين كلمة المرور",
     "password-reset-link-sent": "تم ارسال رابط اعادة تعيين كلمة المرور",
-    "password-reset-link-sent-desc": "يرجى التحقق من بريدك الالكتروني والتحقق من الرابط الذي ارسلته لتعيين كلمة مرور جديدة"
+    "password-reset-link-sent-desc": "يرجى التحقق من بريدك الالكتروني والتحقق من الرابط الذي ارسلته لتعيين كلمة مرور جديدة",
+    "moods": "الأنماط"
   },
   "notifications": {
     "notifications": "notifications"

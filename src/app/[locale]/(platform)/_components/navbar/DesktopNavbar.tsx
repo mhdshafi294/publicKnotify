@@ -13,6 +13,8 @@ const DesktopNavbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
+  console.log(pathname);
+
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
@@ -27,7 +29,8 @@ const DesktopNavbar = () => {
                 href={`/${session?.user?.type}/${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  " text-white hover:text-white border-white bg-transparent hover:bg-white/5"
+                  " text-white hover:text-white border-white bg-transparent hover:bg-white/5",
+                  { hidden: session?.user?.type !== "podcaster" }
                 )}
               >
                 {link.label}
@@ -44,7 +47,14 @@ const DesktopNavbar = () => {
                   "text-white p-0 hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-3 hover:before:rounded-full",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:translate-y-4 before:rounded-full":
-                      pathname === link.href,
+                      (pathname.includes(link.href) && link.href !== "/") ||
+                      (link.href === "/" && pathname.lastIndexOf("/") === 0),
+                  },
+                  {
+                    hidden:
+                      session?.user?.type === "user" &&
+                      (link.label === "Requests" ||
+                        link.label === "Statistics"),
                   }
                 )}
               >

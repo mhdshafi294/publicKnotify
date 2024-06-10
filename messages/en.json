@@ -31,7 +31,8 @@
     "password-reset": "password reset",
     "password-reset-form": "password reset form",
     "password-reset-link-sent": "password reset link sent",
-    "password-reset-link-sent-desc": "check your phone for the reset link"
+    "password-reset-link-sent-desc": "check your phone for the reset link",
+    "moods": "moods"
   },
   "notifications": {
     "notifications": "notifications"
