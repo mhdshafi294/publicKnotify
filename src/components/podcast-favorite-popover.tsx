@@ -134,6 +134,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
       event.currentTarget.value = "";
     } else if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.stopPropagation();
+      setIsOpen(false);
     } else return;
   };
 

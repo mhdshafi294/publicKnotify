@@ -133,6 +133,9 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       });
 
       event.currentTarget.value = "";
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.stopPropagation();
+      setIsOpen(false);
     } else {
       return;
     }
@@ -183,6 +186,12 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
         onOpenAutoFocus={(e) => {
           e.preventDefault();
           e.stopPropagation();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.key === "Escape") {
+            setIsOpen(false);
+          }
         }}
         forceMount
       >
