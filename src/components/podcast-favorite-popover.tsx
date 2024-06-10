@@ -20,7 +20,7 @@ import {
 } from "@/app/actions/podcastActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category, favourite_category } from "@/types/podcast";
+import { Category, Favourite_Category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -30,23 +30,23 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 
-type FavoritePopoverProps = {
+type PodcastFavoritePopoverProps = {
   isFavorite: boolean;
   triggerSize?: number;
   podcastId: string;
-  favorite_Categories: favourite_category[];
+  favorited_Categories: Favourite_Category[];
 };
 
-const FavoritePopover: React.FC<FavoritePopoverProps> = ({
+const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
   isFavorite: is_favorite,
   triggerSize = 20,
   podcastId,
-  favorite_Categories,
+  favorited_Categories,
 }) => {
   const session = useSession();
   const queryClient = useQueryClient();
 
-  const favorite_Categories_names = favorite_Categories.map(
+  const favorite_Categories_names = favorited_Categories.map(
     (category) => category.name
   );
 
@@ -69,7 +69,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   });
 
   const {
-    data,
+    data: addToFavoriteResponse,
     mutate: server_AddToFavoriteAction,
     isPending: isAddFavoritePending,
   } = useMutation({
@@ -132,7 +132,9 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
       });
 
       event.currentTarget.value = "";
-    }
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.stopPropagation();
+    } else return;
   };
 
   const handleToggle = (item: string) => {
@@ -175,7 +177,11 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
           />
         )}
       </PopoverTrigger>
-      <PopoverContent className="px-0">
+      <PopoverContent
+        className="px-0"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        forceMount
+      >
         <p className="px-4 w-full text-sm">Add to favorite lists</p>
         <Separator className="mt-2 bg-slate-900" />
         <Input
@@ -200,7 +206,7 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
                     selectedItems.includes(category.name) ? "on" : "off"
                   }
                   className={cn(
-                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background`
+                    ` h-7 bg-secondary/40 hover:bg-secondary/80 hover:text-white/80 data-[state=on]:bg-greeny_lighter data-[state=on]:hover:bg-greeny_lighter/75 data-[state=on]:text-background data-[state=on]:hover:text-background data-[state=on]:font-semibold`
                   )}
                 >
                   <span>{category.name}</span>
@@ -264,4 +270,4 @@ const FavoritePopover: React.FC<FavoritePopoverProps> = ({
   );
 };
 
-export default FavoritePopover;
+export default PodcastFavoritePopover;

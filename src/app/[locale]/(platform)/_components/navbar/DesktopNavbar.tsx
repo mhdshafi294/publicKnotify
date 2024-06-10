@@ -27,7 +27,7 @@ const DesktopNavbar = () => {
                 href={`/${session?.user?.type}/${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  " text-white hover:text-white border-white bg-secondary hover:bg-white/5"
+                  " text-white hover:text-white border-white bg-transparent hover:bg-white/5"
                 )}
               >
                 {link.label}
