@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -19,7 +19,7 @@ import {
 } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category, Favourite_Category } from "@/types/podcast";
+import { Category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -34,7 +34,7 @@ type PodcasterFavoritePopoverProps = {
   isFavorite: boolean;
   triggerSize?: number;
   podcasterId: string;
-  favorited_Categories: Favourite_Category[];
+  favorited_Categories: Category[];
 };
 
 const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({

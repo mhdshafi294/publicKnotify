@@ -28,7 +28,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
         <PodcastFavoritePopover
           isFavorite={podcast.is_favorite}
           podcastId={podcast.id.toString()}
-          favorited_Categories={podcast.favourites_category}
+          favorited_Categories={podcast.favourite_categories}
         />
       </div>
     </div>

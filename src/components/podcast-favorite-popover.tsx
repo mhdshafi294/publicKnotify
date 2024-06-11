@@ -20,7 +20,7 @@ import {
 } from "@/app/actions/podcastActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category, Favourite_Category } from "@/types/podcast";
+import { Category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -34,7 +34,7 @@ type PodcastFavoritePopoverProps = {
   isFavorite: boolean;
   triggerSize?: number;
   podcastId: string;
-  favorited_Categories: Favourite_Category[];
+  favorited_Categories: Category[];
 };
 
 const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({

@@ -9,7 +9,7 @@ export type PodcastDetails = {
   summary: string;
   thumbnail: string;
   type: "audio" | "video";
-  categories: Category[];
+  categories: CategoryDetails[];
   podcaster: PodcastPodcaster;
   hashTags: HashTag[];
 };
@@ -28,7 +28,7 @@ export type HashTag = {
   podcast_id: number;
 };
 
-export type Category = {
+export type CategoryDetails = {
   id: number;
   name: string;
   created_at: string;
@@ -43,10 +43,10 @@ export type Podcast = {
   podcaster: PodcastPodcaster;
   type: "video" | "audio";
   is_favorite: boolean;
-  favourites_category: Favourite_Category[];
+  favourite_categories: Category[];
 };
 
-export type Favourite_Category = {
+export type Category = {
   id: number;
   name: string;
   created_at: string;
@@ -58,5 +58,5 @@ export type PodcastsResponse = ApiResponse & {
 };
 
 export type CategoryResponse = ApiResponse & {
-  categories: Category[];
+  categories: CategoryDetails[];
 };

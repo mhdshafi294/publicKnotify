@@ -2,7 +2,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
-import { Suspense } from "react";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

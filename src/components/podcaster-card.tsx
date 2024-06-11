@@ -29,7 +29,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
         <PodcasterFavoritePopover
           isFavorite={podcaster.is_favorite}
           podcasterId={podcaster.id.toString()}
-          favorited_Categories={podcaster.categories}
+          favorited_Categories={podcaster.favourite_categories}
         />
       </div>
     </div>

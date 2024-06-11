@@ -12,10 +12,15 @@ export const LOGOUT_URL = "/logout";
 
 export const PODCAST = "/podcast";
 export const PODCASTER = `/podcaster`;
+
 export const TRENDING = `${PODCAST}/trending`;
 export const FAVORITES_CATEGORIES = `/my-favorite-categories`;
 export const ADD_FAVORITES = `/add-to-favorite`;
 export const REMOVE_FROM_FAVORITES = `/remove-from-favorite`;
+export const REQUESTS = "/request";
+export const INDEX = "/index";
+export const SHOW = "/show";
+export const CHANGE_STATUS = "/change-status";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

@@ -23,7 +23,7 @@ const TrendingSection = ({
       queryKey: ["trending"],
       queryFn: ({ pageParam }) =>
         getTrendingAction({
-          count: "10",
+          count: "50",
           page: pageParam.toString(),
           type: params.userType as string,
         }),
@@ -45,55 +45,53 @@ const TrendingSection = ({
   // console.log(data);
 
   return (
-    <div className="w-full space-y-5">
-      <Carousel opts={{ slidesToScroll: "auto" }} className="">
-        <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl">Trending Podcasts</h2>
-          <div className="flex relative justify-end items-center end-[80px]">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+    <Carousel opts={{ slidesToScroll: "auto" }} className="w-full">
+      <div className="flex justify-between items-center">
+        <h2 className="font-bold text-2xl">Trending Podcasts</h2>
+        <div className="flex relative justify-end items-center end-[80px]">
+          <CarouselPrevious />
+          <CarouselNext />
         </div>
-        <CarouselContent className="w-full mt-5">
-          {isPending ? (
-            Array(10)
-              .fill(0)
-              .map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-                >
-                  <PodcastCardLoading />
-                </CarouselItem>
-              ))
-          ) : data?.pages[0].podcasts.length === 0 ? (
-            <p>No podcasts to load</p>
-          ) : (
-            data?.pages.map((page) =>
-              page.podcasts.map((podcast) => (
-                <CarouselItem
-                  key={podcast.id}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-                >
-                  <PodcastCard podcast={podcast} />
-                </CarouselItem>
-              ))
-            )
-          )}
-          {isFetchingNextPage &&
-            Array(20)
-              .fill(0)
-              .map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-                >
-                  <PodcastCardLoading />
-                </CarouselItem>
-              ))}
-        </CarouselContent>
-      </Carousel>
-    </div>
+      </div>
+      <CarouselContent className="w-full mt-5">
+        {isPending ? (
+          Array(10)
+            .fill(0)
+            .map((_, index) => (
+              <CarouselItem
+                key={index}
+                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+              >
+                <PodcastCardLoading />
+              </CarouselItem>
+            ))
+        ) : data?.pages[0].podcasts.length === 0 ? (
+          <p>No podcasts to load</p>
+        ) : (
+          data?.pages.map((page) =>
+            page.podcasts.map((podcast) => (
+              <CarouselItem
+                key={podcast.id}
+                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+              >
+                <PodcastCard podcast={podcast} />
+              </CarouselItem>
+            ))
+          )
+        )}
+        {isFetchingNextPage &&
+          Array(20)
+            .fill(0)
+            .map((_, index) => (
+              <CarouselItem
+                key={index}
+                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+              >
+                <PodcastCardLoading />
+              </CarouselItem>
+            ))}
+      </CarouselContent>
+    </Carousel>
   );
 };
 
