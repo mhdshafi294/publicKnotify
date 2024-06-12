@@ -1,16 +1,24 @@
+"use cllient";
+
 import Image from "next/image";
-import React from "react";
-import { Button } from "./ui/button";
-import { Heart } from "lucide-react";
+import React, { useState } from "react";
+
 import { Skeleton } from "./ui/skeleton";
 import { Podcaster } from "@/types/podcaster";
 import PodcasterFavoritePopover from "./podcaster-favorite-popover";
+import UnfavoriteButton from "./unfavorite-button";
+import { RemoveFromFavoriteAction } from "@/app/actions/podcasterActions";
 
 type PodCasterCardProps = {
   podcaster: Podcaster;
 };
 
 export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
+  const [isFavorite, setIsFavorite] = useState(podcaster.is_favorite);
+  const [selectedItems, setSelectedItems] = useState<string[]>(
+    podcaster.favourite_categories.map((category) => category.name)
+  );
+
   return (
     <div className="w-full flex flex-col gap-3 rounded-lg overflow-hidden">
       <div className="relative aspect-square rounded-lg">
@@ -26,11 +34,22 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
         <h3 className="font-bold text-xs text-wrap capitalize">
           {podcaster.full_name}
         </h3>
-        <PodcasterFavoritePopover
-          isFavorite={podcaster.is_favorite}
-          podcasterId={podcaster.id.toString()}
-          favorited_Categories={podcaster.favourite_categories}
-        />
+        {isFavorite ? (
+          <UnfavoriteButton
+            id={podcaster.id.toString()}
+            setIsFavorite={setIsFavorite}
+            setSelectedItems={setSelectedItems}
+            removeFromFavoriteAction={RemoveFromFavoriteAction}
+          />
+        ) : (
+          <PodcasterFavoritePopover
+            podcasterId={podcaster.id.toString()}
+            isFavorite={isFavorite}
+            setIsFavorite={setIsFavorite}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
+          />
+        )}
       </div>
     </div>
   );

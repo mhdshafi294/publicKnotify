@@ -53,22 +53,22 @@ export const getPodcastDataAction = async ({
 
 export const AddToFavoriteAction = async ({
   categories,
-  podcastId,
+  id,
   type,
 }: {
   categories: string[];
-  podcastId: string;
+  id: string;
   type: string;
 }) => {
-  return await AddPodcastToFavorite({ categories, podcastId, type });
+  return await AddPodcastToFavorite({ categories, podcastId: id, type });
 };
 
 export const RemoveFromFavoriteAction = async ({
-  podcastId,
+  id,
   type,
 }: {
-  podcastId: string;
+  id: string;
   type: string;
 }) => {
-  return await RemoveFromFavorite({ podcastId, type });
+  return await RemoveFromFavorite({ podcastId: id, type });
 };

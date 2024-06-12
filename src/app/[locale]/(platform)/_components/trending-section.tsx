@@ -9,6 +9,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const TrendingSection = ({
@@ -45,53 +46,55 @@ const TrendingSection = ({
   // console.log(data);
 
   return (
-    <Carousel opts={{ slidesToScroll: "auto" }} className="w-full">
-      <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Trending Podcasts</h2>
-        <div className="flex relative justify-end items-center end-[80px]">
-          <CarouselPrevious />
-          <CarouselNext />
+    <MaxWidthContainer className="w-full">
+      <Carousel opts={{ slidesToScroll: "auto" }} className="w-full">
+        <div className="flex justify-between items-center">
+          <h2 className="font-bold text-2xl">Trending Podcasts</h2>
+          <div className="flex relative justify-end items-center end-[80px]">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
         </div>
-      </div>
-      <CarouselContent className="w-full mt-5">
-        {isPending ? (
-          Array(10)
-            .fill(0)
-            .map((_, index) => (
-              <CarouselItem
-                key={index}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-              >
-                <PodcastCardLoading />
-              </CarouselItem>
-            ))
-        ) : data?.pages[0].podcasts.length === 0 ? (
-          <p>No podcasts to load</p>
-        ) : (
-          data?.pages.map((page) =>
-            page.podcasts.map((podcast) => (
-              <CarouselItem
-                key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-              >
-                <PodcastCard podcast={podcast} />
-              </CarouselItem>
-            ))
-          )
-        )}
-        {isFetchingNextPage &&
-          Array(20)
-            .fill(0)
-            .map((_, index) => (
-              <CarouselItem
-                key={index}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5"
-              >
-                <PodcastCardLoading />
-              </CarouselItem>
-            ))}
-      </CarouselContent>
-    </Carousel>
+        <CarouselContent className="w-full mt-5">
+          {isPending ? (
+            Array(10)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcastCardLoading />
+                </CarouselItem>
+              ))
+          ) : data?.pages[0].podcasts.length === 0 ? (
+            <p>No podcasts to load</p>
+          ) : (
+            data?.pages.map((page) =>
+              page.podcasts.map((podcast) => (
+                <CarouselItem
+                  key={podcast.id}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcastCard podcast={podcast} />
+                </CarouselItem>
+              ))
+            )
+          )}
+          {isFetchingNextPage &&
+            Array(20)
+              .fill(0)
+              .map((_, index) => (
+                <CarouselItem
+                  key={index}
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                >
+                  <PodcastCardLoading />
+                </CarouselItem>
+              ))}
+        </CarouselContent>
+      </Carousel>
+    </MaxWidthContainer>
   );
 };
 

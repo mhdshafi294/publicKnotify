@@ -15,14 +15,12 @@ export default function Home({
   const t = useTranslations("Index");
 
   return (
-    <MaxWidthContainer className="mt-8">
-      <main className="flex flex-col items-start justify-start gap-8 w-full">
-        <h1 className="sr-only">Knotify Home Page</h1>
-        {/* <p>{t("title")}</p> */}
-        <TrendingSection params={params} searchParams={searchParams} />
-        <CategorySecrtion />
-        <PodcastersSection params={params} searchParams={searchParams} />
-      </main>
-    </MaxWidthContainer>
+    <main className="flex flex-col items-start justify-start gap-8 w-full mt-8">
+      <h1 className="sr-only">Knotify Home Page</h1>
+      {/* <p>{t("title")}</p> */}
+      <TrendingSection params={params} searchParams={searchParams} />
+      <CategorySecrtion />
+      <PodcastersSection params={params} searchParams={searchParams} />
+    </main>
   );
 }

@@ -31,30 +31,26 @@ import {
 } from "./ui/tooltip";
 
 type PodcastFavoritePopoverProps = {
-  isFavorite: boolean;
-  triggerSize?: number;
   podcastId: string;
-  favorited_Categories: Category[];
+  triggerSize?: number;
+  isFavorite: boolean;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedItems: string[];
+  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
-  isFavorite: is_favorite,
   triggerSize = 20,
   podcastId,
-  favorited_Categories,
+  isFavorite,
+  setIsFavorite,
+  selectedItems,
+  setSelectedItems,
 }) => {
   const session = useSession();
   const queryClient = useQueryClient();
 
-  const favorite_Categories_names = favorited_Categories.map(
-    (category) => category.name
-  );
-
-  const [isFavorite, setIsFavorite] = useState(is_favorite);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>(
-    favorite_Categories_names
-  );
 
   const {
     data: categories,
@@ -84,23 +80,23 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
     },
   });
 
-  const {
-    data: removeFromFavoriteResponse,
-    mutate: server_RemoveFromFavoriteAction,
-    isPending: isRemoveFavoritePending,
-  } = useMutation({
-    mutationFn: RemoveFromFavoriteAction,
-    onSuccess: () => {
-      toast.success("Unfavorited successfully.");
-      setSelectedItems([]);
-      setIsFavorite(false);
-      setIsOpen(false);
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Something went wrong.please try again.");
-    },
-  });
+  // const {
+  //   data: removeFromFavoriteResponse,
+  //   mutate: server_RemoveFromFavoriteAction,
+  //   isPending: isRemoveFavoritePending,
+  // } = useMutation({
+  //   mutationFn: RemoveFromFavoriteAction,
+  //   onSuccess: () => {
+  //     toast.success("Unfavorited successfully.");
+  //     setSelectedItems([]);
+  //     setIsFavorite(false);
+  //     setIsOpen(false);
+  //   },
+  //   onError: (error) => {
+  //     console.log(error);
+  //     toast.error("Something went wrong.please try again.");
+  //   },
+  // });
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -149,17 +145,17 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
   const handleSubmit = async () => {
     server_AddToFavoriteAction({
       categories: selectedItems,
-      podcastId,
+      id: podcastId,
       type: session?.data?.user?.type!,
     });
   };
 
-  const handleUnFavorite = async () => {
-    server_RemoveFromFavoriteAction({
-      podcastId,
-      type: session?.data?.user?.type!,
-    });
-  };
+  // const handleUnFavorite = async () => {
+  //   server_RemoveFromFavoriteAction({
+  //     podcastId,
+  //     type: session?.data?.user?.type!,
+  //   });
+  // };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -241,7 +237,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
                 </p>
               </TooltipContent>
             </Tooltip>
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="destructive"
@@ -263,7 +259,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
                   This would remove this podcast from all of your favorite lists
                 </p>
               </TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
           </TooltipProvider>
         </div>
       </PopoverContent>
