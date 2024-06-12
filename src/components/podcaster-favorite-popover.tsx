@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -19,7 +19,7 @@ import {
 } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Category, Favourite_Category } from "@/types/podcast";
+import { Category } from "@/types/podcast";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import {
@@ -31,30 +31,26 @@ import {
 import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
 
 type PodcasterFavoritePopoverProps = {
-  isFavorite: boolean;
-  triggerSize?: number;
   podcasterId: string;
-  favorited_Categories: Favourite_Category[];
+  triggerSize?: number;
+  isFavorite: boolean;
+  setIsFavorite: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedItems: string[];
+  setSelectedItems: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
-  isFavorite: is_favorite,
   triggerSize = 20,
   podcasterId,
-  favorited_Categories,
+  isFavorite,
+  setIsFavorite,
+  selectedItems,
+  setSelectedItems,
 }) => {
   const session = useSession();
   const queryClient = useQueryClient();
 
-  const favorite_Categories_names = favorited_Categories.map(
-    (category) => category.name
-  );
-
-  const [isFavorite, setIsFavorite] = useState(is_favorite);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>(
-    favorite_Categories_names
-  );
 
   const {
     data: categories,
@@ -81,24 +77,6 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
     },
     onError: (error) => {
       console.log(error);
-    },
-  });
-
-  const {
-    data: removeFromFavoriteResponse,
-    mutate: server_RemoveFromFavoriteAction,
-    isPending: isRemoveFavoritePending,
-  } = useMutation({
-    mutationFn: RemoveFromFavoriteAction,
-    onSuccess: () => {
-      toast.success("Unfavorited successfully.");
-      setSelectedItems([]);
-      setIsFavorite(false);
-      setIsOpen(false);
-    },
-    onError: (error) => {
-      console.log(error);
-      toast.error("Something went wrong.please try again.");
     },
   });
 
@@ -133,6 +111,9 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       });
 
       event.currentTarget.value = "";
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.stopPropagation();
+      setIsOpen(false);
     } else {
       return;
     }
@@ -149,14 +130,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   const handleSubmit = async () => {
     server_AddToFavoriteAction({
       categories: selectedItems,
-      podcasterId,
-      type: session?.data?.user?.type!,
-    });
-  };
-
-  const handleUnFavorite = async () => {
-    server_RemoveFromFavoriteAction({
-      podcasterId,
+      id: podcasterId,
       type: session?.data?.user?.type!,
     });
   };
@@ -183,6 +157,12 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
         onOpenAutoFocus={(e) => {
           e.preventDefault();
           e.stopPropagation();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.key === "Escape") {
+            setIsOpen(false);
+          }
         }}
         forceMount
       >
@@ -243,29 +223,6 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
                 </div>
                 <p className="text-center">
                   Add this podcast to the selected favorites lists
-                </p>
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="font-semibold h-7 w-full"
-                  onClick={handleUnFavorite}
-                >
-                  {isRemoveFavoritePending ? <ButtonLoader /> : "Unfavourite"}
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent
-                side="bottom"
-                className="max-w-40 flex flex-col items-center gap-1"
-              >
-                <div>
-                  <BadgeInfoIcon size={16} />
-                </div>
-                <p className="text-center">
-                  This would remove this podcast from all of your favorite lists
                 </p>
               </TooltipContent>
             </Tooltip>

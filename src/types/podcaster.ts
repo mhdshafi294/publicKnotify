@@ -1,12 +1,13 @@
 import { ApiResponse, Pagination } from ".";
-import { Favourite_Category } from "./podcast";
+import { Category } from "./podcast";
 
 export type Podcaster = {
   id: number;
   full_name: string;
   image: string;
   is_favorite: boolean;
-  categories: Favourite_Category[];
+  categories: Category[];
+  favourite_categories: Category[];
 };
 
 export type PodcastersResponse = ApiResponse & {

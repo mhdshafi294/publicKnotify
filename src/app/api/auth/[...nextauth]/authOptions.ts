@@ -17,7 +17,7 @@ export interface CustomUser {
   phone?: string;
   image?: string | null;
   access_token?: string;
-  type?: string;
+  type?: string | "user" | "podcaster" | "company";
 }
 
 export const authOptions: AuthOptions = {
