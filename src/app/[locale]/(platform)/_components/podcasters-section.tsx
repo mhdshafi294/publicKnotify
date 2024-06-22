@@ -49,7 +49,7 @@ const PodcastersSection = ({
 
   return (
     <MaxWidthContainer className="w-full">
-      <Carousel opts={{ slidesToScroll: "auto" }} className="w-full">
+      <Carousel opts={{ slidesToScroll: "auto" }} className="w-full" dir="ltr">
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl">Top Podcasters</h2>
           <div className="flex relative justify-end items-center end-[80px]">
@@ -57,14 +57,14 @@ const PodcastersSection = ({
             <CarouselNext />
           </div>
         </div>
-        <CarouselContent className="w-full mt-5">
+        <CarouselContent className="w-full mt-5 ms-0">
           {isPending ? (
             Array(10)
               .fill(0)
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6 ps-0"
                 >
                   <PodcasterCardLoading />
                 </CarouselItem>
@@ -76,7 +76,7 @@ const PodcastersSection = ({
               page.podcasters.map((podcaster) => (
                 <CarouselItem
                   key={podcaster.id}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6 ps-0"
                 >
                   <PodcasterCard podcaster={podcaster} />
                 </CarouselItem>
@@ -89,7 +89,7 @@ const PodcastersSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/6"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/6 ps-0"
                 >
                   <PodcasterCardLoading />
                 </CarouselItem>

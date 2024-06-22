@@ -20,7 +20,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
   );
 
   return (
-    <div className="w-full flex flex-col gap-3 rounded-lg overflow-hidden">
+    <div className="w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300">
       <div className="relative aspect-square rounded-lg">
         <Image
           src={podcaster.image ? podcaster.image : "/podcaster-filler.webp"}
@@ -57,7 +57,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
 
 export const PodcasterCardLoading = () => {
   return (
-    <div className="w-full flex flex-col gap-2 rounded-lg overflow-hidden">
+    <div className="w-full flex flex-col gap-2 rounded-lg overflow-hidden p-3">
       <Skeleton className="relative aspect-square rounded-lg" />
       <div className="flex items-center justify-between">
         <Skeleton className="h-3 w-16" />

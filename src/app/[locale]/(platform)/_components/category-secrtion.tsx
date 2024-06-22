@@ -19,6 +19,7 @@ const CategorySecrtion = async () => {
       <Carousel
         opts={{ align: "start", containScroll: false, dragFree: true }}
         className="w-full"
+        dir="ltr"
       >
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl capitalize">{t("moods")}</h2>
@@ -27,12 +28,9 @@ const CategorySecrtion = async () => {
           <CarouselNext />
         </div> */}
         </div>
-        <CarouselContent className="w-full mt-5 -ml-4">
+        <CarouselContent className="w-full mt-5 -ms-4">
           {categories.map((category) => (
-            <CarouselItem
-              key={category.id}
-              className="basis-auto md:basis-1/4 lg:basis-[14%]"
-            >
+            <CarouselItem key={category.id} className="basis-auto">
               <CategoryCard key={category.id} category={category} />
             </CarouselItem>
           ))}

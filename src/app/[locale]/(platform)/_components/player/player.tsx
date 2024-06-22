@@ -16,16 +16,19 @@ const Player = () => {
   const isPlaying = usePlayerStore((state) => state.isRunning);
   const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
   const toggleRunning = usePlayerStore((state) => state.toggleRunning);
+
+  const [volume, setVolume] = useState(1);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [sliderValue, setSliderValue] = useState([0]);
+
   const ref = useRef<ElementRef<"audio">>(null);
+
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
     enabled: !!podcastId,
     queryFn: () => getPodcastDataAction({ type: "user", id: podcastId! }),
   });
-  const [volume, setVolume] = useState(1);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [sliderValue, setSliderValue] = useState([0]);
 
   useEffect(() => {
     if (ref.current) {

@@ -1,3 +1,7 @@
+"use server";
+
+import changeRequestStatus from "@/services/requests/change-status";
+import getRequest from "@/services/requests/get-request";
 import getRequests from "@/services/requests/get-requests";
 
 export const getRequestsAction = async ({
@@ -17,6 +21,37 @@ export const getRequestsAction = async ({
     page,
     count,
     search,
+    status,
+    type,
+  });
+  return getRequestsResponse;
+};
+
+export const getRequestAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  const getRequestsResponse = await getRequest({
+    id,
+    type,
+  });
+  return getRequestsResponse;
+};
+
+export const changeRequestStatusAction = async ({
+  id,
+  status,
+  type,
+}: {
+  id: string;
+  status: string;
+  type: string;
+}) => {
+  const getRequestsResponse = await changeRequestStatus({
+    id,
     status,
     type,
   });

@@ -1,10 +1,12 @@
 import { getServerSession } from "next-auth";
-import { useTranslations } from "next-intl";
 
 import { redirect } from "@/navigation";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getTranslations } from "next-intl/server";
 import { getRequestsAction } from "@/app/actions/requestsActions";
+import RequestCard from "./components/request-card";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import InfiniteScrollRequests from "./components/infinite-scroll-requests";
 
 export default async function Requests({
   searchParams,
@@ -22,15 +24,16 @@ export default async function Requests({
   });
   const requestsData = requestsResponse.requests;
 
-  console.log(requestsData);
-
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <p>requests</p>
-        {requestsData.map((request) => (
-          <p key={request.id}>{request.name}</p>
-        ))}
+      <main className="py-10">
+        <MaxWidthContainer className="flex flex-col gap-7">
+          <p>requests</p>
+          <InfiniteScrollRequests
+            initialRequests={requestsData}
+            type="podcaster"
+          />
+        </MaxWidthContainer>
       </main>
     </>
   );

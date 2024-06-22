@@ -13,7 +13,7 @@ const DesktopNavbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
-  console.log(pathname);
+  // console.log(pathname);
 
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
@@ -26,7 +26,7 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.id}
-                href={`/${session?.user?.type}/${link.href}`}
+                href={`/${session?.user?.type}${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
                   " text-white hover:text-white border-white bg-transparent hover:bg-white/5",
@@ -40,7 +40,7 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.href}
-                href={`/${session?.user?.type}/${link.href}`}
+                href={`/${session?.user?.type}${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
 

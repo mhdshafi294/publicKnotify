@@ -27,7 +27,7 @@ export const authOptions: AuthOptions = {
       if (trigger === "update" && session?.image) {
         const user: CustomUser = token.user as CustomUser;
         user.image = session?.image;
-        console.log("The token is", token);
+        // console.log("The token is", token);
       }
       if (user) {
         token.user = user;
