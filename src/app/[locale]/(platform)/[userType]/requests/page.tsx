@@ -29,6 +29,7 @@ export default async function Requests({
       <main className="py-10">
         <MaxWidthContainer className="flex flex-col gap-7">
           <p>requests</p>
+          <div></div>
           <InfiniteScrollRequests
             initialRequests={requestsData}
             type="podcaster"
