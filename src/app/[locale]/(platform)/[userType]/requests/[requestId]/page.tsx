@@ -22,7 +22,9 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import ChangeRequestStatusButton from "./components/change-request-status-button";
+import ChangeRequestStatusButton from "./_components/change-request-status-button";
+import { useLocale } from "next-intl";
+import { getDirection } from "@/lib/utils";
 
 export default async function Request({
   params,
@@ -41,7 +43,10 @@ export default async function Request({
   });
   const request = requestsResponse.request;
 
-  console.log(request);
+  const locale = useLocale();
+  const direction = getDirection(locale);
+
+  // console.log(request);
 
   return (
     <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">
@@ -65,7 +70,7 @@ export default async function Request({
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-2">
-              <ScrollArea className="w-full whitespace-nowrap">
+              <ScrollArea className="w-full whitespace-nowrap" dir={direction}>
                 <div className="flex w-max gap-2 pb-3">
                   {request.hashTags.map((hashTag) => (
                     <div
@@ -84,7 +89,7 @@ export default async function Request({
               </div>
               <div className="flex gap-4 text-xs">
                 <div className="flex gap-1 items-center text-sm">
-                  <span className="text-xs text-muted-foreground mr-3">AD</span>
+                  <span className="text-xs text-muted-foreground me-3">AD</span>
                   <span className="text-xs text-muted-foreground">
                     <ReplaceAllIcon size={14} />
                   </span>
@@ -129,7 +134,7 @@ export default async function Request({
               </div>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <ScrollArea className="w-full whitespace-nowrap">
+              <ScrollArea className="w-full whitespace-nowrap" dir={direction}>
                 <div className="flex md:justify-end gap-2 w-full pb-3">
                   {request.categories.map((category) => (
                     <Link

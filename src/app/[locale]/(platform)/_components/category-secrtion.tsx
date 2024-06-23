@@ -9,17 +9,24 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { useLocale } from "next-intl";
+import { getDirection } from "@/lib/utils";
 
 const CategorySecrtion = async () => {
   const categories = await getCategory();
   const t = await getTranslations("Index");
+  const locale = useLocale();
+  const direction = getDirection(locale);
 
   return (
     <MaxWidthContainer className="w-full px-0 ps-4">
       <Carousel
-        opts={{ align: "start", containScroll: false, dragFree: true }}
+        opts={{
+          align: "start",
+          dragFree: true,
+          direction,
+        }}
         className="w-full"
-        dir="ltr"
       >
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl capitalize">{t("moods")}</h2>
@@ -28,7 +35,7 @@ const CategorySecrtion = async () => {
           <CarouselNext />
         </div> */}
         </div>
-        <CarouselContent className="w-full mt-5 -ms-4">
+        <CarouselContent className="w-full mt-5">
           {categories.map((category) => (
             <CarouselItem key={category.id} className="basis-auto">
               <CategoryCard key={category.id} category={category} />

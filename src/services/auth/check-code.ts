@@ -1,6 +1,5 @@
 import axiosInstance from "@/lib/axios.config";
 import { CHECK_CODE } from "@/lib/apiEndPoints";
-import { checkCodeSchema } from "@/schema/authSchema";
 import { ApiResponse } from "@/types";
 
 const ConfirmCheckCode = async ({

@@ -44,7 +44,7 @@ const DesktopNavbar = () => {
                 className={cn(
                   buttonVariants({ variant: "link" }),
 
-                  "text-white p-0 hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-3 hover:before:rounded-full",
+                  "text-white p-0 hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-4 hover:before:rounded-full",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:translate-y-4 before:rounded-full":
                       (pathname.includes(link.href) && link.href !== "/") ||
