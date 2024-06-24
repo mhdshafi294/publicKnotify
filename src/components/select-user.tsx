@@ -1,5 +1,4 @@
 import useGetClientsWithoutSearchParams from "@/features/clients/hooks/use-get-client-without-search-params";
-import { useDebounceValue } from "@/hooks/use-debounce-value";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useState } from "react";
@@ -13,10 +12,9 @@ import {
 } from "./ui/command";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useTranslation } from "react-i18next";
-import useDirection from "@/hooks/use-direction";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import { useDebounce } from "use-debounce";
 
 type PropsType = {
   value: string;
@@ -24,10 +22,9 @@ type PropsType = {
 };
 
 const SelectUser: FC<PropsType> = ({ value, setValue }) => {
-  const { t } = useTranslation();
-  const dir = useDirection();
   const [open, setOpen] = useState(false);
-  const [debouncedValue, setDebouncedValue] = useDebounceValue("", 1000);
+  const [preDebouncedValue, setDebouncedValue] = useState("");
+  const [debouncedValue] = useDebounce(preDebouncedValue, 750);
   const { data, isPending, isError, isFetching } =
     useGetClientsWithoutSearchParams(debouncedValue);
 
@@ -35,7 +32,6 @@ const SelectUser: FC<PropsType> = ({ value, setValue }) => {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          dir={dir}
           variant="outline"
           role="combobox"
           aria-expanded={open}
