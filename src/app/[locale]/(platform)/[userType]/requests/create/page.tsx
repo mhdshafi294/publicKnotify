@@ -23,6 +23,7 @@ import {
 import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
+import TimePicker from "@/components/ui/time-picker";
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/navigation";
 import { createRequestSchema } from "@/schema/requestSchema";
@@ -161,10 +162,15 @@ const CreateRequest = ({
                     control={form.control}
                     className="w-full"
                   />
-                  <div className="w-full flex justify-between items-center">
+                  <div className="w-full flex justify-start gap-5 items-center">
                     <DatePicker
                       name="publishing_date"
                       label="Date"
+                      control={form.control}
+                    />
+                    <TimePicker
+                      name="publishing_time"
+                      label="Time"
                       control={form.control}
                     />
                   </div>
