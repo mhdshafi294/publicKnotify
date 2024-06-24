@@ -2,6 +2,7 @@
 
 import cancelRequest from "@/services/requests/cancel-status";
 import changeRequestStatus from "@/services/requests/change-status";
+import createRequest from "@/services/requests/create-request";
 import getRequest from "@/services/requests/get-request";
 import getRequests from "@/services/requests/get-requests";
 
@@ -71,4 +72,15 @@ export const cancelRequestAction = async ({
     type,
   });
   return getRequestsResponse;
+};
+
+export const createRequestAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  const createRequestResponse = await createRequest({ formData, type });
+  return createRequestResponse;
 };

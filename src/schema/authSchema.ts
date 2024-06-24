@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const phoneRegex = new RegExp(
+export const phoneRegex = new RegExp(
   /^[+]?[(]?[0-9]{1,3}(?:[-\s]?[0-9]{1,4})?[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im
 );
 

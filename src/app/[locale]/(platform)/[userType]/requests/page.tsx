@@ -44,7 +44,7 @@ export default async function Requests({
               <Search searchText={search} searchFor="requests" />
               {session?.user?.type === "company" && (
                 <Link
-                  href="/requests/create"
+                  href="requests/create"
                   className={cn(buttonVariants({ variant: "outline" }))}
                 >
                   Create
