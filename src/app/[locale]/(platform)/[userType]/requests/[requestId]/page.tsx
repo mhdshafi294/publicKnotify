@@ -25,6 +25,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import ChangeRequestStatusButton from "./_components/change-request-status-button";
 import { useLocale } from "next-intl";
 import { getDirection } from "@/lib/utils";
+import CancelRequestButton from "./_components/cancel-request-button";
 
 export default async function Request({
   params,
@@ -191,16 +192,29 @@ export default async function Request({
                 </div>
               </div>
               <div className="w-full flex flex-col gap-3 mt-5 self-end">
-                <ChangeRequestStatusButton
-                  requestId={params?.requestId}
-                  userType={session?.user?.type!}
-                  status="accept"
-                />
-                <ChangeRequestStatusButton
-                  requestId={params?.requestId}
-                  userType={session?.user?.type!}
-                  status="reject"
-                />
+                {session?.user?.type === "podcaster" &&
+                request.status.toLowerCase() === "accepted by admin" ? (
+                  <>
+                    <ChangeRequestStatusButton
+                      requestId={params?.requestId}
+                      userType={session?.user?.type!}
+                      status="accept"
+                    />
+                    <ChangeRequestStatusButton
+                      requestId={params?.requestId}
+                      userType={session?.user?.type!}
+                      status="reject"
+                    />
+                  </>
+                ) : session?.user?.type === "company" &&
+                  request.status.toLowerCase() === "accepted by admin" ? (
+                  <CancelRequestButton
+                    requestId={params?.requestId}
+                    userType={session?.user?.type!}
+                  />
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </CardContent>

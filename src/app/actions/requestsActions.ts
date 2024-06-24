@@ -1,5 +1,6 @@
 "use server";
 
+import cancelRequest from "@/services/requests/cancel-status";
 import changeRequestStatus from "@/services/requests/change-status";
 import getRequest from "@/services/requests/get-request";
 import getRequests from "@/services/requests/get-requests";
@@ -53,6 +54,20 @@ export const changeRequestStatusAction = async ({
   const getRequestsResponse = await changeRequestStatus({
     id,
     status,
+    type,
+  });
+  return getRequestsResponse;
+};
+
+export const cancelRequestAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  const getRequestsResponse = await cancelRequest({
+    id,
     type,
   });
   return getRequestsResponse;
