@@ -39,7 +39,7 @@ function DatePicker<T extends FieldValues>({
       name={name.toString()} //"publishing_date"
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="capitalize text-lg">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>

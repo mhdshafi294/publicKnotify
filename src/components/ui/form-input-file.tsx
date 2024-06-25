@@ -37,10 +37,10 @@ function FormFileInput<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div className="relative cursor-pointer w-full">
+            <div className="relative cursor-pointer w-full h-10">
               <Input
                 className={cn(
-                  "!w-full bg-greeny opacity-0 cursor-pointer z-10",
+                  "w-full absolute bg-greeny top-0 left-0 opacity-0 cursor-pointer z-20",
                   className
                 )}
                 type="file"
@@ -51,7 +51,7 @@ function FormFileInput<T extends FieldValues>({
                 }
                 {...props}
               />
-              <div className="absolute inset-0 w-full h-full bg-greeny rounded flex justify-center items-center">
+              <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
                 <Upload color="black" />
               </div>
             </div>

@@ -1,30 +1,33 @@
 import { Control, FieldValues } from "react-hook-form";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "./form";
-import { Input } from "./input";
 import { ComponentPropsWithoutRef } from "react";
+import { Textarea } from "./textarea";
 import { cn } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
-  className?: string;
   label: string;
-  labelClassName?: string | undefined;
+  className?: string;
+  labelClassName?: string;
+  placeholder?: string;
   control: Control<T>;
 }
 
-function FormInput<T extends FieldValues>({
+function FormInputTextarea<T extends FieldValues>({
   control,
   name,
   className,
   label,
   labelClassName,
+  placeholder,
   ...props
 }: PropsType<T>) {
   return (
@@ -32,12 +35,16 @@ function FormInput<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full">
+        <FormItem>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
           <FormControl>
-            <Input className={cn("w-full", className)} {...props} {...field} />
+            <Textarea
+              placeholder={placeholder}
+              className={cn("resize-none", className)}
+              {...field}
+            />
           </FormControl>
           <FormMessage className="capitalize font-normal" />
         </FormItem>
@@ -46,4 +53,4 @@ function FormInput<T extends FieldValues>({
   );
 }
 
-export default FormInput;
+export default FormInputTextarea;

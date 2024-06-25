@@ -139,14 +139,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
               name="documents"
               label="Docs"
               control={form.control}
-              className="w-[280px]"
+              className="w-full"
             />
           )}
         </div>
         <FormCheckbox
           name="terms"
           control={form.control}
-          className="rounded-full size-4"
+          checkboxClassName="rounded-full size-4"
           label="I accept the terms and privacy policy"
         />
         <Button

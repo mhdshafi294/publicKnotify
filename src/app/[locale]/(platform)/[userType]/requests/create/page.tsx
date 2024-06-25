@@ -1,6 +1,7 @@
 "use client";
 
 import { createRequestAction } from "@/app/actions/requestsActions";
+import SelectPodcaster from "@/components/select-podcaster";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
@@ -24,7 +25,6 @@ import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
 import TimePicker from "@/components/ui/time-picker";
-import { cn } from "@/lib/utils";
 import { useRouter } from "@/navigation";
 import { createRequestSchema } from "@/schema/requestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,6 +34,10 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import RadioGroupFormInput from "../../../../../../components/ui/radio-group-form-input";
+import FormInputTextarea from "@/components/ui/form-input-textarea";
+import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
+import ArrayFormInput from "@/components/ui/array-form-input";
 
 const CreateRequest = ({
   params,
@@ -51,7 +55,10 @@ const CreateRequest = ({
   }, []);
 
   useEffect(() => {
-    if (isMounted && session?.user?.type !== "company") {
+    if (
+      isMounted &&
+      (session?.user?.type === "user" || session?.user?.type === "podcaster")
+    ) {
       router.push(`/${session?.user?.type}`);
     }
   }, [isMounted, session, router]);
@@ -78,6 +85,7 @@ const CreateRequest = ({
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -121,8 +129,10 @@ const CreateRequest = ({
     },
   });
 
+  if (!isMounted) return null;
+
   return (
-    <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">
+    <main className="flex flex-col items-center justify-center gap-6 w-full mt-10">
       <Form {...form}>
         <form
           className="w-full px-0"
@@ -130,39 +140,95 @@ const CreateRequest = ({
             handleSubmit(data);
           })}
         >
-          <MaxWidthContainer className="grid grid-cols-12">
-            <div className="col-span-3 me-10">
-              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-3">
-                <CardHeader>Where to add your Ad</CardHeader>
-                <CardContent></CardContent>
+          <MaxWidthContainer className="grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
+            <div className="lg:col-span-3 me-10 h-full">
+              <Card className="bg-card/50 border-card-foreground/10 w-full h-full lg:px-5 lg:py-10 ">
+                <CardHeader className="py-0 px-0 text-xl">
+                  Where to add your AD
+                </CardHeader>
+                <CardContent className="px-0 mt-5">
+                  <RadioGroupFormInput
+                    name="ad_place"
+                    label="AD position"
+                    control={form.control}
+                    options={["first", "end", "middle", "video"]}
+                    className="bg-background h-full py-5 rounded-lg px-3"
+                    labelClassName="text-lg"
+                    groupClassName="flex-col items-start gap-3"
+                    groupItemClassName="bg-card/50 rounded-lg p-5 w-full"
+                    radioGroupItemClassName="size-6 border-none bg-greeny/10"
+                  />
+                </CardContent>
               </Card>
             </div>
-            <div className="col-span-9 space-y-5">
+            <div className="lg:col-span-9 space-y-5">
               <div className="w-full flex justify-between">
                 <h1 className="text-xl font-bold">Create Request</h1>
               </div>
-              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-3">
-                <CardContent className="flex flex-col gap-5">
-                  <div className="w-full flex justify-between items-center">
+              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-10">
+                <CardContent className="flex flex-col gap-7">
+                  <div className="w-full flex justify-between items-center gap-5">
                     <FormInput
                       name="name"
+                      className="bg-background w-full"
+                      placeholder="Podcast Name"
                       label="Name"
                       control={form.control}
                     />
+                    <FormField
+                      control={form.control}
+                      name="podcaster_id"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel className="text-lg capitalize">
+                            Podcaster
+                          </FormLabel>
+                          <SelectPodcaster
+                            setValue={field.onChange}
+                            value={field.value}
+                          />
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-                  <FormFileInput
-                    name="thumbnail"
-                    label="Thumbnail"
+                  <FormInputTextarea
+                    name="summary"
+                    label="Podcast Summary"
+                    placeholder="Tell us a little about your podcast"
                     control={form.control}
-                    className="w-full"
                   />
-                  <FormFileInput
-                    name="background"
-                    label="Background"
-                    control={form.control}
-                    className="w-full"
-                  />
-                  <div className="w-full flex justify-start gap-5 items-center">
+                  <div className="w-full flex justify-between items-center gap-5">
+                    <FormFileInput
+                      name="thumbnail"
+                      label="Thumbnail"
+                      control={form.control}
+                      className="w-full"
+                    />
+                    <FormFileInput
+                      name="background"
+                      label="Background"
+                      control={form.control}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="w-full flex justify-between gap-5 items-start">
+                    <RadioGroupFormInput
+                      name="type"
+                      label="Type"
+                      control={form.control}
+                      options={["video", "audio"]}
+                      className="h-[65px]"
+                    />
+                    <div>
+                      <FormInput
+                        name="company_tag"
+                        className="bg-background"
+                        placeholder="Company"
+                        label="Company Tag"
+                        control={form.control}
+                      />
+                    </div>
                     <DatePicker
                       name="publishing_date"
                       label="Date"
@@ -173,11 +239,38 @@ const CreateRequest = ({
                       label="Time"
                       control={form.control}
                     />
+                    <DurationPickerFormInput
+                      name="ad_period"
+                      className="bg-background"
+                      label="Period"
+                      control={form.control}
+                    />
                   </div>
+
+                  <div className="w-full flex justify-between gap-5">
+                    <div className="w-1/2">
+                      <ArrayFormInput
+                        name="categories"
+                        control={form.control}
+                        label="Categories"
+                        className="w-full bg-background"
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <ArrayFormInput
+                        name="hashtags"
+                        control={form.control}
+                        label="Hashtags"
+                        className="w-full bg-background"
+                      />
+                    </div>
+                  </div>
+
                   <FormCheckbox
                     name="terms"
                     control={form.control}
-                    className="rounded-full size-4"
+                    className="mt-5"
+                    checkboxClassName="size-4 rounded-full"
                     label="I accept the terms and privacy policy"
                   />
                 </CardContent>

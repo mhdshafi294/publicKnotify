@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ComponentPropsWithoutRef } from "react";
+import { cn } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -33,12 +34,14 @@ function TimePicker<T extends FieldValues>({
       name={name.toString()}
       render={({ field }) => (
         <FormItem className="flex flex-col space-y-2">
-          <FormLabel className={labelClassName}>{label}</FormLabel>
+          <FormLabel className={cn(" capitalize text-lg", labelClassName)}>
+            {label}
+          </FormLabel>
           <FormControl>
             <div className="relative group">
               <div className="absolute inset-y-0 end-px top-0 flex items-center pe-3.5 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-600 group-hover:text-background dark:text-gray-400"
+                  className="size-4 text-gray-600  dark:text-gray-400"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"

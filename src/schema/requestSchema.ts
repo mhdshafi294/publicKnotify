@@ -68,7 +68,7 @@ export const createRequestSchema = z
     ad_period: z.string().refine((val) => timeRegex.test(val), {
       message: "Invalid time format. Expected HH:mm (24-hour format).",
     }),
-    ad_place: z.enum(["middle", "end", "first"], {
+    ad_place: z.enum(["middle", "end", "first", "video"], {
       required_error: "You need to select the position of your ad.",
     }),
     podcaster_id: z.string().min(1, "error-message.podcaster_id"),
