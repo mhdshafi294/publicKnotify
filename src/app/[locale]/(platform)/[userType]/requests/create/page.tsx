@@ -38,6 +38,8 @@ import RadioGroupFormInput from "../../../../../../components/ui/radio-group-for
 import FormInputTextarea from "@/components/ui/form-input-textarea";
 import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
 import ArrayFormInput from "@/components/ui/array-form-input";
+import ToggleFormInput from "@/components/ui/toggle-form-input";
+import { AppleIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 
 const CreateRequest = ({
   params,
@@ -142,7 +144,7 @@ const CreateRequest = ({
         >
           <MaxWidthContainer className="grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
             <div className="lg:col-span-3 me-10 h-full">
-              <Card className="bg-card/50 border-card-foreground/10 w-full h-full lg:px-5 lg:py-10 ">
+              <Card className="bg-card/50 border-card-foreground/10 w-full h-full lg:px-5 lg:py-10 lg:pb-2 ">
                 <CardHeader className="py-0 px-0 text-xl">
                   Where to add your AD
                 </CardHeader>
@@ -153,11 +155,28 @@ const CreateRequest = ({
                     control={form.control}
                     options={["first", "end", "middle", "video"]}
                     className="bg-background h-full py-5 rounded-lg px-3"
-                    labelClassName="text-lg"
+                    labelClassName="text-lg w-full h-full"
                     groupClassName="flex-col items-start gap-3"
-                    groupItemClassName="bg-card/50 rounded-lg p-5 w-full"
+                    groupItemClassName="bg-card/50 rounded-lg px-5 w-full"
                     radioGroupItemClassName="size-6 border-none bg-greeny/10"
                   />
+                  <div className="space-y-2 mt-5">
+                    <p className="text-lg">Distripution Channels</p>
+                    <div className="w-full flex justify-start gap-2 items-center">
+                      <ToggleFormInput
+                        name="publish_youtube"
+                        control={form.control}
+                        className=" size-10 px-1.5"
+                        icon={<YoutubeIcon size={32} />}
+                      />
+                      <ToggleFormInput
+                        name="publish_spotify"
+                        control={form.control}
+                        className=" size-10 px-1.5"
+                        icon={<TwitterIcon size={32} />}
+                      />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -165,7 +184,7 @@ const CreateRequest = ({
               <div className="w-full flex justify-between">
                 <h1 className="text-xl font-bold">Create Request</h1>
               </div>
-              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-10">
+              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-10 lg:pb-2">
                 <CardContent className="flex flex-col gap-7">
                   <div className="w-full flex justify-between items-center gap-5">
                     <FormInput
@@ -265,11 +284,10 @@ const CreateRequest = ({
                       />
                     </div>
                   </div>
-
                   <FormCheckbox
                     name="terms"
                     control={form.control}
-                    className="mt-5"
+                    className="mt-0"
                     checkboxClassName="size-4 rounded-full"
                     label="I accept the terms and privacy policy"
                   />
@@ -277,7 +295,7 @@ const CreateRequest = ({
                 <CardFooter>
                   <Button
                     disabled={isPending}
-                    className="w-full capitalize mt-8"
+                    className="w-full capitalize mt-0"
                     type="submit"
                   >
                     {isPending ? <ButtonLoader /> : "Continue"}

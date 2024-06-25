@@ -62,10 +62,12 @@ function RadioGroupFormInput<T extends FieldValues>({
                   <FormControl>
                     <RadioGroupItem
                       value={option}
-                      className={cn(radioGroupItemClassName)}
+                      className={cn("min-w-fit", radioGroupItemClassName)}
                     />
                   </FormControl>
-                  <FormLabel className="capitalize">{option}</FormLabel>
+                  <FormLabel className="capitalize w-full h-full py-5">
+                    {option}
+                  </FormLabel>
                 </FormItem>
               ))}
             </RadioGroup>

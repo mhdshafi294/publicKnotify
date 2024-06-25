@@ -30,8 +30,13 @@ function ArrayFormInput<T extends FieldValues>({
   labelClassName,
   ...props
 }: PropsType<T>) {
-  const { setValue } = useFormContext();
+  const { setValue, getValues } = useFormContext();
   const [items, setItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    setValue(name.toString(), items);
+    console.log(items, getValues(name as string));
+  }, [items]);
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === " ") {
@@ -47,6 +52,7 @@ function ArrayFormInput<T extends FieldValues>({
 
       setValue(name.toString(), items);
     } else return;
+    console.log(items, getValues(name as string));
   };
 
   return (
@@ -67,7 +73,6 @@ function ArrayFormInput<T extends FieldValues>({
               />
               <ScrollArea className="w-full whitespace-nowrap mt-3">
                 <div className="flex gap-2 pb-2">
-                  <ScrollBar orientation="horizontal" className="h-1.5" />
                   {items.map((item, index) => (
                     <div
                       key={index}
@@ -76,6 +81,7 @@ function ArrayFormInput<T extends FieldValues>({
                       #{item}
                     </div>
                   ))}
+                  <ScrollBar orientation="horizontal" className="h-1.5" />
                 </div>
               </ScrollArea>
             </div>
