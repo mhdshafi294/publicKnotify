@@ -21,6 +21,7 @@ export const REQUEST = "/request";
 export const INDEX = "/index";
 export const SHOW = "/show";
 export const CREATE = "/create";
+export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";
 
 export const POST_URL = "/post";

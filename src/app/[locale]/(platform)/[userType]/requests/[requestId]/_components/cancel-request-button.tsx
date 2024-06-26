@@ -6,6 +6,7 @@ import { cancelRequestAction } from "@/app/actions/requestsActions";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import { useRouter } from "next/navigation";
 
 const CancelRequestButton = ({
   requestId,
@@ -14,21 +15,29 @@ const CancelRequestButton = ({
   requestId: string;
   userType: string;
 }) => {
+  const router = useRouter();
+
   const {
     data,
     mutate: server_cancelRequestAction,
     isPending,
   } = useMutation({
     mutationFn: cancelRequestAction,
+    onMutate: () => {
+      toast.loading("Canceling request...");
+    },
     onSuccess: () => {
+      toast.dismiss();
       toast.success("The request has been canceled");
+      router.push(`/${userType}/requests`);
     },
     onError: () => {
+      toast.dismiss();
       toast.error("Something went wrong.please try again!");
     },
   });
 
-  const handleAccept = async () => {
+  const handleCancel = async () => {
     server_cancelRequestAction({
       id: requestId,
       type: userType,
@@ -40,7 +49,7 @@ const CancelRequestButton = ({
       disabled={isPending}
       className="capitalize mx-auto w-full"
       variant={status === "reject" ? "destructive" : "default"}
-      onClick={handleAccept}
+      onClick={handleCancel}
     >
       {isPending ? <ButtonLoader /> : `Cancel`}
     </Button>

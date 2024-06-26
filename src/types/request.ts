@@ -1,4 +1,7 @@
 import { ApiResponse, Pagination } from ".";
+import { Company } from "./company";
+import { CategoryDetails } from "./podcast";
+import { Podcaster } from "./podcaster";
 
 export type Request = {
   id: number;
@@ -8,7 +11,8 @@ export type Request = {
   ad_cost: string;
   ad_place: string;
   publishing_date: string;
-  company: RequestCompany;
+  company?: Company;
+  podcaster?: Podcaster;
   created_at: string;
 };
 
@@ -24,26 +28,37 @@ export type RequestDetails = {
   ad_place: string;
   company_tag: string;
   summary: string;
-  categories: RequestCategories[];
-  company: RequestCompany;
+  categories: CategoryDetails[];
+  company?: Company;
+  podcaster?: Podcaster;
   hashTags: RequestHashTags[];
   thumbnail: string;
   background: string;
   // created_at: string;
 };
 
-export type RequestCompany = {
-  id: number;
-  full_name: string;
-};
+// export type RequestCompany = {
+//   id: number;
+//   full_name: string;
+//   phone: string,
+//   iso_code: string,
+//   email: string,
+//   image: string,
+//   is_favorite: boolean,
+//   favourite_categories: string[]
+// };
+// export type RequestPodcaster = {
+//   id: number;
+//   full_name: string;
+// };
 
-export type RequestCategories = {
-  id: number;
-  name: string;
-  podcasts_count: number | null;
-  image: string;
-  created_at: string;
-};
+// export type RequestCategories = {
+//   id: number;
+//   name: string;
+//   podcasts_count: number | null;
+//   image: string;
+//   created_at: string;
+// };
 
 export type RequestHashTags = {
   id: number;

@@ -1,4 +1,9 @@
 "use client";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { createRequestAction } from "@/app/actions/requestsActions";
 import SelectPodcaster from "@/components/select-podcaster";
@@ -14,8 +19,6 @@ import {
 import DatePicker from "@/components/ui/date-picker";
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,18 +31,16 @@ import TimePicker from "@/components/ui/time-picker";
 import { useRouter } from "@/navigation";
 import { createRequestSchema } from "@/schema/requestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import RadioGroupFormInput from "../../../../../../components/ui/radio-group-form-input";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import RadioGroupFormInput from "@/components/ui/radio-group-form-input";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
 import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
 import ArrayFormInput from "@/components/ui/array-form-input";
 import ToggleFormInput from "@/components/ui/toggle-form-input";
-import { AppleIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+import { YoutubeIcon } from "lucide-react";
+import SpotifyIcon from "@/components/icons/spotify-icon";
+import { getCategoriesAction } from "@/app/actions/podcastActions";
+import ArraySelectFormInput from "@/components/ui/array-select-form-input";
 
 const CreateRequest = ({
   params,
@@ -86,8 +87,38 @@ const CreateRequest = ({
     },
   });
 
+  // const {
+  //   data: categories,
+  //   isPending: isCategoriesPending,
+  //   isError: isCategoriesError,
+  // } = useQuery({
+  //   queryKey: ["categories"],
+  //   queryFn: () => getCategoriesAction(),
+  // });
+
+  const {
+    data,
+    mutate: server_createRequestAction,
+    isPending,
+    error,
+  } = useMutation({
+    mutationFn: createRequestAction,
+    onMutate: () => {
+      toast.loading("Creating request...");
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      toast.success("Request created successfully");
+      router.push(`/company/requests`);
+    },
+    onError: () => {
+      toast.dismiss();
+      toast.error("Something went wrong. Please try again!");
+      console.log(error);
+    },
+  });
+
   const handleSubmit = async (data: createRequestSchema) => {
-    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -111,25 +142,11 @@ const CreateRequest = ({
     formData.append("ad_period", data.ad_period);
     formData.append("ad_place", data.ad_place);
     formData.append("podcaster_id", data.podcaster_id);
-    formData.append("publish_youtube", data.podcaster_id);
-    formData.append("publish_spotify", data.podcaster_id);
+    formData.append("publish_youtube", data.publish_youtube);
+    formData.append("publish_spotify", data.publish_spotify);
 
     server_createRequestAction({ formData, type: "company" });
   };
-
-  const {
-    data,
-    mutate: server_createRequestAction,
-    isPending,
-  } = useMutation({
-    mutationFn: createRequestAction,
-    onSuccess: () => {
-      router.push(`/company/requests`);
-    },
-    onError: () => {
-      toast.error("Something went wrong. Please try again!");
-    },
-  });
 
   if (!isMounted) return null;
 
@@ -173,7 +190,7 @@ const CreateRequest = ({
                         name="publish_spotify"
                         control={form.control}
                         className=" size-10 px-1.5"
-                        icon={<TwitterIcon size={32} />}
+                        icon={<SpotifyIcon size={32} />}
                       />
                     </div>
                   </div>
@@ -236,7 +253,7 @@ const CreateRequest = ({
                       name="type"
                       label="Type"
                       control={form.control}
-                      options={["video", "audio"]}
+                      options={["audio", "video"]}
                       className="h-[65px]"
                     />
                     <div>
@@ -265,25 +282,22 @@ const CreateRequest = ({
                       control={form.control}
                     />
                   </div>
+                  {/* <div className="w-full flex justify-between gap-5"> */}
+                  <ArraySelectFormInput
+                    name="categories"
+                    control={form.control}
+                    label="Categories"
+                    className="w-full bg-background"
+                    action={getCategoriesAction()}
+                  />
+                  <ArrayFormInput
+                    name="hashtags"
+                    control={form.control}
+                    label="Hashtags"
+                    className="w-full bg-background"
+                  />
 
-                  <div className="w-full flex justify-between gap-5">
-                    <div className="w-1/2">
-                      <ArrayFormInput
-                        name="categories"
-                        control={form.control}
-                        label="Categories"
-                        className="w-full bg-background"
-                      />
-                    </div>
-                    <div className="w-1/2">
-                      <ArrayFormInput
-                        name="hashtags"
-                        control={form.control}
-                        label="Hashtags"
-                        className="w-full bg-background"
-                      />
-                    </div>
-                  </div>
+                  {/* </div> */}
                   <FormCheckbox
                     name="terms"
                     control={form.control}

@@ -33,6 +33,7 @@ export default async function Requests({
     status,
   });
   const requestsData = requestsResponse.requests;
+  // console.log(requestsData);
 
   return (
     <>

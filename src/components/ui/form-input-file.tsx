@@ -52,7 +52,18 @@ function FormFileInput<T extends FieldValues>({
                 {...props}
               />
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
-                <Upload color="black" />
+                {/* <Upload color="black" /> */}
+                {field.value?.name ? (
+                  <p className="text-black font-semibold">
+                    {field.value?.name.length > 20
+                      ? field.value?.name.slice(0, 20) +
+                        "..." +
+                        field.value?.name.slice(-3)
+                      : field.value?.name}
+                  </p>
+                ) : (
+                  <Upload color="black" />
+                )}
               </div>
             </div>
           </FormControl>

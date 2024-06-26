@@ -59,7 +59,9 @@ export default async function Request({
                 <CardTitle className="capitalize">{request.name}</CardTitle>
                 <CardDescription className="">
                   <span className="capitalize text-base text-card-foreground ">
-                    {request.company.full_name}{" "}
+                    {request.company
+                      ? request.company?.full_name
+                      : request.podcaster?.full_name}{" "}
                   </span>
                   {request.company_tag}
                 </CardDescription>
@@ -210,7 +212,7 @@ export default async function Request({
                   request.status.toLowerCase() === "accepted by admin" ? (
                   <CancelRequestButton
                     requestId={params?.requestId}
-                    userType={session?.user?.type!}
+                    userType={"company"}
                   />
                 ) : (
                   <></>

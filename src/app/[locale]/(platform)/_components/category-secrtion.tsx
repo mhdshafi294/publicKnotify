@@ -1,4 +1,4 @@
-import getCategory from "@/services/podcast/get-category";
+import getCategories from "@/services/podcast/get-categories";
 import { getTranslations } from "next-intl/server";
 import CategoryCard from "./category-card";
 import {
@@ -13,7 +13,7 @@ import { useLocale } from "next-intl";
 import { getDirection } from "@/lib/utils";
 
 const CategorySecrtion = async () => {
-  const categories = await getCategory();
+  const categories = await getCategories();
   const t = await getTranslations("Index");
   const locale = useLocale();
   const direction = getDirection(locale);

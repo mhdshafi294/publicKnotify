@@ -12,6 +12,7 @@ import { Input } from "./input";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
+import { Trash, X } from "lucide-react";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -35,24 +36,23 @@ function ArrayFormInput<T extends FieldValues>({
 
   useEffect(() => {
     setValue(name.toString(), items);
-    console.log(items, getValues(name as string));
+    // console.log(items, getValues(name as string));
   }, [items]);
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === " ") {
+    if (event.key === " " && event.currentTarget.value.trim() !== "") {
       const createdCategory = event.currentTarget.value;
       setItems((prev) => {
-        if (!prev.includes(createdCategory)) {
-          return [...prev, createdCategory];
+        if (!prev.includes(createdCategory.trim())) {
+          return [...prev, createdCategory.trim()];
         } else {
           return prev;
         }
       });
       event.currentTarget.value = "";
 
-      setValue(name.toString(), items);
+      // setValue(name.toString(), items);
     } else return;
-    console.log(items, getValues(name as string));
   };
 
   return (
@@ -65,7 +65,7 @@ function ArrayFormInput<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div>
+            <div className="flex flex-col md:flex-row gap-3 items-center">
               <Input
                 onKeyDown={createNewCategory}
                 placeholder={`# ${name.toString()}, press SPACE to add`}
@@ -76,8 +76,17 @@ function ArrayFormInput<T extends FieldValues>({
                   {items.map((item, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-center bg-greeny text-black rounded-lg text-sm py-1 px-3 h-7 font-semibold"
+                      className="flex items-center justify-center relative group bg-greeny text-black rounded-lg text-sm py-1 px-3 h-7 font-semibold overflow-hidden"
+                      onClick={() => {
+                        setItems((prev) => prev.filter((i) => i !== item));
+                      }}
                     >
+                      <span
+                        className="absolute w-full h-full bg-red-500 top-0 left-0 hidden group-hover:flex text-white justify-center items-center"
+                        aria-hidden
+                      >
+                        <Trash size={18} />
+                      </span>
                       #{item}
                     </div>
                   ))}

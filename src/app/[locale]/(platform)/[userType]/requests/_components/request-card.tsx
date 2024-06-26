@@ -17,6 +17,7 @@ type RequestCardProps = {
 };
 
 const RequestCard: FC<RequestCardProps> = ({ request }) => {
+  console.log(request);
   return (
     <Card className=" bg-card/50 border-card-foreground/10">
       <CardHeader>
@@ -39,15 +40,17 @@ const RequestCard: FC<RequestCardProps> = ({ request }) => {
             </div>
             <p className="text-sm capitalize">
               <span className="text-xs text-card-foreground/50">From </span>
-              {request.company.full_name}
+              {request.company
+                ? request.company?.full_name
+                : request.podcaster?.full_name}
             </p>
           </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="flex items-stretch">
-          <p className="flex-grow-[5]">{request.summary}</p>
-          <div className="flex flex-col gap-2 flex-grow">
+        <div className="flex items-stretch gap-2">
+          <p className="w-4/5 text-wrap overflow-hidden">{request.summary}</p>
+          <div className="flex flex-col gap-2 w-1/5">
             <div>
               <p className="text-xs text-card-foreground/50">Publish date</p>
               <p className="text-xs">{request.publishing_date}</p>
