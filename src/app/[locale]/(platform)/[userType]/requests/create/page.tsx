@@ -32,7 +32,7 @@ import { useRouter } from "@/navigation";
 import { createRequestSchema } from "@/schema/requestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import RadioGroupFormInput from "@/components/ui/radio-group-form-input";
+import PriceRadioGroupFormInput from "@/components/ui/price-radio-group-form-input";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
 import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
 import ArrayFormInput from "@/components/ui/array-form-input";
@@ -41,6 +41,7 @@ import { YoutubeIcon } from "lucide-react";
 import SpotifyIcon from "@/components/icons/spotify-icon";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
 import ArraySelectFormInput from "@/components/ui/array-select-form-input";
+import { getPodcasterAction } from "@/app/actions/podcasterActions";
 
 const CreateRequest = ({
   params,
@@ -71,7 +72,7 @@ const CreateRequest = ({
     defaultValues: {
       name: "",
       summary: "",
-      type: "video",
+      type: "audio",
       publishing_date: new Date(),
       publishing_time: "16:11",
       company_tag: "",
@@ -79,7 +80,7 @@ const CreateRequest = ({
       background: new File([], ""),
       categories: [],
       hashtags: [],
-      ad_period: "16:11",
+      ad_period: "1:0",
       ad_place: "first",
       podcaster_id: "",
       publish_youtube: "0",
@@ -87,14 +88,27 @@ const CreateRequest = ({
     },
   });
 
-  // const {
-  //   data: categories,
-  //   isPending: isCategoriesPending,
-  //   isError: isCategoriesError,
-  // } = useQuery({
-  //   queryKey: ["categories"],
-  //   queryFn: () => getCategoriesAction(),
-  // });
+  const podcasterId = form.watch("podcaster_id");
+
+  const {
+    data: podcasterResponse,
+    isPending: ispodcasterPending,
+    isError: ispodcasterError,
+    refetch: refetchPodcaster,
+  } = useQuery({
+    queryKey: ["podcasterRequest"],
+    queryFn: () =>
+      getPodcasterAction({ id: podcasterId, type: session?.user?.type! }),
+    enabled: !!podcasterId,
+  });
+
+  useEffect(() => {
+    if (podcasterId) {
+      refetchPodcaster();
+    }
+  }, [podcasterId, refetchPodcaster]);
+
+  const podcaster = podcasterResponse?.podcaster;
 
   const {
     data,
@@ -119,6 +133,7 @@ const CreateRequest = ({
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -142,8 +157,14 @@ const CreateRequest = ({
     formData.append("ad_period", data.ad_period);
     formData.append("ad_place", data.ad_place);
     formData.append("podcaster_id", data.podcaster_id);
-    formData.append("publish_youtube", data.publish_youtube);
-    formData.append("publish_spotify", data.publish_spotify);
+    data.publish_youtube === "0"
+      ? formData.append("publish_youtube", data.publish_youtube)
+      : null;
+    data.publish_spotify === "0"
+      ? formData.append("publish_youtube", data.publish_spotify)
+      : null;
+    // formData.append("publish_youtube", data.publish_youtube);
+    // formData.append("publish_spotify", data.publish_spotify);
 
     server_createRequestAction({ formData, type: "company" });
   };
@@ -159,18 +180,19 @@ const CreateRequest = ({
             handleSubmit(data);
           })}
         >
-          <MaxWidthContainer className="grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
-            <div className="lg:col-span-3 me-10 h-full">
-              <Card className="bg-card/50 border-card-foreground/10 w-full h-full lg:px-5 lg:py-10 lg:pb-2 ">
+          <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
+            <div className="lg:col-span-3 lg:me-10 lg:h-full">
+              <Card className="bg-card/50 border-card-foreground/10 w-full h-full px-3 lg:px-5 py-10 pb-2 ">
                 <CardHeader className="py-0 px-0 text-xl">
                   Where to add your AD
                 </CardHeader>
                 <CardContent className="px-0 mt-5">
-                  <RadioGroupFormInput
+                  <PriceRadioGroupFormInput
                     name="ad_place"
                     label="AD position"
                     control={form.control}
-                    options={["first", "end", "middle", "video"]}
+                    options={["first", "middle", "end", "video"]}
+                    price={podcaster?.price}
                     className="bg-background h-full py-5 rounded-lg px-3"
                     labelClassName="text-lg w-full h-full"
                     groupClassName="flex-col items-start gap-3"
@@ -185,12 +207,14 @@ const CreateRequest = ({
                         control={form.control}
                         className=" size-10 px-1.5"
                         icon={<YoutubeIcon size={32} />}
+                        disabled={!podcaster?.youtube_account}
                       />
                       <ToggleFormInput
                         name="publish_spotify"
                         control={form.control}
                         className=" size-10 px-1.5"
                         icon={<SpotifyIcon size={32} />}
+                        disabled={!podcaster?.youtube_account}
                       />
                     </div>
                   </div>
@@ -201,7 +225,7 @@ const CreateRequest = ({
               <div className="w-full flex justify-between">
                 <h1 className="text-xl font-bold">Create Request</h1>
               </div>
-              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-10 lg:pb-2">
+              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
                 <CardContent className="flex flex-col gap-7">
                   <div className="w-full flex justify-between items-center gap-5">
                     <FormInput
@@ -248,14 +272,15 @@ const CreateRequest = ({
                       className="w-full"
                     />
                   </div>
-                  <div className="w-full flex justify-between gap-5 items-start">
-                    <RadioGroupFormInput
+                  <div className="w-full flex justify-between gap-5 items-start flex-wrap">
+                    {/* <PriceRadioGroupFormInput
                       name="type"
                       label="Type"
                       control={form.control}
                       options={["audio", "video"]}
                       className="h-[65px]"
-                    />
+                    /> */}
+
                     <div>
                       <FormInput
                         name="company_tag"
@@ -296,7 +321,6 @@ const CreateRequest = ({
                     label="Hashtags"
                     className="w-full bg-background"
                   />
-
                   {/* </div> */}
                   <FormCheckbox
                     name="terms"

@@ -33,6 +33,7 @@ export default async function Requests({
     status,
   });
   const requestsData = requestsResponse.requests;
+  // console.log(requestsResponse);
   // console.log(requestsData);
 
   return (
@@ -57,7 +58,7 @@ export default async function Requests({
             initialRequests={requestsData}
             search={search}
             status={status}
-            type="podcaster"
+            type={session?.user?.type!}
           />
         </MaxWidthContainer>
       </main>

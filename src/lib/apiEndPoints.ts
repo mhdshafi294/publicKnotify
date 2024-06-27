@@ -20,6 +20,7 @@ export const REMOVE_FROM_FAVORITES = `/remove-from-favorite`;
 export const REQUEST = "/request";
 export const INDEX = "/index";
 export const SHOW = "/show";
+export const DETAILS = "/details";
 export const CREATE = "/create";
 export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";

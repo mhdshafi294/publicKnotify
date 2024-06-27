@@ -8,7 +8,7 @@ import getRequests from "@/services/requests/get-requests";
 
 export const getRequestsAction = async ({
   page = "1",
-  count = "12",
+  count = "9",
   search,
   status,
   type,

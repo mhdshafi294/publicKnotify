@@ -23,6 +23,14 @@ export const createRequestSchema = z
       .instanceof(File)
       .refine(
         (data) => {
+          return !!data?.name; // Ensure there is a file
+        },
+        {
+          message: "error-message.background-required",
+        }
+      )
+      .refine(
+        (data) => {
           if (!data?.name) return true;
           return data?.type.startsWith("image/");
         },
@@ -41,6 +49,14 @@ export const createRequestSchema = z
       ),
     background: z
       .instanceof(File)
+      .refine(
+        (data) => {
+          return !!data?.name; // Ensure there is a file
+        },
+        {
+          message: "error-message.background-required",
+        }
+      )
       .refine(
         (data) => {
           if (!data?.name) return true;
@@ -72,8 +88,8 @@ export const createRequestSchema = z
       required_error: "You need to select the position of your ad.",
     }),
     podcaster_id: z.string().min(1, "error-message.podcaster_id"),
-    publish_youtube: z.string().min(1, "error-message.publish_youtube"),
-    publish_spotify: z.string().min(1, "error-message.publish_spotify"),
+    publish_youtube: z.string(),
+    publish_spotify: z.string(),
     terms: z.boolean(),
   })
   .refine((data) => data.terms, {

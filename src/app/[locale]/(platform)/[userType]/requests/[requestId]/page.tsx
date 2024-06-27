@@ -47,7 +47,7 @@ export default async function Request({
   const locale = useLocale();
   const direction = getDirection(locale);
 
-  // console.log(request);
+  console.log(request);
 
   return (
     <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">
@@ -96,11 +96,9 @@ export default async function Request({
                   <span className="text-xs text-muted-foreground">
                     <ReplaceAllIcon size={14} />
                   </span>
-                  {
-                    (request.ad_place = "first"
-                      ? "At the beginning "
-                      : request.ad_place)
-                  }
+                  {request.ad_place === "first"
+                    ? "At the beginning "
+                    : request.ad_place}
                 </div>
                 <div className="flex gap-1 items-center text-sm">
                   <span className="text-xs text-muted-foreground">
@@ -209,7 +207,7 @@ export default async function Request({
                     />
                   </>
                 ) : session?.user?.type === "company" &&
-                  request.status.toLowerCase() === "accepted by admin" ? (
+                  request.status.toLowerCase() === "pendding" ? (
                   <CancelRequestButton
                     requestId={params?.requestId}
                     userType={"company"}

@@ -18,6 +18,7 @@ interface CheckboxProps<T extends FieldValues>
   labelClassName?: string | undefined;
   control: Control<T>;
   icon: ReactNode; // Property for the customizable icon
+  disabled?: boolean;
 }
 
 function ToggleFormInput<T extends FieldValues>({
@@ -27,6 +28,7 @@ function ToggleFormInput<T extends FieldValues>({
   label,
   labelClassName,
   icon,
+  disabled,
   ...props
 }: CheckboxProps<T>) {
   return (
@@ -42,6 +44,7 @@ function ToggleFormInput<T extends FieldValues>({
           )}
           <FormControl>
             <Toggle
+              disabled={disabled}
               className={cn(
                 "bg-greeny/10 text-white hover:bg-greeny/25 hover:text-whit data-[state=on]:bg-greeny data-[state=on]:text-black [state=on]:hover:bg-greeny_lighter/75 data-[state=on]:hover:text-background",
                 className

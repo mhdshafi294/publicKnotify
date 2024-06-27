@@ -17,7 +17,7 @@ type RequestCardProps = {
 };
 
 const RequestCard: FC<RequestCardProps> = ({ request }) => {
-  console.log(request);
+  // console.log(request);
   return (
     <Card className=" bg-card/50 border-card-foreground/10">
       <CardHeader>
