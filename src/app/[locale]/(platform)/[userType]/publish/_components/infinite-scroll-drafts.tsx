@@ -127,11 +127,11 @@ const InfiniteScrollDrafts = ({
             ))
           )}
           {/* loading spinner */}
-          <div ref={ref} className="mt-1 flex items-center justify-center">
+          <div ref={ref} className="mt-4 flex items-center justify-center">
             {isFetchingNextPage && (
               <svg
                 aria-hidden="true"
-                className="h-10 w-10 animate-spin fill-greeny text-gray-200 dark:text-gray-600"
+                className="size-7 animate-spin fill-greeny text-gray-200 dark:text-gray-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

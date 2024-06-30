@@ -5,11 +5,10 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { createRequestAction } from "@/app/actions/requestsActions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "@/components/ui/date-picker";
 import { Form } from "@/components/ui/form";
 import FormCheckbox from "@/components/ui/form-checkbox";
@@ -31,16 +30,35 @@ import { useSearchParams } from "next/navigation";
 import { createMetadataSchema } from "@/schema/createMetadataSchema";
 import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import SelectFormInput from "@/components/ui/select-form-input";
+import { SelfPodcastDetails } from "@/types/podcast";
 
 const CreatePodcastForm = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
-
+  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
   const searchParams = useSearchParams();
   const request_id = searchParams.get("request_id");
   const podcast_id = searchParams.get("podcast_id");
+
+  const form = useForm<createMetadataSchema>({
+    resolver: zodResolver(createMetadataSchema),
+    defaultValues: {
+      name: "",
+      summary: "",
+      type: "audio",
+      publishing_date: new Date(),
+      publishing_time: "16:11",
+      company_tag: "",
+      thumbnail: new File([], ""),
+      background: new File([], ""),
+      categories: [],
+      hashtags: [],
+      company_request_id: "",
+      podcast_id: "",
+    },
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -49,44 +67,62 @@ const CreatePodcastForm = () => {
   useEffect(() => {
     if (
       isMounted &&
-      (session?.user?.type === "user" || session?.user?.type === "company")
+      (session?.user?.type === "user" || session?.user?.type === "company") &&
+      !initialized
     ) {
       router.push(`/${session?.user?.type}`);
+      setInitialized(true);
     }
-  }, [isMounted, session, router]);
+  }, [isMounted, session, router, initialized]);
 
   const {
     data: podcastResponse,
     isPending: ispodcastPending,
     isError: ispodcastError,
+    refetch: refetchPodcast,
   } = useQuery({
-    queryKey: ["podcasterRequest"],
-    queryFn: () =>
-      getSelfPodcastAction({ id: podcast_id!, type: session?.user?.type! }),
+    queryKey: ["podcast_draft"],
+    queryFn: () => getSelfPodcastAction({ id: podcast_id!, type: "podcaster" }),
     enabled: !!podcast_id,
   });
 
-  const draft = podcastResponse?.podcast;
-
-  const form = useForm<createMetadataSchema>({
-    resolver: zodResolver(createMetadataSchema),
-    defaultValues: {
-      name: draft?.name || "",
-      summary: draft?.summary || "",
-      type: draft?.type || "audio",
-      publishing_date: draft?.publishing_date
-        ? new Date(draft?.publishing_date)
-        : new Date(),
-      publishing_time: draft?.publishing_time || "16:11",
-      company_tag: draft?.company_tag || "",
-      thumbnail: new File([], ""),
-      background: new File([], ""),
-      categories: draft?.categories.map((category) => category.name) || [],
-      hashtags: draft?.hashTags.map((hashtag) => hashtag.name) || [],
-      company_request_id: request_id || "",
-      podcast_id: podcast_id || "",
-    },
-  });
+  useEffect(() => {
+    if (podcast_id) {
+      refetchPodcast();
+      console.log(podcastResponse?.podcast);
+      if (podcastResponse) {
+        form.setValue("name", podcastResponse?.podcast?.name!);
+        form.setValue("summary", podcastResponse?.podcast?.summary!);
+        form.setValue("type", podcastResponse?.podcast?.type!);
+        form.setValue(
+          "publishing_date",
+          new Date(podcastResponse?.podcast?.publishing_date!)
+        );
+        form.setValue(
+          "publishing_time",
+          podcastResponse?.podcast?.publishing_time!
+        );
+        form.setValue(
+          "categories",
+          podcastResponse?.podcast?.categories.map(
+            (category) => category.name
+          ) as [string, ...string[]]
+        );
+        form.setValue(
+          "hashtags",
+          podcastResponse?.podcast?.hashTags.map((hashTag) => hashTag.name) as [
+            string,
+            ...string[]
+          ]
+        );
+        form.setValue(
+          "company_request_id",
+          podcastResponse?.podcast?.request_id!
+        );
+        form.setValue("podcast_id", podcast_id);
+      }
+    }
+  }, [podcast_id, podcastResponse]);
 
   const {
     data: createMetadataActionResponse,
@@ -109,6 +145,7 @@ const CreatePodcastForm = () => {
       console.log(errorCreateMetadata);
     },
   });
+
   const {
     data: updateMetadataActionResponse,
     mutate: server_updateMetadataAction,
@@ -132,7 +169,6 @@ const CreatePodcastForm = () => {
   });
 
   const handleSubmit = async (data: createMetadataSchema) => {
-    // console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -183,6 +219,21 @@ const CreatePodcastForm = () => {
             <div className=" space-y-5 lg:col-start-4 lg:col-span-9">
               <div className="w-full flex justify-between">
                 <h1 className="text-xl font-bold">Create Request</h1>
+                <div className="flex items-center justify-end gap-2">
+                  <Button
+                    disabled={
+                      isPendingUpdateMetadata || isPendingCreateMetadata
+                    }
+                    className=" capitalize mt-0"
+                    type="submit"
+                  >
+                    {isPendingUpdateMetadata || isPendingCreateMetadata ? (
+                      <ButtonLoader />
+                    ) : (
+                      "Save draft"
+                    )}
+                  </Button>
+                </div>
               </div>
               <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
                 <CardContent className="flex flex-col gap-7">
@@ -264,21 +315,6 @@ const CreatePodcastForm = () => {
                     label="I accept the terms and privacy policy"
                   />
                 </CardContent>
-                <CardFooter>
-                  <Button
-                    disabled={
-                      isPendingUpdateMetadata || isPendingCreateMetadata
-                    }
-                    className="w-full capitalize mt-0"
-                    type="submit"
-                  >
-                    {isPendingUpdateMetadata || isPendingCreateMetadata ? (
-                      <ButtonLoader />
-                    ) : (
-                      "Save"
-                    )}
-                  </Button>
-                </CardFooter>
               </Card>
             </div>
           </MaxWidthContainer>
