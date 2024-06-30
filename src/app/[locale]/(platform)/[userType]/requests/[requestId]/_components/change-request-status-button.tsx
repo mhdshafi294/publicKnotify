@@ -6,6 +6,7 @@ import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import { revalidatePath } from "next/cache";
 
 const ChangeRequestStatusButton = ({
   requestId,
@@ -31,6 +32,7 @@ const ChangeRequestStatusButton = ({
     mutationFn: changeRequestStatusAction,
     onSuccess: () => {
       toast.success(successToastMessage);
+      revalidatePath(`/${userType}/requests`);
     },
     onError: () => {
       toast.error("Something went wrong.please try again!");

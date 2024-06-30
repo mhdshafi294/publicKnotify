@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios.config";
 import { ADD_FAVORITES, PODCASTER } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
-const AddPodcastToFavorite = async ({
+const addPodcastToFavorite = async ({
   categories,
   podcasterId,
   type,
@@ -20,4 +20,4 @@ const AddPodcastToFavorite = async ({
   return data;
 };
 
-export default AddPodcastToFavorite;
+export default addPodcastToFavorite;

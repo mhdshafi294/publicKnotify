@@ -40,16 +40,10 @@ import ToggleFormInput from "@/components/ui/toggle-form-input";
 import { YoutubeIcon } from "lucide-react";
 import SpotifyIcon from "@/components/icons/spotify-icon";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
-import ArraySelectFormInput from "@/components/ui/array-select-form-input";
+import ArraySelectFormInput from "@/components/ui/array-select-many-form-input";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 
-const CreateRequest = ({
-  params,
-  searchParams,
-}: {
-  params: { userType: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const CreateRequest = () => {
   const { data: session, status } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
@@ -133,7 +127,7 @@ const CreateRequest = ({
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
-    console.log(data);
+    // console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -157,14 +151,9 @@ const CreateRequest = ({
     formData.append("ad_period", data.ad_period);
     formData.append("ad_place", data.ad_place);
     formData.append("podcaster_id", data.podcaster_id);
-    data.publish_youtube === "0"
-      ? formData.append("publish_youtube", data.publish_youtube)
-      : null;
-    data.publish_spotify === "0"
-      ? formData.append("publish_youtube", data.publish_spotify)
-      : null;
-    // formData.append("publish_youtube", data.publish_youtube);
-    // formData.append("publish_spotify", data.publish_spotify);
+
+    formData.append("publish_youtube", data.publish_youtube);
+    formData.append("publish_spotify", data.publish_spotify);
 
     server_createRequestAction({ formData, type: "company" });
   };

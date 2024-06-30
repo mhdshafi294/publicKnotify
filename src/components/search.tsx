@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { SearchIcon } from "lucide-react";
 import { useDebounce } from "use-debounce";
 import { Input } from "./ui/input";
+import { useRouter } from "@/navigation";
+import { useSearchParams } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 const Search = ({
   searchText,

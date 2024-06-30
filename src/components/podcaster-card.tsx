@@ -7,7 +7,7 @@ import { Skeleton } from "./ui/skeleton";
 import { Podcaster } from "@/types/podcaster";
 import PodcasterFavoritePopover from "./podcaster-favorite-popover";
 import UnfavoriteButton from "./unfavorite-button";
-import { RemoveFromFavoriteAction } from "@/app/actions/podcasterActions";
+import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
 
 type PodCasterCardProps = {
   podcaster: Podcaster;
@@ -39,7 +39,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
             id={podcaster.id.toString()}
             setIsFavorite={setIsFavorite}
             setSelectedItems={setSelectedItems}
-            removeFromFavoriteAction={RemoveFromFavoriteAction}
+            removeFromFavoriteAction={removeFromFavoriteAction}
           />
         ) : (
           <PodcasterFavoritePopover

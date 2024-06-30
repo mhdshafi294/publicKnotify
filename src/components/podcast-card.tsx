@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Skeleton } from "./ui/skeleton";
 import PodcastCardPlayButton from "./podcast-card-play-button";
 import PodcastFavoritePopover from "./podcast-favorite-popover";
-import { RemoveFromFavoriteAction } from "@/app/actions/podcastActions";
+import { removeFromFavoriteAction } from "@/app/actions/podcastActions";
 import { useState } from "react";
 import UnfavoriteButton from "./unfavorite-button";
 
@@ -42,7 +42,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
             id={podcast.id.toString()}
             setIsFavorite={setIsFavorite}
             setSelectedItems={setSelectedItems}
-            removeFromFavoriteAction={RemoveFromFavoriteAction}
+            removeFromFavoriteAction={removeFromFavoriteAction}
             triggerSize={21}
           />
         ) : (

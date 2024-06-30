@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios.config";
 import { PODCAST, REMOVE_FROM_FAVORITES } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
-const RemoveFromFavorite = async ({
+const removeFromFavorite = async ({
   podcastId,
   type,
 }: {
@@ -15,4 +15,4 @@ const RemoveFromFavorite = async ({
   return data;
 };
 
-export default RemoveFromFavorite;
+export default removeFromFavorite;

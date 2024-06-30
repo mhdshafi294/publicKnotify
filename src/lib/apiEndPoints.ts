@@ -11,6 +11,7 @@ export const CHECK_CREDENTIALS = "/checkCredentials";
 export const LOGOUT_URL = "/logout";
 
 export const PODCAST = "/podcast";
+export const PODCASTS = "/podcasts";
 export const PODCASTER = `/podcaster`;
 
 export const TRENDING = `${PODCAST}/trending`;
@@ -24,6 +25,9 @@ export const DETAILS = "/details";
 export const CREATE = "/create";
 export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";
+export const METADATA = "/metadata";
+export const UPLOAD_MEDIA_FILE = "/upload-media-file";
+export const PUBLISH = "/publish";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

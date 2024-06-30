@@ -1,9 +1,9 @@
 "use server";
 
-import AddPodcastToFavorite from "@/services/podcaster/add-to-favorite";
+import addPodcastToFavorite from "@/services/podcaster/add-to-favorite";
 import getPodcaster from "@/services/podcaster/get-podcaster";
 import getPodcasters from "@/services/podcaster/get-podcasters";
-import RemoveFromFavorite from "@/services/podcaster/remove-from-favorite";
+import removeFromFavorite from "@/services/podcaster/remove-from-favorite";
 
 export const getPodcastersAction = async ({
   count = "12",
@@ -51,7 +51,7 @@ export const getPodcasterAction = async ({
 //   return getMyFavoriteCategoriesListResponse;
 // };
 
-export const AddToFavoriteAction = async ({
+export const addToFavoriteAction = async ({
   categories,
   id,
   type,
@@ -60,15 +60,15 @@ export const AddToFavoriteAction = async ({
   id: string;
   type: string;
 }) => {
-  return await AddPodcastToFavorite({ categories, podcasterId: id, type });
+  return await addPodcastToFavorite({ categories, podcasterId: id, type });
 };
 
-export const RemoveFromFavoriteAction = async ({
+export const removeFromFavoriteAction = async ({
   id,
   type,
 }: {
   id: string;
   type: string;
 }) => {
-  return await RemoveFromFavorite({ podcasterId: id, type });
+  return await removeFromFavorite({ podcasterId: id, type });
 };

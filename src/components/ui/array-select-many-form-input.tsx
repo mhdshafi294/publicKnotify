@@ -26,7 +26,7 @@ interface PropsType<T extends FieldValues>
   control: Control<T>;
 }
 
-function ArraySelectFormInput<T extends FieldValues>({
+function ArraySelectManyFormInput<T extends FieldValues>({
   control,
   name,
   action,
@@ -126,4 +126,4 @@ function ArraySelectFormInput<T extends FieldValues>({
   );
 }
 
-export default ArraySelectFormInput;
+export default ArraySelectManyFormInput;

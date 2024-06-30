@@ -24,8 +24,9 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import ChangeRequestStatusButton from "./_components/change-request-status-button";
 import { useLocale } from "next-intl";
-import { getDirection } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import CancelRequestButton from "./_components/cancel-request-button";
+import { buttonVariants } from "@/components/ui/button";
 
 export default async function Request({
   params,
@@ -37,6 +38,8 @@ export default async function Request({
     redirect(`/user`);
   }
   const t = await getTranslations("Index");
+
+  const searchParams = new URLSearchParams({ request_id: params?.requestId });
 
   const requestsResponse = await getRequestAction({
     id: params?.requestId,
@@ -71,8 +74,8 @@ export default async function Request({
               </div>
             </div>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex flex-col gap-2">
+          <CardContent className="grid grid-cols-1 md:grid-cols-2">
+            <div className="flex flex-col gap-2 me-8 overflow-hidden">
               <ScrollArea className="w-full whitespace-nowrap" dir={direction}>
                 <div className="flex w-max gap-2 pb-3">
                   {request.hashTags.map((hashTag) => (
@@ -205,6 +208,17 @@ export default async function Request({
                       userType={session?.user?.type!}
                       status="reject"
                     />
+                  </>
+                ) : session?.user?.type === "podcaster" &&
+                  request.status.toLowerCase() === "accepted by podcaster" ? (
+                  <>
+                    {/* TODO: test&review */}
+                    <Link
+                      href={`/podcaser/publish?${searchParams.toString()}`}
+                      className={cn(buttonVariants({ variant: "default" }), "")}
+                    >
+                      Publish
+                    </Link>
                   </>
                 ) : session?.user?.type === "company" &&
                   request.status.toLowerCase() === "pendding" ? (

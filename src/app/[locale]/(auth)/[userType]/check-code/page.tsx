@@ -24,9 +24,9 @@ import {
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 
-import ConfirmCheckCode from "@/services/auth/check-code";
+import confirmCheckCode from "@/services/auth/check-code";
 import { useMutation } from "@tanstack/react-query";
-import { ConfirmCheckCodeAction } from "@/app/actions/authActions";
+import { confirmCheckCodeAction } from "@/app/actions/authActions";
 
 const CheckCode = ({
   params,
@@ -51,7 +51,7 @@ const CheckCode = ({
     mutate: server_ConfirmCheckCode,
     isPending,
   } = useMutation({
-    mutationFn: ConfirmCheckCodeAction,
+    mutationFn: confirmCheckCodeAction,
     onSuccess: () => {
       toast.success("Confirmed!");
       router.push(

@@ -1,11 +1,18 @@
 "use server";
 
-import AddPodcastToFavorite from "@/services/podcast/add-to-favorite";
+import addPodcastToFavorite from "@/services/podcast/add-to-favorite";
+import createMedia from "@/services/podcast/create-media";
+import createMetadata from "@/services/podcast/create-metadata";
+import deleteSelfPodcast from "@/services/podcast/delete-self-podcast";
 import getCategories from "@/services/podcast/get-categories";
 import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categoris-list";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
+import getSelfPodcast from "@/services/podcast/get-self-podcast";
+import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
-import RemoveFromFavorite from "@/services/podcast/remove-from-favorite";
+import publishPodcast from "@/services/podcast/publish-podcast";
+import removeFromFavorite from "@/services/podcast/remove-from-favorite";
+import updateMetadata from "@/services/podcast/update-metadata";
 
 export const getTrendingAction = async ({
   count = "12",
@@ -57,7 +64,7 @@ export const getPodcastDataAction = async ({
   return await getPodcastDetails(type, id);
 };
 
-export const AddToFavoriteAction = async ({
+export const addToFavoriteAction = async ({
   categories,
   id,
   type,
@@ -66,15 +73,99 @@ export const AddToFavoriteAction = async ({
   id: string;
   type: string;
 }) => {
-  return await AddPodcastToFavorite({ categories, podcastId: id, type });
+  return await addPodcastToFavorite({ categories, podcastId: id, type });
 };
 
-export const RemoveFromFavoriteAction = async ({
+export const removeFromFavoriteAction = async ({
   id,
   type,
 }: {
   id: string;
   type: string;
 }) => {
-  return await RemoveFromFavorite({ podcastId: id, type });
+  return await removeFromFavorite({ podcastId: id, type });
+};
+
+export const createMetadataAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  return await createMetadata({ formData, type });
+};
+
+export const updateMetadataAction = async ({
+  formData,
+  id,
+  type,
+}: {
+  formData: FormData;
+  id: string;
+  type: string;
+}) => {
+  return await updateMetadata({ formData, id, type });
+};
+
+export const createMediaAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  return await createMedia({ formData, type });
+};
+
+export const getSelfPodcastsAction = async ({
+  page,
+  count = "6",
+  search,
+  is_published,
+  type,
+}: {
+  page: string;
+  count?: string;
+  search?: string;
+  is_published?: boolean;
+  type: string;
+}) => {
+  return await getSelfPodcasts({
+    page,
+    count,
+    search,
+    is_published,
+    type,
+  });
+};
+
+export const getSelfPodcastAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await getSelfPodcast({ id, type });
+};
+
+export const publishPodcastAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await publishPodcast({ id, type });
+};
+
+export const deleteSelfPodcastAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await deleteSelfPodcast({ id, type });
 };
