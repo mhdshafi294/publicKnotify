@@ -21,13 +21,16 @@ export const createMetadataSchema = z
     company_tag: z.string().min(1, "error-message.company_tag"),
     thumbnail: z
       .instanceof(File)
+      .optional()
       .refine(
         (data) => {
-          if (!data?.name) return true;
-          return data?.type.startsWith("image/");
+          if (!data?.name) return true; // Allow if file is not provided
+          return (
+            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
+          );
         },
         {
-          message: "error-message.thumbnail",
+          message: "error-message.background",
         }
       )
       .refine(
@@ -41,10 +44,13 @@ export const createMetadataSchema = z
       ),
     background: z
       .instanceof(File)
+      .optional()
       .refine(
         (data) => {
-          if (!data?.name) return true;
-          return data?.type.startsWith("image/");
+          if (!data?.name) return true; // Allow if file is not provided
+          return (
+            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
+          );
         },
         {
           message: "error-message.background",
@@ -52,7 +58,7 @@ export const createMetadataSchema = z
       )
       .refine(
         (data) => {
-          if (!data?.name) return true;
+          if (!data?.name) return true; // Allow if file is not provided
           return data?.size < 4 * 1024 * 1024;
         },
         {
@@ -69,20 +75,20 @@ export const createMetadataSchema = z
     podcast_id: z.string().optional(),
     terms: z.boolean(),
   })
-  .refine(
-    (data) => typeof data.podcast_id === "string" && data.background.name,
-    {
-      message: "error-message.type",
-      path: ["background"],
-    }
-  )
-  .refine(
-    (data) => typeof data.podcast_id === "string" && data.thumbnail.name,
-    {
-      message: "error-message.type",
-      path: ["thumbnail"],
-    }
-  )
+  // .refine(
+  //   (data) => typeof data.podcast_id === "string" && data.background.name,
+  //   {
+  //     message: "error-message.type",
+  //     path: ["background"],
+  //   }
+  // )
+  // .refine(
+  //   (data) => typeof data.podcast_id === "string" && data.thumbnail.name,
+  //   {
+  //     message: "error-message.type",
+  //     path: ["thumbnail"],
+  //   }
+  // )
   .refine((data) => data.terms, {
     message: "error-message.terms",
     path: ["terms"],

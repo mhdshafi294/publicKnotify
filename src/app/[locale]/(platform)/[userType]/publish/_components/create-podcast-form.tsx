@@ -62,6 +62,7 @@ const CreatePodcastForm = () => {
       hashtags: [],
       company_request_id: "",
       podcast_id: "",
+      terms: false,
     },
   });
 
@@ -113,8 +114,12 @@ const CreatePodcastForm = () => {
       setDraft(requestResponse?.request);
     }
   }, [
-    !isPodcastPending && !isPodcastError && podcastResponse,
-    !isRequestPending && !isRequestError && requestResponse,
+    isPodcastPending,
+    isPodcastError,
+    podcastResponse,
+    isRequestPending,
+    isRequestError,
+    requestResponse,
   ]);
 
   useEffect(() => {
@@ -125,15 +130,15 @@ const CreatePodcastForm = () => {
         summary: draft.summary!,
         type: draft.type!,
         publishing_date: new Date(draft.publishing_date!),
-        publishing_time: draft.publishing_time!,
+        publishing_time: draft.publishing_time?.slice(0, 5),
         company_tag: draft.company_tag!,
         thumbnail: new File([], ""),
         background: new File([], ""),
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
-        company_request_id:
-          "request_id" in draft ? draft.request_id : request_id!,
-        podcast_id: podcast_id ? podcast_id : "",
+        company_request_id: request_id ? request_id : undefined,
+        podcast_id: podcast_id ? podcast_id : undefined,
+        terms: true,
       });
     }
   }, [podcast_id, draft]);
@@ -150,7 +155,7 @@ const CreatePodcastForm = () => {
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("podcast metadata created successfully");
+      toast.success("Podcast metadata created successfully");
     },
     onError: () => {
       toast.dismiss();
@@ -171,7 +176,7 @@ const CreatePodcastForm = () => {
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("podcast metadata updated successfully");
+      toast.success("Podcast metadata updated successfully");
     },
     onError: () => {
       toast.dismiss();
@@ -181,7 +186,7 @@ const CreatePodcastForm = () => {
   });
 
   const handleSubmit = async (data: createMetadataSchema) => {
-    console.log(data);
+    console.log("Form data: ", data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -203,15 +208,21 @@ const CreatePodcastForm = () => {
       formData.append(`hashtags[${index}]`, hashtag);
     });
 
-    if (data.company_request_id)
-      formData.append("company_request_id", data.company_request_id);
+    console.log("FormData: ", formData);
+
+    if (request_id && !podcast_id)
+      formData.append("company_request_id", request_id);
 
     if (podcast_id) {
-      server_updateMetadataAction({
-        formData,
-        type: "podcaster",
-        id: podcast_id,
-      });
+      try {
+        server_updateMetadataAction({
+          formData,
+          type: "podcaster",
+          id: podcast_id,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       server_createMetadataAction({ formData, type: "podcaster" });
     }
@@ -225,11 +236,12 @@ const CreatePodcastForm = () => {
         <form
           className="w-full px-0"
           onSubmit={form.handleSubmit((data) => {
+            console.log("Form submitted", data);
             handleSubmit(data);
           })}
         >
           <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch pb-3">
-            <div className=" space-y-5 lg:col-start-4 lg:col-span-9">
+            <div className="space-y-5 lg:col-start-4 lg:col-span-9">
               <div className="w-full flex justify-between items-center">
                 <h1 className="text-xl font-bold">Podcast Draft</h1>
                 <div className="flex items-center justify-end gap-2">
@@ -237,7 +249,7 @@ const CreatePodcastForm = () => {
                     disabled={
                       isPendingUpdateMetadata || isPendingCreateMetadata
                     }
-                    className=" capitalize mt-0 text-sm"
+                    className="capitalize mt-0 text-sm"
                     type="submit"
                   >
                     <SaveIcon className="size-3 mr-1" />
