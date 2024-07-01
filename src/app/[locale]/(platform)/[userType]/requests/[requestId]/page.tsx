@@ -50,7 +50,7 @@ export default async function Request({
   const locale = useLocale();
   const direction = getDirection(locale);
 
-  console.log(request);
+  // console.log(request);
 
   return (
     <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">

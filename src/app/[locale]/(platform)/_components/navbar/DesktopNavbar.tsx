@@ -34,9 +34,8 @@ const DesktopNavbar = () => {
                       (link.href === "/" && pathname.lastIndexOf("/") === 0)
                         ? "default"
                         : "outline",
-                    size: "lg",
                   }),
-                  " text-white hover:text-white border-white hover:bg-white/10 h-9",
+                  " text-white hover:text-white border-white hover:bg-white/10 h-9 px-5",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >

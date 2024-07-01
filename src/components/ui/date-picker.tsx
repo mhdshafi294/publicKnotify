@@ -46,7 +46,7 @@ function DatePicker<T extends FieldValues>({
                 <Button
                   variant={"outline"}
                   className={cn(
-                    " pl-3 text-left font-normal",
+                    " pl-3 text-left font-normal bg-background",
                     !field.value && "text-muted-foreground"
                   )}
                 >

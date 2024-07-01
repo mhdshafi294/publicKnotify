@@ -21,6 +21,7 @@ interface PropsType<T extends FieldValues>
   label: string;
   labelClassName?: string | undefined;
   control: Control<T>;
+  defaultValues: Partial<T>;
 }
 
 function ArrayFormInput<T extends FieldValues>({
@@ -29,14 +30,20 @@ function ArrayFormInput<T extends FieldValues>({
   className,
   label,
   labelClassName,
+  defaultValues,
   ...props
 }: PropsType<T>) {
   const { setValue, getValues } = useFormContext();
-  const [items, setItems] = useState<string[]>([]);
+  const [items, setItems] = useState<string[]>(
+    (defaultValues[name] as string[]) || []
+  );
+
+  useEffect(() => {
+    setItems((defaultValues[name] as string[]) || []);
+  }, [defaultValues, name]);
 
   useEffect(() => {
     setValue(name.toString(), items);
-    // console.log(items, getValues(name as string));
   }, [items]);
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {

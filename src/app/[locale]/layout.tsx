@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
 import { NextIntlClientProvider } from "next-intl";
+import "react-photo-view/dist/react-photo-view.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],

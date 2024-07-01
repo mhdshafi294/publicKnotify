@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import CreatePodcastForm from "./_components/createPodcastForm";
+import CreatePodcastForm from "./_components/create-podcast-form";
 import InfiniteScrollDrafts from "./_components/infinite-scroll-drafts";
 
 export default function NewPublish({
@@ -14,7 +14,9 @@ export default function NewPublish({
 
   return (
     <div className="flex relative mt-10">
-      <InfiniteScrollDrafts />
+      <div className="w-[20dvw] rounded-tr-3xl absolute bottom-0 start-0 h-full bg-card/50 border border-card-foreground/10 pt-10 hidden lg:block">
+        <InfiniteScrollDrafts />
+      </div>
       <CreatePodcastForm />
     </div>
   );

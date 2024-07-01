@@ -32,3 +32,15 @@ const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
 export function getDirection(locale: string): "rtl" | "ltr" {
   return RTL_LANGUAGES.includes(locale) ? "rtl" : "ltr";
 }
+
+/**
+ * Converts a File object to a URL string using URL.createObjectURL.
+ *
+ * @param {File} file - the File object to convert to a URL
+ * @return {string} the URL string representing the File object
+ */
+export const convertFileToURL = (file: File | undefined): string => {
+  if (!file) return "";
+  const url = URL.createObjectURL(file);
+  return url;
+};

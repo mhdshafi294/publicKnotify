@@ -1,4 +1,6 @@
 import { Control, FieldValues } from "react-hook-form";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+
 import {
   FormControl,
   FormField,
@@ -8,8 +10,9 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
-import { Upload } from "lucide-react";
+import { cn, convertFileToURL } from "@/lib/utils";
+import { Image, Upload } from "lucide-react";
+import { Button } from "./button";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -17,6 +20,7 @@ interface PropsType<T extends FieldValues>
   label: string;
   labelClassName?: string | undefined;
   control: Control<T>;
+  initValue?: string;
 }
 
 function FormFileInput<T extends FieldValues>({
@@ -25,6 +29,7 @@ function FormFileInput<T extends FieldValues>({
   label,
   labelClassName,
   className,
+  initValue,
   ...props
 }: PropsType<T>) {
   return (
@@ -61,10 +66,45 @@ function FormFileInput<T extends FieldValues>({
                         field.value?.name.slice(-3)
                       : field.value?.name}
                   </p>
+                ) : initValue ? (
+                  <p className="text-black font-semibold">
+                    {initValue.length > 20
+                      ? initValue.slice(0, 20) + "..." + initValue.slice(-3)
+                      : initValue}
+                  </p>
                 ) : (
                   <Upload color="black" />
                 )}
               </div>
+              {field.value?.name ? (
+                <PhotoProvider maskOpacity={0.5}>
+                  <PhotoView src={convertFileToURL(field.value)}>
+                    <Button
+                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute end-2 z-50 hover:bg-transparent"
+                      variant="outline"
+                      size="icon"
+                      type="button"
+                      tabIndex={-1}
+                    >
+                      <Image />
+                    </Button>
+                  </PhotoView>
+                </PhotoProvider>
+              ) : initValue ? (
+                <PhotoProvider maskOpacity={0.5}>
+                  <PhotoView src={initValue}>
+                    <Button
+                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute end-2 z-50 hover:bg-transparent"
+                      variant="outline"
+                      size="icon"
+                      type="button"
+                      tabIndex={-1}
+                    >
+                      <Image />
+                    </Button>
+                  </PhotoView>
+                </PhotoProvider>
+              ) : null}
             </div>
           </FormControl>
           <FormMessage className="capitalize font-normal" />

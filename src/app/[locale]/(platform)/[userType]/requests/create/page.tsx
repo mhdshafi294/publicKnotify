@@ -40,7 +40,7 @@ import ToggleFormInput from "@/components/ui/toggle-form-input";
 import { YoutubeIcon } from "lucide-react";
 import SpotifyIcon from "@/components/icons/spotify-icon";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
-import ArraySelectFormInput from "@/components/ui/array-select-many-form-input";
+import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 
 const CreateRequest = () => {
@@ -169,7 +169,7 @@ const CreateRequest = () => {
             handleSubmit(data);
           })}
         >
-          <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
+          <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch mb-5">
             <div className="lg:col-span-3 lg:me-10 lg:h-full">
               <Card className="bg-card/50 border-card-foreground/10 w-full h-full px-3 lg:px-5 py-10 pb-2 ">
                 <CardHeader className="py-0 px-0 text-xl">
@@ -208,6 +208,15 @@ const CreateRequest = () => {
                     </div>
                   </div>
                 </CardContent>
+                <CardFooter className="lg:hidden">
+                  <Button
+                    disabled={isPending}
+                    className="w-full capitalize mt-0"
+                    type="submit"
+                  >
+                    {isPending ? <ButtonLoader /> : "Continue"}
+                  </Button>
+                </CardFooter>
               </Card>
             </div>
             <div className="lg:col-span-9 space-y-5">
@@ -297,18 +306,20 @@ const CreateRequest = () => {
                     />
                   </div>
                   {/* <div className="w-full flex justify-between gap-5"> */}
-                  <ArraySelectFormInput
+                  <ArraySelectManyFormInput
                     name="categories"
                     control={form.control}
                     label="Categories"
                     className="w-full bg-background"
-                    action={getCategoriesAction()}
+                    action={getCategoriesAction}
+                    defaultValues={form.getValues()}
                   />
                   <ArrayFormInput
                     name="hashtags"
                     control={form.control}
                     label="Hashtags"
                     className="w-full bg-background"
+                    defaultValues={form.getValues()}
                   />
                   {/* </div> */}
                   <FormCheckbox
@@ -319,7 +330,7 @@ const CreateRequest = () => {
                     label="I accept the terms and privacy policy"
                   />
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="hidden lg:block">
                   <Button
                     disabled={isPending}
                     className="w-full capitalize mt-0"

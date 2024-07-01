@@ -30,17 +30,17 @@ function DurationPickerFormInput<T extends FieldValues>({
   ...props
 }: PropsType<T>) {
   const { setValue } = useFormContext();
-  const [hours, setHours] = useState("");
   const [minutes, setMinutes] = useState("");
+  const [seconds, setSeconds] = useState("");
 
   useEffect(() => {
-    const formattedValue = `${hours.padStart(2, "0")}:${minutes.padStart(
+    const formattedValue = `${minutes.padStart(2, "0")}:${seconds.padStart(
       2,
       "0"
     )}`;
     setValue(name as string, formattedValue);
     // console.log(formattedValue, getValues(name as string));
-  }, [hours, minutes, setValue, name]);
+  }, [minutes, seconds, setValue, name]);
 
   return (
     <FormField
@@ -56,23 +56,23 @@ function DurationPickerFormInput<T extends FieldValues>({
               <Input
                 type="number"
                 className={cn("w-20", className)}
-                placeholder="Hours"
-                min="0"
-                max="23"
-                {...props}
-                onChange={(e) => setHours(e.target.value)}
-                value={hours}
-              />
-              <span className="self-center">:</span>
-              <Input
-                type="number"
-                className={cn("w-20", className)}
                 placeholder="Mins"
                 min="0"
                 max="59"
                 {...props}
                 onChange={(e) => setMinutes(e.target.value)}
                 value={minutes}
+              />
+              <span className="self-center">:</span>
+              <Input
+                type="number"
+                className={cn("w-20", className)}
+                placeholder="Secs"
+                min="0"
+                max="59"
+                {...props}
+                onChange={(e) => setSeconds(e.target.value)}
+                value={seconds}
               />
             </div>
           </FormControl>

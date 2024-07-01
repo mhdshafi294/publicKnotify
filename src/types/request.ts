@@ -20,7 +20,7 @@ export type RequestDetails = {
   id: number;
   name: string;
   status: string;
-  type: string;
+  type: "audio" | "video";
   ad_cost: string;
   publishing_date: string;
   publishing_time: string;

@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
@@ -15,7 +14,7 @@ import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
 import TimePicker from "@/components/ui/time-picker";
-import { useRouter } from "@/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
@@ -31,11 +30,17 @@ import { createMetadataSchema } from "@/schema/createMetadataSchema";
 import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import SelectFormInput from "@/components/ui/select-form-input";
 import { SelfPodcastDetails } from "@/types/podcast";
+import { getRequestAction } from "@/app/actions/requestsActions";
+import { RequestDetails } from "@/types/request";
+import { SaveIcon } from "lucide-react";
 
 const CreatePodcastForm = () => {
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [draft, setDraft] = useState<
+    SelfPodcastDetails | RequestDetails | null
+  >();
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -77,52 +82,61 @@ const CreatePodcastForm = () => {
 
   const {
     data: podcastResponse,
-    isPending: ispodcastPending,
-    isError: ispodcastError,
+    isPending: isPodcastPending,
+    isError: isPodcastError,
     refetch: refetchPodcast,
   } = useQuery({
-    queryKey: ["podcast_draft"],
+    queryKey: ["podcast_draft", podcast_id],
     queryFn: () => getSelfPodcastAction({ id: podcast_id!, type: "podcaster" }),
-    enabled: !!podcast_id,
+    enabled: !!podcast_id && isMounted,
+  });
+
+  const {
+    data: requestResponse,
+    isPending: isRequestPending,
+    isError: isRequestError,
+    refetch: refetchRequest,
+  } = useQuery({
+    queryKey: ["podcast_draft", podcast_id],
+    queryFn: () => getRequestAction({ id: request_id!, type: "podcaster" }),
+    enabled: !!request_id && !podcast_id && isMounted,
   });
 
   useEffect(() => {
-    if (podcast_id) {
-      refetchPodcast();
-      console.log(podcastResponse?.podcast);
-      if (podcastResponse) {
-        form.setValue("name", podcastResponse?.podcast?.name!);
-        form.setValue("summary", podcastResponse?.podcast?.summary!);
-        form.setValue("type", podcastResponse?.podcast?.type!);
-        form.setValue(
-          "publishing_date",
-          new Date(podcastResponse?.podcast?.publishing_date!)
-        );
-        form.setValue(
-          "publishing_time",
-          podcastResponse?.podcast?.publishing_time!
-        );
-        form.setValue(
-          "categories",
-          podcastResponse?.podcast?.categories.map(
-            (category) => category.name
-          ) as [string, ...string[]]
-        );
-        form.setValue(
-          "hashtags",
-          podcastResponse?.podcast?.hashTags.map((hashTag) => hashTag.name) as [
-            string,
-            ...string[]
-          ]
-        );
-        form.setValue(
-          "company_request_id",
-          podcastResponse?.podcast?.request_id!
-        );
-        form.setValue("podcast_id", podcast_id);
-      }
+    if (!isPodcastPending && !isPodcastError && podcastResponse?.podcast) {
+      setDraft(podcastResponse?.podcast);
+    } else if (
+      !isRequestPending &&
+      !isRequestError &&
+      requestResponse?.request
+    ) {
+      setDraft(requestResponse?.request);
     }
-  }, [podcast_id, podcastResponse]);
+  }, [
+    !isPodcastPending && !isPodcastError && podcastResponse,
+    !isRequestPending && !isRequestError && requestResponse,
+  ]);
+
+  useEffect(() => {
+    console.log(draft);
+    if (draft) {
+      form.reset({
+        name: draft.name!,
+        summary: draft.summary!,
+        type: draft.type!,
+        publishing_date: new Date(draft.publishing_date!),
+        publishing_time: draft.publishing_time!,
+        company_tag: draft.company_tag!,
+        thumbnail: new File([], ""),
+        background: new File([], ""),
+        categories: draft.categories.map((category) => category.id.toString()),
+        hashtags: draft.hashTags.map((hashtag) => hashtag.name),
+        company_request_id:
+          "request_id" in draft ? draft.request_id : request_id!,
+        podcast_id: podcast_id ? podcast_id : "",
+      });
+    }
+  }, [podcast_id, draft]);
 
   const {
     data: createMetadataActionResponse,
@@ -137,7 +151,6 @@ const CreatePodcastForm = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success("podcast metadata created successfully");
-      // router.push(`/company/requests`);
     },
     onError: () => {
       toast.dismiss();
@@ -159,7 +172,6 @@ const CreatePodcastForm = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success("podcast metadata updated successfully");
-      // router.push(`/company/requests`);
     },
     onError: () => {
       toast.dismiss();
@@ -169,6 +181,7 @@ const CreatePodcastForm = () => {
   });
 
   const handleSubmit = async (data: createMetadataSchema) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -215,18 +228,19 @@ const CreatePodcastForm = () => {
             handleSubmit(data);
           })}
         >
-          <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
+          <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch pb-3">
             <div className=" space-y-5 lg:col-start-4 lg:col-span-9">
-              <div className="w-full flex justify-between">
-                <h1 className="text-xl font-bold">Create Request</h1>
+              <div className="w-full flex justify-between items-center">
+                <h1 className="text-xl font-bold">Podcast Draft</h1>
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     disabled={
                       isPendingUpdateMetadata || isPendingCreateMetadata
                     }
-                    className=" capitalize mt-0"
+                    className=" capitalize mt-0 text-sm"
                     type="submit"
                   >
+                    <SaveIcon className="size-3 mr-1" />
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
                     ) : (
@@ -265,12 +279,22 @@ const CreatePodcastForm = () => {
                       label="Thumbnail"
                       control={form.control}
                       className="w-full"
+                      initValue={
+                        podcastResponse?.podcast?.thumbnail
+                          ? podcastResponse?.podcast?.thumbnail
+                          : requestResponse?.request?.thumbnail
+                      }
                     />
                     <FormFileInput
                       name="background"
                       label="Background"
                       control={form.control}
                       className="w-full"
+                      initValue={
+                        podcastResponse?.podcast?.background
+                          ? podcastResponse?.podcast?.background
+                          : requestResponse?.request?.background
+                      }
                     />
                   </div>
                   <div className="w-full flex justify-between gap-5 items-start flex-wrap">
@@ -299,13 +323,15 @@ const CreatePodcastForm = () => {
                     control={form.control}
                     label="Categories"
                     className="w-full bg-background"
-                    action={getCategoriesAction()}
+                    action={getCategoriesAction}
+                    defaultValues={form.getValues()}
                   />
                   <ArrayFormInput
                     name="hashtags"
                     control={form.control}
                     label="Hashtags"
                     className="w-full bg-background"
+                    defaultValues={form.getValues()}
                   />
                   <FormCheckbox
                     name="terms"
