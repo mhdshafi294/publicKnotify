@@ -53,27 +53,33 @@ function DurationPickerFormInput<T extends FieldValues>({
           </FormLabel>
           <FormControl>
             <div className="flex space-x-2">
-              <Input
-                type="number"
-                className={cn("w-20", className)}
-                placeholder="Mins"
-                min="0"
-                max="59"
-                {...props}
-                onChange={(e) => setMinutes(e.target.value)}
-                value={minutes}
-              />
+              <div className="flex flex-col  gap-0.5">
+                <Input
+                  type="number"
+                  className={cn("w-20", className)}
+                  placeholder="Mins"
+                  min="0"
+                  max="59"
+                  {...props}
+                  onChange={(e) => setMinutes(e.target.value)}
+                  value={minutes}
+                />
+                <p className="text-xs opacity-70 font-bold">mins</p>
+              </div>
               <span className="self-center">:</span>
-              <Input
-                type="number"
-                className={cn("w-20", className)}
-                placeholder="Secs"
-                min="0"
-                max="59"
-                {...props}
-                onChange={(e) => setSeconds(e.target.value)}
-                value={seconds}
-              />
+              <div className="flex flex-col  gap-0.5">
+                <Input
+                  type="number"
+                  className={cn("w-20", className)}
+                  placeholder="Secs"
+                  min="0"
+                  max="59"
+                  {...props}
+                  onChange={(e) => setSeconds(e.target.value)}
+                  value={seconds}
+                />
+                <p className="text-xs opacity-70 font-bold">secs</p>
+              </div>
             </div>
           </FormControl>
           <FormMessage className="capitalize font-normal" />

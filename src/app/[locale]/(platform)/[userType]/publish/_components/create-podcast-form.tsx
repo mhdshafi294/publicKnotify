@@ -16,7 +16,7 @@ import FormFileInput from "@/components/ui/form-input-file";
 import TimePicker from "@/components/ui/time-picker";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
 import ArrayFormInput from "@/components/ui/array-form-input";
 import {
@@ -34,7 +34,11 @@ import { getRequestAction } from "@/app/actions/requestsActions";
 import { RequestDetails } from "@/types/request";
 import { SaveIcon } from "lucide-react";
 
-const CreatePodcastForm = () => {
+const CreatePodcastForm = ({
+  setIsShow,
+}: {
+  setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
@@ -42,6 +46,7 @@ const CreatePodcastForm = () => {
     SelfPodcastDetails | RequestDetails | null
   >();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const searchParams = useSearchParams();
   const request_id = searchParams.get("request_id");
@@ -56,8 +61,8 @@ const CreatePodcastForm = () => {
       publishing_date: new Date(),
       publishing_time: "16:11",
       company_tag: "",
-      thumbnail: new File([], ""),
-      background: new File([], ""),
+      thumbnail: undefined,
+      background: undefined,
       categories: [],
       hashtags: [],
       company_request_id: "",
@@ -132,8 +137,6 @@ const CreatePodcastForm = () => {
         publishing_date: new Date(draft.publishing_date!),
         publishing_time: draft.publishing_time?.slice(0, 5),
         company_tag: draft.company_tag!,
-        thumbnail: new File([], ""),
-        background: new File([], ""),
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
         company_request_id: request_id ? request_id : undefined,
@@ -156,6 +159,7 @@ const CreatePodcastForm = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success("Podcast metadata created successfully");
+      queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
     },
     onError: () => {
       toast.dismiss();
@@ -177,6 +181,7 @@ const CreatePodcastForm = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success("Podcast metadata updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
     },
     onError: () => {
       toast.dismiss();
@@ -243,7 +248,17 @@ const CreatePodcastForm = () => {
           <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch pb-3">
             <div className="space-y-5 lg:col-start-4 lg:col-span-9">
               <div className="w-full flex justify-between items-center">
-                <h1 className="text-xl font-bold">Podcast Draft</h1>
+                <div className="flex flex-col justify-between lg:justify-center items-start">
+                  <h1 className="text-xl font-bold">Podcast Draft</h1>
+                  <Button
+                    className="capitalize mt-0 text-sm border-none bg-transparent hover:border-none hover:bg-transparent pl-0"
+                    variant="outline"
+                    onClick={() => setIsShow(true)}
+                    type="button"
+                  >
+                    Drafts
+                  </Button>
+                </div>
                 <div className="flex items-center justify-end gap-2">
                   <Button
                     disabled={

@@ -8,16 +8,21 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import LoadingSpinner from "@/components/icons/spinner";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const InfiniteScrollDrafts = ({
+  isShow,
+  setIsShow,
   search,
   is_published = false,
 }: {
+  isShow: boolean;
+  setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
   search?: string;
   is_published?: boolean;
 }) => {
@@ -107,7 +112,20 @@ const InfiniteScrollDrafts = ({
   }, [currentPodcastId]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-1 overflow-hidden">
+    <div
+      className={cn(
+        "flex flex-col gap-1 overflow-hidden w-[20dvw] rounded-tr-3xl absolute bottom-0 left-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-50",
+        { "translate-x-0 w-[100dvw]  rounded-tr-none": isShow }
+      )}
+    >
+      <Button
+        onClick={() => setIsShow(false)}
+        className="absolute lg:hidden top-4 right-4 border-none bg-transparent hover:border-none hover:bg-transparent"
+        variant="outline"
+        size="icon"
+      >
+        <X />
+      </Button>
       <div className="w-full h-fit flex flex-col items-center gap-2">
         <div className="w-full h-fit flex items-center justify-center">
           <Image
@@ -141,14 +159,15 @@ const InfiniteScrollDrafts = ({
               <li key={podcast?.id} className="w-full mt-3">
                 <div
                   className={cn(
-                    "w-full rounded-lg p-3 bg-secondary space-y-3 cursor-pointer",
+                    "w-full rounded-lg p-3 bg-white/15 space-y-3 cursor-pointer",
                     {
-                      "bg-background":
+                      "bg-background border border-card-foreground/10":
                         currentPodcastId === podcast?.id.toString(),
                     }
                   )}
                   onClick={() => {
                     setCurrentPodcastId(podcast?.id.toString());
+                    setIsShow(false);
                   }}
                 >
                   <div className="flex items-center justify-between gap-3">

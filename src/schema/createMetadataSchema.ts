@@ -75,23 +75,24 @@ export const createMetadataSchema = z
     podcast_id: z.string().optional(),
     terms: z.boolean(),
   })
-  // .refine(
-  //   (data) => typeof data.podcast_id === "string" && data.background.name,
-  //   {
-  //     message: "error-message.type",
-  //     path: ["background"],
-  //   }
-  // )
-  // .refine(
-  //   (data) => typeof data.podcast_id === "string" && data.thumbnail.name,
-  //   {
-  //     message: "error-message.type",
-  //     path: ["thumbnail"],
-  //   }
-  // )
   .refine((data) => data.terms, {
     message: "error-message.terms",
     path: ["terms"],
   });
 
 export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
+
+// .refine(
+//   (data) => typeof data.podcast_id === "string" && data.background.name,
+//   {
+//     message: "error-message.type",
+//     path: ["background"],
+//   }
+// )
+// .refine(
+//   (data) => typeof data.podcast_id === "string" && data.thumbnail.name,
+//   {
+//     message: "error-message.type",
+//     path: ["thumbnail"],
+//   }
+// )

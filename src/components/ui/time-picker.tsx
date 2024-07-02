@@ -33,7 +33,7 @@ function TimePicker<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="flex flex-col space-y-2">
+        <FormItem className="flex flex-col space-y-2 min-w-32">
           <FormLabel className={cn(" capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

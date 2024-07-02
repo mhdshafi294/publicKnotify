@@ -31,11 +31,13 @@ export const createRequestSchema = z
       )
       .refine(
         (data) => {
-          if (!data?.name) return true;
-          return data?.type.startsWith("image/");
+          if (!data?.name) return true; // Allow if file is not provided
+          return (
+            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
+          );
         },
         {
-          message: "error-message.thumbnail",
+          message: "error-message.background",
         }
       )
       .refine(
@@ -59,8 +61,10 @@ export const createRequestSchema = z
       )
       .refine(
         (data) => {
-          if (!data?.name) return true;
-          return data?.type.startsWith("image/");
+          if (!data?.name) return true; // Allow if file is not provided
+          return (
+            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
+          );
         },
         {
           message: "error-message.background",

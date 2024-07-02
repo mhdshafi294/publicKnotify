@@ -127,7 +127,7 @@ const CreateRequest = () => {
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
-    // console.log(data);
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -139,8 +139,7 @@ const CreateRequest = () => {
     formData.append("publishing_time", data.publishing_time);
     formData.append("company_tag", data.company_tag);
     formData.append("thumbnail", data.thumbnail);
-    formData.append("background", data.background);
-
+    if (data.background) formData.append("background", data.background);
     data.categories.forEach((category, index) => {
       formData.append(`categories[${index}]`, category);
     });
@@ -278,7 +277,6 @@ const CreateRequest = () => {
                       options={["audio", "video"]}
                       className="h-[65px]"
                     /> */}
-
                     <div>
                       <FormInput
                         name="company_tag"

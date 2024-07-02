@@ -9,9 +9,9 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL } from "@/lib/utils";
-import { Image, Upload } from "lucide-react";
+import { Image, Upload, X } from "lucide-react";
 import { Button } from "./button";
 
 interface PropsType<T extends FieldValues>
@@ -32,6 +32,12 @@ function FormFileInput<T extends FieldValues>({
   initValue,
   ...props
 }: PropsType<T>) {
+  const [fileUrl, setFileUrl] = useState<string | null>(initValue || null);
+
+  const handleDelete = (field: any) => {
+    field.onChange(null);
+    setFileUrl(null);
+  };
   return (
     <FormField
       control={control as Control<FieldValues>}
@@ -59,17 +65,17 @@ function FormFileInput<T extends FieldValues>({
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
                 {/* <Upload color="black" /> */}
                 {field.value?.name ? (
-                  <p className="text-black font-semibold">
+                  <p className="text-black font-semibold text-xs md:text-sm px-5">
                     {field.value?.name.length > 20
-                      ? field.value?.name.slice(0, 20) +
+                      ? field.value?.name.slice(0, 7) +
                         "..." +
                         field.value?.name.slice(-3)
                       : field.value?.name}
                   </p>
                 ) : initValue ? (
-                  <p className="text-black font-semibold">
+                  <p className="text-black font-semibold text-xs md:text-sm">
                     {initValue.length > 20
-                      ? initValue.slice(0, 20) + "..." + initValue.slice(-3)
+                      ? initValue.slice(0, 7) + "..." + initValue.slice(-3)
                       : initValue}
                   </p>
                 ) : (
@@ -77,24 +83,36 @@ function FormFileInput<T extends FieldValues>({
                 )}
               </div>
               {field.value?.name ? (
-                <PhotoProvider maskOpacity={0.5}>
-                  <PhotoView src={convertFileToURL(field.value)}>
-                    <Button
-                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute end-2 z-50 hover:bg-transparent"
-                      variant="outline"
-                      size="icon"
-                      type="button"
-                      tabIndex={-1}
-                    >
-                      <Image />
-                    </Button>
-                  </PhotoView>
-                </PhotoProvider>
+                <>
+                  <PhotoProvider maskOpacity={0.5}>
+                    <PhotoView src={convertFileToURL(field.value)}>
+                      <Button
+                        className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-40 hover:bg-transparent"
+                        variant="outline"
+                        size="icon"
+                        type="button"
+                        tabIndex={-1}
+                      >
+                        <Image />
+                      </Button>
+                    </PhotoView>
+                  </PhotoProvider>
+                  <Button
+                    className="rounded-sm text-background border-none outline-none bg-transparent absolute end-2 z-40 hover:bg-transparent"
+                    variant="outline"
+                    size="icon"
+                    type="button"
+                    onClick={() => handleDelete(field)}
+                    tabIndex={-1}
+                  >
+                    <X />
+                  </Button>
+                </>
               ) : initValue ? (
                 <PhotoProvider maskOpacity={0.5}>
                   <PhotoView src={initValue}>
                     <Button
-                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute end-2 z-50 hover:bg-transparent"
+                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-40 hover:bg-transparent"
                       variant="outline"
                       size="icon"
                       type="button"
