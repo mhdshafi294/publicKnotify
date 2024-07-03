@@ -79,20 +79,27 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                     />
                   </FormControl>
                   <FormLabel className="capitalize w-full h-full py-5 flex justify-between cursor-pointer">
-                    {option}
-                    {price && (
-                      <span className=" text-gray-500">
-                        $
-                        {option === "first"
-                          ? price.first
-                          : option === "middle"
-                          ? price.middle
-                          : option === "end"
-                          ? price.end
-                          : option === "video"
-                          ? price.video
-                          : ""}
+                    <div className="flex items-center gap-1">
+                      <span className=" ms-1">
+                        {option === "video" ? "" : "audio"}
                       </span>
+                      {option}
+                    </div>
+                    {price && (
+                      <>
+                        <span className=" text-gray-500">
+                          $
+                          {option === "first"
+                            ? price.first
+                            : option === "middle"
+                            ? price.middle
+                            : option === "end"
+                            ? price.end
+                            : option === "video"
+                            ? price.video
+                            : ""}
+                        </span>
+                      </>
                     )}
                   </FormLabel>
                 </FormItem>

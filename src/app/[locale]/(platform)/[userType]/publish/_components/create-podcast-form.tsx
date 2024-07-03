@@ -51,6 +51,7 @@ const CreatePodcastForm = ({
   const searchParams = useSearchParams();
   const request_id = searchParams.get("request_id");
   const podcast_id = searchParams.get("podcast_id");
+  const params = new URLSearchParams(searchParams.toString());
 
   const form = useForm<createMetadataSchema>({
     resolver: zodResolver(createMetadataSchema),
@@ -160,6 +161,8 @@ const CreatePodcastForm = ({
       toast.dismiss();
       toast.success("Podcast metadata created successfully");
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
+      params.set("podcast_id", podcast_id!);
+      router.push(`?${params.toString()}`);
     },
     onError: () => {
       toast.dismiss();
@@ -182,6 +185,8 @@ const CreatePodcastForm = ({
       toast.dismiss();
       toast.success("Podcast metadata updated successfully");
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
+      params.set("podcast_id", podcast_id!);
+      router.push(`?${params.toString()}`);
     },
     onError: () => {
       toast.dismiss();

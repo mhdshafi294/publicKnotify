@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 import LoadingSpinner from "@/components/icons/spinner";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import ThumbnailsCover from "@/components/thumbnails-cover";
 
 const InfiniteScrollDrafts = ({
   isShow,
@@ -30,8 +31,8 @@ const InfiniteScrollDrafts = ({
   const router = useRouter();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const current_podcast_id = searchParams.get("podcast_id");
   const initialRender = useRef(true);
+  const current_podcast_id = searchParams.get("podcast_id");
   const [currentPodcastId, setCurrentPodcastId] = useState(current_podcast_id);
 
   useEffect(() => {
@@ -126,32 +127,7 @@ const InfiniteScrollDrafts = ({
       >
         <X />
       </Button>
-      <div className="w-full h-fit flex flex-col items-center gap-2">
-        <div className="w-full h-fit flex items-center justify-center">
-          <Image
-            src="/draftL.png"
-            alt="draft"
-            width={126}
-            height={124}
-            className="w-[126px] h-[124px] z-10 rounded-lg object-cover translate-x-14 -rotate-12"
-          />
-          <Image
-            src="/draftC.png"
-            alt="draft"
-            width={150}
-            height={148}
-            className="w-[150px] h-[148px] z-20 rounded-lg object-cover"
-          />
-          <Image
-            src="/draftR.png"
-            alt="draft"
-            width={126}
-            height={124}
-            className="w-[126px] h-[124px] z-10 rounded-lg object-cover -translate-x-14 rotate-12"
-          />
-        </div>
-        <p className="font-semibold z-[999]">Drafts</p>
-      </div>
+      <ThumbnailsCover title={"Drafts"} />
       <ul className="w-full h- p-3 pe-0">
         <ScrollArea className="w-full h-[calc(100vh-300px)] flex flex-wrap gap-5 pe-3">
           {data?.pages.map((page) =>

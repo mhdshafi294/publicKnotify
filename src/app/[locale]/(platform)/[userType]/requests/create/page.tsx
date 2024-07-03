@@ -177,7 +177,7 @@ const CreateRequest = () => {
                 <CardContent className="px-0 mt-5">
                   <PriceRadioGroupFormInput
                     name="ad_place"
-                    label="AD position"
+                    label="AD type & position"
                     control={form.control}
                     options={["first", "middle", "end", "video"]}
                     price={podcaster?.price}
