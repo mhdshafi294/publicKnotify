@@ -35,6 +35,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 }) => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [lastUploadedChunk, setLastUploadedChunk] = useState<number>(0);
+  const [isOffline, setIsOffline] = useState<boolean>(!navigator.onLine);
   const { data: session } = useSession();
   const resumableRef = useRef<Resumable | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -90,12 +91,13 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         setLastUploadedChunk(uploadedChunks);
       });
 
-      resumable.on("fileSuccess", () => {
+      resumable.on("fileSuccess", (file: any, response: any) => {
         toast.dismiss();
         toast.success("File uploaded successfully!");
         setUploadProgress(100);
         hideProgress();
         onUploadSuccess();
+        console.log(file, response);
       });
 
       resumable.on("fileError", (file, response) => {
@@ -111,6 +113,25 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           resumable.uploadNextChunk();
         }
       });
+
+      const handleOnline = () => {
+        setIsOffline(false);
+        if (resumable && resumable.files.length > 0) {
+          resumable.upload();
+        }
+      };
+
+      const handleOffline = () => {
+        setIsOffline(true);
+      };
+
+      window.addEventListener("online", handleOnline);
+      window.addEventListener("offline", handleOffline);
+
+      return () => {
+        window.removeEventListener("online", handleOnline);
+        window.removeEventListener("offline", handleOffline);
+      };
     }
   }, [
     session?.user?.access_token,
@@ -140,7 +161,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       const uniqueIdentifier = `${file.name}-${file.size}`;
       const existingFile = resumable.getFromUniqueIdentifier(uniqueIdentifier);
 
-      if (existingFile !== null && existingFile !== undefined) {
+      // Correctly handle the return value of getFromUniqueIdentifier
+      if (existingFile !== undefined && existingFile !== null) {
         resumable.removeFile(existingFile);
       }
 
@@ -193,6 +215,12 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+      {isOffline && (
+        <div className="text-red-600">
+          You are offline. The upload will resume once the connection is
+          restored.
+        </div>
+      )}
     </div>
   );
 };
