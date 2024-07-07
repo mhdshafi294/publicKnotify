@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "@/components/ui/date-picker";
-import { Form } from "@/components/ui/form";
+import { Form, FormLabel } from "@/components/ui/form";
 import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
@@ -33,6 +33,8 @@ import { SelfPodcastDetails } from "@/types/podcast";
 import { getRequestAction } from "@/app/actions/requestsActions";
 import { RequestDetails } from "@/types/request";
 import { SaveIcon } from "lucide-react";
+import FormFileInputUploader from "@/components/ui/form-input-file-uploader";
+import FileUploader from "@/components/ui/file-uploader";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -196,7 +198,7 @@ const CreatePodcastForm = ({
   });
 
   const handleSubmit = async (data: createMetadataSchema) => {
-    console.log("Form data: ", data);
+    // console.log("Form data: ", data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -256,7 +258,7 @@ const CreatePodcastForm = ({
                 <div className="flex flex-col justify-between lg:justify-center items-start">
                   <h1 className="text-xl font-bold">Podcast Draft</h1>
                   <Button
-                    className="capitalize mt-0 text-sm border-none bg-transparent hover:border-none hover:bg-transparent pl-0"
+                    className="capitalize mt-0 text-sm border-none bg-transparent hover:border-none hover:bg-transparent pl-0 hover:text-white lg:hidden"
                     variant="outline"
                     onClick={() => setIsShow(true)}
                     type="button"
@@ -326,6 +328,19 @@ const CreatePodcastForm = ({
                         podcastResponse?.podcast?.background
                           ? podcastResponse?.podcast?.background
                           : requestResponse?.request?.background
+                      }
+                    />
+                  </div>
+                  <div className="w-full flex flex-col gap-2">
+                    <FormLabel className={"capitalize text-lg"}>
+                      Your Podcast
+                    </FormLabel>
+                    <FileUploader
+                      uploadId={podcast_id}
+                      type={form.getValues("type")}
+                      onUploadSuccess={() => console.log("Upload success")}
+                      onUploadError={(error) =>
+                        console.log("Upload error", error)
                       }
                     />
                   </div>

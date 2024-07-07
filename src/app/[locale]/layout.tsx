@@ -69,8 +69,8 @@ export default async function RootLayout({
             <QueryProvider>{children}</QueryProvider>
           </AuthProvider>
         </NextIntlClientProvider>
+        <Toaster />
       </body>
-      <Toaster />
     </html>
   );
 }

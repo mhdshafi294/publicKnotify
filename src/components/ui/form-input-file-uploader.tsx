@@ -8,22 +8,23 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { Input } from "./input";
 import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL } from "@/lib/utils";
 import { Image, Upload, X } from "lucide-react";
 import { Button } from "./button";
+import FileUploader from "./file-uploader";
+import { PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
-  name: keyof T;
+  name?: keyof T;
   label: string;
   labelClassName?: string | undefined;
-  control: Control<T>;
+  control?: Control<T>;
   initValue?: string;
 }
 
-function FormFileInput<T extends FieldValues>({
+function FormFileInputUploader<T extends FieldValues>({
   control,
   name,
   label,
@@ -38,10 +39,11 @@ function FormFileInput<T extends FieldValues>({
     field.onChange(null);
     setFileUrl(null);
   };
+
   return (
     <FormField
       control={control as Control<FieldValues>}
-      name={name.toString()}
+      name={name ? name.toString() : ""}
       render={({ field }) => (
         <FormItem className="w-full">
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
@@ -49,21 +51,12 @@ function FormFileInput<T extends FieldValues>({
           </FormLabel>
           <FormControl>
             <div className="relative cursor-pointer w-full h-10">
-              <Input
-                className={cn(
-                  "w-full absolute bg-greeny top-0 left-0 opacity-0 cursor-pointer z-20",
-                  className
-                )}
-                type="file"
-                onChange={(e) =>
-                  field.onChange(
-                    e.target.files ? e.target.files?.[0] : undefined
-                  )
-                }
-                {...props}
+              <FileUploader
+                endpoint={`/$podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
+                onUploadSuccess={() => console.log("Upload success")}
+                onUploadError={(error) => console.log("Upload error", error)}
               />
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
-                {/* <Upload color="black" /> */}
                 {field.value?.name ? (
                   <p className="text-black font-semibold text-xs md:text-sm px-5">
                     {field.value?.name.length > 20
@@ -87,7 +80,7 @@ function FormFileInput<T extends FieldValues>({
                   <PhotoProvider maskOpacity={0.5}>
                     <PhotoView src={convertFileToURL(field.value)}>
                       <Button
-                        className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-30 hover:bg-transparent"
+                        className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-40 hover:bg-transparent"
                         variant="outline"
                         size="icon"
                         type="button"
@@ -98,7 +91,7 @@ function FormFileInput<T extends FieldValues>({
                     </PhotoView>
                   </PhotoProvider>
                   <Button
-                    className="rounded-sm text-background border-none outline-none bg-transparent absolute end-2 z-30 hover:bg-transparent"
+                    className="rounded-sm text-background border-none outline-none bg-transparent absolute end-2 z-40 hover:bg-transparent"
                     variant="outline"
                     size="icon"
                     type="button"
@@ -112,7 +105,7 @@ function FormFileInput<T extends FieldValues>({
                 <PhotoProvider maskOpacity={0.5}>
                   <PhotoView src={initValue}>
                     <Button
-                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-30 hover:bg-transparent"
+                      className="rounded-sm border-s-0 rounded-s-none peer-has-[input:focus-visible]:border-primary peer-has-[input:focus-visible]:ring-1 peer-has-[input:focus-visible]:ring-ring text-background hover:text-background border-none outline-none bg-transparent absolute start-2 z-40 hover:bg-transparent"
                       variant="outline"
                       size="icon"
                       type="button"
@@ -132,4 +125,4 @@ function FormFileInput<T extends FieldValues>({
   );
 }
 
-export default FormFileInput;
+export default FormFileInputUploader;

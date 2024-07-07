@@ -115,7 +115,7 @@ const InfiniteScrollDrafts = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-[20dvw] rounded-tr-3xl absolute bottom-0 left-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-50",
+        "flex flex-col gap-1 overflow-hidden w-[20dvw] rounded-tr-3xl absolute bottom-0 left-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
         { "translate-x-0 w-[100dvw]  rounded-tr-none": isShow }
       )}
     >
@@ -129,7 +129,7 @@ const InfiniteScrollDrafts = ({
       </Button>
       <ThumbnailsCover title={"Drafts"} />
       <ul className="w-full h- p-3 pe-0">
-        <ScrollArea className="w-full h-[calc(100vh-300px)] flex flex-wrap gap-5 pe-3">
+        <ScrollArea className="w-full h-[calc(100vh-200px)] flex flex-wrap gap-5 pe-3">
           {data?.pages.map((page) =>
             page?.podcasts.map((podcast) => (
               <li key={podcast?.id} className="w-full mt-3">
@@ -150,7 +150,7 @@ const InfiniteScrollDrafts = ({
                     <p className="font-bold text-sm">{podcast?.name}</p>
                     <SquareArrowOutUpRightIcon
                       size={12}
-                      className="text-card-foreground/30"
+                      className="text-card-foreground/70"
                     />
                   </div>
                   <div className="flex items-center justify-between gap-3">
