@@ -17,7 +17,7 @@ const CategoryCard: FC<PropsType> = ({ category }) => {
       <div className="size-10 relative">
         <Image
           fill
-          className="rounded object-cover"
+          className="rounded object-contain"
           src={category.image ? category.image : "/podcast-filler.webp"}
           alt={category.name}
         />

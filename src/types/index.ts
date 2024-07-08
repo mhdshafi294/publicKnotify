@@ -4,7 +4,7 @@ export type Pagination = {
   last_page_url: string;
   next_page_url: string | null;
   per_page: number;
-  prev_page_url: string | null;
+  prev_page_url: null;
   total: number;
 };
 export type ApiResponse = {

@@ -49,11 +49,7 @@ export function LanguageSwitcher() {
             const href = `/${pathname.split("/").slice(2).join("/")}?${params}`;
             if (session) {
               return (
-                <Link
-                  key={locale}
-                  href={`/${session.user?.type}`}
-                  locale={locale}
-                >
+                <Link key={locale} href={href} locale={locale}>
                   <DropdownMenuItem className="px-4 py-1">
                     {name}
                   </DropdownMenuItem>
@@ -61,7 +57,7 @@ export function LanguageSwitcher() {
               );
             } else {
               return (
-                <Link key={locale} href={`/`} locale={locale}>
+                <Link key={locale} href={href} locale={locale}>
                   <DropdownMenuItem className="px-4 py-1">
                     {name}
                   </DropdownMenuItem>

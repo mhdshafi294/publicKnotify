@@ -71,7 +71,7 @@ const UnfavoriteButton: React.FC<UnfavoriteButtonProps> = ({
             onClick={handleUnFavorite}
           >
             <Heart
-              size={20}
+              size={triggerSize}
               fill="#004FFF"
               stroke="#004FFF"
               className="cursor-pointer hover:stroke-primary duration-300"

@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
+  className?: string;
   label: string;
   labelClassName?: string | undefined;
   control: Control<T>;
@@ -21,6 +22,7 @@ interface PropsType<T extends FieldValues>
 function FormInput<T extends FieldValues>({
   control,
   name,
+  className,
   label,
   labelClassName,
   ...props
@@ -35,7 +37,7 @@ function FormInput<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <Input className="w-full" dir="ltr" {...props} {...field} />
+            <Input className={cn("w-full", className)} {...props} {...field} />
           </FormControl>
           <FormMessage className="capitalize font-normal" />
         </FormItem>

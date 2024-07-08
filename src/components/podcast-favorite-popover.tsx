@@ -14,9 +14,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  AddToFavoriteAction,
+  addToFavoriteAction,
   getMyFavoriteCategoriesListAction,
-  RemoveFromFavoriteAction,
+  removeFromFavoriteAction,
 } from "@/app/actions/podcastActions";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -69,7 +69,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
     mutate: server_AddToFavoriteAction,
     isPending: isAddFavoritePending,
   } = useMutation({
-    mutationFn: AddToFavoriteAction,
+    mutationFn: addToFavoriteAction,
     onSuccess: () => {
       toast.success("added successfully.");
       setIsFavorite(true);

@@ -10,7 +10,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { getDirection } from "@/lib/utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 
 const TrendingSection = ({
   params,
@@ -19,6 +21,9 @@ const TrendingSection = ({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const locale = useLocale();
+  const direction = getDirection(locale);
+
   const { isPending, isError, error, data, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["trending"],
@@ -47,7 +52,7 @@ const TrendingSection = ({
 
   return (
     <MaxWidthContainer className="w-full">
-      <Carousel opts={{ slidesToScroll: "auto" }} className="w-full">
+      <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
         <div className="flex justify-between items-center">
           <h2 className="font-bold text-2xl">Trending Podcasts</h2>
           <div className="flex relative justify-end items-center end-[80px]">
@@ -55,14 +60,14 @@ const TrendingSection = ({
             <CarouselNext />
           </div>
         </div>
-        <CarouselContent className="w-full mt-5">
+        <CarouselContent className="w-full mt-5 ms-0">
           {isPending ? (
             Array(10)
               .fill(0)
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
                 >
                   <PodcastCardLoading />
                 </CarouselItem>
@@ -74,7 +79,7 @@ const TrendingSection = ({
               page.podcasts.map((podcast) => (
                 <CarouselItem
                   key={podcast.id}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
                 >
                   <PodcastCard podcast={podcast} />
                 </CarouselItem>
@@ -87,7 +92,7 @@ const TrendingSection = ({
               .map((_, index) => (
                 <CarouselItem
                   key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5"
+                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
                 >
                   <PodcastCardLoading />
                 </CarouselItem>

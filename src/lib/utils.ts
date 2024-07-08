@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -24,4 +24,23 @@ export const getTimeZoneOffsetInHours = (): number => {
   const timezoneOffsetInHours = -timezoneOffsetInMinutes / 60;
 
   return timezoneOffsetInHours;
+};
+
+// Create a utility function to determine whether the current language is RTL or LTR.
+const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
+
+export function getDirection(locale: string): "rtl" | "ltr" {
+  return RTL_LANGUAGES.includes(locale) ? "rtl" : "ltr";
+}
+
+/**
+ * Converts a File object to a URL string using URL.createObjectURL.
+ *
+ * @param {File} file - the File object to convert to a URL
+ * @return {string} the URL string representing the File object
+ */
+export const convertFileToURL = (file: File | undefined): string => {
+  if (!file) return "";
+  const url = URL.createObjectURL(file);
+  return url;
 };

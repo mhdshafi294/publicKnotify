@@ -54,7 +54,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         redirect: false,
         callbackUrl: "/", // TODO: Add callback url
       });
-      console.log(signInResponse);
+      // console.log(signInResponse);
       if (signInResponse!.ok) {
         setLoading(false);
         toast.success("Signed In successfully!.");

@@ -1,4 +1,4 @@
-import getCategory from "@/services/podcast/get-category";
+import getCategories from "@/services/podcast/get-categories";
 import { getTranslations } from "next-intl/server";
 import CategoryCard from "./category-card";
 import {
@@ -9,15 +9,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { useLocale } from "next-intl";
+import { getDirection } from "@/lib/utils";
 
 const CategorySecrtion = async () => {
-  const categories = await getCategory();
+  const categories = await getCategories();
   const t = await getTranslations("Index");
+  const locale = useLocale();
+  const direction = getDirection(locale);
 
   return (
     <MaxWidthContainer className="w-full px-0 ps-4">
       <Carousel
-        opts={{ align: "start", containScroll: false, dragFree: true }}
+        opts={{
+          align: "start",
+          dragFree: true,
+          direction,
+        }}
         className="w-full"
       >
         <div className="flex justify-between items-center">
@@ -27,12 +35,9 @@ const CategorySecrtion = async () => {
           <CarouselNext />
         </div> */}
         </div>
-        <CarouselContent className="w-full mt-5 -ml-4">
+        <CarouselContent className="w-full mt-5">
           {categories.map((category) => (
-            <CarouselItem
-              key={category.id}
-              className="basis-auto md:basis-1/4 lg:basis-[14%]"
-            >
+            <CarouselItem key={category.id} className="basis-auto">
               <CategoryCard key={category.id} category={category} />
             </CarouselItem>
           ))}

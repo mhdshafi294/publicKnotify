@@ -5,7 +5,7 @@ import {
   newPasswordSchema,
   signUpSchema,
 } from "@/schema/authSchema";
-import ConfirmCheckCode from "@/services/auth/check-code";
+import confirmCheckCode from "@/services/auth/check-code";
 import newPassword from "@/services/auth/new-password";
 import sendCode from "@/services/auth/send-code";
 import signUp from "@/services/auth/sign-up";
@@ -22,7 +22,7 @@ export const signUpAction = async ({
   return signUpResponse;
 };
 
-export const ConfirmCheckCodeAction = async ({
+export const confirmCheckCodeAction = async ({
   code,
   phone,
   type,
@@ -31,7 +31,7 @@ export const ConfirmCheckCodeAction = async ({
   phone: string;
   type: string;
 }) => {
-  const ConfirmCheckCodeResponse = await ConfirmCheckCode({
+  const ConfirmCheckCodeResponse = await confirmCheckCode({
     code,
     phone,
     type,

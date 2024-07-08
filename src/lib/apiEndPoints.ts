@@ -11,16 +11,24 @@ export const CHECK_CREDENTIALS = "/checkCredentials";
 export const LOGOUT_URL = "/logout";
 
 export const PODCAST = "/podcast";
+export const PODCASTS = "/podcasts";
 export const PODCASTER = `/podcaster`;
 
 export const TRENDING = `${PODCAST}/trending`;
 export const FAVORITES_CATEGORIES = `/my-favorite-categories`;
 export const ADD_FAVORITES = `/add-to-favorite`;
 export const REMOVE_FROM_FAVORITES = `/remove-from-favorite`;
-export const REQUESTS = "/request";
+export const REQUEST = "/request";
 export const INDEX = "/index";
 export const SHOW = "/show";
+export const DETAILS = "/details";
+export const CREATE = "/create";
+export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";
+export const METADATA = "/metadata";
+export const UPDATE_METADATA = "/update-metadata";
+export const UPLOAD_MEDIA_FILE = "/upload-media-file";
+export const PUBLISH = "/publish";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

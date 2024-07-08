@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios.config";
 import { CHECK_CODE } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
-const ConfirmCheckCode = async ({
+const confirmCheckCode = async ({
   code,
   phone,
   type,
@@ -19,4 +19,4 @@ const ConfirmCheckCode = async ({
   return data;
 };
 
-export default ConfirmCheckCode;
+export default confirmCheckCode;

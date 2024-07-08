@@ -13,23 +13,29 @@ const DesktopNavbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 
-  console.log(pathname);
+  // console.log(pathname);
 
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
       <UserOptions />
       <NotificationsDropdown />
-      <div className="flex justify-end gap-5">
+      <div className="flex justify-end items-center gap-5">
         {mainNavLinks.map((link) => {
           if (link.label === "New Publish") {
             return (
               <Link
                 key={link.id}
-                href={`/${session?.user?.type}/${link.href}`}
+                href={`/${session?.user?.type}${link.href}`}
                 className={cn(
-                  buttonVariants({ variant: "outline" }),
-                  " text-white hover:text-white border-white bg-transparent hover:bg-white/5",
+                  buttonVariants({
+                    variant:
+                      (pathname.includes(link.href) && link.href !== "/") ||
+                      (link.href === "/" && pathname.lastIndexOf("/") === 0)
+                        ? "default"
+                        : "outline",
+                  }),
+                  " text-white hover:text-white border-white hover:bg-white/10 h-9 px-5",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >
@@ -40,11 +46,11 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.href}
-                href={`/${session?.user?.type}/${link.href}`}
+                href={`/${session?.user?.type}${link.href}`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
 
-                  "text-white p-0 hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-3 hover:before:rounded-full",
+                  "text-white p-0 no-underline hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-4 hover:before:rounded-full",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:translate-y-4 before:rounded-full":
                       (pathname.includes(link.href) && link.href !== "/") ||

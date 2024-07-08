@@ -1,6 +1,5 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
 
 import { newPasswordSchema } from "@/schema/authSchema";

@@ -14,16 +14,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
+  className?: string;
   label?: string;
   labelClassName?: string | undefined;
+  checkboxClassName?: string;
   control: Control<T>;
 }
 
 function FormCheckbox<T extends FieldValues>({
   control,
+  className,
   name,
   label,
   labelClassName,
+  checkboxClassName,
   ...props
 }: PropsType<T>) {
   return (
@@ -31,12 +35,17 @@ function FormCheckbox<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full flex items-center justify-start gap-2 mt-12">
+        <FormItem
+          className={cn(
+            "w-full flex items-center justify-start gap-2 mt-12",
+            className
+          )}
+        >
           <FormControl className="flex justify-center items-center">
             <Checkbox
               checked={field.value}
               onCheckedChange={field.onChange}
-              className={cn("peer", props.className)}
+              className={cn("peer", checkboxClassName)}
             />
           </FormControl>
           <FormLabel

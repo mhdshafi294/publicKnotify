@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import usePlayerStore from "@/store/use-player-store";
 import { useQuery } from "@tanstack/react-query";
 import { Play, Pause, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { ElementRef, Fragment, useEffect, useRef, useState } from "react";
 
@@ -16,16 +17,21 @@ const Player = () => {
   const isPlaying = usePlayerStore((state) => state.isRunning);
   const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
   const toggleRunning = usePlayerStore((state) => state.toggleRunning);
-  const ref = useRef<ElementRef<"audio">>(null);
-  const { data, isPending, isError } = useQuery({
-    queryKey: ["podcast", podcastId],
-    enabled: !!podcastId,
-    queryFn: () => getPodcastDataAction({ type: "user", id: podcastId! }),
-  });
+  const { data: session } = useSession();
+
   const [volume, setVolume] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [sliderValue, setSliderValue] = useState([0]);
+
+  const ref = useRef<ElementRef<"audio">>(null);
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["podcast", podcastId],
+    enabled: !!podcastId,
+    queryFn: () =>
+      getPodcastDataAction({ type: session?.user?.type!, id: podcastId! }),
+  });
 
   useEffect(() => {
     if (ref.current) {
@@ -122,7 +128,7 @@ const Player = () => {
 
   return (
     <Fragment>
-      <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-5")} />
+      <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-0")} />
       <footer
         className={cn(
           "fixed transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-secondary w-full",

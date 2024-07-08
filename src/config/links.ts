@@ -23,6 +23,6 @@ export const mainNavLinks: link[] = [
   },
   {
     label: "New Publish",
-    href: "/new-publish",
+    href: "/publish",
   },
 ].map((link, index) => ({ ...link, id: index + 1 }));

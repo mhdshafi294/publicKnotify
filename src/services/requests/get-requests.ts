@@ -1,4 +1,4 @@
-import { INDEX, REQUESTS, TRENDING } from "@/lib/apiEndPoints";
+import { INDEX, REQUEST, TRENDING } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { RequestsResponse } from "@/types/request";
 
@@ -16,7 +16,7 @@ const getRequests = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.get<RequestsResponse>(
-    `/${type}${REQUESTS}${INDEX}`,
+    `/${type}${REQUEST}${INDEX}`,
     {
       params: {
         page,
