@@ -6,7 +6,7 @@ import RequestCard from "./request-card";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { getRequestsAction } from "@/app/actions/requestsActions";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import LoadingSpinner from "@/components/icons/spinner";
+import Loader from "@/components/ui/loader";
 
 const InfiniteScrollRequests = ({
   initialRequests,
@@ -187,7 +187,7 @@ const InfiniteScrollRequests = ({
         ref={ref}
         className="col-span-1 mt-1 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
       >
-        {isFetchingNextPage && <LoadingSpinner className="size-9" />}
+        {isFetchingNextPage && <Loader className="size-9" />}
         <span className="sr-only">Loading...</span>
       </div>
     </>
