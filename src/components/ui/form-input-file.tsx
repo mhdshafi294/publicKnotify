@@ -11,7 +11,7 @@ import {
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL } from "@/lib/utils";
-import { Image, Upload, X } from "lucide-react";
+import { Image, ReplaceIcon, Upload, X } from "lucide-react";
 import { Button } from "./button";
 
 interface PropsType<T extends FieldValues>
@@ -21,6 +21,7 @@ interface PropsType<T extends FieldValues>
   labelClassName?: string | undefined;
   control: Control<T>;
   initValue?: string;
+  disabled?: boolean;
 }
 
 function FormFileInput<T extends FieldValues>({
@@ -30,6 +31,7 @@ function FormFileInput<T extends FieldValues>({
   labelClassName,
   className,
   initValue,
+  disabled,
   ...props
 }: PropsType<T>) {
   const [fileUrl, setFileUrl] = useState<string | null>(initValue || null);
@@ -50,6 +52,7 @@ function FormFileInput<T extends FieldValues>({
           <FormControl>
             <div className="relative cursor-pointer w-full h-10">
               <Input
+                disabled={disabled}
                 className={cn(
                   "w-full absolute bg-greeny top-0 left-0 opacity-0 cursor-pointer z-20",
                   className
@@ -65,19 +68,25 @@ function FormFileInput<T extends FieldValues>({
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
                 {/* <Upload color="black" /> */}
                 {field.value?.name ? (
-                  <p className="text-black font-semibold text-xs md:text-sm px-5">
-                    {field.value?.name.length > 20
-                      ? field.value?.name.slice(0, 7) +
-                        "..." +
-                        field.value?.name.slice(-3)
-                      : field.value?.name}
-                  </p>
+                  <div className="flex justify-center items-center gap-2">
+                    <ReplaceIcon color="black" size={16} />
+                    <p className="text-black font-semibold text-xs md:text-sm px-5">
+                      {field.value?.name.length > 20
+                        ? field.value?.name.slice(0, 7) +
+                          "..." +
+                          field.value?.name.slice(-3)
+                        : field.value?.name}
+                    </p>
+                  </div>
                 ) : initValue ? (
-                  <p className="text-black font-semibold text-xs md:text-sm">
-                    {initValue.length > 20
-                      ? initValue.slice(0, 7) + "..." + initValue.slice(-3)
-                      : initValue}
-                  </p>
+                  <div className="flex justify-center items-center gap-2">
+                    <ReplaceIcon color="black" size={16} />
+                    <p className="text-black font-semibold text-xs md:text-sm">
+                      {initValue.length > 20
+                        ? initValue.slice(0, 7) + "..." + initValue.slice(-3)
+                        : initValue}
+                    </p>
+                  </div>
                 ) : (
                   <Upload color="black" />
                 )}

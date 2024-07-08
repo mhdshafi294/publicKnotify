@@ -35,6 +35,8 @@ import { RequestDetails } from "@/types/request";
 import { SaveIcon } from "lucide-react";
 import FormFileInputUploader from "@/components/ui/form-input-file-uploader";
 import FileUploader from "@/components/ui/file-uploader";
+import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import PublishButton from "./publish-button";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -78,6 +80,8 @@ const CreatePodcastForm = ({
     setIsMounted(true);
   }, []);
 
+  let podcastType = form.watch("type");
+
   useEffect(() => {
     if (
       isMounted &&
@@ -110,6 +114,12 @@ const CreatePodcastForm = ({
     queryFn: () => getRequestAction({ id: request_id!, type: "podcaster" }),
     enabled: !!request_id && !podcast_id && isMounted,
   });
+
+  useEffect(() => {
+    if (podcastResponse && podcastResponse?.podcast?.is_published) {
+      router.push(`/${session?.user?.type}`); // TODO: redirect to podcast page
+    }
+  }, [podcastResponse]);
 
   useEffect(() => {
     if (!isPodcastPending && !isPodcastError && podcastResponse?.podcast) {
@@ -272,15 +282,24 @@ const CreatePodcastForm = ({
                       isPendingUpdateMetadata || isPendingCreateMetadata
                     }
                     className="capitalize mt-0 text-sm"
+                    variant={"outline"}
                     type="submit"
                   >
-                    <SaveIcon className="size-3 mr-1" />
+                    <SaveIcon className="size-4 mr-1.5" strokeWidth={1.5} />
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
                     ) : (
                       "Save draft"
                     )}
                   </Button>
+                  <PublishButton
+                    podcast_id={podcast_id!}
+                    disabled={
+                      podcastResponse?.podcast?.is_published ||
+                      podcastResponse?.podcast?.podcast.length === 0 ||
+                      !podcast_id
+                    }
+                  />
                 </div>
               </div>
               <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
@@ -322,6 +341,7 @@ const CreatePodcastForm = ({
                     <FormFileInput
                       name="background"
                       label="Background"
+                      disabled={form.getValues("type") === "video"}
                       control={form.control}
                       className="w-full"
                       initValue={
@@ -336,8 +356,15 @@ const CreatePodcastForm = ({
                       Your Podcast
                     </FormLabel>
                     <FileUploader
+                      key={form.watch("type")}
                       uploadId={podcast_id}
-                      type={form.getValues("type")}
+                      type={podcastType}
+                      endpoint={`${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
+                      initValue={
+                        podcastResponse?.podcast?.podcast
+                          ? podcastResponse?.podcast?.podcast
+                          : undefined
+                      }
                       onUploadSuccess={() => console.log("Upload success")}
                       onUploadError={(error) =>
                         console.log("Upload error", error)

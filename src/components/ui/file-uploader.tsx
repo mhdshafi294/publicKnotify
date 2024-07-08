@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/tooltip";
 import { useSession } from "next-auth/react";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
-import { BadgeInfoIcon, UploadIcon } from "lucide-react";
+import {
+  BadgeInfoIcon,
+  FileVideoIcon,
+  ReplaceIcon,
+  UploadIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "./input";
 import Resumable from "resumablejs";
@@ -19,6 +24,7 @@ import Resumable from "resumablejs";
 interface FileUploaderProps {
   endpoint?: string;
   uploadId?: string | null;
+  initValue?: string;
   type: "audio" | "video";
   onUploadSuccess: () => void;
   onUploadError: (error: any) => void;
@@ -29,12 +35,14 @@ const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 const FileUploader: React.FC<FileUploaderProps> = ({
   endpoint,
   uploadId,
+  initValue,
   type,
   onUploadSuccess,
   onUploadError,
 }) => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [lastUploadedChunk, setLastUploadedChunk] = useState<number>(0);
+  const [fileName, setFileName] = useState<string>("");
   const [isOffline, setIsOffline] = useState<boolean>(!navigator.onLine);
   const { data: session } = useSession();
   const resumableRef = useRef<Resumable | null>(null);
@@ -43,7 +51,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   useEffect(() => {
     if (session?.user?.access_token && uploadId) {
       const resumable = new Resumable({
-        target: `${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`,
+        target:
+          endpoint || `${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`,
         query: { podcast_id: uploadId },
         headers: {
           Accept: "application/json",
@@ -65,6 +74,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       resumable.assignBrowse(fileInputRef.current!, false);
 
       resumable.on("fileAdded", (file) => {
+        // console.log(file);
+        console.log(file.file.type);
+        console.log(type);
+        console.log(type === "audio" && !file.file.type.startsWith("audio/"));
         if (
           (type === "audio" && !file.file.type.startsWith("audio/")) ||
           (type === "video" && !file.file.type.startsWith("video/"))
@@ -74,8 +87,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           return;
         }
 
+        setFileName(file.file.name);
         toast.loading("Uploading file...");
-        showProgress();
+        toggleProgress();
         resumable.upload();
       });
 
@@ -95,15 +109,18 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         toast.dismiss();
         toast.success("File uploaded successfully!");
         setUploadProgress(100);
-        hideProgress();
+        toggleProgress();
         onUploadSuccess();
         console.log(file, response);
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
       });
 
       resumable.on("fileError", (file, response) => {
         toast.dismiss();
         toast.error("Something went wrong. Please try again!");
-        hideProgress();
+        toggleProgress();
         onUploadError(response);
         console.error(response);
       });
@@ -140,18 +157,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     onUploadError,
     type,
     lastUploadedChunk,
+    endpoint,
   ]);
 
-  const showProgress = () => {
+  const toggleProgress = () => {
     setUploadProgress(0);
   };
 
   const updateProgress = (value: number) => {
     setUploadProgress(value);
-  };
-
-  const hideProgress = () => {
-    setUploadProgress(0);
   };
 
   const handleFileChange = () => {
@@ -165,7 +179,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       if (existingFile !== undefined && existingFile !== null) {
         resumable.removeFile(existingFile);
       }
-
       resumable.addFile(file);
     }
   };
@@ -192,13 +205,31 @@ const FileUploader: React.FC<FileUploaderProps> = ({
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
                 {uploadProgress > 0 && uploadProgress < 100 ? (
                   <div className="flex flex-col w-full px-4 pb-2 items-center gap-1 mt-2">
-                    <p className="text-sm text-black font-bold">
-                      {uploadProgress}%
-                    </p>
+                    <div className="flex w-full justify-center items-center gap-1 relative">
+                      <div className="absolute start-4 flex gap-2 items-center">
+                        <FileVideoIcon color="black" className="" size={16} />
+                        <p className="text-sm text-black font-bold ">
+                          {fileName}
+                        </p>
+                      </div>
+                      <p className="text-sm text-black font-bold">
+                        {uploadProgress}%
+                      </p>
+                    </div>
                     <Progress
-                      className="w-full h-1 bg-greeny"
+                      className="w-full h-2 bg-greeny"
                       value={uploadProgress}
                     />
+                  </div>
+                ) : initValue ? (
+                  <div className="flex justify-center items-center gap-2">
+                    <FileVideoIcon color="black" className="absolute start-4" />
+                    <ReplaceIcon color="black" size={16} />
+                    <p className="text-black font-semibold text-xs md:text-sm">
+                      {initValue.length > 20
+                        ? initValue.slice(0, 14) + "..." + initValue.slice(-3)
+                        : initValue}
+                    </p>
                   </div>
                 ) : (
                   <UploadIcon color="black" />
@@ -209,8 +240,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           <TooltipContent className="flex items-center gap-1 bg-primary">
             <BadgeInfoIcon size={16} />
             <p className="font-medium text-base">
-              You need to save the podcast data as a draft before you can upload
-              your podcast
+              Ensure that you saved the podcast data as a draft before you can
+              upload your podcast
             </p>
           </TooltipContent>
         </Tooltip>
