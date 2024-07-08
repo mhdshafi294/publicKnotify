@@ -51,11 +51,11 @@ function FormFileInputUploader<T extends FieldValues>({
           </FormLabel>
           <FormControl>
             <div className="relative cursor-pointer w-full h-10">
-              <FileUploader
+              {/* <FileUploader
                 endpoint={`/$podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
                 onUploadSuccess={() => console.log("Upload success")}
                 onUploadError={(error) => console.log("Upload error", error)}
-              />
+              /> */}
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
                 {field.value?.name ? (
                   <p className="text-black font-semibold text-xs md:text-sm px-5">
