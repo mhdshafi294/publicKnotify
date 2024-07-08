@@ -15,7 +15,7 @@ import { CategoryDetails } from "@/types/podcast";
 import { useQuery } from "@tanstack/react-query";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useSearchParams } from "next/navigation";
-import LoadingSpinner from "@/components/icons/spinner";
+import Loader from "./loader";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -89,7 +89,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
                   size={"sm"}
                 >
                   {isCategoriesPending ? (
-                    <LoadingSpinner />
+                    <Loader />
                   ) : isCategoriesError ? (
                     <div>{categoriesError.message}</div>
                   ) : (

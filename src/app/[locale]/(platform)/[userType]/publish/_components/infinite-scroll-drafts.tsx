@@ -11,10 +11,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import LoadingSpinner from "@/components/icons/spinner";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import ThumbnailsCover from "@/components/thumbnails-cover";
+import Loader from "@/components/ui/loader";
 
 const InfiniteScrollDrafts = ({
   isShow,
@@ -167,7 +166,7 @@ const InfiniteScrollDrafts = ({
           )}
           {/* loading spinner */}
           <div ref={ref} className="mt-4 flex items-center justify-center">
-            {isFetchingNextPage && <LoadingSpinner />}
+            {isFetchingNextPage && <Loader />}
             <span className="sr-only">Loading...</span>
           </div>
           <ScrollBar />
