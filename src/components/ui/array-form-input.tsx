@@ -48,7 +48,7 @@ function ArrayFormInput<T extends FieldValues>({
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === " " && event.currentTarget.value.trim() !== "") {
-      const createdCategory = event.currentTarget.value;
+      const createdCategory = event.currentTarget.value.trim();
       setItems((prev) => {
         if (!prev.includes(createdCategory.trim())) {
           return [...prev, createdCategory.trim()];

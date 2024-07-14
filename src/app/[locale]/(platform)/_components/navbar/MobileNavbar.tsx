@@ -26,10 +26,10 @@ const MobileNavbar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex md:hidden flex-row-reverse justify-end items-center h-full gap-6">
+    <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
       <Sheet>
         <SheetTrigger
-          className={buttonVariants({ size: "icon", variant: "outline" })}
+          className={buttonVariants({ size: "icon", variant: "ghost" })}
         >
           <AlignJustifyIcon />
         </SheetTrigger>
