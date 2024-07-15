@@ -6,7 +6,7 @@ import {
   TRENDING,
 } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { RequestsResponse } from "@/types/request";
+import { PodcastsResponse } from "@/types/podcast";
 
 const getMyFavoritePodcasts = async ({
   page,
@@ -19,7 +19,7 @@ const getMyFavoritePodcasts = async ({
   search?: string;
   type: string;
 }) => {
-  const { data } = await axiosInstance.get<RequestsResponse>(
+  const { data } = await axiosInstance.get<PodcastsResponse>(
     `/${type}${PODCAST}${FAVORITES_LIST}`,
     {
       params: {
