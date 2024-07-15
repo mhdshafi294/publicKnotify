@@ -5,7 +5,9 @@ import createMedia from "@/services/podcast/create-media";
 import createMetadata from "@/services/podcast/create-metadata";
 import deleteSelfPodcast from "@/services/podcast/delete-self-podcast";
 import getCategories from "@/services/podcast/get-categories";
-import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categoris-list";
+import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categories-list";
+import getMyFavoritePodcasters from "@/services/podcast/get-my-favorite-podcasters";
+import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
@@ -168,4 +170,42 @@ export const deleteSelfPodcastAction = async ({
   type: string;
 }) => {
   return await deleteSelfPodcast({ id, type });
+};
+
+export const getMyFavoritePodcastsAction = async ({
+  page,
+  count = "12",
+  search,
+  type,
+}: {
+  page: string;
+  count?: string;
+  search?: string;
+  type: string;
+}) => {
+  return await getMyFavoritePodcasts({
+    page,
+    count,
+    search,
+    type,
+  });
+};
+
+export const getMyFavoritePodcastersAction = async ({
+  page,
+  count = "12",
+  search,
+  type,
+}: {
+  page: string;
+  count?: string;
+  search?: string;
+  type: string;
+}) => {
+  return await getMyFavoritePodcasters({
+    page,
+    count,
+    search,
+    type,
+  });
 };

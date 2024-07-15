@@ -16,6 +16,7 @@ export const PODCASTER = `/podcaster`;
 
 export const TRENDING = `${PODCAST}/trending`;
 export const FAVORITES_CATEGORIES = `/my-favorite-categories`;
+export const FAVORITES_LIST = `/my-favorite-list`;
 export const ADD_FAVORITES = `/add-to-favorite`;
 export const REMOVE_FROM_FAVORITES = `/remove-from-favorite`;
 export const REQUEST = "/request";

@@ -82,8 +82,11 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     event.stopPropagation();
-    if (event.key === "Enter") {
-      const createdCategory = event.currentTarget.value;
+    if (
+      event.key === "Enter" ||
+      (event.key === " " && event.currentTarget.value.trim() !== "")
+    ) {
+      const createdCategory = event.currentTarget.value.trim();
       queryClient.setQueryData(
         ["favorite_categories", session.data?.user?.id],
         (old: Category[]) => {
@@ -91,7 +94,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
             return [
               ...old,
               {
-                id: 999,
+                id: old.length > 0 ? old[old.length - 1].id + 1 : 1,
                 name: createdCategory,
                 created_at: new Date().getDay().toString(),
               },
@@ -172,16 +175,19 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
           onFocus={(e) => e.stopPropagation()}
           onKeyDown={createNewCategory}
           type="text"
-          placeholder="Create new list, press ENTER to add"
+          placeholder="New Favourite List"
           className="h-full bg-secondary/30 outline-none border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-none"
         />
+        <p className="py-2 px-3 text-xs opacity-50 font-light">
+          Type and press SPACE to add new list
+        </p>
         <Separator className="mb-4 bg-slate-900" />
         <ScrollArea className="min-h-36 max-h-80 px-2">
           <ToggleGroup type="multiple" className="mt-2 flex-wrap" size={"sm"}>
             {isCategoriesPending ? (
               <div>Loading...</div>
             ) : isCategoriesError ? (
-              <div>Error</div>
+              <div>Somthing went wrong</div>
             ) : (
               categories.map((category, index) => (
                 <ToggleGroupItem
