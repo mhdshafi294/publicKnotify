@@ -1,26 +1,28 @@
 import { FAVORITES_LIST, PODCASTER } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { RequestsResponse } from "@/types/request";
+import { PodcastersResponse } from "@/types/podcaster";
 
 const getMyFavoritePodcasters = async ({
   page,
   count,
-  search,
   type,
-}: {
+  category_id,
+}: // search,
+{
   page: string;
   count: string;
-  search?: string;
-
   type: string;
+  category_id?: string;
+  // search?: string;
 }) => {
-  const { data } = await axiosInstance.get<RequestsResponse>(
+  const { data } = await axiosInstance.get<PodcastersResponse>(
     `/${type}${PODCASTER}${FAVORITES_LIST}`,
     {
       params: {
         page,
         count,
-        search,
+        category_id,
+        // search,
       },
     }
   );

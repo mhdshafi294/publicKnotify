@@ -8,24 +8,36 @@ import { Podcaster } from "@/types/podcaster";
 import PodcasterFavoritePopover from "./podcaster-favorite-popover";
 import UnfavoriteButton from "./unfavorite-button";
 import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
+import { cn } from "@/lib/utils";
 
 type PodCasterCardProps = {
   podcaster: Podcaster;
+  className?: string;
 };
 
-export const PodcasterCard: React.FC<PodCasterCardProps> = ({ podcaster }) => {
+export const PodcasterCard: React.FC<PodCasterCardProps> = ({
+  podcaster,
+  className,
+}) => {
   const [isFavorite, setIsFavorite] = useState(podcaster.is_favorite);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcaster.favourite_categories.map((category) => category.name)
   );
 
   return (
-    <div className="w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300">
+    <div
+      className={cn(
+        "w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300",
+        className
+      )}
+    >
       <div className="relative aspect-square rounded-lg">
         <Image
           src={podcaster.image ? podcaster.image : "/podcaster-filler.webp"}
           alt={`${podcaster.full_name} thumbnail`}
           fill
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover rounded-lg"
         />
       </div>

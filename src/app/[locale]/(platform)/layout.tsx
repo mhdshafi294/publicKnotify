@@ -3,7 +3,7 @@ import Player from "./_components/player/player";
 
 const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full min-h-screen w-full">
+    <div className="h-full min-h-screen w-full flex flex-col">
       <Navbar />
       {children}
       <Player />

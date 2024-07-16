@@ -29,7 +29,10 @@ const NotificationsDropdown = () => {
         <PopoverTrigger asChild>
           <Button variant="secondary" size="icon" className="bg-transparent">
             <span className="sr-only">notifications</span>
-            <BellRing strokeWidth={1.5} className="stroke-white" />
+            <BellRing
+              strokeWidth={1.5}
+              className="stroke-white size-[18px] lg:size-auto"
+            />
             {unreadNotifications && !isOpen ? (
               <span className="size-4 bg-red-600 text-white rounded-full text-xs flex justify-center items-center absolute top-0 -right-1 before:absolute before:inset-0 before:bg-red-600 before:rounded-full before:animate-ping before:-z-0">
                 {unreadNotifications}

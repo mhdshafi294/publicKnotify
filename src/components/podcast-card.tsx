@@ -9,25 +9,36 @@ import PodcastFavoritePopover from "./podcast-favorite-popover";
 import { removeFromFavoriteAction } from "@/app/actions/podcastActions";
 import { useState } from "react";
 import UnfavoriteButton from "./unfavorite-button";
+import { cn } from "@/lib/utils";
 
 type PodCastCardProps = {
   podcast: Podcast;
+  className?: string;
 };
 
-export const PodcastCard: React.FC<PodCastCardProps> = ({ podcast }) => {
+export const PodcastCard: React.FC<PodCastCardProps> = ({
+  podcast,
+  className,
+}) => {
   const [isFavorite, setIsFavorite] = useState(podcast.is_favorite);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcast.favourite_categories.map((category) => category.name)
   );
 
   return (
-    <div className="w-full flex group transition-colors duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden">
+    <div
+      className={cn(
+        "w-full flex group transition-colors duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
+        className
+      )}
+    >
       <div className="relative aspect-video rounded-lg">
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
           alt={`${podcast.name} thumbnail`}
           fill
-          sizes="100%"
+          priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover rounded"
         />
         <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
