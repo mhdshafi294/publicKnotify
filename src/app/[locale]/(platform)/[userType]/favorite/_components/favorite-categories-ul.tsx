@@ -11,7 +11,7 @@ const FavoriteCategoriesUL = ({
   favoriteCategory?: string;
   favoriteCategoriesData: CategoryDetails[];
 }) => (
-  <ul className="pb-5 lg:py-0 lg:mt-10 flex lg:flex-col lg:gap-5 gap-5 lg:ms-5 text-lg">
+  <ul className="pb-5 lg:py-0 lg:mt-10 flex lg:flex-col lg:gap-5 gap-5 lg:ms-10 text-lg">
     <li className="relative">
       <Link
         href={{

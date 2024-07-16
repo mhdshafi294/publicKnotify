@@ -11,13 +11,15 @@ import { PodcastsResponse } from "@/types/podcast";
 const getMyFavoritePodcasts = async ({
   page,
   count,
-  search,
   type,
-}: {
+  category_id,
+}: // search,
+{
   page: string;
   count: string;
-  search?: string;
   type: string;
+  category_id?: string;
+  // search?: string;
 }) => {
   const { data } = await axiosInstance.get<PodcastsResponse>(
     `/${type}${PODCAST}${FAVORITES_LIST}`,
@@ -25,7 +27,8 @@ const getMyFavoritePodcasts = async ({
       params: {
         page,
         count,
-        search,
+        category_id,
+        // search,
       },
     }
   );

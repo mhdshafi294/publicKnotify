@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import FavoriteCategoriesUL from "./favorite-categories-ul";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { FolderHeartIcon, HeartIcon } from "lucide-react";
 
 const FavoriteCategories = async ({
   params,
@@ -33,8 +34,13 @@ const FavoriteCategories = async ({
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-      <div className="hidden lg:block w-3/12 h-full rounded-lg bg-card py-10 px-5">
-        <h2 className="text-2xl ms-5 opacity-75">Your Favorite Categories</h2>
+      <div className="hidden lg:block w-2/12 h-full rounded-lg bg-card py-10 px-5">
+        <div className="flex flex-col gap-2 items-center">
+          <HeartIcon className="" />
+          <h2 className="text-xl opacity-75 text-center ">
+            Your Favorite Categories
+          </h2>
+        </div>
         <FavoriteCategoriesUL
           {...{ searchParams, favoriteCategory, favoriteCategoriesData }}
         />

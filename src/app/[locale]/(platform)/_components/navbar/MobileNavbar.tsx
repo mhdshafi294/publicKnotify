@@ -11,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { AlignJustifyIcon, LogOutIcon, SettingsIcon, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -59,37 +58,57 @@ const MobileNavbar = () => {
           </SheetHeader>
           <Separator className="my-2" />
           <div className="flex flex-col gap-2 px-6">
-            <div className="flex flex-col justify-start items-start gap-5">
+            <div className="flex flex-col justify-start items-start gap-0">
               {mainNavLinks.map((link) => {
-                return (
+                if (link.label !== "New Publish") {
+                  return (
+                    <Link
+                      key={link.href}
+                      href={`/${session?.user?.type}${link.href}`}
+                      className={cn(
+                        buttonVariants({ variant: "link" }),
+                        "text-white p-0 no-underline hover:no-underline ",
+                        {
+                          "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
+                            (pathname.includes(link.href) &&
+                              link.href !== "/") ||
+                            (link.href === "/" &&
+                              pathname.lastIndexOf("/") === 0),
+                        },
+                        {
+                          hidden:
+                            session?.user?.type === "user" &&
+                            (link.label === "Requests" ||
+                              link.label === "Statistics"),
+                        }
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                } else {
                   <Link
                     key={link.href}
                     href={`/${session?.user?.type}${link.href}`}
                     className={cn(
                       buttonVariants({ variant: "link" }),
-
-                      "text-white p-0 no-underline hover:no-underline hover:before:absolute hover:before:h-0.5 hover:before:w-7 hover:before:bg-greeny hover:before:translate-y-4 hover:before:rounded-full",
+                      "text-white p-0 no-underline hover:no-underline ",
                       {
-                        "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:-translate-x-7 before:rounded-full":
+                        "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
                           (pathname.includes(link.href) && link.href !== "/") ||
                           (link.href === "/" &&
                             pathname.lastIndexOf("/") === 0),
                       },
-                      {
-                        hidden:
-                          session?.user?.type === "user" &&
-                          (link.label === "Requests" ||
-                            link.label === "Statistics"),
-                      }
+                      { hidden: session?.user?.type !== "podcaster" }
                     )}
                   >
                     {link.label}
-                  </Link>
-                );
+                  </Link>;
+                }
               })}
             </div>
           </div>
-          <Separator className="my-2" />
+          <Separator className="my-5" />
           <div className="mx-6 flex flex-col gap-5">
             <div className="flex justify-between items-center">
               <p>Language</p>
