@@ -10,7 +10,7 @@ import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 import { Podcaster } from "@/types/podcaster";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface InfiniteScrollFavoritesPodcastersProps {
   initialData: Podcaster[] | undefined;
@@ -25,6 +25,11 @@ const InfiniteScrollFavoritesPodcasters: React.FC<
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const {
     isError: isFavoritePodcastersError,
@@ -55,6 +60,15 @@ const InfiniteScrollFavoritesPodcasters: React.FC<
     isIntersecting,
   ]);
 
+  if (!isHydrated) {
+    return (
+      <div className="w-full my-3 lg:my-1 flex items-center justify-center ">
+        <Loader className="size-9" />
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+  }
+
   return (
     <>
       <ul className="w-full flex flex-col lg:flex-row flex-wrap gap-5">
@@ -64,7 +78,7 @@ const InfiniteScrollFavoritesPodcasters: React.FC<
             .map((_, index) => <PodcastCardLoading key={index} />)}
         {favoritePodcasters?.pages.map((page) =>
           page?.podcasters.map((podcaster) => (
-            <li key={podcaster?.id} className="w-full lg:max-w-80">
+            <li key={podcaster?.id} className="w-full lg:max-w-56">
               <PodcasterCard
                 podcaster={podcaster}
                 className="hover:bg-secondary/75 bg-secondary/50"

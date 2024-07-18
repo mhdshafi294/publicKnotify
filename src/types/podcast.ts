@@ -12,6 +12,7 @@ export type PodcastDetails = {
   categories: CategoryDetails[];
   podcaster: PodcastPodcaster;
   hashTags: HashTag[];
+  playback_position: PlaybackPosition;
 };
 
 export type SelfPodcastDetails = {
@@ -63,11 +64,27 @@ export type Podcast = {
   type: "video" | "audio";
   is_favorite: boolean;
   favourite_categories: Category[];
+  playback_position: PlaybackPosition;
 };
 
 export type Category = {
   id: number;
   name: string;
+  created_at: string;
+};
+
+export type PlaybackPosition = {
+  id: number;
+  current_position: number;
+  total_time: number;
+};
+
+export type Playlist = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+  podcasts_count: number;
   created_at: string;
 };
 
@@ -93,4 +110,9 @@ export type SelfPodcastsDetailsResponse = ApiResponse & {
 
 export type CategoryResponse = ApiResponse & {
   categories: CategoryDetails[];
+};
+
+export type PlaylistsResponse = ApiResponse & {
+  playlists: Playlist[];
+  pagination: Pagination;
 };

@@ -1,15 +1,11 @@
 "use client";
 
-import { getMyFavoritePodcastsAction } from "@/app/actions/podcastActions";
 import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
-import useGetFavoritePodcasters from "@/hooks/queries/use-get-favorite-podcasters";
 import useGetFavoritePodcasts from "@/hooks/queries/use-get-favorite-podcasts";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
-import { Podcaster } from "@/types/podcaster";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import { Podcast } from "@/types/podcast";
+import React, { useEffect, useState } from "react";
 
 interface InfiniteScrollFavoritesPodcastsProps {
   initialData: Podcast[] | undefined;
@@ -24,6 +20,11 @@ const InfiniteScrollFavoritesPodcasts: React.FC<
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const {
     isError: isFavoritePodcastsError,
@@ -50,6 +51,15 @@ const InfiniteScrollFavoritesPodcasts: React.FC<
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextFavoritePodcasts, hasNextFavoritePodcasts, isIntersecting]);
+
+  if (!isHydrated) {
+    return (
+      <div className="w-full my-3 lg:my-1 flex items-center justify-center ">
+        <Loader className="size-9" />
+        <span className="sr-only">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <>

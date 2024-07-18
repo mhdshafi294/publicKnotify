@@ -1,6 +1,6 @@
 "use server";
 
-import getMyFavoritePodcasters from "@/services/podcast/get-my-favorite-podcasters";
+import getMyFavoritePodcasters from "@/services/podcaster/get-my-favorite-podcasters";
 import addPodcastToFavorite from "@/services/podcaster/add-to-favorite";
 import getPodcaster from "@/services/podcaster/get-podcaster";
 import getPodcasters from "@/services/podcaster/get-podcasters";

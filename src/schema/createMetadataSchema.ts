@@ -65,6 +65,7 @@ export const createMetadataSchema = z
           message: "error-message.background-size",
         }
       ),
+    play_list_id: z.string().optional(),
     categories: z.string().array().nonempty({
       message: "Can't be empty!",
     }),

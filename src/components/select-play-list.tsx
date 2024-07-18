@@ -15,18 +15,18 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDebounce } from "use-debounce";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { ScrollArea } from "./ui/scroll-area";
 import Loader from "./ui/loader";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 
 type PropsType = {
-  value: string;
+  value?: string;
   setValue: Dispatch<SetStateAction<string>>;
 };
 
-const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
+const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
   const [open, setOpen] = useState(false);
   const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
@@ -43,12 +43,12 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["selectPodcasters"],
+    queryKey: ["selectplaylists"],
     queryFn: ({ pageParam }) =>
-      getPodcastersAction({
+      getPlayListsAction({
         count: "30",
         page: pageParam.toString(),
-        type: "company",
+        type: "podcaster",
         search: debouncedValue,
       }),
     initialPageParam: 1,
@@ -75,14 +75,14 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-lg"
+          className="w-full justify-between rounded-lg bg-background"
         >
           {value
             ? data?.pages
-                .map((page) => page.podcasters)
+                .map((page) => page.playlists)
                 .flat()
-                .find((client) => client.id.toString() === value)?.full_name
-            : `${"Select podcaster"}`}
+                .find((client) => client.id.toString() === value)?.name
+            : `${"Select playlist"}`}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -107,27 +107,27 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                     {error.name}
                     {error.message}
                   </CommandEmpty>
-                ) : data.pages[0].podcasters.length === 0 ? (
+                ) : data.pages[0].playlists.length === 0 ? (
                   <CommandEmpty>{"global.no-user-found"}</CommandEmpty>
                 ) : (
                   data?.pages.map((page) =>
-                    page?.podcasters.map((podcaster) => (
+                    page?.playlists.map((playList) => (
                       <CommandItem
-                        key={podcaster.id}
-                        value={podcaster.id.toString()}
+                        key={playList.id}
+                        value={playList.id.toString()}
                         onSelect={(currentValue) => {
                           setValue(
-                            page?.podcasters
+                            page?.playlists
                               .find(
-                                (podcaster) =>
-                                  podcaster.id.toString() === currentValue
+                                (playlist) =>
+                                  playlist.id.toString() === currentValue
                               )
                               ?.id.toString() === value
                               ? ""
-                              : page?.podcasters
+                              : page?.playlists
                                   .find(
-                                    (podcaster) =>
-                                      podcaster.id.toString() === currentValue
+                                    (playlist) =>
+                                      playlist.id.toString() === currentValue
                                   )!
                                   .id.toString()
                           );
@@ -137,20 +137,20 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
                             <AvatarImage
-                              src={podcaster.image}
-                              alt={podcaster.full_name}
+                              src={playList.image}
+                              alt={playList.name}
                               className="object-cover"
                             />
                             <AvatarFallback className="bg-greeny_lighter text-[10px] text-black font-bold">
-                              {podcaster.full_name.slice(0, 2).toUpperCase()}
+                              {playList.name.slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <p>{podcaster.full_name}</p>
+                          <p>{playList.name}</p>
                         </div>
                         <CheckIcon
                           className={cn(
                             "ml-auto h-4 w-4",
-                            value === podcaster.id.toString()
+                            value === playList.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}
@@ -176,4 +176,4 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
   );
 };
 
-export default SelectPodcaster;
+export default SelectPlayList;

@@ -16,10 +16,7 @@ const useGetFavoritePodcasters = ({
   initialData?: Podcaster[];
 }) => {
   return useInfiniteQuery({
-    queryKey: [
-      "favorite_podcasters",
-      { type, favoriteCategoryId, initialData },
-    ],
+    queryKey: ["favorite_podcasters", { favoriteCategoryId }],
     enabled: tab === "podcasts" && !!initialData,
     queryFn: async ({ pageParam = 1 }) => {
       const response: PodcastersResponse = await getMyFavoritePodcastersAction({
