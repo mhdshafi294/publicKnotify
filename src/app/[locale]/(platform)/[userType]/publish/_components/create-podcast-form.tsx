@@ -44,7 +44,8 @@ import FileUploader from "@/components/ui/file-uploader";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import PublishButton from "./publish-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import SelectPlayList from "@/components/select-play-list";
+import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -54,6 +55,7 @@ const CreatePodcastForm = ({
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [addToPlayList, setAddToPlayList] = useState(false);
   const [draft, setDraft] = useState<
     SelfPodcastDetails | RequestDetails | null
   >();
@@ -239,7 +241,7 @@ const CreatePodcastForm = ({
       formData.append(`hashtags[${index}]`, hashtag);
     });
 
-    console.log("FormData: ", formData);
+    // console.log("FormData: ", formData);
 
     if (request_id && !podcast_id)
       formData.append("company_request_id", request_id);
@@ -267,7 +269,7 @@ const CreatePodcastForm = ({
         <form
           className="w-full px-0"
           onSubmit={form.handleSubmit((data) => {
-            console.log("Form submitted", data);
+            // console.log("Form submitted", data);
             handleSubmit(data);
           })}
         >
@@ -382,7 +384,7 @@ const CreatePodcastForm = ({
                       />
                     </div>
                     <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-                      <div>
+                      <div className="w-[29%]">
                         <FormInput
                           name="company_tag"
                           className="bg-background"
@@ -392,33 +394,55 @@ const CreatePodcastForm = ({
                         />
                       </div>
                       <DatePicker
+                        className="w-[29%]"
                         name="publishing_date"
                         label="Date"
                         control={form.control}
                       />
                       <TimePicker
+                        className="w-[29%]"
                         name="publishing_time"
                         label="Time"
                         control={form.control}
                       />
                     </div>
+                    <div className="w-full space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          checked={addToPlayList}
+                          onCheckedChange={() =>
+                            setAddToPlayList(!addToPlayList)
+                          }
+                          id="add_to_playlist"
+                          className="size-6 rounded-full"
+                        />
+                        <label
+                          htmlFor="add_to_playlist"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Add to a playlist
+                        </label>
+                      </div>
+                      {addToPlayList ? (
+                        <FormField
+                          control={form.control}
+                          name="play_list_id"
+                          render={({ field }) => (
+                            <FormItem className="w-full">
+                              <FormLabel className="text-lg capitalize">
+                                Playlist
+                              </FormLabel>
+                              <SelectPlayList
+                                setValue={field.onChange}
+                                value={field.value}
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      ) : null}
+                    </div>
                     <div className="w-full flex justify-between gap-5">
-                      <FormField
-                        control={form.control}
-                        name="play_list_id"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormLabel className="text-lg capitalize">
-                              Playlist
-                            </FormLabel>
-                            <SelectPlayList
-                              setValue={field.onChange}
-                              value={field.value}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                       <ArraySelectManyFormInput
                         name="categories"
                         control={form.control}

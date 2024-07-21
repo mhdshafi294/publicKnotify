@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios.config";
 import { INDEX, PLAY_LIST } from "@/lib/apiEndPoints";
 import { PlaylistsResponse } from "@/types/podcast";
 
-const getPlayLists = async ({
+const getPlaylists = async ({
   count,
   search,
   page,
@@ -26,4 +26,4 @@ const getPlayLists = async ({
   return data;
 };
 
-export default getPlayLists;
+export default getPlaylists;

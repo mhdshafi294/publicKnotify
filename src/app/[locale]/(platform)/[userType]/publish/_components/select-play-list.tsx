@@ -2,24 +2,30 @@
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "./ui/command";
-import { Input } from "./ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+} from "@/components/ui/command";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDebounce } from "use-debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { ScrollArea } from "./ui/scroll-area";
-import Loader from "./ui/loader";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Loader from "@/components/ui/loader";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import DrawerDialogAddNewPlaylist from "./add-playlist-drawer-dialog";
+import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
 
 type PropsType = {
   value?: string;
@@ -86,20 +92,23 @@ const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0">
+      <PopoverContent className="w-[400px] lg:w-[700px] 2xl:w-[995px] p-0 bg-card">
         <Command>
-          <div className="flex items-center border-b px-3 overflow-hidden">
+          <div className="flex items-center border-b px-3 overflow-hidden bg-card">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
               placeholder="search user"
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-50"
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed  focus-visible:border-transparent disabled:opacity-50 focus:ring-0 ring-0 focus-visible:outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0"
             />
           </div>
-          <CommandList>
+          <CommandList className="bg-card">
             <CommandGroup>
-              <ScrollArea className="h-[292px]">
+              <ScrollArea
+                className="h-[172px] "
+                thumbClassName="bg-background/50"
+              >
                 {isPending ? (
                   <CommandEmpty>{"global.loading"}</CommandEmpty>
                 ) : isError ? (
@@ -108,7 +117,7 @@ const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
                     {error.message}
                   </CommandEmpty>
                 ) : data.pages[0].playlists.length === 0 ? (
-                  <CommandEmpty>{"global.no-user-found"}</CommandEmpty>
+                  <CommandEmpty>{"global.no-playlist-found"}</CommandEmpty>
                 ) : (
                   data?.pages.map((page) =>
                     page?.playlists.map((playList) => (
@@ -167,10 +176,12 @@ const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
                   {isFetchingNextPage && <Loader />}
                   <span className="sr-only">Loading...</span>
                 </div>
+                <ScrollAreaScrollbar />
               </ScrollArea>
             </CommandGroup>
           </CommandList>
         </Command>
+        <DrawerDialogAddNewPlaylist />
       </PopoverContent>
     </Popover>
   );
