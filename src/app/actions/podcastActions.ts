@@ -12,7 +12,10 @@ import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
 import createPlaylists from "@/services/podcast/playList/create-playlists";
+import deletePlaylist from "@/services/podcast/playList/delete-playlist";
+import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
+import updatePlaylists from "@/services/podcast/playList/update-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
 import updateMetadata from "@/services/podcast/update-metadata";
@@ -211,6 +214,16 @@ export const getPlayListsAction = async ({
   });
 };
 
+export const getPlayListAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await getPlaylist({ id, type });
+};
+
 export const createPlayListsAction = async ({
   formData,
   type,
@@ -219,4 +232,26 @@ export const createPlayListsAction = async ({
   type: string;
 }) => {
   return await createPlaylists({ formData, type });
+};
+
+export const updatePlayListsAction = async ({
+  formData,
+  type,
+  id,
+}: {
+  formData: FormData;
+  type: string;
+  id: string;
+}) => {
+  return await updatePlaylists({ formData, type, id });
+};
+
+export const deletePlayListsAction = async ({
+  type,
+  id,
+}: {
+  type: string;
+  id: string;
+}) => {
+  return await deletePlaylist({ type, id });
 };

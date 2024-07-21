@@ -112,6 +112,9 @@ export type CategoryResponse = ApiResponse & {
   categories: CategoryDetails[];
 };
 
+export type PlaylistResponse = ApiResponse & {
+  playlist: Playlist;
+};
 export type PlaylistsResponse = ApiResponse & {
   playlists: Playlist[];
   pagination: Pagination;

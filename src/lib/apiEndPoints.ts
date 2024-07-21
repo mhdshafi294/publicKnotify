@@ -24,11 +24,14 @@ export const INDEX = "/index";
 export const SHOW = "/show";
 export const DETAILS = "/details";
 export const CREATE = "/create";
+export const UPDATE = "/update";
+export const DELETE = "/delete";
 export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";
 export const METADATA = "/metadata";
 export const UPDATE_METADATA = "/update-metadata";
 export const UPLOAD_MEDIA_FILE = "/upload-media-file";
+export const PROFILE = "/profile";
 export const PUBLISH = "/publish";
 export const PLAY_LIST = "/play-list";
 
