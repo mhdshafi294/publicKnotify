@@ -1,11 +1,7 @@
-import { getMyFavoritePodcastsAction } from "@/app/actions/podcastActions";
 import { getMyFavoritePodcastersAction } from "@/app/actions/podcasterActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
-import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { getServerSession } from "next-auth";
 import React from "react";
-import InfiniteScrollFavoritesPodcasts from "./infinite-scroll-favorites-podcasts";
 import InfiniteScrollFavoritesPodcasters from "./infinite-scroll-favorites-podcaters";
 
 interface FavoritePodcastersTapPageProps {

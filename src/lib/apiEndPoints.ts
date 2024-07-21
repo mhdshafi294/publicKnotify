@@ -30,6 +30,7 @@ export const METADATA = "/metadata";
 export const UPDATE_METADATA = "/update-metadata";
 export const UPLOAD_MEDIA_FILE = "/upload-media-file";
 export const PUBLISH = "/publish";
+export const PLAY_LIST = "/play-list";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

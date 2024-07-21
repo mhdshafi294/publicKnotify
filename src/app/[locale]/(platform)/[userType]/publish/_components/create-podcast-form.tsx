@@ -9,7 +9,13 @@ import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import { Card, CardContent } from "@/components/ui/card";
 import DatePicker from "@/components/ui/date-picker";
-import { Form, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
@@ -37,6 +43,9 @@ import FormFileInputUploader from "@/components/ui/form-input-file-uploader";
 import FileUploader from "@/components/ui/file-uploader";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import PublishButton from "./publish-button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -46,6 +55,7 @@ const CreatePodcastForm = ({
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [addToPlayList, setAddToPlayList] = useState(false);
   const [draft, setDraft] = useState<
     SelfPodcastDetails | RequestDetails | null
   >();
@@ -68,6 +78,7 @@ const CreatePodcastForm = ({
       company_tag: "",
       thumbnail: undefined,
       background: undefined,
+      play_list_id: undefined,
       categories: [],
       hashtags: [],
       company_request_id: "",
@@ -230,7 +241,7 @@ const CreatePodcastForm = ({
       formData.append(`hashtags[${index}]`, hashtag);
     });
 
-    console.log("FormData: ", formData);
+    // console.log("FormData: ", formData);
 
     if (request_id && !podcast_id)
       formData.append("company_request_id", request_id);
@@ -253,12 +264,12 @@ const CreatePodcastForm = ({
   if (!isMounted) return null;
 
   return (
-    <main className="flex flex-col items-center justify-center gap-6 w-full">
+    <main className="flex flex-col items-center justify-start gap-6 w-full min-h-[clac(100vh_-_20px)]">
       <Form {...form}>
         <form
           className="w-full px-0"
           onSubmit={form.handleSubmit((data) => {
-            console.log("Form submitted", data);
+            // console.log("Form submitted", data);
             handleSubmit(data);
           })}
         >
@@ -302,119 +313,161 @@ const CreatePodcastForm = ({
                   />
                 </div>
               </div>
-              <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
-                <CardContent className="flex flex-col gap-7">
-                  <div className="w-full flex justify-between items-center gap-5">
-                    <FormInput
-                      name="name"
-                      className="bg-background w-full"
-                      placeholder="Podcast Name"
-                      label="Name"
-                      control={form.control}
-                    />
-                    <SelectFormInput
-                      name="type"
-                      placeholder="Podcast Type"
-                      label="Type"
-                      control={form.control}
-                      options={["audio", "video"]}
-                    />
-                  </div>
-                  <FormInputTextarea
-                    name="summary"
-                    label="Podcast Summary"
-                    placeholder="Tell us a little about your podcast"
-                    control={form.control}
-                  />
-                  <div className="w-full flex justify-between items-center gap-5">
-                    <FormFileInput
-                      name="thumbnail"
-                      label="Thumbnail"
-                      control={form.control}
-                      className="w-full"
-                      initValue={
-                        podcastResponse?.podcast?.thumbnail
-                          ? podcastResponse?.podcast?.thumbnail
-                          : requestResponse?.request?.thumbnail
-                      }
-                    />
-                    <FormFileInput
-                      name="background"
-                      label="Background"
-                      disabled={form.getValues("type") === "video"}
-                      control={form.control}
-                      className="w-full"
-                      initValue={
-                        podcastResponse?.podcast?.background
-                          ? podcastResponse?.podcast?.background
-                          : requestResponse?.request?.background
-                      }
-                    />
-                  </div>
-                  <div className="w-full flex flex-col gap-2">
-                    <FormLabel className={"capitalize text-lg"}>
-                      Your Podcast
-                    </FormLabel>
-                    <FileUploader
-                      key={form.watch("type")}
-                      uploadId={podcast_id}
-                      type={podcastType}
-                      endpoint={`${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
-                      initValue={
-                        podcastResponse?.podcast?.podcast
-                          ? podcastResponse?.podcast?.podcast
-                          : undefined
-                      }
-                      onUploadSuccess={() => console.log("Upload success")}
-                      onUploadError={(error) =>
-                        console.log("Upload error", error)
-                      }
-                    />
-                  </div>
-                  <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-                    <div>
+              <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)] min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
+                <ScrollArea className="h-full">
+                  <CardContent className="flex flex-col gap-7">
+                    <div className="w-full flex justify-between items-center gap-5">
                       <FormInput
-                        name="company_tag"
-                        className="bg-background"
-                        placeholder="Company"
-                        label="Company Tag"
+                        name="name"
+                        className="bg-background w-full"
+                        placeholder="Podcast Name"
+                        label="Name"
+                        control={form.control}
+                      />
+                      <SelectFormInput
+                        name="type"
+                        placeholder="Podcast Type"
+                        label="Type"
+                        control={form.control}
+                        options={["audio", "video"]}
+                      />
+                    </div>
+                    <FormInputTextarea
+                      name="summary"
+                      label="Podcast Summary"
+                      placeholder="Tell us a little about your podcast"
+                      control={form.control}
+                    />
+                    <div className="w-full flex justify-between items-center gap-5">
+                      <FormFileInput
+                        name="thumbnail"
+                        label="Thumbnail"
+                        control={form.control}
+                        className="w-full"
+                        initValue={
+                          podcastResponse?.podcast?.thumbnail
+                            ? podcastResponse?.podcast?.thumbnail
+                            : requestResponse?.request?.thumbnail
+                        }
+                      />
+                      <FormFileInput
+                        name="background"
+                        label="Background"
+                        disabled={form.getValues("type") === "video"}
+                        control={form.control}
+                        className="w-full"
+                        initValue={
+                          podcastResponse?.podcast?.background
+                            ? podcastResponse?.podcast?.background
+                            : requestResponse?.request?.background
+                        }
+                      />
+                    </div>
+                    <div className="w-full flex flex-col gap-2">
+                      <FormLabel className={"capitalize text-lg"}>
+                        Your Podcast
+                      </FormLabel>
+                      <FileUploader
+                        key={form.watch("type")}
+                        uploadId={podcast_id}
+                        type={podcastType}
+                        endpoint={`${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
+                        initValue={
+                          podcastResponse?.podcast?.podcast
+                            ? podcastResponse?.podcast?.podcast
+                            : undefined
+                        }
+                        onUploadSuccess={() => console.log("Upload success")}
+                        onUploadError={(error) =>
+                          console.log("Upload error", error)
+                        }
+                      />
+                    </div>
+                    <div className="w-full flex justify-between gap-5 items-start flex-wrap">
+                      <div className="w-[29%]">
+                        <FormInput
+                          name="company_tag"
+                          className="bg-background"
+                          placeholder="Company"
+                          label="Company Tag"
+                          control={form.control}
+                        />
+                      </div>
+                      <DatePicker
+                        className="w-[29%]"
+                        name="publishing_date"
+                        label="Date"
+                        control={form.control}
+                      />
+                      <TimePicker
+                        className="w-[29%]"
+                        name="publishing_time"
+                        label="Time"
                         control={form.control}
                       />
                     </div>
-                    <DatePicker
-                      name="publishing_date"
-                      label="Date"
+                    <div className="w-full space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          checked={addToPlayList}
+                          onCheckedChange={() =>
+                            setAddToPlayList(!addToPlayList)
+                          }
+                          id="add_to_playlist"
+                          className="size-6 rounded-full"
+                        />
+                        <label
+                          htmlFor="add_to_playlist"
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          Add to a playlist
+                        </label>
+                      </div>
+                      {addToPlayList ? (
+                        <FormField
+                          control={form.control}
+                          name="play_list_id"
+                          render={({ field }) => (
+                            <FormItem className="w-full">
+                              <FormLabel className="text-lg capitalize">
+                                Playlist
+                              </FormLabel>
+                              <SelectPlayList
+                                setValue={field.onChange}
+                                value={field.value}
+                              />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      ) : null}
+                    </div>
+                    <div className="w-full flex justify-between gap-5">
+                      <ArraySelectManyFormInput
+                        name="categories"
+                        control={form.control}
+                        label="Categories"
+                        className="w-full bg-background"
+                        action={getCategoriesAction}
+                        defaultValues={form.getValues()}
+                      />
+                    </div>
+                    <ArrayFormInput
+                      name="hashtags"
                       control={form.control}
+                      label="Hashtags"
+                      className="w-full bg-background"
+                      defaultValues={form.getValues()}
                     />
-                    <TimePicker
-                      name="publishing_time"
-                      label="Time"
+                    <FormCheckbox
+                      name="terms"
                       control={form.control}
+                      className="mt-0"
+                      checkboxClassName="size-4 rounded-full"
+                      label="I accept the terms and privacy policy"
                     />
-                  </div>
-                  <ArraySelectManyFormInput
-                    name="categories"
-                    control={form.control}
-                    label="Categories"
-                    className="w-full bg-background"
-                    action={getCategoriesAction}
-                    defaultValues={form.getValues()}
-                  />
-                  <ArrayFormInput
-                    name="hashtags"
-                    control={form.control}
-                    label="Hashtags"
-                    className="w-full bg-background"
-                    defaultValues={form.getValues()}
-                  />
-                  <FormCheckbox
-                    name="terms"
-                    control={form.control}
-                    className="mt-0"
-                    checkboxClassName="size-4 rounded-full"
-                    label="I accept the terms and privacy policy"
-                  />
-                </CardContent>
+                  </CardContent>
+                </ScrollArea>
               </Card>
             </div>
           </MaxWidthContainer>

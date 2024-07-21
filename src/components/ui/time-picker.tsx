@@ -16,6 +16,7 @@ interface PropsType<T extends FieldValues>
   name: keyof T;
   label: string;
   description?: string;
+  className?: string;
   labelClassName?: string | undefined;
   control: Control<T>;
 }
@@ -25,6 +26,7 @@ function TimePicker<T extends FieldValues>({
   name,
   label,
   description,
+  className,
   labelClassName,
   ...props
 }: PropsType<T>) {
@@ -33,7 +35,7 @@ function TimePicker<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="flex flex-col space-y-2 min-w-32">
+        <FormItem className={cn("flex flex-col space-y-2 min-w-32", className)}>
           <FormLabel className={cn(" capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

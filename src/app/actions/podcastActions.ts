@@ -11,6 +11,8 @@ import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
+import createPlaylists from "@/services/podcast/playList/create-playlists";
+import getPlaylists from "@/services/podcast/playList/get-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
 import updateMetadata from "@/services/podcast/update-metadata";
@@ -188,4 +190,33 @@ export const getMyFavoritePodcastsAction = async ({
     category_id,
     type,
   });
+};
+
+export const getPlayListsAction = async ({
+  count,
+  search,
+  page,
+  type,
+}: {
+  count: string;
+  search?: string;
+  page: string;
+  type: string;
+}) => {
+  return await getPlaylists({
+    count,
+    search,
+    page,
+    type,
+  });
+};
+
+export const createPlayListsAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  return await createPlaylists({ formData, type });
 };
