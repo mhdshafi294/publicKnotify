@@ -2,16 +2,20 @@
 
 import { togglePriceStatusAction } from "@/app/actions/profileActions";
 import { Switch } from "@/components/ui/switch";
+import { Link } from "@/navigation";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
 const ProfilePriceSwitcher = ({
   is_enabled_price,
+
 }: {
   is_enabled_price: boolean;
 }) => {
   const [is_enabled, set_enabled] = useState<boolean>(is_enabled_price);
+
+
 
   const {
     data,
@@ -43,7 +47,9 @@ const ProfilePriceSwitcher = ({
 
   return (
     <div className="flex justify-center items-center gap-5 mt-6">
-      <p className="text-lg font-medium">Price</p>
+      <Link href="/podcaster/pricings" className="text-lg font-medium">
+        Price
+      </Link>
       <Switch
         checked={is_enabled}
         disabled={isPending}
