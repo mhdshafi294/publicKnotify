@@ -34,6 +34,7 @@ export const UPLOAD_MEDIA_FILE = "/upload-media-file";
 export const PROFILE = "/profile";
 export const PUBLISH = "/publish";
 export const PLAY_LIST = "/play-list";
+export const PRICE = "/price";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

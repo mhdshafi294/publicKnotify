@@ -46,13 +46,13 @@ const UserOptions = () => {
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="opacity-50" />
-            <Link href="/profile">
+            <Link href={`/${session?.user?.type}/profile`}>
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
             </Link>
-            <Link href={"/settings"}>
+            <Link href={`/${session?.user?.type}/settings`}>
               <DropdownMenuItem>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>

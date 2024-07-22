@@ -1,25 +1,17 @@
-import { getProfileAction } from "@/app/actions/profileActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { getServerSession } from "next-auth";
 import { useTranslations } from "next-intl";
+import ProfileCard from "./_components/profile-card";
+import { getTranslations } from "next-intl/server";
 
 export default async function Profile() {
-  const t = useTranslations("Index");
-
-  const session = await getServerSession(authOptions);
-
-  const profileResponse = await getProfileAction({
-    type: session?.user?.type as string,
-  });
-  const profileData = profileResponse.user;
+  const t = await getTranslations("Index");
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <MaxWidthContainer className="w-full h-full flex flex-col gap-2 lg:flex-row lg:gap-10">
-          <div className="lg:w-2/12 h-full rounded-lg bg-card py-10 px-5"></div>
-          <div className="w-full lg:w-9/12"></div>
+      <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12 ">
+        <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
+          <ProfileCard />
+          <div className="w-full lg:w-8/12"></div>
         </MaxWidthContainer>
       </main>
     </>
