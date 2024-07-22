@@ -43,7 +43,7 @@ const ProfilePriceSwitcher = ({
 
   return (
     <div className="flex justify-center items-center gap-5 mt-6">
-      <p className="text-lg font-medium">Price</p>
+      <p className="text-lg font-medium">Prices</p>
       <Switch
         checked={is_enabled}
         disabled={isPending}

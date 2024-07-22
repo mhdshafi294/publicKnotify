@@ -1,16 +1,20 @@
 import { getProfileAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { MailIcon, PhoneIcon, PieChart } from "lucide-react";
 import { getServerSession } from "next-auth";
-import React from "react";
 import ProfileCategories from "./profile-categories";
 import ProfileCardImageAndName from "./profile-card-image-and-name";
 import ProfilePriceSwitcher from "./profile-price-switcher";
+import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
+import SpotifyActiveAccountIcon from "@/components/icons/spotify-active-account-icon";
 
 const ProfileCard = async () => {
   const session = await getServerSession(authOptions);
@@ -62,7 +66,6 @@ const ProfileCard = async () => {
           </div>
         ) : null}
       </div>
-
       <Link
         href={`${session?.user?.type}/profile/edit`}
         className={cn(
@@ -72,6 +75,54 @@ const ProfileCard = async () => {
       >
         Edit Profile
       </Link>
+      <div className="grid grid-cols-4 justify-items-center w-9/12">
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button
+              asChild
+              className="p-0 hover:bg-transparent"
+              variant="ghost"
+              size={"icon"}
+              disabled={!profileData?.youtube_account}
+            >
+              <YoutubeActiveAccountIcon
+                className={cn("", {
+                  "opacity-75": !profileData?.youtube_account,
+                })}
+              />
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent
+            className="w-fit border-card-foreground/10 text-xs p-2 opacity-60"
+            side="top"
+          >
+            {profileData?.youtube_account ? "Activated" : "Not Activated yet"}
+          </HoverCardContent>
+        </HoverCard>
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button
+              asChild
+              className="p-0 hover:bg-transparent"
+              variant="ghost"
+              size={"icon"}
+              disabled={!profileData?.spotify_account}
+            >
+              <SpotifyActiveAccountIcon
+                className={cn("", {
+                  "opacity-75": !profileData?.spotify_account,
+                })}
+              />
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent
+            className="w-fit border-card-foreground/10 text-xs p-2 opacity-60"
+            side="top"
+          >
+            {profileData?.spotify_account ? "Activated" : "Not Activated yet"}
+          </HoverCardContent>
+        </HoverCard>
+      </div>
     </div>
   );
 };
