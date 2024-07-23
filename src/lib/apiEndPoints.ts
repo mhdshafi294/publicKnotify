@@ -3,6 +3,7 @@ import Env from "./env";
 export const API_URL = Env.API_URL;
 export const LOGIN_URL = "/login";
 export const REGISTER_URL = "/register";
+export const AUTH = "/auth";
 export const VERIFICATION_CODE = "/verify-account";
 export const CHECK_CODE = "/check-code";
 export const SEND_CODE = "/send-code";
@@ -35,6 +36,7 @@ export const PROFILE = "/profile";
 export const PUBLISH = "/publish";
 export const PLAY_LIST = "/play-list";
 export const PRICE = "/price";
+export const YOUTUBE = "/youtube";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

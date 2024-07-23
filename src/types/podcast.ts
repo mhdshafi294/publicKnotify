@@ -64,7 +64,8 @@ export type Podcast = {
   type: "video" | "audio";
   is_favorite: boolean;
   favourite_categories: Category[];
-  playback_position: PlaybackPosition;
+  playback_position: PlaybackPosition | null;
+  belongs_to_playlist: 1 | 0;
 };
 
 export type Category = {

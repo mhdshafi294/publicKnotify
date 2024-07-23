@@ -15,6 +15,7 @@ export type User = {
   spotify_account?: string | null;
   enable_notification: 1 | 0 | null;
   categories: Category[];
+  type: string;
   created_at: string;
 };
 

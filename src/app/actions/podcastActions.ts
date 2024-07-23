@@ -8,6 +8,7 @@ import getCategories from "@/services/podcast/get-categories";
 import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categories-list";
 import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
+import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
@@ -125,13 +126,13 @@ export const createMediaAction = async ({
 };
 
 export const getSelfPodcastsAction = async ({
-  page,
+  page = "1",
   count = "6",
   search,
   is_published,
   type,
 }: {
-  page: string;
+  page?: string;
   count?: string;
   search?: string;
   is_published?: boolean;
@@ -254,4 +255,23 @@ export const deletePlayListsAction = async ({
   id: string;
 }) => {
   return await deletePlaylist({ type, id });
+};
+
+export const getPodcastsByPodcasterAction = async ({
+  page,
+  count,
+  podcasterId,
+  type,
+}: {
+  page: string;
+  count: string;
+  podcasterId: string;
+  type: string;
+}) => {
+  return await getPodcastsByPodcaster({
+    page,
+    count,
+    podcasterId,
+    type,
+  });
 };

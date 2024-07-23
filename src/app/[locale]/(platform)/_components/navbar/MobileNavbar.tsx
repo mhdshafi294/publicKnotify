@@ -116,7 +116,7 @@ const MobileNavbar = () => {
             </div>
             <Link
               className="flex gap-1 items-center"
-              href={`/${session?.user?.type}/profile`}
+              href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>

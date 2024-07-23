@@ -46,7 +46,9 @@ const UserOptions = () => {
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="opacity-50" />
-            <Link href={`/${session?.user?.type}/profile`}>
+            <Link
+              href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
+            >
               <DropdownMenuItem>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
