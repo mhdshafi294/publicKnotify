@@ -1,4 +1,4 @@
-import { PODCASTER, PODCASTS } from "@/lib/apiEndPoints";
+import { PODCAST, PODCASTER } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { PodcastsResponse } from "@/types/podcast";
 
@@ -14,7 +14,7 @@ const getPodcastsByPodcaster = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.get<PodcastsResponse>(
-    `/${type}${PODCASTS}${PODCASTER}/${podcasterId}`,
+    `/${type}${PODCAST}${PODCASTER}/${podcasterId}`,
     {
       params: {
         page,

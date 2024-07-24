@@ -80,6 +80,7 @@ export default async function Profile({
             session={session}
             profileType={profileType!}
             isSelfProfile={isSelfProfile!}
+            params={params}
             searchParams={searchParams}
           />
         </MaxWidthContainer>

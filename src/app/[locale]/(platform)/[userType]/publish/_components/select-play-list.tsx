@@ -110,7 +110,9 @@ const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
                 thumbClassName="bg-background/50"
               >
                 {isPending ? (
-                  <CommandEmpty>{"global.loading"}</CommandEmpty>
+                  <CommandEmpty>
+                    <Loader />
+                  </CommandEmpty>
                 ) : isError ? (
                   <CommandEmpty>
                     {error.name}

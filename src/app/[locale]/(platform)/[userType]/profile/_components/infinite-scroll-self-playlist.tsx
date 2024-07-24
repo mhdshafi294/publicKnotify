@@ -4,11 +4,7 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
-import {
-  SelfPodcastDetails,
-  SelfPodcastsDetailsResponse,
-} from "@/types/podcast";
+
 import {
   Carousel,
   CarouselContent,
@@ -19,14 +15,16 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import SelfPodcastCard from "./self-podcast-card";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { Playlist, PlaylistsResponse } from "@/types/podcast";
+import SelfplaylistCard from "./self-playlist-card";
 
-const InfiniteScrollSelfPodcasts = ({
+const InfiniteScrollSelfPlaylists = ({
   initialData,
   search,
   type,
 }: {
-  initialData: SelfPodcastDetails[] | undefined;
+  initialData: Playlist[] | undefined;
   search?: string;
   type: string;
 }) => {
@@ -45,17 +43,15 @@ const InfiniteScrollSelfPodcasts = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["profile_self_podcasts", { type, search }],
+    queryKey: ["profile_self_playlists", { type, search }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: SelfPodcastsDetailsResponse = await getSelfPodcastsAction(
-        {
-          type,
-          search,
-          page: pageParam.toString(),
-        }
-      );
+      const response: PlaylistsResponse = await getPlayListsAction({
+        type,
+        search,
+        page: pageParam.toString(),
+      });
       return {
-        podcasts: response.podcasts,
+        playlists: response.playlists,
         pagination: {
           ...response.pagination,
           next_page_url: response.pagination.next_page_url,
@@ -74,7 +70,7 @@ const InfiniteScrollSelfPodcasts = ({
         return {
           pages: [
             {
-              podcasts: initialData || [],
+              playlists: initialData || [],
               pagination: {
                 current_page: 1,
                 first_page_url: "",
@@ -103,23 +99,23 @@ const InfiniteScrollSelfPodcasts = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasts</h2>
+        <h2 className="font-bold text-2xl">Playlists</h2>
         <div className="flex relative justify-end items-center end-[80px]">
           <CarouselPrevious />
           <CarouselNext />
         </div>
       </div>
       <CarouselContent className="w-full mt-5 ms-0">
-        {data?.pages[0].podcasts.length === 0 ? (
-          <p>No podcasts to load</p>
+        {data?.pages[0].playlists.length === 0 ? (
+          <p>No playlists to load</p>
         ) : (
           data?.pages.map((page) =>
-            page.podcasts.map((podcast) => (
+            page.playlists.map((playlist) => (
               <CarouselItem
-                key={podcast.id}
+                key={playlist.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0 group"
               >
-                <SelfPodcastCard podcast={podcast} userType={type} />
+                <SelfplaylistCard playlist={playlist} userType={type} />
               </CarouselItem>
             ))
           )
@@ -140,4 +136,4 @@ const InfiniteScrollSelfPodcasts = ({
   );
 };
 
-export default InfiniteScrollSelfPodcasts;
+export default InfiniteScrollSelfPlaylists;

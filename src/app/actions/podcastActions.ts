@@ -127,7 +127,7 @@ export const createMediaAction = async ({
 
 export const getSelfPodcastsAction = async ({
   page = "1",
-  count = "6",
+  count = "24",
   search,
   is_published,
   type,
@@ -197,14 +197,14 @@ export const getMyFavoritePodcastsAction = async ({
 };
 
 export const getPlayListsAction = async ({
-  count,
+  page = "1",
+  count = "24",
   search,
-  page,
   type,
 }: {
-  count: string;
+  page?: string;
+  count?: string;
   search?: string;
-  page: string;
   type: string;
 }) => {
   return await getPlaylists({
@@ -258,13 +258,13 @@ export const deletePlayListsAction = async ({
 };
 
 export const getPodcastsByPodcasterAction = async ({
-  page,
-  count,
+  page = "1",
+  count = "24",
   podcasterId,
   type,
 }: {
-  page: string;
-  count: string;
+  page?: string;
+  count?: string;
   podcasterId: string;
   type: string;
 }) => {

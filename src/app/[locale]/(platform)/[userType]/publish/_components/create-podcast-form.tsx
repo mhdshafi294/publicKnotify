@@ -233,6 +233,7 @@ const CreatePodcastForm = ({
 
     if (data.thumbnail) formData.append("thumbnail", data.thumbnail);
     if (data.background) formData.append("background", data.background);
+    if (data.play_list_id) formData.append("playlist_id", data.play_list_id);
 
     data.categories.forEach((category, index) => {
       formData.append(`categories[${index}]`, category);

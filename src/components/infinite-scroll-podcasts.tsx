@@ -4,8 +4,13 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
 import {
+  getPodcastsByPodcasterAction,
+  getSelfPodcastsAction,
+} from "@/app/actions/podcastActions";
+import {
+  Podcast,
+  PodcastsResponse,
   SelfPodcastDetails,
   SelfPodcastsDetailsResponse,
 } from "@/types/podcast";
@@ -19,16 +24,17 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import SelfPodcastCard from "./self-podcast-card";
+import SelfPodcastCard from "../app/[locale]/(platform)/[userType]/profile/_components/self-podcast-card";
+import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
-const InfiniteScrollSelfPodcasts = ({
+const InfiniteScrollPodcasts = ({
   initialData,
-  search,
   type,
+  podcasterId,
 }: {
-  initialData: SelfPodcastDetails[] | undefined;
-  search?: string;
+  initialData: Podcast[] | undefined;
   type: string;
+  podcasterId: string;
 }) => {
   const locale = useLocale();
   const direction = getDirection(locale);
@@ -45,15 +51,13 @@ const InfiniteScrollSelfPodcasts = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["profile_self_podcasts", { type, search }],
+    queryKey: ["profile_self_podcasts", { type }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: SelfPodcastsDetailsResponse = await getSelfPodcastsAction(
-        {
-          type,
-          search,
-          page: pageParam.toString(),
-        }
-      );
+      const response: PodcastsResponse = await getPodcastsByPodcasterAction({
+        type,
+        podcasterId: podcasterId,
+        page: pageParam.toString(),
+      });
       return {
         podcasts: response.podcasts,
         pagination: {
@@ -119,7 +123,7 @@ const InfiniteScrollSelfPodcasts = ({
                 key={podcast.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0 group"
               >
-                <SelfPodcastCard podcast={podcast} userType={type} />
+                <ProfilePodcastCard podcast={podcast} userType={type} />
               </CarouselItem>
             ))
           )
@@ -140,4 +144,4 @@ const InfiniteScrollSelfPodcasts = ({
   );
 };
 
-export default InfiniteScrollSelfPodcasts;
+export default InfiniteScrollPodcasts;

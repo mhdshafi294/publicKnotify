@@ -9,7 +9,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { getDirection } from "@/lib/utils";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
@@ -23,6 +25,9 @@ const TrendingSection = ({
 }) => {
   const locale = useLocale();
   const direction = getDirection(locale);
+  const { isIntersecting, ref } = useIntersectionObserver({
+    threshold: 0,
+  });
 
   const { isPending, isError, error, data, fetchNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -86,17 +91,17 @@ const TrendingSection = ({
               ))
             )
           )}
-          {isFetchingNextPage &&
-            Array(20)
-              .fill(0)
-              .map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
-                >
-                  <PodcastCardLoading />
-                </CarouselItem>
-              ))}
+          {
+            <CarouselItem
+              ref={ref}
+              className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+            >
+              {isFetchingNextPage && (
+                <Loader className="size-9" variant={"infinity"} />
+              )}
+              <span className="sr-only">Loading...</span>
+            </CarouselItem>
+          }
         </CarouselContent>
       </Carousel>
     </MaxWidthContainer>
