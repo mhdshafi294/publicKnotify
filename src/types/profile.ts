@@ -29,6 +29,8 @@ export type Price = {
   is_enabled: boolean;
 };
 
+export type PriceApiResponse = ApiResponse & { price: Price | null };
+
 export type ProfileResponse = {
   user: User;
 } & ApiResponse;
