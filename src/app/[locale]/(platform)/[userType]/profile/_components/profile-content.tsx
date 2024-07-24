@@ -56,12 +56,12 @@ const ProfileContent = async ({
         type: session?.user?.type!,
       });
       contentData1 = data1Response.podcasts;
-      // const data2Response = await getSelfPodcastsAction({
-      //   type: "podcaster",
-      //   search,
-      //   is_published: true,
-      // });
-      // contentData2 = data2Response.podcasts;
+      const data2Response = await getSelfPodcastsAction({
+        type: "podcaster",
+        search,
+        is_published: true,
+      });
+      contentData2 = data2Response.podcasts;
     }
   }
 
