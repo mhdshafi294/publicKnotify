@@ -114,11 +114,17 @@ const MobileNavbar = () => {
               <p>Language</p>
               <LanguageSwitcher />
             </div>
-            <Link className="flex gap-1 items-center" href="/profile">
+            <Link
+              className="flex gap-1 items-center"
+              href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
+            >
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </Link>
-            <Link className="flex gap-1 items-center" href={"/settings"}>
+            <Link
+              className="flex gap-1 items-center"
+              href={`/${session?.user?.type}/settings`}
+            >
               <SettingsIcon className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </Link>

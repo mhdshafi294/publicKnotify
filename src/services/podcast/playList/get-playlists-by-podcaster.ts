@@ -1,20 +1,22 @@
 import axiosInstance from "@/lib/axios.config";
-import { PLAYLISTS } from "@/lib/apiEndPoints";
+import { PLAY_LIST, PODCAST, PODCASTER } from "@/lib/apiEndPoints";
 import { PlaylistsResponse } from "@/types/podcast";
 
-const getPlaylists = async ({
+const getPlaylistsByPodcaster = async ({
+  podcasterId,
   count,
   search,
   page,
   type,
 }: {
+  podcasterId: string;
   count: string;
   search?: string;
   page: string;
   type: string;
 }) => {
   const { data } = await axiosInstance.get<PlaylistsResponse>(
-    `/${type}${PLAYLISTS}`,
+    `/${type}${PODCAST}${PODCASTER}${PLAY_LIST}/${podcasterId}`,
     {
       params: {
         count,
@@ -26,4 +28,4 @@ const getPlaylists = async ({
   return data;
 };
 
-export default getPlaylists;
+export default getPlaylistsByPodcaster;

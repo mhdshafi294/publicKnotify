@@ -39,7 +39,6 @@ import { SelfPodcastDetails } from "@/types/podcast";
 import { getRequestAction } from "@/app/actions/requestsActions";
 import { RequestDetails } from "@/types/request";
 import { SaveIcon } from "lucide-react";
-import FormFileInputUploader from "@/components/ui/form-input-file-uploader";
 import FileUploader from "@/components/ui/file-uploader";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import PublishButton from "./publish-button";
@@ -233,6 +232,7 @@ const CreatePodcastForm = ({
 
     if (data.thumbnail) formData.append("thumbnail", data.thumbnail);
     if (data.background) formData.append("background", data.background);
+    if (data.play_list_id) formData.append("playlist_id", data.play_list_id);
 
     data.categories.forEach((category, index) => {
       formData.append(`categories[${index}]`, category);

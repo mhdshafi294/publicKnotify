@@ -89,7 +89,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
                   size={"sm"}
                 >
                   {isCategoriesPending ? (
-                    <Loader />
+                    <Loader variant={"dots"} className="text-greeny" />
                   ) : isCategoriesError ? (
                     <div>{categoriesError.message}</div>
                   ) : (

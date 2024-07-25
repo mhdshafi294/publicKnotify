@@ -1,9 +1,7 @@
-import React from "react";
-
-import DesktopNavbar from "./DesktopNavbar";
-import MobileNavbar from "./MobileNavbar";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Link } from "@/navigation";
+import DesktopNavbar from "./DesktopNavbar";
+import MobileNavbar from "./MobileNavbar";
 
 const Navbar = () => {
   return (
