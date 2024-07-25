@@ -30,7 +30,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
 
   return (
     <Link
-      href={`${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+      href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
       className={cn(
         "w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300",
         className

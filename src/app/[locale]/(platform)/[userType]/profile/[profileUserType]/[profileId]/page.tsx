@@ -48,6 +48,7 @@ export default async function Profile({
       isSelfProfile = false;
       profileType = "podcaster";
       const profileResponse = await getPodcasterAction({
+        //Todo: Change this to getPodcasterAction
         id: params.profileId,
         type: session?.user?.type as string,
       });
@@ -58,6 +59,7 @@ export default async function Profile({
       isSelfProfile = false;
       profileType = "company";
       const profileResponse = await getProfileAction({
+        //Todo: Change this to getCompanyAction
         type: session?.user?.type as string,
       });
       profileData = profileResponse.user;

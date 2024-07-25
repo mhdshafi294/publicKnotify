@@ -11,12 +11,18 @@ import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/pro
 import Search from "@/components/search";
 import { Company } from "@/types/company";
 import { Playlist, Podcast, SelfPodcastDetails } from "@/types/podcast";
-import { PodcasterDetails } from "@/types/podcaster";
+import { Podcaster, PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
 import { Session } from "next-auth";
 import React from "react";
 import InfiniteScrollPlaylists from "@/components/infinite-scroll-playlists";
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
+import {
+  getCompanySelfPodcastersAction,
+  getPodcastersByCompanyAction,
+} from "@/app/actions/podcasterActions";
+import InfiniteScrollCompanySelfPodcasters from "./infinite-scroll-company-self-podcasters";
+import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
 
 const ProfileContent = async ({
   profileData,
@@ -36,7 +42,7 @@ const ProfileContent = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  let contentData1: Playlist[] | undefined;
+  let contentData1: Playlist[] | Podcaster[] | undefined;
   let contentData2: SelfPodcastDetails[] | Podcast[] | undefined;
 
   if (isSelfProfile) {
@@ -53,11 +59,11 @@ const ProfileContent = async ({
       });
       contentData2 = data2Response.podcasts;
     } else if (profileType === "company") {
-      const data1Response = await getPlayListsAction({
+      const data1Response = await getCompanySelfPodcastersAction({
         type: "company",
         search,
       });
-      contentData1 = data1Response.playlists;
+      contentData1 = data1Response.podcasters;
       const data2Response = await getCompanySelfPodcastsAction({
         type: "company",
       });
@@ -81,6 +87,18 @@ const ProfileContent = async ({
         type: session?.user?.type!,
       });
       contentData2 = data2Response.podcasts;
+    } else if (profileType === "company") {
+      const data1Response = await getPodcastersByCompanyAction({
+        companyId: params.profileId,
+        type: session?.user?.type!,
+        search,
+      });
+      contentData1 = data1Response.podcasters;
+      //TODO: get podcasts by company, collection needed to be modified
+      // const data2Response = await getCompanySelfPodcastsAction({
+      //   type: "company",
+      // });
+      // contentData2 = data2Response.podcasts;
     }
   }
 
@@ -93,7 +111,7 @@ const ProfileContent = async ({
         profileType === "podcaster" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
             <InfiniteScrollSelfPlaylists
-              initialData={contentData1}
+              initialData={contentData1 as Playlist[] | undefined}
               search={search}
               type={profileType}
             />
@@ -105,12 +123,10 @@ const ProfileContent = async ({
           </div>
         ) : profileType === "company" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-            {/* <InfiniteScrollPlaylists
-              podcasterId={session?.user?.id!}
-              initialData={contentData1}
-              search={search}
-              type={profileType}
-            /> */}
+            <InfiniteScrollCompanySelfPodcasters
+              initialData={contentData1 as Podcaster[] | undefined}
+              type={session?.user?.type!}
+            />
             <InfiniteScrollPodcasts
               initialData={contentData2 as Podcast[] | undefined}
               type={session?.user?.type!}
@@ -130,7 +146,7 @@ const ProfileContent = async ({
         <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
           <InfiniteScrollPlaylists
             podcasterId={params.profileId}
-            initialData={contentData1}
+            initialData={contentData1 as Playlist[] | undefined}
             search={search}
             type={session?.user?.type!}
           />
@@ -139,6 +155,19 @@ const ProfileContent = async ({
             type={session?.user?.type!}
             podcasterId={params.profileId}
           />
+        </div>
+      ) : profileType === "company" ? (
+        <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+          <InfiniteScrollPodcastersByCompany
+            companyId={params.profileId}
+            initialData={contentData1 as Podcaster[] | undefined}
+            type={session?.user?.type!}
+          />
+          {/* <InfiniteScrollPodcasts
+            initialData={contentData2 as Podcast[] | undefined}
+            type={session?.user?.type!}
+            podcasterId={params.profileId}
+          /> */}
         </div>
       ) : null}
     </div>

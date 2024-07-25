@@ -175,7 +175,7 @@ const CreatePodcastForm = ({
     isPending: isPendingCreateMetadata,
     error: errorCreateMetadata,
   } = useMutation({
-    mutationFn: createMetadataAction,
+    mutationFn: createMetadataAction, //? How can I get the  return from the mutate function here?
     onMutate: () => {
       toast.loading("Creating podcast metadata...");
     },
@@ -183,7 +183,8 @@ const CreatePodcastForm = ({
       toast.dismiss();
       toast.success("Podcast metadata created successfully");
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
-      params.set("podcast_id", podcast_id!);
+      // params.set("podcast_id", podcast_id!);
+      params.set("podcast_id", createMetadataActionResponse?.podcast_id!);
       router.push(`?${params.toString()}`);
     },
     onError: () => {
@@ -316,7 +317,7 @@ const CreatePodcastForm = ({
               <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)] min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
                 <ScrollArea className="h-full">
                   <CardContent className="flex flex-col gap-7">
-                    <div className="w-full flex justify-between items-center gap-5">
+                    <div className="w-full flex justify-between  gap-5">
                       <FormInput
                         name="name"
                         className="bg-background w-full"
@@ -338,7 +339,7 @@ const CreatePodcastForm = ({
                       placeholder="Tell us a little about your podcast"
                       control={form.control}
                     />
-                    <div className="w-full flex justify-between items-center gap-5">
+                    <div className="w-full flex justify-between gap-5">
                       <FormFileInput
                         name="thumbnail"
                         label="Thumbnail"
@@ -347,7 +348,7 @@ const CreatePodcastForm = ({
                         initValue={
                           podcastResponse?.podcast?.thumbnail
                             ? podcastResponse?.podcast?.thumbnail
-                            : requestResponse?.request?.thumbnail
+                            : undefined
                         }
                       />
                       <FormFileInput
@@ -359,7 +360,7 @@ const CreatePodcastForm = ({
                         initValue={
                           podcastResponse?.podcast?.background
                             ? podcastResponse?.podcast?.background
-                            : requestResponse?.request?.background
+                            : undefined
                         }
                       />
                     </div>
@@ -407,7 +408,7 @@ const CreatePodcastForm = ({
                       />
                     </div>
                     <div className="w-full space-y-3">
-                      <div className="flex items-center space-x-2">
+                      <div className="flex  space-x-2">
                         <Checkbox
                           checked={addToPlayList}
                           onCheckedChange={() =>

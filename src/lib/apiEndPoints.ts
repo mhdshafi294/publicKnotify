@@ -14,6 +14,8 @@ export const LOGOUT_URL = "/logout";
 export const PODCAST = "/podcast";
 export const PODCASTS = "/podcasts";
 export const PODCASTER = `/podcaster`;
+export const PODCASTERS = `/podcasters`;
+export const COMPANY = `/company`;
 
 export const TRENDING = `${PODCAST}/trending`;
 export const FAVORITES_CATEGORIES = `/my-favorite-categories`;
@@ -39,6 +41,7 @@ export const PLAYLISTS = "/playlists";
 export const PRICE = "/price";
 export const PUBLISHED_PODCASTS = "/published-podcasts";
 export const MY_PLAYBACK = "/my-playback";
+export const DEALT = "/dealed";
 export const YOUTUBE = "/youtube";
 
 export const POST_URL = "/post";
