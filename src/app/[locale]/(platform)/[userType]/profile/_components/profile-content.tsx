@@ -1,5 +1,6 @@
 import {
   getPlayListsAction,
+  getPlayListsByPodcasterAction,
   getPodcastsByPodcasterAction,
   getSelfPodcastsAction,
 } from "@/app/actions/podcastActions";
@@ -32,8 +33,8 @@ const ProfileContent = async ({
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  let contentData1: Playlist[] | Podcast[] | undefined;
-  let contentData2: SelfPodcastDetails[] | undefined;
+  let contentData1: Playlist[] | undefined;
+  let contentData2: SelfPodcastDetails[] | Podcast[] | undefined;
 
   if (isSelfProfile) {
     if (profileType === "podcaster") {
@@ -51,16 +52,16 @@ const ProfileContent = async ({
     }
   } else {
     if (profileType === "podcaster") {
-      const data1Response = await getPodcastsByPodcasterAction({
+      const data1Response = await getPlayListsByPodcasterAction({
+        podcasterId: params.profileId,
+        type: "podcaster",
+        search,
+      });
+      const data2Response = await getPodcastsByPodcasterAction({
         podcasterId: params.profileId,
         type: session?.user?.type!,
       });
-      contentData1 = data1Response.podcasts;
-      const data2Response = await getSelfPodcastsAction({
-        type: "podcaster",
-        search,
-        is_published: true,
-      });
+      contentData1 = data1Response.playlists;
       contentData2 = data2Response.podcasts;
     }
   }
@@ -74,12 +75,12 @@ const ProfileContent = async ({
         profileType === "podcaster" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
             <InfiniteScrollSelfPlaylists
-              initialData={contentData1 as Playlist[] | undefined}
+              initialData={contentData1}
               search={search}
               type={profileType}
             />
             <InfiniteScrollSelfPodcasts
-              initialData={contentData2}
+              initialData={contentData2 as SelfPodcastDetails[] | undefined}
               search={search}
               type={profileType}
             />
@@ -87,16 +88,16 @@ const ProfileContent = async ({
         ) : null
       ) : profileType === "podcaster" ? (
         <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+          <InfiniteScrollSelfPlaylists
+            initialData={contentData1}
+            search={search}
+            type={profileType}
+          />
           <InfiniteScrollPodcasts
-            initialData={contentData1 as Podcast[] | undefined}
+            initialData={contentData2 as Podcast[] | undefined}
             type={profileType}
             podcasterId={params.profileId}
           />
-          {/* <InfiniteScrollSelfPodcasts
-            initialData={contentData2}
-            search={search}
-            type={profileType}
-          /> */}
         </div>
       ) : null}
     </div>

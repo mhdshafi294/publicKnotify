@@ -24,8 +24,8 @@ import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Loader from "@/components/ui/loader";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import DrawerDialogAddNewPlaylist from "./add-playlist-drawer-dialog";
 import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
+import DrawerDialogAddNewPlaylist from "@/app/[locale]/(platform)/[userType]/publish/_components/add-playlist-drawer-dialog";
 
 type PropsType = {
   value?: string;

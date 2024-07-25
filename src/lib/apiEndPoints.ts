@@ -34,6 +34,7 @@ export const UPDATE_METADATA = "/update-metadata";
 export const UPLOAD_MEDIA_FILE = "/upload-media-file";
 export const PROFILE = "/profile";
 export const PUBLISH = "/publish";
+export const PLAY_LISTS = "/play-list";
 export const PLAYLISTS = "/playlists";
 export const PRICE = "/price";
 export const YOUTUBE = "/youtube";

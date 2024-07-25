@@ -39,17 +39,12 @@ import { SelfPodcastDetails } from "@/types/podcast";
 import { getRequestAction } from "@/app/actions/requestsActions";
 import { RequestDetails } from "@/types/request";
 import { SaveIcon } from "lucide-react";
-import FormFileInputUploader from "@/components/ui/form-input-file-uploader";
 import FileUploader from "@/components/ui/file-uploader";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import PublishButton from "./publish-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-<<<<<<< HEAD
-import SelectPlaylist from "@/components/select-playlist";
-=======
 import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
 import { Checkbox } from "@/components/ui/checkbox";
->>>>>>> a2c269f84f04619980253ed07ae13f38d3598ab8
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -448,25 +443,6 @@ const CreatePodcastForm = ({
                       ) : null}
                     </div>
                     <div className="w-full flex justify-between gap-5">
-<<<<<<< HEAD
-                      <FormField
-                        control={form.control}
-                        name="play_list_id"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormLabel className="text-lg capitalize">
-                              Playlist
-                            </FormLabel>
-                            <SelectPlaylist
-                              setValue={field.onChange}
-                              value={field.value}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-=======
->>>>>>> a2c269f84f04619980253ed07ae13f38d3598ab8
                       <ArraySelectManyFormInput
                         name="categories"
                         control={form.control}

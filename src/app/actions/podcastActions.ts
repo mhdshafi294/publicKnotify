@@ -16,6 +16,7 @@ import createPlaylists from "@/services/podcast/playList/create-playlists";
 import deletePlaylist from "@/services/podcast/playList/delete-playlist";
 import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
+import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-by-podcaster";
 import updatePlaylists from "@/services/podcast/playList/update-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
@@ -272,6 +273,28 @@ export const getPodcastsByPodcasterAction = async ({
     page,
     count,
     podcasterId,
+    type,
+  });
+};
+
+export const getPlayListsByPodcasterAction = async ({
+  podcasterId,
+  page = "1",
+  count = "24",
+  search,
+  type,
+}: {
+  podcasterId: string;
+  page?: string;
+  count?: string;
+  search?: string;
+  type: string;
+}) => {
+  return await getPlaylistsByPodcaster({
+    podcasterId,
+    count,
+    search,
+    page,
     type,
   });
 };
