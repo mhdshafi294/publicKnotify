@@ -44,7 +44,7 @@ import FileUploader from "@/components/ui/file-uploader";
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import PublishButton from "./publish-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import SelectPlayList from "@/components/select-play-list";
+import SelectPlaylist from "@/components/select-playlist";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -411,7 +411,7 @@ const CreatePodcastForm = ({
                             <FormLabel className="text-lg capitalize">
                               Playlist
                             </FormLabel>
-                            <SelectPlayList
+                            <SelectPlaylist
                               setValue={field.onChange}
                               value={field.value}
                             />

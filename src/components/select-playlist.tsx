@@ -26,7 +26,7 @@ type PropsType = {
   setValue: Dispatch<SetStateAction<string>>;
 };
 
-const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
+const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
   const [open, setOpen] = useState(false);
   const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
@@ -176,4 +176,4 @@ const SelectPlayList: FC<PropsType> = ({ value, setValue }) => {
   );
 };
 
-export default SelectPlayList;
+export default SelectPlaylist;
