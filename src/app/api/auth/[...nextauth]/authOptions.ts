@@ -1,11 +1,10 @@
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import axios, { AxiosResponse } from "axios";
-import GoogleProvider from "next-auth/providers/google";
-import AppleProvider from "next-auth/providers/apple";
-import { AuthOptions, ISODateString, User } from "next-auth";
+import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 export interface CustomSession {
   user?: CustomUser;
@@ -14,7 +13,9 @@ export interface CustomSession {
 export interface CustomUser {
   id?: number;
   full_name?: string;
+  email?: string;
   phone?: string;
+  iso_code?: string;
   image?: string | null;
   access_token?: string;
   type?: string | "user" | "podcaster" | "company";
@@ -23,15 +24,17 @@ export interface CustomUser {
 export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, trigger, session }) {
-      // * When we update the session
-      if (trigger === "update" && session?.image) {
-        const user: CustomUser = token.user as CustomUser;
-        user.image = session?.image;
-        // console.log("The token is", token);
+      if (user) token.user = user;
+
+      if (trigger === "update") {
+        const updatedUser = token.user as CustomUser;
+        updatedUser.full_name = session?.full_name || updatedUser.full_name;
+        updatedUser.email = session?.email || updatedUser.email;
+        updatedUser.phone = session?.phone || updatedUser.phone;
+        updatedUser.image = session?.image || updatedUser.image;
+        updatedUser.iso_code = session?.iso_code || updatedUser.iso_code;
       }
-      if (user) {
-        token.user = user;
-      }
+
       return token;
     },
     async session({ session, token }: { session: CustomSession; token: JWT }) {

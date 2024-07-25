@@ -88,7 +88,7 @@ const ProfileCard = async ({
       </div>
       {isSelfProfile ? (
         <Link
-          href={`${session?.user?.type}/profile/edit`}
+          href={`/${session?.user?.type}/profile/edit`}
           className={cn(
             buttonVariants({ variant: "default" }),
             "w-11/12 text-lg font-bold"

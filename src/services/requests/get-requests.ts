@@ -12,18 +12,21 @@ const getRequests = async ({
   page: string;
   count: string;
   search?: string;
-  status?: string;
+  status?: string[];
   type: string;
 }) => {
+  const params: any = {
+    page,
+    count,
+    search,
+  };
+  if (status) {
+    params["status"] = status; // Initialize 'status' as an array directly
+  }
   const { data } = await axiosInstance.get<RequestsResponse>(
     `/${type}${REQUEST}${INDEX}`,
     {
-      params: {
-        page,
-        count,
-        search,
-        status,
-      },
+      params,
     }
   );
   return data;

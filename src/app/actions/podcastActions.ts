@@ -9,6 +9,7 @@ import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favori
 import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
+import getSelfPlayback from "@/services/podcast/get-self-playback";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
@@ -294,6 +295,21 @@ export const getPlayListsByPodcasterAction = async ({
     podcasterId,
     count,
     search,
+    page,
+    type,
+  });
+};
+export const getSelfPlaybackAction = async ({
+  page = "1",
+  count = "24",
+  type,
+}: {
+  page?: string;
+  count?: string;
+  type: string;
+}) => {
+  return await getSelfPlayback({
+    count,
     page,
     type,
   });
