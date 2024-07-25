@@ -43,6 +43,8 @@ export default async function Profile({
     profileType = profileData.type;
   } else {
     if (params.profileUserType === "podcaster") {
+      if (session?.user?.type !== "company")
+        redirect(`/${session?.user?.type}`);
       isSelfProfile = false;
       profileType = "podcaster";
       const profileResponse = await getPodcasterAction({
@@ -51,6 +53,8 @@ export default async function Profile({
       });
       profileData = profileResponse.podcaster;
     } else if (params.profileUserType === "company") {
+      if (session?.user?.type !== "podcaster")
+        redirect(`/${session?.user?.type}`);
       isSelfProfile = false;
       profileType = "company";
       const profileResponse = await getProfileAction({

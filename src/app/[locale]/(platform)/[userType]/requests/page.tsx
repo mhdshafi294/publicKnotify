@@ -21,6 +21,10 @@ export default async function Requests({
   const status =
     typeof searchParams.status === "string" ? searchParams.status : undefined;
 
+  const statusArray =
+    typeof status === "string" && status?.length > 0 ? status?.split("") : [];
+  // console.log(statusArray);
+
   const session = await getServerSession(authOptions);
   if (session?.user?.type === "user") {
     redirect(`/user`);
@@ -30,7 +34,7 @@ export default async function Requests({
   const requestsResponse = await getRequestsAction({
     type: session?.user?.type!,
     search,
-    status,
+    status: statusArray,
   });
   const requestsData = requestsResponse.requests;
   // console.log(requestsResponse);
@@ -57,7 +61,7 @@ export default async function Requests({
           <InfiniteScrollRequests
             initialRequests={requestsData}
             search={search}
-            status={status}
+            status={statusArray}
             type={session?.user?.type!}
           />
         </MaxWidthContainer>

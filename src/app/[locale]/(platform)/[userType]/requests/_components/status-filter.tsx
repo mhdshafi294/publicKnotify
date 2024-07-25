@@ -4,19 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 const StatusFilter = ({ status }: { status?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRender = useRef(true);
+  const { data: session } = useSession();
 
   const [filter, setFilter] = useState(status);
 
   const STATUS = [
-    { numCode: "2", titl: "pending" },
-    { numCode: "4", titl: "rejected" },
-    { numCode: "5", titl: "accepted" },
-    { numCode: "6", titl: "done" },
+    {
+      numCode: session?.user?.type === "podcaster" ? "2" : "12",
+      title: "pending",
+    },
+    { numCode: "34", title: "rejected" },
+    { numCode: "5", title: "accepted" },
+    { numCode: "6", title: "done" },
   ];
 
   useEffect(() => {
@@ -36,9 +41,9 @@ const StatusFilter = ({ status }: { status?: string }) => {
 
   return (
     <div className="flex justify-start items-center">
-      {STATUS.map(({ numCode, titl }) => (
+      {STATUS.map(({ numCode, title }) => (
         <Button
-          key={numCode}
+          key={title}
           variant="link"
           onClick={() => setFilter((prev) => (prev === numCode ? "" : numCode))}
           className={cn(
@@ -49,7 +54,7 @@ const StatusFilter = ({ status }: { status?: string }) => {
             }
           )}
         >
-          {titl}
+          {title}
         </Button>
       ))}
     </div>

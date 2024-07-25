@@ -2,10 +2,11 @@ import {
   getPlayListsAction,
   getPlayListsByPodcasterAction,
   getPodcastsByPodcasterAction,
+  getSelfPlaybackAction,
   getSelfPodcastsAction,
 } from "@/app/actions/podcastActions";
 import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
-import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlist";
+import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
 import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
 import Search from "@/components/search";
 import { Company } from "@/types/company";
@@ -14,6 +15,8 @@ import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
 import { Session } from "next-auth";
 import React from "react";
+import InfiniteScrollPlaylists from "@/components/infinite-scroll-playlists";
+import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 
 const ProfileContent = async ({
   profileData,
@@ -49,19 +52,34 @@ const ProfileContent = async ({
         is_published: true,
       });
       contentData2 = data2Response.podcasts;
+    } else if (profileType === "company") {
+      const data1Response = await getPlayListsAction({
+        type: "company",
+        search,
+      });
+      contentData1 = data1Response.playlists;
+      const data2Response = await getCompanySelfPodcastsAction({
+        type: "company",
+      });
+      contentData2 = data2Response.podcasts;
+    } else if (profileType === "user") {
+      const data2Response = await getSelfPlaybackAction({
+        type: session?.user?.type!,
+      });
+      contentData2 = data2Response.podcasts;
     }
   } else {
     if (profileType === "podcaster") {
       const data1Response = await getPlayListsByPodcasterAction({
         podcasterId: params.profileId,
-        type: "podcaster",
+        type: session?.user?.type!,
         search,
       });
+      contentData1 = data1Response.playlists;
       const data2Response = await getPodcastsByPodcasterAction({
         podcasterId: params.profileId,
         type: session?.user?.type!,
       });
-      contentData1 = data1Response.playlists;
       contentData2 = data2Response.podcasts;
     }
   }
@@ -85,17 +103,40 @@ const ProfileContent = async ({
               type={profileType}
             />
           </div>
+        ) : profileType === "company" ? (
+          <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+            {/* <InfiniteScrollPlaylists
+              podcasterId={session?.user?.id!}
+              initialData={contentData1}
+              search={search}
+              type={profileType}
+            /> */}
+            <InfiniteScrollPodcasts
+              initialData={contentData2 as Podcast[] | undefined}
+              type={session?.user?.type!}
+              podcasterId={params.profileId}
+            />
+          </div>
+        ) : profileType === "user" ? (
+          <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+            <InfiniteScrollPodcasts
+              initialData={contentData2 as Podcast[] | undefined}
+              type={session?.user?.type!}
+              podcasterId={params.profileId}
+            />
+          </div>
         ) : null
       ) : profileType === "podcaster" ? (
         <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-          <InfiniteScrollSelfPlaylists
+          <InfiniteScrollPlaylists
+            podcasterId={params.profileId}
             initialData={contentData1}
             search={search}
-            type={profileType}
+            type={session?.user?.type!}
           />
           <InfiniteScrollPodcasts
             initialData={contentData2 as Podcast[] | undefined}
-            type={profileType}
+            type={session?.user?.type!}
             podcasterId={params.profileId}
           />
         </div>
