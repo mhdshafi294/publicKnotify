@@ -52,11 +52,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
 
   const phone = form.getValues("phone");
 
-  const {
-    data,
-    mutate: server_signUp,
-    isPending,
-  } = useMutation({
+  const { mutate: server_signUp, isPending } = useMutation({
     mutationFn: signUpAction,
     onSuccess: () => {
       toast.warning("Please verify your account!.");

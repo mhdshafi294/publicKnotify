@@ -1,6 +1,6 @@
+import { Link } from "@/navigation";
 import { CategoryDetails } from "@/types/podcast";
 import Image from "next/image";
-import Link from "next/link";
 import React, { FC } from "react";
 
 type PropsType = {
