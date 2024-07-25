@@ -8,10 +8,15 @@ import getCategories from "@/services/podcast/get-categories";
 import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categories-list";
 import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
+import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
-import getPlayLists from "@/services/podcast/playList/get-play-lists";
+import createPlaylists from "@/services/podcast/playList/create-playlists";
+import deletePlaylist from "@/services/podcast/playList/delete-playlist";
+import getPlaylist from "@/services/podcast/playList/get-playlist";
+import getPlaylists from "@/services/podcast/playList/get-playlists";
+import updatePlaylists from "@/services/podcast/playList/update-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
 import updateMetadata from "@/services/podcast/update-metadata";
@@ -121,13 +126,13 @@ export const createMediaAction = async ({
 };
 
 export const getSelfPodcastsAction = async ({
-  page,
-  count = "6",
+  page = "1",
+  count = "24",
   search,
   is_published,
   type,
 }: {
-  page: string;
+  page?: string;
   count?: string;
   search?: string;
   is_published?: boolean;
@@ -192,20 +197,81 @@ export const getMyFavoritePodcastsAction = async ({
 };
 
 export const getPlayListsAction = async ({
-  count,
+  page = "1",
+  count = "24",
   search,
-  page,
   type,
 }: {
-  count: string;
+  page?: string;
+  count?: string;
   search?: string;
-  page: string;
   type: string;
 }) => {
-  return await getPlayLists({
+  return await getPlaylists({
     count,
     search,
     page,
+    type,
+  });
+};
+
+export const getPlayListAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await getPlaylist({ id, type });
+};
+
+export const createPlayListsAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  return await createPlaylists({ formData, type });
+};
+
+export const updatePlayListsAction = async ({
+  formData,
+  type,
+  id,
+}: {
+  formData: FormData;
+  type: string;
+  id: string;
+}) => {
+  return await updatePlaylists({ formData, type, id });
+};
+
+export const deletePlayListsAction = async ({
+  type,
+  id,
+}: {
+  type: string;
+  id: string;
+}) => {
+  return await deletePlaylist({ type, id });
+};
+
+export const getPodcastsByPodcasterAction = async ({
+  page = "1",
+  count = "24",
+  podcasterId,
+  type,
+}: {
+  page?: string;
+  count?: string;
+  podcasterId: string;
+  type: string;
+}) => {
+  return await getPodcastsByPodcaster({
+    page,
+    count,
+    podcasterId,
     type,
   });
 };

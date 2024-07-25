@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { formatDistanceToNowStrict } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -44,3 +45,9 @@ export const convertFileToURL = (file: File | undefined): string => {
   const url = URL.createObjectURL(file);
   return url;
 };
+
+export function getDistanceToNow(date: string, time: string): string {
+  const dateTimeString = `${date}T${time}`;
+  const parsedDate = new Date(dateTimeString);
+  return formatDistanceToNowStrict(parsedDate, { addSuffix: true });
+}

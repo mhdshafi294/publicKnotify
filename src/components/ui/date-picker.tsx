@@ -21,6 +21,7 @@ interface PropsType<T extends FieldValues>
   name: keyof T;
   label: string;
   description?: string;
+  className?: string;
   labelClassName?: string | undefined;
   control: Control<T>;
 }
@@ -30,6 +31,7 @@ function DatePicker<T extends FieldValues>({
   name,
   label,
   description,
+  className,
   labelClassName,
   ...props
 }: PropsType<T>) {
@@ -38,7 +40,7 @@ function DatePicker<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()} //"publishing_date"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className={cn("flex flex-col", className)}>
           <FormLabel className="capitalize text-lg">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>

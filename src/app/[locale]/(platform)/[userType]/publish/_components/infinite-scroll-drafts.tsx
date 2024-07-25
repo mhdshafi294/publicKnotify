@@ -128,7 +128,7 @@ const InfiniteScrollDrafts = ({
       </Button>
       <ThumbnailsCover title={"Drafts"} />
       <ul className="w-full h- p-3 pe-0">
-        <ScrollArea className="w-full h-[calc(100vh-200px)] flex flex-wrap gap-5 pe-3">
+        <ScrollArea className="w-full h-[calc(100vh-350px)] flex flex-wrap gap-5 pe-3">
           {data?.pages.map((page) =>
             page?.podcasts.map((podcast) => (
               <li key={podcast?.id} className="w-full mt-3">
