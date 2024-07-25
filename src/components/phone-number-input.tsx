@@ -74,7 +74,7 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
             role="combobox"
             aria-expanded={openPopover}
             tabIndex={-1}
-            className="justify-between border-e rounded-none bg-input  ps-2 pe-1 py-1"
+            className="justify-between border-e rounded-none bg-input ps-2 pe-1 py-1"
           >
             {!code.includes("+") ? `+${code}` : code}
             <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />

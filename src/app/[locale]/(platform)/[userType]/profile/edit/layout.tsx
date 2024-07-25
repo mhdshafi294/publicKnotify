@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const EditProfileLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full min-h-[calc(100vh-72px)] w-full flex items-center justify-center">
       <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
@@ -18,4 +18,4 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthLayout;
+export default EditProfileLayout;

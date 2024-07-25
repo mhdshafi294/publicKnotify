@@ -5,9 +5,11 @@ declare module "next-auth" {
     user: {
       id?: number;
       full_name?: string;
+      email?: string;
       phone?: string;
       image?: string | null;
       access_token?: string;
+      iso_code?: string;
       type?: string;
     };
   }
@@ -15,7 +17,9 @@ declare module "next-auth" {
   interface User {
     id?: number;
     full_name?: string;
+    email?: string;
     phone?: string;
+    iso_code?: string;
     image?: string | null;
     access_token?: string;
     type?: string;
