@@ -20,9 +20,9 @@ const getRequests = async ({
     count,
     search,
   };
-  status?.forEach((statu, index) => {
-    params[index] = statu;
-  });
+  if (status) {
+    params["status"] = status; // Initialize 'status' as an array directly
+  }
   const { data } = await axiosInstance.get<RequestsResponse>(
     `/${type}${REQUEST}${INDEX}`,
     {
