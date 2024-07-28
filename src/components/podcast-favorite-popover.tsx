@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -50,18 +50,25 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
   const session = useSession();
   const queryClient = useQueryClient();
 
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    if (!isHydrated) setIsHydrated(true);
+  }, []);
+
   const [isOpen, setIsOpen] = useState(false);
+  // console.log(session?.data?.user?.type!);
 
   const {
     data: categories,
     isPending: isCategoriesPending,
     isError: isCategoriesError,
   } = useQuery({
-    queryKey: ["favorite_categories", session.data?.user?.id],
+    queryKey: ["favorite_categories", session?.data?.user?.type!],
     queryFn: () =>
       getMyFavoriteCategoriesListAction({
         type: session?.data?.user?.type!,
       }),
+    enabled: !!session?.data?.user?.type,
   });
 
   const {

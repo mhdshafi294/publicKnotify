@@ -6,7 +6,7 @@ import {
   getSelfPlaybackAction,
   getSelfPodcastsAction,
 } from "@/app/actions/podcastActions";
-import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
+import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
 import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
 import Search from "@/components/search";

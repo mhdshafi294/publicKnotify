@@ -9,14 +9,14 @@ import getCompanySelfPodcasters from "@/services/podcaster/get-company-self-podc
 import getPodcastersByCompany from "@/services/podcaster/get-podcasters-by-company";
 
 export const getPodcastersAction = async ({
-  count = "12",
+  count = "24",
   search,
-  page,
+  page = "1",
   type,
 }: {
-  count: string;
+  count?: string;
   search?: string;
-  page: string;
+  page?: string;
   type: string;
 }) => {
   const getPodcastersResponse = await getPodcasters({

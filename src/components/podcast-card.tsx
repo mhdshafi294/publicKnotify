@@ -7,7 +7,7 @@ import { Skeleton } from "./ui/skeleton";
 import PodcastCardPlayButton from "./podcast-card-play-button";
 import PodcastFavoritePopover from "./podcast-favorite-popover";
 import { removeFromFavoriteAction } from "@/app/actions/podcastActions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UnfavoriteButton from "./unfavorite-button";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +24,11 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcast.favourite_categories.map((category) => category.name)
   );
+
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    if (!isHydrated) setIsHydrated(true);
+  }, []);
 
   return (
     <div
