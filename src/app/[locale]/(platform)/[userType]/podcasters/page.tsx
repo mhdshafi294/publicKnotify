@@ -10,8 +10,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { getTrendingAction } from "@/app/actions/podcastActions";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
+import InfiniteScrollPodcasters from "@/components/infinite-scroll-podcasters";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
 
-export default async function PodcastsPage({
+export default async function PodcastersPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -20,14 +22,14 @@ export default async function PodcastsPage({
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
   const session = await getServerSession(authOptions);
-  // if (session?.user?.type === "podcaster") {
-  //   redirect(`/podcaster`);
-  // }
+  if (session?.user?.type === "podcaster") {
+    redirect(`/podcaster`);
+  }
   const t = await getTranslations("Index");
 
   // console.log(search);
 
-  const firstPageTrendingResponse = await getTrendingAction({
+  const firstPageTrendingResponse = await getPodcastersAction({
     type: session?.user?.type!,
     search,
   });
@@ -39,11 +41,11 @@ export default async function PodcastsPage({
       <main className="py-10">
         <MaxWidthContainer className="flex flex-col gap-7">
           <div className="w-full flex justify-between items-center gap-2">
-            <h2 className="lg:text-5xl font-bold">Trending</h2>
-            <Search searchText={search} searchFor="podcast" />
+            <h2 className="lg:text-5xl font-bold">Podcasters</h2>
+            <Search searchText={search} searchFor="podcasters" />
           </div>
-          <InfiniteScrollPodcasts
-            initialData={firstPageTrendingResponse.podcasts}
+          <InfiniteScrollPodcasters
+            initialData={firstPageTrendingResponse.podcasters}
             search={search}
             type={session?.user?.type!}
           />

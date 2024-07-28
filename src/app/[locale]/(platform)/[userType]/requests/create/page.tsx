@@ -42,12 +42,13 @@ import SpotifyIcon from "@/components/icons/spotify-icon";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
 import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
+import { useSearchParams } from "next/navigation";
 
 const CreateRequest = () => {
   const { data: session, status } = useSession();
-  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
+  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -60,6 +61,8 @@ const CreateRequest = () => {
       router.push(`/${session?.user?.type}`);
     }
   }, [isMounted, session, router]);
+
+  const searchParams = useSearchParams();
 
   const form = useForm<createRequestSchema>({
     resolver: zodResolver(createRequestSchema),
@@ -76,7 +79,10 @@ const CreateRequest = () => {
       hashtags: [],
       ad_period: "1:0",
       ad_place: "first",
-      podcaster_id: "",
+      podcaster_id:
+        typeof searchParams.get("podcasterId") === "string"
+          ? (searchParams.get("podcasterId") as string)
+          : "",
       publish_youtube: "0",
       publish_spotify: "0",
     },

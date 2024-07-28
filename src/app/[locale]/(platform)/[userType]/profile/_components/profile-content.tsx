@@ -29,6 +29,16 @@ import InfiniteScrollPodcastsByPodcaster from "./infinite-scroll-podcasts-by-pod
 import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
 import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-podcaster";
 import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
+import { Link } from "@/navigation";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  ChevronsUpIcon,
+  CircleArrowOutUpRightIcon,
+  FileSymlinkIcon,
+  SendHorizontalIcon,
+  SendIcon,
+} from "lucide-react";
 
 const ProfileContent = async ({
   profileData,
@@ -111,8 +121,20 @@ const ProfileContent = async ({
 
   return (
     <div className="w-full lg:w-8/12">
-      <div className="w-full flex justify-between min-h-10">
+      <div className="w-full flex justify-end min-h-10">
         {/* <Search searchText={search} searchFor="podcasts" /> */}
+        {profileType === "podcaster" && session?.user?.type === "company" ? (
+          <Link
+            href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "mb-7 font-bold px-10 flex justify-center items-center gap-2"
+            )}
+          >
+            <FileSymlinkIcon size={15} strokeWidth={3} />
+            <span>Send Request</span>
+          </Link>
+        ) : null}
       </div>
       {isSelfProfile ? (
         profileType === "podcaster" ? (

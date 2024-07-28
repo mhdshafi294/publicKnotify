@@ -104,7 +104,7 @@ const InfiniteScrollPodcasterersCarousel = ({
           {/* <CarouselPrevious />
           <CarouselNext /> */}
           <Link
-            href={`${type}/podcaster`}
+            href={`${type}/podcasters`}
             className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
           >
             <p className="font-semibold ">View All</p>
