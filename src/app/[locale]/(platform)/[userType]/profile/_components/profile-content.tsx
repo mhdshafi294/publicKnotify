@@ -1,6 +1,7 @@
 import {
   getPlayListsAction,
   getPlayListsByPodcasterAction,
+  getPodcastsByCompanyAction,
   getPodcastsByPodcasterAction,
   getSelfPlaybackAction,
   getSelfPodcastsAction,
@@ -95,10 +96,11 @@ const ProfileContent = async ({
       });
       contentData1 = data1Response.podcasters;
       //TODO: get podcasts by company, collection needed to be modified
-      // const data2Response = await getCompanySelfPodcastsAction({
-      //   type: "company",
-      // });
-      // contentData2 = data2Response.podcasts;
+      const data2Response = await getPodcastsByCompanyAction({
+        companyId: params.profileId,
+        type: session?.user?.type!,
+      });
+      contentData2 = data2Response.collection as Podcast[];
     }
   }
 
@@ -163,11 +165,11 @@ const ProfileContent = async ({
             initialData={contentData1 as Podcaster[] | undefined}
             type={session?.user?.type!}
           />
-          {/* <InfiniteScrollPodcasts
+          <InfiniteScrollPodcasts
             initialData={contentData2 as Podcast[] | undefined}
             type={session?.user?.type!}
             podcasterId={params.profileId}
-          /> */}
+          />
         </div>
       ) : null}
     </div>

@@ -62,7 +62,7 @@ const PodcastersSection = ({
             <CarouselNext />
           </div>
         </div>
-        <CarouselContent className="w-full mt-5 ms-0">
+        <CarouselContent className="w-full mt-5 ms-0 min-h-56">
           {isPending ? (
             Array(10)
               .fill(0)
@@ -75,7 +75,9 @@ const PodcastersSection = ({
                 </CarouselItem>
               ))
           ) : data?.pages[0].podcasters.length === 0 ? (
-            <p>No podcasters to load</p>
+            <p className="text-lg my-auto opacity-50 italic ">
+              No podcasters yet
+            </p>
           ) : (
             data?.pages.map((page) =>
               page.podcasters.map((podcaster) => (

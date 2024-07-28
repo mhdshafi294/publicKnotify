@@ -54,6 +54,7 @@ const PricingsContainer: FC<PropsType> = ({ pricings }) => {
       console.log(err);
     },
   });
+
   return (
     <Form {...form}>
       <form

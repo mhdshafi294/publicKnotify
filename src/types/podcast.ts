@@ -104,6 +104,12 @@ export type PodcastsResponse = ApiResponse & {
   podcasts: Podcast[];
   pagination: Pagination;
 };
+
+export type CollectionsResponse = ApiResponse & {
+  collection: Podcast[];
+  pagination: Pagination;
+};
+
 export type SelfPodcastDetailsResponse = ApiResponse & {
   podcast: SelfPodcastDetails;
 };
