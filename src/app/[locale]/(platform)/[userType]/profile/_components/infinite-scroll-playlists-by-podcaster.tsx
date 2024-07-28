@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-
 import {
   Carousel,
   CarouselContent,
@@ -15,19 +14,18 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import {
-  getPlayListsAction,
-  getPlayListsByPodcasterAction,
-} from "@/app/actions/podcastActions";
+import { getPlayListsByPodcasterAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
-import PlaylistCard from "./playlist-card";
+import PlaylistCard from "@/components/playlist-card";
 
-const InfiniteScrollPlaylists = ({
+const InfiniteScrollPlaylistsByPodcaster = ({
   initialData,
+  podcasterId,
   search,
   type,
 }: {
   initialData: Playlist[] | undefined;
+  podcasterId: string;
   search?: string;
   type: string;
 }) => {
@@ -48,7 +46,8 @@ const InfiniteScrollPlaylists = ({
   } = useInfiniteQuery({
     queryKey: ["profile_self_playlists", { type, search }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: PlaylistsResponse = await getPlayListsAction({
+      const response: PlaylistsResponse = await getPlayListsByPodcasterAction({
+        podcasterId,
         type,
         search,
         page: pageParam.toString(),
@@ -139,4 +138,4 @@ const InfiniteScrollPlaylists = ({
   );
 };
 
-export default InfiniteScrollPlaylists;
+export default InfiniteScrollPlaylistsByPodcaster;

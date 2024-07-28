@@ -26,16 +26,16 @@ import removeFromFavorite from "@/services/podcast/remove-from-favorite";
 import updateMetadata from "@/services/podcast/update-metadata";
 
 export const getTrendingAction = async ({
-  count = "12",
+  count = "24",
   search,
   category_id,
-  page,
+  page = "1",
   type,
 }: {
-  count: string;
+  count?: string;
   search?: string;
   category_id?: string;
-  page: string;
+  page?: string;
   type: string;
 }) => {
   return await getTrending({

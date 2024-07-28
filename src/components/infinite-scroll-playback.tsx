@@ -6,13 +6,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
 import { getSelfPlaybackAction } from "@/app/actions/podcastActions";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
@@ -97,12 +90,18 @@ const InfiniteScrollPlayback = ({
     <>
       <h2 className="text-2xl font-bold">History</h2>
       <ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-        {data?.pages.map((page) =>
-          page?.podcasts.map((podcast) => (
-            <li key={podcast?.id}>
-              <ProfilePodcastCard podcast={podcast} userType={type} />
-            </li>
-          ))
+        {data?.pages[0].podcasts.length === 0 ? (
+          <p className="text-lg my-auto opacity-50 italic ">
+            Your historey is empty
+          </p>
+        ) : (
+          data?.pages.map((page) =>
+            page?.podcasts.map((podcast) => (
+              <li key={podcast?.id}>
+                <ProfilePodcastCard podcast={podcast} userType={type} />
+              </li>
+            ))
+          )
         )}
       </ul>
       {/* loading spinner */}

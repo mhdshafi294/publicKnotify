@@ -1,6 +1,6 @@
 import { COMPANY, PODCAST, PODCASTER, PODCASTS } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { CollectionsResponse, PodcastsResponse } from "@/types/podcast";
+import { PodcastsResponse } from "@/types/podcast";
 
 const getPodcastsByCompany = async ({
   page = "1",
@@ -13,7 +13,7 @@ const getPodcastsByCompany = async ({
   companyId: string;
   type: string;
 }) => {
-  const { data } = await axiosInstance.get<CollectionsResponse>(
+  const { data } = await axiosInstance.get<PodcastsResponse>(
     `/${type}${COMPANY}/collection/${companyId}`,
     {
       params: {

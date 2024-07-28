@@ -4,7 +4,10 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
+import {
+  getPodcastsByPodcasterAction,
+  getTrendingAction,
+} from "@/app/actions/podcastActions";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 import {
   Carousel,
@@ -17,15 +20,16 @@ import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
+import { PodcastCard, PodcastCardLoading } from "./podcast-card";
+import { Link } from "@/navigation";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
 
 const InfiniteScrollPodcasts = ({
   initialData,
   type,
-  podcasterId,
 }: {
   initialData: Podcast[] | undefined;
   type: string;
-  podcasterId: string;
 }) => {
   const locale = useLocale();
   const direction = getDirection(locale);
@@ -44,9 +48,8 @@ const InfiniteScrollPodcasts = ({
   } = useInfiniteQuery({
     queryKey: ["profile_self_podcasts", { type }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: PodcastsResponse = await getPodcastsByPodcasterAction({
+      const response: PodcastsResponse = await getTrendingAction({
         type,
-        podcasterId: podcasterId,
         page: pageParam.toString(),
       });
       return {
@@ -99,9 +102,16 @@ const InfiniteScrollPodcasts = ({
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-2xl">Podcasts</h2>
-        <div className="flex relative justify-end items-center end-[80px]">
-          <CarouselPrevious />
-          <CarouselNext />
+        <div className="flex relative justify-end items-center">
+          {/* <CarouselPrevious />
+          <CarouselNext /> */}
+          <Link
+            href={`/${locale}/trending`}
+            className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
+          >
+            <p className="font-semibold ">View All</p>
+            <SquareArrowOutUpRightIcon size={14} className="" />
+          </Link>
         </div>
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
@@ -112,9 +122,9 @@ const InfiniteScrollPodcasts = ({
             page.podcasts.map((podcast) => (
               <CarouselItem
                 key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
+                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0"
               >
-                <ProfilePodcastCard podcast={podcast} userType={type} />
+                <PodcastCard podcast={podcast} />
               </CarouselItem>
             ))
           )
