@@ -1,13 +1,10 @@
-import { useTranslations } from "next-intl";
-
-import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import CategorySecrtion from "@/app/[locale]/(platform)/_components/category-secrtion";
 import PodcastersSection from "@/app/[locale]/(platform)//_components/podcasters-section";
+import CategorySecrtion from "@/app/[locale]/(platform)/_components/category-secrtion";
+import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getTranslations } from "next-intl/server";
+import CompaniesSection from "../_components/Companies-section";
 
 export default async function Home({
   params,
@@ -16,8 +13,6 @@ export default async function Home({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const t = getTranslations("Index");
-
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/login");
@@ -32,7 +27,7 @@ export default async function Home({
           <PodcastersSection params={params} searchParams={searchParams} />
         </>
       );
-    else return <CategorySecrtion />;
+    else return <CompaniesSection />;
   };
 
   return (
