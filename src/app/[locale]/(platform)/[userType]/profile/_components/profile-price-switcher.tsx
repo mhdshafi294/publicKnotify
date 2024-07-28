@@ -2,7 +2,7 @@
 
 import { togglePriceStatusAction } from "@/app/actions/profileActions";
 import { Switch } from "@/components/ui/switch";
-import { Link } from "@/navigation";
+import { Link, useRouter } from "@/navigation";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
 import { useMutation } from "@tanstack/react-query";
@@ -26,6 +26,7 @@ const ProfilePriceSwitcher = ({
   const [is_enabled, set_enabled] = useState<boolean>(
     is_enabled_price ? is_enabled_price : false
   );
+  const router = useRouter();
 
   const {
     data,
@@ -36,6 +37,9 @@ const ProfilePriceSwitcher = ({
   });
 
   const toggle = async () => {
+    if (profileData.price === null) {
+      router.push("/podcaster/pricings");
+    }
     try {
       await togglePriceStatusAction({ type: "podcaster" });
       set_enabled((prev) => {

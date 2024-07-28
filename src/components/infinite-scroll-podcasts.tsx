@@ -4,16 +4,8 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import {
-  getPodcastsByPodcasterAction,
-  getSelfPodcastsAction,
-} from "@/app/actions/podcastActions";
-import {
-  Podcast,
-  PodcastsResponse,
-  SelfPodcastDetails,
-  SelfPodcastsDetailsResponse,
-} from "@/types/podcast";
+import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
 import {
   Carousel,
   CarouselContent,
@@ -24,7 +16,6 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import SelfPodcastCard from "../app/[locale]/(platform)/[userType]/profile/_components/self-podcast-card";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
 const InfiniteScrollPodcasts = ({
@@ -113,15 +104,15 @@ const InfiniteScrollPodcasts = ({
           <CarouselNext />
         </div>
       </div>
-      <CarouselContent className="w-full mt-5 ms-0">
+      <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p>No podcasts to load</p>
+          <p className="text-lg my-auto opacity-50 italic ">No podcasts yet</p>
         ) : (
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
                 key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0 group"
+                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <ProfilePodcastCard podcast={podcast} userType={type} />
               </CarouselItem>

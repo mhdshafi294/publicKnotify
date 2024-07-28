@@ -8,11 +8,13 @@ import getCategories from "@/services/podcast/get-categories";
 import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categories-list";
 import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
+import getPodcastsByCompany from "@/services/podcast/get-podcasts-by-company";
 import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
 import getSelfPlayback from "@/services/podcast/get-self-playback";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
+import authYoutube from "@/services/podcast/platform/youtube/auth-youtube";
 import createPlaylists from "@/services/podcast/playList/create-playlists";
 import deletePlaylist from "@/services/podcast/playList/delete-playlist";
 import getPlaylist from "@/services/podcast/playList/get-playlist";
@@ -36,19 +38,17 @@ export const getTrendingAction = async ({
   page: string;
   type: string;
 }) => {
-  const getTrendingResponse = await getTrending({
+  return await getTrending({
     count,
     search,
     category_id,
     page,
     type,
   });
-  return getTrendingResponse;
 };
 
 export const getCategoriesAction = async () => {
-  const getCategoriesResponse = await getCategories();
-  return getCategoriesResponse;
+  return await getCategories();
 };
 
 export const getMyFavoriteCategoriesListAction = async ({
@@ -56,11 +56,9 @@ export const getMyFavoriteCategoriesListAction = async ({
 }: {
   type: string;
 }) => {
-  const getMyFavoriteCategoriesListResponse =
-    await getMyPodcastFavoriteCategoriesList({
-      type,
-    });
-  return getMyFavoriteCategoriesListResponse;
+  return await getMyPodcastFavoriteCategoriesList({
+    type,
+  });
 };
 
 export const getPodcastDataAction = async ({
@@ -278,6 +276,25 @@ export const getPodcastsByPodcasterAction = async ({
   });
 };
 
+export const getPodcastsByCompanyAction = async ({
+  page = "1",
+  count = "24",
+  companyId,
+  type,
+}: {
+  page?: string;
+  count?: string;
+  companyId: string;
+  type: string;
+}) => {
+  return await getPodcastsByCompany({
+    page,
+    count,
+    companyId,
+    type,
+  });
+};
+
 export const getPlayListsByPodcasterAction = async ({
   podcasterId,
   page = "1",
@@ -299,6 +316,7 @@ export const getPlayListsByPodcasterAction = async ({
     type,
   });
 };
+
 export const getSelfPlaybackAction = async ({
   page = "1",
   count = "24",
@@ -313,4 +331,7 @@ export const getSelfPlaybackAction = async ({
     page,
     type,
   });
+};
+export const authYoutubeAction = async () => {
+  return await authYoutube();
 };

@@ -109,15 +109,15 @@ const InfiniteScrollSelfPodcasts = ({
           <CarouselNext />
         </div>
       </div>
-      <CarouselContent className="w-full mt-5 ms-0">
+      <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p>No podcasts to load</p>
+          <p className="text-lg my-auto opacity-50 italic ">No podcasts yet</p>
         ) : (
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
                 key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0 group"
+                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <SelfPodcastCard podcast={podcast} userType={type} />
               </CarouselItem>

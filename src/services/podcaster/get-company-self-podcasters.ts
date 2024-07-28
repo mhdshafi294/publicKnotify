@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios.config";
-import { PODCASTER } from "@/lib/apiEndPoints";
+import { DEALT, PODCASTER } from "@/lib/apiEndPoints";
 import { PodcastersResponse } from "@/types/podcaster";
 
 const getCompanySelfPodcasters = async ({
@@ -14,7 +14,7 @@ const getCompanySelfPodcasters = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.get<PodcastersResponse>(
-    `/${type}${PODCASTER}`,
+    `/${type}${PODCASTER}${DEALT}`,
     {
       params: {
         count,
