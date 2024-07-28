@@ -5,6 +5,7 @@ import React from "react";
 import EditUserProfile from "./_components/edit-user-profile";
 import EditPodcasterProfile from "./_components/edit-podcaster-profile";
 import EditCompanyProfile from "./_components/edit-company-profile";
+import EditPodcasterContainer from "./_components/edit-podcaster-container";
 
 const EditProfilepage = async () => {
   const session = await getServerSession(authOptions);
@@ -15,7 +16,8 @@ const EditProfilepage = async () => {
   const content = () => {
     if (session.user.type === "user")
       return <EditUserProfile user={session.user} />;
-    if (session.user.type === "podcaster") return <EditPodcasterProfile />;
+    if (session.user.type === "podcaster")
+      return <EditPodcasterContainer user={session.user} />;
     if (session.user.type === "company")
       return <EditCompanyProfile user={session.user} />;
   };
