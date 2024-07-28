@@ -2,16 +2,14 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-
-import { Skeleton } from "./ui/skeleton";
-import { Podcaster } from "@/types/podcaster";
-import PodcasterFavoritePopover from "./podcaster-favorite-popover";
-import UnfavoriteButton from "./unfavorite-button";
 import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
+import { Podcaster } from "@/types/podcaster";
 import { useSession } from "next-auth/react";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import PodcasterFavoritePopover from "./podcaster-favorite-popover";
+import { Skeleton } from "./ui/skeleton";
+import UnfavoriteButton from "./unfavorite-button";
 
 type PodCasterCardProps = {
   podcaster: Podcaster;
