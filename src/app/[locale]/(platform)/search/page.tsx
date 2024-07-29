@@ -11,6 +11,10 @@ import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcast
 import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
 import Search from "@/components/search";
 import InfiniteScrollPlaylistsCarousel from "@/components/infinite-scroll-playlists-carousel";
+import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
+import { SearchResponse } from "@/types/podcast";
+import { getCompaniesAction } from "@/app/actions/companyActions";
+import { CompaniesResponse } from "@/types/company";
 
 export default async function SearchPage({
   params,
@@ -26,11 +30,20 @@ export default async function SearchPage({
   if (!session) {
     redirect("/login");
   }
+  const initData: SearchResponse | CompaniesResponse;
 
-  const initData = await getSearchAction({
-    search,
-    type: session?.user?.type!,
-  });
+  if (session?.user?.type !== "podcaster") {
+    initData = await getSearchAction({
+      search,
+      type: session?.user?.type!,
+    });
+  } else {
+    initData = await getCompaniesAction({
+      type: session?.user?.type!,
+      search,
+    });
+  }
+
   const content = () => {
     if (session?.user?.type !== "podcaster")
       return (
@@ -52,7 +65,15 @@ export default async function SearchPage({
           />
         </div>
       );
-    else return <CompaniesSection />;
+    else
+      return (
+        <MaxWidthContainer className="space-y-4">
+          <h2 className="px-3 font-bold text-3xl capitalize">
+            trending Companies
+          </h2>
+          <InfiniteScrollCompanies initialRequests={data.companies} />
+        </MaxWidthContainer>
+      );
   };
 
   return (
