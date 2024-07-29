@@ -8,17 +8,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const InfiniteScrollCompanies = ({
-<<<<<<< HEAD:src/components/infinite-scroll-companies.tsx
-  initialRequests,
+  initialData,
   search,
 }: {
-  initialRequests: Company[] | undefined;
-  search?: string;
-=======
-  initialData,
-}: {
   initialData: Company[] | undefined;
->>>>>>> ca7cbe2059c2763a70b67764faeb751da7d71d48:src/app/[locale]/(platform)/_components/infinite-scroll-companies.tsx
+  search?: string;
 }) => {
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,

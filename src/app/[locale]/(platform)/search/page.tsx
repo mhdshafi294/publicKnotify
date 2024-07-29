@@ -30,7 +30,8 @@ export default async function SearchPage({
   if (!session) {
     redirect("/login");
   }
-  const initData: SearchResponse | CompaniesResponse;
+  let initData: SearchResponse;
+  let companiesInitData: CompaniesResponse;
 
   if (session?.user?.type !== "podcaster") {
     initData = await getSearchAction({
@@ -38,7 +39,7 @@ export default async function SearchPage({
       type: session?.user?.type!,
     });
   } else {
-    initData = await getCompaniesAction({
+    companiesInitData = await getCompaniesAction({
       type: session?.user?.type!,
       search,
     });
@@ -71,7 +72,7 @@ export default async function SearchPage({
           <h2 className="px-3 font-bold text-3xl capitalize">
             trending Companies
           </h2>
-          <InfiniteScrollCompanies initialRequests={data.companies} />
+          <InfiniteScrollCompanies initialData={companiesInitData.companies} />
         </MaxWidthContainer>
       );
   };
