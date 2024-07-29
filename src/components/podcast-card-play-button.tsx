@@ -17,7 +17,8 @@ const PodcastCardPlayButton: React.FC<PropsType> = ({ podcastId, type }) => {
   return (
     <Button
       size="icon"
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         if (type === "audio") {
           if (podcastId === selectedPodcastId) {
             setIsRunning(!isRunning);
@@ -27,7 +28,7 @@ const PodcastCardPlayButton: React.FC<PropsType> = ({ podcastId, type }) => {
           }
         }
       }}
-      className="absolute shadow rounded-full opacity-0 group-hover:opacity-100 translate-y-4 transition-all duration-300 group-hover:translate-y-0 bottom-4 end-4"
+      className="absolute shadow group-focus: rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 focus-visible:opacity-100 translate-y-4 transition-all duration-300 group-hover:translate-y-0 group-focus:translate-y-0 focus-visible:translate-y-0 bottom-4 end-4"
     >
       {selectedPodcastId === podcastId ? (
         isRunning ? (

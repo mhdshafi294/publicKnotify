@@ -169,7 +169,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger onClick={(e) => e.stopPropagation()} asChild>
         {isFavorite ? (
           <Heart
             size={triggerSize}

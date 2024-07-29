@@ -1,16 +1,20 @@
 "use client";
-import { getCompaniesAction } from "@/app/actions/companyActions";
+import { getTrendingAction } from "@/app/actions/podcastActions";
+import { PodcastCard } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { CompaniesResponse, Company } from "@/types/company";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import CompanyCard from "./company-card";
 
-const InfiniteScrollCompanies = ({
+const PodcastsByCategoryContainer = ({
   initialData,
+  type,
+  categoryId,
 }: {
-  initialData: Company[] | undefined;
+  initialData: Podcast[] | undefined;
+  type: string;
+  categoryId: string;
 }) => {
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -18,15 +22,15 @@ const InfiniteScrollCompanies = ({
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["companies", "podcaster"],
+      queryKey: ["podcasts", categoryId],
       queryFn: async ({ pageParam = 1 }) => {
-        const response: CompaniesResponse = await getCompaniesAction({
+        const response: PodcastsResponse = await getTrendingAction({
           page: pageParam.toString(),
-          type: "podcaster",
-          count: "10",
+          type: type,
+          category_id: categoryId,
         });
         return {
-          requests: response.companies,
+          requests: response.podcasts,
           pagination: {
             ...response.pagination,
             next_page_url: response.pagination.next_page_url,
@@ -74,9 +78,9 @@ const InfiniteScrollCompanies = ({
     <>
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {data?.pages.map((page) =>
-          page?.requests.map((request) => (
-            <li key={request?.id}>
-              <CompanyCard company={request!} />
+          page?.requests.map((podcast) => (
+            <li key={podcast?.id}>
+              <PodcastCard podcast={podcast} />
             </li>
           ))
         )}
@@ -93,4 +97,4 @@ const InfiniteScrollCompanies = ({
   );
 };
 
-export default InfiniteScrollCompanies;
+export default PodcastsByCategoryContainer;
