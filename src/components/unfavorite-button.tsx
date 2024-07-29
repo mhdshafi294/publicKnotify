@@ -54,7 +54,8 @@ const UnfavoriteButton: React.FC<UnfavoriteButtonProps> = ({
     },
   });
 
-  const handleUnFavorite = async () => {
+  const handleUnFavorite = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     server_RemoveFromFavoriteAction({
       id: id,
       type: session?.data?.user?.type!,

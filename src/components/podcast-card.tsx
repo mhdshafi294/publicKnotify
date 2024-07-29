@@ -10,6 +10,8 @@ import { removeFromFavoriteAction } from "@/app/actions/podcastActions";
 import { useEffect, useState } from "react";
 import UnfavoriteButton from "./unfavorite-button";
 import { cn } from "@/lib/utils";
+import { Link, useRouter } from "@/navigation";
+import { useSession } from "next-auth/react";
 
 type PodCastCardProps = {
   podcast: Podcast;
@@ -20,11 +22,12 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
   podcast,
   className,
 }) => {
+  const router = useRouter();
+  const { data: user } = useSession();
   const [isFavorite, setIsFavorite] = useState(podcast.is_favorite);
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcast.favourite_categories.map((category) => category.name)
   );
-
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {
     if (!isHydrated) setIsHydrated(true);
@@ -32,8 +35,11 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
 
   return (
     <div
+      onClick={() => router.push(`/${user?.user?.type}/podcast/${podcast.id}`)}
+      role="button"
+      tabIndex={0}
       className={cn(
-        "w-full flex group transition-colors duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
+        "w-full flex group transition-colors group duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
         className
       )}
     >
@@ -50,7 +56,9 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
       </div>
       <div className="flex items-end justify-between ">
         <div>
-          <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
+          <Link passHref href={`/${user?.user?.type}/podcast/${podcast.id}`}>
+            <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
+          </Link>
           <p className="text-xs font-medium">{podcast.podcaster.full_name}</p>
         </div>
         {isFavorite ? (
