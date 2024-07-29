@@ -1,4 +1,5 @@
 import { ApiResponse, Pagination } from ".";
+import { Podcaster, PodcasterDetails } from "./podcaster";
 
 export type PodcastDetails = {
   id: number;
@@ -90,6 +91,17 @@ export type Playlist = {
   podcasts_count: number;
   type: string;
   created_at: string;
+};
+
+export type SearchResponse = ApiResponse & {
+  search: {
+    podcasters: {
+      data: Omit<PodcasterDetails, "phone" | "email" | "price">[];
+      pagination: Pagination;
+    };
+    podcasts: { data: Podcast[]; pagination: Pagination };
+    playLists: { data: Playlist[]; pagination: Pagination };
+  };
 };
 
 export type MetadataResponse = ApiResponse & {

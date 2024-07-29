@@ -1,16 +1,18 @@
 "use client";
+import CompanyCard from "@/app/[locale]/(platform)/_components/company-card";
 import { getCompaniesAction } from "@/app/actions/companyActions";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { CompaniesResponse, Company } from "@/types/company";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import CompanyCard from "./company-card";
 
 const InfiniteScrollCompanies = ({
   initialRequests,
+  search,
 }: {
   initialRequests: Company[] | undefined;
+  search?: string;
 }) => {
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -18,12 +20,13 @@ const InfiniteScrollCompanies = ({
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["companies", "podcaster"],
+      queryKey: ["companies", "podcaster", search],
       queryFn: async ({ pageParam = 1 }) => {
         const response: CompaniesResponse = await getCompaniesAction({
           page: pageParam.toString(),
           type: "podcaster",
           count: "10",
+          search,
         });
         return {
           requests: response.companies,

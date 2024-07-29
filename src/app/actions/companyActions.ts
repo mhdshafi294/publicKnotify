@@ -17,14 +17,14 @@ export const getCompanyAction = async ({
 };
 
 export const getCompaniesAction = async ({
-  count = "12",
+  count = "24",
   search,
-  page,
+  page = "1",
   type,
 }: {
-  count: string;
+  count?: string;
   search?: string;
-  page: string;
+  page?: string;
   type: string;
 }) => {
   return await getCompanies({

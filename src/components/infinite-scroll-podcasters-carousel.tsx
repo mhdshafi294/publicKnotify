@@ -21,11 +21,11 @@ import { getPodcastersAction } from "@/app/actions/podcasterActions";
 
 const InfiniteScrollPodcasterersCarousel = ({
   initialData,
-  // search,
+  search,
   type,
 }: {
   initialData: Podcaster[] | undefined;
-  // search?: string;
+  search?: string;
   type: string;
 }) => {
   const locale = useLocale();
@@ -43,11 +43,11 @@ const InfiniteScrollPodcasterersCarousel = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["trending_podcasters", { type }],
+    queryKey: ["trending_podcasters", { type, search }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: PodcastersResponse = await getPodcastersAction({
         type,
-        // search,
+        search,
         page: pageParam.toString(),
       });
       return {
@@ -104,7 +104,10 @@ const InfiniteScrollPodcasterersCarousel = ({
           {/* <CarouselPrevious />
           <CarouselNext /> */}
           <Link
-            href={`${type}/podcasters`}
+            href={{
+              pathname: `${type}/podcasters`,
+              query: { search },
+            }}
             className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
           >
             <p className="font-semibold ">View All</p>

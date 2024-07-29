@@ -15,14 +15,11 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import {
-  getPlayListsAction,
-  getPlayListsByPodcasterAction,
-} from "@/app/actions/podcastActions";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
-import PlaylistCard from "./playlist-card";
+import PlaylistCard from "@/components/playlist-card";
 
-const InfiniteScrollPlaylists = ({
+const InfiniteScrollPlaylistsCarousel = ({
   initialData,
   search,
   type,
@@ -139,4 +136,4 @@ const InfiniteScrollPlaylists = ({
   );
 };
 
-export default InfiniteScrollPlaylists;
+export default InfiniteScrollPlaylistsCarousel;

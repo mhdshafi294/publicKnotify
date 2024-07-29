@@ -4,27 +4,29 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import { getTrendingAction } from "@/app/actions/podcastActions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
+
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-
-import { PodcastCard } from "./podcast-card";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { Playlist, PlaylistsResponse } from "@/types/podcast";
+import PlaylistCard from "./playlist-card";
 import { Link } from "@/navigation";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
 
-const InfiniteScrollPodcastsCarousel = ({
+const InfiniteScrollPlaylistsCarousel = ({
   initialData,
   search,
   type,
 }: {
-  initialData: Podcast[] | undefined;
+  initialData: Playlist[] | undefined;
   search?: string;
   type: string;
 }) => {
@@ -43,15 +45,15 @@ const InfiniteScrollPodcastsCarousel = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["trending_podcasts", { type, search }],
+    queryKey: ["profile_self_playlists", { type, search }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: PodcastsResponse = await getTrendingAction({
+      const response: PlaylistsResponse = await getPlayListsAction({
         type,
         search,
         page: pageParam.toString(),
       });
       return {
-        podcasts: response.podcasts,
+        playlists: response.playlists,
         pagination: {
           ...response.pagination,
           next_page_url: response.pagination.next_page_url,
@@ -70,7 +72,7 @@ const InfiniteScrollPodcastsCarousel = ({
         return {
           pages: [
             {
-              podcasts: initialData || [],
+              playlists: initialData || [],
               pagination: {
                 current_page: 1,
                 first_page_url: "",
@@ -99,13 +101,13 @@ const InfiniteScrollPodcastsCarousel = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasts</h2>
+        <h2 className="font-bold text-2xl">Playlists</h2>
         <div className="flex relative justify-end items-center">
           {/* <CarouselPrevious />
           <CarouselNext /> */}
           <Link
             href={{
-              pathname: `${type}/podcast`,
+              pathname: `${type}/playlist`,
               query: { search },
             }}
             className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
@@ -116,16 +118,16 @@ const InfiniteScrollPodcastsCarousel = ({
         </div>
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
-        {data?.pages[0].podcasts.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">No podcasts yet</p>
+        {data?.pages[0].playlists.length === 0 ? (
+          <p className="text-lg my-auto opacity-50 italic ">No playlists yet</p>
         ) : (
           data?.pages.map((page) =>
-            page.podcasts.map((podcast) => (
+            page.playlists.map((playlist) => (
               <CarouselItem
-                key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0"
+                key={playlist.id}
+                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-[13%] ps-0 group"
               >
-                <PodcastCard podcast={podcast} />
+                <PlaylistCard playlist={playlist} userType={type} />
               </CarouselItem>
             ))
           )
@@ -146,4 +148,4 @@ const InfiniteScrollPodcastsCarousel = ({
   );
 };
 
-export default InfiniteScrollPodcastsCarousel;
+export default InfiniteScrollPlaylistsCarousel;

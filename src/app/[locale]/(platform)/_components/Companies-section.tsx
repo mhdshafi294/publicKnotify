@@ -1,6 +1,6 @@
 import { getCompaniesAction } from "@/app/actions/companyActions";
+import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import InfiniteScrollCompanies from "./infinite-scroll-companies";
 
 const CompaniesSection = async () => {
   const data = await getCompaniesAction({

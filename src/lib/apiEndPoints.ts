@@ -43,6 +43,7 @@ export const PUBLISHED_PODCASTS = "/published-podcasts";
 export const MY_PLAYBACK = "/my-playback";
 export const DEALT = "/dealed";
 export const YOUTUBE = "/youtube";
+export const SEARCH = "/search";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

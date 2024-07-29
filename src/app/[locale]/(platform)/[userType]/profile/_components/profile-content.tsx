@@ -6,17 +6,14 @@ import {
   getSelfPlaybackAction,
   getSelfPodcastsAction,
 } from "@/app/actions/podcastActions";
-import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
 import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
-import Search from "@/components/search";
 import { Company } from "@/types/company";
 import { Playlist, Podcast, SelfPodcastDetails } from "@/types/podcast";
 import { Podcaster, PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
 import { Session } from "next-auth";
 import React from "react";
-import InfiniteScrollPlaylists from "@/components/infinite-scroll-playlists";
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import {
   getCompanySelfPodcastersAction,
@@ -32,13 +29,7 @@ import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
 import { Link } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  ChevronsUpIcon,
-  CircleArrowOutUpRightIcon,
-  FileSymlinkIcon,
-  SendHorizontalIcon,
-  SendIcon,
-} from "lucide-react";
+import { FileSymlinkIcon } from "lucide-react";
 
 const ProfileContent = async ({
   profileData,

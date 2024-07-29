@@ -10,6 +10,7 @@ import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import getPodcastsByCompany from "@/services/podcast/get-podcasts-by-company";
 import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
+import getSearch from "@/services/podcast/get-search";
 import getSelfPlayback from "@/services/podcast/get-self-playback";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
@@ -334,4 +335,23 @@ export const getSelfPlaybackAction = async ({
 };
 export const authYoutubeAction = async () => {
   return await authYoutube();
+};
+
+export const getSearchAction = async ({
+  count = "24",
+  search,
+  page = "1",
+  type,
+}: {
+  count?: string;
+  search?: string;
+  page?: string;
+  type: string;
+}) => {
+  return await getSearch({
+    count,
+    search,
+    page,
+    type,
+  });
 };
