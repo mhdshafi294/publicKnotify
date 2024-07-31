@@ -3,6 +3,7 @@
 import cancelRequest from "@/services/requests/cancel-status";
 import changeRequestStatus from "@/services/requests/change-status";
 import createRequest from "@/services/requests/create-request";
+import getCompanySelfPodcasts from "@/services/requests/get-company-self-podcasts";
 import getRequest from "@/services/requests/get-request";
 import getRequests from "@/services/requests/get-requests";
 
@@ -16,7 +17,7 @@ export const getRequestsAction = async ({
   page?: string;
   count?: string;
   search?: string;
-  status?: string;
+  status?: string[];
   type: string;
 }) => {
   const getRequestsResponse = await getRequests({
@@ -83,4 +84,21 @@ export const createRequestAction = async ({
 }) => {
   const createRequestResponse = await createRequest({ formData, type });
   return createRequestResponse;
+};
+
+export const getCompanySelfPodcastsAction = async ({
+  page = "1",
+  count = "24",
+  type,
+}: {
+  page?: string;
+  count?: string;
+  type: string;
+}) => {
+  const getRequestsResponse = await getCompanySelfPodcasts({
+    page,
+    count,
+    type,
+  });
+  return getRequestsResponse;
 };

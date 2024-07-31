@@ -80,20 +80,31 @@ export const createMetadataSchema = z
     message: "error-message.terms",
     path: ["terms"],
   });
+// .superRefine((data, ctx) => {
+//   if (data.type === "audio") {
+//     if (!data.thumbnail) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Thumbnail is required when type is audio.",
+//         path: ["thumbnail"],
+//       });
+//     }
+//     if (!data.background) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Background is required when type is audio.",
+//         path: ["background"],
+//       });
+//     }
+//   } else if (data.type === "video") {
+//     if (!data.thumbnail) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Thumbnail is required when type is video.",
+//         path: ["thumbnail"],
+//       });
+//     }
+//   }
+// });
 
 export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
-
-// .refine(
-//   (data) => typeof data.podcast_id === "string" && data.background.name,
-//   {
-//     message: "error-message.type",
-//     path: ["background"],
-//   }
-// )
-// .refine(
-//   (data) => typeof data.podcast_id === "string" && data.thumbnail.name,
-//   {
-//     message: "error-message.type",
-//     path: ["thumbnail"],
-//   }
-// )

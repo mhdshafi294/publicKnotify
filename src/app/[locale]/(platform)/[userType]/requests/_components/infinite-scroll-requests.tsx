@@ -16,7 +16,7 @@ const InfiniteScrollRequests = ({
 }: {
   initialRequests: Request[] | undefined;
   search?: string;
-  status?: string;
+  status?: string[];
   type: string;
 }) => {
   const { isIntersecting, ref } = useIntersectionObserver({

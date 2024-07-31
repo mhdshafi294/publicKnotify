@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios.config";
-import { INDEX, PLAY_LIST } from "@/lib/apiEndPoints";
+import { PLAYLISTS } from "@/lib/apiEndPoints";
 import { PlaylistsResponse } from "@/types/podcast";
 
 const getPlaylists = async ({
@@ -14,7 +14,7 @@ const getPlaylists = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.get<PlaylistsResponse>(
-    `/${type}${PLAY_LIST}${INDEX}`,
+    `/${type}${PLAYLISTS}`,
     {
       params: {
         count,

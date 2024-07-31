@@ -5,16 +5,18 @@ import addPodcastToFavorite from "@/services/podcaster/add-to-favorite";
 import getPodcaster from "@/services/podcaster/get-podcaster";
 import getPodcasters from "@/services/podcaster/get-podcasters";
 import removeFromFavorite from "@/services/podcaster/remove-from-favorite";
+import getCompanySelfPodcasters from "@/services/podcaster/get-company-self-podcasters";
+import getPodcastersByCompany from "@/services/podcaster/get-podcasters-by-company";
 
 export const getPodcastersAction = async ({
-  count = "12",
+  count = "24",
   search,
-  page,
+  page = "1",
   type,
 }: {
-  count: string;
+  count?: string;
   search?: string;
-  page: string;
+  page?: string;
   type: string;
 }) => {
   const getPodcastersResponse = await getPodcasters({
@@ -89,6 +91,46 @@ export const getMyFavoritePodcastersAction = async ({
     page,
     count,
     category_id,
+    type,
+  });
+};
+
+export const getCompanySelfPodcastersAction = async ({
+  count = "24",
+  search,
+  page = "1",
+  type,
+}: {
+  count?: string;
+  search?: string;
+  page?: string;
+  type: string;
+}) => {
+  return await getCompanySelfPodcasters({
+    count,
+    search,
+    page,
+    type,
+  });
+};
+export const getPodcastersByCompanyAction = async ({
+  companyId,
+  count = "24",
+  search,
+  page = "1",
+  type,
+}: {
+  companyId: string;
+  count?: string;
+  search?: string;
+  page?: string;
+  type: string;
+}) => {
+  return await getPodcastersByCompany({
+    companyId,
+    count,
+    search,
+    page,
     type,
   });
 };

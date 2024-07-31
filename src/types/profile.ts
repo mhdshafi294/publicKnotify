@@ -1,18 +1,36 @@
 import { ApiResponse } from ".";
+import { Category } from "./podcast";
 
 export type User = {
-  name: string;
-  email: string;
+  id: number;
+  full_name: string;
   phone: string;
+  iso_code: string;
+  email: string | null;
   image: string;
-  company_name: string;
-  domain: string;
-  notification_count: number;
-  unreaded_messages: number;
+  documents?: string;
+  is_enabled_price?: boolean;
+  price?: Price;
+  youtube_account?: string | null;
+  spotify_account?: string | null;
   enable_notification: 1 | 0 | null;
+  categories: Category[];
+  type: string;
   created_at: string;
 };
 
+export type Price = {
+  id: number;
+  video: string;
+  first: string;
+  middle: string;
+  end: string;
+  created_at: string;
+  is_enabled: boolean;
+};
+
+export type PriceApiResponse = ApiResponse & { price: Price | null };
+
 export type ProfileResponse = {
-  profile: User;
+  user: User;
 } & ApiResponse;

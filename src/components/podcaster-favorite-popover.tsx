@@ -62,6 +62,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       getMyFavoriteCategoriesListAction({
         type: session?.data?.user?.type!,
       }),
+    enabled: !!session?.data?.user?.type,
   });
 
   const {

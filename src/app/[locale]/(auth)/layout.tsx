@@ -2,8 +2,8 @@ import Image from "next/image";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full min-h-screen w-full flex items-center justify-center">
-      <div className="absolute inset-0 h-full min-h-screen w-screen -z-10">
+    <div className="h-full min-h-[calc(100vh-72px)] w-full flex items-center justify-center">
+      <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
         <div className="absolute size-[580px] left-0 top-0 -z-10 -translate-x-1/2">
           <div className="absolute size-full left-0 top-0 -z-30 rounded-full bg-primary/50 blur-xl" />

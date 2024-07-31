@@ -8,41 +8,49 @@ import getCategories from "@/services/podcast/get-categories";
 import getMyPodcastFavoriteCategoriesList from "@/services/podcast/get-my-favorite-categories-list";
 import getMyFavoritePodcasts from "@/services/podcast/get-my-favorite-podcasts";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
+import getPodcastsByCompany from "@/services/podcast/get-podcasts-by-company";
+import getPodcastsByPodcaster from "@/services/podcast/get-podcasts-by-podcaster";
+import getSearch from "@/services/podcast/get-search";
+import getSelfPlayback from "@/services/podcast/get-self-playback";
 import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
+import authYoutube from "@/services/podcast/platform/youtube/auth-youtube";
+import publishYoutube from "@/services/podcast/platform/youtube/publish-youtube";
 import createPlaylists from "@/services/podcast/playList/create-playlists";
+import deletePlaylist from "@/services/podcast/playList/delete-playlist";
+import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
+import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-by-podcaster";
+import updatePlaylists from "@/services/podcast/playList/update-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
 import updateMetadata from "@/services/podcast/update-metadata";
 
 export const getTrendingAction = async ({
-  count = "12",
+  count = "24",
   search,
   category_id,
-  page,
+  page = "1",
   type,
 }: {
-  count: string;
+  count?: string;
   search?: string;
   category_id?: string;
-  page: string;
+  page?: string;
   type: string;
 }) => {
-  const getTrendingResponse = await getTrending({
+  return await getTrending({
     count,
     search,
     category_id,
     page,
     type,
   });
-  return getTrendingResponse;
 };
 
 export const getCategoriesAction = async () => {
-  const getCategoriesResponse = await getCategories();
-  return getCategoriesResponse;
+  return await getCategories();
 };
 
 export const getMyFavoriteCategoriesListAction = async ({
@@ -50,11 +58,9 @@ export const getMyFavoriteCategoriesListAction = async ({
 }: {
   type: string;
 }) => {
-  const getMyFavoriteCategoriesListResponse =
-    await getMyPodcastFavoriteCategoriesList({
-      type,
-    });
-  return getMyFavoriteCategoriesListResponse;
+  return await getMyPodcastFavoriteCategoriesList({
+    type,
+  });
 };
 
 export const getPodcastDataAction = async ({
@@ -122,13 +128,13 @@ export const createMediaAction = async ({
 };
 
 export const getSelfPodcastsAction = async ({
-  page,
-  count = "6",
+  page = "1",
+  count = "24",
   search,
   is_published,
   type,
 }: {
-  page: string;
+  page?: string;
   count?: string;
   search?: string;
   is_published?: boolean;
@@ -162,6 +168,15 @@ export const publishPodcastAction = async ({
 }) => {
   return await publishPodcast({ id, type });
 };
+export const publishYoutubeAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await publishYoutube({ type, id });
+};
 
 export const deleteSelfPodcastAction = async ({
   id,
@@ -193,14 +208,14 @@ export const getMyFavoritePodcastsAction = async ({
 };
 
 export const getPlayListsAction = async ({
-  count,
+  page = "1",
+  count = "24",
   search,
-  page,
   type,
 }: {
-  count: string;
+  page?: string;
+  count?: string;
   search?: string;
-  page: string;
   type: string;
 }) => {
   return await getPlaylists({
@@ -211,6 +226,16 @@ export const getPlayListsAction = async ({
   });
 };
 
+export const getPlayListAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await getPlaylist({ id, type });
+};
+
 export const createPlayListsAction = async ({
   formData,
   type,
@@ -219,4 +244,124 @@ export const createPlayListsAction = async ({
   type: string;
 }) => {
   return await createPlaylists({ formData, type });
+};
+
+export const updatePlayListsAction = async ({
+  formData,
+  type,
+  id,
+}: {
+  formData: FormData;
+  type: string;
+  id: string;
+}) => {
+  return await updatePlaylists({ formData, type, id });
+};
+
+export const deletePlayListsAction = async ({
+  type,
+  id,
+}: {
+  type: string;
+  id: string;
+}) => {
+  return await deletePlaylist({ type, id });
+};
+
+export const getPodcastsByPodcasterAction = async ({
+  page = "1",
+  count = "24",
+  podcasterId,
+  type,
+}: {
+  page?: string;
+  count?: string;
+  podcasterId: string;
+  type: string;
+}) => {
+  return await getPodcastsByPodcaster({
+    page,
+    count,
+    podcasterId,
+    type,
+  });
+};
+
+export const getPodcastsByCompanyAction = async ({
+  page = "1",
+  count = "24",
+  companyId,
+  type,
+}: {
+  page?: string;
+  count?: string;
+  companyId: string;
+  type: string;
+}) => {
+  return await getPodcastsByCompany({
+    page,
+    count,
+    companyId,
+    type,
+  });
+};
+
+export const getPlayListsByPodcasterAction = async ({
+  podcasterId,
+  page = "1",
+  count = "24",
+  search,
+  type,
+}: {
+  podcasterId: string;
+  page?: string;
+  count?: string;
+  search?: string;
+  type: string;
+}) => {
+  return await getPlaylistsByPodcaster({
+    podcasterId,
+    count,
+    search,
+    page,
+    type,
+  });
+};
+
+export const getSelfPlaybackAction = async ({
+  page = "1",
+  count = "24",
+  type,
+}: {
+  page?: string;
+  count?: string;
+  type: string;
+}) => {
+  return await getSelfPlayback({
+    count,
+    page,
+    type,
+  });
+};
+export const authYoutubeAction = async () => {
+  return await authYoutube();
+};
+
+export const getSearchAction = async ({
+  count = "24",
+  search,
+  page = "1",
+  type,
+}: {
+  count?: string;
+  search?: string;
+  page?: string;
+  type: string;
+}) => {
+  return await getSearch({
+    count,
+    search,
+    page,
+    type,
+  });
 };

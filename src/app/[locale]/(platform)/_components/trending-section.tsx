@@ -1,104 +1,27 @@
-"use client";
-
 import { getTrendingAction } from "@/app/actions/podcastActions";
-import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { getDirection } from "@/lib/utils";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale } from "next-intl";
+import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 
-const TrendingSection = ({
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+
+const TrendingSection = async ({
   params,
   searchParams,
 }: {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const locale = useLocale();
-  const direction = getDirection(locale);
-
-  const { isPending, isError, error, data, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["trending"],
-      queryFn: ({ pageParam }) =>
-        getTrendingAction({
-          count: "50",
-          page: pageParam.toString(),
-          type: params.userType as string,
-        }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        if (lastPage.pagination.next_page_url) {
-          return lastPage.pagination.current_page + 1;
-        } else {
-          undefined;
-        }
-      },
-    });
-
-  if (isError) {
-    console.log(error);
-    return <div>Something went wrong. Please try again</div>;
-  }
+  const firstPageTrendingResponse = await getTrendingAction({
+    type: params.userType,
+  });
 
   // console.log(data);
 
   return (
     <MaxWidthContainer className="w-full">
-      <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
-        <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl">Trending Podcasts</h2>
-          <div className="flex relative justify-end items-center end-[80px]">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
-        </div>
-        <CarouselContent className="w-full mt-5 ms-0">
-          {isPending ? (
-            Array(10)
-              .fill(0)
-              .map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
-                >
-                  <PodcastCardLoading />
-                </CarouselItem>
-              ))
-          ) : data?.pages[0].podcasts.length === 0 ? (
-            <p>No podcasts to load</p>
-          ) : (
-            data?.pages.map((page) =>
-              page.podcasts.map((podcast) => (
-                <CarouselItem
-                  key={podcast.id}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
-                >
-                  <PodcastCard podcast={podcast} />
-                </CarouselItem>
-              ))
-            )
-          )}
-          {isFetchingNextPage &&
-            Array(20)
-              .fill(0)
-              .map((_, index) => (
-                <CarouselItem
-                  key={index}
-                  className="basis-1/2 md:basis-1/4 lg:basis-1/5 ps-0"
-                >
-                  <PodcastCardLoading />
-                </CarouselItem>
-              ))}
-        </CarouselContent>
-      </Carousel>
+      <InfiniteScrollPodcastsCarousel
+        initialData={firstPageTrendingResponse.podcasts}
+        type={params.userType}
+      />
     </MaxWidthContainer>
   );
 };

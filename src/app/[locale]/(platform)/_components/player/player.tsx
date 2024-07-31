@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import usePlayerStore from "@/store/use-player-store";
 import { useQuery } from "@tanstack/react-query";
-import { Play, Pause, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
+import { Pause, Play, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { ElementRef, Fragment, useEffect, useRef, useState } from "react";
@@ -18,17 +18,18 @@ const Player = () => {
   const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
   const toggleRunning = usePlayerStore((state) => state.toggleRunning);
   const { data: session } = useSession();
-
   const [volume, setVolume] = useState(1);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [sliderValue, setSliderValue] = useState([0]);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const ref = useRef<ElementRef<"audio">>(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
-    enabled: !!podcastId,
+    enabled: !!podcastId && !!session?.user?.type,
     queryFn: () =>
       getPodcastDataAction({ type: session?.user?.type!, id: podcastId! }),
   });
@@ -43,18 +44,23 @@ const Player = () => {
     const audioElement = ref.current;
     if (data && !isPending && !isError) {
       if (audioElement) {
-        audioElement.play();
-        setIsPlaying(true);
-        const updateCurrentTime = () =>
-          setCurrentTime(audioElement.currentTime);
-        const setAudioData = () => {
-          setDuration(audioElement.duration);
+        const handleCanPlayThrough = () => {
+          setIsLoaded(true);
+          setIsLoading(false);
+          audioElement.play();
+          setIsPlaying(true);
         };
-        audioElement.addEventListener("timeupdate", updateCurrentTime);
-        audioElement.addEventListener("loadeddata", setAudioData);
+
+        audioElement.addEventListener("canplaythrough", handleCanPlayThrough);
+        audioElement.addEventListener("timeupdate", () =>
+          setCurrentTime(audioElement.currentTime)
+        );
+        audioElement.addEventListener("loadeddata", () =>
+          setDuration(audioElement.duration)
+        );
+
         return () => {
-          audioElement.removeEventListener("timeupdate", updateCurrentTime);
-          audioElement.removeEventListener("loadeddata", setAudioData);
+          audioElement.removeEventListener("canplaythrough", handleCanPlayThrough);
         };
       }
     }
@@ -83,8 +89,25 @@ const Player = () => {
     };
   }, [isPlaying]);
 
-  const togglePlayPause = () => {
+  const togglePlayPause = async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
     toggleRunning();
+    if (ref.current) {
+      if (!isPlaying) {
+        try {
+          await ref.current.play();
+          setIsPlaying(true);
+        } catch (error) {
+          console.error("Error playing the audio:", error);
+        }
+      } else {
+        ref.current.pause();
+        setIsPlaying(false);
+      }
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -125,6 +148,19 @@ const Player = () => {
       .toString()
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
+
+  // Reset states when podcastId changes
+  useEffect(() => {
+    setCurrentTime(0);
+    setDuration(0);
+    setSliderValue([0]);
+    setIsLoaded(false);
+    setIsPlaying(false);
+    if (ref.current) {
+      ref.current.currentTime = 0;
+      ref.current.pause();
+    }
+  }, [podcastId]);
 
   return (
     <Fragment>
@@ -184,7 +220,7 @@ const Player = () => {
               onClick={togglePlayPause}
               variant="ghost"
               size="icon"
-              disabled={isPending || isError}
+              disabled={isPending || isError || !isLoaded || isLoading}
               className="bg-foreground hover:scale-105 transition-all size-10 text-background flex justify-center items-center rounded-full"
             >
               {isPlaying ? (

@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-
-import { Skeleton } from "./ui/skeleton";
-import { Podcaster } from "@/types/podcaster";
-import PodcasterFavoritePopover from "./podcaster-favorite-popover";
-import UnfavoriteButton from "./unfavorite-button";
 import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { Podcaster } from "@/types/podcaster";
+import { useSession } from "next-auth/react";
+import PodcasterFavoritePopover from "./podcaster-favorite-popover";
+import { Skeleton } from "./ui/skeleton";
+import UnfavoriteButton from "./unfavorite-button";
 
 type PodCasterCardProps = {
   podcaster: Podcaster;
@@ -23,9 +24,11 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcaster.favourite_categories.map((category) => category.name)
   );
+  const { data: session } = useSession();
 
   return (
-    <div
+    <Link
+      href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
       className={cn(
         "w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300",
         className
@@ -63,7 +66,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
           />
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 

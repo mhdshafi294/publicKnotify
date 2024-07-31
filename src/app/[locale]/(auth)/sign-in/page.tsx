@@ -1,4 +1,3 @@
-import { LanguageSwitcher } from "@/components/language-switcher";
 import SignInForm from "@/app/[locale]/(auth)/sign-in/_components/sign-in-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
