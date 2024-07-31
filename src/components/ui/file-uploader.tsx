@@ -254,8 +254,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           <TooltipContent className="flex items-center gap-1 bg-primary">
             <BadgeInfoIcon size={16} />
             <p className="font-medium text-base">
-              Ensure that you saved the podcast data as a draft before you can
-              upload your podcast
+              You can upload your podcast here, please ensure that the file type
+              is compatible with the type you selected in the previous step.
             </p>
           </TooltipContent>
         </Tooltip>
