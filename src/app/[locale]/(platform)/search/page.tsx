@@ -1,10 +1,6 @@
-import PodcastersSection from "@/app/[locale]/(platform)//_components/podcasters-section";
-import CategorySecrtion from "@/app/[locale]/(platform)/_components/category-secrtion";
-import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
-import CompaniesSection from "../_components/Companies-section";
 import { getSearchAction } from "@/app/actions/podcastActions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
@@ -48,14 +44,14 @@ export default async function SearchPage({
   const content = () => {
     if (session?.user?.type !== "podcaster")
       return (
-        <div className="flex flex-col gap-7">
-          <InfiniteScrollPodcastsCarousel
-            initialData={initData.search.podcasts.data}
+        <>
+          <InfiniteScrollPlaylistsCarousel
+            initialData={initData.search.playLists.data}
             type={session?.user?.type!}
             search={search}
           />
-          <InfiniteScrollPlaylistsCarousel
-            initialData={initData.search.playLists.data}
+          <InfiniteScrollPodcastsCarousel
+            initialData={initData.search.podcasts.data}
             type={session?.user?.type!}
             search={search}
           />
@@ -64,16 +60,17 @@ export default async function SearchPage({
             type={session?.user?.type!}
             search={search}
           />
-        </div>
+        </>
       );
     else
       return (
-        <MaxWidthContainer className="space-y-4">
-          <h2 className="px-3 font-bold text-3xl capitalize">
-            trending Companies
-          </h2>
-          <InfiniteScrollCompanies initialData={companiesInitData.companies} />
-        </MaxWidthContainer>
+        <>
+          <h2 className="font-bold text-2xl capitalize">Trending Companies</h2>
+          <InfiniteScrollCompanies
+            initialData={companiesInitData.companies}
+            search={search}
+          />
+        </>
       );
   };
 
@@ -84,7 +81,7 @@ export default async function SearchPage({
           <h1 className="text-4xl font-bold">Search</h1>
           <Search searchText={search} searchFor="search" />
         </div>
-        {content()}
+        <div className="flex flex-col gap-7">{content()}</div>
       </MaxWidthContainer>
     </main>
   );

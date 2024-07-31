@@ -12,7 +12,7 @@ import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const DesktopNavbar = ({ search }: { search?: string }) => {
+const DesktopNavbar = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [searchText, setSearchText] = useState<string | null>(null);
@@ -68,9 +68,9 @@ const DesktopNavbar = ({ search }: { search?: string }) => {
                 className={cn(
                   buttonVariants({ variant: "link" }),
 
-                  "text-white p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-700",
+                  "text-white p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
                   {
-                    "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary hover:before:h-0.5 before:translate-y-4 before:rounded-full before:opacity-100 before:duration-200":
+                    "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary hover:before:h-0.5 before:translate-y-4 before:rounded-full before:opacity-100 before:duration-0":
                       (pathname.includes(link.href) && link.href !== "/") ||
                       (link.href === "/" && pathname.lastIndexOf("/") === 0),
                   },

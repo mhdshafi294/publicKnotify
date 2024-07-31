@@ -2,7 +2,7 @@
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import FormCheckbox from "@/components/ui/form-checkbox";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
 import TimePicker from "@/components/ui/time-picker";
@@ -45,6 +44,10 @@ import PublishButton from "./publish-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
 import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
+import YoutubeIcon from "@/components/icons/youtube-icon";
+import DistriputionChannelButtonCard from "./distripution-channel-button-card";
+import WebIcon from "@/components/icons/web-icon";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -55,6 +58,9 @@ const CreatePodcastForm = ({
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [addToPlayList, setAddToPlayList] = useState(false);
+  const [uploadedNewPodcast, setUploadedNewPodcast] = useState(false);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["web"]); // Selected platforms to publish the podcast on
+  const [step, setStep] = useState(1);
   const [draft, setDraft] = useState<
     SelfPodcastDetails | RequestDetails | null
   >();
@@ -65,6 +71,7 @@ const CreatePodcastForm = ({
   const request_id = searchParams.get("request_id");
   const podcast_id = searchParams.get("podcast_id");
   const params = new URLSearchParams(searchParams.toString());
+  // const url = new URL(window.location.href);
 
   const form = useForm<createMetadataSchema>({
     resolver: zodResolver(createMetadataSchema),
@@ -82,7 +89,7 @@ const CreatePodcastForm = ({
       hashtags: [],
       company_request_id: "",
       podcast_id: "",
-      terms: false,
+      terms: true,
     },
   });
 
@@ -175,17 +182,18 @@ const CreatePodcastForm = ({
     isPending: isPendingCreateMetadata,
     error: errorCreateMetadata,
   } = useMutation({
-    mutationFn: createMetadataAction, //? How can I get the  return from the mutate function here?
+    mutationFn: createMetadataAction,
     onMutate: () => {
       toast.loading("Creating podcast metadata...");
+      console.log(params.toString());
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.dismiss();
       toast.success("Podcast metadata created successfully");
+      params.set("podcast_id", data?.podcast_id!);
+      setStep(2);
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
-      // params.set("podcast_id", podcast_id!);
-      params.set("podcast_id", createMetadataActionResponse?.podcast_id!);
-      router.push(`?${params.toString()}`);
+      router.push(`publish?${params.toString()}`);
     },
     onError: () => {
       toast.dismiss();
@@ -208,8 +216,7 @@ const CreatePodcastForm = ({
       toast.dismiss();
       toast.success("Podcast metadata updated successfully");
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
-      params.set("podcast_id", podcast_id!);
-      router.push(`?${params.toString()}`);
+      setStep(2);
     },
     onError: () => {
       toast.dismiss();
@@ -219,7 +226,6 @@ const CreatePodcastForm = ({
   });
 
   const handleSubmit = async (data: createMetadataSchema) => {
-    // console.log("Form data: ", data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -264,6 +270,180 @@ const CreatePodcastForm = ({
 
   if (!isMounted) return null;
 
+  const content = () => {
+    if (step === 1)
+      return (
+        <>
+          <div className="w-full flex justify-between  gap-5">
+            <FormInput
+              name="name"
+              className="bg-background w-full"
+              placeholder="Podcast Name"
+              label="Name"
+              control={form.control}
+            />
+            <SelectFormInput
+              name="type"
+              placeholder="Podcast Type"
+              label="Type"
+              control={form.control}
+              options={["audio", "video"]}
+            />
+          </div>
+          <FormInputTextarea
+            name="summary"
+            label="Podcast Summary"
+            placeholder="Tell us a little about your podcast"
+            control={form.control}
+          />
+          <div className="w-full flex justify-between gap-5 items-start flex-wrap">
+            <div className="w-[29%]">
+              <FormInput
+                name="company_tag"
+                className="bg-background"
+                placeholder="Company"
+                label="Company Tag"
+                control={form.control}
+              />
+            </div>
+            <DatePicker
+              className="w-[29%]"
+              name="publishing_date"
+              label="Date"
+              control={form.control}
+            />
+            <TimePicker
+              className="w-[29%]"
+              name="publishing_time"
+              label="Time"
+              control={form.control}
+            />
+          </div>
+          <div className="w-full space-y-3">
+            <div className="flex  space-x-2">
+              <Checkbox
+                checked={addToPlayList}
+                onCheckedChange={() => setAddToPlayList(!addToPlayList)}
+                id="add_to_playlist"
+                className="size-6 rounded-full"
+              />
+              <label
+                htmlFor="add_to_playlist"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Add to a playlist
+              </label>
+            </div>
+            {addToPlayList ? (
+              <FormField
+                control={form.control}
+                name="play_list_id"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-lg capitalize">
+                      Playlist
+                    </FormLabel>
+                    <SelectPlayList
+                      setValue={field.onChange}
+                      value={field.value}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : null}
+          </div>
+          <div className="w-full flex justify-between gap-5">
+            <ArraySelectManyFormInput
+              name="categories"
+              control={form.control}
+              label="Categories"
+              className="w-full bg-background"
+              action={getCategoriesAction}
+              defaultValues={form.getValues()}
+            />
+          </div>
+          <ArrayFormInput
+            name="hashtags"
+            control={form.control}
+            label="Hashtags"
+            className="w-full bg-background"
+            defaultValues={form.getValues()}
+          />
+          <div className="w-full flex justify-between gap-5">
+            <FormFileInput
+              name="thumbnail"
+              label="Thumbnail"
+              control={form.control}
+              className="w-full"
+              initValue={
+                podcastResponse?.podcast?.thumbnail
+                  ? podcastResponse?.podcast?.thumbnail
+                  : undefined
+              }
+            />
+            <FormFileInput
+              name="background"
+              label="Background"
+              disabled={form.getValues("type") === "video"}
+              control={form.control}
+              className="w-full"
+              initValue={
+                podcastResponse?.podcast?.background
+                  ? podcastResponse?.podcast?.background
+                  : undefined
+              }
+            />
+          </div>
+        </>
+      );
+    else if (step === 2)
+      return (
+        <div className="w-full flex flex-col gap-2 h-full justify-center">
+          <>
+            <FormLabel className={"capitalize text-lg"}>Your Podcast</FormLabel>
+            <FileUploader
+              key={form.watch("type")}
+              uploadId={podcast_id}
+              type={podcastType}
+              endpoint={`${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
+              initValue={
+                podcastResponse?.podcast?.podcast
+                  ? podcastResponse?.podcast?.podcast
+                  : undefined
+              }
+              onUploadSuccess={() => console.log("Upload success")}
+              onUploadError={(error) => console.log("Upload error", error)}
+              setUploadedNewPodcast={setUploadedNewPodcast}
+            />
+            <p className="text-xs mt-1 opacity-80">
+              Supported file types are MP3, WAV, or M4A. Audio files will be
+              encoded up to 128kbps MP3s and the file size cannot exceed 1GB.
+              Variable bit rate files under 128 kbps are not supported.
+            </p>
+          </>
+          <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-10">
+            <h3 className="capitalize text-lg">Main Distribution Channels</h3>
+            <div className="w-full flex gap-5">
+              <DistriputionChannelButtonCard
+                platfotmName="web"
+                PlatfotmIcon={WebIcon}
+                selectedPlatforms={selectedPlatforms}
+                setSelectedPlatforms={setSelectedPlatforms}
+              />
+              <DistriputionChannelButtonCard
+                platfotmName="youtube"
+                PlatfotmIcon={YoutubeIcon}
+                selectedPlatforms={selectedPlatforms}
+                setSelectedPlatforms={setSelectedPlatforms}
+              />
+            </div>
+          </div>
+        </div>
+      );
+  };
+  console.log(uploadedNewPodcast);
+
   return (
     <main className="flex flex-col items-center justify-start gap-6 w-full min-h-[clac(100vh_-_20px)]">
       <Form {...form}>
@@ -293,180 +473,71 @@ const CreatePodcastForm = ({
                     disabled={
                       isPendingUpdateMetadata || isPendingCreateMetadata
                     }
-                    className="capitalize mt-0 text-sm"
+                    className={cn("capitalize mt-0 text-sm", {
+                      hidden: step === 2,
+                    })}
+                    variant={"default"}
+                    type="submit"
+                  >
+                    {isPendingUpdateMetadata || isPendingCreateMetadata ? (
+                      <ButtonLoader />
+                    ) : (
+                      "Continue"
+                    )}
+                  </Button>
+                  <Button
+                    disabled={
+                      isPendingUpdateMetadata || isPendingCreateMetadata
+                    }
+                    className={cn("capitalize mt-0 text-sm", {
+                      hidden: step === 1,
+                    })}
+                    variant={"secondary"}
+                    type="button"
+                    onClick={() => setStep(1)}
+                  >
+                    {isPendingUpdateMetadata || isPendingCreateMetadata ? (
+                      <ButtonLoader />
+                    ) : (
+                      "Back"
+                    )}
+                  </Button>
+                  <Button
+                    disabled={
+                      isPendingUpdateMetadata || isPendingCreateMetadata
+                    }
+                    className={cn("capitalize mt-0 text-sm", {
+                      hidden: step === 1,
+                    })}
                     variant={"outline"}
                     type="submit"
                   >
                     <SaveIcon className="size-4 mr-1.5" strokeWidth={1.5} />
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
+                    ) : uploadedNewPodcast ? (
+                      "true"
                     ) : (
-                      "Save draft"
+                      "false"
                     )}
                   </Button>
                   <PublishButton
+                    className={cn({ hidden: step === 1 })}
                     podcast_id={podcast_id!}
                     disabled={
-                      podcastResponse?.podcast?.is_published ||
-                      podcastResponse?.podcast?.podcast.length === 0 ||
-                      !podcast_id
+                      (podcastResponse?.podcast?.is_published ||
+                        podcastResponse?.podcast?.podcast.length === 0 ||
+                        !podcast_id) &&
+                      !uploadedNewPodcast
                     }
+                    selectedPlatform={selectedPlatforms}
                   />
                 </div>
               </div>
               <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)] min-h-[50dvh] px-2 lg:px-7 py-10 pb-2">
                 <ScrollArea className="h-full">
                   <CardContent className="flex flex-col gap-7">
-                    <div className="w-full flex justify-between  gap-5">
-                      <FormInput
-                        name="name"
-                        className="bg-background w-full"
-                        placeholder="Podcast Name"
-                        label="Name"
-                        control={form.control}
-                      />
-                      <SelectFormInput
-                        name="type"
-                        placeholder="Podcast Type"
-                        label="Type"
-                        control={form.control}
-                        options={["audio", "video"]}
-                      />
-                    </div>
-                    <FormInputTextarea
-                      name="summary"
-                      label="Podcast Summary"
-                      placeholder="Tell us a little about your podcast"
-                      control={form.control}
-                    />
-                    <div className="w-full flex justify-between gap-5">
-                      <FormFileInput
-                        name="thumbnail"
-                        label="Thumbnail"
-                        control={form.control}
-                        className="w-full"
-                        initValue={
-                          podcastResponse?.podcast?.thumbnail
-                            ? podcastResponse?.podcast?.thumbnail
-                            : undefined
-                        }
-                      />
-                      <FormFileInput
-                        name="background"
-                        label="Background"
-                        disabled={form.getValues("type") === "video"}
-                        control={form.control}
-                        className="w-full"
-                        initValue={
-                          podcastResponse?.podcast?.background
-                            ? podcastResponse?.podcast?.background
-                            : undefined
-                        }
-                      />
-                    </div>
-                    <div className="w-full flex flex-col gap-2">
-                      <FormLabel className={"capitalize text-lg"}>
-                        Your Podcast
-                      </FormLabel>
-                      <FileUploader
-                        key={form.watch("type")}
-                        uploadId={podcast_id}
-                        type={podcastType}
-                        endpoint={`${API_URL}podcaster${PODCASTS}${UPLOAD_MEDIA_FILE}`}
-                        initValue={
-                          podcastResponse?.podcast?.podcast
-                            ? podcastResponse?.podcast?.podcast
-                            : undefined
-                        }
-                        onUploadSuccess={() => console.log("Upload success")}
-                        onUploadError={(error) =>
-                          console.log("Upload error", error)
-                        }
-                      />
-                    </div>
-                    <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-                      <div className="w-[29%]">
-                        <FormInput
-                          name="company_tag"
-                          className="bg-background"
-                          placeholder="Company"
-                          label="Company Tag"
-                          control={form.control}
-                        />
-                      </div>
-                      <DatePicker
-                        className="w-[29%]"
-                        name="publishing_date"
-                        label="Date"
-                        control={form.control}
-                      />
-                      <TimePicker
-                        className="w-[29%]"
-                        name="publishing_time"
-                        label="Time"
-                        control={form.control}
-                      />
-                    </div>
-                    <div className="w-full space-y-3">
-                      <div className="flex  space-x-2">
-                        <Checkbox
-                          checked={addToPlayList}
-                          onCheckedChange={() =>
-                            setAddToPlayList(!addToPlayList)
-                          }
-                          id="add_to_playlist"
-                          className="size-6 rounded-full"
-                        />
-                        <label
-                          htmlFor="add_to_playlist"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Add to a playlist
-                        </label>
-                      </div>
-                      {addToPlayList ? (
-                        <FormField
-                          control={form.control}
-                          name="play_list_id"
-                          render={({ field }) => (
-                            <FormItem className="w-full">
-                              <FormLabel className="text-lg capitalize">
-                                Playlist
-                              </FormLabel>
-                              <SelectPlayList
-                                setValue={field.onChange}
-                                value={field.value}
-                              />
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      ) : null}
-                    </div>
-                    <div className="w-full flex justify-between gap-5">
-                      <ArraySelectManyFormInput
-                        name="categories"
-                        control={form.control}
-                        label="Categories"
-                        className="w-full bg-background"
-                        action={getCategoriesAction}
-                        defaultValues={form.getValues()}
-                      />
-                    </div>
-                    <ArrayFormInput
-                      name="hashtags"
-                      control={form.control}
-                      label="Hashtags"
-                      className="w-full bg-background"
-                      defaultValues={form.getValues()}
-                    />
-                    <FormCheckbox
-                      name="terms"
-                      control={form.control}
-                      className="mt-0"
-                      checkboxClassName="size-4 rounded-full"
-                      label="I accept the terms and privacy policy"
-                    />
+                    {content()}
                   </CardContent>
                 </ScrollArea>
               </Card>

@@ -99,7 +99,7 @@ const InfiniteScrollPodcasterersCarousel = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasters</h2>
+        <h2 className="font-bold text-2xl capitalize">Podcasters</h2>
         <div className="flex relative justify-end items-center">
           {/* <CarouselPrevious />
           <CarouselNext /> */}

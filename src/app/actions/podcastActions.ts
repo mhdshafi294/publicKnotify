@@ -16,6 +16,7 @@ import getSelfPodcast from "@/services/podcast/get-self-podcast";
 import getSelfPodcasts from "@/services/podcast/get-self-podcasts";
 import getTrending from "@/services/podcast/get-trending";
 import authYoutube from "@/services/podcast/platform/youtube/auth-youtube";
+import publishYoutube from "@/services/podcast/platform/youtube/publish-youtube";
 import createPlaylists from "@/services/podcast/playList/create-playlists";
 import deletePlaylist from "@/services/podcast/playList/delete-playlist";
 import getPlaylist from "@/services/podcast/playList/get-playlist";
@@ -166,6 +167,15 @@ export const publishPodcastAction = async ({
   type: string;
 }) => {
   return await publishPodcast({ id, type });
+};
+export const publishYoutubeAction = async ({
+  id,
+  type,
+}: {
+  id: string;
+  type: string;
+}) => {
+  return await publishYoutube({ type, id });
 };
 
 export const deleteSelfPodcastAction = async ({

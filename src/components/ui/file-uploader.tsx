@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "./input";
 import Resumable from "resumablejs";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface FileUploaderProps {
   endpoint?: string;
@@ -28,6 +29,7 @@ interface FileUploaderProps {
   type: "audio" | "video";
   onUploadSuccess: () => void;
   onUploadError: (error: any) => void;
+  setUploadedNewPodcast: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
@@ -39,6 +41,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   type,
   onUploadSuccess,
   onUploadError,
+  setUploadedNewPodcast,
 }) => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [lastUploadedChunk, setLastUploadedChunk] = useState<number>(0);
@@ -75,9 +78,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
       resumable.on("fileAdded", (file) => {
         // console.log(file);
-        console.log(file.file.type);
-        console.log(type);
-        console.log(type === "audio" && !file.file.type.startsWith("audio/"));
+        // console.log(file.file.type);
+        // console.log(type);
+        // console.log(type === "audio" && !file.file.type.startsWith("audio/"));
         if (
           (type === "audio" && !file.file.type.startsWith("audio/")) ||
           (type === "video" && !file.file.type.startsWith("video/"))
@@ -111,10 +114,11 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         setUploadProgress(100);
         toggleProgress();
         onUploadSuccess();
-        console.log(file, response);
-        setTimeout(function () {
-          window.location.reload();
-        }, 3000);
+        setUploadedNewPodcast(true);
+        // console.log(file, response);
+        // setTimeout(function () {
+        //   window.location.reload();
+        // }, 3000);
       });
 
       resumable.on("fileError", (file, response) => {
@@ -220,6 +224,16 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                       className="w-full h-2 bg-greeny"
                       value={uploadProgress}
                     />
+                  </div>
+                ) : fileName ? (
+                  <div className="flex justify-center items-center gap-2">
+                    <FileVideoIcon color="black" className="absolute start-4" />
+                    <ReplaceIcon color="black" size={16} />
+                    <p className="text-black font-semibold text-xs md:text-sm">
+                      {fileName.length > 20
+                        ? fileName.slice(0, 14) + "..." + fileName.slice(-3)
+                        : fileName}
+                    </p>
                   </div>
                 ) : initValue ? (
                   <div className="flex justify-center items-center gap-2">

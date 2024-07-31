@@ -11,7 +11,7 @@ const CompaniesSection = async () => {
 
   return (
     <MaxWidthContainer className="space-y-4">
-      <h2 className="px-3 font-bold text-3xl capitalize">trending Companies</h2>
+      <h2 className="px-3 font-bold text-3xl capitalize">Trending Companies</h2>
       <InfiniteScrollCompanies initialData={data.companies} />
     </MaxWidthContainer>
   );

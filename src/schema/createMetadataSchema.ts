@@ -79,32 +79,32 @@ export const createMetadataSchema = z
   .refine((data) => data.terms, {
     message: "error-message.terms",
     path: ["terms"],
-  })
-  .superRefine((data, ctx) => {
-    if (data.type === "audio") {
-      if (!data.thumbnail) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Thumbnail is required when type is audio.",
-          path: ["thumbnail"],
-        });
-      }
-      if (!data.background) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Background is required when type is audio.",
-          path: ["background"],
-        });
-      }
-    } else if (data.type === "video") {
-      if (!data.thumbnail) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Thumbnail is required when type is video.",
-          path: ["thumbnail"],
-        });
-      }
-    }
   });
+// .superRefine((data, ctx) => {
+//   if (data.type === "audio") {
+//     if (!data.thumbnail) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Thumbnail is required when type is audio.",
+//         path: ["thumbnail"],
+//       });
+//     }
+//     if (!data.background) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Background is required when type is audio.",
+//         path: ["background"],
+//       });
+//     }
+//   } else if (data.type === "video") {
+//     if (!data.thumbnail) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: "Thumbnail is required when type is video.",
+//         path: ["thumbnail"],
+//       });
+//     }
+//   }
+// });
 
 export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
