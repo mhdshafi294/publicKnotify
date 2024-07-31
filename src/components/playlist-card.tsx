@@ -27,7 +27,6 @@ const PlaylistCard = ({
             "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 duration-200"
           )}
         />
-        {playlist.id}
       </div>
       <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">
         {playlist.name}

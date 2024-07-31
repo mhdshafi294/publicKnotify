@@ -515,10 +515,8 @@ const CreatePodcastForm = ({
                     <SaveIcon className="size-4 mr-1.5" strokeWidth={1.5} />
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
-                    ) : uploadedNewPodcast ? (
-                      "true"
                     ) : (
-                      "false"
+                      "Save"
                     )}
                   </Button>
                   <PublishButton
