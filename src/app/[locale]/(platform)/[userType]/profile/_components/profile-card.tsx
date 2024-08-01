@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -6,19 +6,16 @@ import {
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
+import { Company } from "@/types/company";
+import { PodcasterDetails } from "@/types/podcaster";
+import { User } from "@/types/profile";
 import { MailIcon, PhoneIcon, PieChart } from "lucide-react";
 import { Session } from "next-auth";
-import ProfileCategories from "./profile-categories";
-import ProfileCardImageAndName from "./profile-card-image-and-name";
-import ProfilePriceSwitcher from "./profile-price-switcher";
-import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
-import SpotifyActiveAccountIcon from "@/components/icons/spotify-active-account-icon";
-import { User } from "@/types/profile";
-import { PodcasterDetails } from "@/types/podcaster";
-import { Company } from "@/types/company";
-import { authYoutubeAction } from "@/app/actions/podcastActions";
-import AuthYoutubeButton from "./auth-youtube-button";
 import AuthSpotifyButton from "./auth-spotify-button";
+import AuthYoutubeButton from "./auth-youtube-button";
+import ProfileCardImageAndName from "./profile-card-image-and-name";
+import ProfileCategories from "./profile-categories";
+import ProfilePriceSwitcher from "./profile-price-switcher";
 
 const ProfileCard = async ({
   profileData,
@@ -64,7 +61,7 @@ const ProfileCard = async ({
       <div className=" flex flex-col items-start justify-center w-full gap-10">
         {profileType === "user" ? null : (
           <Link
-            href={`${session?.user?.type}/stats`}
+            href={`/${session?.user?.type}/profile/statistics`}
             className="flex w-full items-center justify-center gap-5 opacity-75 hover:opacity-100 duration-200"
           >
             <PieChart className="size-5 " strokeWidth={3} />

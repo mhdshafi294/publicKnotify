@@ -1,6 +1,7 @@
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import AudioPodcast from "../_components/audio-podcast";
+import VideoPodcast from "../_components/video-podcast";
 
 const Page = async ({
   params,
@@ -9,11 +10,11 @@ const Page = async ({
 }) => {
   const podcast = await getPodcastDetails(params.userType, +params.podcastId);
   return (
-    <MaxWidthContainer className="mt-8">
+    <MaxWidthContainer className="mt-8 flex justify-center items-center">
       {podcast.type === "audio" ? (
         <AudioPodcast podcast={podcast} />
       ) : (
-        <div className="bg-secondary space-y-6 p-8 rounded-xl">pkpkp</div>
+        <VideoPodcast podcast={podcast} />
       )}
     </MaxWidthContainer>
   );
