@@ -1,9 +1,18 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
-const ThumbnailsCover = ({ title }: { title?: string }) => {
+const ThumbnailsCover = ({
+  title,
+  className,
+}: {
+  title?: string;
+  className?: string;
+}) => {
   return (
-    <div className="w-full h-fit flex flex-col items-center gap-2">
+    <div
+      className={cn("w-full h-fit flex flex-col items-center gap-2", className)}
+    >
       <div className="w-full h-fit flex items-center justify-center">
         <Image
           src="/draftL.png"
