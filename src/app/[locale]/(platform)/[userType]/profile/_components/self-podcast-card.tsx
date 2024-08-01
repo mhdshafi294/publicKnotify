@@ -16,7 +16,7 @@ const SelfPodcastCard = ({
     <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full ">
       <div className="size-44 rounded-lg relative">
         <Image
-          src={podcast.thumbnail}
+          src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
           alt={podcast.name}
           className="object-cover rounded-lg"
           fill
@@ -27,7 +27,6 @@ const SelfPodcastCard = ({
             "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 duration-200"
           )}
         />
-        {podcast.id}
       </div>
       <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">
         {podcast.name}

@@ -19,12 +19,12 @@ const InfiniteScrollDrafts = ({
   isShow,
   setIsShow,
   search,
-  is_published = false,
+  is_published = 0,
 }: {
   isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
   search?: string;
-  is_published?: boolean;
+  is_published?: number;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
@@ -115,7 +115,7 @@ const InfiniteScrollDrafts = ({
     <div
       className={cn(
         "flex flex-col gap-1 overflow-hidden w-[20dvw] rounded-tr-3xl absolute bottom-0 left-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
-        { "translate-x-0 w-[100dvw]  rounded-tr-none": isShow }
+        { "translate-x-0 w-[100dvw] rounded-tr-none": isShow }
       )}
     >
       <Button
@@ -127,8 +127,8 @@ const InfiniteScrollDrafts = ({
         <X />
       </Button>
       <ThumbnailsCover title={"Drafts"} />
-      <ul className="w-full h- p-3 pe-0">
-        <ScrollArea className="w-full h-[calc(100vh-350px)] flex flex-wrap gap-5 pe-3">
+      <ul className="w-full p-3 pe-0">
+        <ScrollArea className="w-full h-[calc(100vh-350px)] flex flex-col flex-wrap gap-5 pe-3">
           {data?.pages.map((page) =>
             page?.podcasts.map((podcast) => (
               <li key={podcast?.id} className="w-full mt-3">

@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-
 import {
   Carousel,
   CarouselContent,
@@ -15,7 +14,6 @@ import {
 import { getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 import { getCompanySelfPodcastersAction } from "@/app/actions/podcasterActions";
 import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { PodcasterCard } from "@/components/podcaster-card";

@@ -52,6 +52,7 @@ const InfiniteScrollSelfPodcasts = ({
           type,
           search,
           page: pageParam.toString(),
+          is_published: 1,
         }
       );
       return {

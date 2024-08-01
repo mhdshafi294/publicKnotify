@@ -137,7 +137,7 @@ export const getSelfPodcastsAction = async ({
   page?: string;
   count?: string;
   search?: string;
-  is_published?: boolean;
+  is_published?: number;
   type: string;
 }) => {
   return await getSelfPodcasts({

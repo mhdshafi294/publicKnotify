@@ -62,7 +62,7 @@ const ProfileContent = async ({
       const data2Response = await getSelfPodcastsAction({
         type: "podcaster",
         search,
-        is_published: true,
+        is_published: 1,
       });
       contentData2 = data2Response.podcasts;
     } else if (profileType === "company") {

@@ -107,6 +107,7 @@ export type Playlist = {
   podcasts_count: number;
   type: string;
   created_at: string;
+  podcasts: SelfPodcastDetails[];
 };
 
 export type SearchResponse = ApiResponse & {
