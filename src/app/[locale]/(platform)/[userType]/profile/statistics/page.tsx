@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { Progress } from "@/components/ui/progress";
 import axiosInstance from "@/lib/axios.config";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
@@ -16,13 +17,22 @@ const getPodcasts = cache(async (type: string) => {
 
 export const revalidate = 10 * 60;
 
+const socialMedia = [
+  { icon: "/icons/ivoox.svg", name: "ivoox" },
+  { icon: "/icons/Youtube.svg", name: "Youtube" },
+  { icon: "/icons/Apple-Podcasts.svg", name: "Apple Podcasts" },
+  { icon: "/icons/Google-Podcasts.svg", name: "Google Podcasts" },
+  { icon: "/icons/Spotify.svg", name: "Spotify" },
+  { icon: "/icons/Instagram.svg", name: "Instagram" },
+];
+
 const statisticsPage = async ({ params }: { params: { userType: string } }) => {
   const data = await getPodcasts(params.userType);
   return (
     <>
       <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
         <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
-          <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-4 lg:px-10 flex flex-col items-center lg:gap-12 gap-6">
+          <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-4 flex flex-col items-center lg:gap-12 gap-6">
             <div className="w-full flex justify-center items-center gap-3">
               <Image
                 src="/statistics.png"
@@ -51,20 +61,20 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
               </div>
             </div>
           </div>
-          <div className="w-full relative rounded-lg p-5 bg-secondary lg:w-8/12">
-            <div className="w-full flex justify-end sticky px-4 rounded-xl top-20 min-h-10">
+          <div className="w-full relative lg:w-9/12">
+            <div className="w-full p-5 flex justify-end sticky bg-secondary px-4 rounded-lg top-20 min-h-10">
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 [&_>_div]:p-8 [&_>_div]:rounded-md">
                 <div className="bg-greeny flex justify-center flex-col items-center text-primary">
                   <h3 className="text-5xl font-bold">9 min</h3>
-                  <p className="text-2xl">times all episodes</p>
+                  <p className="text-2xl capitalize">times all episodes</p>
                 </div>
                 <div className="bg-primary flex justify-center flex-col items-center">
                   <h3 className="text-5xl font-bold">8776</h3>
-                  <p className="text-2xl">
+                  <p className="text-2xl capitalize">
                     Average number of listens per episode
                   </p>
                 </div>
-                <div className="bg-background/75 flex justify-start flex-col items-center !p-4">
+                <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
                   <div className="w-full flex justify-start items-center gap-2">
                     <svg
                       width="40"
@@ -94,14 +104,42 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
                         fill="#424242"
                       />
                     </svg>
-                    <h3 className="text-3xl font-bold">Revenue statistics</h3>
+                    <h3 className="text-2xl capitalize font-bold">
+                      Revenue statistics
+                    </h3>
+                  </div>
+                  <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
+                    1
                   </div>
                 </div>
-                <div className="bg-background/75 flex justify-center flex-col items-center">
-                  <h3 className="text-5xl font-bold">8776</h3>
-                  <p className="text-2xl">
-                    Average number of listens per episode
-                  </p>
+                <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
+                  <div className="w-full flex justify-start items-center gap-2">
+                    <h3 className="text-xl font-bold md:max-w-[75%] capitalize">
+                      Average number of listens per episode
+                    </h3>
+                  </div>
+                  <div className="space-y-4 mt-2 w-full">
+                    {socialMedia.map((media, index) => (
+                      <div className="space-y-2" key={index}>
+                        <div className="flex justify-between items-center text-greeny">
+                          <div className="flex justify-start items-center text-base gap-2">
+                            <Image
+                              src={media.icon}
+                              alt="social media"
+                              width={24}
+                              height={24}
+                            />
+                            <span className="text-foreground">{media.name}</span>
+                          </div>
+                          <span>321</span>
+                        </div>
+                        <Progress
+                          value={75}
+                          className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
