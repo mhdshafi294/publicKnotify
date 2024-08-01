@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { usePathname } from "@/navigation";
 import usePlayerStore from "@/store/use-player-store";
 import { useQuery } from "@tanstack/react-query";
 import { Pause, Play, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
@@ -24,7 +25,7 @@ const Player = () => {
   const [sliderValue, setSliderValue] = useState([0]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const pathname = usePathname();
   const ref = useRef<ElementRef<"audio">>(null);
 
   const { data, isPending, isError } = useQuery({
@@ -60,7 +61,10 @@ const Player = () => {
         );
 
         return () => {
-          audioElement.removeEventListener("canplaythrough", handleCanPlayThrough);
+          audioElement.removeEventListener(
+            "canplaythrough",
+            handleCanPlayThrough
+          );
         };
       }
     }
@@ -160,6 +164,7 @@ const Player = () => {
       ref.current.currentTime = 0;
       ref.current.pause();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [podcastId]);
 
   return (
@@ -266,14 +271,16 @@ const Player = () => {
               onValueChange={(value) => setVolume(value[0])}
             />
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setPodcastId(null)}
-            className="hover:bg-transparent hover:text-foreground/80"
-          >
-            <X />
-          </Button>
+          {!pathname.includes("/podcast/") ? (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setPodcastId(null)}
+              className="hover:bg-transparent hover:text-foreground/80"
+            >
+              <X />
+            </Button>
+          ) : null}
         </div>
       </footer>
     </Fragment>
