@@ -274,7 +274,7 @@ const CreatePodcastForm = ({
     if (step === 1)
       return (
         <>
-          <div className="w-full flex justify-between  gap-5">
+          <div className="w-full flex justify-between gap-5">
             <FormInput
               name="name"
               className="bg-background w-full"

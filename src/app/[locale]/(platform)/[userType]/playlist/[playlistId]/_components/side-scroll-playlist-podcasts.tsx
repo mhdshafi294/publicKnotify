@@ -11,20 +11,21 @@ import { buttonVariants } from "@/components/ui/button";
 import ThumbnailsCover from "@/components/thumbnails-cover";
 import Image from "next/image";
 
-const InfiniteScrollPlaylistPodcasts = ({
+const SideScrollPlaylistPodcasts = ({
   podcasts,
+  playlistName,
 }: {
   podcasts: SelfPodcastDetails[];
+  playlistName: string;
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const current_podcast_id = searchParams.get("podcast_id") || "1";
+  const current_podcast_id =
+    searchParams.get("podcast_id") || podcasts[0].id.toString();
   const [currentPodcastId, setCurrentPodcastId] =
     useState<string>(current_podcast_id);
   const initialRender = useRef(true);
-
-  console.log(podcasts);
 
   useEffect(() => {
     if (!isMounted) {
@@ -32,27 +33,38 @@ const InfiniteScrollPlaylistPodcasts = ({
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (initialRender.current) {
+  //     initialRender.current = false;
+  //     return;
+  //   }
+  //   if (searchParams === undefined) {
+  //     const params = new URLSearchParams();
+  //     params.set("podcast_id", currentPodcastId);
+  //     router.push(`?${params.toString()}`);
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
       return;
     }
     const params = new URLSearchParams(searchParams.toString());
-    if (currentPodcastId) {
-      params.set("podcast_id", currentPodcastId);
-    } else {
-      params.delete("podcast_id");
-    }
+    params.set("podcast_id", currentPodcastId);
     router.push(`?${params.toString()}`);
   }, [currentPodcastId]);
 
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-full lg:w-[25dvw] lg:rounded-tr-3xl lg:absolute lg:bottom-0 lg:left-0 lg:bg-secondary lg:border lg:border-card-foreground/10 pt-10 lg:z-40"
+        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:rounded-tr-3xl lg:absolute lg:bottom-0 lg:left-0 lg:bg-secondary lg:border lg:border-card-foreground/10 pt-10 lg:z-40"
       )}
     >
-      <ThumbnailsCover title={"Podcasts"} className="hidden lg:flex" />
+      <ThumbnailsCover title={playlistName} className="hidden lg:flex" />
+      <h2 className="text-2xl font-bold lg:hidden text-center capitalize">
+        {playlistName}
+      </h2>
       <ul className="w-full py-3 pe-0">
         <ScrollArea className="w-full h-[calc(100vh-350px)] flex flex-col px-1">
           {/* loading spinner */}
@@ -65,7 +77,7 @@ const InfiniteScrollPlaylistPodcasts = ({
                 onClick={() => setCurrentPodcastId(podcast.id.toString())}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "w-full h-fit flex gap-1 items-center justify-start mt-3 border-none ps-1 py-2 group",
+                  "w-full h-fit flex gap-1 items-center justify-start mt-3 border-none ps-1 py-2 group cursor-default",
                   {
                     "bg-primary/50":
                       podcast.id === parseInt(current_podcast_id),
@@ -109,4 +121,4 @@ const InfiniteScrollPlaylistPodcasts = ({
   );
 };
 
-export default InfiniteScrollPlaylistPodcasts;
+export default SideScrollPlaylistPodcasts;

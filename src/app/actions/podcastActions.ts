@@ -25,6 +25,7 @@ import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-b
 import updatePlaylists from "@/services/podcast/playList/update-playlists";
 import publishPodcast from "@/services/podcast/publish-podcast";
 import removeFromFavorite from "@/services/podcast/remove-from-favorite";
+import savePlayback from "@/services/podcast/save-playback";
 import updateMetadata from "@/services/podcast/update-metadata";
 
 export const getTrendingAction = async ({
@@ -63,14 +64,14 @@ export const getMyFavoriteCategoriesListAction = async ({
   });
 };
 
-export const getPodcastDataAction = async ({
+export const getPodcastDetailsAction = async ({
   id,
   type,
 }: {
   type: string;
-  id: number;
+  id: string;
 }) => {
-  return await getPodcastDetails(type, id);
+  return await getPodcastDetails({ type, id });
 };
 
 export const addToFavoriteAction = async ({
@@ -115,6 +116,28 @@ export const updateMetadataAction = async ({
   type: string;
 }) => {
   return await updateMetadata({ formData, id, type });
+};
+
+export const savePlaybackAction = async ({
+  formData,
+  id,
+  type,
+  current_position,
+  total_time,
+}: {
+  formData: FormData;
+  id: string;
+  type: string;
+  current_position: number;
+  total_time: number;
+}) => {
+  return await savePlayback({
+    formData,
+    id,
+    type,
+    current_position,
+    total_time,
+  });
 };
 
 export const createMediaAction = async ({

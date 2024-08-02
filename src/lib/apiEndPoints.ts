@@ -41,6 +41,7 @@ export const PLAYLISTS = "/playlists";
 export const PRICE = "/price";
 export const PUBLISHED_PODCASTS = "/published-podcasts";
 export const MY_PLAYBACK = "/my-playback";
+export const SAVE_PLAYBACK = "/save-playback";
 export const DEALT = "/dealed";
 export const YOUTUBE = "/youtube";
 export const SEARCH = "/search";

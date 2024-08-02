@@ -10,14 +10,14 @@ export default function NewPublish({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const t = useTranslations("Index");
+  // const t = useTranslations("Index");
   const [isShow, setIsShow] = useState(false);
 
   const request_id = searchParams.request_id;
   const podcast_id = searchParams.podcast_id;
 
   return (
-    <div className="flex relative mt-10">
+    <div className="flex relative mt-10 min-h-[calc(100vh-72px)]">
       <InfiniteScrollDrafts isShow={isShow} setIsShow={setIsShow} />
       <CreatePodcastForm setIsShow={setIsShow} />
     </div>
