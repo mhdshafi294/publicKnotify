@@ -5,23 +5,25 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const StatusFilter = ({ status }: { status?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRender = useRef(true);
   const { data: session } = useSession();
+  const t = useTranslations("Index");
 
   const [filter, setFilter] = useState(status);
 
   const STATUS = [
     {
       numCode: session?.user?.type === "podcaster" ? "2" : "12",
-      title: "pending",
+      title: t("pending"),
     },
-    { numCode: "34", title: "rejected" },
-    { numCode: "5", title: "accepted" },
-    { numCode: "6", title: "done" },
+    { numCode: "34", title: t("rejected") },
+    { numCode: "5", title: t("accepted") },
+    { numCode: "6", title: t("done") },
   ];
 
   useEffect(() => {

@@ -1,10 +1,11 @@
-import PodcastersSection from "@/app/[locale]/(platform)//_components/podcasters-section";
+import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-section";
 import CategorySecrtion from "@/app/[locale]/(platform)/_components/category-secrtion";
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 import CompaniesSection from "../_components/Companies-section";
+import { getTranslations } from "next-intl/server";
 
 export default async function Home({
   params,
@@ -17,6 +18,8 @@ export default async function Home({
   if (!session) {
     redirect("/login");
   }
+
+  const t = await getTranslations("Index");
 
   const content = () => {
     if (session?.user?.type !== "podcaster")
@@ -32,7 +35,7 @@ export default async function Home({
 
   return (
     <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
-      <h1 className="sr-only">Knotify Home Page</h1>
+      <h1 className="sr-only">{t("homePageTitle")}</h1>
       {content()}
     </main>
   );

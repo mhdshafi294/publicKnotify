@@ -1,11 +1,14 @@
 import SignInForm from "@/app/[locale]/(auth)/sign-in/_components/sign-in-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslations } from "next-intl";
 
 const SignIp = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const t = useTranslations("Auth");
+
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
       {/* <LanguageSwitcher /> */}
@@ -22,19 +25,19 @@ const SignIp = ({
             value="user"
             className="font-normal md:px-0 md:place-self-start"
           >
-            User
+            {t("user")}
           </TabsTrigger>
           <TabsTrigger
             value="podcaster"
             className="font-normal md:px-0 md:place-self-center"
           >
-            Podcaster
+            {t("podcaster")}
           </TabsTrigger>
           <TabsTrigger
             value="company"
             className="font-normal md:px-0 md:place-self-end"
           >
-            Company
+            {t("company")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="user">

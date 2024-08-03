@@ -7,7 +7,8 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import FavoriteCategoriesUL from "./favorite-categories-ul";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { FolderHeartIcon, HeartIcon } from "lucide-react";
+import { HeartIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 const FavoriteCategories = async ({
   params,
@@ -23,6 +24,7 @@ const FavoriteCategories = async ({
   });
 
   const favoriteCategory = searchParams?.favoriteCategory as string | undefined;
+  const t = await getTranslations("Index");
 
   return (
     <>
@@ -38,7 +40,7 @@ const FavoriteCategories = async ({
         <div className="flex flex-col gap-2 items-center">
           <HeartIcon className="" />
           <h2 className="text-xl opacity-75 text-center ">
-            Your Favorite Categories
+            {t("yourFavoriteCategories")}
           </h2>
         </div>
         <FavoriteCategoriesUL

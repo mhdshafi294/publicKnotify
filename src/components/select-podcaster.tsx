@@ -75,7 +75,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-lg"
+          className="w-full justify-between rounded-lg bg-background"
         >
           {value
             ? data?.pages

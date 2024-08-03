@@ -19,10 +19,12 @@ import { mainNavLinks } from "@/config/links";
 import { Link, usePathname } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from "next-intl";
 
 const MobileNavbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
+  const t = useTranslations("Index");
 
   return (
     <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
@@ -78,12 +80,12 @@ const MobileNavbar = () => {
                         {
                           hidden:
                             session?.user?.type === "user" &&
-                            (link.label === "Requests" ||
-                              link.label === "Statistics"),
+                            (t(link.label) === t("requests") ||
+                              t(link.label) === t("statistics")),
                         }
                       )}
                     >
-                      {link.label}
+                      {t(link.label)}
                     </Link>
                   );
                 } else {
@@ -102,7 +104,7 @@ const MobileNavbar = () => {
                       { hidden: session?.user?.type !== "podcaster" }
                     )}
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>;
                 }
               })}
@@ -111,7 +113,7 @@ const MobileNavbar = () => {
           <Separator className="my-5" />
           <div className="mx-6 flex flex-col gap-5">
             <div className="flex justify-between items-center">
-              <p>Language</p>
+              <p>{t("language")}</p>
               <LanguageSwitcher />
             </div>
             <Link
@@ -119,21 +121,21 @@ const MobileNavbar = () => {
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <span>{t("profile")}</span>
             </Link>
             <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/settings`}
             >
               <SettingsIcon className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <span>{t("settings")}</span>
             </Link>
             <div
               className="text-red-500 flex gap-1 items-center"
               onClick={() => signOut()}
             >
               <LogOutIcon className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <span>{t("logOut")}</span>
             </div>
           </div>
         </SheetContent>

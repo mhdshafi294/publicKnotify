@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 import { checkCodeSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +25,6 @@ import {
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 
-import confirmCheckCode from "@/services/auth/check-code";
 import { useMutation } from "@tanstack/react-query";
 import { confirmCheckCodeAction } from "@/app/actions/authActions";
 
@@ -36,6 +36,7 @@ const CheckCode = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),
@@ -53,13 +54,13 @@ const CheckCode = ({
   } = useMutation({
     mutationFn: confirmCheckCodeAction,
     onSuccess: () => {
-      toast.success("Confirmed!");
+      toast.success(t("confirmed"));
       router.push(
         `/${params.userType}/new-password?phone=${searchParams.phone}&code=${code}`
       );
     },
     onError: () => {
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("errorTryAgain"));
     },
   });
 
@@ -73,7 +74,7 @@ const CheckCode = ({
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>OTP Code</h2>
+      <h2>{t("otpCode")}</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
@@ -86,9 +87,7 @@ const CheckCode = ({
             name="code"
             render={({ field }) => (
               <FormItem className="w-full flex flex-col items-center gap-16">
-                <FormLabel>
-                  We have sent a verification code to your phone number
-                </FormLabel>
+                <FormLabel>{t("verificationCodeSent")}</FormLabel>
                 <FormControl>
                   <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
@@ -114,7 +113,7 @@ const CheckCode = ({
             className="w-[264px] capitalize mx-auto mt-20"
             type="submit"
           >
-            {isPending ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

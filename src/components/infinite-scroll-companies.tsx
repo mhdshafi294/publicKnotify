@@ -6,6 +6,7 @@ import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { CompaniesResponse, Company } from "@/types/company";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 const InfiniteScrollCompanies = ({
   initialData,
@@ -17,6 +18,7 @@ const InfiniteScrollCompanies = ({
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+  const t = useTranslations("Index");
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -73,6 +75,7 @@ const InfiniteScrollCompanies = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
+
   return (
     <>
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
@@ -90,7 +93,7 @@ const InfiniteScrollCompanies = ({
         className="col-span-1 mt-1 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5"
       >
         {isFetchingNextPage && <Loader className="size-9" />}
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">{t("loading")}</span>
       </div>
     </>
   );

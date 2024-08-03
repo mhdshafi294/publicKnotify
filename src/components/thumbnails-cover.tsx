@@ -1,4 +1,5 @@
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
@@ -9,6 +10,9 @@ const ThumbnailsCover = ({
   title?: string;
   className?: string;
 }) => {
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <div
       className={cn("w-full h-fit flex flex-col items-center gap-2", className)}
@@ -19,7 +23,11 @@ const ThumbnailsCover = ({
           alt="draft"
           width={126}
           height={124}
-          className="w-[126px] h-[124px] z-10 rounded-lg object-cover translate-x-14 -rotate-12"
+          className={cn(
+            "w-[126px] h-[124px] z-10 rounded-lg object-cover translate-x-14 ",
+            { "translate-x-14 -rotate-12": dir === "ltr" },
+            { "-translate-x-14 rotate-12": dir === "rtl" }
+          )}
         />
         <Image
           src="/draftC.png"
@@ -33,7 +41,11 @@ const ThumbnailsCover = ({
           alt="draft"
           width={126}
           height={124}
-          className="w-[126px] h-[124px] z-10 rounded-lg object-cover -translate-x-14 rotate-12"
+          className={cn(
+            "w-[126px] h-[124px] z-10 rounded-lg object-cover ",
+            { "-translate-x-14 rotate-12": dir === "ltr" },
+            { "translate-x-14 -rotate-12": dir === "rtl" }
+          )}
         />
       </div>
       {title && <p className="font-semibold z-20">{title}</p>}

@@ -9,13 +9,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn, getDirection } from "@/lib/utils";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { CategoryDetails } from "@/types/podcast";
 import { useQuery } from "@tanstack/react-query";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useSearchParams } from "next/navigation";
 import Loader from "./loader";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -71,19 +72,23 @@ function ArraySelectManyFormInput<T extends FieldValues>({
     );
   };
 
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full">
+        <FormItem className="w-full" dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
           <FormControl>
             <div>
-              <ScrollArea className="max-h-28">
+              <ScrollArea className="max-h-28" dir={dir}>
                 <ToggleGroup
+                  dir={dir}
                   type="multiple"
                   className="mt-2 flex-wrap justify-start"
                   size={"sm"}
@@ -112,6 +117,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
                     ))
                   )}
                 </ToggleGroup>
+                <ScrollBar orientation="horizontal" />
               </ScrollArea>
             </div>
           </FormControl>

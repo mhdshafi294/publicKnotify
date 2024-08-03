@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { useRouter } from "@/navigation";
 import { useSearchParams } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { useTranslations } from "next-intl";
 
 const Search = ({
   searchText,
@@ -18,6 +19,7 @@ const Search = ({
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialRender = useRef(true);
+  const t = useTranslations("Index");
 
   const [text, setText] = useState(searchText);
   const [query] = useDebounce(text, 750);
@@ -45,7 +47,7 @@ const Search = ({
       </div>
       <Input
         value={text}
-        placeholder={`Search ${searchFor}...`}
+        placeholder={`${t("search")} ${searchFor}...`}
         onChange={(e) => setText(e.target.value)}
         className="py-1.5 pl-10 placeholder:text-white/50"
       />

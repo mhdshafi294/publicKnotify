@@ -16,26 +16,19 @@ export default async function PodcastsPage({
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
   const session = await getServerSession(authOptions);
-  // if (session?.user?.type === "podcaster") {
-  //   redirect(`/podcaster`);
-  // }
   const t = await getTranslations("Index");
-
-  // console.log(search);
 
   const firstPageTrendingResponse = await getTrendingAction({
     type: session?.user?.type!,
     search,
   });
-  // console.log(podcastsResponse);
-  // console.log(podcastsData);
 
   return (
     <>
       <main className="py-10">
         <MaxWidthContainer className="flex flex-col gap-7">
           <div className="w-full flex justify-between items-center gap-2">
-            <h2 className="lg:text-5xl font-bold">Trending</h2>
+            <h2 className="lg:text-5xl font-bold">{t("trending")}</h2>
             <Search searchText={search} searchFor="podcast" />
           </div>
           <InfiniteScrollPodcasts

@@ -1,11 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import { Link } from "@/navigation";
-import { useTranslations } from "next-intl";
+import Loader from "@/components/ui/loader";
 
-const Error = () => {
-  const t = useTranslations("Error");
-
+const Loading = () => {
   return (
     <div className="h-full min-h-screen w-full flex flex-col items-center justify-center bg-gray-100">
       <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
@@ -23,17 +22,10 @@ const Error = () => {
           />
         </div>
       </div>
-      <h1 className="text-6xl font-bold text-red-600 mb-4">
-        {t("errorTitle")}
-      </h1>
-      <p className="text-lg text-gray-700 mb-6">{t("errorMessage")}</p>
-      <Link href="/" passHref>
-        <a className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors">
-          {t("goHomeButton")}
-        </a>
-      </Link>
+      <Loader variant="bars" size="xl" />
+      <div className="w-16 h-16 border-4 border-blue-600 border-dashed rounded-full animate-spin"></div>
     </div>
   );
 };
 
-export default Error;
+export default Loading;

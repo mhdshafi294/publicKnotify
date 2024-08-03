@@ -25,8 +25,10 @@ import { useSession } from "next-auth/react";
 import { ElementRef, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const EditUserProfile = ({ user }: { user: CustomUser }) => {
+  const t = useTranslations("Profile");
   const countriesCode = Object.values(country.all) as {
     name: string;
     dialing_code: string;
@@ -55,7 +57,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: userEditProfileAction,
     onSuccess: async (data) => {
-      toast.success("Profile updated successfully");
+      toast.success(t("profileUpdatedSuccessfully"));
       await update({
         full_name: data.full_name,
         email: data.email,
@@ -83,6 +85,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
     formData.append("email", data.email);
     mutate(formData);
   };
+
   return (
     <Form {...form}>
       <form
@@ -92,7 +95,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
         })}
       >
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">My Profile</h2>
+          <h2 className="text-[32px] font-black mb-1">{t("myProfile")}</h2>
           <div className="w-full space-y-4">
             <div className="flex flex-col justify-center items-center">
               <div className="relative">
@@ -139,13 +142,17 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
                 />
               </div>
             </div>
-            <FormInput name="full_name" label="Name" control={form.control} />
+            <FormInput
+              name="full_name"
+              label={t("name")}
+              control={form.control}
+            />
             <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>{t("phone")}</FormLabel>
                   <FormControl>
                     <PhoneNumberInput
                       phone={field.value}
@@ -156,7 +163,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
                 </FormItem>
               )}
             />
-            <FormInput name="email" label="Email" control={form.control} />
+            <FormInput name="email" label={t("email")} control={form.control} />
           </div>
         </div>
         <Button
@@ -164,7 +171,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
           className="w-full capitalize mt-8"
           type="submit"
         >
-          {isPending ? <ButtonLoader /> : "Save"}
+          {isPending ? <ButtonLoader /> : t("save")}
         </Button>
       </form>
     </Form>

@@ -1,4 +1,5 @@
 "use client";
+
 import { companyEditProfileAction } from "@/app/actions/profileActions";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
 import PhoneNumberInput from "@/components/phone-number-input";
@@ -25,8 +26,10 @@ import { useSession } from "next-auth/react";
 import { ElementRef, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
+  const t = useTranslations("Profile");
   const countriesCode = Object.values(country.all) as {
     name: string;
     dialing_code: string;
@@ -55,8 +58,7 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
   const { mutate, isPending } = useMutation({
     mutationFn: companyEditProfileAction,
     onSuccess: async (data) => {
-      console.log(data);
-      toast.success("Profile updated successfully");
+      toast.success(t("profileUpdatedSuccessfully"));
       await update({
         full_name: data.full_name,
         email: data.email,
@@ -85,6 +87,7 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
     if (data.documents.name) formData.append("document", data.documents);
     mutate(formData);
   };
+
   return (
     <Form {...form}>
       <form
@@ -94,7 +97,7 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
         })}
       >
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">My Profile</h2>
+          <h2 className="text-[32px] font-black mb-1">{t("myProfile")}</h2>
           <div className="w-full space-y-4">
             <div className="flex flex-col justify-center items-center">
               <div className="relative">
@@ -142,13 +145,19 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormInput name="full_name" label="Name" control={form.control} />
+              <FormInput
+                name="full_name"
+                label={t("name")}
+                control={form.control}
+              />
               <FormField
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel className="capitalize text-lg">Phone</FormLabel>
+                    <FormLabel className="capitalize text-lg">
+                      {t("phone")}
+                    </FormLabel>
                     <FormControl>
                       <PhoneNumberInput
                         phone={field.value}
@@ -159,10 +168,14 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
                   </FormItem>
                 )}
               />
-              <FormInput name="email" label="Email" control={form.control} />
+              <FormInput
+                name="email"
+                label={t("email")}
+                control={form.control}
+              />
               <FormFileInput
                 name="documents"
-                label="Docs"
+                label={t("documents")}
                 control={form.control}
                 className="w-full"
               />
@@ -174,7 +187,7 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
           className="w-full capitalize mt-8"
           type="submit"
         >
-          {isPending ? <ButtonLoader /> : "Save"}
+          {isPending ? <ButtonLoader /> : t("save")}
         </Button>
       </form>
     </Form>

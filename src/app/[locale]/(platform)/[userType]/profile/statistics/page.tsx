@@ -7,6 +7,7 @@ import { Link } from "@/navigation";
 import { ApiResponse } from "@/types";
 import Image from "next/image";
 import { cache } from "react";
+import { useTranslations } from "next-intl";
 
 const getPodcasts = cache(async (type: string) => {
   const { data } = await axiosInstance.get<
@@ -26,8 +27,10 @@ const socialMedia = [
   { icon: "/icons/Instagram.svg", name: "Instagram" },
 ];
 
-const statisticsPage = async ({ params }: { params: { userType: string } }) => {
+const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
   const data = await getPodcasts(params.userType);
+  const t = useTranslations("Statistics");
+
   return (
     <>
       <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
@@ -44,7 +47,9 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
             </div>
             <div className="flex flex-col items-start justify-start w-full gap-10">
               <div className="size-full flex flex-col justify-start items-start">
-                <h2 className="text-2xl font-bold capitalize">podcasts Name</h2>
+                <h2 className="text-2xl font-bold capitalize">
+                  {t("podcastNames")}
+                </h2>
                 {data.map((podcast) => (
                   <Link
                     href={{ search: `?podcasterId=${podcast.id}` }}
@@ -66,13 +71,11 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 [&_>_div]:p-8 [&_>_div]:rounded-md">
                 <div className="bg-greeny flex justify-center flex-col items-center text-primary">
                   <h3 className="text-5xl font-bold">9 min</h3>
-                  <p className="text-2xl capitalize">times all episodes</p>
+                  <p className="text-2xl capitalize">{t("totalTime")}</p>
                 </div>
                 <div className="bg-primary flex justify-center flex-col items-center">
                   <h3 className="text-5xl font-bold">8776</h3>
-                  <p className="text-2xl capitalize">
-                    Average number of listens per episode
-                  </p>
+                  <p className="text-2xl capitalize">{t("averageListens")}</p>
                 </div>
                 <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
                   <div className="w-full flex justify-start items-center gap-2">
@@ -105,7 +108,7 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
                       />
                     </svg>
                     <h3 className="text-2xl capitalize font-bold">
-                      Revenue statistics
+                      {t("revenueStatistics")}
                     </h3>
                   </div>
                   <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
@@ -115,7 +118,7 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
                 <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
                   <div className="w-full flex justify-start items-center gap-2">
                     <h3 className="text-xl font-bold md:max-w-[75%] capitalize">
-                      Average number of listens per episode
+                      {t("averageListens")}
                     </h3>
                   </div>
                   <div className="space-y-4 mt-2 w-full">
@@ -129,7 +132,9 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
                               width={24}
                               height={24}
                             />
-                            <span className="text-foreground">{media.name}</span>
+                            <span className="text-foreground">
+                              {media.name}
+                            </span>
                           </div>
                           <span>321</span>
                         </div>
@@ -150,4 +155,4 @@ const statisticsPage = async ({ params }: { params: { userType: string } }) => {
   );
 };
 
-export default statisticsPage;
+export default StatisticsPage;

@@ -7,7 +7,7 @@ import Loader from "@/components/ui/loader";
 import { getSelfPlaybackAction } from "@/app/actions/podcastActions";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
@@ -21,6 +21,7 @@ const InfiniteScrollPlayback = ({
 }) => {
   const locale = useLocale();
   const direction = getDirection(locale);
+  const t = useTranslations("Index");
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
@@ -88,11 +89,11 @@ const InfiniteScrollPlayback = ({
 
   return (
     <>
-      <h2 className="text-2xl font-bold">History</h2>
+      <h2 className="text-2xl font-bold">{t("history")}</h2>
       <ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
         {data?.pages[0].podcasts.length === 0 ? (
           <p className="text-lg my-auto opacity-50 italic ">
-            Your historey is empty
+            {t("historyEmpty")}
           </p>
         ) : (
           data?.pages.map((page) =>
@@ -110,7 +111,7 @@ const InfiniteScrollPlayback = ({
         className="col-span-1 mt-1 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-5"
       >
         {isFetchingNextPage && <Loader className="size-9" />}
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">{t("loading")}</span>
       </div>
     </>
   );
