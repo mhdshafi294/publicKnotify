@@ -28,7 +28,7 @@ const PlaylistPodcast = async ({
   });
 
   return (
-    <MaxWidthContainer className="lg:ms-[20dvw] flex justify-center items-center">
+    <MaxWidthContainer className="lg:ms-[20dvw] flex justify-center pb-10">
       {podcast.type === "audio" ? (
         <AudioPodcast podcast={podcast} />
       ) : (

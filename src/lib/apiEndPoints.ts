@@ -45,6 +45,8 @@ export const SAVE_PLAYBACK = "/save-playback";
 export const DEALT = "/dealed";
 export const YOUTUBE = "/youtube";
 export const SEARCH = "/search";
+export const NOTIFICATION = "/notification";
+export const STATISTICS = "/statistics";
 
 export const POST_URL = "/post";
 export const COMMENT_URL = "/comment";

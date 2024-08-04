@@ -31,7 +31,7 @@ interface SignInFormProps {
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 

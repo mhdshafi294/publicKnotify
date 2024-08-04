@@ -22,7 +22,7 @@ const NewPassword = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const router = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
 
   const form = useForm<newPasswordSchema>({
     resolver: zodResolver(newPasswordSchema),

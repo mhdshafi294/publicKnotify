@@ -31,7 +31,6 @@ const InfiniteScrollCompanySelfPodcasters = ({
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
-  const { data: session } = useSession();
 
   const {
     isError,

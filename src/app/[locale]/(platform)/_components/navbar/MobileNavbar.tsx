@@ -10,9 +10,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustifyIcon, LogOutIcon, SettingsIcon, User } from "lucide-react";
+import {
+  AlignJustifyIcon,
+  BellRingIcon,
+  LogOutIcon,
+  SettingsIcon,
+  User,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import NotificationsDropdown from "@/components/notifications-dropdown";
 import { mainNavLinks } from "@/config/links";
@@ -20,11 +26,15 @@ import { Link, usePathname } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
+import useNotificationStore from "@/store/use-notification-store";
 
 const MobileNavbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const t = useTranslations("Index");
+  const isOpen = useNotificationStore((state) => state.isOpen);
+  const setIsOpen = useNotificationStore((state) => state.setIsOpen);
+  const unreadNotifications = useNotificationStore((state) => state.unread);
 
   return (
     <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
@@ -140,7 +150,24 @@ const MobileNavbar = () => {
           </div>
         </SheetContent>
       </Sheet>
-      <NotificationsDropdown />
+      {/* <NotificationsDropdown className="block lg:hidden" /> */}
+      <Button
+        variant="secondary"
+        size={"icon"}
+        className={cn("bg-transparent")}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className="sr-only">notifications</span>
+        <BellRingIcon
+          strokeWidth={1.5}
+          className="stroke-white size-[18px] lg:size-auto"
+        />
+        {unreadNotifications && !isOpen ? (
+          <span className="size-4 bg-red-600 text-white rounded-full text-xs flex justify-center items-center absolute top-0 -right-1 before:absolute before:inset-0 before:bg-red-600 before:rounded-full before:animate-ping before:-z-0">
+            {unreadNotifications}
+          </span>
+        ) : null}
+      </Button>
     </div>
   );
 };

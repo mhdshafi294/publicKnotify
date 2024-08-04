@@ -29,7 +29,7 @@ const socialMedia = [
 
 const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
   const data = await getPodcasts(params.userType);
-  const t = useTranslations("Statistics");
+  const t = useTranslations("Index");
 
   return (
     <>

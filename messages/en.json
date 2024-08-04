@@ -166,7 +166,8 @@
     "revenueStatistics": "Revenue statistics",
     "errorTitle": "Error",
     "errorMessage": "Something went wrong. Please try again later.",
-    "goHomeButton": "Go to Home Page"
+    "goHomeButton": "Go to Home Page",
+    "seeAll": "See All"
   },
   "notifications": {
     "notifications": "notifications"
