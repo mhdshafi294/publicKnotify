@@ -1,7 +1,10 @@
+import { useTranslations } from "next-intl";
 import SignUpForm from "@/app/[locale]/(auth)/sign-up/_components/sign-up-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const SignUp = () => {
+  const t = useTranslations("Auth");
+
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[3dvh] lg:pt-[7dvh] pb-[2dvh]">
       <Tabs
@@ -13,19 +16,19 @@ const SignUp = () => {
             value="user"
             className="font-normal md:px-0 md:place-self-start"
           >
-            User
+            {t("user")}
           </TabsTrigger>
           <TabsTrigger
             value="podcaster"
             className="font-normal md:px-0 md:place-self-center"
           >
-            Podcaster
+            {t("podcaster")}
           </TabsTrigger>
           <TabsTrigger
             value="company"
             className="font-normal md:px-0 md:place-self-end"
           >
-            Company
+            {t("company")}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="user">

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schema/authSchema";
@@ -30,6 +31,7 @@ interface SignInFormProps {
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
+  const t = useTranslations("Auth");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
@@ -57,7 +59,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       // console.log(signInResponse);
       if (signInResponse!.ok) {
         setLoading(false);
-        toast.success("Signed In successfully!.");
+        toast.success(t("signedInSuccessfully"));
         router.push(`/${type}`);
       } else if (signInResponse?.error?.includes("434")) {
         setLoading(false);
@@ -65,16 +67,16 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-        toast.warning("A new verification code has been sent to your phone");
+        toast.warning(t("verificationCodeSent"));
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
-        toast.error("The selected phone or its password is invalid.");
+        toast.error(t("invalidPhoneOrPassword"));
       } else if (signInResponse?.error?.includes("403")) {
         setLoading(false);
-        toast.warning("You have been blocked by the admin. Please contact us.");
+        toast.warning(t("blockedByAdmin"));
       } else {
         setLoading(false);
-        toast.error("An error occurred. Please try again.");
+        toast.error(t("errorOccurred"));
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -84,13 +86,13 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-        toast.warning("A new verification code has been sent to your phone");
+        toast.warning(t("verificationCodeSent"));
       } else if (err.response?.status == 422) {
         console.log(err);
-        toast.error("The selected phone is invalid.");
+        toast.error(t("invalidPhone"));
       } else {
         console.log(err);
-        toast.error("Something went wrong.please try again!");
+        toast.error(t("tryAgain"));
       }
     }
   };
@@ -104,13 +106,13 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         })}
       >
         <div className="flex flex-col items-center gap-9 w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">Sign In</h2>
+          <h2 className="text-[32px] font-black mb-1">{t("signIn")}</h2>
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>{t("phone")}</FormLabel>
                 <FormControl>
                   <PhoneNumberInput
                     phone={field.value}
@@ -124,7 +126,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
           <div className="w-full">
             <PasswordInput
               name={"password"}
-              label={"Password"}
+              label={t("password")}
               control={form.control}
               className="mb-2"
             />
@@ -132,7 +134,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
               href={`${type}/forgot-password`}
               className="text-sm opacity-50 font-light hover:opacity-100 duration-300"
             >
-              Forgot password
+              {t("forgotPassword")}
             </Link>
           </div>
         </div>
@@ -141,22 +143,24 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
           className="w-[358px] capitalize mt-9"
           type="submit"
         >
-          {loading ? <ButtonLoader /> : "Continue"}
+          {loading ? <ButtonLoader /> : t("continue")}
         </Button>
         <p className="text-center mt-5 font-light text-sm">
-          Don&apos;t have an account?{" "}
+          {t("noAccount")}{" "}
           <Link
             locale="en"
             href="/sign-up"
             className="font-bold text-sm text-greeny"
           >
-            Sign Up
+            {t("signUp")}
           </Link>
         </p>
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
-            <span className="text-white text-lg font-bold leading-5">OR</span>
+            <span className="text-white text-lg font-bold leading-5">
+              {t("or")}
+            </span>
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">

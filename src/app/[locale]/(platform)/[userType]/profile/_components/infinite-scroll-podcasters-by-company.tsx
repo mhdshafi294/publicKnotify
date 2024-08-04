@@ -13,13 +13,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
-import {
-  getCompanySelfPodcastersAction,
-  getPodcastersByCompanyAction,
-} from "@/app/actions/podcasterActions";
+import { getPodcastersByCompanyAction } from "@/app/actions/podcasterActions";
 import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { PodcasterCard } from "@/components/podcaster-card";
 
@@ -38,6 +34,7 @@ const InfiniteScrollPodcastersByCompany = ({
     threshold: 0,
   });
   const { data: session } = useSession();
+  const t = useTranslations("Index");
 
   const {
     isError,
@@ -103,7 +100,7 @@ const InfiniteScrollPodcastersByCompany = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasters</h2>
+        <h2 className="font-bold text-2xl">{t("podcasters")}</h2>
         <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />
@@ -112,7 +109,7 @@ const InfiniteScrollPodcastersByCompany = ({
       <CarouselContent className="w-full mt-5 ms-0 min-h-40">
         {data?.pages[0].podcasters.length === 0 ? (
           <p className="text-lg my-auto opacity-50 italic ">
-            No podcasters yet
+            {t("noPodcastersYet")}
           </p>
         ) : (
           data?.pages.map((page) =>
@@ -134,7 +131,7 @@ const InfiniteScrollPodcastersByCompany = ({
             {isFetchingNextPage && (
               <Loader className="size-9" variant={"infinity"} />
             )}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </CarouselItem>
         }
       </CarouselContent>

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,9 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOutIcon, Settings, User } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
+  const t = useTranslations("Index");
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <Fragment>
@@ -25,10 +29,10 @@ const UserOptions = () => {
           href="/sign-in"
           className={cn(buttonVariants({ variant: "default" }), "")}
         >
-          Sign in
+          {t("signIn")}
         </Link>
       ) : (
-        <DropdownMenu>
+        <DropdownMenu dir={dir}>
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
               <AvatarImage
@@ -50,22 +54,22 @@ const UserOptions = () => {
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
               <DropdownMenuItem>
-                <User className="mr-2 h-4 w-4" />
-                <span>Profile</span>
+                <User className="me-2 h-4 w-4" />
+                <span>{t("profile")}</span>
               </DropdownMenuItem>
             </Link>
             <Link href={`/${session?.user?.type}/settings`}>
               <DropdownMenuItem>
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
+                <Settings className="me-2 h-4 w-4" />
+                <span>{t("settings")}</span>
               </DropdownMenuItem>
             </Link>
             <DropdownMenuItem
               className="text-red-500"
               onClick={() => signOut()}
             >
-              <LogOutIcon className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <LogOutIcon className="me-2 h-4 w-4" />
+              <span>{t("logOut")}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import country from "country-list-js";
+import { useTranslations } from "next-intl";
 
 import { Link, useRouter } from "@/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +34,7 @@ interface SignUpFormProps {
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const form = useForm<signUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -55,16 +57,16 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   const { mutate: server_signUp, isPending } = useMutation({
     mutationFn: signUpAction,
     onSuccess: () => {
-      toast.warning("Please verify your account!.");
+      toast.warning(t("verifyAccount"));
       router.push(
         `${type}/verification-code?phone=${phone.code}${phone.phone}`
       );
     },
     onError: (error) => {
       if (error.message.includes("422")) {
-        toast.error("The phone has already been taken.");
+        toast.error(t("phoneTaken"));
       } else {
-        toast.error("Something went wrong.please try again!");
+        toast.error(t("errorTryAgain"));
       }
     },
   });
@@ -98,15 +100,19 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
         })}
       >
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">Sign Up</h2>
+          <h2 className="text-[32px] font-black mb-1">{t("signUp")}</h2>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
-            <FormInput name="full_name" label="Name" control={form.control} />
+            <FormInput
+              name="full_name"
+              label={t("name")}
+              control={form.control}
+            />
             <FormField
               control={form.control}
               name="phone"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Phone</FormLabel>
+                  <FormLabel>{t("phone")}</FormLabel>
                   <FormControl>
                     <PhoneNumberInput
                       phone={field.value}
@@ -121,19 +127,19 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
             <PasswordInput
               name={"password"}
-              label={"Password"}
+              label={t("password")}
               control={form.control}
             />
             <PasswordInput
               name={"password_confirmation"}
-              label={"Confirm Password"}
+              label={t("confirmPassword")}
               control={form.control}
             />
           </div>
           {type === "company" && (
             <FormFileInput
               name="documents"
-              label="Docs"
+              label={t("docs")}
               control={form.control}
               className="w-full"
             />
@@ -143,29 +149,31 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           name="terms"
           control={form.control}
           checkboxClassName="rounded-full size-4"
-          label="I accept the terms and privacy policy"
+          label={t("acceptTerms")}
         />
         <Button
           disabled={isPending}
           className="w-full capitalize mt-8"
           type="submit"
         >
-          {isPending ? <ButtonLoader /> : "Continue"}
+          {isPending ? <ButtonLoader /> : t("continue")}
         </Button>
         <p className="text-center mt-5 font-light text-sm">
-          Do you already have an account?{" "}
+          {t("haveAccount")}{" "}
           <Link
             locale="en"
             href="/sign-in"
             className="font-bold text-sm text-greeny"
           >
-            Sign In
+            {t("signIn")}
           </Link>
         </p>
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
-            <span className="text-white text-lg font-bold leading-5">OR</span>
+            <span className="text-white text-lg font-bold leading-5">
+              {t("or")}
+            </span>
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">

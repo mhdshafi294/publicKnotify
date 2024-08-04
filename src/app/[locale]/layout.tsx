@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter as FontSans, Lato } from "next/font/google";
+import { Inter as FontSans, Lato, Noto_Sans_Arabic } from "next/font/google"; // Use Noto Sans Arabic instead of Beiruti
 import { notFound } from "next/navigation";
 import "./globals.css";
 
@@ -16,8 +16,14 @@ const fontSans = FontSans({
   variable: "--font-sans",
 });
 
+const fontNotoSansArabic = Noto_Sans_Arabic({
+  weight: ["300", "400", "500", "600", "700", "900"],
+  subsets: ["arabic"],
+  variable: "--font-noto-sans-arabic",
+});
+
 const fontLato = Lato({
-  weight: ["300", "400", "700", "900", "100", "300", "400", "700", "900"],
+  weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-lato",
 });
@@ -63,7 +69,12 @@ export default async function RootLayout({
       dir={locale === "ar" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
-      <body className={cn("min-h-screen antialiased", fontLato.className)}>
+      <body
+        className={cn(
+          "min-h-screen antialiased",
+          locale === "ar" ? fontNotoSansArabic.className : fontLato.className
+        )}
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
             <QueryProvider>{children}</QueryProvider>

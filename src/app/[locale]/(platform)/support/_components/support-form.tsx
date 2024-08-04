@@ -13,8 +13,10 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const SupportForm = () => {
+  const t = useTranslations("Index");
   const router = useRouter();
   const form = useForm<SupportSchema>({
     resolver: zodResolver(SupportSchema),
@@ -26,7 +28,7 @@ const SupportForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: supportAction,
     onSuccess: () => {
-      toast.success("Your message has been sent successfully");
+      toast.success(t("messageSent"));
       router.push("/");
     },
   });
@@ -40,17 +42,17 @@ const SupportForm = () => {
         className="w-full mx-auto bg-card/50 border border-card-foreground/10 p-6 rounded-md text-foreground md:max-w-screen-sm px-8 flex flex-col items-center"
       >
         <div className="flex w-full flex-col items-center gap-7 min-w-[358px]">
-          <h1 className="text-2xl text-start font-bold">Help & Support</h1>
+          <h1 className="text-2xl text-start font-bold">{t("helpSupport")}</h1>
           <div className="w-full space-y-4">
             <FormInput
               className="bg-background"
               name="email"
-              label="email"
+              label={t("email")}
               control={form.control}
             />
             <FormInputTextarea
               name="message"
-              label="message"
+              label={t("message")}
               className="resize-y"
               control={form.control}
             />
@@ -59,7 +61,7 @@ const SupportForm = () => {
               className="w-full capitalize mt-8"
               type="submit"
             >
-              {isPending ? <ButtonLoader /> : "Send"}
+              {isPending ? <ButtonLoader /> : t("send")}
             </Button>
           </div>
         </div>

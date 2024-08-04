@@ -9,12 +9,13 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./calendar";
 import { format } from "date-fns";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -35,12 +36,15 @@ function DatePicker<T extends FieldValues>({
   labelClassName,
   ...props
 }: PropsType<T>) {
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()} //"publishing_date"
       render={({ field }) => (
-        <FormItem className={cn("flex flex-col", className)}>
+        <FormItem className={cn("flex flex-col", className)} dir={dir}>
           <FormLabel className="capitalize text-lg">{label}</FormLabel>
           <Popover>
             <PopoverTrigger asChild>

@@ -13,12 +13,14 @@ import { useRouter } from "@/navigation";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const AuthYoutubeButton = ({
   youtube_account,
 }: {
   youtube_account?: string | null;
 }) => {
+  const t = useTranslations("Index");
   const router = useRouter();
   const {
     data: authYoutubeActionData,
@@ -31,7 +33,7 @@ const AuthYoutubeButton = ({
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Something went wrong.please try again.");
+      toast.error(t("authYoutubeError"));
     },
   });
 
@@ -61,7 +63,7 @@ const AuthYoutubeButton = ({
         className="w-fit border-card-foreground/10 text-xs p-2 opacity-60"
         side="top"
       >
-        {youtube_account ? "Activated" : "Not Activated yet"}
+        {youtube_account ? t("activated") : t("notActivatedYet")}
       </HoverCardContent>
     </HoverCard>
   );

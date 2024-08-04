@@ -1,6 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 import { newPasswordSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +22,7 @@ const NewPassword = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const form = useForm<newPasswordSchema>({
     resolver: zodResolver(newPasswordSchema),
@@ -40,7 +42,7 @@ const NewPassword = ({
       router.push(`/sign-in?userType=${params.userType}`);
     },
     onError: () => {
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("errorTryAgain"));
     },
   });
 
@@ -55,7 +57,7 @@ const NewPassword = ({
 
   return (
     <div className="md:w-[360px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Verification Code</h2>
+      <h2>{t("verificationCode")}</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col gap-9 items-center"
@@ -65,13 +67,13 @@ const NewPassword = ({
         >
           <PasswordInput
             name={"new_password"}
-            label={"New Password"}
+            label={t("newPassword")}
             control={form.control}
             className=""
           />
           <PasswordInput
             name={"new_password_confirmation"}
-            label={"Confirm New Password"}
+            label={t("confirmNewPassword")}
             control={form.control}
             className=""
           />
@@ -80,7 +82,7 @@ const NewPassword = ({
             className="md:w-[360px] capitalize mx-auto mt-14"
             type="submit"
           >
-            {isPending ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

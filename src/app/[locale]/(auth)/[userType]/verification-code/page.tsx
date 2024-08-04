@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { checkCodeSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
+import { useTranslations } from "next-intl";
 
 import {
   Form,
@@ -37,6 +38,7 @@ const VerificationCode = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),
@@ -55,7 +57,7 @@ const VerificationCode = ({
       router.push(`/sign-in?userType=${params.userType}`);
     },
     onError: () => {
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("errorTryAgain"));
     },
   });
 
@@ -69,7 +71,7 @@ const VerificationCode = ({
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Verification Code</h2>
+      <h2>{t("verificationCode")}</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
@@ -82,9 +84,7 @@ const VerificationCode = ({
             name="code"
             render={({ field }) => (
               <FormItem className="w-full flex flex-col items-center gap-16">
-                <FormLabel>
-                  We have sent the verification code to your phone number
-                </FormLabel>
+                <FormLabel>{t("verificationCodeSent")}</FormLabel>
                 <FormControl>
                   <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
@@ -110,7 +110,7 @@ const VerificationCode = ({
             className="w-[264px] capitalize mx-auto mt-20"
             type="submit"
           >
-            {loading ? <ButtonLoader /> : "Confirm"}
+            {loading ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

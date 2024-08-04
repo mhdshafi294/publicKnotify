@@ -274,7 +274,7 @@ const CreatePodcastForm = ({
     if (step === 1)
       return (
         <>
-          <div className="w-full flex justify-between  gap-5">
+          <div className="w-full flex justify-between gap-5">
             <FormInput
               name="name"
               className="bg-background w-full"
@@ -320,7 +320,7 @@ const CreatePodcastForm = ({
             />
           </div>
           <div className="w-full space-y-3">
-            <div className="flex  space-x-2">
+            <div className="flex items-center gap-3">
               <Checkbox
                 checked={addToPlayList}
                 onCheckedChange={() => setAddToPlayList(!addToPlayList)}

@@ -14,7 +14,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
@@ -33,6 +33,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
     threshold: 0,
   });
   const { data: session } = useSession();
+  const t = useTranslations("Index");
 
   const {
     isError,
@@ -98,7 +99,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasts</h2>
+        <h2 className="font-bold text-2xl">{t("podcasts")}</h2>
         <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />
@@ -106,7 +107,9 @@ const InfiniteScrollPodcastsByPodcaster = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">No podcasts yet</p>
+          <p className="text-lg my-auto opacity-50 italic ">
+            {t("noPodcastsYet")}
+          </p>
         ) : (
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
@@ -127,7 +130,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
             {isFetchingNextPage && (
               <Loader className="size-9" variant={"infinity"} />
             )}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </CarouselItem>
         }
       </CarouselContent>

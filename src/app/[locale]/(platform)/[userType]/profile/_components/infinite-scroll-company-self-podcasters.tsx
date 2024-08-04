@@ -4,7 +4,6 @@ import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-
 import {
   Carousel,
   CarouselContent,
@@ -13,9 +12,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 import { getCompanySelfPodcastersAction } from "@/app/actions/podcasterActions";
 import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { PodcasterCard } from "@/components/podcaster-card";
@@ -28,6 +26,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
   type: string;
 }) => {
   const locale = useLocale();
+  const t = useTranslations("Index");
   const direction = getDirection(locale);
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -99,7 +98,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Podcasters</h2>
+        <h2 className="font-bold text-2xl">{t("podcasters")}</h2>
         <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />
@@ -108,7 +107,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasters.length === 0 ? (
           <p className="text-lg my-auto opacity-50 italic ">
-            No podcasters yet
+            {t("noPodcastersYet")}
           </p>
         ) : (
           data?.pages.map((page) =>
@@ -130,7 +129,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
             {isFetchingNextPage && (
               <Loader className="size-9" variant={"infinity"} />
             )}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </CarouselItem>
         }
       </CarouselContent>

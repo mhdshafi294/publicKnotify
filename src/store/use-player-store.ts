@@ -6,6 +6,7 @@ type Store = {
 
   isRunning: boolean;
   setIsRunning: (isRunning: boolean) => void;
+
   toggleRunning: () => void;
 };
 
@@ -15,6 +16,7 @@ const usePlayerStore = create<Store>()((set) => ({
 
   setPodcastId: (podcastId) => set((state) => ({ ...state, podcastId })),
   setIsRunning: (isRunning) => set((state) => ({ ...state, isRunning })),
+
   toggleRunning: () =>
     set((state) => ({ ...state, isRunning: !state.isRunning })),
 }));

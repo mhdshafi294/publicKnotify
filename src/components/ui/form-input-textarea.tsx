@@ -9,7 +9,8 @@ import {
 } from "./form";
 import { ComponentPropsWithoutRef } from "react";
 import { Textarea } from "./textarea";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -30,12 +31,14 @@ function FormInputTextarea<T extends FieldValues>({
   placeholder,
   ...props
 }: PropsType<T>) {
+  const locale = useLocale();
+  const dir = getDirection(locale);
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem>
+        <FormItem dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

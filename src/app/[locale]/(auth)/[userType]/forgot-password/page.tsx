@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 
 import { forgotPasswordSchema } from "@/schema/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +26,7 @@ import { sendCodeAction } from "@/app/actions/authActions";
 
 const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const form = useForm<forgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -45,7 +47,7 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   } = useMutation({
     mutationFn: sendCodeAction,
     onSuccess: () => {
-      toast.success("Confirmed!");
+      toast.success(t("confirmed"));
       router.push(
         `/${params.userType}/check-code?&phone=${phone?.code}${
           phone?.phone as string
@@ -53,7 +55,7 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
       );
     },
     onError: () => {
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("errorTryAgain"));
     },
   });
 
@@ -63,10 +65,8 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
 
   return (
     <div className="md:w-[360px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Forgot Password</h2>
-      <p className="text-xs">
-        Please enter your phone number so we can send you a verification code
-      </p>
+      <h2>{t("forgotPassword")}</h2>
+      <p className="text-xs">{t("enterPhoneNumber")}</p>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
@@ -79,7 +79,7 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
             name="phone"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Phone</FormLabel>
+                <FormLabel>{t("phone")}</FormLabel>
                 <FormControl>
                   <PhoneNumberInput
                     phone={field.value}
@@ -95,7 +95,7 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
             className="md:w-[360px] capitalize mx-auto mt-14"
             type="submit"
           >
-            {isPending ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

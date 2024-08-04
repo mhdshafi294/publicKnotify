@@ -23,7 +23,6 @@ export default async function Requests({
 
   const statusArray =
     typeof status === "string" && status?.length > 0 ? status?.split("") : [];
-  // console.log(statusArray);
 
   const session = await getServerSession(authOptions);
   if (session?.user?.type === "user") {
@@ -36,9 +35,8 @@ export default async function Requests({
     search,
     status: statusArray,
   });
+
   const requestsData = requestsResponse.requests;
-  // console.log(requestsResponse);
-  // console.log(requestsData);
 
   return (
     <>
@@ -53,7 +51,7 @@ export default async function Requests({
                   href="requests/create"
                   className={cn(buttonVariants({ variant: "outline" }))}
                 >
-                  Create
+                  {t("create")}
                 </Link>
               )}
             </div>

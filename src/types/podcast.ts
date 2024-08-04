@@ -11,7 +11,7 @@ export type PodcastDetails = {
   thumbnail: string;
   background: string;
   podcast: string;
-  podcaster: { full_name: string };
+  podcaster: { full_name: string, id:number };
   playback_position: {
     id: number;
     current_position: number;
@@ -107,6 +107,7 @@ export type Playlist = {
   podcasts_count: number;
   type: string;
   created_at: string;
+  podcasts: SelfPodcastDetails[];
 };
 
 export type SearchResponse = ApiResponse & {

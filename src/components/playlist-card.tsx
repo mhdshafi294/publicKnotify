@@ -16,7 +16,7 @@ const PlaylistCard = ({
     <Link href={`/${userType}/playlist/${playlist.id}`} className="w-full ">
       <div className="size-44 rounded-lg relative">
         <Image
-          src={playlist.image}
+          src={playlist.image ? playlist.image : "/playlist-filler.webp"}
           alt={playlist.name}
           className="object-cover rounded-lg"
           fill

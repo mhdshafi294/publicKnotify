@@ -10,9 +10,10 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useState } from "react";
-import { cn, convertFileToURL } from "@/lib/utils";
+import { cn, convertFileToURL, getDirection } from "@/lib/utils";
 import { Image, ReplaceIcon, Upload, X } from "lucide-react";
 import { Button } from "./button";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -40,12 +41,15 @@ function FormFileInput<T extends FieldValues>({
     field.onChange(null);
     setFileUrl(null);
   };
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full">
+        <FormItem className="w-full" dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

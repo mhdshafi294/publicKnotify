@@ -1,6 +1,7 @@
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import axiosInstance from "@/lib/axios.config";
 import { ApiResponse } from "@/types";
+import { getTranslations } from "next-intl/server";
 
 type Reposne = ApiResponse & {
   terms: {
@@ -17,9 +18,11 @@ type Reposne = ApiResponse & {
 
 const Page = async ({ params }: { params: { locale: string } }) => {
   const { data } = await axiosInstance.get<Reposne>("api/terms");
+  const t = await getTranslations("Index");
+
   return (
     <MaxWidthContainer className="pt-16 space-y-5">
-      <h1 className="text-2xl font-bold">terms</h1>
+      <h1 className="text-2xl font-bold">{t("terms")}</h1>
       <article
         dangerouslySetInnerHTML={{
           __html:

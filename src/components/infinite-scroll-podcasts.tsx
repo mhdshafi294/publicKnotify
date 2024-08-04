@@ -81,8 +81,8 @@ const InfiniteScrollPodcasts = ({
   });
 
   useEffect(() => {
-    console.log(isIntersecting, "isIntersecting");
-    console.log(hasNextPage, "hasNextPage");
+    // console.log(isIntersecting, "isIntersecting");
+    // console.log(hasNextPage, "hasNextPage");
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
       console.log(true);
       fetchNextPage();

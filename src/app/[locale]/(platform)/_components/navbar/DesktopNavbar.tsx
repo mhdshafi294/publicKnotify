@@ -11,6 +11,7 @@ import UserOptions from "./user-0ptions";
 import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const DesktopNavbar = () => {
   const pathname = usePathname();
@@ -18,13 +19,12 @@ const DesktopNavbar = () => {
   const [searchText, setSearchText] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
+  const t = useTranslations("Index");
 
   useEffect(() => {
     const updatedSearchText = searchParams.get("podcasterId");
     setSearchText(updatedSearchText);
   }, [searchParams]);
-
-  // console.log(pathname);
 
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
@@ -37,7 +37,7 @@ const DesktopNavbar = () => {
           className="px-0 opacity-75 hover:opacity-100 duration-200"
         >
           <SearchIcon className="" size={20} />
-          <span className="sr-only">Search</span>
+          <span className="sr-only">{t("search")}</span>
         </Link>
         {mainNavLinks.map((link) => {
           if (link.label === "New Publish") {
@@ -57,7 +57,7 @@ const DesktopNavbar = () => {
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             );
           } else
@@ -77,12 +77,12 @@ const DesktopNavbar = () => {
                   {
                     hidden:
                       session?.user?.type === "user" &&
-                      (link.label === "Requests" ||
-                        link.label === "Statistics"),
+                      (t(link.label) === "Requests" ||
+                        t(link.label) === "Statistics"),
                   }
                 )}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             );
         })}

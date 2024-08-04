@@ -13,7 +13,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
@@ -29,6 +29,7 @@ const InfiniteScrollSelfPlaylists = ({
   type: string;
 }) => {
   const locale = useLocale();
+  const t = useTranslations("Index");
   const direction = getDirection(locale);
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -99,7 +100,7 @@ const InfiniteScrollSelfPlaylists = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">Playlists</h2>
+        <h2 className="font-bold text-2xl">{t("playlists")}</h2>
         <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />
@@ -107,7 +108,9 @@ const InfiniteScrollSelfPlaylists = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].playlists.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">No playlists yet</p>
+          <p className="text-lg my-auto opacity-50 italic ">
+            {t("noPlaylistsYet")}
+          </p>
         ) : (
           data?.pages.map((page) =>
             page.playlists.map((playlist) => (
@@ -128,7 +131,7 @@ const InfiniteScrollSelfPlaylists = ({
             {isFetchingNextPage && (
               <Loader className="size-9" variant={"infinity"} />
             )}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </CarouselItem>
         }
       </CarouselContent>

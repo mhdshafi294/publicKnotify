@@ -1,15 +1,14 @@
 // import useDirection from "@/hooks/use-direction";
-// import { useTranslation } from "react-i18next";
+import { useTranslations } from "next-intl";
 
 import Loader from "./loader";
 
-const ButtonLoader = ({ message = "global.loading-text" }) => {
-  // const { t } = useTranslation();
+const ButtonLoader = () => {
+  const t = useTranslations("Index");
   // const dir = useDirection();
   return (
     <span className="flex justify-center items-center gap-2">
-      {/* <span className="text-sm">{t(message)}</span> */}
-      <span className="text-sm">Loading...</span>
+      <span className="text-sm">{t("loading")}</span>
       <Loader />
     </span>
   );

@@ -30,6 +30,7 @@ import { Link } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { FileSymlinkIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 const ProfileContent = async ({
   profileData,
@@ -46,6 +47,7 @@ const ProfileContent = async ({
   params: { profileUserType: string; profileId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  const t = await getTranslations("Index");
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
@@ -62,7 +64,7 @@ const ProfileContent = async ({
       const data2Response = await getSelfPodcastsAction({
         type: "podcaster",
         search,
-        is_published: true,
+        is_published: 1,
       });
       contentData2 = data2Response.podcasts;
     } else if (profileType === "company") {
@@ -101,7 +103,6 @@ const ProfileContent = async ({
         search,
       });
       contentData1 = data1Response.podcasters;
-      //TODO: get podcasts by company, collection needed to be modified
       const data2Response = await getPodcastsByCompanyAction({
         companyId: params.profileId,
         type: session?.user?.type!,
@@ -123,7 +124,7 @@ const ProfileContent = async ({
             )}
           >
             <FileSymlinkIcon size={15} strokeWidth={3} />
-            <span>Send Request</span>
+            <span>{t("sendRequest")}</span>
           </Link>
         ) : null}
       </div>

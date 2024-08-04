@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useLocale, useTranslations } from "next-intl";
 
 import { createRequestAction } from "@/app/actions/requestsActions";
 import SelectPodcaster from "@/components/select-podcaster";
@@ -44,10 +45,14 @@ import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-inp
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 import { useSearchParams } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getDirection } from "@/lib/utils";
 
 const CreateRequest = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const t = useTranslations("Index");
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
@@ -119,16 +124,16 @@ const CreateRequest = () => {
   } = useMutation({
     mutationFn: createRequestAction,
     onMutate: () => {
-      toast.loading("Creating request...");
+      toast.loading(t("creatingRequest"));
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("Request created successfully");
+      toast.success(t("requestCreatedSuccessfully"));
       router.push(`/company/requests`);
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Something went wrong. Please try again!");
+      toast.error(t("somethingWentWrong"));
       console.log(error);
     },
   });
@@ -179,14 +184,14 @@ const CreateRequest = () => {
             <div className="lg:col-span-3 lg:me-10 lg:h-full">
               <Card className="bg-card/50 border-card-foreground/10 w-full h-full px-3 lg:px-5 py-10 pb-2 ">
                 <CardHeader className="py-0 px-0 text-xl">
-                  Where to add your AD
+                  {t("whereToAddYourAD")}
                 </CardHeader>
                 <CardContent className="px-0 mt-5">
                   <PriceRadioGroupFormInput
                     name="ad_place"
-                    label="AD type & position"
+                    label={t("adTypeAndPosition")}
                     control={form.control}
-                    options={["first", "middle", "end", "video"]}
+                    options={[t("first"), t("middle"), t("end"), t("video")]}
                     price={podcaster?.price}
                     className="bg-background h-full py-5 rounded-lg px-3"
                     labelClassName="text-lg w-full h-full"
@@ -195,7 +200,7 @@ const CreateRequest = () => {
                     radioGroupItemClassName="size-6 border-none bg-greeny/10"
                   />
                   <div className="space-y-2 mt-5">
-                    <p className="text-lg">Distripution Channels</p>
+                    <p className="text-lg">{t("distributionChannels")}</p>
                     <div className="w-full flex justify-start gap-2 items-center">
                       <ToggleFormInput
                         name="publish_youtube"
@@ -220,40 +225,40 @@ const CreateRequest = () => {
                     className="w-full capitalize mt-0 font-bold"
                     type="submit"
                   >
-                    {isPending ? <ButtonLoader /> : "Continue"}
+                    {isPending ? <ButtonLoader /> : t("continue")}
                   </Button>
                 </CardFooter>
               </Card>
             </div>
             <div className="lg:col-span-9 space-y-5">
               <div className="w-full flex justify-between">
-                <h1 className="text-xl font-bold">Create Request</h1>
+                <h1 className="text-xl font-bold">{t("createRequest")}</h1>
                 <Button
                   disabled={isPending}
                   className="capitalize mt-0 font-bold"
                   type="submit"
                 >
-                  {isPending ? <ButtonLoader /> : "Continue"}
+                  {isPending ? <ButtonLoader /> : t("continue")}
                 </Button>
               </div>
               <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)]  px-2 lg:px-7 py-10 pb-2">
-                <ScrollArea className="h-full">
+                <ScrollArea className="h-full" dir={dir}>
                   <CardContent className="flex flex-col gap-7">
                     <div className="w-full flex justify-between items-center gap-5">
                       <FormInput
                         name="name"
                         className="bg-background w-full"
-                        placeholder="Podcast Name"
-                        label="Name"
+                        placeholder={t("podcastNamePlaceholder")}
+                        label={t("name")}
                         control={form.control}
                       />
                       <FormField
                         control={form.control}
                         name="podcaster_id"
                         render={({ field }) => (
-                          <FormItem className="w-full">
+                          <FormItem className="w-full" dir={dir}>
                             <FormLabel className="text-lg capitalize">
-                              Podcaster
+                              {t("podcaster")}
                             </FormLabel>
                             <SelectPodcaster
                               setValue={field.onChange}
@@ -266,63 +271,55 @@ const CreateRequest = () => {
                     </div>
                     <FormInputTextarea
                       name="summary"
-                      label="Podcast Summary"
-                      placeholder="Tell us a little about your podcast"
+                      label={t("podcastSummary")}
+                      placeholder={t("podcastSummaryPlaceholder")}
                       control={form.control}
                     />
                     <div className="w-full flex justify-between items-center gap-5">
                       <FormFileInput
                         name="thumbnail"
-                        label="Thumbnail"
+                        label={t("thumbnail")}
                         control={form.control}
                         className="w-full"
                       />
                       <FormFileInput
                         name="background"
-                        label="Background"
+                        label={t("background")}
                         control={form.control}
                         className="w-full"
                       />
                     </div>
                     <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-                      {/* <PriceRadioGroupFormInput
-                      name="type"
-                      label="Type"
-                      control={form.control}
-                      options={["audio", "video"]}
-                      className="h-[65px]"
-                    /> */}
                       <div>
                         <FormInput
                           name="company_tag"
                           className="bg-background"
-                          placeholder="Company"
-                          label="Company Tag"
+                          placeholder={t("company")}
+                          label={t("companyTag")}
                           control={form.control}
                         />
                       </div>
                       <DatePicker
                         name="publishing_date"
-                        label="Date"
+                        label={t("date")}
                         control={form.control}
                       />
                       <TimePicker
                         name="publishing_time"
-                        label="Time"
+                        label={t("time")}
                         control={form.control}
                       />
                       <DurationPickerFormInput
                         name="ad_period"
                         className="bg-background"
-                        label="Period"
+                        label={t("period")}
                         control={form.control}
                       />
                     </div>
-                    {/* <div className="w-full flex justify-between gap-5"> */}
                     <ArraySelectManyFormInput
                       name="categories"
                       control={form.control}
-                      label="Categories"
+                      label={t("categories")}
                       className="w-full bg-background"
                       action={getCategoriesAction}
                       defaultValues={form.getValues()}
@@ -330,28 +327,18 @@ const CreateRequest = () => {
                     <ArrayFormInput
                       name="hashtags"
                       control={form.control}
-                      label="Hashtags"
+                      label={t("hashtags")}
                       className="w-full bg-background"
                       defaultValues={form.getValues()}
                     />
-                    {/* </div> */}
                     <FormCheckbox
                       name="terms"
                       control={form.control}
                       className="mt-0"
                       checkboxClassName="size-4 rounded-full"
-                      label="I accept the terms and privacy policy"
+                      label={t("acceptTerms")}
                     />
                   </CardContent>
-                  {/* <CardFooter className="hidden lg:block">
-                    <Button
-                      disabled={isPending}
-                      className="w-full capitalize mt-0"
-                      type="submit"
-                    >
-                      {isPending ? <ButtonLoader /> : "Continue"}
-                    </Button>
-                  </CardFooter> */}
                 </ScrollArea>
               </Card>
             </div>

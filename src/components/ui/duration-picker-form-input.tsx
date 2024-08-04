@@ -10,7 +10,8 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -42,12 +43,15 @@ function DurationPickerFormInput<T extends FieldValues>({
     // console.log(formattedValue, getValues(name as string));
   }, [minutes, seconds, setValue, name]);
 
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="">
+        <FormItem className="" dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

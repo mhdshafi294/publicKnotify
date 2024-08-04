@@ -5,16 +5,14 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { useLocale } from "next-intl";
 import { getDirection } from "@/lib/utils";
 
 const CategorySecrtion = async () => {
-  const categories = await getCategories();
   const t = await getTranslations("Index");
+  const categories = await getCategories();
   const locale = useLocale();
   const direction = getDirection(locale);
 

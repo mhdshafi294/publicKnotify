@@ -1,19 +1,23 @@
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import getPodcastDetails from "@/services/podcast/get-podcast-details";
 import AudioPodcast from "../_components/audio-podcast";
+import VideoPodcast from "../_components/video-podcast";
+import { getPodcastDetailsAction } from "@/app/actions/podcastActions";
 
 const Page = async ({
   params,
 }: {
   params: { podcastId: string; userType: string };
 }) => {
-  const podcast = await getPodcastDetails(params.userType, +params.podcastId);
+  const podcast = await getPodcastDetailsAction({
+    type: params.userType,
+    id: params.podcastId,
+  });
   return (
-    <MaxWidthContainer className="mt-8">
+    <MaxWidthContainer className="mt-8 flex justify-center items-center">
       {podcast.type === "audio" ? (
         <AudioPodcast podcast={podcast} />
       ) : (
-        <div className="bg-secondary space-y-6 p-8 rounded-xl">pkpkp</div>
+        <VideoPodcast podcast={podcast} />
       )}
     </MaxWidthContainer>
   );

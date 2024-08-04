@@ -15,7 +15,9 @@ export default function Favorites({
   return (
     <>
       <main className="flex flex-col flex-grow items-center justify-between pt-10 lg:pt-24">
-        <MaxWidthContainer className="w-full h-full flex flex-col gap-2 lg:flex-row lg:gap-10">
+        <MaxWidthContainer
+          className="w-full h-full flex flex-col gap-2 lg:flex-row lg:gap-10"
+        >
           <FavoriteCategories params={params} searchParams={searchParams} />
           <PodcastsAndPodcastersFavoritesTabs
             params={params}

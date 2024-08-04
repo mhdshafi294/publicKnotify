@@ -12,6 +12,7 @@ import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import PricingCard from "./pricing-card";
+import { useTranslations } from "next-intl";
 
 type PropsType = {
   pricings: Price | null;
@@ -35,10 +36,12 @@ const PricingsContainer: FC<PropsType> = ({ pricings }) => {
         },
   });
 
+  const t = useTranslations("pricing");
+
   const { mutate, isPending, error } = useMutation({
     mutationFn: createOrCreatePriceAction,
     onSuccess: () => {
-      toast.success("Pricings updated successfully");
+      toast.success(t("updateSuccess"));
       setCurrentPricings({
         created_at: new Date().toString(),
         end: form.getValues().end,
@@ -63,24 +66,24 @@ const PricingsContainer: FC<PropsType> = ({ pricings }) => {
       >
         <PricingCard
           name="first"
-          text="First podcast"
+          text={t("firstPodcast")}
           price={currentPricings?.first}
         />
         <PricingCard
           name="middle"
-          text="Middle"
+          text={t("middle")}
           price={currentPricings?.middle}
         />
-        <PricingCard name="end" text="End" price={currentPricings?.end} />
+        <PricingCard name="end" text={t("end")} price={currentPricings?.end} />
         <PricingCard
           name="video"
-          text="Adding a video"
+          text={t("addingVideo")}
           price={currentPricings?.video}
         />
         {editMode ? (
           <DialogFooter className="flex">
             <Button size="lg" className="capitalize">
-              Save
+              {t("save")}
             </Button>
             <Button
               onClick={() => setEditMode(false)}
@@ -89,7 +92,7 @@ const PricingsContainer: FC<PropsType> = ({ pricings }) => {
               size="lg"
               className="capitalize"
             >
-              cancel
+              {t("cancel")}
             </Button>
           </DialogFooter>
         ) : null}

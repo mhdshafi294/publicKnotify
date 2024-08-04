@@ -12,6 +12,7 @@ import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcast
 import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
 import InfiniteScrollPodcasters from "@/components/infinite-scroll-podcasters";
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import { useTranslations } from "next-intl";
 
 export default async function PodcastersPage({
   searchParams,
@@ -41,8 +42,8 @@ export default async function PodcastersPage({
       <main className="py-10">
         <MaxWidthContainer className="flex flex-col gap-7">
           <div className="w-full flex justify-between items-center gap-2">
-            <h2 className="lg:text-5xl font-bold">Podcasters</h2>
-            <Search searchText={search} searchFor="podcasters" />
+            <h2 className="lg:text-5xl font-bold">{t("podcasters")}</h2>
+            <Search searchText={search} searchFor={t("podcasters")} />
           </div>
           <InfiniteScrollPodcasters
             initialData={firstPageTrendingResponse.podcasters}

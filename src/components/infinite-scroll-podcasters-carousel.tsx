@@ -11,7 +11,7 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 
 import { PodcasterCard } from "./podcaster-card";
@@ -19,7 +19,7 @@ import { Link } from "@/navigation";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
 
-const InfiniteScrollPodcasterersCarousel = ({
+const InfiniteScrollPodcastersCarousel = ({
   initialData,
   search,
   type,
@@ -29,6 +29,7 @@ const InfiniteScrollPodcasterersCarousel = ({
   type: string;
 }) => {
   const locale = useLocale();
+  const t = useTranslations("Index");
   const direction = getDirection(locale);
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -99,10 +100,8 @@ const InfiniteScrollPodcasterersCarousel = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl capitalize">Podcasters</h2>
+        <h2 className="font-bold text-2xl capitalize">{t("podcasters")}</h2>
         <div className="flex relative justify-end items-center">
-          {/* <CarouselPrevious />
-          <CarouselNext /> */}
           <Link
             href={{
               pathname: `${type}/podcasters`,
@@ -110,15 +109,15 @@ const InfiniteScrollPodcasterersCarousel = ({
             }}
             className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
           >
-            <p className="font-semibold ">View All</p>
+            <p className="font-semibold">{t("viewAll")}</p>
             <SquareArrowOutUpRightIcon size={14} className="" />
           </Link>
         </div>
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasters.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
-            No podcasters yet
+          <p className="text-lg my-auto opacity-50 italic">
+            {t("noPodcastersYet")}
           </p>
         ) : (
           data?.pages.map((page) =>
@@ -140,7 +139,7 @@ const InfiniteScrollPodcasterersCarousel = ({
             {isFetchingNextPage && (
               <Loader className="size-9" variant={"infinity"} />
             )}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </CarouselItem>
         }
       </CarouselContent>
@@ -148,4 +147,4 @@ const InfiniteScrollPodcasterersCarousel = ({
   );
 };
 
-export default InfiniteScrollPodcasterersCarousel;
+export default InfiniteScrollPodcastersCarousel;

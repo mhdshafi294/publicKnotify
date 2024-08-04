@@ -7,6 +7,7 @@ import Loader from "@/components/ui/loader";
 import PlaylistCard from "./playlist-card";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { useTranslations } from "next-intl";
 
 const InfiniteScrollPlaylist = ({
   initialData,
@@ -21,6 +22,8 @@ const InfiniteScrollPlaylist = ({
   useEffect(() => {
     if (!isHydrated) setIsHydrated(true);
   }, []);
+
+  const t = useTranslations("Index");
 
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -81,10 +84,7 @@ const InfiniteScrollPlaylist = ({
   });
 
   useEffect(() => {
-    console.log(isIntersecting, "isIntersecting");
-    console.log(hasNextPage, "hasNextPage");
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
-      console.log(true);
       fetchNextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +107,7 @@ const InfiniteScrollPlaylist = ({
         className="col-span-1 mt-1 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
       >
         {isFetchingNextPage && <Loader className="size-9" />}
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">{t("loading")}</span>
       </div>
     </>
   );

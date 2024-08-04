@@ -11,6 +11,7 @@ import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
 import { SearchResponse } from "@/types/podcast";
 import { getCompaniesAction } from "@/app/actions/companyActions";
 import { CompaniesResponse } from "@/types/company";
+import { getTranslations } from "next-intl/server";
 
 export default async function SearchPage({
   params,
@@ -28,6 +29,8 @@ export default async function SearchPage({
   }
   let initData: SearchResponse;
   let companiesInitData: CompaniesResponse;
+
+  const t = await getTranslations("Index");
 
   if (session?.user?.type !== "podcaster") {
     initData = await getSearchAction({
@@ -65,7 +68,9 @@ export default async function SearchPage({
     else
       return (
         <>
-          <h2 className="font-bold text-2xl capitalize">Trending Companies</h2>
+          <h2 className="font-bold text-2xl capitalize">
+            {t("trendingCompanies")}
+          </h2>
           <InfiniteScrollCompanies
             initialData={companiesInitData.companies}
             search={search}
@@ -78,7 +83,7 @@ export default async function SearchPage({
     <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
       <MaxWidthContainer className="w-full">
         <div className="w-full flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-bold">Search</h1>
+          <h1 className="text-4xl font-bold">{t("search")}</h1>
           <Search searchText={search} searchFor="search" />
         </div>
         <div className="flex flex-col gap-7">{content()}</div>
