@@ -14,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import FormInput from "@/components/ui/form-input";
 import PasswordInput from "@/components/ui/password-input";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";

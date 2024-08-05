@@ -33,6 +33,7 @@ function TimePicker<T extends FieldValues>({
 }: PropsType<T>) {
   const locale = useLocale();
   const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
@@ -46,8 +47,8 @@ function TimePicker<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div className="relative group">
-              <div className="absolute inset-y-0 end-px top-0 flex items-center pe-3.5 pointer-events-none">
+            <div className="relative group " dir="ltr">
+              <div className="absolute inset-y-0 right-px top-0 flex items-center pr-3.5 pointer-events-none">
                 <svg
                   className="size-4 text-gray-600  dark:text-gray-400"
                   aria-hidden="true"
@@ -64,7 +65,10 @@ function TimePicker<T extends FieldValues>({
               </div>
               <Input
                 type="time"
-                className="bg-background border border-zinc-600 text-white text-sm rounded-md group-hover:bg-white group-hover:text-background  block w-full px-3 py-2 "
+                className={cn(
+                  "bg-background border border-zinc-600 text-white text-sm rounded-md group-hover:bg-white group-hover:text-background  block w-full px-3 py-2",
+                  { "": dir === "rtl" }
+                )}
                 min="00:00"
                 max="23:59"
                 required

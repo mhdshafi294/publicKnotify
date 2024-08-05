@@ -14,9 +14,9 @@ export default async function NotificationsPage({
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
   const session = await getServerSession(authOptions);
-  if (session?.user?.type === "user") {
-    redirect(`/user`);
-  }
+  // if (session?.user?.type === "user") {
+  //   redirect(`/user`);
+  // }
   const t = await getTranslations("notifications");
 
   const notificationsResponse = await getNotificationsAction({

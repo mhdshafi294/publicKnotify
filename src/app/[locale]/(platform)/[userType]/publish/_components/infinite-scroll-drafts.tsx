@@ -117,8 +117,8 @@ const InfiniteScrollDrafts = ({
     <div
       className={cn(
         "flex flex-col gap-1 overflow-hidden w-[20dvw]  absolute bottom-0 start-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
-        { "rounded-tr-3xl": dir === "ltr" },
-        { "rounded-tl-3xl": dir === "rtl" },
+        { "rounded-tr-3xl -translate-x-full": dir === "ltr" },
+        { "rounded-tl-3xl translate-x-full": dir === "rtl" },
         { "translate-x-0 w-[100dvw] rounded-tr-none": isShow }
       )}
     >
@@ -131,7 +131,7 @@ const InfiniteScrollDrafts = ({
         <X />
       </Button>
       <ThumbnailsCover title={t("drafts")} />
-      <ul className="w-full p-3 pe-0">
+      <ul className="w-full p-3 pe-0" dir={dir}>
         <ScrollArea
           className="w-full h-[calc(100vh-350px)] flex flex-col flex-wrap gap-5 pe-3"
           dir={dir}

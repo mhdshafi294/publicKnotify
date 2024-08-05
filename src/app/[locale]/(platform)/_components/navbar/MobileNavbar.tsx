@@ -20,7 +20,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import NotificationsDropdown from "@/components/notifications-dropdown";
 import { mainNavLinks } from "@/config/links";
 import { Link, usePathname } from "@/navigation";
 import { cn } from "@/lib/utils";
@@ -46,7 +45,7 @@ const MobileNavbar = () => {
         </SheetTrigger>
         <SheetContent className="border-l-muted/25 px-0">
           <SheetHeader>
-            <SheetTitle className="flex gap-3 mr-3 w-full h-full px-6">
+            <SheetTitle className="flex gap-3 me-3 w-full h-full px-6">
               <Avatar className="cursor-pointer">
                 <AvatarImage
                   src={session?.user?.image!}
@@ -130,21 +129,21 @@ const MobileNavbar = () => {
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
-              <User className="mr-2 h-4 w-4" />
+              <User className="me-2 h-4 w-4" />
               <span>{t("profile")}</span>
             </Link>
             <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/settings`}
             >
-              <SettingsIcon className="mr-2 h-4 w-4" />
+              <SettingsIcon className="me-2 h-4 w-4" />
               <span>{t("settings")}</span>
             </Link>
             <div
               className="text-red-500 flex gap-1 items-center"
               onClick={() => signOut()}
             >
-              <LogOutIcon className="mr-2 h-4 w-4" />
+              <LogOutIcon className="me-2 h-4 w-4" />
               <span>{t("logOut")}</span>
             </div>
           </div>

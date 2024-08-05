@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { Button } from "./ui/button";
@@ -20,6 +20,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { ScrollArea } from "./ui/scroll-area";
 import Loader from "./ui/loader";
+import { useLocale, useTranslations } from "next-intl";
 
 type PropsType = {
   value: string;
@@ -33,6 +34,8 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+
+  const t = useTranslations("Index");
 
   const {
     isPending,
@@ -68,6 +71,9 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
 
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -82,33 +88,33 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                 .map((page) => page.podcasters)
                 .flat()
                 .find((client) => client.id.toString() === value)?.full_name
-            : `${"Select podcaster"}`}
-          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+            : t("selectPodcaster")}
+          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0">
-        <Command>
+      <PopoverContent className="w-80 p-0" dir={dir}>
+        <Command dir={dir}>
           <div className="flex items-center border-b px-3 overflow-hidden">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <Search className="me-2 h-4 w-4 shrink-0 opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
-              placeholder="search user"
+              placeholder={t("searchUser")}
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-50"
             />
           </div>
           <CommandList>
             <CommandGroup>
-              <ScrollArea className="h-[292px]">
+              <ScrollArea className="h-[292px]" dir={dir}>
                 {isPending ? (
-                  <CommandEmpty>{"global.loading"}</CommandEmpty>
+                  <CommandEmpty>{t("loading")}</CommandEmpty>
                 ) : isError ? (
                   <CommandEmpty>
                     {error.name}
                     {error.message}
                   </CommandEmpty>
                 ) : data.pages[0].podcasters.length === 0 ? (
-                  <CommandEmpty>{"global.no-user-found"}</CommandEmpty>
+                  <CommandEmpty>{t("noUserFound")}</CommandEmpty>
                 ) : (
                   data?.pages.map((page) =>
                     page?.podcasters.map((podcaster) => (
@@ -149,7 +155,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                         </div>
                         <CheckIcon
                           className={cn(
-                            "ml-auto h-4 w-4",
+                            "ms-auto h-4 w-4",
                             value === podcaster.id.toString()
                               ? "opacity-100"
                               : "opacity-0"

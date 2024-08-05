@@ -52,16 +52,18 @@ function DatePicker<T extends FieldValues>({
                 <Button
                   variant={"outline"}
                   className={cn(
-                    " pl-3 text-left font-normal bg-background",
-                    !field.value && "text-muted-foreground"
+                    " ps-3 font-normal bg-background flex items-center",
+                    !field.value && "text-muted-foreground",
+                    { "pt-3": dir === "rtl" }
                   )}
+                  dir="ltr"
                 >
                   {field.value ? (
                     format(field.value, "PPP")
                   ) : (
                     <span>Pick a date</span>
                   )}
-                  <CalendarIcon className="ml-3 h-4 w-4 opacity-50" />
+                  <CalendarIcon className="ms-3 size-4 opacity-50 -translate-y-0.5" />
                 </Button>
               </FormControl>
             </PopoverTrigger>

@@ -1,3 +1,5 @@
+"use client";
+
 import YoutubeIcon from "@/components/icons/youtube-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -7,6 +9,7 @@ import React, {
   RefAttributes,
   SVGProps,
 } from "react";
+import { useTranslations } from "next-intl";
 
 type DistriputionChannelButtonCardProps = {
   platfotmName: string;
@@ -25,8 +28,9 @@ const DistriputionChannelButtonCard: React.FC<
   selectedPlatforms,
   setSelectedPlatforms,
 }) => {
+  const t = useTranslations("Index");
   const { data: session } = useSession();
-  console.log(session);
+
   return (
     <Button
       variant="secondary"
@@ -52,8 +56,8 @@ const DistriputionChannelButtonCard: React.FC<
     >
       <PlatfotmIcon />
       <div className="flex flex-col items-start">
-        <p className="text-sm">Liten on</p>
-        <p className="capitalize">{platfotmName}</p>
+        <p className="text-sm">{t("listenOn")}</p>
+        <p className="">{t(`platform.${platfotmName}`)}</p>
       </div>
     </Button>
   );

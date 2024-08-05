@@ -52,9 +52,10 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
   const queryClient = useQueryClient();
   const t = useTranslations("Index");
 
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-    if (!isHydrated) setIsHydrated(true);
+    if (!isMounted) setIsMounted(true);
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +65,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
     isPending: isCategoriesPending,
     isError: isCategoriesError,
   } = useQuery({
-    queryKey: ["favorite_categories", session?.data?.user?.type!],
+    queryKey: ["favorite_categories", session?.data?.user?.id],
     queryFn: () =>
       getMyFavoriteCategoriesListAction({
         type: session?.data?.user?.type!,
@@ -94,6 +95,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
       (event.key === " " && event.currentTarget.value.trim() !== "")
     ) {
       const createdCategory = event.currentTarget.value.trim();
+      // console.log(createdCategory);
       queryClient.setQueryData(
         ["favorite_categories", session.data?.user?.id],
         (old: Category[]) => {
@@ -142,6 +144,8 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
       type: session?.data?.user?.type!,
     });
   };
+
+  if (!isMounted) return null;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -51,6 +51,12 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   const session = useSession();
   const queryClient = useQueryClient();
   const t = useTranslations("Index");
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -140,6 +146,8 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       type: session?.data?.user?.type!,
     });
   };
+
+  if (!isMounted) return null;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

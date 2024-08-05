@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import { useRouter } from "@/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BadgeInfoIcon, CloudIcon, Router } from "lucide-react";
+import { BadgeInfoIcon, Router } from "lucide-react";
 import { toast } from "sonner";
 import {
   Tooltip,
@@ -17,6 +17,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface Props {
   podcast_id: string;
@@ -31,6 +32,7 @@ const PublishButton: React.FC<Props> = ({
   className,
   selectedPlatform,
 }) => {
+  const t = useTranslations("Index");
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -43,18 +45,17 @@ const PublishButton: React.FC<Props> = ({
   } = useMutation({
     mutationFn: publishPodcastAction,
     onMutate: () => {
-      toast.loading("Publishing podcast...");
+      toast.loading(t("publishingPodcast"));
     },
     onSuccess: () => {
       toast.dismiss();
-
-      toast.success("Podcast published successfully");
+      toast.success(t("podcastPublished"));
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
       router.push(`podcast/${podcast_id}`);
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Publish failed. Please try again!");
+      toast.error(t("publishFailed"));
       console.log(publishPodcastActionError);
     },
   });
@@ -68,15 +69,15 @@ const PublishButton: React.FC<Props> = ({
   } = useMutation({
     mutationFn: publishYoutubeAction,
     onMutate: () => {
-      toast.loading("Publishing podcast...");
+      toast.loading(t("publishingPodcast"));
     },
     onSuccess: (data) => {
       toast.dismiss();
-      toast.success("Podcast published successfully");
+      toast.success(t("podcastPublished"));
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Publish failed. Please try again!");
+      toast.error(t("publishFailed"));
       console.log(publishYoutubeActionError);
     },
   });
@@ -110,23 +111,21 @@ const PublishButton: React.FC<Props> = ({
                 }
               }}
             >
-              <Router className="size-4 mr-1.5" />
+              <Router className="size-4 me-1.5" />
               {publishPodcastActionIsPending ||
               publishYoutubeActionIsPending ||
               publishPodcastActionIsError ||
               publishYoutubeActionIsError ? (
                 <ButtonLoader />
               ) : (
-                "Publish"
+                t("publishButton")
               )}
             </Button>
           </div>
         </TooltipTrigger>
         <TooltipContent className="flex items-center gap-1">
           <BadgeInfoIcon size={16} />
-          <p className="font-medium text-base">
-            Ensure that you uploaded your podcast
-          </p>
+          <p className="font-medium text-base">{t("tooltipMessage")}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -2,7 +2,7 @@
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
-import { Control, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
@@ -44,10 +44,11 @@ import PublishButton from "./publish-button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
 import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import YoutubeIcon from "@/components/icons/youtube-icon";
 import DistriputionChannelButtonCard from "./distripution-channel-button-card";
 import WebIcon from "@/components/icons/web-icon";
+import { useLocale, useTranslations } from "next-intl";
 
 const CreatePodcastForm = ({
   setIsShow,
@@ -55,6 +56,8 @@ const CreatePodcastForm = ({
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { data: session } = useSession();
+  const t = useTranslations("Index");
+
   const [isMounted, setIsMounted] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [addToPlayList, setAddToPlayList] = useState(false);
@@ -72,6 +75,8 @@ const CreatePodcastForm = ({
   const podcast_id = searchParams.get("podcast_id");
   const params = new URLSearchParams(searchParams.toString());
   // const url = new URL(window.location.href);
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   const form = useForm<createMetadataSchema>({
     resolver: zodResolver(createMetadataSchema),
@@ -184,12 +189,12 @@ const CreatePodcastForm = ({
   } = useMutation({
     mutationFn: createMetadataAction,
     onMutate: () => {
-      toast.loading("Creating podcast metadata...");
+      toast.loading(t("creatingPodcastMetadata"));
       console.log(params.toString());
     },
     onSuccess: (data) => {
       toast.dismiss();
-      toast.success("Podcast metadata created successfully");
+      toast.success(t("podcastMetadataCreated"));
       params.set("podcast_id", data?.podcast_id!);
       setStep(2);
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
@@ -197,7 +202,7 @@ const CreatePodcastForm = ({
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Something went wrong. Please try again!");
+      toast.error(t("somethingWentWrong"));
       console.log(errorCreateMetadata);
     },
   });
@@ -210,17 +215,17 @@ const CreatePodcastForm = ({
   } = useMutation({
     mutationFn: updateMetadataAction,
     onMutate: () => {
-      toast.loading("Updating podcast metadata...");
+      toast.loading(t("updatingPodcastMetadata"));
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("Podcast metadata updated successfully");
+      toast.success(t("podcastMetadataUpdated"));
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
       setStep(2);
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Something went wrong. Please try again!");
+      toast.error(t("somethingWentWrong"));
       console.log(errorUpdateMetadata);
     },
   });
@@ -278,22 +283,22 @@ const CreatePodcastForm = ({
             <FormInput
               name="name"
               className="bg-background w-full"
-              placeholder="Podcast Name"
-              label="Name"
+              placeholder={t("podcastNamePlaceholder")}
+              label={t("nameLabel")}
               control={form.control}
             />
             <SelectFormInput
               name="type"
-              placeholder="Podcast Type"
-              label="Type"
+              placeholder={t("podcastTypePlaceholder")}
+              label={t("typeLabel")}
               control={form.control}
               options={["audio", "video"]}
             />
           </div>
           <FormInputTextarea
             name="summary"
-            label="Podcast Summary"
-            placeholder="Tell us a little about your podcast"
+            label={t("summaryLabel")}
+            placeholder={t("summaryPlaceholder")}
             control={form.control}
           />
           <div className="w-full flex justify-between gap-5 items-start flex-wrap">
@@ -301,26 +306,26 @@ const CreatePodcastForm = ({
               <FormInput
                 name="company_tag"
                 className="bg-background"
-                placeholder="Company"
-                label="Company Tag"
+                placeholder={t("companyTagPlaceholder")}
+                label={t("companyTagLabel")}
                 control={form.control}
               />
             </div>
             <DatePicker
               className="w-[29%]"
               name="publishing_date"
-              label="Date"
+              label={t("dateLabel")}
               control={form.control}
             />
             <TimePicker
               className="w-[29%]"
               name="publishing_time"
-              label="Time"
+              label={t("timeLabel")}
               control={form.control}
             />
           </div>
           <div className="w-full space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3" dir={dir}>
               <Checkbox
                 checked={addToPlayList}
                 onCheckedChange={() => setAddToPlayList(!addToPlayList)}
@@ -331,7 +336,7 @@ const CreatePodcastForm = ({
                 htmlFor="add_to_playlist"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Add to a playlist
+                {t("addToPlayListLabel")}
               </label>
             </div>
             {addToPlayList ? (
@@ -339,9 +344,9 @@ const CreatePodcastForm = ({
                 control={form.control}
                 name="play_list_id"
                 render={({ field }) => (
-                  <FormItem className="w-full">
+                  <FormItem className="w-full" dir={dir}>
                     <FormLabel className="text-lg capitalize">
-                      Playlist
+                      {t("playlistLabel")}
                     </FormLabel>
                     <SelectPlayList
                       setValue={field.onChange}
@@ -357,7 +362,7 @@ const CreatePodcastForm = ({
             <ArraySelectManyFormInput
               name="categories"
               control={form.control}
-              label="Categories"
+              label={t("categoriesLabel")}
               className="w-full bg-background"
               action={getCategoriesAction}
               defaultValues={form.getValues()}
@@ -366,14 +371,14 @@ const CreatePodcastForm = ({
           <ArrayFormInput
             name="hashtags"
             control={form.control}
-            label="Hashtags"
+            label={t("hashtagsLabel")}
             className="w-full bg-background"
             defaultValues={form.getValues()}
           />
           <div className="w-full flex justify-between gap-5">
             <FormFileInput
               name="thumbnail"
-              label="Thumbnail"
+              label={t("thumbnailLabel")}
               control={form.control}
               className="w-full"
               initValue={
@@ -384,7 +389,7 @@ const CreatePodcastForm = ({
             />
             <FormFileInput
               name="background"
-              label="Background"
+              label={t("backgroundLabel")}
               disabled={form.getValues("type") === "video"}
               control={form.control}
               className="w-full"
@@ -399,9 +404,14 @@ const CreatePodcastForm = ({
       );
     else if (step === 2)
       return (
-        <div className="w-full flex flex-col gap-2 h-full justify-center">
+        <div
+          className="w-full flex flex-col gap-2 h-full justify-center"
+          dir={dir}
+        >
           <>
-            <FormLabel className={"capitalize text-lg"}>Your Podcast</FormLabel>
+            <FormLabel className={"capitalize text-lg"} dir={dir}>
+              {t("yourPodcastLabel")}
+            </FormLabel>
             <FileUploader
               key={form.watch("type")}
               uploadId={podcast_id}
@@ -416,14 +426,12 @@ const CreatePodcastForm = ({
               onUploadError={(error) => console.log("Upload error", error)}
               setUploadedNewPodcast={setUploadedNewPodcast}
             />
-            <p className="text-xs mt-1 opacity-80">
-              Supported file types are MP3, WAV, or M4A. Audio files will be
-              encoded up to 128kbps MP3s and the file size cannot exceed 1GB.
-              Variable bit rate files under 128 kbps are not supported.
-            </p>
+            <p className="text-xs mt-1 opacity-80">{t("supportedFiles")}</p>
           </>
           <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-10">
-            <h3 className="capitalize text-lg">Main Distribution Channels</h3>
+            <h3 className="capitalize text-lg">
+              {t("mainDistributionChannels")}
+            </h3>
             <div className="w-full flex gap-5">
               <DistriputionChannelButtonCard
                 platfotmName="web"
@@ -458,17 +466,19 @@ const CreatePodcastForm = ({
             <div className="space-y-5 lg:col-start-4 lg:col-span-9">
               <div className="w-full flex justify-between items-center">
                 <div className="flex flex-col justify-between lg:justify-center items-start">
-                  <h1 className="text-xl font-bold">Podcast Draft</h1>
+                  <h1 className="text-xl font-bold">
+                    {t("podcastDraftLabel")}
+                  </h1>
+                </div>
+                <div className="flex items-center justify-end gap-2">
                   <Button
-                    className="capitalize mt-0 text-sm border-none bg-transparent hover:border-none hover:bg-transparent pl-0 hover:text-white lg:hidden"
-                    variant="outline"
+                    className="capitalize text-sm   lg:hidden"
+                    variant="secondary"
                     onClick={() => setIsShow(true)}
                     type="button"
                   >
-                    Drafts
+                    {t("draftsButton")}
                   </Button>
-                </div>
-                <div className="flex items-center justify-end gap-2">
                   <Button
                     disabled={
                       isPendingUpdateMetadata || isPendingCreateMetadata
@@ -482,7 +492,7 @@ const CreatePodcastForm = ({
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
                     ) : (
-                      "Continue"
+                      t("continueButton")
                     )}
                   </Button>
                   <Button
@@ -499,7 +509,7 @@ const CreatePodcastForm = ({
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
                     ) : (
-                      "Back"
+                      t("backButton")
                     )}
                   </Button>
                   <Button
@@ -512,11 +522,11 @@ const CreatePodcastForm = ({
                     variant={"outline"}
                     type="submit"
                   >
-                    <SaveIcon className="size-4 mr-1.5" strokeWidth={1.5} />
+                    <SaveIcon className="size-4 me-1.5" strokeWidth={1.5} />
                     {isPendingUpdateMetadata || isPendingCreateMetadata ? (
                       <ButtonLoader />
                     ) : (
-                      "Save"
+                      t("saveButton")
                     )}
                   </Button>
                   <PublishButton

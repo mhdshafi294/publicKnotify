@@ -23,7 +23,7 @@ import InfiniteScrollNotificationsDialog from "@/app/[locale]/(platform)/[userTy
 import { Link } from "@/navigation";
 
 const NotificationsDropdown = ({ className }: { className?: string }) => {
-  const t = useTranslations();
+  const t = useTranslations("Index");
   const isOpen = useNotificationStore((state) => state.isOpen);
   const setIsOpen = useNotificationStore((state) => state.setIsOpen);
   const unreadNotifications = useNotificationStore((state) => state.unread);
@@ -42,12 +42,13 @@ const NotificationsDropdown = ({ className }: { className?: string }) => {
   } = useQuery({
     queryKey: ["notifications", session?.user?.email],
     queryFn: () => getNotificationsAction({ type: session?.user?.type! }),
+    enabled: !!session?.user?.type,
   });
 
   if (isError) {
     return (
       <div className="mt-2">
-        <p>{t("Index.error")}</p>
+        <p>{t("error")}</p>
       </div>
     );
   }
@@ -90,11 +91,11 @@ const NotificationsDropdown = ({ className }: { className?: string }) => {
         >
           <div className="w-full px-4 pe-5 py-2 flex justify-between items-center">
             <p className="  text-xl font-bold capitalize">
-              {t("notifications.notifications")}
+              {t("notifications")}
             </p>
             <div className="text-black bg-greeny rounded-full py-1 px-2 text-center flex justify-center items-center gap-1 text-sm font-bold">
               <span>{unread}</span>{" "}
-              <span className="-translate-y-[1px]">{t("Index.new")}</span>
+              <span className="-translate-y-[1px]">{t("new")}</span>
             </div>
           </div>
           <Separator />
@@ -102,7 +103,7 @@ const NotificationsDropdown = ({ className }: { className?: string }) => {
 
           <ScrollArea className="w-full h-[300px]">
             {isError ? (
-              <p>{t("Index.error")}</p>
+              <p>{t("error")}</p>
             ) : isLoading ? (
               <div className="w-full h-full flex justify-center items-center">
                 <Loader />
@@ -123,7 +124,7 @@ const NotificationsDropdown = ({ className }: { className?: string }) => {
                 "font-bold w-full"
               )}
             >
-              {t("Index.seeAll")}
+              {t("seeAll")}
             </Link>
           </div>
         </PopoverContent>

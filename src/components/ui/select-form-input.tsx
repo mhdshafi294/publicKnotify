@@ -9,8 +9,7 @@ import {
   FormMessage,
 } from "./form";
 import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
-import { CategoryDetails } from "@/types/podcast";
+import { cn, getDirection } from "@/lib/utils";
 
 import {
   Select,
@@ -19,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
+import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -39,12 +39,14 @@ function SelectFormInput<T extends FieldValues>({
   labelClassName,
   ...props
 }: PropsType<T>) {
+  const locale = useLocale();
+  const dir = getDirection(locale);
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className={cn("w-full", className)}>
+        <FormItem className={cn("w-full", className)} dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
@@ -52,10 +54,11 @@ function SelectFormInput<T extends FieldValues>({
             onValueChange={field.onChange}
             defaultValue={field.value}
             value={field.value}
+            dir={dir}
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select a verified email to display" />
+                <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>

@@ -27,14 +27,17 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
   const { data: session } = useSession();
 
   return (
-    <Link
-      href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+    <div
       className={cn(
         "w-full flex flex-col gap-3 overflow-hidden hover:bg-secondary/50 rounded-lg p-3  duration-300",
         className
       )}
     >
-      <div className="relative aspect-square rounded-lg">
+      <Link
+        passHref
+        href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+        className="relative aspect-square rounded-lg"
+      >
         <Image
           src={podcaster.image ? podcaster.image : "/podcaster-filler.webp"}
           alt={`${podcaster.full_name} thumbnail`}
@@ -43,12 +46,17 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover rounded-lg"
         />
-      </div>
+      </Link>
 
       <div className="flex items-center justify-between">
-        <h3 className="font-bold text-xs text-wrap capitalize">
-          {podcaster.full_name}
-        </h3>
+        <Link
+          passHref
+          href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+        >
+          <h3 className="font-bold text-xs text-wrap capitalize">
+            {podcaster.full_name}
+          </h3>
+        </Link>
         {isFavorite ? (
           <UnfavoriteButton
             id={podcaster.id.toString()}
@@ -66,7 +74,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
           />
         )}
       </div>
-    </Link>
+    </div>
   );
 };
 

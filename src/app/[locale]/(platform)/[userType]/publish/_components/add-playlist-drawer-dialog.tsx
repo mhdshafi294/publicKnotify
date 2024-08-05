@@ -1,7 +1,6 @@
-"ues client";
+"use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
@@ -23,10 +22,12 @@ import {
 } from "@/components/ui/drawer";
 import { PlusIcon } from "lucide-react";
 import AddPlaylistForm from "./add-playlist-form";
+import { useTranslations } from "next-intl";
 
 const DrawerDialogAddNewPlaylist = () => {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const t = useTranslations("Index");
 
   if (isDesktop) {
     return (
@@ -36,13 +37,13 @@ const DrawerDialogAddNewPlaylist = () => {
             variant="ghost"
             className="w-full border-t border-card-foreground/30 rounded-none"
           >
-            <PlusIcon className="mr-2 size-4" /> Create a new playlist
+            <PlusIcon className="me-2 size-4" /> {t("createPlaylistButton")}
           </Button>
         </DialogTrigger>
         <DialogContent className="lg:!max-w-[50vw] bg-card border-card-foreground/10">
           <DialogHeader>
             <DialogTitle className="flex items-center">
-              Create a new playlist
+              {t("createPlaylistTitle")}
             </DialogTitle>
           </DialogHeader>
           <AddPlaylistForm open={open} onOpenChange={setOpen} />
@@ -58,13 +59,13 @@ const DrawerDialogAddNewPlaylist = () => {
           variant="ghost"
           className="w-full border-t border-card-foreground/30 rounded-none"
         >
-          <PlusIcon className="mr-2 size-4" />
-          Create a new playlist
+          <PlusIcon className="me-2 size-4" />
+          {t("createPlaylistButton")}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="bg-card border-card-foreground/10">
         <DrawerHeader className="text-left">
-          <DrawerTitle className="flex">Create a new playlist</DrawerTitle>
+          <DrawerTitle className="flex">{t("createPlaylistTitle")}</DrawerTitle>
         </DrawerHeader>
         <div className="p-4">
           <AddPlaylistForm open={open} onOpenChange={setOpen} />
