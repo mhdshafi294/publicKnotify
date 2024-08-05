@@ -10,6 +10,7 @@ import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
 import { NextIntlClientProvider } from "next-intl";
 import "react-photo-view/dist/react-photo-view.css";
+import NotificationProvider from "@/providers/NotificationProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -77,10 +78,12 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <NotificationProvider>{children}</NotificationProvider>
+              <Toaster />
+            </QueryProvider>
           </AuthProvider>
         </NextIntlClientProvider>
-        <Toaster />
       </body>
     </html>
   );

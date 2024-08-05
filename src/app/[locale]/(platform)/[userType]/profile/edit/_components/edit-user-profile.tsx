@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
 const EditUserProfile = ({ user }: { user: CustomUser }) => {
-  const t = useTranslations("Profile");
+  const t = useTranslations("Index");
   const countriesCode = Object.values(country.all) as {
     name: string;
     dialing_code: string;

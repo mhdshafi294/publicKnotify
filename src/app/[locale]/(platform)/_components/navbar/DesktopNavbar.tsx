@@ -30,7 +30,7 @@ const DesktopNavbar = () => {
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
       <UserOptions />
-      <NotificationsDropdown />
+      <NotificationsDropdown className="hidden lg:block" />
       <div className="flex justify-end items-center gap-5">
         <Link
           href={{ pathname: "/search", query: { searchText } }}

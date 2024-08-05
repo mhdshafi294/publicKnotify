@@ -6,7 +6,7 @@ import Loader from "@/components/ui/loader";
 
 const Loading = () => {
   return (
-    <div className="h-full min-h-screen w-full flex flex-col items-center justify-center bg-gray-100">
+    <div className="h-full min-h-screen w-full flex flex-col items-center justify-center bg-background">
       <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
         <div className="absolute w-[580px] h-[580px] left-0 top-0 -z-10 -translate-x-1/2">
@@ -22,8 +22,7 @@ const Loading = () => {
           />
         </div>
       </div>
-      <Loader variant="bars" size="xl" />
-      <div className="w-16 h-16 border-4 border-blue-600 border-dashed rounded-full animate-spin"></div>
+      <Loader variant="bars" size="xl" className="text-greeny" />
     </div>
   );
 };

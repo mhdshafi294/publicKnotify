@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 const PricePageHeader = () => {
   const setEditMode = usePricingsStore((state) => state.setEditMode);
-  const t = useTranslations("PricePage");
+  const t = useTranslations("Index");
 
   return (
     <div className="flex">

@@ -34,7 +34,7 @@ interface SignUpFormProps {
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   const router = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
 
   const form = useForm<signUpSchema>({
     resolver: zodResolver(signUpSchema),

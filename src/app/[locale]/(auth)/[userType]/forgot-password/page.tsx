@@ -26,7 +26,7 @@ import { sendCodeAction } from "@/app/actions/authActions";
 
 const ForgotPassword = ({ params }: { params: { userType: string } }) => {
   const router = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
 
   const form = useForm<forgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),

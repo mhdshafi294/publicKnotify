@@ -171,7 +171,8 @@
     "revenueStatistics": "إحصاءات الإيرادات",
     "errorTitle": "خطأ",
     "errorMessage": "حدث خطأ ما. يرجى المحاولة مرة أخرى لاحقًا.",
-    "goHomeButton": "الذهاب إلى الصفحة الرئيسية"
+    "goHomeButton": "الذهاب إلى الصفحة الرئيسية",
+    "seeAll": "رؤية الكل"
   },
   "notifications": {
     "notifications": "notifications"

@@ -38,7 +38,7 @@ const VerificationCode = ({
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
 
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),

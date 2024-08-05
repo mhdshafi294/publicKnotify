@@ -36,7 +36,7 @@ const PricingsContainer: FC<PropsType> = ({ pricings }) => {
         },
   });
 
-  const t = useTranslations("pricing");
+  const t = useTranslations("Index");
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: createOrCreatePriceAction,

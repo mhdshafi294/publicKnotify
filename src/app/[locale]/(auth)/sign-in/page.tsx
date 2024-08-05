@@ -7,7 +7,7 @@ const SignIp = ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const t = useTranslations("Auth");
+  const t = useTranslations("Index");
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">

@@ -2,7 +2,7 @@ import { Link } from "@/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 export default function LocaleSwitcher() {
-  const t = useTranslations("LocaleSwitcher");
+  const t = useTranslations("Index");
 
   const locale = useLocale();
   const otherLocale = locale === "en" ? "ar" : "en";
