@@ -77,8 +77,8 @@ const DesktopNavbar = () => {
                   {
                     hidden:
                       session?.user?.type === "user" &&
-                      (t(link.label) === "Requests" ||
-                        t(link.label) === "Statistics"),
+                      (link.label === "Requests" ||
+                        link.label === "Statistics"),
                   }
                 )}
               >

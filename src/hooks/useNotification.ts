@@ -18,7 +18,8 @@ export const useNotification = () => {
         try {
           const token = await getToken(messaging!, {
             // add non-null assertion
-            vapidKey: "YOUR_VAPID_KEY_HERE", // replace with your VAPID key
+            vapidKey:
+              "BEiNGMt9FADp7mzukiPMsqDUvDmyz1KLkMHR38Od36OxlzPQ5GDpGSW9p8ESsAFKLFgNb-9X26O7ubjJ0SuPtLA",
           });
           console.log("FCM Token:", token);
         } catch (error) {

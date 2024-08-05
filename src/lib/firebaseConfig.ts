@@ -9,13 +9,13 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA0G-ufUrELmK2psEMIId6M2jWowXciiH8",
-  authDomain: "knotify-20518.firebaseapp.com",
-  projectId: "knotify-20518",
-  storageBucket: "knotify-20518.appspot.com",
-  messagingSenderId: "21990148156",
-  appId: "1:21990148156:web:8262912bce2889da605b39",
-  measurementId: "G-ZQWPVKECLV",
+  apiKey: "AIzaSyDSMK6qQ0jha771m4M_kK8HAvIu-lTZ1Us",
+  authDomain: "podcasts-99839.firebaseapp.com",
+  projectId: "podcasts-99839",
+  storageBucket: "podcasts-99839.appspot.com",
+  messagingSenderId: "1045424594",
+  appId: "1:1045424594:web:40f8da902f5a6de311000b",
+  measurementId: "G-L7B58YNL3P",
 };
 
 // Initialize Firebase
@@ -51,7 +51,8 @@ export const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       const token = await getToken(messaging, {
-        vapidKey: "YOUR_VAPID_KEY_HERE", // replace with your VAPID key
+        vapidKey:
+          "BEiNGMt9FADp7mzukiPMsqDUvDmyz1KLkMHR38Od36OxlzPQ5GDpGSW9p8ESsAFKLFgNb-9X26O7ubjJ0SuPtLA",
         serviceWorkerRegistration: registration,
       });
       console.log("FCM Token:", token);

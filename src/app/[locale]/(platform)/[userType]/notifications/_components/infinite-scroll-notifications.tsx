@@ -9,7 +9,6 @@ import { useTranslations } from "next-intl";
 import { getNotificationsAction } from "@/app/actions/notificationActions";
 import { Separator } from "@/components/ui/separator";
 import { formatDistanceToNowStrict } from "date-fns";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const InfiniteScrollNotifications = ({
   initialNotifications,

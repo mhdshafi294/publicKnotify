@@ -1,17 +1,16 @@
 "use cllient";
 
-import { Podcast } from "@/types/podcast";
-import Image from "next/image";
-
-import { Skeleton } from "./ui/skeleton";
-import PodcastCardPlayButton from "./podcast-card-play-button";
-import PodcastFavoritePopover from "./podcast-favorite-popover";
 import { removeFromFavoriteAction } from "@/app/actions/podcastActions";
-import { useEffect, useState } from "react";
-import UnfavoriteButton from "./unfavorite-button";
 import { cn } from "@/lib/utils";
 import { Link, useRouter } from "@/navigation";
+import { Podcast } from "@/types/podcast";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import PodcastCardPlayButton from "./podcast-card-play-button";
+import PodcastFavoritePopover from "./podcast-favorite-popover";
+import { Skeleton } from "./ui/skeleton";
+import UnfavoriteButton from "./unfavorite-button";
 
 type PodCastCardProps = {
   podcast: Podcast;
@@ -35,8 +34,8 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
 
   return (
     <div
-      onClick={() => router.push(`/${user?.user?.type}/podcast/${podcast.id}`)}
-      role="button"
+      // onClick={() => router.push(`/${user?.user?.type}/podcast/${podcast.id}`)}
+      // role="button"
       tabIndex={0}
       className={cn(
         "w-full flex group transition-colors group duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
@@ -50,7 +49,10 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
           fill
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover rounded"
+          className="object-cover rounded cursor-pointer"
+          onClick={() =>
+            router.push(`/${user?.user?.type}/podcast/${podcast.id}`)
+          }
         />
         <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
       </div>

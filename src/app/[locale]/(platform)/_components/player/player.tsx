@@ -22,10 +22,13 @@ const Player = () => {
   const isPlaying = usePlayerStore((state) => state.isRunning);
   const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
   const toggleRunning = usePlayerStore((state) => state.toggleRunning);
+  const duration = usePlayerStore((state) => state.duration);
+  const currentTime = usePlayerStore((state) => state.currentTime);
+  const setDuration = usePlayerStore((state) => state.setDuration);
+  const setCurrentTime = usePlayerStore((state) => state.setCurrentTime);
+
   const { data: session } = useSession();
   const [volume, setVolume] = useState(1);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
   const [sliderValue, setSliderValue] = useState([0]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,11 +134,10 @@ const Player = () => {
         setIsPlaying(false);
         try {
           server_savePlaybackAction({
-            formData,
             type: session?.user?.type!,
             id: podcastId?.toString()!,
-            current_position: currentTime,
-            total_time: duration,
+            current_position: parseInt(currentTime.toString()),
+            total_time: parseInt(duration.toString()),
           });
         } catch (error) {
           console.error("Error saving the playback:", error);
@@ -346,7 +348,19 @@ const Player = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setPodcastId(null)}
+              onClick={() => {
+                try {
+                  server_savePlaybackAction({
+                    type: session?.user?.type!,
+                    id: podcastId?.toString()!,
+                    current_position: parseInt(currentTime.toString()),
+                    total_time: parseInt(duration.toString()),
+                  });
+                } catch (error) {
+                  console.error("Error saving the playback:", error);
+                }
+                setPodcastId(null);
+              }}
               className="hover:bg-transparent hover:text-foreground/80 max-lg:size-3 max-lg:-translate-y-[200%]"
             >
               <X />

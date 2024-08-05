@@ -119,20 +119,17 @@ export const updateMetadataAction = async ({
 };
 
 export const savePlaybackAction = async ({
-  formData,
   id,
   type,
   current_position,
   total_time,
 }: {
-  formData: FormData;
   id: string;
   type: string;
   current_position: number;
   total_time: number;
 }) => {
   return await savePlayback({
-    formData,
     id,
     type,
     current_position,

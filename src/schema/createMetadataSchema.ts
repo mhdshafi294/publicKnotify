@@ -4,21 +4,25 @@ const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 export const createMetadataSchema = z
   .object({
-    name: z.string().min(1, "error-message.email"),
+    name: z
+      .string()
+      .min(1, { message: "createMetadataSchema.errorMessage.name" }),
     summary: z
       .string()
-      .min(1, "error-message.summary")
-      .min(25, "error-message.summary-short"),
+      .min(1, { message: "createMetadataSchema.errorMessage.summary" })
+      .min(25, { message: "createMetadataSchema.errorMessage.summaryShort" }),
     type: z.enum(["video", "audio"], {
-      required_error: "You need to select a notification type.",
+      required_error: "createMetadataSchema.errorMessage.typeRequired",
     }),
     publishing_date: z.date({
-      required_error: "A date of publishing required.",
+      required_error: "createMetadataSchema.errorMessage.dateRequired",
     }),
     publishing_time: z.string().refine((val) => timeRegex.test(val), {
-      message: "Invalid time format. Expected HH:mm (24-hour format).",
+      message: "createMetadataSchema.errorMessage.invalidTimeFormat",
     }),
-    company_tag: z.string().min(1, "error-message.company_tag"),
+    company_tag: z
+      .string()
+      .min(1, { message: "createMetadataSchema.errorMessage.companyTag" }),
     thumbnail: z
       .instanceof(File)
       .optional()
@@ -30,7 +34,7 @@ export const createMetadataSchema = z
           );
         },
         {
-          message: "error-message.background",
+          message: "createMetadataSchema.errorMessage.invalidThumbnail",
         }
       )
       .refine(
@@ -39,7 +43,7 @@ export const createMetadataSchema = z
           return data?.size < 4 * 1024 * 1024;
         },
         {
-          message: "error-message.thumbnail-size",
+          message: "createMetadataSchema.errorMessage.thumbnailSize",
         }
       ),
     background: z
@@ -53,7 +57,7 @@ export const createMetadataSchema = z
           );
         },
         {
-          message: "error-message.background",
+          message: "createMetadataSchema.errorMessage.invalidBackground",
         }
       )
       .refine(
@@ -62,24 +66,27 @@ export const createMetadataSchema = z
           return data?.size < 4 * 1024 * 1024;
         },
         {
-          message: "error-message.background-size",
+          message: "createMetadataSchema.errorMessage.backgroundSize",
         }
       ),
     play_list_id: z.string().optional(),
     categories: z.string().array().nonempty({
-      message: "Can't be empty!",
+      message: "createMetadataSchema.errorMessage.categoriesEmpty",
     }),
     hashtags: z.string().array().nonempty({
-      message: "Can't be empty!",
+      message: "createMetadataSchema.errorMessage.hashtagsEmpty",
     }),
     company_request_id: z.string().optional(),
     podcast_id: z.string().optional(),
     terms: z.boolean(),
   })
   .refine((data) => data.terms, {
-    message: "error-message.terms",
+    message: "createMetadataSchema.errorMessage.terms",
     path: ["terms"],
   });
+
+export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
+
 // .superRefine((data, ctx) => {
 //   if (data.type === "audio") {
 //     if (!data.thumbnail) {
@@ -106,5 +113,3 @@ export const createMetadataSchema = z
 //     }
 //   }
 // });
-
-export type createMetadataSchema = z.infer<typeof createMetadataSchema>;

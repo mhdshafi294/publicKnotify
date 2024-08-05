@@ -155,7 +155,7 @@ function MultiSelectPopover<
                       >
                         <Check
                           className={cn(
-                            "mr-2 size-4 p-0.5 rounded-full border",
+                            "me-2 size-4 p-0.5 rounded-full border",
                             form
                               .getValues(formFieldName)
                               .includes(item[itemIdKey].toString())

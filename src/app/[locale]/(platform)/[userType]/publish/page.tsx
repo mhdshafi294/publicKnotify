@@ -17,7 +17,7 @@ export default function NewPublish({
   const podcast_id = searchParams.podcast_id;
 
   return (
-    <div className="flex relative mt-10 min-h-[calc(100vh-72px)]">
+    <div className="flex relative mt-10 min-h-[calc(100vh-112px)]">
       <InfiniteScrollDrafts isShow={isShow} setIsShow={setIsShow} />
       <CreatePodcastForm setIsShow={setIsShow} />
     </div>
