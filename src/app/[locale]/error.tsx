@@ -1,11 +1,24 @@
 "use client"; // Error components must be Client Components
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "@/navigation";
+import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect } from "react";
 
+/**
+ * Error component that displays an error message and a button to navigate to the home page.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {Error & { digest?: string }} props.error - The error object containing the error details.
+ * @param {() => void} props.reset - The function to reset the error state.
+ * @returns {JSX.Element} The error screen component.
+ *
+ * @example
+ * ```tsx
+ * <Error error={new Error("An unexpected error occurred")} reset={() => {}} />
+ * ```
+ */
 export default function Error({
   error,
   reset,
@@ -23,6 +36,7 @@ export default function Error({
 
   return (
     <div className="relative h-full min-h-screen w-full flex flex-col items-center justify-center bg-background">
+      {/* Background Elements */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="absolute w-[580px] h-[580px] left-0 top-0 -translate-x-1/2">
           <div className="absolute w-full h-full left-0 top-0 rounded-full bg-primary/50 blur-xl" />
@@ -37,6 +51,7 @@ export default function Error({
           />
         </div>
       </div>
+      {/* Error Content */}
       <div className="flex flex-col items-center justify-center">
         <Image
           src="/error.svg" // Path to your error SVG

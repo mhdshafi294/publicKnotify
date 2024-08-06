@@ -250,7 +250,9 @@
     "selectPodcaster": "Select podcaster",
     "noUserFound": "No user found",
     "mins": "Mins",
-    "secs": "Secs"
+    "secs": "Secs",
+    "support": "Support",
+    "privacy": "Privacy"
   },
   "notifications": {
     "notifications": "notifications"

@@ -1,14 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { checkCodeSchema } from "@/schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
-
 import {
   Form,
   FormControl,
@@ -24,20 +22,29 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-
-import { useMutation } from "@tanstack/react-query";
 import { confirmCheckCodeAction } from "@/app/actions/authActions";
 
-const CheckCode = ({
-  params,
-  searchParams,
-}: {
+interface CheckCodeProps {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}
+
+/**
+ * CheckCode component that renders a form for entering an OTP code for verification.
+ *
+ * @param {CheckCodeProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The OTP code verification component.
+ *
+ * @example
+ * ```tsx
+ * <CheckCode params={{ userType: "user" }} searchParams={{ phone: "1234567890" }} />
+ * ```
+ */
+const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
   const router = useRouter();
   const t = useTranslations("Index");
 
+  // Initialize the form with validation schema and default values
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),
     defaultValues: {
@@ -47,6 +54,7 @@ const CheckCode = ({
 
   const code = form.getValues("code");
 
+  // Initialize the mutation for confirming the OTP code
   const {
     data,
     mutate: server_ConfirmCheckCode,
@@ -64,6 +72,11 @@ const CheckCode = ({
     },
   });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {checkCodeSchema} data - The form data.
+   */
   const handleSubmit = async (data: checkCodeSchema) => {
     server_ConfirmCheckCode({
       code: data.code,

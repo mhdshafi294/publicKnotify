@@ -22,6 +22,22 @@ interface PropsType<T extends FieldValues>
   control: Control<T>;
 }
 
+/**
+ * FormCheckbox component that renders a checkbox input with a label, validation message, and support for different locales.
+ *
+ * @template T - The type of the field values used in the form.
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @returns {JSX.Element} The form checkbox component.
+ *
+ * @example
+ * ```tsx
+ * <FormCheckbox
+ *   name="acceptTerms"
+ *   label="I accept the terms and conditions"
+ *   control={control}
+ * />
+ * ```
+ */
 function FormCheckbox<T extends FieldValues>({
   control,
   className,

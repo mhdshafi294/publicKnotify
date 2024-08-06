@@ -250,7 +250,9 @@
     "selectPodcaster": "اختر البودكاستر",
     "noUserFound": "لم يتم العثور على مستخدم",
     "mins": "دقائق",
-    "secs": "ثوان"
+    "secs": "ثوان",
+    "support": "الدعم",
+    "privacy": "الخصوصية"
   },
   "notifications": {
     "notifications": "notifications"

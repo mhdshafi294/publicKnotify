@@ -7,7 +7,7 @@ import {
   MessagePayload,
 } from "firebase/messaging";
 
-// Your web app's Firebase configuration
+// Firebase configuration object
 const firebaseConfig = {
   apiKey: "AIzaSyDSMK6qQ0jha771m4M_kK8HAvIu-lTZ1Us",
   authDomain: "podcasts-99839.firebaseapp.com",
@@ -18,7 +18,7 @@ const firebaseConfig = {
   measurementId: "G-L7B58YNL3P",
 };
 
-// Initialize Firebase
+// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Cloud Messaging
@@ -27,10 +27,24 @@ if (typeof window !== "undefined") {
   messaging = getMessaging(app);
 }
 
+/**
+ * Retrieves the Firebase Cloud Messaging (FCM) token.
+ *
+ * @param {Messaging} messaging - The messaging instance.
+ * @param {object} [options] - Optional options for retrieving the token.
+ * @returns {Promise<string>} The FCM token.
+ */
 const getToken = async (messaging: Messaging, options?: any) => {
   return firebaseGetToken(messaging, options);
 };
 
+/**
+ * Sets up an onMessage listener for receiving FCM messages.
+ *
+ * @param {Messaging} messaging - The messaging instance.
+ * @param {function} nextOrObserver - The callback function to handle the message payload.
+ * @returns {function} The unsubscribe function to stop listening for messages.
+ */
 const onMessage = (
   messaging: Messaging,
   nextOrObserver: (payload: MessagePayload) => void
@@ -38,6 +52,11 @@ const onMessage = (
   return firebaseOnMessage(messaging, nextOrObserver);
 };
 
+/**
+ * Requests notification permission from the user and retrieves the FCM token.
+ *
+ * @returns {Promise<string|null>} The FCM token or null if permission is denied or an error occurs.
+ */
 export const requestNotificationPermission = async () => {
   if (typeof window === "undefined" || !messaging) {
     return null;
@@ -70,6 +89,11 @@ export const requestNotificationPermission = async () => {
   }
 };
 
+/**
+ * Sets up a listener for receiving FCM messages.
+ *
+ * @returns {Promise<MessagePayload>} A promise that resolves with the message payload.
+ */
 export const onMessageListener = () =>
   new Promise<MessagePayload>((resolve, reject) => {
     if (!messaging) {

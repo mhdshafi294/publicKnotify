@@ -1,10 +1,17 @@
-// app/hooks/useNotification.ts
 "use client";
 
 import { useEffect } from "react";
 import { messaging, getToken, onMessage } from "@/lib/firebaseConfig";
 import { toast } from "sonner";
 
+/**
+ * Custom hook that handles Firebase Cloud Messaging (FCM) notifications.
+ *
+ * @example
+ * ```tsx
+ * useNotification();
+ * ```
+ */
 export const useNotification = () => {
   useEffect(() => {
     if (!messaging) {
@@ -12,6 +19,9 @@ export const useNotification = () => {
       return;
     }
 
+    /**
+     * Requests notification permission from the user and retrieves the FCM token.
+     */
     const requestPermission = async () => {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
@@ -30,8 +40,14 @@ export const useNotification = () => {
       }
     };
 
+    // Request notification permission and get the FCM token
     requestPermission();
 
+    /**
+     * Handles incoming FCM messages.
+     *
+     * @param {object} payload - The message payload received from FCM.
+     */
     const handleMessage = (payload: any) => {
       console.log("Message received. ", payload);
       toast(payload.notification.title, {
@@ -39,6 +55,7 @@ export const useNotification = () => {
       });
     };
 
+    // Listen for incoming FCM messages
     onMessage(messaging!, handleMessage); // add non-null assertion
   }, []);
 };

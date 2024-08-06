@@ -1,7 +1,7 @@
 "use client";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
-import NotificationsDropdown from "@/components/notifications-dropdown";
+import NotificationsPopover from "@/components/notifications-popover";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNavLinks } from "@/config/links";
 import { cn } from "@/lib/utils";
@@ -30,7 +30,7 @@ const DesktopNavbar = () => {
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
       <UserOptions />
-      <NotificationsDropdown className="hidden lg:block" />
+      <NotificationsPopover className="hidden lg:block" />
       <div className="flex justify-end items-center gap-5">
         <Link
           href={{ pathname: "/search", query: { searchText } }}

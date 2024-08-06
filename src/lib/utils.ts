@@ -2,6 +2,17 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNowStrict } from "date-fns";
 
+/**
+ * Combines multiple class values into a single string using clsx and tailwind-merge.
+ *
+ * @param {...ClassValue[]} inputs - The class values to combine.
+ * @returns {string} The combined class string.
+ *
+ * @example
+ * ```ts
+ * cn('p-4', 'text-center', isActive && 'bg-blue-500');
+ * ```
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -17,7 +28,13 @@ export function cn(...inputs: ClassValue[]) {
  * intuitive (e.g., UTC+3 instead of -180 minutes). This adjusted value represents the local
  * time zone's offset from UTC in hours.
  *
- * @return {number} The local time zone's offset from UTC in hours.
+ * @returns {number} The local time zone's offset from UTC in hours.
+ *
+ * @example
+ * ```ts
+ * const offset = getTimeZoneOffsetInHours();
+ * console.log(offset); // Output might be 3 for UTC+3
+ * ```
  */
 export const getTimeZoneOffsetInHours = (): number => {
   const date = new Date();
@@ -27,9 +44,21 @@ export const getTimeZoneOffsetInHours = (): number => {
   return timezoneOffsetInHours;
 };
 
-// Create a utility function to determine whether the current language is RTL or LTR.
+// List of languages that use Right-To-Left (RTL) text direction.
 const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
 
+/**
+ * Determines the text direction (RTL or LTR) based on the given locale.
+ *
+ * @param {string} locale - The locale identifier (e.g., 'en', 'ar').
+ * @returns {'rtl' | 'ltr'} The text direction ('rtl' for right-to-left, 'ltr' for left-to-right).
+ *
+ * @example
+ * ```ts
+ * const direction = getDirection('ar');
+ * console.log(direction); // Output: 'rtl'
+ * ```
+ */
 export function getDirection(locale: string): "rtl" | "ltr" {
   return RTL_LANGUAGES.includes(locale) ? "rtl" : "ltr";
 }
@@ -37,8 +66,14 @@ export function getDirection(locale: string): "rtl" | "ltr" {
 /**
  * Converts a File object to a URL string using URL.createObjectURL.
  *
- * @param {File} file - the File object to convert to a URL
- * @return {string} the URL string representing the File object
+ * @param {File | undefined} file - The File object to convert to a URL.
+ * @returns {string} The URL string representing the File object.
+ *
+ * @example
+ * ```ts
+ * const fileUrl = convertFileToURL(file);
+ * console.log(fileUrl); // Output: 'blob:http://...'
+ * ```
  */
 export const convertFileToURL = (file: File | undefined): string => {
   if (!file) return "";
@@ -46,6 +81,19 @@ export const convertFileToURL = (file: File | undefined): string => {
   return url;
 };
 
+/**
+ * Calculates the distance from the given date and time to now in a human-readable format.
+ *
+ * @param {string} date - The date string in the format 'YYYY-MM-DD'.
+ * @param {string} time - The time string in the format 'HH:mm:ss'.
+ * @returns {string} The distance from the given date and time to now in a human-readable format.
+ *
+ * @example
+ * ```ts
+ * const distance = getDistanceToNow('2024-08-01', '12:00:00');
+ * console.log(distance); // Output: '3 days ago'
+ * ```
+ */
 export function getDistanceToNow(date: string, time: string): string {
   const dateTimeString = `${date}T${time}`;
   const parsedDate = new Date(dateTimeString);
