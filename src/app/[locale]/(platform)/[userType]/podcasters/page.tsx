@@ -43,7 +43,7 @@ export default async function PodcastersPage({
         <MaxWidthContainer className="flex flex-col gap-7">
           <div className="w-full flex justify-between items-center gap-2">
             <h2 className="lg:text-5xl font-bold">{t("podcasters")}</h2>
-            <Search searchText={search} searchFor={t("podcasters")} />
+            <Search searchText={search} searchFor={"podcasters"} />
           </div>
           <InfiniteScrollPodcasters
             initialData={firstPageTrendingResponse.podcasters}
