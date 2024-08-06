@@ -1,14 +1,23 @@
 "use client";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
+import {
+  createMetadataAction,
+  getCategoriesAction,
+  getSelfPodcastAction,
+  updateMetadataAction,
+} from "@/app/actions/podcastActions";
+import { getRequestAction } from "@/app/actions/requestsActions";
+import WebIcon from "@/components/icons/web-icon";
+import YoutubeIcon from "@/components/icons/youtube-icon";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import ArrayFormInput from "@/components/ui/array-form-input";
+import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/ui/date-picker";
+import FileUploader from "@/components/ui/file-uploader";
 import {
   Form,
   FormField,
@@ -18,37 +27,27 @@ import {
 } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
+import FormInputTextarea from "@/components/ui/form-input-textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import SelectFormInput from "@/components/ui/select-form-input";
 import TimePicker from "@/components/ui/time-picker";
-import { useRouter } from "next/navigation";
+import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import { cn, getDirection } from "@/lib/utils";
+import { createMetadataSchema } from "@/schema/createMetadataSchema";
+import { SelfPodcastDetails } from "@/types/podcast";
+import { RequestDetails } from "@/types/request";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import FormInputTextarea from "@/components/ui/form-input-textarea";
-import ArrayFormInput from "@/components/ui/array-form-input";
-import {
-  createMetadataAction,
-  getCategoriesAction,
-  getSelfPodcastAction,
-  updateMetadataAction,
-} from "@/app/actions/podcastActions";
-import { useSearchParams } from "next/navigation";
-import { createMetadataSchema } from "@/schema/createMetadataSchema";
-import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
-import SelectFormInput from "@/components/ui/select-form-input";
-import { SelfPodcastDetails } from "@/types/podcast";
-import { getRequestAction } from "@/app/actions/requestsActions";
-import { RequestDetails } from "@/types/request";
+import { format } from "date-fns";
 import { SaveIcon } from "lucide-react";
-import FileUploader from "@/components/ui/file-uploader";
-import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
-import PublishButton from "./publish-button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
-import { Checkbox } from "@/components/ui/checkbox";
-import { cn, getDirection } from "@/lib/utils";
-import YoutubeIcon from "@/components/icons/youtube-icon";
-import DistriputionChannelButtonCard from "./distripution-channel-button-card";
-import WebIcon from "@/components/icons/web-icon";
+import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import DistriputionChannelButtonCard from "./distripution-channel-button-card";
+import PublishButton from "./publish-button";
 
 const CreatePodcastForm = ({
   setIsShow,
