@@ -1,13 +1,25 @@
-import { getMyFavoritePodcastsAction } from "@/app/actions/podcastActions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
-import { Podcaster } from "@/types/podcaster";
+"use client";
+
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+import { getMyFavoritePodcastsAction } from "@/app/actions/podcastActions";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
+
+/**
+ * Custom hook to fetch favorite podcasts with infinite scrolling support.
+ *
+ * @param {Object} params - Parameters for fetching favorite podcasts.
+ * @param {string} params.tab - Current active tab.
+ * @param {string} params.favoriteCategoryId - ID of the favorite category.
+ * @param {string} params.type - Type of the podcast.
+ * @param {Podcast[]} [params.initialData] - Initial data for the podcasts.
+ * @returns {InfiniteQueryObserverResult} Infinite query result.
+ */
 const useGetFavoritePodcasts = ({
   tab,
   favoriteCategoryId,
-  initialData,
   type,
+  initialData,
 }: {
   tab: string;
   favoriteCategoryId?: string;

@@ -1,9 +1,11 @@
 import { z } from "zod";
 
+// Regular expression for validating phone numbers
 export const phoneRegex = new RegExp(
   /^[+]?[(]?[0-9]{1,3}(?:[-\s]?[0-9]{1,4})?[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im
 );
 
+// Schema for login form validation
 export const loginSchema = z.object({
   phone: z
     .object({
@@ -21,6 +23,7 @@ export const loginSchema = z.object({
     .min(8, "error-message.password-short"),
 });
 
+// Schema for sign-up form validation
 export const signUpSchema = z
   .object({
     full_name: z.string().min(1, "error-message.email"),
@@ -82,7 +85,7 @@ export const signUpSchema = z
   })
   .refine(
     (data) => {
-      if (data.type === "compnay" && !data.documents) {
+      if (data.type === "company" && !data.documents) {
         return false;
       }
       return true;
@@ -93,6 +96,7 @@ export const signUpSchema = z
     }
   );
 
+// Schema for forgot password form validation
 export const forgotPasswordSchema = z.object({
   phone: z
     .object({
@@ -106,6 +110,7 @@ export const forgotPasswordSchema = z.object({
     ),
 });
 
+// Schema for code verification form validation
 export const checkCodeSchema = z.object({
   code: z
     .string()
@@ -113,6 +118,7 @@ export const checkCodeSchema = z.object({
     .max(4, "error-message.otp-invalid"),
 });
 
+// Schema for setting new password form validation
 export const newPasswordSchema = z
   .object({
     new_password: z
@@ -128,6 +134,7 @@ export const newPasswordSchema = z
     message: "error-message.confirm-password-match",
   });
 
+// Type definitions for the schemas
 export type loginSchema = z.infer<typeof loginSchema>;
 export type signUpSchema = z.infer<typeof signUpSchema>;
 export type forgotPasswordSchema = z.infer<typeof forgotPasswordSchema>;

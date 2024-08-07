@@ -1,8 +1,12 @@
 import { z } from "zod";
 
+// Regular expression for validating time format (HH:MM)
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+// Regular expression for validating URLs
 const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
 
+// Schema for validating either a File object or a URL string
 const fileOrUrlSchema = z.union([
   z
     .instanceof(File)
@@ -20,8 +24,8 @@ const fileOrUrlSchema = z.union([
     )
     .refine(
       (data) => {
-        if (!data?.name) return true;
-        return data?.size < 4 * 1024 * 1024;
+        if (!data?.name) return true; // Allow if file is not provided
+        return data?.size < 4 * 1024 * 1024; // Ensure file size is less than 4MB
       },
       {
         message: "createMetadataSchema.errorMessage.thumbnailOrBackgroundSize",
@@ -32,6 +36,7 @@ const fileOrUrlSchema = z.union([
   }),
 ]);
 
+// Schema for validating the podcast metadata form
 export const createMetadataSchema = z
   .object({
     name: z
@@ -71,6 +76,7 @@ export const createMetadataSchema = z
     path: ["terms"],
   })
   .superRefine((data, ctx) => {
+    // Custom validations based on the podcast type
     if (data.type === "audio") {
       if (!data.thumbnail) {
         ctx.addIssue({
@@ -100,4 +106,5 @@ export const createMetadataSchema = z
     }
   });
 
+// Type definition for createMetadataSchema
 export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
