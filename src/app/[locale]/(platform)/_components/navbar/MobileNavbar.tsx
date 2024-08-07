@@ -121,7 +121,7 @@ const MobileNavbar = () => {
                 }
               })}
               <Link
-                href={`/${session?.user?.type}/terms`}
+                href={`/terms`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
                   "text-white p-0 no-underline hover:no-underline "
@@ -130,7 +130,7 @@ const MobileNavbar = () => {
                 <span>{t("terms")}</span>
               </Link>
               <Link
-                href={`/${session?.user?.type}/privacy`}
+                href={`/privacy`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
                   "text-white p-0 no-underline hover:no-underline "
@@ -139,7 +139,7 @@ const MobileNavbar = () => {
                 <span>{t("privacy")}</span>
               </Link>
               <Link
-                href={`/${session?.user?.type}/support`}
+                href={`/support`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
                   "text-white p-0 no-underline hover:no-underline "

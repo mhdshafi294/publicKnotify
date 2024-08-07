@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 
@@ -16,6 +15,7 @@ import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, getDirection } from "@/lib/utils";
 import { SelfPodcastsDetailsResponse } from "@/types/podcast";
+import { useRouter } from "@/navigation";
 
 interface InfiniteScrollDraftsProps {
   isShow: boolean;
@@ -118,11 +118,19 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
     if (currentPodcastId) {
       params.set("podcast_id", currentPodcastId);
     } else {
-      params.delete("podcast_id");
+      setCurrentPodcastId(null);
     }
 
     router.push(`?${params.toString()}`);
-  }, [currentPodcastId, searchParams, router]);
+  }, [currentPodcastId]);
+
+  useEffect(() => {
+    if (current_podcast_id) {
+      setCurrentPodcastId(current_podcast_id);
+    } else {
+      setCurrentPodcastId(null);
+    }
+  }, [current_podcast_id]);
 
   const locale = useLocale();
   const dir = getDirection(locale);

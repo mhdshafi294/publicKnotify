@@ -1,8 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import React from "react";
+import { useTranslations } from "next-intl";
+
 import { useMediaQuery } from "@/hooks/use-media-query";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,18 +15,26 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+
 import { PlusIcon } from "lucide-react";
 import AddPlaylistForm from "./add-playlist-form";
-import { useTranslations } from "next-intl";
 
-const DrawerDialogAddNewPlaylist = () => {
+/**
+ * Component for adding a new playlist using a responsive dialog or drawer.
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * ```tsx
+ * <DrawerDialogAddNewPlaylist />
+ * ```
+ */
+const DrawerDialogAddNewPlaylist: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const t = useTranslations("Index");
@@ -70,11 +80,6 @@ const DrawerDialogAddNewPlaylist = () => {
         <div className="p-4">
           <AddPlaylistForm open={open} onOpenChange={setOpen} />
         </div>
-        {/* <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter> */}
       </DrawerContent>
     </Drawer>
   );

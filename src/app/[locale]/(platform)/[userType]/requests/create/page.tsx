@@ -139,7 +139,7 @@ const CreateRequest = () => {
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
-    console.log(data);
+    // console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);

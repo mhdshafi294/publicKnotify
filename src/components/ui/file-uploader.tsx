@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import Resumable from "resumablejs";
+import { useLocale, useTranslations } from "next-intl";
+
 import { Progress } from "@/components/ui/progress";
 import {
   Tooltip,
@@ -9,19 +13,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSession } from "next-auth/react";
-import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import { Input } from "@/components/ui/input";
 import {
   BadgeInfoIcon,
   FileVideoIcon,
   ReplaceIcon,
   UploadIcon,
 } from "lucide-react";
+
+import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import { cn, getDirection } from "@/lib/utils";
-import { Input } from "./input";
-import Resumable from "resumablejs";
-import { useQueryClient } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
 
 interface FileUploaderProps {
   endpoint?: string;
@@ -35,6 +36,24 @@ interface FileUploaderProps {
 
 const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 
+/**
+ * FileUploader component for uploading media files with resumable uploads.
+ *
+ * @param {FileUploaderProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered FileUploader component.
+ *
+ * @example
+ * ```tsx
+ * <FileUploader
+ *   endpoint="/api/upload"
+ *   uploadId="123"
+ *   type="audio"
+ *   onUploadSuccess={() => console.log("Upload success")}
+ *   onUploadError={(error) => console.log("Upload error", error)}
+ *   setUploadedNewPodcast={setUploadedNewPodcast}
+ * />
+ * ```
+ */
 const FileUploader: React.FC<FileUploaderProps> = ({
   endpoint,
   uploadId,

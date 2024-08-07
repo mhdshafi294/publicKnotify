@@ -5,7 +5,7 @@ import NotificationsPopover from "@/components/notifications-popover";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNavLinks } from "@/config/links";
 import { cn } from "@/lib/utils";
-import { Link, usePathname, useRouter } from "@/navigation";
+import { Link, usePathname } from "@/navigation";
 import { useSession } from "next-auth/react";
 import UserOptions from "./user-0ptions";
 import { SearchIcon } from "lucide-react";

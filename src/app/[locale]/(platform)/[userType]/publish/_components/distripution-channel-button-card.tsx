@@ -1,15 +1,16 @@
 "use client";
 
-import YoutubeIcon from "@/components/icons/youtube-icon";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
 import React, {
   ForwardRefExoticComponent,
   RefAttributes,
   SVGProps,
 } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+
+import YoutubeIcon from "@/components/icons/youtube-icon";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type DistriputionChannelButtonCardProps = {
   platfotmName: string;
@@ -20,6 +21,22 @@ type DistriputionChannelButtonCardProps = {
   setSelectedPlatforms: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
+/**
+ * DistributionChannelButtonCard component that allows users to select platforms for distribution.
+ *
+ * @param {DistriputionChannelButtonCardProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The distribution channel button card component.
+ *
+ * @example
+ * ```tsx
+ * <DistriputionChannelButtonCard
+ *   platfotmName="youtube"
+ *   PlatfotmIcon={YoutubeIcon}
+ *   selectedPlatforms={selectedPlatforms}
+ *   setSelectedPlatforms={setSelectedPlatforms}
+ * />
+ * ```
+ */
 const DistriputionChannelButtonCard: React.FC<
   DistriputionChannelButtonCardProps
 > = ({
@@ -31,6 +48,18 @@ const DistriputionChannelButtonCard: React.FC<
   const t = useTranslations("Index");
   const { data: session } = useSession();
 
+  // Handle button click to toggle platform selection
+  const handlePlatformSelection = () => {
+    if (platfotmName === "web") {
+      return; // "web" platform should always be selected
+    }
+    setSelectedPlatforms((prev) =>
+      prev.includes(platfotmName)
+        ? prev.filter((p) => p !== platfotmName)
+        : [...prev, platfotmName]
+    );
+  };
+
   return (
     <Button
       variant="secondary"
@@ -41,18 +70,7 @@ const DistriputionChannelButtonCard: React.FC<
           "opacity-50": !selectedPlatforms.includes(platfotmName),
         }
       )}
-      onClick={() => {
-        if (platfotmName === "web") {
-          return;
-        }
-        setSelectedPlatforms((prev) => {
-          if (prev.includes(platfotmName)) {
-            return prev.filter((p) => p !== platfotmName);
-          } else {
-            return [...prev, platfotmName];
-          }
-        });
-      }}
+      onClick={handlePlatformSelection}
     >
       <PlatfotmIcon />
       <div className="flex flex-col items-start">

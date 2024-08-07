@@ -58,19 +58,19 @@ const UserOptions = () => {
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-card" />
-            <Link href={`/${session?.user?.type}/terms`}>
+            <Link href={`/terms`}>
               <DropdownMenuItem>
                 <HeartHandshakeIcon className="me-2 h-4 w-4" />
                 <span>{t("terms")}</span>
               </DropdownMenuItem>
             </Link>
-            <Link href={`/${session?.user?.type}/privacy`}>
+            <Link href={`/privacy`}>
               <DropdownMenuItem>
                 <ShieldAlertIcon className="me-2 h-4 w-4" />
                 <span>{t("privacy")}</span>
               </DropdownMenuItem>
             </Link>
-            <Link href={`/${session?.user?.type}/support`}>
+            <Link href={`/support`}>
               <DropdownMenuItem>
                 <LifeBuoyIcon className="me-2 h-4 w-4" />{" "}
                 <span>{t("support")}</span>

@@ -1,3 +1,5 @@
+"use client";
+
 import { Control, FieldValues } from "react-hook-form";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
@@ -9,12 +11,16 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
+import { Button } from "./button";
+import { ImageIcon, ReplaceIcon, Upload, X } from "lucide-react";
+
 import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL, getDirection } from "@/lib/utils";
-import { ImageIcon, ReplaceIcon, Upload, X } from "lucide-react";
-import { Button } from "./button";
 import { useLocale } from "next-intl";
 
+/**
+ * PropsType interface for the FormFileInput component.
+ */
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
@@ -25,6 +31,22 @@ interface PropsType<T extends FieldValues>
   disabled?: boolean;
 }
 
+/**
+ * FormFileInput component for file input with preview and delete functionality.
+ *
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered FormFileInput component.
+ *
+ * @example
+ * ```tsx
+ * <FormFileInput
+ *   name="file"
+ *   label="Upload File"
+ *   control={control}
+ *   initValue="https://example.com/file.jpg"
+ * />
+ * ```
+ */
 function FormFileInput<T extends FieldValues>({
   control,
   name,
@@ -44,6 +66,7 @@ function FormFileInput<T extends FieldValues>({
 
   const locale = useLocale();
   const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
@@ -70,7 +93,6 @@ function FormFileInput<T extends FieldValues>({
                 {...props}
               />
               <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
-                {/* <Upload color="black" /> */}
                 {field.value?.name ? (
                   <div className="flex justify-center items-center gap-2">
                     <ReplaceIcon color="black" size={16} />
