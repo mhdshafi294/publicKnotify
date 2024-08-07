@@ -13,8 +13,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOutIcon, Settings, User } from "lucide-react";
+import {
+  HeartHandshakeIcon,
+  LifeBuoyIcon,
+  LogOutIcon,
+  Settings,
+  ShieldAlertIcon,
+  User,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { Separator } from "@/components/ui/separator";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -45,11 +53,30 @@ const UserOptions = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-background border-none shadow-2xl w-screen md:w-56">
+          <DropdownMenuContent className="bg-background border-card shadow-2xl w-screen md:w-56">
             <DropdownMenuLabel>
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="opacity-50" />
+            <DropdownMenuSeparator className="bg-card" />
+            <Link href={`/terms`}>
+              <DropdownMenuItem>
+                <HeartHandshakeIcon className="me-2 h-4 w-4" />
+                <span>{t("terms")}</span>
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/privacy`}>
+              <DropdownMenuItem>
+                <ShieldAlertIcon className="me-2 h-4 w-4" />
+                <span>{t("privacy")}</span>
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/support`}>
+              <DropdownMenuItem>
+                <LifeBuoyIcon className="me-2 h-4 w-4" />{" "}
+                <span>{t("support")}</span>
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuSeparator className="bg-card my-2" />
             <Link
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >

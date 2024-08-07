@@ -22,7 +22,7 @@ import { useEffect, useState } from "react";
 import InfiniteScrollNotificationsDialog from "@/app/[locale]/(platform)/[userType]/notifications/_components/infinite-scroll-notifications-dialog";
 import { Link } from "@/navigation";
 
-const NotificationsDropdown = ({ className }: { className?: string }) => {
+const NotificationsPopover = ({ className }: { className?: string }) => {
   const t = useTranslations("Index");
   const isOpen = useNotificationStore((state) => state.isOpen);
   const setIsOpen = useNotificationStore((state) => state.setIsOpen);
@@ -133,4 +133,4 @@ const NotificationsDropdown = ({ className }: { className?: string }) => {
   );
 };
 
-export default NotificationsDropdown;
+export default NotificationsPopover;

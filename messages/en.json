@@ -215,7 +215,10 @@
         "backgroundSize": "Background size must be less than 4MB.",
         "categoriesEmpty": "Categories can't be empty!",
         "hashtagsEmpty": "Hashtags can't be empty!",
-        "terms": "You must agree to the terms."
+        "terms": "You must agree to the terms.",
+        "ThumbnailIsRequiredWhenTypeIsAudio": "Thumbnail is required when type is audio",
+        "BackgroundIsRequiredWhenTypeIsAudio": "Background is required when type is audio",
+        "ThumbnailIsRequiredWhenTypeIsVideo": "Thumbnail is required when type is video"
       }
     },
     "selectPlaylist": "Select playlist",
@@ -250,7 +253,9 @@
     "selectPodcaster": "Select podcaster",
     "noUserFound": "No user found",
     "mins": "Mins",
-    "secs": "Secs"
+    "secs": "Secs",
+    "support": "Support",
+    "privacy": "Privacy"
   },
   "notifications": {
     "notifications": "notifications"

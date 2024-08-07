@@ -4,9 +4,20 @@ import React from "react";
 import Image from "next/image";
 import Loader from "@/components/ui/loader";
 
+/**
+ * Loading component that displays a loading screen with a background image and a loader.
+ *
+ * @returns {JSX.Element} The loading screen component.
+ *
+ * @example
+ * ```tsx
+ * <Loading />
+ * ```
+ */
 const Loading = () => {
   return (
     <div className="h-full min-h-screen w-full flex flex-col items-center justify-center bg-background">
+      {/* Background Elements */}
       <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
         <div className="absolute w-[580px] h-[580px] left-0 top-0 -z-10 -translate-x-1/2">
@@ -22,6 +33,7 @@ const Loading = () => {
           />
         </div>
       </div>
+      {/* Loader Component */}
       <Loader variant="bars" size="xl" className="text-greeny" />
     </div>
   );

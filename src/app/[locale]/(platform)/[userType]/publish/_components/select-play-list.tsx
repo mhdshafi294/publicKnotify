@@ -1,8 +1,17 @@
 "use client";
 
-import { cn, getDirection } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { useDebounce } from "use-debounce";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,22 +27,33 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Loader from "@/components/ui/loader";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
 import DrawerDialogAddNewPlaylist from "./add-playlist-drawer-dialog";
+
+import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { cn, getDirection } from "@/lib/utils";
+
+import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+import { AvatarImage } from "@radix-ui/react-avatar";
 import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
-import { useLocale, useTranslations } from "next-intl";
 
 type PropsType = {
   value?: string;
   setValue: Dispatch<SetStateAction<string>>;
 };
 
+/**
+ * Component for selecting a playlist with a searchable dropdown and infinite scrolling.
+ *
+ * @param {PropsType} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * ```tsx
+ * <SelectPlaylist value={playlistId} setValue={setPlaylistId} />
+ * ```
+ */
 const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
   const [open, setOpen] = useState(false);
   const [preDebouncedValue, setDebouncedValue] = useState("");
@@ -63,9 +83,8 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination.next_page_url) {
         return lastPage.pagination.current_page + 1;
-      } else {
-        undefined;
       }
+      return undefined;
     },
   });
 
@@ -92,8 +111,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
         >
           {value
             ? data?.pages
-                .map((page) => page.playlists)
-                .flat()
+                .flatMap((page) => page.playlists)
                 .find((client) => client.id.toString() === value)?.name
             : `${t("selectPlaylist")}`}
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-50" />

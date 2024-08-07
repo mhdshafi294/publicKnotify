@@ -29,11 +29,23 @@ interface SignInFormProps {
   type: "podcaster" | "user" | "company";
 }
 
+/**
+ * SignInForm component for handling user sign-in.
+ *
+ * @param {SignInFormProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The sign-in form component.
+ *
+ * @example
+ * ```tsx
+ * <SignInForm type="user" />
+ * ```
+ */
 const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const t = useTranslations("Index");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
+  // Initialize the form with validation schema and default values
   const form = useForm<loginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -45,6 +57,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
     },
   });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {loginSchema} data - The form data.
+   */
   const handleSubmit = async (data: loginSchema) => {
     setLoading(true);
     try {
@@ -53,9 +70,9 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         password: data.password,
         type: type,
         redirect: false,
-        callbackUrl: "/", // TODO: Add callback url
+        callbackUrl: "/", // TODO: Add callback URL
       });
-      // console.log(signInResponse);
+
       if (signInResponse!.ok) {
         setLoading(false);
         toast.success(t("signedInSuccessfully"));
@@ -87,10 +104,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         );
         toast.warning(t("verificationCodeSent"));
       } else if (err.response?.status == 422) {
-        console.log(err);
         toast.error(t("invalidPhone"));
       } else {
-        console.log(err);
         toast.error(t("tryAgain"));
       }
     }
@@ -106,6 +121,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       >
         <div className="flex flex-col items-center gap-9 w-[358px]">
           <h2 className="text-[32px] font-black mb-1">{t("signIn")}</h2>
+          {/* Phone number input field */}
           <FormField
             control={form.control}
             name="phone"
@@ -123,6 +139,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
             )}
           />
           <div className="w-full">
+            {/* Password input field */}
             <PasswordInput
               name={"password"}
               label={t("password")}

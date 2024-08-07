@@ -1,14 +1,13 @@
 "use client";
+
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { forgotPasswordSchema } from "@/schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
-
 import {
   Form,
   FormControl,
@@ -17,17 +16,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import PhoneNumberInput from "@/components/phone-number-input";
-import { useMutation } from "@tanstack/react-query";
 import { sendCodeAction } from "@/app/actions/authActions";
 
-const ForgotPassword = ({ params }: { params: { userType: string } }) => {
+interface ForgotPasswordProps {
+  params: { userType: string };
+}
+
+/**
+ * ForgotPassword component that renders a form for entering a phone number to reset the password.
+ *
+ * @param {ForgotPasswordProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The forgot password component.
+ *
+ * @example
+ * ```tsx
+ * <ForgotPassword params={{ userType: "user" }} />
+ * ```
+ */
+const ForgotPassword: React.FC<ForgotPasswordProps> = ({ params }) => {
   const router = useRouter();
   const t = useTranslations("Index");
 
+  // Initialize the form with validation schema and default values
   const form = useForm<forgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -38,20 +51,16 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
     },
   });
 
-  const phone = form.getValues("phone");
+  // Use `watch` instead of `getValues` to dynamically watch the phone field
+  const phone = form.watch("phone");
 
-  const {
-    data,
-    mutate: server_sendCodeAction,
-    isPending,
-  } = useMutation({
+  // Initialize the mutation for sending the code
+  const { mutate: server_sendCodeAction, isPending } = useMutation({
     mutationFn: sendCodeAction,
     onSuccess: () => {
       toast.success(t("confirmed"));
       router.push(
-        `/${params.userType}/check-code?&phone=${phone?.code}${
-          phone?.phone as string
-        }`
+        `/${params.userType}/check-code?&phone=${phone?.code}${phone?.phone}`
       );
     },
     onError: () => {
@@ -59,6 +68,11 @@ const ForgotPassword = ({ params }: { params: { userType: string } }) => {
     },
   });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {forgotPasswordSchema} data - The form data.
+   */
   const handleSubmit = async (data: forgotPasswordSchema) => {
     server_sendCodeAction({ body: data, type: params.userType });
   };

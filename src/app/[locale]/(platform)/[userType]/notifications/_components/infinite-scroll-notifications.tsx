@@ -8,7 +8,7 @@ import Loader from "@/components/ui/loader";
 import { useTranslations } from "next-intl";
 import { getNotificationsAction } from "@/app/actions/notificationActions";
 import { Separator } from "@/components/ui/separator";
-import { formatDistanceToNowStrict } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 
 const InfiniteScrollNotifications = ({
   initialNotifications,
@@ -93,7 +93,7 @@ const InfiniteScrollNotifications = ({
               <h3 className="text-xl">{notification?.title}</h3>
               <p className="text-sm opacity-70">{notification?.body}</p>
               <p className="text-xs mt-3 italic opacity-90">
-                {formatDistanceToNowStrict(new Date(notification?.created_at), {
+                {formatDistanceToNow(new Date(notification?.created_at), {
                   addSuffix: true,
                 })}
               </p>

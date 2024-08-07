@@ -220,7 +220,10 @@
         "backgroundSize": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت.",
         "categoriesEmpty": "الفئات لا يمكن أن تكون فارغة!",
         "hashtagsEmpty": "الوسوم لا يمكن أن تكون فارغة!",
-        "terms": "يجب أن توافق على الشروط."
+        "terms": "يجب أن توافق على الشروط.",
+        "ThumbnailIsRequiredWhenTypeIsAudio": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر صوتي.",
+        "BackgroundIsRequiredWhenTypeIsAudio": "الخلفية مطلوبة عندما يكون النوع عنصر صوتي.",
+        "ThumbnailIsRequiredWhenTypeIsVideo": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر فيديو."
       }
     },
     "selectPlaylist": "اختر قائمة التشغيل",
@@ -250,7 +253,9 @@
     "selectPodcaster": "اختر البودكاستر",
     "noUserFound": "لم يتم العثور على مستخدم",
     "mins": "دقائق",
-    "secs": "ثوان"
+    "secs": "ثوان",
+    "support": "الدعم",
+    "privacy": "الخصوصية"
   },
   "notifications": {
     "notifications": "notifications"

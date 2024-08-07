@@ -13,8 +13,11 @@ import {
 import {
   AlignJustifyIcon,
   BellRingIcon,
+  HeartHandshakeIcon,
+  LifeBuoyIcon,
   LogOutIcon,
   SettingsIcon,
+  ShieldAlertIcon,
   User,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -117,6 +120,33 @@ const MobileNavbar = () => {
                   </Link>;
                 }
               })}
+              <Link
+                href={`/terms`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("terms")}</span>
+              </Link>
+              <Link
+                href={`/privacy`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("privacy")}</span>
+              </Link>
+              <Link
+                href={`/support`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("support")}</span>
+              </Link>
             </div>
           </div>
           <Separator className="my-5" />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter as FontSans, Lato, Noto_Sans_Arabic } from "next/font/google"; // Use Noto Sans Arabic instead of Beiruti
+import { NextIntlClientProvider } from "next-intl";
+import { Inter as FontSans, Lato, Noto_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import "./globals.css";
 
@@ -8,10 +9,10 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
-import { NextIntlClientProvider } from "next-intl";
-import "react-photo-view/dist/react-photo-view.css";
 import NotificationProvider from "@/providers/NotificationProvider";
+import "react-photo-view/dist/react-photo-view.css";
 
+// Font configurations
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -29,6 +30,7 @@ const fontLato = Lato({
   variable: "--font-lato",
 });
 
+// Metadata for the application
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -43,6 +45,12 @@ export const metadata: Metadata = {
   ],
 };
 
+/**
+ * Fetches translation messages for the given locale.
+ *
+ * @param {string} locale - The locale identifier (e.g., 'en', 'ar').
+ * @returns {Promise<object|null>} The translation messages or null if not found.
+ */
 async function getMessages(locale: string) {
   try {
     return (await import(`../../../messages/${locale}.json`)).default;
@@ -51,6 +59,22 @@ async function getMessages(locale: string) {
   }
 }
 
+/**
+ * RootLayout component that wraps the application with necessary providers and layout settings.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {React.ReactNode} props.children - The child components to be rendered inside the layout.
+ * @param {object} props.params - The parameters including locale.
+ * @param {string} props.params.locale - The locale identifier.
+ * @returns {JSX.Element} The root layout component.
+ *
+ * @example
+ * ```tsx
+ * <RootLayout params={{ locale: 'en' }}>
+ *   <App />
+ * </RootLayout>
+ * ```
+ */
 export default async function RootLayout({
   children,
   params: { locale },

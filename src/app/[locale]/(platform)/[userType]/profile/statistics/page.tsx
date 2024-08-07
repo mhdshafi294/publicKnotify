@@ -7,7 +7,8 @@ import { Link } from "@/navigation";
 import { ApiResponse } from "@/types";
 import Image from "next/image";
 import { cache } from "react";
-import { useTranslations } from "next-intl";
+import { getStatisticsAction } from "@/app/actions/statisticsActions";
+import { getTranslations } from "next-intl/server";
 
 const getPodcasts = cache(async (type: string) => {
   const { data } = await axiosInstance.get<
@@ -27,9 +28,22 @@ const socialMedia = [
   { icon: "/icons/Instagram.svg", name: "Instagram" },
 ];
 
-const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
-  const data = await getPodcasts(params.userType);
-  const t = useTranslations("Index");
+const StatisticsPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { userType: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
+  const selfPodcastsList = await getPodcasts(params.userType);
+  const t = await getTranslations("Index");
+  const podcastId = searchParams.podcastId
+    ? (searchParams.podcastId as string)
+    : selfPodcastsList[0].id.toString();
+  const statisticsData = await getStatisticsAction({
+    type: params.userType,
+    podcat_id: podcastId,
+  });
 
   return (
     <>
@@ -50,9 +64,9 @@ const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
                 <h2 className="text-2xl font-bold capitalize">
                   {t("podcastNames")}
                 </h2>
-                {data.map((podcast) => (
+                {selfPodcastsList.map((podcast) => (
                   <Link
-                    href={{ search: `?podcasterId=${podcast.id}` }}
+                    href={{ search: `?podcastId=${podcast.id}` }}
                     scroll={false}
                     key={podcast.id}
                     className={cn(
@@ -74,7 +88,9 @@ const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
                   <p className="text-2xl capitalize">{t("totalTime")}</p>
                 </div>
                 <div className="bg-primary flex justify-center flex-col items-center">
-                  <h3 className="text-5xl font-bold">8776</h3>
+                  <h3 className="text-5xl font-bold">
+                    {statisticsData.average_listens}
+                  </h3>
                   <p className="text-2xl capitalize">{t("averageListens")}</p>
                 </div>
                 <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
@@ -112,7 +128,7 @@ const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
                     </h3>
                   </div>
                   <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
-                    1
+                    {statisticsData.average_listens}
                   </div>
                 </div>
                 <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
@@ -136,10 +152,10 @@ const StatisticsPage = async ({ params }: { params: { userType: string } }) => {
                               {media.name}
                             </span>
                           </div>
-                          <span>321</span>
+                          <span>{statisticsData.youtube_video}</span>
                         </div>
                         <Progress
-                          value={75}
+                          value={statisticsData.average_listens}
                           className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
                         />
                       </div>

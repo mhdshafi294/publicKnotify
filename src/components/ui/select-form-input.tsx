@@ -1,6 +1,9 @@
 "use client";
 
+import React, { ComponentPropsWithoutRef } from "react";
 import { Control, FieldValues } from "react-hook-form";
+import { useLocale } from "next-intl";
+
 import {
   FormControl,
   FormField,
@@ -8,9 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { ComponentPropsWithoutRef } from "react";
-import { cn, getDirection } from "@/lib/utils";
-
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-import { useLocale } from "next-intl";
+import { cn, getDirection } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -26,10 +26,26 @@ interface PropsType<T extends FieldValues>
   options: string[];
   className?: string;
   label: string;
-  labelClassName?: string | undefined;
+  labelClassName?: string;
   control: Control<T>;
 }
 
+/**
+ * SelectFormInput component that renders a select input field within a form.
+ *
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @returns {JSX.Element} The select form input component.
+ *
+ * @example
+ * ```tsx
+ * <SelectFormInput
+ *   name="category"
+ *   label="Category"
+ *   options={["Option 1", "Option 2"]}
+ *   control={control}
+ * />
+ * ```
+ */
 function SelectFormInput<T extends FieldValues>({
   control,
   name,
@@ -41,6 +57,7 @@ function SelectFormInput<T extends FieldValues>({
 }: PropsType<T>) {
   const locale = useLocale();
   const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}

@@ -1,40 +1,45 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@/navigation";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+
 import { createPlayListsAction } from "@/app/actions/podcastActions";
+import { createPlaylistSchema } from "@/schema/createPlaylistSchema";
+
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
 import FormInputSelect from "@/components/ui/form-input-select";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useRouter } from "@/navigation";
-import { createPlaylistSchema } from "@/schema/createPlaylistSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { PlusIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
-const AddPlaylistForm = ({
-  open,
-  onOpenChange,
-}: {
+/**
+ * Component for adding a new playlist.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {boolean} props.open - Whether the form is open.
+ * @param {Function} props.onOpenChange - Function to change the open state.
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @example
+ * ```tsx
+ * <AddPlaylistForm open={true} onOpenChange={setOpen} />
+ * ```
+ */
+const AddPlaylistForm: React.FC<{
   open: boolean;
   onOpenChange: (open: boolean) => void;
-}) => {
+}> = ({ open, onOpenChange }) => {
   const [isMounted, setIsMounted] = useState(false);
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const searchParams = useSearchParams();
-  const request_id = searchParams.get("request_id");
-  const podcast_id = searchParams.get("podcast_id");
-  const params = new URLSearchParams(searchParams.toString());
 
   const form = useForm<createPlaylistSchema>({
     resolver: zodResolver(createPlaylistSchema),
@@ -75,14 +80,11 @@ const AddPlaylistForm = ({
   });
 
   const handleSubmit = async (data: createPlaylistSchema) => {
-    // console.log("Form data: ", data);
     const formData = new FormData();
     formData.append("name", data.name);
     if (data.description) formData.append("description", data.description);
     formData.append("type", data.type);
     if (data.image) formData.append("image", data.image);
-
-    console.log("FormData: ", formData);
 
     server_createPlaylistAction({ formData, type: "podcaster" });
   };
@@ -125,10 +127,7 @@ const AddPlaylistForm = ({
                 disabled={isPending}
                 className="capitalize mt-7 text-sm w-full"
                 variant={"default"}
-                onClick={form.handleSubmit((data) => {
-                  console.log("Form submitted", data);
-                  handleSubmit(data);
-                })}
+                onClick={form.handleSubmit((data) => handleSubmit(data))}
                 type="button"
               >
                 {isPending ? <ButtonLoader /> : "Save"}

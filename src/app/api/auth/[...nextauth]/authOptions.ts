@@ -1,3 +1,4 @@
+// Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { AuthOptions, ISODateString } from "next-auth";
@@ -6,10 +7,13 @@ import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
+// Define CustomSession interface extending the default session with custom user data
 export interface CustomSession {
   user?: CustomUser;
   expires: ISODateString;
 }
+
+// Define CustomUser interface to include additional user properties
 export interface CustomUser {
   id?: number;
   full_name?: string;
@@ -21,11 +25,15 @@ export interface CustomUser {
   type?: string | "user" | "podcaster" | "company";
 }
 
+// Configure NextAuth options
 export const authOptions: AuthOptions = {
   callbacks: {
+    // Handle JWT callbacks to include custom user data and handle session updates
     async jwt({ token, user, trigger, session }) {
+      // If there is a user object, attach it to the token
       if (user) token.user = user;
 
+      // Handle session updates
       if (trigger === "update") {
         const updatedUser = token.user as CustomUser;
         updatedUser.full_name = session?.full_name || updatedUser.full_name;
@@ -37,12 +45,14 @@ export const authOptions: AuthOptions = {
 
       return token;
     },
+    // Handle session callbacks to include custom user data in the session
     async session({ session, token }: { session: CustomSession; token: JWT }) {
       session.user = token.user as CustomUser;
       return session;
     },
   },
 
+  // Configure authentication providers
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -60,6 +70,7 @@ export const authOptions: AuthOptions = {
         type: {},
       },
       type: "credentials",
+      // Authorize the user with credentials
       async authorize(credentials, req) {
         const type = credentials?.type;
         const res = await axiosInstance.post(
@@ -68,6 +79,7 @@ export const authOptions: AuthOptions = {
         );
         const response = res.data;
         const user = response?.user;
+
         if (user) {
           return user;
         } else {

@@ -1,6 +1,6 @@
 // app/components/MaxWidthContainer.tsx
-import { cn } from "@/lib/utils";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 type MaxWidthContainerProps = {
   children: React.ReactNode;
@@ -8,6 +8,19 @@ type MaxWidthContainerProps = {
   dir?: "ltr" | "rtl";
 };
 
+/**
+ * MaxWidthContainer component that provides a responsive container with max width.
+ *
+ * @param {MaxWidthContainerProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The MaxWidthContainer component.
+ *
+ * @example
+ * ```tsx
+ * <MaxWidthContainer className="my-class" dir="ltr">
+ *   <p>Content goes here</p>
+ * </MaxWidthContainer>
+ * ```
+ */
 const MaxWidthContainer: React.FC<MaxWidthContainerProps> = ({
   children,
   className,

@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import country from "country-list-js";
@@ -32,10 +31,22 @@ interface SignUpFormProps {
   type: "podcaster" | "user" | "company";
 }
 
+/**
+ * SignUpForm component for handling user sign-up.
+ *
+ * @param {SignUpFormProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The sign-up form component.
+ *
+ * @example
+ * ```tsx
+ * <SignUpForm type="user" />
+ * ```
+ */
 const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   const router = useRouter();
   const t = useTranslations("Index");
 
+  // Initialize the form with validation schema and default values
   const form = useForm<signUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -54,6 +65,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
 
   const phone = form.getValues("phone");
 
+  // Initialize the mutation for signing up the user
   const { mutate: server_signUp, isPending } = useMutation({
     mutationFn: signUpAction,
     onSuccess: () => {
@@ -71,6 +83,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     },
   });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {signUpSchema} data - The form data.
+   */
   const handleSubmit = async (data: signUpSchema) => {
     const formData = new FormData();
     const countriesCode = (
@@ -102,11 +119,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
           <h2 className="text-[32px] font-black mb-1">{t("signUp")}</h2>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
+            {/* Full name input field */}
             <FormInput
               name="full_name"
               label={t("name")}
               control={form.control}
             />
+            {/* Phone number input field */}
             <FormField
               control={form.control}
               name="phone"
@@ -125,17 +144,20 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             />
           </div>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
+            {/* Password input field */}
             <PasswordInput
               name={"password"}
               label={t("password")}
               control={form.control}
             />
+            {/* Password confirmation input field */}
             <PasswordInput
               name={"password_confirmation"}
               label={t("confirmPassword")}
               control={form.control}
             />
           </div>
+          {/* Document upload field for company sign-up */}
           {type === "company" && (
             <FormFileInput
               name="documents"
@@ -145,12 +167,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             />
           )}
         </div>
+        {/* Terms and conditions checkbox */}
         <FormCheckbox
           name="terms"
           control={form.control}
           checkboxClassName="rounded-full size-4"
           label={t("acceptTerms")}
         />
+        {/* Submit button */}
         <Button
           disabled={isPending}
           className="w-full capitalize mt-8"
@@ -168,6 +192,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             {t("signIn")}
           </Link>
         </p>
+        {/* Social login options */}
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
             <div className="w-full max-w-[146px] h-[1px] bg-white"></div>

@@ -2,6 +2,16 @@ import React from "react";
 import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
 
+/**
+ * GoogleLogin component that renders a button for signing in with Google.
+ *
+ * @returns {JSX.Element} The Google sign-in button component.
+ *
+ * @example
+ * ```tsx
+ * <GoogleLogin />
+ * ```
+ */
 export const GoogleLogin = () => {
   return (
     <Button
@@ -11,6 +21,7 @@ export const GoogleLogin = () => {
       size={"icon"}
       className="bg-transparent hover:bg-transparent size-7"
     >
+      {/* Google Icon SVG */}
       <svg
         width="29"
         height="28"

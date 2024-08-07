@@ -1,4 +1,10 @@
 import { Control, FieldValues } from "react-hook-form";
+import { ComponentPropsWithoutRef } from "react";
+import { format } from "date-fns";
+import { useLocale } from "next-intl";
+import { CalendarIcon } from "lucide-react";
+
+import { cn, getDirection } from "@/lib/utils";
 import {
   FormControl,
   FormDescription,
@@ -7,26 +13,43 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { Input } from "./input";
-import { ComponentPropsWithoutRef } from "react";
-import { cn, getDirection } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { Button } from "./button";
-import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./calendar";
-import { format } from "date-fns";
-import { useLocale } from "next-intl";
 
+/**
+ * PropsType interface for the DatePicker component.
+ *
+ * @template T - The field values type.
+ * @extends {Omit<ComponentPropsWithoutRef<"input">, "name">}
+ */
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
   label: string;
   description?: string;
   className?: string;
-  labelClassName?: string | undefined;
+  labelClassName?: string;
   control: Control<T>;
 }
 
+/**
+ * DatePicker component for selecting a date.
+ *
+ * @template T - The field values type.
+ * @param {PropsType<T>} props - The props for the DatePicker component.
+ * @returns {JSX.Element} The rendered DatePicker component.
+ *
+ * @example
+ * ```tsx
+ * <DatePicker
+ *   control={control}
+ *   name="publishing_date"
+ *   label="Publishing Date"
+ *   description="Select the date you want to publish."
+ * />
+ * ```
+ */
 function DatePicker<T extends FieldValues>({
   control,
   name,
@@ -42,17 +65,19 @@ function DatePicker<T extends FieldValues>({
   return (
     <FormField
       control={control as Control<FieldValues>}
-      name={name.toString()} //"publishing_date"
+      name={name.toString()}
       render={({ field }) => (
         <FormItem className={cn("flex flex-col", className)} dir={dir}>
-          <FormLabel className="capitalize text-lg">{label}</FormLabel>
+          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+            {label}
+          </FormLabel>
           <Popover>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    " ps-3 font-normal bg-background flex items-center",
+                    "ps-3 font-normal bg-background flex items-center",
                     !field.value && "text-muted-foreground",
                     { "pt-3": dir === "rtl" }
                   )}
