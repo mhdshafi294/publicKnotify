@@ -1,6 +1,36 @@
 import { z } from "zod";
 
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
+const fileOrUrlSchema = z.union([
+  z
+    .instanceof(File)
+    .refine(
+      (data) => {
+        if (!data?.name) return true; // Allow if file is not provided
+        return (
+          data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
+        );
+      },
+      {
+        message:
+          "createMetadataSchema.errorMessage.invalidThumbnailOrBackground",
+      }
+    )
+    .refine(
+      (data) => {
+        if (!data?.name) return true;
+        return data?.size < 4 * 1024 * 1024;
+      },
+      {
+        message: "createMetadataSchema.errorMessage.thumbnailOrBackgroundSize",
+      }
+    ),
+  z.string().refine((val) => urlRegex.test(val), {
+    message: "createMetadataSchema.errorMessage.invalidUrl",
+  }),
+]);
 
 export const createMetadataSchema = z
   .object({
@@ -23,52 +53,8 @@ export const createMetadataSchema = z
     company_tag: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.companyTag" }),
-    thumbnail: z
-      .instanceof(File)
-      .optional()
-      .refine(
-        (data) => {
-          if (!data?.name) return true; // Allow if file is not provided
-          return (
-            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
-          );
-        },
-        {
-          message: "createMetadataSchema.errorMessage.invalidThumbnail",
-        }
-      )
-      .refine(
-        (data) => {
-          if (!data?.name) return true;
-          return data?.size < 4 * 1024 * 1024;
-        },
-        {
-          message: "createMetadataSchema.errorMessage.thumbnailSize",
-        }
-      ),
-    background: z
-      .instanceof(File)
-      .optional()
-      .refine(
-        (data) => {
-          if (!data?.name) return true; // Allow if file is not provided
-          return (
-            data?.type.startsWith("image/") && data?.type !== "image/svg+xml"
-          );
-        },
-        {
-          message: "createMetadataSchema.errorMessage.invalidBackground",
-        }
-      )
-      .refine(
-        (data) => {
-          if (!data?.name) return true; // Allow if file is not provided
-          return data?.size < 4 * 1024 * 1024;
-        },
-        {
-          message: "createMetadataSchema.errorMessage.backgroundSize",
-        }
-      ),
+    thumbnail: fileOrUrlSchema.optional(),
+    background: fileOrUrlSchema.optional(),
     play_list_id: z.string().optional(),
     categories: z.string().array().nonempty({
       message: "createMetadataSchema.errorMessage.categoriesEmpty",
@@ -83,33 +69,35 @@ export const createMetadataSchema = z
   .refine((data) => data.terms, {
     message: "createMetadataSchema.errorMessage.terms",
     path: ["terms"],
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "audio") {
+      if (!data.thumbnail) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "createMetadataSchema.errorMessage.ThumbnailIsRequiredWhenTypeIsAudio",
+          path: ["thumbnail"],
+        });
+      }
+      if (!data.background) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "createMetadataSchema.errorMessage.BackgroundIsRequiredWhenTypeIsAudio",
+          path: ["background"],
+        });
+      }
+    } else if (data.type === "video") {
+      if (!data.thumbnail) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message:
+            "createMetadataSchema.errorMessage.ThumbnailIsRequiredWhenTypeIsVideo",
+          path: ["thumbnail"],
+        });
+      }
+    }
   });
 
 export type createMetadataSchema = z.infer<typeof createMetadataSchema>;
-
-// .superRefine((data, ctx) => {
-//   if (data.type === "audio") {
-//     if (!data.thumbnail) {
-//       ctx.addIssue({
-//         code: z.ZodIssueCode.custom,
-//         message: "Thumbnail is required when type is audio.",
-//         path: ["thumbnail"],
-//       });
-//     }
-//     if (!data.background) {
-//       ctx.addIssue({
-//         code: z.ZodIssueCode.custom,
-//         message: "Background is required when type is audio.",
-//         path: ["background"],
-//       });
-//     }
-//   } else if (data.type === "video") {
-//     if (!data.thumbnail) {
-//       ctx.addIssue({
-//         code: z.ZodIssueCode.custom,
-//         message: "Thumbnail is required when type is video.",
-//         path: ["thumbnail"],
-//       });
-//     }
-//   }
-// });

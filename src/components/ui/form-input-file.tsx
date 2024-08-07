@@ -11,7 +11,7 @@ import {
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL, getDirection } from "@/lib/utils";
-import { Image, ReplaceIcon, Upload, X } from "lucide-react";
+import { ImageIcon, ReplaceIcon, Upload, X } from "lucide-react";
 import { Button } from "./button";
 import { useLocale } from "next-intl";
 
@@ -106,7 +106,7 @@ function FormFileInput<T extends FieldValues>({
                         type="button"
                         tabIndex={-1}
                       >
-                        <Image />
+                        <ImageIcon />
                       </Button>
                     </PhotoView>
                   </PhotoProvider>
@@ -131,14 +131,14 @@ function FormFileInput<T extends FieldValues>({
                       type="button"
                       tabIndex={-1}
                     >
-                      <Image />
+                      <ImageIcon />
                     </Button>
                   </PhotoView>
                 </PhotoProvider>
               ) : null}
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className="font-normal" />
         </FormItem>
       )}
     />

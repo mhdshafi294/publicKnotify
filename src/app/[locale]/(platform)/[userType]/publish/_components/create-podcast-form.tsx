@@ -173,6 +173,12 @@ const CreatePodcastForm = ({
         company_tag: draft.company_tag!,
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
+        thumbnail: podcastResponse?.podcast?.thumbnail
+          ? podcastResponse?.podcast?.thumbnail
+          : undefined,
+        background: podcastResponse?.podcast?.background
+          ? podcastResponse?.podcast?.background
+          : undefined,
         company_request_id: request_id ? request_id : undefined,
         podcast_id: podcast_id ? podcast_id : undefined,
         terms: true,
@@ -241,8 +247,10 @@ const CreatePodcastForm = ({
     formData.append("publishing_time", data.publishing_time);
     formData.append("company_tag", data.company_tag);
 
-    if (data.thumbnail) formData.append("thumbnail", data.thumbnail);
-    if (data.background) formData.append("background", data.background);
+    if (data.thumbnail instanceof File)
+      formData.append("thumbnail", data.thumbnail);
+    if (data.background instanceof File)
+      formData.append("background", data.background);
     if (data.play_list_id) formData.append("playlist_id", data.play_list_id);
 
     data.categories.forEach((category, index) => {
