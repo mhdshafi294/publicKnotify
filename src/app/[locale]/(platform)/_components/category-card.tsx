@@ -1,5 +1,7 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Link } from "@/navigation";
 import { CategoryDetails } from "@/types/podcast";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React, { FC } from "react";
 
@@ -7,10 +9,11 @@ type PropsType = {
   category: CategoryDetails;
 };
 
-const CategoryCard: FC<PropsType> = ({ category }) => {
+const CategoryCard: FC<PropsType> = async ({ category }) => {
+  const session = await getServerSession(authOptions);
   return (
     <Link
-      href="/"
+      href={`/${session?.user?.type}/category/${category.id}`}
       className="bg-background flex justify-start items-center border rounded-xl w-48 gap-2 p-4"
       key={category.id}
     >

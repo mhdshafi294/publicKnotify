@@ -12,9 +12,10 @@ const getSelfPodcasts = async ({
   page: string;
   count: string;
   search?: string;
-  is_published?: boolean;
+  is_published?: number;
   type: string;
 }) => {
+  console.log(is_published);
   const { data } = await axiosInstance.get<SelfPodcastsDetailsResponse>(
     `/${type}${PODCASTS}`,
     {

@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import Resumable from "resumablejs";
+import { useLocale, useTranslations } from "next-intl";
+
 import { Progress } from "@/components/ui/progress";
 import {
   Tooltip,
@@ -9,17 +13,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useSession } from "next-auth/react";
-import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import { Input } from "@/components/ui/input";
 import {
   BadgeInfoIcon,
   FileVideoIcon,
   ReplaceIcon,
   UploadIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Input } from "./input";
-import Resumable from "resumablejs";
+
+import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import { cn, getDirection } from "@/lib/utils";
 
 interface FileUploaderProps {
   endpoint?: string;
@@ -28,10 +31,29 @@ interface FileUploaderProps {
   type: "audio" | "video";
   onUploadSuccess: () => void;
   onUploadError: (error: any) => void;
+  setUploadedNewPodcast: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024; // 5MB
 
+/**
+ * FileUploader component for uploading media files with resumable uploads.
+ *
+ * @param {FileUploaderProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered FileUploader component.
+ *
+ * @example
+ * ```tsx
+ * <FileUploader
+ *   endpoint="/api/upload"
+ *   uploadId="123"
+ *   type="audio"
+ *   onUploadSuccess={() => console.log("Upload success")}
+ *   onUploadError={(error) => console.log("Upload error", error)}
+ *   setUploadedNewPodcast={setUploadedNewPodcast}
+ * />
+ * ```
+ */
 const FileUploader: React.FC<FileUploaderProps> = ({
   endpoint,
   uploadId,
@@ -39,7 +61,9 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   type,
   onUploadSuccess,
   onUploadError,
+  setUploadedNewPodcast,
 }) => {
+  const t = useTranslations("Index");
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [lastUploadedChunk, setLastUploadedChunk] = useState<number>(0);
   const [fileName, setFileName] = useState<string>("");
@@ -74,21 +98,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       resumable.assignBrowse(fileInputRef.current!, false);
 
       resumable.on("fileAdded", (file) => {
-        // console.log(file);
-        console.log(file.file.type);
-        console.log(type);
-        console.log(type === "audio" && !file.file.type.startsWith("audio/"));
         if (
           (type === "audio" && !file.file.type.startsWith("audio/")) ||
           (type === "video" && !file.file.type.startsWith("video/"))
         ) {
-          toast.error(`Invalid file type. Expected ${type}.`);
+          toast.error(t("invalidFileType", { type }));
           resumable.removeFile(file);
           return;
         }
 
         setFileName(file.file.name);
-        toast.loading("Uploading file...");
+        toast.loading(t("uploadingFile"));
         toggleProgress();
         resumable.upload();
       });
@@ -97,7 +117,6 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         const progress = Math.floor(file.progress(false) * 100);
         updateProgress(progress);
 
-        // Update the last uploaded chunk number
         const chunkSize = resumable.opts.chunkSize ?? DEFAULT_CHUNK_SIZE;
         const uploadedChunks = Math.floor(
           (file.size * file.progress(false)) / chunkSize
@@ -107,19 +126,16 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
       resumable.on("fileSuccess", (file: any, response: any) => {
         toast.dismiss();
-        toast.success("File uploaded successfully!");
+        toast.success(t("fileUploadedSuccessfully"));
         setUploadProgress(100);
         toggleProgress();
         onUploadSuccess();
-        console.log(file, response);
-        setTimeout(function () {
-          window.location.reload();
-        }, 3000);
+        setUploadedNewPodcast(true);
       });
 
       resumable.on("fileError", (file, response) => {
         toast.dismiss();
-        toast.error("Something went wrong. Please try again!");
+        toast.error(t("somethingWentWrong"));
         toggleProgress();
         onUploadError(response);
         console.error(response);
@@ -175,13 +191,15 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       const uniqueIdentifier = `${file.name}-${file.size}`;
       const existingFile = resumable.getFromUniqueIdentifier(uniqueIdentifier);
 
-      // Correctly handle the return value of getFromUniqueIdentifier
       if (existingFile !== undefined && existingFile !== null) {
         resumable.removeFile(existingFile);
       }
       resumable.addFile(file);
     }
   };
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <div>
@@ -201,10 +219,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                 )}
                 type="file"
                 onChange={handleFileChange}
+                dir={dir}
               />
-              <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
+              <div
+                className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10"
+                dir={dir}
+              >
                 {uploadProgress > 0 && uploadProgress < 100 ? (
-                  <div className="flex flex-col w-full px-4 pb-2 items-center gap-1 mt-2">
+                  <div
+                    className="flex flex-col w-full px-4 pb-2 items-center gap-1 mt-2"
+                    dir={dir}
+                  >
                     <div className="flex w-full justify-center items-center gap-1 relative">
                       <div className="absolute start-4 flex gap-2 items-center">
                         <FileVideoIcon color="black" className="" size={16} />
@@ -221,8 +246,24 @@ const FileUploader: React.FC<FileUploaderProps> = ({
                       value={uploadProgress}
                     />
                   </div>
+                ) : fileName ? (
+                  <div
+                    className="flex justify-center items-center gap-2"
+                    dir={dir}
+                  >
+                    <FileVideoIcon color="black" className="absolute start-4" />
+                    <ReplaceIcon color="black" size={16} />
+                    <p className="text-black font-semibold text-xs md:text-sm">
+                      {fileName.length > 20
+                        ? fileName.slice(0, 14) + "..." + fileName.slice(-3)
+                        : fileName}
+                    </p>
+                  </div>
                 ) : initValue ? (
-                  <div className="flex justify-center items-center gap-2">
+                  <div
+                    className="flex justify-center items-center gap-2"
+                    dir={dir}
+                  >
                     <FileVideoIcon color="black" className="absolute start-4" />
                     <ReplaceIcon color="black" size={16} />
                     <p className="text-black font-semibold text-xs md:text-sm">
@@ -237,21 +278,18 @@ const FileUploader: React.FC<FileUploaderProps> = ({
               </div>
             </div>
           </TooltipTrigger>
-          <TooltipContent className="flex items-center gap-1 bg-primary">
+          <TooltipContent
+            className="flex items-center gap-1 bg-primary"
+            dir={dir}
+          >
             <BadgeInfoIcon size={16} />
             <p className="font-medium text-base">
-              Ensure that you saved the podcast data as a draft before you can
-              upload your podcast
+              {t("fileUploadTooltipMessage")}
             </p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      {isOffline && (
-        <div className="text-red-600">
-          You are offline. The upload will resume once the connection is
-          restored.
-        </div>
-      )}
+      {isOffline && <div className="text-red-600">{t("offlineMessage")}</div>}
     </div>
   );
 };

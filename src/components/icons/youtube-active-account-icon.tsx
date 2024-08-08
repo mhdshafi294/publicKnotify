@@ -27,6 +27,6 @@ const YoutubeActiveAccountIcon = forwardRef<
   );
 });
 
-YoutubeActiveAccountIcon.displayName = "Star";
+YoutubeActiveAccountIcon.displayName = "YoutubeActiveAccountIcon";
 
 export default YoutubeActiveAccountIcon;

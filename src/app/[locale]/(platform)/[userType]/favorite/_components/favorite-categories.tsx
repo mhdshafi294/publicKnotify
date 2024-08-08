@@ -1,13 +1,15 @@
 import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import { CategoryDetails } from "@/types/podcast";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import FavoriteCategoriesUL from "./favorite-categories-ul";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { FolderHeartIcon, HeartIcon } from "lucide-react";
+import { HeartIcon } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { useLocale } from "next-intl";
 
 const FavoriteCategories = async ({
   params,
@@ -23,11 +25,15 @@ const FavoriteCategories = async ({
   });
 
   const favoriteCategory = searchParams?.favoriteCategory as string | undefined;
+  const t = await getTranslations("Index");
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <>
       <div className="block lg:hidden mb-5">
-        <ScrollArea>
+        <ScrollArea dir={dir}>
           <FavoriteCategoriesUL
             {...{ searchParams, favoriteCategory, favoriteCategoriesData }}
           />
@@ -38,7 +44,7 @@ const FavoriteCategories = async ({
         <div className="flex flex-col gap-2 items-center">
           <HeartIcon className="" />
           <h2 className="text-xl opacity-75 text-center ">
-            Your Favorite Categories
+            {t("yourFavoriteCategories")}
           </h2>
         </div>
         <FavoriteCategoriesUL

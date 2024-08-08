@@ -1,6 +1,9 @@
 "use client";
 
+import React, { ComponentPropsWithoutRef } from "react";
 import { Control, FieldValues } from "react-hook-form";
+import { useLocale } from "next-intl";
+
 import {
   FormControl,
   FormField,
@@ -8,10 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
-import { CategoryDetails } from "@/types/podcast";
-
 import {
   Select,
   SelectContent,
@@ -19,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
+import { cn, getDirection } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -26,10 +26,26 @@ interface PropsType<T extends FieldValues>
   options: string[];
   className?: string;
   label: string;
-  labelClassName?: string | undefined;
+  labelClassName?: string;
   control: Control<T>;
 }
 
+/**
+ * SelectFormInput component that renders a select input field within a form.
+ *
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @returns {JSX.Element} The select form input component.
+ *
+ * @example
+ * ```tsx
+ * <SelectFormInput
+ *   name="category"
+ *   label="Category"
+ *   options={["Option 1", "Option 2"]}
+ *   control={control}
+ * />
+ * ```
+ */
 function SelectFormInput<T extends FieldValues>({
   control,
   name,
@@ -39,12 +55,15 @@ function SelectFormInput<T extends FieldValues>({
   labelClassName,
   ...props
 }: PropsType<T>) {
+  const locale = useLocale();
+  const dir = getDirection(locale);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className={cn("w-full", className)}>
+        <FormItem className={cn("w-full", className)} dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
@@ -52,10 +71,11 @@ function SelectFormInput<T extends FieldValues>({
             onValueChange={field.onChange}
             defaultValue={field.value}
             value={field.value}
+            dir={dir}
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder="Select a verified email to display" />
+                <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>

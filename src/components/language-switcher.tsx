@@ -1,8 +1,7 @@
-// app/components/LanguageSwitcher.tsx
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Globe } from "lucide-react";
 
 import {
@@ -16,15 +15,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Link } from "@/navigation";
 import { useSession } from "next-auth/react";
+import { getDirection } from "@/lib/utils";
 
 const locales = [
-  { locale: "en" as const, name: "English" },
   { locale: "ar" as const, name: "Arabic" },
+  { locale: "en" as const, name: "English" },
 ];
 
 export function LanguageSwitcher() {
   const t = useTranslations("Index");
   const pathname = usePathname();
+  const locale = useLocale();
+  const dir = getDirection(locale);
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(Array.from(searchParams.entries()));
@@ -32,7 +34,7 @@ export function LanguageSwitcher() {
 
   return (
     <div>
-      <DropdownMenu>
+      <DropdownMenu dir={dir}>
         <DropdownMenuTrigger asChild>
           <Button
             size={"icon"}
@@ -51,7 +53,7 @@ export function LanguageSwitcher() {
               return (
                 <Link key={locale} href={href} locale={locale}>
                   <DropdownMenuItem className="px-4 py-1">
-                    {name}
+                    {name === "Arabic" ? "العربية" : name}
                   </DropdownMenuItem>
                 </Link>
               );
@@ -59,7 +61,7 @@ export function LanguageSwitcher() {
               return (
                 <Link key={locale} href={href} locale={locale}>
                   <DropdownMenuItem className="px-4 py-1">
-                    {name}
+                    {name === "Arabic" ? "العربية" : name}
                   </DropdownMenuItem>
                 </Link>
               );

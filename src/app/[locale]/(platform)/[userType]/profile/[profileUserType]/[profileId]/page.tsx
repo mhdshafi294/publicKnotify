@@ -9,6 +9,8 @@ import { User } from "@/types/profile";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 import { PodcasterDetails } from "@/types/podcaster";
 import { redirect } from "@/navigation";
+import { getCompanyAction } from "@/app/actions/companyActions";
+import { Company } from "@/types/company";
 
 export default async function Profile({
   params,
@@ -17,7 +19,7 @@ export default async function Profile({
   params: { profileUserType: string; profileId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  let profileData: User | PodcasterDetails | undefined;
+  let profileData: User | PodcasterDetails | Company | undefined;
   let profileType: string | undefined;
   let isSelfProfile: boolean | undefined;
   const t = await getTranslations("Index");
@@ -43,7 +45,7 @@ export default async function Profile({
     profileType = profileData.type;
   } else {
     if (params.profileUserType === "podcaster") {
-      if (session?.user?.type !== "company")
+      if (session?.user?.type === "podcaster")
         redirect(`/${session?.user?.type}`);
       isSelfProfile = false;
       profileType = "podcaster";
@@ -57,10 +59,11 @@ export default async function Profile({
         redirect(`/${session?.user?.type}`);
       isSelfProfile = false;
       profileType = "company";
-      const profileResponse = await getProfileAction({
+      const profileResponse = await getCompanyAction({
+        id: params.profileId,
         type: session?.user?.type as string,
       });
-      profileData = profileResponse.user;
+      profileData = profileResponse.company;
     } else if (params.profileUserType === "user") {
       redirect(`/${session?.user?.type}`);
     }

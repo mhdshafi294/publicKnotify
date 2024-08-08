@@ -1,10 +1,28 @@
-type link = {
+type Link = {
   id: number;
   label: string;
   href: string;
 };
 
-export const mainNavLinks: link[] = [
+/**
+ * Main navigation links for the application.
+ *
+ * This array contains objects representing the main navigation links for the application.
+ * Each object has an `id`, `label`, and `href` property.
+ *
+ * @example
+ * ```typescript
+ * console.log(mainNavLinks);
+ * // [
+ * //   { id: 1, label: "Home", href: "/" },
+ * //   { id: 2, label: "Requests", href: "/requests" },
+ * //   { id: 3, label: "Statistics", href: "/statistics" },
+ * //   { id: 4, label: "Favorite", href: "/favorite" },
+ * //   { id: 5, label: "New Publish", href: "/publish" }
+ * // ]
+ * ```
+ */
+export const mainNavLinks: Link[] = [
   {
     label: "Home",
     href: "/",

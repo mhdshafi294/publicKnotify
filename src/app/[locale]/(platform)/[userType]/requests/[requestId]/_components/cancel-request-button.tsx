@@ -1,12 +1,12 @@
 "use client";
 
 import { toast } from "sonner";
-
 import { cancelRequestAction } from "@/app/actions/requestsActions";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const CancelRequestButton = ({
   requestId,
@@ -16,6 +16,7 @@ const CancelRequestButton = ({
   userType: string;
 }) => {
   const router = useRouter();
+  const t = useTranslations("Index");
 
   const {
     data,
@@ -24,16 +25,16 @@ const CancelRequestButton = ({
   } = useMutation({
     mutationFn: cancelRequestAction,
     onMutate: () => {
-      toast.loading("Canceling request...");
+      toast.loading(t("cancelingRequest"));
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("The request has been canceled");
+      toast.success(t("requestCanceled"));
       router.push(`/${userType}/requests`);
     },
     onError: () => {
       toast.dismiss();
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("somethingWentWrong"));
     },
   });
 
@@ -51,7 +52,7 @@ const CancelRequestButton = ({
       variant={status === "reject" ? "destructive" : "default"}
       onClick={handleCancel}
     >
-      {isPending ? <ButtonLoader /> : `Cancel`}
+      {isPending ? <ButtonLoader /> : t("cancel")}
     </Button>
   );
 };

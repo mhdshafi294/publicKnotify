@@ -1,7 +1,6 @@
 import { Control, FieldValues, useFormContext } from "react-hook-form";
-
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import {
   FormField,
   FormItem,
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Price } from "@/types/podcaster";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -46,12 +46,19 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
     setValue("type", type);
   }, [type, setValue]);
 
+  const locale = useLocale();
+  const dir = getDirection(locale);
+  const t = useTranslations("Index");
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toLocaleString()}
       render={({ field }) => (
-        <FormItem className={cn("flex flex-col justify-between", className)}>
+        <FormItem
+          className={cn("flex flex-col justify-between", className)}
+          dir={dir}
+        >
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
@@ -68,20 +75,22 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                     "flex items-center gap-2 space-y-0",
                     groupItemClassName
                   )}
+                  dir={dir}
                   onClick={() =>
-                    setType(option === "video" ? "video" : "audio")
+                    setType(option === t("video") ? "video" : "audio")
                   }
                 >
                   <FormControl>
                     <RadioGroupItem
                       value={option}
                       className={cn("min-w-fit", radioGroupItemClassName)}
+                      dir={dir}
                     />
                   </FormControl>
                   <FormLabel className="capitalize w-full h-full py-5 flex justify-between cursor-pointer">
                     <div className="flex items-center gap-1">
                       <span className=" ms-1">
-                        {option === "video" ? "" : "audio"}
+                        {option === t("video") ? "" : t("audio")}
                       </span>
                       {option}
                     </div>
@@ -89,13 +98,13 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                       <>
                         <span className=" text-gray-500">
                           $
-                          {option === "first"
+                          {option === t("first")
                             ? price.first
-                            : option === "middle"
+                            : option === t("middle")
                             ? price.middle
-                            : option === "end"
+                            : option === t("end")
                             ? price.end
-                            : option === "video"
+                            : option === t("video")
                             ? price.video
                             : ""}
                         </span>

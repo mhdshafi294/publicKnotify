@@ -1,45 +1,76 @@
-// app/error/page.tsx
-"use client";
+"use client"; // Error components must be Client Components
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "@/navigation";
-import { LucideAlertTriangle } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useEffect } from "react";
 
-export default function ErrorPage() {
+/**
+ * Error component that displays an error message and a button to navigate to the home page.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {Error & { digest?: string }} props.error - The error object containing the error details.
+ * @param {() => void} props.reset - The function to reset the error state.
+ * @returns {JSX.Element} The error screen component.
+ *
+ * @example
+ * ```tsx
+ * <Error error={new Error("An unexpected error occurred")} reset={() => {}} />
+ * ```
+ */
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  const t = useTranslations("Index");
   const router = useRouter();
-  const { data: session } = useSession();
+
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error);
+  }, [error]);
 
   return (
-    <div className="h-full min-h-screen w-full flex items-center justify-center">
-      <div className="absolute inset-0 h-full min-h-screen w-screen -z-10">
-        <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
-        <div className="absolute size-[580px] left-0 top-0 -z-10 -translate-x-1/2">
-          <div className="absolute size-full left-0 top-0 -z-30 rounded-full bg-primary/50 blur-xl" />
-          <div className="absolute size-14 top-10 right-20 -z-20 rounded-full bg-slate-500 blur-[20px]" />
+    <div className="relative h-full min-h-screen w-full flex flex-col items-center justify-center bg-background">
+      {/* Background Elements */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="absolute w-[580px] h-[580px] left-0 top-0 -translate-x-1/2">
+          <div className="absolute w-full h-full left-0 top-0 rounded-full bg-primary/50 blur-xl" />
+          <div className="absolute w-14 h-14 top-10 right-20 rounded-full bg-slate-500 blur-[20px]" />
         </div>
-        <div className="absolute top-0 right-0 size-[340px] -z-20 blur-lg">
-          <Image className="opacity-50" src="/auth-r-bg.svg" alt="logo" fill />
+        <div className="absolute top-0 right-0 w-[340px] h-[340px] blur-lg">
+          <Image
+            className="opacity-50"
+            src="/auth-r-bg.svg"
+            alt="background logo"
+            layout="fill"
+          />
         </div>
       </div>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="max-w-md p-8 bg-white rounded-lg shadow-md">
-          <Alert variant="destructive">
-            <LucideAlertTriangle className="w-6 h-6 mr-2 text-red-600" />
-            <AlertTitle>Error 404</AlertTitle>
-            <AlertDescription>
-              The page you are looking for does not exist.
-            </AlertDescription>
-          </Alert>
-          <Button
-            onClick={() => router.push(`/${session?.user?.type}`)}
-            className="w-full mt-4"
-          >
-            Go Home
-          </Button>
-        </div>
+      {/* Error Content */}
+      <div className="flex flex-col items-center justify-center">
+        <Image
+          src="/error.svg" // Path to your error SVG
+          alt="Error illustration"
+          width={50}
+          height={50}
+        />
+        <h1 className="text-6xl font-extrabold text-primary drop-shadow-lg my-4">
+          {t("errorTitle")}
+        </h1>
+        <p className="text-lg text-gray-700 mb-6 drop-shadow-md">
+          {t("errorMessage")}
+        </p>
+        <Button
+          className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary-dark transition-transform transform hover:scale-105"
+          onClick={() => router.push("/")}
+        >
+          Go to Home
+        </Button>
       </div>
     </div>
   );

@@ -89,13 +89,13 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                 .flat()
                 .find((client) => client.id.toString() === value)?.name
             : `${"Select playlist"}`}
-          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[400px] lg:w-[700px] 2xl:w-[995px] p-0 bg-card">
         <Command>
           <div className="flex items-center border-b px-3 overflow-hidden bg-card">
-            <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+            <Search className="me-2 h-4 w-4 shrink-0 opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
@@ -160,7 +160,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                         </div>
                         <CheckIcon
                           className={cn(
-                            "ml-auto h-4 w-4",
+                            "ms-auto h-4 w-4",
                             value === playList.id.toString()
                               ? "opacity-100"
                               : "opacity-0"

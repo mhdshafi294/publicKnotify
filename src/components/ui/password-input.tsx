@@ -1,4 +1,7 @@
+import React, { ComponentPropsWithoutRef, useState } from "react";
 import { Control, FieldValues } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
+
 import {
   FormControl,
   FormField,
@@ -7,9 +10,7 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { ComponentPropsWithoutRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Eye, EyeOff } from "lucide-react";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -19,6 +20,22 @@ interface PropsType<T extends FieldValues>
   control: Control<T>;
 }
 
+/**
+ * PasswordInput component that renders an input field for passwords with a toggle to show/hide the password.
+ *
+ * @template T - The type of the field values used in the form.
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @returns {JSX.Element} The password input component.
+ *
+ * @example
+ * ```tsx
+ * <PasswordInput
+ *   name="password"
+ *   label="Password"
+ *   control={control}
+ * />
+ * ```
+ */
 function PasswordInput<T extends FieldValues>({
   control,
   name,
@@ -28,6 +45,7 @@ function PasswordInput<T extends FieldValues>({
   ...props
 }: PropsType<T>) {
   const [toggle, setToggle] = useState(false);
+
   return (
     <FormField
       control={control as Control<FieldValues>}

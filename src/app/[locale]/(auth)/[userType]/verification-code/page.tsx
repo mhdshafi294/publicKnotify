@@ -1,13 +1,13 @@
 "use client";
+
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { checkCodeSchema } from "@/schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
-
 import {
   Form,
   FormControl,
@@ -21,23 +21,34 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-
-import confirmVerificationCode from "@/services/auth/verification-code";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { useMutation } from "@tanstack/react-query";
 import { confirmVerificationCodeAction } from "@/app/actions/authActions";
 
-const VerificationCode = ({
-  params,
-  searchParams,
-}: {
+interface VerificationCodeProps {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
+}
 
+/**
+ * VerificationCode component that renders a form for entering an OTP code for verification.
+ *
+ * @param {VerificationCodeProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The OTP code verification component.
+ *
+ * @example
+ * ```tsx
+ * <VerificationCode params={{ userType: "user" }} searchParams={{ phone: "1234567890" }} />
+ * ```
+ */
+const VerificationCode: React.FC<VerificationCodeProps> = ({
+  params,
+  searchParams,
+}) => {
+  const router = useRouter();
+  const t = useTranslations("Index");
+
+  // Initialize the form with validation schema and default values
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),
     defaultValues: {
@@ -45,20 +56,23 @@ const VerificationCode = ({
     },
   });
 
-  const {
-    data,
-    mutate: server_confirmVerificationCodeAction,
-    isPending,
-  } = useMutation({
-    mutationFn: confirmVerificationCodeAction,
-    onSuccess: () => {
-      router.push(`/sign-in?userType=${params.userType}`);
-    },
-    onError: () => {
-      toast.error("Something went wrong.please try again!");
-    },
-  });
+  // Initialize the mutation for confirming the OTP code
+  const { mutate: server_confirmVerificationCodeAction, isPending } =
+    useMutation({
+      mutationFn: confirmVerificationCodeAction,
+      onSuccess: () => {
+        router.push(`/sign-in?userType=${params.userType}`);
+      },
+      onError: () => {
+        toast.error(t("errorTryAgain"));
+      },
+    });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {checkCodeSchema} data - The form data.
+   */
   const handleSubmit = async (data: checkCodeSchema) => {
     server_confirmVerificationCodeAction({
       code: data.code,
@@ -69,22 +83,18 @@ const VerificationCode = ({
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>Verification Code</h2>
+      <h2>{t("verificationCode")}</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
-          onSubmit={form.handleSubmit((data) => {
-            handleSubmit(data);
-          })}
+          onSubmit={form.handleSubmit(handleSubmit)}
         >
           <FormField
             control={form.control}
             name="code"
             render={({ field }) => (
               <FormItem className="w-full flex flex-col items-center gap-16">
-                <FormLabel>
-                  We have sent the verification code to your phone number
-                </FormLabel>
+                <FormLabel>{t("verificationCodeSent")}</FormLabel>
                 <FormControl>
                   <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
@@ -106,11 +116,11 @@ const VerificationCode = ({
             )}
           />
           <Button
-            disabled={loading}
+            disabled={isPending}
             className="w-[264px] capitalize mx-auto mt-20"
             type="submit"
           >
-            {loading ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

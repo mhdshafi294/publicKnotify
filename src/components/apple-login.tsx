@@ -2,6 +2,16 @@ import React from "react";
 import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
 
+/**
+ * AppleLogin component that renders a button for signing in with Apple.
+ *
+ * @returns {JSX.Element} The Apple sign-in button component.
+ *
+ * @example
+ * ```tsx
+ * <AppleLogin />
+ * ```
+ */
 export const AppleLogin = () => {
   return (
     <Button
@@ -11,6 +21,7 @@ export const AppleLogin = () => {
       size={"icon"}
       className="bg-transparent hover:bg-transparent size-7"
     >
+      {/* Apple Icon SVG */}
       <svg
         width="26"
         height="28"

@@ -1,26 +1,42 @@
-import { useTranslations } from "next-intl";
-
-import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-section";
 import CategorySecrtion from "@/app/[locale]/(platform)/_components/category-secrtion";
-import PodcastersSection from "@/app/[locale]/(platform)//_components/podcasters-section";
+import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
+import CompaniesSection from "../_components/Companies-section";
+import { getTranslations } from "next-intl/server";
 
-export default function Home({
+export default async function Home({
   params,
   searchParams,
 }: {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const t = useTranslations("Index");
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/login");
+  }
+
+  const t = await getTranslations("Index");
+
+  const content = () => {
+    if (session?.user?.type !== "podcaster")
+      return (
+        <>
+          <TrendingSection params={params} searchParams={searchParams} />
+          <CategorySecrtion />
+          <PodcastersSection params={params} searchParams={searchParams} />
+        </>
+      );
+    else return <CompaniesSection />;
+  };
 
   return (
     <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
-      <h1 className="sr-only">Knotify Home Page</h1>
-      {/* <p>{t("title")}</p> */}
-      <TrendingSection params={params} searchParams={searchParams} />
-      <CategorySecrtion />
-      <PodcastersSection params={params} searchParams={searchParams} />
+      <h1 className="sr-only">{t("homePageTitle")}</h1>
+      {content()}
     </main>
   );
 }

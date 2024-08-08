@@ -10,7 +10,8 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -39,46 +40,49 @@ function DurationPickerFormInput<T extends FieldValues>({
       "0"
     )}`;
     setValue(name as string, formattedValue);
-    // console.log(formattedValue, getValues(name as string));
   }, [minutes, seconds, setValue, name]);
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
+  const t = useTranslations("Index");
 
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="">
+        <FormItem className="" dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
           <FormControl>
-            <div className="flex space-x-2">
+            <div className="flex gap-2" dir={dir}>
               <div className="flex flex-col  gap-0.5">
                 <Input
                   type="number"
                   className={cn("w-20", className)}
-                  placeholder="Mins"
+                  placeholder={t("mins")}
                   min="0"
                   max="59"
                   {...props}
                   onChange={(e) => setMinutes(e.target.value)}
                   value={minutes}
                 />
-                <p className="text-xs opacity-70 font-bold">mins</p>
+                <p className="text-xs opacity-70 font-bold">{t("mins")}</p>
               </div>
-              <span className="self-center">:</span>
+              <span className="self-start translate-y-1">:</span>
               <div className="flex flex-col  gap-0.5">
                 <Input
                   type="number"
                   className={cn("w-20", className)}
-                  placeholder="Secs"
+                  placeholder={t("secs")}
                   min="0"
                   max="59"
                   {...props}
                   onChange={(e) => setSeconds(e.target.value)}
                   value={seconds}
                 />
-                <p className="text-xs opacity-70 font-bold">secs</p>
+                <p className="text-xs opacity-70 font-bold">{t("secs")}</p>
               </div>
             </div>
           </FormControl>

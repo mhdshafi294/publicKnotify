@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { BadgeInfoIcon, Heart } from "lucide-react";
 
@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
+import { useTranslations } from "next-intl";
 
 type PodcasterFavoritePopoverProps = {
   podcasterId: string;
@@ -49,6 +50,13 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
 }) => {
   const session = useSession();
   const queryClient = useQueryClient();
+  const t = useTranslations("Index");
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -62,6 +70,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
       getMyFavoriteCategoriesListAction({
         type: session?.data?.user?.type!,
       }),
+    enabled: !!session?.data?.user?.type,
   });
 
   const {
@@ -71,7 +80,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
   } = useMutation({
     mutationFn: addToFavoriteAction,
     onSuccess: () => {
-      toast.success("added successfully.");
+      toast.success(t("addedSuccessfully"));
       setIsFavorite(true);
       setIsOpen(false);
     },
@@ -138,6 +147,8 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
     });
   };
 
+  if (!isMounted) return null;
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -169,25 +180,25 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
         }}
         forceMount
       >
-        <p className="px-4 w-full text-sm">Add to favorite lists</p>
+        <p className="px-4 w-full text-sm">{t("addToFavoriteLists")}</p>
         <Separator className="mt-2 bg-slate-900" />
         <Input
           onFocus={(e) => e.stopPropagation()}
           onKeyDown={createNewCategory}
           type="text"
-          placeholder="New Favourite List"
+          placeholder={t("newFavoriteList")}
           className="h-full bg-secondary/30 outline-none border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-none"
         />
         <p className="py-2 px-3 text-xs opacity-50 font-light">
-          Type and press SPACE to add new list
+          {t("typeAndPressSpace")}
         </p>
         <Separator className="mb-4 bg-slate-900" />
         <ScrollArea className="min-h-36 max-h-80 px-2">
           <ToggleGroup type="multiple" className="mt-2 flex-wrap" size={"sm"}>
             {isCategoriesPending ? (
-              <div>Loading...</div>
+              <div>{t("loading")}</div>
             ) : isCategoriesError ? (
-              <div>Somthing went wrong</div>
+              <div>{t("somethingWentWrong")}</div>
             ) : (
               categories.map((category, index) => (
                 <ToggleGroupItem
@@ -217,7 +228,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
                   className="font-semibold h-7 w-full"
                   onClick={handleSubmit}
                 >
-                  {isAddFavoritePending ? <ButtonLoader /> : "Save"}
+                  {isAddFavoritePending ? <ButtonLoader /> : t("save")}
                 </Button>
               </TooltipTrigger>
               <TooltipContent
@@ -227,9 +238,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
                 <div>
                   <BadgeInfoIcon size={16} />
                 </div>
-                <p className="text-center">
-                  Add this podcast to the selected favorites lists
-                </p>
+                <p className="text-center">{t("addToFavoritesTooltip")}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

@@ -6,6 +6,17 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Checkbox component using Radix UI's CheckboxPrimitive and Lucide's Check icon.
+ *
+ * @param {object} props - Props passed to the Checkbox component.
+ * @returns {JSX.Element} The rendered Checkbox component.
+ *
+ * @example
+ * ```tsx
+ * <Checkbox className="my-checkbox-class" checked={isChecked} onCheckedChange={setIsChecked} />
+ * ```
+ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
@@ -25,6 +36,7 @@ const Checkbox = React.forwardRef<
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));
+
 Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 
 export { Checkbox };

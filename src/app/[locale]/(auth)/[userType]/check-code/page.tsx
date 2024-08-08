@@ -1,13 +1,12 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 import { toast } from "sonner";
-import { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { checkCodeSchema } from "@/schema/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "@/navigation";
-
 import {
   Form,
   FormControl,
@@ -23,20 +22,29 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-
-import confirmCheckCode from "@/services/auth/check-code";
-import { useMutation } from "@tanstack/react-query";
 import { confirmCheckCodeAction } from "@/app/actions/authActions";
 
-const CheckCode = ({
-  params,
-  searchParams,
-}: {
+interface CheckCodeProps {
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
-  const router = useRouter();
+}
 
+/**
+ * CheckCode component that renders a form for entering an OTP code for verification.
+ *
+ * @param {CheckCodeProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The OTP code verification component.
+ *
+ * @example
+ * ```tsx
+ * <CheckCode params={{ userType: "user" }} searchParams={{ phone: "1234567890" }} />
+ * ```
+ */
+const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
+  const router = useRouter();
+  const t = useTranslations("Index");
+
+  // Initialize the form with validation schema and default values
   const form = useForm<checkCodeSchema>({
     resolver: zodResolver(checkCodeSchema),
     defaultValues: {
@@ -46,6 +54,7 @@ const CheckCode = ({
 
   const code = form.getValues("code");
 
+  // Initialize the mutation for confirming the OTP code
   const {
     data,
     mutate: server_ConfirmCheckCode,
@@ -53,16 +62,21 @@ const CheckCode = ({
   } = useMutation({
     mutationFn: confirmCheckCodeAction,
     onSuccess: () => {
-      toast.success("Confirmed!");
+      toast.success(t("confirmed"));
       router.push(
         `/${params.userType}/new-password?phone=${searchParams.phone}&code=${code}`
       );
     },
     onError: () => {
-      toast.error("Something went wrong.please try again!");
+      toast.error(t("errorTryAgain"));
     },
   });
 
+  /**
+   * Handles form submission.
+   *
+   * @param {checkCodeSchema} data - The form data.
+   */
   const handleSubmit = async (data: checkCodeSchema) => {
     server_ConfirmCheckCode({
       code: data.code,
@@ -73,7 +87,7 @@ const CheckCode = ({
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
-      <h2>OTP Code</h2>
+      <h2>{t("otpCode")}</h2>
       <Form {...form}>
         <form
           className="w-full mt-6 md:px-0 flex flex-col items-center"
@@ -86,9 +100,7 @@ const CheckCode = ({
             name="code"
             render={({ field }) => (
               <FormItem className="w-full flex flex-col items-center gap-16">
-                <FormLabel>
-                  We have sent a verification code to your phone number
-                </FormLabel>
+                <FormLabel>{t("verificationCodeSent")}</FormLabel>
                 <FormControl>
                   <InputOTP maxLength={4} {...field} containerClassName="gap-6">
                     <InputOTPGroup>
@@ -114,7 +126,7 @@ const CheckCode = ({
             className="w-[264px] capitalize mx-auto mt-20"
             type="submit"
           >
-            {isPending ? <ButtonLoader /> : "Confirm"}
+            {isPending ? <ButtonLoader /> : t("confirm")}
           </Button>
         </form>
       </Form>

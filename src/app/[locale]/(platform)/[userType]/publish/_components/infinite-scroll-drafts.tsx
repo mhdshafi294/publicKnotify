@@ -1,38 +1,53 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 
 import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { SelfPodcastsDetailsResponse } from "@/types/podcast";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { SquareArrowOutUpRightIcon, X } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import ThumbnailsCover from "@/components/thumbnails-cover";
 import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { cn, getDirection } from "@/lib/utils";
+import { SelfPodcastsDetailsResponse } from "@/types/podcast";
+import { useRouter } from "@/navigation";
 
-const InfiniteScrollDrafts = ({
-  isShow,
-  setIsShow,
-  search,
-  is_published = false,
-}: {
+interface InfiniteScrollDraftsProps {
   isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
   search?: string;
-  is_published?: boolean;
+  is_published?: number;
+}
+
+/**
+ * InfiniteScrollDrafts component that renders a list of podcast drafts with infinite scrolling.
+ *
+ * @param {InfiniteScrollDraftsProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The infinite scroll drafts component.
+ *
+ * @example
+ * ```tsx
+ * <InfiniteScrollDrafts isShow={true} setIsShow={setIsShow} search="podcast" />
+ * ```
+ */
+const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
+  isShow,
+  setIsShow,
+  search,
+  is_published = 0,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [currentPodcastId, setCurrentPodcastId] = useState<string | null>(null);
   const router = useRouter();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const initialRender = useRef(true);
   const current_podcast_id = searchParams.get("podcast_id");
-  const [currentPodcastId, setCurrentPodcastId] = useState(current_podcast_id);
 
   useEffect(() => {
     setIsMounted(true);
@@ -93,8 +108,6 @@ const InfiniteScrollDrafts = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
 
-  // console.log(isError, error, data);
-
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
@@ -105,17 +118,31 @@ const InfiniteScrollDrafts = ({
     if (currentPodcastId) {
       params.set("podcast_id", currentPodcastId);
     } else {
-      params.delete("podcast_id");
+      setCurrentPodcastId(null);
     }
 
     router.push(`?${params.toString()}`);
   }, [currentPodcastId]);
 
+  useEffect(() => {
+    if (current_podcast_id) {
+      setCurrentPodcastId(current_podcast_id);
+    } else {
+      setCurrentPodcastId(null);
+    }
+  }, [current_podcast_id]);
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
+  const t = useTranslations("Index");
+
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-[20dvw] rounded-tr-3xl absolute bottom-0 left-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
-        { "translate-x-0 w-[100dvw]  rounded-tr-none": isShow }
+        "flex flex-col gap-1 overflow-hidden w-[20dvw] absolute bottom-0 start-0 h-full bg-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
+        { "rounded-tr-3xl -translate-x-full": dir === "ltr" },
+        { "rounded-tl-3xl translate-x-full": dir === "rtl" },
+        { "translate-x-0 w-[100dvw] rounded-tr-none": isShow }
       )}
     >
       <Button
@@ -126,9 +153,12 @@ const InfiniteScrollDrafts = ({
       >
         <X />
       </Button>
-      <ThumbnailsCover title={"Drafts"} />
-      <ul className="w-full h- p-3 pe-0">
-        <ScrollArea className="w-full h-[calc(100vh-350px)] flex flex-wrap gap-5 pe-3">
+      <ThumbnailsCover title={t("drafts")} />
+      <ul className="w-full p-3 pe-0" dir={dir}>
+        <ScrollArea
+          className="w-full h-[calc(100vh-350px)] flex flex-col flex-wrap gap-5 pe-3"
+          dir={dir}
+        >
           {data?.pages.map((page) =>
             page?.podcasts.map((podcast) => (
               <li key={podcast?.id} className="w-full mt-3">
@@ -157,17 +187,16 @@ const InfiniteScrollDrafts = ({
                       {podcast?.publishing_date}
                     </p>
                     <p className="font-bold text-xs opacity-70">
-                      {podcast?.is_published ? "Published" : "Draft"}
+                      {podcast?.is_published ? t("published") : t("draft")}
                     </p>
                   </div>
                 </div>
               </li>
             ))
           )}
-          {/* loading spinner */}
           <div ref={ref} className="mt-4 flex items-center justify-center">
             {isFetchingNextPage && <Loader />}
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only">{t("loading")}</span>
           </div>
           <ScrollBar />
         </ScrollArea>

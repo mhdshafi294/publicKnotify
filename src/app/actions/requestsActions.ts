@@ -1,5 +1,6 @@
 "use server";
 
+// Importing request-related services
 import cancelRequest from "@/services/requests/cancel-status";
 import changeRequestStatus from "@/services/requests/change-status";
 import createRequest from "@/services/requests/create-request";
@@ -7,6 +8,17 @@ import getCompanySelfPodcasts from "@/services/requests/get-company-self-podcast
 import getRequest from "@/services/requests/get-request";
 import getRequests from "@/services/requests/get-requests";
 
+/**
+ * Fetches a list of requests based on provided parameters.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.page - The page number for pagination.
+ * @param {string} params.count - The number of requests to fetch per page.
+ * @param {string} params.search - The search query to filter requests.
+ * @param {string[]} params.status - The statuses to filter requests.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response containing the list of requests.
+ */
 export const getRequestsAction = async ({
   page = "1",
   count = "9",
@@ -30,6 +42,14 @@ export const getRequestsAction = async ({
   return getRequestsResponse;
 };
 
+/**
+ * Fetches the details of a specific request.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.id - The ID of the request.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response containing the request details.
+ */
 export const getRequestAction = async ({
   id,
   type,
@@ -37,13 +57,22 @@ export const getRequestAction = async ({
   id: string;
   type: string;
 }) => {
-  const getRequestsResponse = await getRequest({
+  const getRequestResponse = await getRequest({
     id,
     type,
   });
-  return getRequestsResponse;
+  return getRequestResponse;
 };
 
+/**
+ * Changes the status of a specific request.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.id - The ID of the request.
+ * @param {string} params.status - The new status for the request.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response after changing the request status.
+ */
 export const changeRequestStatusAction = async ({
   id,
   status,
@@ -53,14 +82,22 @@ export const changeRequestStatusAction = async ({
   status: string;
   type: string;
 }) => {
-  const getRequestsResponse = await changeRequestStatus({
+  const changeStatusResponse = await changeRequestStatus({
     id,
     status,
     type,
   });
-  return getRequestsResponse;
+  return changeStatusResponse;
 };
 
+/**
+ * Cancels a specific request.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.id - The ID of the request.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response after canceling the request.
+ */
 export const cancelRequestAction = async ({
   id,
   type,
@@ -68,13 +105,21 @@ export const cancelRequestAction = async ({
   id: string;
   type: string;
 }) => {
-  const getRequestsResponse = await cancelRequest({
+  const cancelRequestResponse = await cancelRequest({
     id,
     type,
   });
-  return getRequestsResponse;
+  return cancelRequestResponse;
 };
 
+/**
+ * Creates a new request with the provided form data.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {FormData} params.formData - The form data for creating the request.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response after creating the request.
+ */
 export const createRequestAction = async ({
   formData,
   type,
@@ -86,6 +131,15 @@ export const createRequestAction = async ({
   return createRequestResponse;
 };
 
+/**
+ * Fetches a list of self podcasts for a company.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.page - The page number for pagination.
+ * @param {string} params.count - The number of podcasts to fetch per page.
+ * @param {string} params.type - The type of podcast.
+ * @returns {Promise} - The API response containing the list of self podcasts.
+ */
 export const getCompanySelfPodcastsAction = async ({
   page = "1",
   count = "24",
@@ -95,10 +149,10 @@ export const getCompanySelfPodcastsAction = async ({
   count?: string;
   type: string;
 }) => {
-  const getRequestsResponse = await getCompanySelfPodcasts({
+  const getCompanySelfPodcastsResponse = await getCompanySelfPodcasts({
     page,
     count,
     type,
   });
-  return getRequestsResponse;
+  return getCompanySelfPodcastsResponse;
 };

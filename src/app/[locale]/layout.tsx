@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter as FontSans, Lato } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { Inter as FontSans, Lato, Noto_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import "./globals.css";
 
@@ -8,20 +9,28 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
-import { NextIntlClientProvider } from "next-intl";
+import NotificationProvider from "@/providers/NotificationProvider";
 import "react-photo-view/dist/react-photo-view.css";
 
+// Font configurations
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+const fontNotoSansArabic = Noto_Sans_Arabic({
+  weight: ["300", "400", "500", "600", "700", "900"],
+  subsets: ["arabic"],
+  variable: "--font-noto-sans-arabic",
+});
+
 const fontLato = Lato({
-  weight: ["300", "400", "700", "900", "100", "300", "400", "700", "900"],
+  weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-lato",
 });
 
+// Metadata for the application
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -36,6 +45,12 @@ export const metadata: Metadata = {
   ],
 };
 
+/**
+ * Fetches translation messages for the given locale.
+ *
+ * @param {string} locale - The locale identifier (e.g., 'en', 'ar').
+ * @returns {Promise<object|null>} The translation messages or null if not found.
+ */
 async function getMessages(locale: string) {
   try {
     return (await import(`../../../messages/${locale}.json`)).default;
@@ -44,6 +59,22 @@ async function getMessages(locale: string) {
   }
 }
 
+/**
+ * RootLayout component that wraps the application with necessary providers and layout settings.
+ *
+ * @param {object} props - The properties passed to the component.
+ * @param {React.ReactNode} props.children - The child components to be rendered inside the layout.
+ * @param {object} props.params - The parameters including locale.
+ * @param {string} props.params.locale - The locale identifier.
+ * @returns {JSX.Element} The root layout component.
+ *
+ * @example
+ * ```tsx
+ * <RootLayout params={{ locale: 'en' }}>
+ *   <App />
+ * </RootLayout>
+ * ```
+ */
 export default async function RootLayout({
   children,
   params: { locale },
@@ -63,13 +94,20 @@ export default async function RootLayout({
       dir={locale === "ar" ? "rtl" : "ltr"}
       suppressHydrationWarning
     >
-      <body className={cn("min-h-screen antialiased", fontLato.className)}>
+      <body
+        className={cn(
+          "min-h-screen antialiased",
+          locale === "ar" ? fontNotoSansArabic.className : fontLato.className
+        )}
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <NotificationProvider>{children}</NotificationProvider>
+              <Toaster />
+            </QueryProvider>
           </AuthProvider>
         </NextIntlClientProvider>
-        <Toaster />
       </body>
     </html>
   );

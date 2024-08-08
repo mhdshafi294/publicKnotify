@@ -50,8 +50,6 @@ export default async function Request({
   const locale = useLocale();
   const direction = getDirection(locale);
 
-  // console.log(request);
-
   return (
     <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">
       <MaxWidthContainer>
@@ -90,17 +88,21 @@ export default async function Request({
                 <ScrollBar orientation="horizontal" className="h-1.5" />
               </ScrollArea>
               <div className="flex gap-2 items-center text-sm">
-                <span className="text-xs text-muted-foreground">Type</span>
+                <span className="text-xs text-muted-foreground">
+                  {t("type")}
+                </span>
                 {request.type}
               </div>
               <div className="flex gap-4 text-xs">
                 <div className="flex gap-1 items-center text-sm">
-                  <span className="text-xs text-muted-foreground me-3">AD</span>
+                  <span className="text-xs text-muted-foreground me-3">
+                    {t("ad")}
+                  </span>
                   <span className="text-xs text-muted-foreground">
                     <ReplaceAllIcon size={14} />
                   </span>
                   {request.ad_place === "first"
-                    ? "At the beginning "
+                    ? t("atTheBeginning")
                     : request.ad_place}
                 </div>
                 <div className="flex gap-1 items-center text-sm">
@@ -121,7 +123,7 @@ export default async function Request({
               </CardDescription>
               <div className="justify-self-end mt-auto flex gap-1 items-center">
                 <div className="flex items-center gap-2">
-                  <p className="text-xs">Publish time at </p>{" "}
+                  <p className="text-xs">{t("publishTimeAt")}</p>{" "}
                   <CalendarClockIcon
                     size={15}
                     className=" text-muted-foreground"
@@ -212,12 +214,11 @@ export default async function Request({
                 ) : session?.user?.type === "podcaster" &&
                   request.status.toLowerCase() === "accepted by podcaster" ? (
                   <>
-                    {/* TODO: test&review */}
                     <Link
                       href={`/podcaser/publish?${searchParams.toString()}`}
                       className={cn(buttonVariants({ variant: "default" }), "")}
                     >
-                      Publish
+                      {t("publish")}
                     </Link>
                   </>
                 ) : session?.user?.type === "company" &&

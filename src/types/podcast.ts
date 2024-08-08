@@ -1,18 +1,35 @@
 import { ApiResponse, Pagination } from ".";
+import { Podcaster, PodcasterDetails } from "./podcaster";
 
 export type PodcastDetails = {
   id: number;
-  background: string;
-  created_at: string;
-  name: string;
-  podcast: string;
-  summary: string;
-  thumbnail: string;
   type: "audio" | "video";
-  categories: CategoryDetails[];
-  podcaster: PodcastPodcaster;
+  name: string;
+  summary: string;
+  categories: Category[];
   hashTags: HashTag[];
-  playback_position: PlaybackPosition;
+  thumbnail: string;
+  background: string;
+  podcast: string;
+  podcaster: { full_name: string, id:number };
+  playback_position: {
+    id: number;
+    current_position: number;
+    total_time: number;
+  } | null;
+  created_at: string;
+  playlist: PlayList | null;
+};
+
+export type PlayList = {
+  id: 1;
+  name: string;
+  description: string;
+  image: string;
+  podcasts_count: number;
+  type: string;
+  created_at: string;
+  podcasts: [];
 };
 
 export type SelfPodcastDetails = {
@@ -90,6 +107,18 @@ export type Playlist = {
   podcasts_count: number;
   type: string;
   created_at: string;
+  podcasts: SelfPodcastDetails[];
+};
+
+export type SearchResponse = ApiResponse & {
+  search: {
+    podcasters: {
+      data: Omit<PodcasterDetails, "phone" | "email" | "price">[];
+      pagination: Pagination;
+    };
+    podcasts: { data: Podcast[]; pagination: Pagination };
+    playLists: { data: Playlist[]; pagination: Pagination };
+  };
 };
 
 export type MetadataResponse = ApiResponse & {
@@ -104,6 +133,12 @@ export type PodcastsResponse = ApiResponse & {
   podcasts: Podcast[];
   pagination: Pagination;
 };
+
+export type CollectionsResponse = ApiResponse & {
+  collection: Podcast[];
+  pagination: Pagination;
+};
+
 export type SelfPodcastDetailsResponse = ApiResponse & {
   podcast: SelfPodcastDetails;
 };

@@ -12,7 +12,10 @@ export type Company = {
   favourite_categories: Category[];
 };
 
+export type CompanyResponse = ApiResponse & {
+  company: Company;
+};
 export type CompaniesResponse = ApiResponse & {
-  podcasters: Company[];
+  companies: Company[];
   pagination: Pagination;
 };

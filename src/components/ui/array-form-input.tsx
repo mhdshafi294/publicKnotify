@@ -10,9 +10,10 @@ import {
 } from "./form";
 import { Input } from "./input";
 import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, getDirection } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { Trash, X } from "lucide-react";
+import { Trash } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -37,6 +38,7 @@ function ArrayFormInput<T extends FieldValues>({
   const [items, setItems] = useState<string[]>(
     (defaultValues[name] as string[]) || []
   );
+  const t = useTranslations("Index");
 
   useEffect(() => {
     setItems((defaultValues[name] as string[]) || []);
@@ -57,17 +59,18 @@ function ArrayFormInput<T extends FieldValues>({
         }
       });
       event.currentTarget.value = "";
-
-      // setValue(name.toString(), items);
     } else return;
   };
+
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full">
+        <FormItem className="w-full" dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
@@ -75,7 +78,7 @@ function ArrayFormInput<T extends FieldValues>({
             <div className="flex flex-col md:flex-row gap-3 items-center">
               <Input
                 onKeyDown={createNewCategory}
-                placeholder={`# ${name.toString()}, press SPACE to add`}
+                placeholder={t("placeholder", { name: name.toString() })}
                 className={cn("w-20", className)}
               />
               <ScrollArea className="w-full whitespace-nowrap mt-3">

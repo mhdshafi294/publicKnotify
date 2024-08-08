@@ -10,19 +10,33 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AlignJustifyIcon, LogOutIcon, SettingsIcon, User } from "lucide-react";
+import {
+  AlignJustifyIcon,
+  BellRingIcon,
+  HeartHandshakeIcon,
+  LifeBuoyIcon,
+  LogOutIcon,
+  SettingsIcon,
+  ShieldAlertIcon,
+  User,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import NotificationsDropdown from "@/components/notifications-dropdown";
 import { mainNavLinks } from "@/config/links";
 import { Link, usePathname } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from "next-intl";
+import useNotificationStore from "@/store/use-notification-store";
 
 const MobileNavbar = () => {
   const { data: session, status } = useSession();
   const pathname = usePathname();
+  const t = useTranslations("Index");
+  const isOpen = useNotificationStore((state) => state.isOpen);
+  const setIsOpen = useNotificationStore((state) => state.setIsOpen);
+  const unreadNotifications = useNotificationStore((state) => state.unread);
 
   return (
     <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
@@ -34,7 +48,7 @@ const MobileNavbar = () => {
         </SheetTrigger>
         <SheetContent className="border-l-muted/25 px-0">
           <SheetHeader>
-            <SheetTitle className="flex gap-3 mr-3 w-full h-full px-6">
+            <SheetTitle className="flex gap-3 me-3 w-full h-full px-6">
               <Avatar className="cursor-pointer">
                 <AvatarImage
                   src={session?.user?.image!}
@@ -78,12 +92,12 @@ const MobileNavbar = () => {
                         {
                           hidden:
                             session?.user?.type === "user" &&
-                            (link.label === "Requests" ||
-                              link.label === "Statistics"),
+                            (t(link.label) === t("requests") ||
+                              t(link.label) === t("statistics")),
                         }
                       )}
                     >
-                      {link.label}
+                      {t(link.label)}
                     </Link>
                   );
                 } else {
@@ -102,43 +116,87 @@ const MobileNavbar = () => {
                       { hidden: session?.user?.type !== "podcaster" }
                     )}
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>;
                 }
               })}
+              <Link
+                href={`/terms`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("terms")}</span>
+              </Link>
+              <Link
+                href={`/privacy`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("privacy")}</span>
+              </Link>
+              <Link
+                href={`/support`}
+                className={cn(
+                  buttonVariants({ variant: "link" }),
+                  "text-white p-0 no-underline hover:no-underline "
+                )}
+              >
+                <span>{t("support")}</span>
+              </Link>
             </div>
           </div>
           <Separator className="my-5" />
           <div className="mx-6 flex flex-col gap-5">
             <div className="flex justify-between items-center">
-              <p>Language</p>
+              <p>{t("language")}</p>
               <LanguageSwitcher />
             </div>
             <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <User className="me-2 h-4 w-4" />
+              <span>{t("profile")}</span>
             </Link>
             <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/settings`}
             >
-              <SettingsIcon className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <SettingsIcon className="me-2 h-4 w-4" />
+              <span>{t("settings")}</span>
             </Link>
             <div
               className="text-red-500 flex gap-1 items-center"
               onClick={() => signOut()}
             >
-              <LogOutIcon className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <LogOutIcon className="me-2 h-4 w-4" />
+              <span>{t("logOut")}</span>
             </div>
           </div>
         </SheetContent>
       </Sheet>
-      <NotificationsDropdown />
+      {/* <NotificationsDropdown className="block lg:hidden" /> */}
+      <Button
+        variant="secondary"
+        size={"icon"}
+        className={cn("bg-transparent")}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className="sr-only">notifications</span>
+        <BellRingIcon
+          strokeWidth={1.5}
+          className="stroke-white size-[18px] lg:size-auto"
+        />
+        {unreadNotifications && !isOpen ? (
+          <span className="size-4 bg-red-600 text-white rounded-full text-xs flex justify-center items-center absolute top-0 -right-1 before:absolute before:inset-0 before:bg-red-600 before:rounded-full before:animate-ping before:-z-0">
+            {unreadNotifications}
+          </span>
+        ) : null}
+      </Button>
     </div>
   );
 };
