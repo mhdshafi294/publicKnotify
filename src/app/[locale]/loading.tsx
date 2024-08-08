@@ -29,7 +29,11 @@ const Loading = () => {
             className="opacity-50"
             src="/auth-r-bg.svg"
             alt="background logo"
+<<<<<<< HEAD
             fill
+=======
+            layout="fill"
+>>>>>>> 7c36c71289ecff8927e5f7aeb76e57dde086ecfa
           />
         </div>
       </div>
