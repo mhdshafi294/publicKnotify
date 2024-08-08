@@ -6,7 +6,8 @@ import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "@/navigation";
+// import { revalidatePath } from "next/cache";
 
 const ChangeRequestStatusButton = ({
   requestId,
@@ -24,17 +25,21 @@ const ChangeRequestStatusButton = ({
       ? "This request has been rejected by you"
       : "Process completed";
 
+  const router = useRouter();
   const {
     data,
     mutate: server_changeRequestStatusAction,
     isPending,
   } = useMutation({
     mutationFn: changeRequestStatusAction,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data, "dataInSuccess");
       toast.success(successToastMessage);
-      revalidatePath(`/${userType}/requests`);
+      router.push(`/${userType}/requests/${requestId}`);
+      // revalidatePath(`/${userType}/requests`); // ?? not working
     },
     onError: () => {
+      console.log(data, "dataInError");
       toast.error("Something went wrong.please try again!");
     },
   });

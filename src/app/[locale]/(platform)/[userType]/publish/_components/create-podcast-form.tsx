@@ -184,6 +184,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
 
   // Mutation for creating metadata
   const {
+    data: createMetadataResponse,
     mutate: server_createMetadataAction,
     isPending: isPendingCreateMetadata,
     error: errorCreateMetadata,
@@ -200,10 +201,10 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
       router.push(`publish?${params.toString()}`);
     },
-    onError: () => {
+    onError: (error) => {
       toast.dismiss();
-      toast.error(t("somethingWentWrong"));
-      console.error(errorCreateMetadata);
+      if (error.message.includes("422")) toast.error(t("draftAlreadyError"));
+      else toast.error(t("somethingWentWrong"));
     },
   });
 
