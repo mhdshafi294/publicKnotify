@@ -147,10 +147,7 @@
     "verificationCodeSent": "تم إرسال رمز تحقق جديد إلى هاتفك",
     "invalidPhoneOrPassword": "الهاتف المحدد أو كلمة المرور غير صحيحة.",
     "blockedByAdmin": "لقد تم حظرك من قبل المسؤول. يرجى الاتصال بنا.",
-<<<<<<< HEAD
     "notVerifiedByTheAdmenYet": "لم يتم تصديق الحساب من ادارة الموقع بعد",
-=======
->>>>>>> 7c36c71289ecff8927e5f7aeb76e57dde086ecfa
     "errorOccurred": "حدث خطأ. حاول مرة اخرى.",
     "invalidPhone": "الهاتف المحدد غير صالح.",
     "tryAgain": "حدث خطأ ما. حاول مرة أخرى!",

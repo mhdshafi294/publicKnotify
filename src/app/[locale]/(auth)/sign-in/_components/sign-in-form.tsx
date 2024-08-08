@@ -90,7 +90,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-<<<<<<< HEAD
         // throw signInResponse;
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
@@ -105,18 +104,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         setLoading(false);
         toast.error(t("errorOccurred"));
         throw signInResponse?.error;
-=======
-        toast.warning(t("verificationCodeSent"));
-      } else if (signInResponse?.error?.includes("422")) {
-        setLoading(false);
-        toast.error(t("invalidPhoneOrPassword"));
-      } else if (signInResponse?.error?.includes("403")) {
-        setLoading(false);
-        toast.warning(t("blockedByAdmin"));
-      } else {
-        setLoading(false);
-        toast.error(t("errorOccurred"));
->>>>>>> 7c36c71289ecff8927e5f7aeb76e57dde086ecfa
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -127,10 +114,6 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-<<<<<<< HEAD
-=======
-        toast.warning(t("verificationCodeSent"));
->>>>>>> 7c36c71289ecff8927e5f7aeb76e57dde086ecfa
       } else if (err.response?.status == 422) {
         toast.error(t("invalidPhone"));
       } else {
