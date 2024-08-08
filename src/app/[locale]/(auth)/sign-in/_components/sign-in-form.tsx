@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import sendCode from "@/services/auth/send-code";
 import PhoneNumberInput from "@/components/phone-number-input";
+import { sendCodeAction } from "@/app/actions/authActions";
 
 interface SignInFormProps {
   type: "podcaster" | "user" | "company";
@@ -79,30 +80,40 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         router.push(`/${type}`);
       } else if (signInResponse?.error?.includes("434")) {
         setLoading(false);
-        await sendCode({ body: { phone: data.phone }, type });
+        try {
+          await sendCodeAction({ body: { phone: data.phone }, type });
+        } catch (error) {
+          toast.error(t("errorOccurred"));
+          console.log(error, typeof error, "here");
+        }
+        toast.warning(t("verificationCodeSent"));
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-        toast.warning(t("verificationCodeSent"));
+        // throw signInResponse;
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
         toast.error(t("invalidPhoneOrPassword"));
+        throw signInResponse?.error;
       } else if (signInResponse?.error?.includes("403")) {
         setLoading(false);
         toast.warning(t("blockedByAdmin"));
+        toast.warning(t("notVerifiedByTheAdmenYet"));
+        throw signInResponse?.error;
       } else {
         setLoading(false);
         toast.error(t("errorOccurred"));
+        throw signInResponse?.error;
       }
     } catch (error) {
       const err = error as AxiosError;
       setLoading(false);
       if (err.response?.status == 434) {
         await sendCode({ body: { phone: data.phone }, type });
+        toast.warning(t("verificationCodeSent"));
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-        toast.warning(t("verificationCodeSent"));
       } else if (err.response?.status == 422) {
         toast.error(t("invalidPhone"));
       } else {
