@@ -1,14 +1,27 @@
 "use client";
 
+// Global imports
 import { toast } from "sonner";
-
-import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "@/navigation";
+
+// Local imports
+import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { useRouter } from "@/navigation";
-// import { revalidatePath } from "next/cache";
 
+/**
+ * ChangeRequestStatusButton Component
+ * Renders a button that allows the user to accept or reject a request.
+ * Displays a loading state while the request status is being updated and shows a toast message on success or error.
+ *
+ * @param {Object} props - The props object.
+ * @param {string} props.requestId - The ID of the request to change status.
+ * @param {string} props.userType - The type of user performing the action.
+ * @param {'accept' | 'reject'} props.status - The status to set for the request.
+ *
+ * @returns {JSX.Element} The button element that triggers status change.
+ */
 const ChangeRequestStatusButton = ({
   requestId,
   userType,
@@ -18,6 +31,7 @@ const ChangeRequestStatusButton = ({
   userType: string;
   status: "accept" | "reject";
 }) => {
+  // Define the success message based on the status
   const successToastMessage =
     status === "accept"
       ? "This request has been accepted by you"
@@ -25,7 +39,10 @@ const ChangeRequestStatusButton = ({
       ? "This request has been rejected by you"
       : "Process completed";
 
+  // Initialize the router for navigation
   const router = useRouter();
+
+  // Define the mutation for changing the request status
   const {
     data,
     mutate: server_changeRequestStatusAction,
@@ -36,14 +53,18 @@ const ChangeRequestStatusButton = ({
       console.log(data, "dataInSuccess");
       toast.success(successToastMessage);
       router.push(`/${userType}/requests/${requestId}`);
-      // revalidatePath(`/${userType}/requests`); // ?? not working
+      // revalidatePath(`/${userType}/requests`); // Uncomment if revalidatePath works in your setup
     },
     onError: () => {
       console.log(data, "dataInError");
-      toast.error("Something went wrong.please try again!");
+      toast.error("Something went wrong. Please try again!");
     },
   });
 
+  /**
+   * Handles the accept/reject action for the request.
+   * Calls the mutation function with the request ID, status, and user type.
+   */
   const handleAccept = async () => {
     server_changeRequestStatusAction({
       id: requestId,
@@ -59,7 +80,7 @@ const ChangeRequestStatusButton = ({
       variant={status === "reject" ? "destructive" : "default"}
       onClick={handleAccept}
     >
-      {isPending ? <ButtonLoader /> : `${status}`}
+      {isPending ? <ButtonLoader /> : status}
     </Button>
   );
 };
