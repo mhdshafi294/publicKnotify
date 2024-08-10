@@ -1,15 +1,27 @@
 "use client";
 
-import { Notification, NotificationsResponse } from "@/types/notification";
-import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
-import { useTranslations } from "next-intl";
-import { getNotificationsAction } from "@/app/actions/notificationActions";
-import { Separator } from "@/components/ui/separator";
-import { formatDistanceToNow } from "date-fns";
+import React, { useEffect } from "react"; // Core React import
+import { useInfiniteQuery } from "@tanstack/react-query"; // External dependency for infinite query
+import { formatDistanceToNow } from "date-fns"; // External utility for date formatting
+import { useTranslations } from "next-intl"; // External dependency for internationalization
 
+import { Notification, NotificationsResponse } from "@/types/notification"; // Internal type definitions
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer"; // Internal custom hook for intersection observer
+import { getNotificationsAction } from "@/app/actions/notificationActions"; // Internal function for fetching notifications
+import Loader from "@/components/ui/loader"; // Internal component for loading indicator
+import { Separator } from "@/components/ui/separator"; // Internal component for separator
+
+/**
+ * InfiniteScrollNotificationsDialog Component
+ *
+ * This component displays a list of notifications with infinite scrolling functionality. It fetches additional
+ * notifications as the user scrolls and appends them to the existing list. The notifications are displayed in a dialog.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Notification[] | undefined} props.initialNotifications - Initial set of notifications to display.
+ * @param {string} props.type - Type of notifications to fetch.
+ * @returns {JSX.Element} The rendered list of notifications with infinite scroll.
+ */
 const InfiniteScrollNotificationsDialog = ({
   initialNotifications,
   type,
@@ -17,11 +29,10 @@ const InfiniteScrollNotificationsDialog = ({
   initialNotifications: Notification[] | undefined;
   type: string;
 }) => {
-  const t = useTranslations("Index");
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const t = useTranslations("Index"); // Hook for translations
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 }); // Hook for intersection observer
 
+  // Infinite query setup
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["notifications", { type }],
@@ -80,11 +91,11 @@ const InfiniteScrollNotificationsDialog = ({
 
   return (
     <>
-      <ul className="w-full flex flex-col gap-5  py-2">
+      <ul className="w-full flex flex-col gap-5 py-2">
         {data?.pages.map((page) =>
           page?.notifications.map((notification, index) => (
-            <>
-              <li key={notification?.id} className="w-full px-4">
+            <React.Fragment key={notification?.id}>
+              <li className="w-full px-4">
                 <div className="w-full flex items-center justify-between">
                   <h3 className="">{notification?.title}</h3>
                   <p className="text-[10px] text-greeny_lighter/70">
@@ -95,10 +106,10 @@ const InfiniteScrollNotificationsDialog = ({
                 </div>
                 <p className="text-xs opacity-70 mt-2">{notification?.body}</p>
               </li>
-              {index !== page?.notifications.length - 1 ? (
+              {index !== page?.notifications.length - 1 && (
                 <Separator className="opacity-80" />
-              ) : null}
-            </>
+              )}
+            </React.Fragment>
           ))
         )}
       </ul>

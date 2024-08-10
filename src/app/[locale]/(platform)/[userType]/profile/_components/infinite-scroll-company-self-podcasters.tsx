@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import Loader from "@/components/ui/loader";
+import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import {
   Carousel,
   CarouselContent,
@@ -12,12 +15,17 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { getCompanySelfPodcastersAction } from "@/app/actions/podcasterActions";
-import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { PodcasterCard } from "@/components/podcaster-card";
 
+/**
+ * Component to display podcasters from a company in a carousel with infinite scrolling.
+ *
+ * @param {object} props - Component props.
+ * @param {Podcaster[] | undefined} props.initialData - Initial podcaster data.
+ * @param {string} props.type - Type of user or context for the podcaster.
+ * @returns {JSX.Element} The rendered carousel of podcasters.
+ */
 const InfiniteScrollCompanySelfPodcasters = ({
   initialData,
   type,
@@ -28,9 +36,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
   const locale = useLocale();
   const t = useTranslations("Index");
   const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
 
   const {
     isError,
@@ -50,11 +56,7 @@ const InfiniteScrollCompanySelfPodcasters = ({
       );
       return {
         podcasters: response.podcasters,
-        pagination: {
-          ...response.pagination,
-          next_page_url: response.pagination.next_page_url,
-          prev_page_url: response.pagination.prev_page_url,
-        },
+        pagination: response.pagination,
       };
     },
     getNextPageParam: (lastPage) => {
@@ -73,11 +75,10 @@ const InfiniteScrollCompanySelfPodcasters = ({
                 current_page: 1,
                 first_page_url: "",
                 last_page_url: "",
-                next_page_url:
-                  initialData && initialData.length > 0 ? "" : null,
+                next_page_url: initialData.length > 0 ? "" : null,
                 per_page: 10,
                 prev_page_url: null,
-                total: initialData ? initialData.length : 0,
+                total: initialData.length,
               },
             },
           ],
@@ -93,6 +94,10 @@ const InfiniteScrollCompanySelfPodcasters = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
+
+  if (isError) {
+    return <p className="text-red-500">{t("errorLoadingPodcasters")}</p>;
+  }
 
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
@@ -120,17 +125,15 @@ const InfiniteScrollCompanySelfPodcasters = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

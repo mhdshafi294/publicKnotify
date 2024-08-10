@@ -1,7 +1,8 @@
+import { getServerSession } from "next-auth";
+
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
-import { getServerSession } from "next-auth";
 
 /**
  * Home Component

@@ -1,23 +1,40 @@
-import { getServerSession } from "next-auth";
+// Global imports
+import { getServerSession } from "next-auth"; // External dependency for session management
+import { getTranslations } from "next-intl/server"; // External dependency for internationalization
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getTranslations } from "next-intl/server";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import Search from "@/components/search";
-import { getTrendingAction } from "@/app/actions/podcastActions";
-import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
+// Local imports
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
+import Search from "@/components/search"; // Internal component import
+import { getTrendingAction } from "@/app/actions/podcastActions"; // Internal action import
+import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts"; // Internal component import
 
+/**
+ * PodcastsPage Component
+ *
+ * This component renders a page with trending podcasts and a search bar.
+ * It fetches the initial list of trending podcasts based on the search query
+ * and user type. The `InfiniteScrollPodcasts` component handles the display
+ * of podcasts with infinite scrolling.
+ *
+ * @param {Object} searchParams - Query parameters from the URL.
+ * @param {string | string[] | undefined} searchParams.search - The search query for filtering podcasts.
+ * @returns {JSX.Element} The rendered page with a list of trending podcasts and a search bar.
+ */
 export default async function PodcastsPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  // Extract search query from searchParams
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
+  // Fetch session and translations
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Index");
 
+  // Fetch initial trending podcasts data
   const firstPageTrendingResponse = await getTrendingAction({
     type: session?.user?.type!,
     search,

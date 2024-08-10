@@ -1,24 +1,38 @@
 "use client";
 
+// Global imports
 import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
+
+// Local imports
 import Loader from "@/components/ui/loader";
-import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
-
 import { PodcasterCard } from "./podcaster-card";
 import { Link } from "@/navigation";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
 
+/**
+ * InfiniteScrollPodcastersCarousel Component
+ * Renders a carousel of podcasters with infinite scrolling.
+ * Fetches and displays podcasters based on the search query and user type.
+ *
+ * @param {Object} props - The props object.
+ * @param {Podcaster[] | undefined} props.initialData - Initial podcaster data.
+ * @param {string} [props.search] - The search query.
+ * @param {string} props.type - The type of the user or content.
+ *
+ * @returns {JSX.Element} The carousel of podcasters with infinite scroll.
+ */
 const InfiniteScrollPodcastersCarousel = ({
   initialData,
   search,
@@ -28,14 +42,20 @@ const InfiniteScrollPodcastersCarousel = ({
   search?: string;
   type: string;
 }) => {
+  // Fetch locale and translations
   const locale = useLocale();
   const t = useTranslations("Index");
   const direction = getDirection(locale);
+
+  // Intersection observer to detect when to fetch the next page
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+
+  // Session management
   const { data: session } = useSession();
 
+  // Infinite query for fetching podcasters
   const {
     isError,
     error,
@@ -90,6 +110,7 @@ const InfiniteScrollPodcastersCarousel = ({
     },
   });
 
+  // Fetch next page when intersection is detected and more pages are available
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
       fetchNextPage();
@@ -102,6 +123,7 @@ const InfiniteScrollPodcastersCarousel = ({
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-2xl capitalize">{t("podcasters")}</h2>
         <div className="flex relative justify-end items-center">
+          {/* Link to view all podcasters */}
           <Link
             href={{
               pathname: `${type}/podcasters`,
@@ -110,7 +132,7 @@ const InfiniteScrollPodcastersCarousel = ({
             className="flex gap-2 items-center text-card-foreground/50 hover:text-card-foreground/100 duration-200"
           >
             <p className="font-semibold">{t("viewAll")}</p>
-            <SquareArrowOutUpRightIcon size={14} className="" />
+            <SquareArrowOutUpRightIcon size={14} />
           </Link>
         </div>
       </div>
@@ -131,17 +153,16 @@ const InfiniteScrollPodcastersCarousel = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        {/* Loader for fetching next page */}
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

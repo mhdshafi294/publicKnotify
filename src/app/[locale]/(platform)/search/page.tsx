@@ -1,18 +1,35 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { redirect } from "@/navigation";
+// Global imports
 import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
+import { redirect } from "@/navigation";
+
+// Local imports
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getSearchAction } from "@/app/actions/podcastActions";
+import { getCompaniesAction } from "@/app/actions/companyActions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
-import Search from "@/components/search";
 import InfiniteScrollPlaylistsCarousel from "@/components/infinite-scroll-playlists-carousel";
 import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
+import Search from "@/components/search";
 import { SearchResponse } from "@/types/podcast";
-import { getCompaniesAction } from "@/app/actions/companyActions";
 import { CompaniesResponse } from "@/types/company";
-import { getTranslations } from "next-intl/server";
 
+/**
+ * SearchPage Component
+ * Handles rendering search results based on user type and search parameters.
+ * It fetches relevant data and displays different carousels or components
+ * based on whether the user is a podcaster or not.
+ *
+ * @param {Object} props - The props object.
+ * @param {Object} props.params - The route parameters.
+ * @param {Object} props.searchParams - The search query parameters.
+ * @param {string} props.params.userType - The type of the user (e.g., "podcaster").
+ * @param {Object} props.searchParams - The search parameters from the URL.
+ *
+ * @returns {JSX.Element} The search results page content.
+ */
 export default async function SearchPage({
   params,
   searchParams,
@@ -20,18 +37,26 @@ export default async function SearchPage({
   params: { userType: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  // Extract search query from searchParams
   const search =
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
+  // Fetch the current session using the server session method
   const session = await getServerSession(authOptions);
+
+  // Redirect to login page if not authenticated
   if (!session) {
     redirect("/login");
   }
+
+  // Initialize data variables
   let initData: SearchResponse;
   let companiesInitData: CompaniesResponse;
 
+  // Fetch translations for the "Index" namespace
   const t = await getTranslations("Index");
 
+  // Fetch search or company data based on user type
   if (session?.user?.type !== "podcaster") {
     initData = await getSearchAction({
       search,
@@ -44,8 +69,9 @@ export default async function SearchPage({
     });
   }
 
+  // Define content based on user type
   const content = () => {
-    if (session?.user?.type !== "podcaster")
+    if (session?.user?.type !== "podcaster") {
       return (
         <>
           <InfiniteScrollPlaylistsCarousel
@@ -65,7 +91,7 @@ export default async function SearchPage({
           />
         </>
       );
-    else
+    } else {
       return (
         <>
           <h2 className="font-bold text-2xl capitalize">
@@ -77,6 +103,7 @@ export default async function SearchPage({
           />
         </>
       );
+    }
   };
 
   return (

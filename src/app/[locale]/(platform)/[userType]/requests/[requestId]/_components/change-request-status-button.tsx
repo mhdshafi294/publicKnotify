@@ -50,7 +50,7 @@ const ChangeRequestStatusButton = ({
   } = useMutation({
     mutationFn: changeRequestStatusAction,
     onSuccess: (data) => {
-      console.log(data, "dataInSuccess");
+      // console.log(data, "dataInSuccess");
       toast.success(successToastMessage);
       router.push(`/${userType}/requests/${requestId}`);
       // revalidatePath(`/${userType}/requests`); // Uncomment if revalidatePath works in your setup

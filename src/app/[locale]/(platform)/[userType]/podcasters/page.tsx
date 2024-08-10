@@ -1,19 +1,24 @@
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth"; // Core NextAuth import
 
-import { Link, redirect } from "@/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getTranslations } from "next-intl/server";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import Search from "@/components/search";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { getTrendingAction } from "@/app/actions/podcastActions";
-import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
-import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts";
-import InfiniteScrollPodcasters from "@/components/infinite-scroll-podcasters";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
-import { useTranslations } from "next-intl";
+import { redirect } from "@/navigation"; // Internal navigation import
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal auth options import
+import { getTranslations } from "next-intl/server"; // Internal i18n import
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal UI component import
+import Search from "@/components/search"; // Internal search component import
+import InfiniteScrollPodcasters from "@/components/infinite-scroll-podcasters"; // Internal infinite scroll component import
+import { getPodcastersAction } from "@/app/actions/podcasterActions"; // Internal action import
 
+/**
+ * PodcastersPage Component
+ *
+ * This component renders a page that displays a list of podcasters with a search functionality.
+ * It uses server-side data fetching to get the initial list of podcasters and handles redirection
+ * based on user type.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.searchParams - Query parameters for the search functionality.
+ * @returns {JSX.Element} The rendered component with a list of podcasters and a search bar.
+ */
 export default async function PodcastersPage({
   searchParams,
 }: {
@@ -23,35 +28,33 @@ export default async function PodcastersPage({
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
   const session = await getServerSession(authOptions);
+
+  // Redirect if the user is a podcaster
   if (session?.user?.type === "podcaster") {
     redirect(`/podcaster`);
   }
+
   const t = await getTranslations("Index");
 
-  // console.log(search);
-
+  // Fetch initial data for podcasters
   const firstPageTrendingResponse = await getPodcastersAction({
     type: session?.user?.type!,
     search,
   });
-  // console.log(podcastsResponse);
-  // console.log(podcastsData);
 
   return (
-    <>
-      <main className="py-10">
-        <MaxWidthContainer className="flex flex-col gap-7">
-          <div className="w-full flex justify-between items-center gap-2">
-            <h2 className="lg:text-5xl font-bold">{t("podcasters")}</h2>
-            <Search searchText={search} searchFor={"podcasters"} />
-          </div>
-          <InfiniteScrollPodcasters
-            initialData={firstPageTrendingResponse.podcasters}
-            search={search}
-            type={session?.user?.type!}
-          />
-        </MaxWidthContainer>
-      </main>
-    </>
+    <main className="py-10">
+      <MaxWidthContainer className="flex flex-col gap-7">
+        <div className="w-full flex justify-between items-center gap-2">
+          <h2 className="lg:text-5xl font-bold">{t("podcasters")}</h2>
+          <Search searchText={search} searchFor="podcasters" />
+        </div>
+        <InfiniteScrollPodcasters
+          initialData={firstPageTrendingResponse.podcasters}
+          search={search}
+          type={session?.user?.type!}
+        />
+      </MaxWidthContainer>
+    </main>
   );
 }

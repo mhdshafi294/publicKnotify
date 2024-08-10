@@ -1,3 +1,9 @@
+import { FileSymlinkIcon } from "lucide-react";
+import { Session } from "next-auth";
+import { getTranslations } from "next-intl/server";
+
+import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
+import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
 import {
   getPlayListsAction,
   getPlayListsByPodcasterAction,
@@ -6,32 +12,40 @@ import {
   getSelfPlaybackAction,
   getSelfPodcastsAction,
 } from "@/app/actions/podcastActions";
-import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
-import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
-import { Company } from "@/types/company";
-import { Playlist, Podcast, SelfPodcastDetails } from "@/types/podcast";
-import { Podcaster, PodcasterDetails } from "@/types/podcaster";
-import { User } from "@/types/profile";
-import { Session } from "next-auth";
-import React from "react";
-import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import {
   getCompanySelfPodcastersAction,
   getPodcastersByCompanyAction,
 } from "@/app/actions/podcasterActions";
-import InfiniteScrollCompanySelfPodcasters from "./infinite-scroll-company-self-podcasters";
-import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
-import InfiniteScrollSelfCompanyPodcasts from "./infinite-scroll-company-self-podcasts";
-import InfiniteScrollPodcastsByPodcaster from "./infinite-scroll-podcasts-by-podcaster";
-import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
-import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-podcaster";
+import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
-import { Link } from "@/navigation";
-import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { FileSymlinkIcon } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { Company } from "@/types/company";
+import { Playlist, Podcast, SelfPodcastDetails } from "@/types/podcast";
+import { Podcaster, PodcasterDetails } from "@/types/podcaster";
+import { User } from "@/types/profile";
+import InfiniteScrollCompanySelfPodcasters from "./infinite-scroll-company-self-podcasters";
+import InfiniteScrollSelfCompanyPodcasts from "./infinite-scroll-company-self-podcasts";
+import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-podcaster";
+import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
+import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
+import InfiniteScrollPodcastsByPodcaster from "./infinite-scroll-podcasts-by-podcaster";
 
+/**
+ * Component for displaying profile content with infinite scroll functionality.
+ * It adjusts the displayed content based on the profile type (e.g., podcaster, company, user)
+ * and whether the profile belongs to the current user.
+ *
+ * @param {object} props - Component props.
+ * @param {User | PodcasterDetails | Company} props.profileData - The profile data to display.
+ * @param {Session | null} props.session - The current user session.
+ * @param {string} props.profileType - The type of the profile ("podcaster", "company", "user").
+ * @param {boolean} props.isSelfProfile - Whether the profile is for the current user.
+ * @param {object} props.params - URL parameters including profileUserType and profileId.
+ * @param {object} props.searchParams - Query parameters for search functionality.
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProfileContent = async ({
   profileData,
   session,
@@ -54,6 +68,7 @@ const ProfileContent = async ({
   let contentData1: Playlist[] | Podcaster[] | undefined;
   let contentData2: SelfPodcastDetails[] | Podcast[] | undefined;
 
+  // Fetch content based on profile type and whether it is the user's own profile
   if (isSelfProfile) {
     if (profileType === "podcaster") {
       const data1Response = await getPlayListsAction({
@@ -114,7 +129,7 @@ const ProfileContent = async ({
   return (
     <div className="w-full lg:w-8/12">
       <div className="w-full flex justify-end min-h-10">
-        {/* <Search searchText={search} searchFor="podcasts" /> */}
+        {/* Display a button for sending a request if the user is a company viewing a podcaster's profile */}
         {profileType === "podcaster" && session?.user?.type === "company" ? (
           <Link
             href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
@@ -128,6 +143,7 @@ const ProfileContent = async ({
           </Link>
         ) : null}
       </div>
+      {/* Render different content based on profile type and whether it's the user's own profile */}
       {isSelfProfile ? (
         profileType === "podcaster" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">

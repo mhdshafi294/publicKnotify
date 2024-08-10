@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+
 import Loader from "@/components/ui/loader";
-import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
-import {
-  SelfPodcastDetails,
-  SelfPodcastsDetailsResponse,
-} from "@/types/podcast";
 import {
   Carousel,
   CarouselContent,
@@ -16,11 +14,23 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
+import {
+  SelfPodcastDetails,
+  SelfPodcastsDetailsResponse,
+} from "@/types/podcast";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import SelfPodcastCard from "./self-podcast-card";
 
+/**
+ * Component to display self podcasts with infinite scrolling in a carousel.
+ *
+ * @param {object} props - Component props.
+ * @param {SelfPodcastDetails[] | undefined} props.initialData - Initial data for the podcasts.
+ * @param {string} [props.search] - Optional search term for filtering podcasts.
+ * @param {string} props.type - Type of the profile (e.g., "user" or "podcaster").
+ * @returns {JSX.Element} The rendered carousel of self podcasts.
+ */
 const InfiniteScrollSelfPodcasts = ({
   initialData,
   search,
@@ -33,11 +43,10 @@ const InfiniteScrollSelfPodcasts = ({
   const locale = useLocale();
   const t = useTranslations("Index");
   const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
   const { data: session } = useSession();
 
+  // Infinite query for fetching podcasts
   const {
     isError,
     error,
@@ -113,7 +122,7 @@ const InfiniteScrollSelfPodcasts = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
+          <p className="text-lg my-auto opacity-50 italic">
             {t("noPodcastsYet")}
           </p>
         ) : (
@@ -128,17 +137,15 @@ const InfiniteScrollSelfPodcasts = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

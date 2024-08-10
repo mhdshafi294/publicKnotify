@@ -1,17 +1,30 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { cn, getDirection, getDistanceToNow } from "@/lib/utils";
-import { useRouter } from "next/navigation";
-import { SelfPodcastDetails } from "@/types/podcast";
-import { PlayIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { buttonVariants } from "@/components/ui/button";
-import ThumbnailsCover from "@/components/thumbnails-cover";
-import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
+import React, { useEffect, useRef, useState } from "react"; // Core React imports
 
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"; // Internal component imports
+import { cn, getDirection, getDistanceToNow } from "@/lib/utils"; // Internal utility functions
+import { useRouter } from "next/navigation"; // External dependency for navigation
+import { SelfPodcastDetails } from "@/types/podcast"; // Internal type definitions
+import { PlayIcon } from "lucide-react"; // External dependency for icons
+import { useSearchParams } from "next/navigation"; // External dependency for URL search params
+import { buttonVariants } from "@/components/ui/button"; // Internal button styles
+import ThumbnailsCover from "@/components/thumbnails-cover"; // Internal component for thumbnails
+import Image from "next/image"; // External dependency for images
+import { useLocale, useTranslations } from "next-intl"; // External dependencies for internationalization
+
+/**
+ * SideScrollPlaylistPodcasts Component
+ *
+ * This component displays a scrollable list of podcasts within a playlist. It allows users to
+ * select a podcast, which updates the URL to reflect the selected podcast. It also handles
+ * layout adjustments based on the locale direction.
+ *
+ * @param {Object} props - Component properties.
+ * @param {SelfPodcastDetails[]} props.podcasts - Array of podcasts to display in the playlist.
+ * @param {string} props.playlistName - The name of the playlist.
+ * @returns {JSX.Element} The rendered component with a side-scrolling list of podcasts.
+ */
 const SideScrollPlaylistPodcasts = ({
   podcasts,
   playlistName,
@@ -22,10 +35,10 @@ const SideScrollPlaylistPodcasts = ({
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const current_podcast_id =
-    searchParams.get("podcast_id") || podcasts[0].id.toString();
-  const [currentPodcastId, setCurrentPodcastId] =
-    useState<string>(current_podcast_id);
+  const currentPodcastId =
+    searchParams.get("podcast_id") || podcasts[0]?.id.toString();
+  const [selectedPodcastId, setSelectedPodcastId] =
+    useState<string>(currentPodcastId);
   const initialRender = useRef(true);
 
   useEffect(() => {
@@ -40,9 +53,9 @@ const SideScrollPlaylistPodcasts = ({
       return;
     }
     const params = new URLSearchParams(searchParams.toString());
-    params.set("podcast_id", currentPodcastId);
+    params.set("podcast_id", selectedPodcastId);
     router.push(`?${params.toString()}`);
-  }, [currentPodcastId]);
+  }, [selectedPodcastId]);
 
   const locale = useLocale();
   const dir = getDirection(locale);
@@ -71,13 +84,12 @@ const SideScrollPlaylistPodcasts = ({
             podcasts.map((podcast) => (
               <li
                 key={podcast.id}
-                onClick={() => setCurrentPodcastId(podcast.id.toString())}
+                onClick={() => setSelectedPodcastId(podcast.id.toString())}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
                   "w-full h-fit flex gap-1 items-center justify-start mt-3 border-none ps-1 py-2 group cursor-default",
                   {
-                    "bg-primary/50":
-                      podcast.id === parseInt(current_podcast_id),
+                    "bg-primary/50": podcast.id === parseInt(currentPodcastId),
                   }
                 )}
               >
@@ -90,7 +102,7 @@ const SideScrollPlaylistPodcasts = ({
                     className="object-cover rounded-md"
                   />
                 </div>
-                <div className="">
+                <div>
                   <p className="text-sm font-bold capitalize">{podcast.name}</p>
                   <p className="text-xs opacity-50">
                     {getDistanceToNow(
@@ -103,8 +115,7 @@ const SideScrollPlaylistPodcasts = ({
                   className={cn(
                     "w-5 h-5 opacity-0 ms-auto group-hover:opacity-100",
                     {
-                      "opacity-100":
-                        podcast.id === parseInt(current_podcast_id),
+                      "opacity-100": podcast.id === parseInt(currentPodcastId),
                     }
                   )}
                 />

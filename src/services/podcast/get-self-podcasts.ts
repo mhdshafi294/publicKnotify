@@ -15,7 +15,7 @@ const getSelfPodcasts = async ({
   is_published?: number;
   type: string;
 }) => {
-  console.log(is_published);
+  // console.log(is_published);
   const { data } = await axiosInstance.get<SelfPodcastsDetailsResponse>(
     `/${type}${PODCASTS}`,
     {

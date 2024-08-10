@@ -1,27 +1,20 @@
+// Local imports
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import axiosInstance from "@/lib/axios.config";
-import { ApiResponse } from "@/types";
 import SupportForm from "./_components/support-form";
 
-type Reposne = ApiResponse & {
-  policy: {
-    id: number;
-    content: string;
-    translations: {
-      id: number;
-      term_policy_id: number;
-      locale: "ar" | "en";
-      content: string;
-    }[];
-  };
-};
-
-const Page = async () => {
+/**
+ * SupportPage Component
+ * Renders the support page, which includes a form for users to submit support requests.
+ *
+ * @returns {JSX.Element} The support page content.
+ */
+const SupportPage = async () => {
   return (
     <MaxWidthContainer className="pt-16 space-y-5">
+      {/* Support form component */}
       <SupportForm />
     </MaxWidthContainer>
   );
 };
 
-export default Page;
+export default SupportPage;

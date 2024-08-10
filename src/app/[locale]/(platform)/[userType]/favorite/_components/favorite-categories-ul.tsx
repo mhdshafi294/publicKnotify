@@ -1,8 +1,12 @@
-import { cn, getDirection } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { CategoryDetails } from "@/types/podcast";
+// External libraries and utility imports
 import { useLocale, useTranslations } from "next-intl";
 
+// Internal utility and type imports
+import { cn, getDirection } from "@/lib/utils";
+import { CategoryDetails } from "@/types/podcast";
+import { Link } from "@/navigation";
+
+// Component Definition
 const FavoriteCategoriesUL = ({
   searchParams,
   favoriteCategory,
@@ -12,12 +16,13 @@ const FavoriteCategoriesUL = ({
   favoriteCategory?: string;
   favoriteCategoriesData: CategoryDetails[];
 }) => {
-  const t = useTranslations("Index");
-  const locale = useLocale();
-  const dir = getDirection(locale);
+  const t = useTranslations("Index"); // Fetch translations
+  const locale = useLocale(); // Get the current locale
+  const dir = getDirection(locale); // Determine text direction based on locale
 
   return (
     <ul className="pb-5 lg:py-0 lg:mt-10 flex lg:flex-col lg:gap-5 gap-5 lg:ms-10 text-lg">
+      {/* Link for "All" categories */}
       <li className="relative">
         <Link
           href={{
@@ -44,6 +49,8 @@ const FavoriteCategoriesUL = ({
           {t("all")}
         </Link>
       </li>
+
+      {/* Links for individual categories */}
       {favoriteCategoriesData.map((category) => (
         <li key={category.id} className="relative">
           <Link

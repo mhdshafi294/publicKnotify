@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
+import Loader from "@/components/ui/loader";
 import {
   Carousel,
   CarouselContent,
@@ -13,12 +15,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import SelfplaylistCard from "./self-playlist-card";
 
+/**
+ * Component to display self playlists with infinite scrolling in a carousel.
+ *
+ * @param {object} props - Component props.
+ * @param {Playlist[] | undefined} props.initialData - Initial data for the playlists.
+ * @param {string} [props.search] - Optional search term for filtering playlists.
+ * @param {string} props.type - Type of the profile (e.g., "user" or "podcaster").
+ * @returns {JSX.Element} The rendered carousel of self playlists.
+ */
 const InfiniteScrollSelfPlaylists = ({
   initialData,
   search,
@@ -31,11 +40,10 @@ const InfiniteScrollSelfPlaylists = ({
   const locale = useLocale();
   const t = useTranslations("Index");
   const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
   const { data: session } = useSession();
 
+  // Infinite query for fetching playlists
   const {
     isError,
     error,
@@ -108,7 +116,7 @@ const InfiniteScrollSelfPlaylists = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].playlists.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
+          <p className="text-lg my-auto opacity-50 italic">
             {t("noPlaylistsYet")}
           </p>
         ) : (
@@ -123,17 +131,15 @@ const InfiniteScrollSelfPlaylists = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

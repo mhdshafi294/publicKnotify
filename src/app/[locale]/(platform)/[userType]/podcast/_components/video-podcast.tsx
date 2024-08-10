@@ -1,11 +1,24 @@
-import { Badge } from "@/components/ui/badge";
-import { Link } from "@/navigation";
-import { PodcastDetails } from "@/types/podcast";
-import { FC } from "react";
+import { FC } from "react"; // Core React import
 
-type PropsType = {
+import { Badge } from "@/components/ui/badge"; // Internal UI component import
+import { Link } from "@/navigation"; // Internal navigation import
+import { PodcastDetails } from "@/types/podcast"; // Internal type import
+
+// Props interface for VideoPodcast
+interface PropsType {
   podcast: PodcastDetails;
-};
+}
+
+/**
+ * VideoPodcast Component
+ *
+ * This component displays details of a video podcast, including the video player,
+ * podcast name, podcaster's link, creation date, hashtags, and a summary.
+ *
+ * @param {Object} props - Component properties.
+ * @param {PodcastDetails} props.podcast - The details of the podcast to display.
+ * @returns {JSX.Element} The rendered component with video podcast details.
+ */
 const VideoPodcast: FC<PropsType> = ({ podcast }) => {
   return (
     <div className="bg-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl">
@@ -30,7 +43,7 @@ const VideoPodcast: FC<PropsType> = ({ podcast }) => {
             {podcast.podcaster.full_name}
           </Link>
           <p>{podcast.created_at.split(" ")[0]}</p>
-          <div className="fleex justify-start items-center flex-wrap">
+          <div className="flex justify-start items-center flex-wrap">
             {podcast.hashTags.map((tag) => (
               <Badge className="bg-greeny text-background" key={tag.id}>
                 #{tag.name}
