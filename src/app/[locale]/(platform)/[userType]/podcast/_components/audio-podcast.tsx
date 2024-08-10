@@ -1,12 +1,27 @@
 "use client";
-import usePlayerStore from "@/store/use-player-store";
-import { PodcastDetails } from "@/types/podcast";
-import Image from "next/image";
-import { FC, useEffect, useState } from "react";
 
-type PropsType = {
+import { FC, useEffect, useState } from "react"; // Core React imports
+import Image from "next/image"; // External dependency
+
+import usePlayerStore from "@/store/use-player-store"; // Internal store import
+import { PodcastDetails } from "@/types/podcast"; // Internal type import
+
+// Props interface for AudioPodcast
+interface PropsType {
   podcast: PodcastDetails;
-};
+}
+
+/**
+ * AudioPodcast Component
+ *
+ * This component displays details of an audio podcast, including the background image,
+ * podcast name, and podcaster's full name. It also manages the state for playing the podcast
+ * using a player store.
+ *
+ * @param {Object} props - Component properties.
+ * @param {PodcastDetails} props.podcast - The details of the podcast to display.
+ * @returns {JSX.Element} The rendered component with podcast details.
+ */
 const AudioPodcast: FC<PropsType> = ({ podcast }) => {
   const [isMounted, setIsMounted] = useState(false);
   const setPodcastId = usePlayerStore((state) => state.setPodcastId);
@@ -16,13 +31,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
     if (!isMounted) {
       setIsMounted(true);
     }
-  }, []);
-
-  useEffect(() => {
-    setPodcastId(podcast.id);
-    setIsRunning(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isMounted]);
 
   useEffect(() => {
     setPodcastId(podcast.id);

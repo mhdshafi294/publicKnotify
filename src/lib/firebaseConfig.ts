@@ -6,10 +6,12 @@ import {
   Messaging,
   MessagePayload,
 } from "firebase/messaging";
+import Env from "./env";
 
 // Firebase configuration object
 const firebaseConfig = {
   apiKey: "AIzaSyDSMK6qQ0jha771m4M_kK8HAvIu-lTZ1Us",
+  // apiKey: Env.apiKey,
   authDomain: "podcasts-99839.firebaseapp.com",
   projectId: "podcasts-99839",
   storageBucket: "podcasts-99839.appspot.com",
@@ -72,9 +74,11 @@ export const requestNotificationPermission = async () => {
       const token = await getToken(messaging, {
         vapidKey:
           "BEiNGMt9FADp7mzukiPMsqDUvDmyz1KLkMHR38Od36OxlzPQ5GDpGSW9p8ESsAFKLFgNb-9X26O7ubjJ0SuPtLA",
+        // vapidKey: Env.FIREBASE_VAPID_KEY,
+
         serviceWorkerRegistration: registration,
       });
-      console.log("FCM Token:", token);
+      // console.log("FCM Token:", token);
       return token;
     } else {
       console.log("Notification permission denied");

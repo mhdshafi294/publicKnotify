@@ -1,10 +1,19 @@
+import React from "react";
+import Image from "next/image";
+
 import PlayLarge from "@/components/icons/play-large";
 import { cn, getDistanceToNow } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { SelfPodcastDetails } from "@/types/podcast";
-import Image from "next/image";
-import React from "react";
 
+/**
+ * Component for displaying a podcast card in the user's profile.
+ *
+ * @param {object} props - Component props.
+ * @param {SelfPodcastDetails} props.podcast - The podcast details.
+ * @param {string} props.userType - The type of user (e.g., "podcaster").
+ * @returns {JSX.Element} The rendered podcast card.
+ */
 const SelfPodcastCard = ({
   podcast,
   userType,
@@ -13,7 +22,7 @@ const SelfPodcastCard = ({
   userType: string;
 }) => {
   return (
-    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full ">
+    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
       <div className="size-44 rounded-lg relative">
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}

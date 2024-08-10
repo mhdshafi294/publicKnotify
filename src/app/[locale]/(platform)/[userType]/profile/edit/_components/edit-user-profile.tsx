@@ -1,5 +1,17 @@
 "use client";
 
+// External Libraries
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+import { Camera } from "lucide-react";
+import country from "country-list-js";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Internal Modules and Components
 import { userEditProfileAction } from "@/app/actions/profileActions";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
 import PhoneNumberInput from "@/components/phone-number-input";
@@ -17,33 +29,46 @@ import {
 import FormInput from "@/components/ui/form-input";
 import { convertFileToURL } from "@/lib/utils";
 import { UserProfileSchema } from "@/schema/profileSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import country from "country-list-js";
-import { Camera } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { ElementRef, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
+/**
+ * Component for editing a user's profile.
+ *
+ * @param {object} props - Component props.
+ * @param {CustomUser} props.user - The current user data.
+ * @returns {JSX.Element} The rendered component.
+ */
 const EditUserProfile = ({ user }: { user: CustomUser }) => {
+  // Translation hook
   const t = useTranslations("Index");
+
+  // Prepare country dialing codes
   const countriesCode = Object.values(country.all) as {
     name: string;
     dialing_code: string;
     iso2: string;
   }[];
-  const inputRef = useRef<ElementRef<"input">>(null);
+
+  // Form reference
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Session hook
   const { update } = useSession();
 
-  const dialingCode =
-    countriesCode.find((country) => country.iso2 === user?.iso_code)
-      ?.dialing_code || "";
+  // Determine default dialing code based on user's ISO code
+  const getDialingCode = (isoCode: string | undefined) => {
+    return isoCode
+      ? countriesCode.find((country) => country.iso2 === isoCode)
+          ?.dialing_code || ""
+      : "";
+  };
+
+  const dialingCode = getDialingCode(user?.iso_code);
+
+  // Form handling with react-hook-form
   const form = useForm<UserProfileSchema>({
     resolver: zodResolver(UserProfileSchema),
     defaultValues: {
-      email: user?.email ? user?.email : "",
+      email: user?.email || "",
       full_name: user?.full_name || "",
       image: new File([], ""),
       iso_code: user?.iso_code || "",
@@ -54,6 +79,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
     },
   });
 
+  // Mutation for updating user profile
   const { mutate, isPending } = useMutation({
     mutationFn: userEditProfileAction,
     onSuccess: async (data) => {
@@ -66,20 +92,32 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
         image: data.image,
       });
     },
+    onError: (error) => {
+      console.log(error.message);
+      toast.error(t("updateFailed"));
+    },
   });
 
+  // Handle form submission
   const handleSubmit = (data: UserProfileSchema) => {
     const formData = new FormData();
-    const countriesCode = (
+    const countryCode = (
       Object.values(country.all) as {
         name: string;
         dialing_code: string;
         iso2: string;
       }[]
     ).find((country) => country.dialing_code === data.phone.code)?.iso2;
+
+    if (!countryCode) {
+      // Handle the case where countryCode is undefined
+      console.error("Country code not found");
+      return;
+    }
+
     formData.append("full_name", data.full_name);
     formData.append("iso_code", data.iso_code);
-    formData.append("iso_code", countriesCode!);
+    formData.append("iso_code", countryCode);
     formData.append("phone", `${data.phone.code}${data.phone.phone}`);
     if (data.image && data.image.name) formData.append("image", data.image);
     formData.append("email", data.email);
@@ -90,9 +128,7 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
     <Form {...form}>
       <form
         className="w-full px-0"
-        onSubmit={form.handleSubmit((data) => {
-          handleSubmit(data);
-        })}
+        onSubmit={form.handleSubmit((data) => handleSubmit(data))}
       >
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
           <h2 className="text-[32px] font-black mb-1">{t("myProfile")}</h2>
@@ -104,15 +140,21 @@ const EditUserProfile = ({ user }: { user: CustomUser }) => {
                     src={
                       form.watch("image")?.name
                         ? convertFileToURL(form.watch("image"))
-                        : user.image
-                        ? user.image
-                        : ""
+                        : user.image || "" // Ensure it's always a string
                     }
+                    alt={user?.full_name ? user.full_name : ""}
+                    className="object-cover"
                   />
-                  <AvatarFallback></AvatarFallback>
+                  <AvatarFallback>
+                    {user?.full_name!.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <button
-                  onClick={() => inputRef.current?.click()}
+                  onClick={() => {
+                    if (inputRef.current) {
+                      inputRef.current.click();
+                    }
+                  }}
                   type="button"
                   className="absolute inset-0 bg-gray-300/50 rounded-full flex justify-center items-center"
                 >

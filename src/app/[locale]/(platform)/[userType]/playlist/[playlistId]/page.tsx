@@ -1,10 +1,25 @@
-import { useTranslations } from "next-intl";
-import { getPlayListAction } from "@/app/actions/podcastActions";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import PlaylistPodcast from "./_components/Playlist-podcast";
-import SideScrollPlaylistPodcasts from "./_components/side-scroll-playlist-podcasts";
+import { useTranslations } from "next-intl"; // External dependency for translations
+import { getServerSession } from "next-auth"; // External dependency for session management
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { getPlayListAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlist data
+
+import PlaylistPodcast from "./_components/Playlist-podcast"; // Internal component for displaying playlist podcasts
+import SideScrollPlaylistPodcasts from "./_components/side-scroll-playlist-podcasts"; // Internal component for side scrolling podcasts
+
+/**
+ * PlaylistPage Component
+ *
+ * This component renders a page displaying a playlist's podcasts. It includes a main section
+ * for the playlist's podcasts and a side scroll component to show additional playlist details.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.params - Route parameters.
+ * @param {string} props.params.userType - Type of the user.
+ * @param {string} props.params.playlistId - The ID of the playlist to display.
+ * @param {Object} props.searchParams - The query parameters from the URL.
+ * @returns {JSX.Element} The rendered component with playlist details and podcast list.
+ */
 export default async function PlaylistPage({
   params,
   searchParams,

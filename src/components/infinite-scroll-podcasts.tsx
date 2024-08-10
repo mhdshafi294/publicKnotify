@@ -84,7 +84,7 @@ const InfiniteScrollPodcasts = ({
     // console.log(isIntersecting, "isIntersecting");
     // console.log(hasNextPage, "hasNextPage");
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
-      console.log(true);
+      // console.log(true);
       fetchNextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

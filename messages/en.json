@@ -81,6 +81,7 @@
     "cancelingRequest": "Canceling request...",
     "requestCanceled": "The request has been canceled",
     "somethingWentWrong": "Something went wrong. Please try again!",
+    "draftAlreadyError": "There is a draft already for this request",
     "creatingRequest": "Creating request...",
     "requestCreatedSuccessfully": "Request created successfully",
     "whereToAddYourAD": "Where to add your AD",

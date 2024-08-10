@@ -3,9 +3,10 @@
 import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+
 import Loader from "@/components/ui/loader";
-import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
 import {
   Carousel,
   CarouselContent,
@@ -14,10 +15,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
+import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
+/**
+ * Component to display podcasts by a specific podcaster with infinite scrolling in a carousel.
+ *
+ * @param {object} props - Component props.
+ * @param {Podcast[] | undefined} props.initialData - Initial data for the podcasts.
+ * @param {string} props.type - Type of the profile (e.g., "user" or "podcaster").
+ * @param {string} props.podcasterId - ID of the podcaster whose podcasts are being displayed.
+ * @returns {JSX.Element} The rendered carousel of podcasts.
+ */
 const InfiniteScrollPodcastsByPodcaster = ({
   initialData,
   type,
@@ -28,12 +38,10 @@ const InfiniteScrollPodcastsByPodcaster = ({
   podcasterId: string;
 }) => {
   const locale = useLocale();
-  const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
-  const { data: session } = useSession();
   const t = useTranslations("Index");
+  const direction = getDirection(locale);
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
+  const { data: session } = useSession();
 
   const {
     isError,
@@ -107,7 +115,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
+          <p className="text-lg my-auto opacity-50 italic">
             {t("noPodcastsYet")}
           </p>
         ) : (
@@ -122,17 +130,15 @@ const InfiniteScrollPodcastsByPodcaster = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

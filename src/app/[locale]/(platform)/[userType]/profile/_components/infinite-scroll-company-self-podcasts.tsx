@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+
 import Loader from "@/components/ui/loader";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 import {
@@ -13,11 +15,18 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
+import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
+/**
+ * Component to display podcasts from a company in a carousel with infinite scrolling.
+ *
+ * @param {object} props - Component props.
+ * @param {Podcast[] | undefined} props.initialData - Initial podcast data.
+ * @param {string} props.type - Type of user or context for the podcast.
+ * @param {string} props.podcasterId - The ID of the podcaster.
+ * @returns {JSX.Element} The rendered carousel of podcasts.
+ */
 const InfiniteScrollSelfCompanyPodcasts = ({
   initialData,
   type,
@@ -30,10 +39,7 @@ const InfiniteScrollSelfCompanyPodcasts = ({
   const locale = useLocale();
   const t = useTranslations("Index");
   const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
-  const { data: session } = useSession();
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
 
   const {
     isError,
@@ -43,7 +49,7 @@ const InfiniteScrollSelfCompanyPodcasts = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["profile_self_podcasts", { type }],
+    queryKey: ["profile_self_podcasts", { type, podcasterId }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: PodcastsResponse = await getCompanySelfPodcastsAction({
         type,
@@ -95,6 +101,10 @@ const InfiniteScrollSelfCompanyPodcasts = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
 
+  if (isError) {
+    return <p className="text-red-500">{t("errorLoadingPodcasts")}</p>;
+  }
+
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
@@ -121,17 +131,15 @@ const InfiniteScrollSelfCompanyPodcasts = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

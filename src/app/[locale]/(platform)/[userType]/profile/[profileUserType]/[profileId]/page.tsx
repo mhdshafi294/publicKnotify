@@ -1,18 +1,32 @@
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { getTranslations } from "next-intl/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getProfileAction } from "@/app/actions/profileActions";
+import { redirect } from "@/navigation";
+import { getTranslations } from "next-intl/server";
+
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import ProfileCard from "../../_components/profile-card";
 import ProfileContent from "../../_components/profile-content";
-import { User } from "@/types/profile";
+
+import { getProfileAction } from "@/app/actions/profileActions";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
-import { PodcasterDetails } from "@/types/podcaster";
-import { redirect } from "@/navigation";
 import { getCompanyAction } from "@/app/actions/companyActions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+
+import { User } from "@/types/profile";
+import { PodcasterDetails } from "@/types/podcaster";
 import { Company } from "@/types/company";
 
-export default async function Profile({
+/**
+ * Profile component for displaying user, podcaster, or company profile.
+ *
+ * @param {object} props - Component props.
+ * @param {object} props.params - URL parameters.
+ * @param {string} props.params.profileUserType - The type of the profile user (e.g., "user", "podcaster", "company").
+ * @param {string} props.params.profileId - The ID of the profile being viewed.
+ * @param {object} props.searchParams - Additional search parameters.
+ *
+ * @returns {JSX.Element} The rendered profile page.
+ */
+export default async function ProfilePage({
   params,
   searchParams,
 }: {
@@ -26,13 +40,7 @@ export default async function Profile({
 
   const session = await getServerSession(authOptions);
 
-  // if (
-  //   session?.user?.type === params.profileUserType &&
-  //   params.profileId !== session?.user?.id?.toString()
-  // ) {
-  //   redirect(`/${session?.user?.type}`);
-  // }
-
+  // If the session user matches the profile being viewed, load the profile as self
   if (
     session?.user?.type === params.profileUserType &&
     session?.user?.id?.toString() === params.profileId
@@ -44,54 +52,63 @@ export default async function Profile({
     isSelfProfile = true;
     profileType = profileData.type;
   } else {
-    if (params.profileUserType === "podcaster") {
-      if (session?.user?.type === "podcaster")
+    // Handle viewing another user's profile
+    switch (params.profileUserType) {
+      case "podcaster":
+        if (session?.user?.type === "podcaster")
+          redirect(`/${session?.user?.type}`);
+        isSelfProfile = false;
+        profileType = "podcaster";
+        const podcasterResponse = await getPodcasterAction({
+          id: params.profileId,
+          type: session?.user?.type as string,
+        });
+        profileData = podcasterResponse.podcaster;
+        break;
+
+      case "company":
+        if (session?.user?.type !== "podcaster")
+          redirect(`/${session?.user?.type}`);
+        isSelfProfile = false;
+        profileType = "company";
+        const companyResponse = await getCompanyAction({
+          id: params.profileId,
+          type: session?.user?.type as string,
+        });
+        profileData = companyResponse.company;
+        break;
+
+      case "user":
         redirect(`/${session?.user?.type}`);
-      isSelfProfile = false;
-      profileType = "podcaster";
-      const profileResponse = await getPodcasterAction({
-        id: params.profileId,
-        type: session?.user?.type as string,
-      });
-      profileData = profileResponse.podcaster;
-    } else if (params.profileUserType === "company") {
-      if (session?.user?.type !== "podcaster")
-        redirect(`/${session?.user?.type}`);
-      isSelfProfile = false;
-      profileType = "company";
-      const profileResponse = await getCompanyAction({
-        id: params.profileId,
-        type: session?.user?.type as string,
-      });
-      profileData = profileResponse.company;
-    } else if (params.profileUserType === "user") {
-      redirect(`/${session?.user?.type}`);
+        break;
+
+      default:
+        // Handle unexpected profile types
+        redirect("/");
     }
   }
 
-  // if (!profileData || !profileType || !isSelfProfile) return null;
-  // console.log(profileData);
+  // Render the profile components if data is available
+  if (!profileData || !profileType || isSelfProfile === undefined) return null;
 
   return (
-    <>
-      <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12 ">
-        <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
-          <ProfileCard
-            profileData={profileData!}
-            session={session}
-            profileType={profileType!}
-            isSelfProfile={isSelfProfile!}
-          />
-          <ProfileContent
-            profileData={profileData!}
-            session={session}
-            profileType={profileType!}
-            isSelfProfile={isSelfProfile!}
-            params={params}
-            searchParams={searchParams}
-          />
-        </MaxWidthContainer>
-      </main>
-    </>
+    <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
+      <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
+        <ProfileCard
+          profileData={profileData!}
+          session={session}
+          profileType={profileType!}
+          isSelfProfile={isSelfProfile!}
+        />
+        <ProfileContent
+          profileData={profileData!}
+          session={session}
+          profileType={profileType!}
+          isSelfProfile={isSelfProfile!}
+          params={params}
+          searchParams={searchParams}
+        />
+      </MaxWidthContainer>
+    </main>
   );
 }

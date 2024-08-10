@@ -1,11 +1,24 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getTranslations } from "next-intl/server";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import Search from "@/components/search";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
-import InfiniteScrollPlaylist from "@/components/infinite-scroll-playlist";
+import { getServerSession } from "next-auth"; // External dependency for session management
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { getTranslations } from "next-intl/server"; // External dependency for translations
+
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component for container styling
+import Search from "@/components/search"; // Internal component for search functionality
+import { getPlayListsAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlists
+import InfiniteScrollPlaylist from "@/components/infinite-scroll-playlist"; // Internal component for infinite scroll
+
+/**
+ * PodcastsPage Component
+ *
+ * This component displays a list of trending playlists with infinite scrolling functionality.
+ * It includes a search component to filter playlists based on user input.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Object} props.searchParams - The query parameters from the URL.
+ * @param {string | string[] | undefined} props.searchParams.search - The search query for playlists.
+ * @returns {JSX.Element} The rendered component with a list of trending playlists and a search bar.
+ */
 export default async function PodcastsPage({
   searchParams,
 }: {
@@ -15,9 +28,11 @@ export default async function PodcastsPage({
     typeof searchParams.search === "string" ? searchParams.search : undefined;
 
   const session = await getServerSession(authOptions);
+
   // if (session?.user?.type === "podcaster") {
   //   redirect(`/podcaster`);
   // }
+
   const t = await getTranslations("Index");
 
   const firstPageTrendingResponse = await getPlayListsAction({
@@ -26,20 +41,18 @@ export default async function PodcastsPage({
   });
 
   return (
-    <>
-      <main className="py-10">
-        <MaxWidthContainer className="flex flex-col gap-7">
-          <div className="w-full flex justify-between items-center gap-2">
-            <h2 className="lg:text-5xl font-bold">{t("trending")}</h2>
-            <Search searchText={search} searchFor="playlist" />
-          </div>
-          <InfiniteScrollPlaylist
-            initialData={firstPageTrendingResponse.playlists}
-            search={search}
-            type={session?.user?.type!}
-          />
-        </MaxWidthContainer>
-      </main>
-    </>
+    <main className="py-10">
+      <MaxWidthContainer className="flex flex-col gap-7">
+        <div className="w-full flex justify-between items-center gap-2">
+          <h2 className="lg:text-5xl font-bold">{t("trending")}</h2>
+          <Search searchText={search} searchFor="playlist" />
+        </div>
+        <InfiniteScrollPlaylist
+          initialData={firstPageTrendingResponse.playlists}
+          search={search}
+          type={session?.user?.type!}
+        />
+      </MaxWidthContainer>
+    </main>
   );
 }

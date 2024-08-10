@@ -1,7 +1,20 @@
 "use client";
 
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { Camera } from "lucide-react";
+import country from "country-list-js";
+import { useTranslations } from "next-intl";
+
 import { podcasterEditProfileAction } from "@/app/actions/profileActions";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import { PodcasterProfileSchema } from "@/schema/profileSchema";
+import { ProfileResponse } from "@/types/profile";
+import { CategoryDetails } from "@/types/podcast";
 import MultiSelectPopover from "@/components/multi-select-popover";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -17,19 +30,16 @@ import {
 } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import { convertFileToURL } from "@/lib/utils";
-import { PodcasterProfileSchema } from "@/schema/profileSchema";
-import { CategoryDetails } from "@/types/podcast";
-import { ProfileResponse } from "@/types/profile";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import country from "country-list-js";
-import { Camera } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { ElementRef, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
+/**
+ * Component for editing a podcaster's profile.
+ *
+ * @param {object} props - Component props.
+ * @param {CustomUser} props.user - The current user data.
+ * @param {ProfileResponse} props.profile - The current profile data.
+ * @param {CategoryDetails[]} props.categoriesList - List of available categories.
+ * @returns {JSX.Element} The rendered component.
+ */
 const EditPodcasterProfile = ({
   user,
   profile,
@@ -40,21 +50,24 @@ const EditPodcasterProfile = ({
   categoriesList: CategoryDetails[];
 }) => {
   const t = useTranslations("Index");
+
   const countriesCode = Object.values(country.all) as {
     name: string;
     dialing_code: string;
     iso2: string;
   }[];
-  const inputRef = useRef<ElementRef<"input">>(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
   const { update } = useSession();
 
   const dialingCode =
     countriesCode.find((country) => country.iso2 === user?.iso_code)
       ?.dialing_code || "";
+
   const form = useForm<PodcasterProfileSchema>({
     resolver: zodResolver(PodcasterProfileSchema),
     defaultValues: {
-      email: user?.email ? user?.email : "",
+      email: user?.email || "",
       full_name: user?.full_name || "",
       image: new File([], ""),
       iso_code: user?.iso_code || "",
@@ -67,6 +80,7 @@ const EditPodcasterProfile = ({
       },
     },
   });
+
   const { mutate, isPending } = useMutation({
     mutationFn: podcasterEditProfileAction,
     onSuccess: async (data) => {
@@ -80,46 +94,44 @@ const EditPodcasterProfile = ({
       });
     },
     onError: (error) => {
-      console.log(error.message);
+      toast.error(t("profileUpdateFailed")); // User-friendly error message
+      console.log(error.message); // Log technical details
     },
   });
 
+  /**
+   * Handle form submission and prepare FormData for submission.
+   *
+   * @param {PodcasterProfileSchema} data - Form data.
+   */
   const handleSubmit = (data: PodcasterProfileSchema) => {
     const formData = new FormData();
-    const countriesCode = (
-      Object.values(country.all) as {
-        name: string;
-        dialing_code: string;
-        iso2: string;
-      }[]
-    ).find((country) => country.dialing_code === data.phone.code)?.iso2;
+
+    const countryCode = countriesCode.find(
+      (country) => country.dialing_code === data.phone.code
+    )?.iso2;
+
     formData.append("full_name", data.full_name);
     formData.append("iso_code", data.iso_code);
-    if (data.spotify)
-      formData.append("spotify_account", data.spotify ? data.spotify : "");
-    if (data.youtube)
-      formData.append("youtube_account", data.youtube ? data.youtube : "");
-    formData.append("iso_code", countriesCode!);
+    if (data.spotify) formData.append("spotify_account", data.spotify);
+    if (data.youtube) formData.append("youtube_account", data.youtube);
+    formData.append("iso_code", countryCode!);
     formData.append("phone", `${data.phone.code}${data.phone.phone}`);
     if (data.image && data.image.name) formData.append("image", data.image);
     formData.append("email", data.email);
 
-    if (data.categories.length > 0)
+    if (data.categories.length > 0) {
       data.categories.forEach((category, index) =>
         formData.append(`categories[${index}]`, category)
       );
+    }
 
     mutate(formData);
   };
 
   return (
     <Form {...form}>
-      <form
-        className="w-full px-0"
-        onSubmit={form.handleSubmit((data) => {
-          handleSubmit(data);
-        })}
-      >
+      <form className="w-full px-0" onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
           <h2 className="text-[32px] font-black mb-1">{t("myProfile")}</h2>
           <div className="w-full space-y-4">
@@ -130,12 +142,14 @@ const EditPodcasterProfile = ({
                     src={
                       form.watch("image")?.name
                         ? convertFileToURL(form.watch("image"))
-                        : user.image
-                        ? user.image
-                        : ""
+                        : user.image || ""
                     }
+                    alt={user?.full_name ? user.full_name : ""}
+                    className="object-cover"
                   />
-                  <AvatarFallback></AvatarFallback>
+                  <AvatarFallback>
+                    {user?.full_name!.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <button
                   onClick={() => inputRef.current?.click()}

@@ -1,17 +1,30 @@
 "use client";
 
-import { togglePriceStatusAction } from "@/app/actions/profileActions";
-import { Switch } from "@/components/ui/switch";
-import { Link, useRouter } from "@/navigation";
-import { PodcasterDetails } from "@/types/podcaster";
-import { User } from "@/types/profile";
+import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Session } from "next-auth";
-import React, { useState } from "react";
+import { useRouter } from "@/navigation";
 import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
-import { cn, getDirection } from "@/lib/utils";
 
+import { togglePriceStatusAction } from "@/app/actions/profileActions";
+import { Switch } from "@/components/ui/switch";
+import { Link } from "@/navigation";
+import { cn, getDirection } from "@/lib/utils";
+import { PodcasterDetails } from "@/types/podcaster";
+import { User } from "@/types/profile";
+
+/**
+ * Component for toggling the visibility of a podcaster's pricing on their profile.
+ *
+ * @param {object} props - Component props.
+ * @param {User | PodcasterDetails} props.profileData - The profile data of the user or podcaster.
+ * @param {Session | null} props.session - The current user session.
+ * @param {boolean} props.is_enabled_price - Indicates whether the price visibility is enabled.
+ * @param {string} props.profileType - The type of the profile (e.g., "podcaster").
+ * @param {boolean} props.isSelfProfile - Whether the profile belongs to the current user.
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProfilePriceSwitcher = ({
   profileData,
   session,
@@ -27,15 +40,11 @@ const ProfilePriceSwitcher = ({
 }) => {
   const t = useTranslations("Index");
   const [is_enabled, set_enabled] = useState<boolean>(
-    is_enabled_price ? is_enabled_price : false
+    is_enabled_price || false
   );
   const router = useRouter();
 
-  const {
-    data,
-    mutate: server_sendCodeAction,
-    isPending,
-  } = useMutation({
+  const { mutate: server_sendCodeAction, isPending } = useMutation({
     mutationFn: togglePriceStatusAction,
   });
 
@@ -46,17 +55,12 @@ const ProfilePriceSwitcher = ({
     try {
       await togglePriceStatusAction({ type: "podcaster" });
       set_enabled((prev) => {
-        if (!prev) {
-          toast.dismiss();
-          toast.success(t("pricesVisible"));
-        } else {
-          toast.dismiss();
-          toast.success(t("pricesHidden"));
-        }
+        toast.dismiss();
+        toast.success(prev ? t("pricesHidden") : t("pricesVisible"));
         return !prev;
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.dismiss();
       toast.error(t("togglePriceError"));
     }
@@ -70,7 +74,7 @@ const ProfilePriceSwitcher = ({
       <Link href="/podcaster/pricings" className="text-lg font-medium">
         {t("price")}
       </Link>
-      {profileType === "podcaster" && isSelfProfile ? (
+      {profileType === "podcaster" && isSelfProfile && (
         <Switch
           checked={is_enabled}
           disabled={isPending}
@@ -83,7 +87,7 @@ const ProfilePriceSwitcher = ({
             }
           )}
         />
-      ) : null}
+      )}
     </div>
   );
 };

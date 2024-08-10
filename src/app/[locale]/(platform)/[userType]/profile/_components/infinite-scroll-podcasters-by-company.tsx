@@ -3,8 +3,10 @@
 import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
+import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 
+import Loader from "@/components/ui/loader";
 import {
   Carousel,
   CarouselContent,
@@ -13,12 +15,19 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { getPodcastersByCompanyAction } from "@/app/actions/podcasterActions";
 import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { PodcasterCard } from "@/components/podcaster-card";
 
+/**
+ * Component to display podcasters by a specific company with infinite scrolling in a carousel.
+ *
+ * @param {object} props - Component props.
+ * @param {Podcaster[] | undefined} props.initialData - Initial data for the podcasters.
+ * @param {string} props.type - Type of the profile (e.g., "user" or "company").
+ * @param {string} props.companyId - ID of the company whose podcasters are being displayed.
+ * @returns {JSX.Element} The rendered carousel of podcasters.
+ */
 const InfiniteScrollPodcastersByCompany = ({
   initialData,
   type,
@@ -29,12 +38,10 @@ const InfiniteScrollPodcastersByCompany = ({
   companyId: string;
 }) => {
   const locale = useLocale();
-  const direction = getDirection(locale);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
-  const { data: session } = useSession();
   const t = useTranslations("Index");
+  const direction = getDirection(locale);
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
+  const { data: session } = useSession();
 
   const {
     isError,
@@ -108,7 +115,7 @@ const InfiniteScrollPodcastersByCompany = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-40">
         {data?.pages[0].podcasters.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
+          <p className="text-lg my-auto opacity-50 italic">
             {t("noPodcastersYet")}
           </p>
         ) : (
@@ -123,17 +130,15 @@ const InfiniteScrollPodcastersByCompany = ({
             ))
           )
         )}
-        {
-          <CarouselItem
-            ref={ref}
-            className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
-          >
-            {isFetchingNextPage && (
-              <Loader className="size-9" variant={"infinity"} />
-            )}
-            <span className="sr-only">{t("loading")}</span>
-          </CarouselItem>
-        }
+        <CarouselItem
+          ref={ref}
+          className="basis-1/2 md:basis-1/3 lg:basis-1/12 ps-0 flex justify-center items-center"
+        >
+          {isFetchingNextPage && (
+            <Loader className="size-9" variant={"infinity"} />
+          )}
+          <span className="sr-only">{t("loading")}</span>
+        </CarouselItem>
       </CarouselContent>
     </Carousel>
   );

@@ -1,9 +1,13 @@
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import axiosInstance from "@/lib/axios.config";
-import { ApiResponse } from "@/types";
+// External imports
 import { getTranslations } from "next-intl/server";
+import axiosInstance from "@/lib/axios.config";
 
-type Reposne = ApiResponse & {
+// Local imports
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { ApiResponse } from "@/types";
+
+// Type definitions
+type PolicyResponse = ApiResponse & {
   policy: {
     id: number;
     content: string;
@@ -16,8 +20,20 @@ type Reposne = ApiResponse & {
   };
 };
 
-const Page = async ({ params }: { params: { locale: string } }) => {
-  const { data } = await axiosInstance.get<Reposne>("api/policy");
+/**
+ * PrivacyPage Component
+ * Fetches and displays the privacy policy content based on the locale.
+ *
+ * @param {Object} params - The parameters object.
+ * @param {string} params.locale - The locale for the content.
+ *
+ * @returns {JSX.Element} The privacy policy page with localized content.
+ */
+const PrivacyPage = async ({ params }: { params: { locale: string } }) => {
+  // Fetch policy data
+  const { data } = await axiosInstance.get<PolicyResponse>("api/policy");
+
+  // Fetch translations
   const t = await getTranslations("Index");
 
   return (
@@ -36,4 +52,4 @@ const Page = async ({ params }: { params: { locale: string } }) => {
   );
 };
 
-export default Page;
+export default PrivacyPage;

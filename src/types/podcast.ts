@@ -11,7 +11,7 @@ export type PodcastDetails = {
   thumbnail: string;
   background: string;
   podcast: string;
-  podcaster: { full_name: string, id:number };
+  podcaster: { full_name: string; id: number };
   playback_position: {
     id: number;
     current_position: number;

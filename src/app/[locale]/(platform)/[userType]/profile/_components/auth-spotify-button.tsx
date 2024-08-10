@@ -1,5 +1,11 @@
 "use client";
 
+import React from "react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+
 import SpotifyActiveAccountIcon from "@/components/icons/spotify-active-account-icon";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,37 +14,49 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
-import { useRouter } from "@/navigation";
-import { useMutation } from "@tanstack/react-query";
-import React from "react";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+// import { authSpotifyAction } from "@/app/actions/podcastActions";
 
-const AuthSpotifyButton = ({
+/**
+ * Button component for authenticating a Spotify account.
+ *
+ * Displays an icon indicating the Spotify authentication status.
+ * If the account is not authenticated, clicking the button initiates
+ * the authentication process. The button is disabled if an account
+ * is already linked.
+ *
+ * @param {Object} props - Component props.
+ * @param {string | null} [props.spotify_account] - The Spotify account status; if null, the account is not linked.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
+const AuthSpotifyButton: React.FC<{ spotify_account?: string | null }> = ({
   spotify_account,
-}: {
-  spotify_account?: string | null;
 }) => {
   const t = useTranslations("Index");
+  const router = useRouter();
 
-  // const router = useRouter();
+  // Mutation for authenticating with Spotify
   // const {
-  //   data: authYoutubeActionData,
-  //   mutate: server_authYoutubeAction,
-  //   isPending: isPendingAuthYoutubeAction,
+  //   mutate: server_authSpotifyAction,
+  //   isPending: isPendingAuthSpotifyAction,
   // } = useMutation({
-  //   mutationFn: authYoutubeAction,
-  //   onSuccess: () => {
-  //     router.push(authYoutubeActionData?.url!);
+  //   mutationFn: authSpotifyAction,
+  //   onSuccess: (data) => {
+  //     if (data?.url) {
+  //       router.push(data.url); // Redirect to Spotify authentication page
+  //     } else {
+  //       toast.error(t("authSpotifyError")); // Show error message if URL is not provided
+  //     }
   //   },
   //   onError: (error) => {
-  //     console.log(error);
-  //     toast.error(t("authSpotifyError"));
+  //     console.error("Spotify authentication error:", error); // Log the error
+  //     toast.error(t("authSpotifyError")); // Show error message
   //   },
   // });
 
+  // Handler for Spotify authentication button click
   // const handleAuthSpotify = async () => {
-  //   server_authYoutubeAction();
+  //   server_authSpotifyAction(); // Initiate the authentication process
   // };
 
   return (
@@ -48,12 +66,18 @@ const AuthSpotifyButton = ({
           asChild
           className="p-0 hover:bg-transparent"
           variant="ghost"
-          size={"icon"}
-          disabled={!!spotify_account}
+          size="icon"
+          disabled={
+            !!spotify_account
+            // || isPendingAuthSpotifyAction
+          }
           // onClick={handleAuthSpotify}
+          aria-label={
+            spotify_account ? t("deactivateSpotify") : t("activateSpotify")
+          }
         >
           <SpotifyActiveAccountIcon
-            className={cn("", {
+            className={cn("transition-opacity", {
               "opacity-75 hover:opacity-100": !!spotify_account,
             })}
           />

@@ -1,3 +1,11 @@
+// Standard libraries
+import { Session } from "next-auth";
+
+// Third-party libraries
+import { MailIcon, PhoneIcon, PieChart } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+
+// Local components and utilities
 import { buttonVariants } from "@/components/ui/button";
 import {
   HoverCard,
@@ -6,18 +14,27 @@ import {
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { Company } from "@/types/company";
-import { PodcasterDetails } from "@/types/podcaster";
-import { User } from "@/types/profile";
-import { MailIcon, PhoneIcon, PieChart } from "lucide-react";
-import { Session } from "next-auth";
 import AuthSpotifyButton from "./auth-spotify-button";
 import AuthYoutubeButton from "./auth-youtube-button";
 import ProfileCardImageAndName from "./profile-card-image-and-name";
 import ProfileCategories from "./profile-categories";
 import ProfilePriceSwitcher from "./profile-price-switcher";
-import { getTranslations } from "next-intl/server";
 
+// Type definitions
+import { Company } from "@/types/company";
+import { PodcasterDetails } from "@/types/podcaster";
+import { User } from "@/types/profile";
+
+/**
+ * Component to display a profile card with user, podcaster, or company details.
+ *
+ * @param {object} props - Component props.
+ * @param {User | PodcasterDetails | Company} props.profileData - The profile data to display.
+ * @param {Session | null} props.session - The current user session, if available.
+ * @param {string} props.profileType - The type of profile ("user", "podcaster", or "company").
+ * @param {boolean} props.isSelfProfile - Indicates if the profile being displayed is the current user's profile.
+ * @returns {JSX.Element} The rendered profile card component.
+ */
 const ProfileCard = async ({
   profileData,
   session,
@@ -29,18 +46,22 @@ const ProfileCard = async ({
   profileType: string;
   isSelfProfile: boolean;
 }) => {
+  // Fetch translations for the current locale
   const t = await getTranslations("Index");
 
   return (
     <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-12 gap-6">
+      {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
           name={profileData?.full_name}
           image={profileData?.image}
         />
+        {/* Display categories if present */}
         {"categories" in profileData ? (
           <ProfileCategories categories={profileData?.categories!} />
         ) : null}
+        {/* Display price switcher for podcasters under certain conditions */}
         {(profileType === "podcaster" &&
           "price" in profileData &&
           profileData?.price &&
@@ -59,7 +80,9 @@ const ProfileCard = async ({
           />
         ) : null}
       </div>
+      {/* Contact and additional profile information */}
       <div className="flex flex-col items-start justify-center w-full gap-10">
+        {/* Statistics link for non-user profiles */}
         {profileType === "user" ? null : (
           <Link
             href={`/${session?.user?.type}/profile/statistics`}
@@ -69,6 +92,7 @@ const ProfileCard = async ({
             <p className="text-lg font-medium">{t("statistics")}</p>
           </Link>
         )}
+        {/* Phone number display for users and companies */}
         {((profileType === "user" && session?.user?.id === profileData?.id) ||
           profileType === "company") &&
         profileData?.phone ? (
@@ -77,6 +101,7 @@ const ProfileCard = async ({
             <p>{profileData?.phone}</p>
           </div>
         ) : null}
+        {/* Email display with hover card for additional details */}
         {profileData?.email &&
         (profileType === "user" || profileType === "company") ? (
           <HoverCard>
@@ -95,6 +120,7 @@ const ProfileCard = async ({
           </HoverCard>
         ) : null}
       </div>
+      {/* Edit profile link for self profiles */}
       {isSelfProfile ? (
         <Link
           href={`/${session?.user?.type}/profile/edit`}
@@ -106,6 +132,7 @@ const ProfileCard = async ({
           {t("editProfile")}
         </Link>
       ) : null}
+      {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" && "youtube_account" in profileData ? (
         <div className="grid grid-cols-4 justify-items-center w-full">
           <AuthYoutubeButton youtube_account={profileData?.youtube_account} />

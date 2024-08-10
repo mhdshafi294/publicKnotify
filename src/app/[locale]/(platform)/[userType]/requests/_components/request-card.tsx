@@ -1,23 +1,31 @@
 import { FC } from "react";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
+
 import { Request } from "@/types/request";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "@/navigation";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-type RequestCardProps = {
-  request: Request;
-};
-
-const RequestCard: FC<RequestCardProps> = ({ request }) => {
+/**
+ * RequestCard Component
+ * Displays a card with detailed information about a request.
+ * Includes a link to the detailed view of the request.
+ *
+ * @param {Object} props - The props object.
+ * @param {Request} props.request - The request object to be displayed.
+ *
+ * @returns {JSX.Element} The card displaying the request details.
+ */
+const RequestCard: FC<{ request: Request }> = ({ request }) => {
+  // Translation function for internationalization
   const t = useTranslations("Index");
+
   return (
     <Link href={`requests/${request.id}`}>
       <Card className="bg-card/50 border-card-foreground/10">
@@ -41,7 +49,7 @@ const RequestCard: FC<RequestCardProps> = ({ request }) => {
                   {t("from")}
                 </span>
                 {request.company
-                  ? request.company?.full_name
+                  ? request.company.full_name
                   : request.podcaster?.full_name}
               </p>
             </div>
@@ -67,7 +75,7 @@ const RequestCard: FC<RequestCardProps> = ({ request }) => {
                 <p className="text-xs text-card-foreground/50">
                   {t("adPosition")}
                 </p>
-                <p className="text-sm"> {request.ad_place}</p>
+                <p className="text-sm">{request.ad_place}</p>
               </div>
             </div>
           </div>

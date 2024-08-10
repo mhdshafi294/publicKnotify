@@ -1,30 +1,42 @@
 "use client";
 
-import { Request, RequestsResponse } from "@/types/request";
+// Global imports
 import React, { useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+
+// Local imports
+import { Request, RequestsResponse } from "@/types/request";
 import RequestCard from "./request-card";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { getRequestsAction } from "@/app/actions/requestsActions";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/components/ui/loader";
-import { useTranslations } from "next-intl";
 
-const InfiniteScrollRequests = ({
-  initialRequests,
-  search,
-  status,
-  type,
-}: {
+/**
+ * InfiniteScrollRequests Component
+ * Handles infinite scrolling for a list of requests with support for search, status filtering, and type-based pagination.
+ *
+ * @param {Object} props - The props object.
+ * @param {Request[] | undefined} props.initialRequests - Initial list of requests for the first page.
+ * @param {string} [props.search] - Optional search query to filter requests.
+ * @param {string[]} [props.status] - Optional array of status filters for requests.
+ * @param {string} props.type - The type of requests to fetch (e.g., "company", "user").
+ *
+ * @returns {JSX.Element} The list of request cards and a loader for infinite scrolling.
+ */
+const InfiniteScrollRequests: React.FC<{
   initialRequests: Request[] | undefined;
   search?: string;
   status?: string[];
   type: string;
-}) => {
+}> = ({ initialRequests, search, status, type }) => {
+  // Translation function for internationalization
   const t = useTranslations("Index");
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
 
+  // Intersection observer for detecting when to fetch the next page
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
+
+  // Infinite query setup
   const {
     isError,
     error,
@@ -80,6 +92,7 @@ const InfiniteScrollRequests = ({
     },
   });
 
+  // Effect to fetch next page when intersection observer detects scrolling
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
       fetchNextPage();

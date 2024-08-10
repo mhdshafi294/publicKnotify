@@ -1,13 +1,28 @@
 "use client";
+
+// External imports
+import { useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+
+// Local imports
 import CompanyCard from "@/app/[locale]/(platform)/_components/company-card";
 import { getCompaniesAction } from "@/app/actions/companyActions";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { CompaniesResponse, Company } from "@/types/company";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useTranslations } from "next-intl";
 
+/**
+ * InfiniteScrollCompanies Component
+ * Renders a list of companies with infinite scrolling functionality.
+ * Fetches and displays companies based on the search query.
+ *
+ * @param {Object} props - The props object.
+ * @param {Company[] | undefined} props.initialData - Initial company data.
+ * @param {string} [props.search] - The search query.
+ *
+ * @returns {JSX.Element} The list of companies with infinite scroll.
+ */
 const InfiniteScrollCompanies = ({
   initialData,
   search,
@@ -15,11 +30,15 @@ const InfiniteScrollCompanies = ({
   initialData: Company[] | undefined;
   search?: string;
 }) => {
+  // Intersection observer to detect when to fetch the next page
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+
+  // Fetch locale and translations
   const t = useTranslations("Index");
 
+  // Infinite query for fetching companies
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["companies", "podcaster", search],
@@ -69,6 +88,7 @@ const InfiniteScrollCompanies = ({
       },
     });
 
+  // Fetch next page when intersection is detected and more pages are available
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
       fetchNextPage();
@@ -78,6 +98,7 @@ const InfiniteScrollCompanies = ({
 
   return (
     <>
+      {/* List of companies */}
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {data?.pages.map((page) =>
           page?.requests.map((request) => (
@@ -87,7 +108,8 @@ const InfiniteScrollCompanies = ({
           ))
         )}
       </ul>
-      {/* loading spinner */}
+
+      {/* Loader for fetching next page */}
       <div
         ref={ref}
         className="col-span-1 mt-1 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-5"

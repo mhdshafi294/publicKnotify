@@ -41,7 +41,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
       if (token) {
-        console.log("FCM Token:", token);
+        // console.log("FCM Token:", token);
       }
     };
 

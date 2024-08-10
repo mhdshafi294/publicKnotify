@@ -28,25 +28,39 @@ import { cn, getDirection } from "@/lib/utils";
 import CancelRequestButton from "./_components/cancel-request-button";
 import { buttonVariants } from "@/components/ui/button";
 
-export default async function Request({
+/**
+ * RequestPage Component
+ * Displays details of a specific request including its status, type, cost, and related media.
+ * Provides functionality for status changes based on user type.
+ *
+ * @param {Object} params - Route parameters containing locale, userType, and requestId.
+ * @returns {JSX.Element} The request details view.
+ */
+export default async function RequestPage({
   params,
 }: {
   params: { locale: string; userType: string; requestId: string };
 }) {
+  // Fetch session and handle redirection based on user type
   const session = await getServerSession(authOptions);
   if (session?.user?.type === "user") {
     redirect(`/user`);
   }
+
+  // Fetch translations
   const t = await getTranslations("Index");
 
+  // Construct search parameters for potential use
   const searchParams = new URLSearchParams({ request_id: params?.requestId });
 
+  // Fetch request details based on requestId and userType
   const requestsResponse = await getRequestAction({
     id: params?.requestId,
     type: session?.user?.type!,
   });
   const request = requestsResponse.request;
 
+  // Get locale and direction for styling
   const locale = useLocale();
   const direction = getDirection(locale);
 
@@ -58,8 +72,8 @@ export default async function Request({
             <div className="w-full flex justify-between items-center">
               <div className="flex flex-col gap-2">
                 <CardTitle className="capitalize">{request.name}</CardTitle>
-                <CardDescription className="">
-                  <span className="capitalize text-base text-card-foreground ">
+                <CardDescription>
+                  <span className="capitalize text-base text-card-foreground">
                     {request.company
                       ? request.company?.full_name
                       : request.podcaster?.full_name}{" "}
@@ -79,7 +93,7 @@ export default async function Request({
                   {request.hashTags.map((hashTag) => (
                     <div
                       key={hashTag.id}
-                      className="shrink-0 text-sm bg-greeny_lighter/30 text-greeny px-3 py-1 font-semibold rounded-lg  cursor-default"
+                      className="shrink-0 text-sm bg-greeny_lighter/30 text-greeny px-3 py-1 font-semibold rounded-lg cursor-default"
                     >
                       #{hashTag.name}
                     </div>
@@ -126,7 +140,7 @@ export default async function Request({
                   <p className="text-xs">{t("publishTimeAt")}</p>{" "}
                   <CalendarClockIcon
                     size={15}
-                    className=" text-muted-foreground"
+                    className="text-muted-foreground"
                   />
                 </div>
                 <span className="text-muted-foreground text-sm">
@@ -213,16 +227,14 @@ export default async function Request({
                   </>
                 ) : session?.user?.type === "podcaster" &&
                   request.status.toLowerCase() === "accepted by podcaster" ? (
-                  <>
-                    <Link
-                      href={`/podcaser/publish?${searchParams.toString()}`}
-                      className={cn(buttonVariants({ variant: "default" }), "")}
-                    >
-                      {t("publish")}
-                    </Link>
-                  </>
+                  <Link
+                    href={`/podcaser/publish?${searchParams.toString()}`}
+                    className={cn(buttonVariants({ variant: "default" }), "")}
+                  >
+                    {t("publish")}
+                  </Link>
                 ) : session?.user?.type === "company" &&
-                  request.status.toLowerCase() === "pendding" ? (
+                  request.status.toLowerCase() === "pending" ? (
                   <CancelRequestButton
                     requestId={params?.requestId}
                     userType={"company"}

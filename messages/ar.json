@@ -81,6 +81,7 @@
     "cancelingRequest": "جارٍ إلغاء الطلب...",
     "requestCanceled": "تم إلغاء الطلب",
     "somethingWentWrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى!",
+    "draftAlreadyError": "هذا الطلب لديه مسودة بالفعل",
     "creatingRequest": "جارٍ إنشاء الطلب...",
     "requestCreatedSuccessfully": "تم إنشاء الطلب بنجاح",
     "whereToAddYourAD": "أين تضيف إعلانك",

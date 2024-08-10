@@ -1,4 +1,5 @@
 "use client";
+
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
@@ -7,46 +8,27 @@ import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
 
 import { createRequestAction } from "@/app/actions/requestsActions";
-import SelectPodcaster from "@/components/select-podcaster";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import DatePicker from "@/components/ui/date-picker";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import FormCheckbox from "@/components/ui/form-checkbox";
-import FormInput from "@/components/ui/form-input";
-import FormFileInput from "@/components/ui/form-input-file";
-import TimePicker from "@/components/ui/time-picker";
+import { Form } from "@/components/ui/form";
 import { useRouter } from "@/navigation";
 import { createRequestSchema } from "@/schema/requestSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import PriceRadioGroupFormInput from "@/components/ui/price-radio-group-form-input";
-import FormInputTextarea from "@/components/ui/form-input-textarea";
-import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
-import ArrayFormInput from "@/components/ui/array-form-input";
-import ToggleFormInput from "@/components/ui/toggle-form-input";
-import { YoutubeIcon } from "lucide-react";
-import SpotifyIcon from "@/components/icons/spotify-icon";
-import { getCategoriesAction } from "@/app/actions/podcastActions";
-import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 import { useSearchParams } from "next/navigation";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { getDirection } from "@/lib/utils";
+import AddPositionAndChannelsCard from "./_components/add-position-and-channels-card";
+import MainFormBodyCard from "./_components/main-form-body-card";
 
+/**
+ * CreateRequest Component
+ * Form for creating a new request with various input fields and validations.
+ * Handles form submission and redirects upon success.
+ *
+ * @returns {JSX.Element} The form for creating a request.
+ */
 const CreateRequest = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -54,7 +36,9 @@ const CreateRequest = () => {
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  // State to track if the component has mounted
   const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -66,10 +50,12 @@ const CreateRequest = () => {
     ) {
       router.push(`/${session?.user?.type}`);
     }
-  }, [isMounted, session, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, session]);
 
   const searchParams = useSearchParams();
 
+  // Initialize form with default values and validation schema
   const form = useForm<createRequestSchema>({
     resolver: zodResolver(createRequestSchema),
     defaultValues: {
@@ -117,7 +103,6 @@ const CreateRequest = () => {
   const podcaster = podcasterResponse?.podcaster;
 
   const {
-    data,
     mutate: server_createRequestAction,
     isPending,
     error,
@@ -139,7 +124,6 @@ const CreateRequest = () => {
   });
 
   const handleSubmit = async (data: createRequestSchema) => {
-    // console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("summary", data.summary);
@@ -158,17 +142,16 @@ const CreateRequest = () => {
     data.hashtags.forEach((hashtag, index) => {
       formData.append(`hashtags[${index}]`, hashtag);
     });
-
     formData.append("ad_period", data.ad_period);
     formData.append("ad_place", data.ad_place);
     formData.append("podcaster_id", data.podcaster_id);
-
     formData.append("publish_youtube", data.publish_youtube);
     formData.append("publish_spotify", data.publish_spotify);
 
     server_createRequestAction({ formData, type: "company" });
   };
 
+  // Render nothing until the component has mounted
   if (!isMounted) return null;
 
   return (
@@ -176,59 +159,14 @@ const CreateRequest = () => {
       <Form {...form}>
         <form
           className="w-full px-0"
-          onSubmit={form.handleSubmit((data) => {
-            handleSubmit(data);
-          })}
+          onSubmit={form.handleSubmit(handleSubmit)}
         >
           <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
             <div className="lg:col-span-3 lg:me-10 lg:h-full">
-              <Card className="bg-card/50 border-card-foreground/10 w-full h-full px-3 lg:px-5 py-10 pb-2 ">
-                <CardHeader className="py-0 px-0 text-xl">
-                  {t("whereToAddYourAD")}
-                </CardHeader>
-                <CardContent className="px-0 mt-5">
-                  <PriceRadioGroupFormInput
-                    name="ad_place"
-                    label={t("adTypeAndPosition")}
-                    control={form.control}
-                    options={[t("first"), t("middle"), t("end"), t("video")]}
-                    price={podcaster?.price}
-                    className="bg-background h-full py-5 rounded-lg px-3"
-                    labelClassName="text-lg w-full h-full"
-                    groupClassName="flex-col items-start gap-3"
-                    groupItemClassName="bg-card/50 rounded-lg px-5 w-full"
-                    radioGroupItemClassName="size-6 border-none bg-greeny/10"
-                  />
-                  <div className="space-y-2 mt-5">
-                    <p className="text-lg">{t("distributionChannels")}</p>
-                    <div className="w-full flex justify-start gap-2 items-center">
-                      <ToggleFormInput
-                        name="publish_youtube"
-                        control={form.control}
-                        className=" size-10 px-1.5"
-                        icon={<YoutubeIcon size={32} />}
-                        disabled={!podcaster?.youtube_account}
-                      />
-                      <ToggleFormInput
-                        name="publish_spotify"
-                        control={form.control}
-                        className=" size-10 px-1.5"
-                        icon={<SpotifyIcon size={32} />}
-                        disabled={!podcaster?.youtube_account}
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="lg:hidden">
-                  <Button
-                    disabled={isPending}
-                    className="w-full capitalize mt-0 font-bold"
-                    type="submit"
-                  >
-                    {isPending ? <ButtonLoader /> : t("continue")}
-                  </Button>
-                </CardFooter>
-              </Card>
+              <AddPositionAndChannelsCard
+                podcaster={podcaster}
+                isPending={isPending}
+              />
             </div>
             <div className="lg:col-span-9 space-y-5">
               <div className="w-full flex justify-between">
@@ -241,106 +179,7 @@ const CreateRequest = () => {
                   {isPending ? <ButtonLoader /> : t("continue")}
                 </Button>
               </div>
-              <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)]  px-2 lg:px-7 py-10 pb-2">
-                <ScrollArea className="h-full" dir={dir}>
-                  <CardContent className="flex flex-col gap-7">
-                    <div className="w-full flex justify-between items-center gap-5">
-                      <FormInput
-                        name="name"
-                        className="bg-background w-full"
-                        placeholder={t("podcastNamePlaceholder")}
-                        label={t("name")}
-                        control={form.control}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="podcaster_id"
-                        render={({ field }) => (
-                          <FormItem className="w-full" dir={dir}>
-                            <FormLabel className="text-lg capitalize">
-                              {t("podcaster")}
-                            </FormLabel>
-                            <SelectPodcaster
-                              setValue={field.onChange}
-                              value={field.value}
-                            />
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <FormInputTextarea
-                      name="summary"
-                      label={t("podcastSummary")}
-                      placeholder={t("podcastSummaryPlaceholder")}
-                      control={form.control}
-                    />
-                    <div className="w-full flex justify-between items-center gap-5">
-                      <FormFileInput
-                        name="thumbnail"
-                        label={t("thumbnail")}
-                        control={form.control}
-                        className="w-full"
-                      />
-                      <FormFileInput
-                        name="background"
-                        label={t("background")}
-                        control={form.control}
-                        className="w-full"
-                      />
-                    </div>
-                    <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-                      <div>
-                        <FormInput
-                          name="company_tag"
-                          className="bg-background"
-                          placeholder={t("company")}
-                          label={t("companyTag")}
-                          control={form.control}
-                        />
-                      </div>
-                      <DatePicker
-                        name="publishing_date"
-                        label={t("date")}
-                        control={form.control}
-                      />
-                      <TimePicker
-                        name="publishing_time"
-                        label={t("time")}
-                        control={form.control}
-                      />
-                      <DurationPickerFormInput
-                        name="ad_period"
-                        className="bg-background"
-                        label={t("period")}
-                        control={form.control}
-                      />
-                    </div>
-                    <ArraySelectManyFormInput
-                      name="categories"
-                      control={form.control}
-                      label={t("categories")}
-                      className="w-full bg-background"
-                      action={getCategoriesAction}
-                      defaultValues={form.getValues()}
-                    />
-                    <ArrayFormInput
-                      name="hashtags"
-                      control={form.control}
-                      label={t("hashtags")}
-                      className="w-full bg-background"
-                      defaultValues={form.getValues()}
-                    />
-                    <FormCheckbox
-                      name="terms"
-                      control={form.control}
-                      className="mt-0"
-                      checkboxClassName="size-4 rounded-full"
-                      label={t("acceptTerms")}
-                    />
-                  </CardContent>
-                </ScrollArea>
-              </Card>
+              <MainFormBodyCard />
             </div>
           </MaxWidthContainer>
         </form>

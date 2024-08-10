@@ -1,11 +1,21 @@
-import PlayLarge from "@/components/icons/play-large";
-import { Progress } from "@/components/ui/progress";
-import { cn, getDistanceToNow } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { Podcast, SelfPodcastDetails } from "@/types/podcast";
-import Image from "next/image";
-import React from "react";
+"use client";
 
+import React from "react";
+import Image from "next/image";
+import { Link } from "@/navigation";
+import { Progress } from "@/components/ui/progress";
+import PlayLarge from "@/components/icons/play-large";
+import { cn, getDistanceToNow } from "@/lib/utils";
+import { Podcast } from "@/types/podcast";
+
+/**
+ * Component for displaying a podcast card on a user's profile.
+ *
+ * @param {object} props - Component props.
+ * @param {Podcast} props.podcast - The podcast data to display.
+ * @param {string} props.userType - The type of the user (e.g., "podcaster").
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProfilePodcastCard = ({
   podcast,
   userType,
@@ -13,19 +23,21 @@ const ProfilePodcastCard = ({
   podcast: Podcast;
   userType: string;
 }) => {
+  // Calculate the playback progress as a percentage.
   const progress = podcast.playback_position
     ? Math.floor(
-        (podcast.playback_position?.current_position /
-          podcast.playback_position?.total_time) *
+        (podcast.playback_position.current_position /
+          podcast.playback_position.total_time) *
           100
       )
     : 0;
 
   return (
-    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full ">
+    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
       <div className="size-44 rounded-lg relative">
+        {/* Conditional rendering to handle missing thumbnails */}
         <Image
-          src={podcast.thumbnail}
+          src={podcast.thumbnail || "/default-thumbnail.jpg"} // Fallback to a default image if thumbnail is missing
           alt={podcast.name}
           className="object-cover rounded-lg"
           fill
@@ -37,7 +49,10 @@ const ProfilePodcastCard = ({
           )}
         />
       </div>
+      {/* Display the playback progress */}
       <Progress value={progress} className="w-44 h-2 mt-1" />
+
+      {/* Podcast name and type */}
       <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">
         {podcast.name}
       </p>

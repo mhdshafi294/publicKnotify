@@ -1,15 +1,27 @@
 "use client";
 
-import { Notification, NotificationsResponse } from "@/types/notification";
-import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
-import { useTranslations } from "next-intl";
-import { getNotificationsAction } from "@/app/actions/notificationActions";
-import { Separator } from "@/components/ui/separator";
-import { formatDistanceToNow } from "date-fns";
+import React, { useEffect } from "react"; // Core React import
+import { useInfiniteQuery } from "@tanstack/react-query"; // External dependency for infinite query
+import { formatDistanceToNow } from "date-fns"; // External utility for date formatting
+import { useTranslations } from "next-intl"; // External dependency for internationalization
 
+import { Notification, NotificationsResponse } from "@/types/notification"; // Internal type definitions
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer"; // Internal custom hook for intersection observer
+import { getNotificationsAction } from "@/app/actions/notificationActions"; // Internal function for fetching notifications
+import Loader from "@/components/ui/loader"; // Internal component for loading indicator
+import { Separator } from "@/components/ui/separator"; // Internal component for separator
+
+/**
+ * InfiniteScrollNotifications Component
+ *
+ * This component displays a list of notifications with infinite scrolling functionality. It fetches additional
+ * notifications as the user scrolls and appends them to the existing list.
+ *
+ * @param {Object} props - Component properties.
+ * @param {Notification[] | undefined} props.initialNotifications - Initial set of notifications to display.
+ * @param {string} props.type - Type of notifications to fetch.
+ * @returns {JSX.Element} The rendered list of notifications with infinite scroll.
+ */
 const InfiniteScrollNotifications = ({
   initialNotifications,
   type,
@@ -17,65 +29,58 @@ const InfiniteScrollNotifications = ({
   initialNotifications: Notification[] | undefined;
   type: string;
 }) => {
-  const t = useTranslations("Index");
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const t = useTranslations("Index"); // Hook for translations
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 }); // Hook for intersection observer
 
-  const {
-    isError,
-    error,
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["notifications", { type }],
-    queryFn: async ({ pageParam = 1 }) => {
-      const response: NotificationsResponse = await getNotificationsAction({
-        type,
-        page: pageParam.toString(),
-      });
-      return {
-        notifications: response.notifications,
-        pagination: {
-          ...response.pagination,
-          next_page_url: response.pagination.next_page_url,
-          prev_page_url: response.pagination.prev_page_url,
-        },
-      };
-    },
-    getNextPageParam: (lastPage) => {
-      return lastPage.pagination.next_page_url
-        ? lastPage.pagination.current_page + 1
-        : undefined;
-    },
-    initialPageParam: 1,
-    initialData: () => {
-      if (initialNotifications) {
+  // Infinite query setup
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["notifications", { type }],
+      queryFn: async ({ pageParam = 1 }) => {
+        const response: NotificationsResponse = await getNotificationsAction({
+          type,
+          page: pageParam.toString(),
+        });
         return {
-          pages: [
-            {
-              notifications: initialNotifications || [],
-              pagination: {
-                current_page: 1,
-                first_page_url: "",
-                last_page_url: "",
-                next_page_url:
-                  initialNotifications && initialNotifications.length > 0
-                    ? ""
-                    : null,
-                per_page: 10,
-                prev_page_url: null,
-                total: initialNotifications ? initialNotifications.length : 0,
-              },
-            },
-          ],
-          pageParams: [1],
+          notifications: response.notifications,
+          pagination: {
+            ...response.pagination,
+            next_page_url: response.pagination.next_page_url,
+            prev_page_url: response.pagination.prev_page_url,
+          },
         };
-      }
-    },
-  });
+      },
+      getNextPageParam: (lastPage) => {
+        return lastPage.pagination.next_page_url
+          ? lastPage.pagination.current_page + 1
+          : undefined;
+      },
+      initialPageParam: 1,
+      initialData: () => {
+        if (initialNotifications) {
+          return {
+            pages: [
+              {
+                notifications: initialNotifications || [],
+                pagination: {
+                  current_page: 1,
+                  first_page_url: "",
+                  last_page_url: "",
+                  next_page_url:
+                    initialNotifications && initialNotifications.length > 0
+                      ? ""
+                      : null,
+                  per_page: 10,
+                  prev_page_url: null,
+                  total: initialNotifications ? initialNotifications.length : 0,
+                },
+              },
+            ],
+            pageParams: [1],
+          };
+        }
+      },
+    });
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
