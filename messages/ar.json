@@ -277,7 +277,10 @@
     "activateApple": "تفعيل Apple Podcasts",
     "activateGoogle": "تفعيل Google Podcasts",
     "deactivate": "تعطيل",
-    "activate": "تفعيل"
+    "activate": "تفعيل",
+    "prices": "الأسعار",
+    "averageNumberOfListeners": "متوسط عدد المستمعين",
+    "podcsatsCount": "مجموع عدد البودكاستات"
   },
   "notifications": {
     "notifications": "notifications"

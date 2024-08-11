@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 // Internal Imports
 import { getPricingsAction } from "@/app/actions/profileActions";
 import PricingsContainer from "../../pricings/_components/pricings-container";
-import Modal from "./modal";
+import SelfPricingModal from "./modal";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 const PricingPage = async () => {
@@ -17,9 +17,9 @@ const PricingPage = async () => {
   });
 
   return (
-    <Modal>
+    <SelfPricingModal>
       <PricingsContainer pricings={data} />
-    </Modal>
+    </SelfPricingModal>
   );
 };
 

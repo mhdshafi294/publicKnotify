@@ -24,6 +24,8 @@ import ProfilePriceSwitcher from "./profile-price-switcher";
 import { Company } from "@/types/company";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
+import VisitorsPricingModal from "./visitors-pricing-modal";
+import VisitorsStatisticsModal from "./visitors-statistics-modal";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -50,7 +52,7 @@ const ProfileCard = async ({
   const t = await getTranslations("Index");
 
   return (
-    <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-12 gap-6">
+    <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
       {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
@@ -62,11 +64,7 @@ const ProfileCard = async ({
           <ProfileCategories categories={profileData?.categories!} />
         ) : null}
         {/* Display price switcher for podcasters under certain conditions */}
-        {(profileType === "podcaster" &&
-          "price" in profileData &&
-          profileData?.price &&
-          session?.user?.type === "company") ||
-        (isSelfProfile && profileType === "podcaster") ? (
+        {isSelfProfile && profileType === "podcaster" ? (
           <ProfilePriceSwitcher
             profileData={profileData as User | PodcasterDetails}
             session={session}
@@ -83,15 +81,31 @@ const ProfileCard = async ({
       {/* Contact and additional profile information */}
       <div className="flex flex-col items-start justify-center w-full gap-10">
         {/* Statistics link for non-user profiles */}
-        {profileType === "user" ? null : (
-          <Link
-            href={`/${session?.user?.type}/profile/statistics`}
-            className="flex w-full items-center justify-center gap-5 opacity-75 hover:opacity-100 duration-200"
-          >
-            <PieChart className="size-5" strokeWidth={3} />
-            <p className="text-lg font-medium">{t("statistics")}</p>
-          </Link>
-        )}
+        <div className="flex flex-col w-full mx-auto items-center gap-7">
+          {profileType === "podcaster" &&
+          "price" in profileData &&
+          profileData?.price &&
+          session?.user?.type === "company" ? (
+            <VisitorsPricingModal pricings={profileData?.price} />
+          ) : null}
+          {profileType === "podcaster" &&
+          "statistics" in profileData &&
+          profileData?.statistics &&
+          session?.user?.type === "company" ? (
+            <VisitorsStatisticsModal statistics={profileData?.statistics} />
+          ) : null}
+          {!isSelfProfile || profileType === "user" ? null : (
+            <Link
+              href={`/${session?.user?.type}/profile/statistics`}
+              className="flex justify-center items-center gap-5 opacity-75 hover:opacity-100 duration-200"
+            >
+              <PieChart className="size-5" strokeWidth={3} />
+              <p className="text-lg font-medium capitalize">
+                {t("statistics")}
+              </p>
+            </Link>
+          )}
+        </div>
         {/* Phone number display for users and companies */}
         {((profileType === "user" && session?.user?.id === profileData?.id) ||
           profileType === "company") &&
@@ -134,7 +148,7 @@ const ProfileCard = async ({
       ) : null}
       {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" && "youtube_account" in profileData ? (
-        <div className="grid grid-cols-4 justify-items-center w-full">
+        <div className="flex justify-center items-center gap-7 flex-wrap w-full mt-3">
           <AuthYoutubeButton youtube_account={profileData?.youtube_account} />
           <AuthSpotifyButton spotify_account={profileData?.spotify_account} />
         </div>

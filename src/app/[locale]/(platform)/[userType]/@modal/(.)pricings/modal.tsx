@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import usePricingsStore from "@/store/edit-pricings-store";
+import { useTranslations } from "next-intl";
 
 /**
  * Modal Component
@@ -25,9 +26,10 @@ import usePricingsStore from "@/store/edit-pricings-store";
  *
  * @returns {JSX.Element} The modal dialog component with a header and content.
  */
-const Modal = ({ children }: { children: React.ReactNode }) => {
+const SelfPricingModal = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const setEditMode = usePricingsStore((state) => state.setEditMode);
+  const t = useTranslations("Index");
 
   return (
     <Dialog
@@ -40,7 +42,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
       <DialogContent>
         <DialogHeader>
           <div className="flex">
-            <DialogTitle className="text-3xl">Pricings</DialogTitle>
+            <DialogTitle className="text-3xl">{t("pricing")}</DialogTitle>
             <DialogDescription asChild>
               <div className="w-full flex justify-end items-center">
                 <Button
@@ -61,4 +63,4 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Modal;
+export default SelfPricingModal;
