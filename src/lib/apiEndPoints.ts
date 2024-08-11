@@ -55,6 +55,8 @@ export const YOUTUBE = "/youtube";
 export const SEARCH = "/search";
 export const NOTIFICATION = "/notification";
 export const STATISTICS = "/statistics";
+export const TOGGLE = "/toggle";
+export const ENABLE = "/enable";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

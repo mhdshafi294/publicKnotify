@@ -7,31 +7,33 @@ const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 export const createRequestSchema = z
   .object({
     // Name validation: Must be a non-empty string
-    name: z.string().min(1, "error-message.name"),
+    name: z.string().min(1, "createMetadataSchema.errorMessage.name"),
 
     // Summary validation: Must be a non-empty string with a minimum length of 25 characters
     summary: z
       .string()
-      .min(1, "error-message.summary")
-      .min(25, "error-message.summary-short"),
+      .min(1, "createMetadataSchema.errorMessage.summary")
+      .min(25, "createMetadataSchema.errorMessage.summaryShort"),
 
     // Type validation: Must be either 'video' or 'audio'
     type: z.enum(["video", "audio"], {
-      required_error: "You need to select a notification type.",
+      required_error: "createMetadataSchema.errorMessage.typeRequired",
     }),
 
     // Publishing date validation: Must be a valid date
     publishing_date: z.date({
-      required_error: "A date of publishing is required.",
+      required_error: "createMetadataSchema.errorMessage.dateRequired",
     }),
 
     // Publishing time validation: Must be a valid time in HH:mm format
     publishing_time: z.string().refine((val) => timeRegex.test(val), {
-      message: "Invalid time format. Expected HH:mm (24-hour format).",
+      message: "createMetadataSchema.errorMessage.invalidTimeFormat",
     }),
 
     // Company tag validation: Must be a non-empty string
-    company_tag: z.string().min(1, "error-message.company_tag"),
+    company_tag: z
+      .string()
+      .min(1, "createMetadataSchema.errorMessage.companyTag"),
 
     // Thumbnail validation: Must be a file of a valid image type and size
     thumbnail: z
@@ -41,7 +43,7 @@ export const createRequestSchema = z
           return !!data?.name; // Ensure there is a file
         },
         {
-          message: "error-message.thumbnail-required",
+          message: "createMetadataSchema.errorMessage.thumbnail-required",
         }
       )
       .refine(
@@ -52,7 +54,7 @@ export const createRequestSchema = z
           );
         },
         {
-          message: "error-message.thumbnail-invalid-type",
+          message: "createMetadataSchema.errorMessage.thumbnail-invalid-type",
         }
       )
       .refine(
@@ -61,7 +63,7 @@ export const createRequestSchema = z
           return data?.size < 4 * 1024 * 1024; // 4MB size limit
         },
         {
-          message: "error-message.thumbnail-size",
+          message: "createMetadataSchema.errorMessage.thumbnail-size",
         }
       ),
 
@@ -73,7 +75,7 @@ export const createRequestSchema = z
           return !!data?.name; // Ensure there is a file
         },
         {
-          message: "error-message.background-required",
+          message: "createMetadataSchema.errorMessage.background-required",
         }
       )
       .refine(
@@ -84,7 +86,7 @@ export const createRequestSchema = z
           );
         },
         {
-          message: "error-message.background-invalid-type",
+          message: "createMetadataSchema.errorMessage.background-invalid-type",
         }
       )
       .refine(
@@ -93,32 +95,34 @@ export const createRequestSchema = z
           return data?.size < 4 * 1024 * 1024; // 4MB size limit
         },
         {
-          message: "error-message.background-size",
+          message: "createMetadataSchema.errorMessage.background-size",
         }
       ),
 
     // Categories validation: Must be a non-empty array of strings
     categories: z.string().array().nonempty({
-      message: "Can't be empty!",
+      message: "createMetadataSchema.errorMessage.categoriesEmpty",
     }),
 
     // Hashtags validation: Must be a non-empty array of strings
     hashtags: z.string().array().nonempty({
-      message: "Can't be empty!",
+      message: "createMetadataSchema.errorMessage.hashtagsEmpty",
     }),
 
     // Ad period validation: Must be a valid time in HH:mm format
     ad_period: z.string().refine((val) => timeRegex.test(val), {
-      message: "Invalid time format. Expected HH:mm (24-hour format).",
+      message: "createMetadataSchema.errorMessage.addPeriodError",
     }),
 
     // Ad place validation: Must be one of the specified values
     ad_place: z.enum(["middle", "end", "first", "video"], {
-      required_error: "You need to select the position of your ad.",
+      required_error: "createMetadataSchema.errorMessage.addPlaceError",
     }),
 
     // Podcaster ID validation: Must be a non-empty string
-    podcaster_id: z.string().min(1, "error-message.podcaster_id"),
+    podcaster_id: z
+      .string()
+      .min(1, "createMetadataSchema.errorMessage.podcaster_id"),
 
     // Publish to YouTube validation: Must be a non-empty string
     publish_youtube: z.string(),
@@ -130,7 +134,7 @@ export const createRequestSchema = z
     terms: z.boolean(),
   })
   .refine((data) => data.terms, {
-    message: "error-message.terms",
+    message: "createMetadataSchema.errorMessage.terms",
     path: ["terms"],
   });
 

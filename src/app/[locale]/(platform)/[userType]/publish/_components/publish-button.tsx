@@ -53,6 +53,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   const t = useTranslations("Index");
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [published, setPublished] = React.useState(false);
 
   const {
     mutate: server_publishPodcastAction,
@@ -65,10 +66,11 @@ const PublishButton: React.FC<PublishButtonProps> = ({
       toast.loading(t("publishingPodcast"));
     },
     onSuccess: () => {
+      setPublished(true);
       toast.dismiss();
+      router.push(`podcast/${podcast_id}`);
       toast.success(t("podcastPublished"));
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
-      router.push(`podcast/${podcast_id}`);
     },
     onError: () => {
       toast.dismiss();
@@ -123,7 +125,8 @@ const PublishButton: React.FC<PublishButtonProps> = ({
                 publishYoutubeActionIsPending ||
                 publishPodcastActionIsError ||
                 publishYoutubeActionIsError ||
-                disabled
+                disabled ||
+                published
               }
               className={cn("capitalize mt-0 text-sm", className)}
               type="button"

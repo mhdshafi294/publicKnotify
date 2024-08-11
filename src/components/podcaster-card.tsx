@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
+
+import { Link } from "@/navigation";
 import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
 import { Podcaster } from "@/types/podcaster";
-import { useSession } from "next-auth/react";
 import PodcasterFavoritePopover from "./podcaster-favorite-popover";
 import { Skeleton } from "./ui/skeleton";
 import UnfavoriteButton from "./unfavorite-button";

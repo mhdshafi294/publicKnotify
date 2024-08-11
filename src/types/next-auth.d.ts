@@ -11,6 +11,7 @@ declare module "next-auth" {
       access_token?: string;
       iso_code?: string;
       type?: string;
+      is_notification_enabled: boolean;
     };
   }
 
@@ -23,5 +24,6 @@ declare module "next-auth" {
     image?: string | null;
     access_token?: string;
     type?: string;
+    is_notification_enabled: boolean;
   }
 }
