@@ -1,12 +1,19 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import { useSession } from "next-auth/react";
+
 import {
   requestNotificationPermission,
   onMessageListener,
 } from "@/lib/firebaseConfig";
 import { toast } from "sonner";
 import { MessagePayload } from "firebase/messaging";
+import { enableNotificationsAction } from "@/app/actions/notificationActions";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import useNotificationStore from "@/store/use-notification-store";
+
+const fpPromise = FingerprintJS.load();
 
 /**
  * Props for the NotificationProvider component.
@@ -34,14 +41,34 @@ interface NotificationProviderProps {
 const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
+  const { data: session } = useSession();
+  const plusOneUnreadNotifications = useNotificationStore(
+    (state) => state.plusOneUnread
+  );
+
   useEffect(() => {
     /**
      * Function to request notification permission and subscribe to FCM messages.
      */
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
-      if (token) {
-        // console.log("FCM Token:", token);
+      if (
+        token &&
+        session?.user?.type &&
+        session?.user?.is_notification_enabled === false
+      ) {
+        // console.log("FCM Token:", token, "provider");
+        const fp = await fpPromise;
+        const result = await fp.get();
+        try {
+          await enableNotificationsAction({
+            device_token: token,
+            agent: result.visitorId,
+            type: session?.user?.type,
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
 
@@ -51,6 +78,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
     // Listen for incoming FCM messages
     onMessageListener()
       .then((payload: MessagePayload) => {
+        console.log(payload);
         if (payload && payload.notification) {
           toast(payload.notification.title, {
             description: payload.notification.body,
@@ -59,10 +87,11 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
               onClick: () => console.log("View Notification"),
             },
           });
+          plusOneUnreadNotifications();
         }
       })
       .catch((err) => console.log("Failed to receive message: ", err));
-  }, []);
+  }, [session]);
 
   return <>{children}</>;
 };

@@ -1,10 +1,10 @@
 "use client"; // Error components must be Client Components
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
+import { useRouter } from "@/navigation";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Error component that displays an error message and a button to navigate to the home page.
@@ -28,6 +28,9 @@ export default function Error({
 }) {
   const t = useTranslations("Index");
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     // Log the error to an error reporting service

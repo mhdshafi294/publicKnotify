@@ -102,6 +102,7 @@ const InfiniteScrollNotifications = ({
                   addSuffix: true,
                 })}
               </p>
+              {/* <p>{notification?.created_at}</p> */}
               <Separator className="my-2 opacity-70" />
             </li>
           ))

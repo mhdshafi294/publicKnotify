@@ -34,7 +34,7 @@ const MainFormBodyCard = () => {
     <Card className="bg-card/50 border-card-foreground/10 w-full h-[calc(100vh-184px)]  px-2 lg:px-7 py-10 pb-2">
       <ScrollArea className="h-full" dir={dir}>
         <CardContent className="flex flex-col gap-7">
-          <div className="w-full flex justify-between items-center gap-5">
+          <div className="w-full flex justify-between items-start gap-5">
             <FormInput
               name="name"
               className="bg-background w-full"
@@ -65,7 +65,7 @@ const MainFormBodyCard = () => {
             placeholder={t("podcastSummaryPlaceholder")}
             control={form.control}
           />
-          <div className="w-full flex justify-between items-center gap-5">
+          <div className="w-full flex justify-between items-start gap-5">
             <FormFileInput
               name="thumbnail"
               label={t("thumbnail")}

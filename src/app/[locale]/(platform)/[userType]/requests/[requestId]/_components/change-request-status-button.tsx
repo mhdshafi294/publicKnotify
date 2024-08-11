@@ -52,7 +52,7 @@ const ChangeRequestStatusButton = ({
     onSuccess: (data) => {
       // console.log(data, "dataInSuccess");
       toast.success(successToastMessage);
-      router.push(`/${userType}/requests/${requestId}`);
+      router.refresh();
       // revalidatePath(`/${userType}/requests`); // Uncomment if revalidatePath works in your setup
     },
     onError: () => {

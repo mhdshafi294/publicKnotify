@@ -23,6 +23,7 @@ export interface CustomUser {
   image?: string | null;
   access_token?: string;
   type?: string | "user" | "podcaster" | "company";
+  is_notification_enabled: boolean;
 }
 
 // Configure NextAuth options

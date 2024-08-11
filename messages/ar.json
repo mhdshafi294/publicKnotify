@@ -225,7 +225,16 @@
         "terms": "يجب أن توافق على الشروط.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر صوتي.",
         "BackgroundIsRequiredWhenTypeIsAudio": "الخلفية مطلوبة عندما يكون النوع عنصر صوتي.",
-        "ThumbnailIsRequiredWhenTypeIsVideo": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر فيديو."
+        "ThumbnailIsRequiredWhenTypeIsVideo": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر فيديو.",
+        "addPeriodError": "تنسيق الوقت غير صالح. المتوقع HH:mm (تنسيق 24 ساعة).",
+        "addPlaceError": "يجب أن تحدد مكان الاعلان",
+        "podcaster_id": "يجب أن تحدد البودكاست",
+        "thumbnail-required": "الصورة المصغرة مطلوبة",
+        "background-required": "الخلفية مطلوبة",
+        "thumbnail-invalid-type": "نوع الصورة المصغرة غير صالح",
+        "background-invalid-type": "نوع الخلفية غير صالح",
+        "thumbnail-size": "يجب أن يكون حجم الصورة المصغرة أقل من 4 ميغابايت",
+        "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت"
       }
     },
     "selectPlaylist": "اختر قائمة التشغيل",
@@ -257,7 +266,18 @@
     "mins": "دقائق",
     "secs": "ثوان",
     "support": "الدعم",
-    "privacy": "الخصوصية"
+    "privacy": "الخصوصية",
+    "Required": "مطلوب",
+    "deactivateYouTube": "تعطيل YouTube",
+    "deactivateSpotify": "تعطيل Spotify",
+    "deactivateApple": "تعطيل Apple Podcasts",
+    "deactivateGoogle": "تعطيل Google Podcasts",
+    "activateYouTube": "تفعيل YouTube",
+    "activateSpotify": "تفعيل Spotify",
+    "activateApple": "تفعيل Apple Podcasts",
+    "activateGoogle": "تفعيل Google Podcasts",
+    "deactivate": "تعطيل",
+    "activate": "تفعيل"
   },
   "notifications": {
     "notifications": "notifications"

@@ -220,7 +220,16 @@
         "terms": "You must agree to the terms.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "Thumbnail is required when type is audio",
         "BackgroundIsRequiredWhenTypeIsAudio": "Background is required when type is audio",
-        "ThumbnailIsRequiredWhenTypeIsVideo": "Thumbnail is required when type is video"
+        "ThumbnailIsRequiredWhenTypeIsVideo": "Thumbnail is required when type is video",
+        "addPeriodError": "Invalid time format. Expected HH:mm (24-hour format)",
+        "addPlaceError": "You need to select the position of your ad",
+        "podcaster_id": "Podcaster id is required.",
+        "thumbnail-required": "Thumbnail is required",
+        "background-required": "Background is required",
+        "thumbnail-invalid-type": "Invalid thumbnail type",
+        "background-invalid-type": "Invalid background type",
+        "thumbnail-size": "Thumbnail size must be less than 4MB",
+        "background-size": "Background size must be less than 4MB"
       }
     },
     "selectPlaylist": "Select playlist",
@@ -257,7 +266,18 @@
     "mins": "Mins",
     "secs": "Secs",
     "support": "Support",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "Required": "Required",
+    "deactivateYouTube": "Deactivate YouTube",
+    "deactivateSpotify": "Deactivate Spotify",
+    "deactivateApple": "Deactivate Apple Podcasts",
+    "deactivateGoogle": "Deactivate Google Podcasts",
+    "activateYouTube": "Activate YouTube",
+    "activateSpotify": "Activate Spotify",
+    "activateApple": "Activate Apple Podcasts",
+    "activateGoogle": "Activate Google Podcasts",
+    "deactivate": "Deactivate",
+    "activate": "Activate"
   },
   "notifications": {
     "notifications": "notifications"

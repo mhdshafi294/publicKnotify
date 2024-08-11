@@ -65,7 +65,7 @@ export default async function RequestPage({
   const direction = getDirection(locale);
 
   return (
-    <main className="flex flex-col items-center justify-center gap-6 w-full mt-20">
+    <main className="flex flex-col items-center justify-center gap-6 w-full">
       <MaxWidthContainer>
         <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-3">
           <CardHeader>
@@ -228,7 +228,7 @@ export default async function RequestPage({
                 ) : session?.user?.type === "podcaster" &&
                   request.status.toLowerCase() === "accepted by podcaster" ? (
                   <Link
-                    href={`/podcaser/publish?${searchParams.toString()}`}
+                    href={`/podcaster/publish?${searchParams.toString()}`}
                     className={cn(buttonVariants({ variant: "default" }), "")}
                   >
                     {t("publish")}

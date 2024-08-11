@@ -15,13 +15,17 @@ export default class Env {
    */
   static APP_URL: string = process.env.NEXT_PUBLIC_NEXTAUTH_URL as string;
 
+  static FIREBASE_API_KEY: string = process.env.FIREBASE_API_KEY as string;
+  static FIREBASE_AUTH_DOMAIN: string = process.env
+    .FIREBASE_AUTH_DOMAIN as string;
+  static FIREBASE_PROJECT_ID: string = process.env
+    .FIREBASE_PROJECT_ID as string;
+  static FIREBASE_STORAGE_BUCKET: string = process.env
+    .FIREBASE_STORAGE_BUCKET as string;
+  static FIREBASE_MESSAGING_SENDER_ID: string = process.env
+    .FIREBASE_MESSAGING_SENDER_ID as string;
+  static FIREBASE_APP_ID: string = process.env.FIREBASE_APP_ID as string;
+  static FIREBASE__MEASUREMENT_ID: string = process.env
+    .FIREBASE__MEASUREMENT_ID as string;
   static FIREBASE_VAPID_KEY: string = process.env.FIREBASE_VAPID_KEY as string;
-
-  static apiKey: string = process.env.apiKey as string;
-  static authDomain: string = process.env.authDomain as string;
-  static projectId: string = process.env.projectId as string;
-  static storageBucket: string = process.env.storageBucket as string;
-  static messagingSenderId: string = process.env.messagingSenderId as string;
-  static appId: string = process.env.appId as string;
-  static measurementId: string = process.env.measurementId as string;
 }

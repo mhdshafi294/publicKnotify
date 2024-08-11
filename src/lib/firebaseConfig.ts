@@ -10,8 +10,8 @@ import Env from "./env";
 
 // Firebase configuration object
 const firebaseConfig = {
+  // apiKey: Env.FIREBASE_API_KEY,
   apiKey: "AIzaSyDSMK6qQ0jha771m4M_kK8HAvIu-lTZ1Us",
-  // apiKey: Env.apiKey,
   authDomain: "podcasts-99839.firebaseapp.com",
   projectId: "podcasts-99839",
   storageBucket: "podcasts-99839.appspot.com",
