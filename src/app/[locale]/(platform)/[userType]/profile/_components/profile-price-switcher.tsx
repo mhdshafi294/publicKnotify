@@ -71,7 +71,10 @@ const ProfilePriceSwitcher = ({
 
   return (
     <div className="flex justify-center items-center gap-5 mt-6">
-      <Link href="/podcaster/pricings" className="text-lg font-medium">
+      <Link
+        href="/podcaster/pricings"
+        className="text-lg font-medium capitalize hover:underline duration-300"
+      >
         {t("price")}
       </Link>
       {profileType === "podcaster" && isSelfProfile && (

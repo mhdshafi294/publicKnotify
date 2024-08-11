@@ -13,7 +13,7 @@ const PricingPage = async () => {
 
   // Fetch pricing data based on user type
   const data = await getPricingsAction({
-    type: session?.user?.type ?? "default", // Handle cases where user type might be undefined
+    type: session?.user?.type!,
   });
 
   return (

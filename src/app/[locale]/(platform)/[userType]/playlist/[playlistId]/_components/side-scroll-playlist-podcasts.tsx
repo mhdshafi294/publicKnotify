@@ -45,6 +45,7 @@ const SideScrollPlaylistPodcasts = ({
     if (!isMounted) {
       setIsMounted(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -55,6 +56,7 @@ const SideScrollPlaylistPodcasts = ({
     const params = new URLSearchParams(searchParams.toString());
     params.set("podcast_id", selectedPodcastId);
     router.push(`?${params.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPodcastId]);
 
   const locale = useLocale();

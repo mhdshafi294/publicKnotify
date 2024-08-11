@@ -46,6 +46,7 @@ function ArrayFormInput<T extends FieldValues>({
 
   useEffect(() => {
     setValue(name.toString(), items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {

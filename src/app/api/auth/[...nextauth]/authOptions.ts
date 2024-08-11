@@ -23,7 +23,7 @@ export interface CustomUser {
   image?: string | null;
   access_token?: string;
   type?: string | "user" | "podcaster" | "company";
-  is_notification_enabled: boolean;
+  is_notification_enabled?: boolean;
 }
 
 // Configure NextAuth options
@@ -42,6 +42,9 @@ export const authOptions: AuthOptions = {
         updatedUser.phone = session?.phone || updatedUser.phone;
         updatedUser.image = session?.image || updatedUser.image;
         updatedUser.iso_code = session?.iso_code || updatedUser.iso_code;
+        updatedUser.is_notification_enabled =
+          session?.is_notification_enabled ||
+          updatedUser.is_notification_enabled;
       }
 
       return token;

@@ -56,6 +56,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
 
   useEffect(() => {
     if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);

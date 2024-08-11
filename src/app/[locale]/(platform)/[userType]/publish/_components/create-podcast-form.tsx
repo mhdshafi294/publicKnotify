@@ -135,6 +135,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     if (podcastResponse && podcastResponse?.podcast?.is_published) {
       router.push(`/${session?.user?.type}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [podcastResponse]);
 
   // Set draft data based on response
@@ -180,6 +181,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
         terms: true,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [podcast_id, draft]);
 
   // Mutation for creating metadata

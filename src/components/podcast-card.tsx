@@ -30,6 +30,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {
     if (!isHydrated) setIsHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
