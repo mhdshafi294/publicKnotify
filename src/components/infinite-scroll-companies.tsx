@@ -38,8 +38,6 @@ const InfiniteScrollCompanies = ({
 
   // Fetch locale and translations
   const t = useTranslations("Index");
-  const { data: session } = useSession();
-  console.log(session, "sessionClient");
 
   // Infinite query for fetching companies
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

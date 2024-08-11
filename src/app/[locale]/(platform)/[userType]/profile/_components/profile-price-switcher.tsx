@@ -49,20 +49,21 @@ const ProfilePriceSwitcher = ({
   });
 
   const toggle = async () => {
-    if (profileData.price === null) {
+    if (profileData.price === null || profileData.price === undefined) {
       router.push("/podcaster/pricings");
-    }
-    try {
-      await togglePriceStatusAction({ type: "podcaster" });
-      set_enabled((prev) => {
+    } else {
+      try {
+        await togglePriceStatusAction({ type: "podcaster" });
+        set_enabled((prev) => {
+          toast.dismiss();
+          toast.success(prev ? t("pricesHidden") : t("pricesVisible"));
+          return !prev;
+        });
+      } catch (error) {
+        console.error(error);
         toast.dismiss();
-        toast.success(prev ? t("pricesHidden") : t("pricesVisible"));
-        return !prev;
-      });
-    } catch (error) {
-      console.error(error);
-      toast.dismiss();
-      toast.error(t("togglePriceError"));
+        toast.error(t("togglePriceError"));
+      }
     }
   };
 

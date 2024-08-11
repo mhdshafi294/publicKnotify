@@ -31,6 +31,13 @@ export type PodcasterDetails = {
   price: Price;
   categories: Category[];
   favourite_categories: Category[];
+  statistics?: Statistics;
+};
+
+export type Statistics = {
+  podcsats_count: number;
+  average_listeners: number;
+  youtube: any;
 };
 
 export type PodcasterResponse = ApiResponse & {

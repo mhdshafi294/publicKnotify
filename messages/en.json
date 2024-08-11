@@ -277,7 +277,10 @@
     "activateApple": "Activate Apple Podcasts",
     "activateGoogle": "Activate Google Podcasts",
     "deactivate": "Deactivate",
-    "activate": "Activate"
+    "activate": "Activate",
+    "prices": "Prices",
+    "averageNumberOfListeners": "Average number of listeners",
+    "podcsatsCount": "Podcasts count"
   },
   "notifications": {
     "notifications": "notifications"
