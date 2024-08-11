@@ -59,6 +59,7 @@ const Search: React.FC<{ searchText?: string; searchFor: string }> = ({
 
     // Update URL with new query parameters
     router.push(`${searchFor}?${params.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]); // Dependencies omitted as per preference
 
   return (

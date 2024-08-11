@@ -11,6 +11,7 @@ import { getCompaniesAction } from "@/app/actions/companyActions";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { CompaniesResponse, Company } from "@/types/company";
+import { useSession } from "next-auth/react";
 
 /**
  * InfiniteScrollCompanies Component
@@ -37,6 +38,8 @@ const InfiniteScrollCompanies = ({
 
   // Fetch locale and translations
   const t = useTranslations("Index");
+  const { data: session } = useSession();
+  console.log(session, "sessionClient");
 
   // Infinite query for fetching companies
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

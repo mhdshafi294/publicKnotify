@@ -13,8 +13,6 @@ import { enableNotificationsAction } from "@/app/actions/notificationActions";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useNotificationStore from "@/store/use-notification-store";
 
-const fpPromise = FingerprintJS.load();
-
 /**
  * Props for the NotificationProvider component.
  */
@@ -46,17 +44,15 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
     (state) => state.plusOneUnread
   );
 
+  const fpPromise = FingerprintJS.load();
+
   useEffect(() => {
     /**
      * Function to request notification permission and subscribe to FCM messages.
      */
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
-      if (
-        token &&
-        session?.user?.type &&
-        session?.user?.is_notification_enabled === false
-      ) {
+      if (token && session?.user?.type) {
         // console.log("FCM Token:", token, "provider");
         const fp = await fpPromise;
         const result = await fp.get();
@@ -91,6 +87,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
         }
       })
       .catch((err) => console.log("Failed to receive message: ", err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   return <>{children}</>;

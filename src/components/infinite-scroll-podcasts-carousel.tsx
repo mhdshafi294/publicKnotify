@@ -54,6 +54,7 @@ const InfiniteScrollPodcastsCarousel = ({
 
   // Session management
   const { data: session } = useSession();
+  console.log(session, "sessionClient");
 
   // Infinite query for fetching podcasts
   const {

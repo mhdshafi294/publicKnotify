@@ -166,6 +166,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         window.removeEventListener("offline", handleOffline);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     session?.user?.access_token,
     uploadId,

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { Control, FieldValues } from "react-hook-form";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 

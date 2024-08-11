@@ -20,6 +20,7 @@ const InfiniteScrollPodcasts = ({
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {
     if (!isHydrated) setIsHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { isIntersecting, ref } = useIntersectionObserver({
