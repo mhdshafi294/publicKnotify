@@ -280,7 +280,9 @@
     "activate": "Activate",
     "prices": "Prices",
     "averageNumberOfListeners": "Average number of listeners",
-    "podcsatsCount": "Podcasts count"
+    "podcsatsCount": "Podcasts count",
+    "NoPublishedPodcastsYet": "No published podcasts yet",
+    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "Publish podcasts and you can see their statistics here"
   },
   "notifications": {
     "notifications": "notifications"

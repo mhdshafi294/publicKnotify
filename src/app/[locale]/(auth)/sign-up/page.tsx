@@ -12,14 +12,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
  * <SignUp />
  * ```
  */
-const SignUp = () => {
+const SignUp = ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   const t = useTranslations("Index");
 
   return (
     <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[3dvh] lg:pt-[7dvh] pb-[2dvh]">
       {/* Container for the sign-up tabs */}
       <Tabs
-        defaultValue="podcaster"
+        defaultValue={
+          searchParams.userType
+            ? (searchParams.userType as string)
+            : "podcaster"
+        }
         className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
       >
         {/* Tabs List: container for the tab triggers */}

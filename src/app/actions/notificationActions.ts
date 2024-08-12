@@ -45,14 +45,17 @@ export const getNotificationsAction = async ({
  */
 export const toggleNotificationsAction = async ({
   device_token,
+  agent,
   type,
 }: {
   device_token: string;
+  agent?: string;
   type: string;
 }) => {
   // Call the toggleNotifications function with the provided parameters
   return await toggleEnableNotifications({
     device_token,
+    agent,
     type,
   });
 };
