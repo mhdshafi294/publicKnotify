@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
@@ -26,6 +27,10 @@ import sendCode from "@/services/auth/send-code";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { sendCodeAction } from "@/app/actions/authActions";
 
+import FingerprintJS, { GetResult } from "@fingerprintjs/fingerprintjs";
+
+const fpPromise = FingerprintJS.load();
+
 interface SignInFormProps {
   type: "podcaster" | "user" | "company";
 }
@@ -44,7 +49,25 @@ interface SignInFormProps {
 const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const t = useTranslations("Index");
   const [loading, setLoading] = useState<boolean>(false);
+  const [fpResult, setFpResult] = useState<string | null>(null);
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
+    } else {
+      const loadedAsync = async () => {
+        if (typeof window !== "undefined") {
+          // Load FingerprintJS only on the client side
+          const fp = await fpPromise;
+          const result = await fp.get();
+          setFpResult(result.visitorId);
+        }
+      };
+      loadedAsync();
+    }
+  }, [isMounted]);
 
   // Initialize the form with validation schema and default values
   const form = useForm<loginSchema>({
@@ -70,6 +93,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         phone: `${data.phone.code}${data.phone.phone}`,
         password: data.password,
         type: type,
+        agent: fpResult,
         redirect: false,
         callbackUrl: "/", // TODO: Add callback URL
       });
