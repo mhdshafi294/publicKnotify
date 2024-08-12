@@ -27,9 +27,9 @@ import sendCode from "@/services/auth/send-code";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { sendCodeAction } from "@/app/actions/authActions";
 
-import FingerprintJS, { GetResult } from "@fingerprintjs/fingerprintjs";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
-const fpPromise = FingerprintJS.load();
+const fpPromise = typeof window !== "undefined" ? FingerprintJS.load() : null;
 
 interface SignInFormProps {
   type: "podcaster" | "user" | "company";
@@ -51,23 +51,20 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [fpResult, setFpResult] = useState<string | null>(null);
   const router = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true);
-    } else {
-      const loadedAsync = async () => {
-        if (typeof window !== "undefined") {
-          // Load FingerprintJS only on the client side
-          const fp = await fpPromise;
-          const result = await fp.get();
-          setFpResult(result.visitorId);
-        }
-      };
-      loadedAsync();
+    const loadFingerprint = async () => {
+      if (fpPromise) {
+        const fp = await fpPromise;
+        const result = await fp.get();
+        setFpResult(result.visitorId);
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      loadFingerprint();
     }
-  }, [isMounted]);
+  }, []);
 
   // Initialize the form with validation schema and default values
   const form = useForm<loginSchema>({
@@ -108,13 +105,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
           await sendCodeAction({ body: { phone: data.phone }, type });
         } catch (error) {
           toast.error(t("errorOccurred"));
-          console.log(error, typeof error, "here");
         }
         toast.warning(t("verificationCodeSent"));
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
-        // throw signInResponse;
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
         toast.error(t("invalidPhoneOrPassword"));
