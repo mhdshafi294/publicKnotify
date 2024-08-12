@@ -25,7 +25,7 @@ export default class Env {
   static FIREBASE_MESSAGING_SENDER_ID: string = process.env
     .FIREBASE_MESSAGING_SENDER_ID as string;
   static FIREBASE_APP_ID: string = process.env.FIREBASE_APP_ID as string;
-  static FIREBASE__MEASUREMENT_ID: string = process.env
-    .FIREBASE__MEASUREMENT_ID as string;
+  static FIREBASE_MEASUREMENT_ID: string = process.env
+    .FIREBASE_MEASUREMENT_ID as string;
   static FIREBASE_VAPID_KEY: string = process.env.FIREBASE_VAPID_KEY as string;
 }

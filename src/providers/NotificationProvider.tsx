@@ -72,9 +72,18 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
      */
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
+      console.log(
+        session?.user?.is_notification_enabled,
+        "<<<<<<<<<<<<<<< is_notification_enabled "
+      );
       if (token && session?.user?.type && fpPromise) {
         try {
           const fp = await fpPromise;
+          // console.log(fp, "<<<<< fp");
+          // console.log(
+          //   fp && !session?.user?.is_notification_enabled,
+          //   "<<<<<<<< fp && !session?.user?.is_notification_enabled"
+          // );
           if (fp && !session?.user?.is_notification_enabled) {
             const result = await fp.get();
             await toggleNotificationsAction({
@@ -108,7 +117,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
       })
       .catch((err) => console.log("Failed to receive message: ", err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [session?.user?.is_notification_enabled]);
 
   return <>{children}</>;
 };

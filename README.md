@@ -1,4 +1,92 @@
-# podcast frontend
+# Knotify
+
+Knotify is a frontend project built with Next.js and a variety of modern web development tools and libraries.
+
+## Getting Started
+
+First, clone the repository and install the dependencies:
+
+```bash
+git clone https://gitlab.com/rlinkhero/podcast-frontend.git
+cd knotify
+npm install
+
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open http://localhost:3000 with your browser to see the result. The page will auto-update as you edit the files.
+
+### Project Details
+
+#### Project Name
+
+Knotify
+
+#### Version
+
+0.9.0
+
+### Dependencies
+
+#### This project includes the following key dependencies:
+
+*Next.js (14.2.3): The React framework for production.
+*React (^18): A JavaScript library for building user interfaces.
+*Tailwind CSS (^3.4.1): A utility-first CSS framework for styling.
+*Zod (^3.23.5): A TypeScript-first schema declaration and validation library.
+*Firebase (^10.12.5): A platform for developing mobile and web applications.
+*Axios (^1.6.8): A promise-based HTTP client for making requests.
+*React Query (^5.40.0): A data-fetching library for React.
+*Zustand (^4.5.2): A small, fast, and scalable state-management library.
+*Lucide React (^0.376.0): A collection of simple, beautiful, and customizable icons.
+*Development Dependencies
+*TypeScript (^5): A typed superset of JavaScript that compiles to plain JavaScript.
+*ESLint (^8): A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+*Tailwind CSS Typography (^0.5.13): A plugin that provides a set of prose classes you can use to style text content.
+*PostCSS (^8): A tool for transforming CSS with JavaScript plugins.
+
+#### Scripts
+
+*dev: Runs the development server using Next.js.
+*build: Builds the application for production.
+*start: Starts the production server.
+*lint: Runs ESLint to analyze and fix code.
+
+#### Learn More
+
+To learn more about the technologies used in this project, check out the following resources:
+
+### Next.js Documentation - learn about Next.js features and API.
+
+Learn Next.js - an interactive Next.js tutorial.
+You can check out the Next.js GitHub repository - your feedback and contributions are welcome!
+
+### Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js.
+
+Check out the Next.js deployment documentation for more details.
+
+License
+This project is licensed under the MIT License.
+
+Contributing
+
+### Authors and Acknowledgment
+
+Thank you to everyone who has contributed to this project.
+
+### Project Status
+
+The project is currently in active development.
+
+This `README.md` text includes a comprehensive overview of the project, including installation instructions, details about dependencies, scripts, and additional information about the project. You can copy and paste this directly into your `README.md` file.
 
 ## Getting started
 

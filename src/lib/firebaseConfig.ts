@@ -12,10 +12,15 @@ import Env from "./env";
 const firebaseConfig = {
   // apiKey: Env.FIREBASE_API_KEY,
   apiKey: "AIzaSyDSMK6qQ0jha771m4M_kK8HAvIu-lTZ1Us",
+  // authDomain: Env.FIREBASE_AUTH_DOMAIN,
   authDomain: "podcasts-99839.firebaseapp.com",
+  // projectId: Env.FIREBASE_PROJECT_ID,
   projectId: "podcasts-99839",
+  // storageBucket: Env.FIREBASE_STORAGE_BUCKET,
   storageBucket: "podcasts-99839.appspot.com",
+  // messagingSenderId: Env.FIREBASE_MESSAGING_SENDER_ID,
   messagingSenderId: "1045424594",
+  // appId: Env.FIREBASE_APP_ID,
   appId: "1:1045424594:web:40f8da902f5a6de311000b",
   measurementId: "G-L7B58YNL3P",
 };
