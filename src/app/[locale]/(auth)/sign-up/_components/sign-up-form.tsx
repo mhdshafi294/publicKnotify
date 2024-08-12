@@ -186,7 +186,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           {t("haveAccount")}{" "}
           <Link
             locale="en"
-            href="/sign-in"
+            href={`/sign-in/?userType=${type}`}
             className="font-bold text-sm text-greeny"
           >
             {t("signIn")}

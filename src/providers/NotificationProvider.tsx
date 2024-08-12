@@ -1,17 +1,30 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
 import {
   requestNotificationPermission,
   onMessageListener,
 } from "@/lib/firebaseConfig";
 import { toast } from "sonner";
 import { MessagePayload } from "firebase/messaging";
-import { enableNotificationsAction } from "@/app/actions/notificationActions";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import {
+  enableNotificationsAction,
+  toggleNotificationsAction,
+} from "@/app/actions/notificationActions";
 import useNotificationStore from "@/store/use-notification-store";
+
+// Explicitly define the type for FingerprintJS Agent
+type FingerprintJSAgent = import("@fingerprintjs/fingerprintjs").Agent;
+
+// Lazy load FingerprintJS on the client side
+const loadFingerprintJS = async (): Promise<FingerprintJSAgent | null> => {
+  if (typeof window !== "undefined") {
+    const FingerprintJS = await import("@fingerprintjs/fingerprintjs");
+    return FingerprintJS.load();
+  }
+  return null;
+};
 
 /**
  * Props for the NotificationProvider component.
@@ -44,24 +57,41 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
     (state) => state.plusOneUnread
   );
 
-  const fpPromise = FingerprintJS.load();
+  const [fpPromise, setFpPromise] =
+    useState<Promise<FingerprintJSAgent | null> | null>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Load FingerprintJS only on the client side
+      const fp = loadFingerprintJS();
+      setFpPromise(fp);
+    }
+
     /**
      * Function to request notification permission and subscribe to FCM messages.
      */
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
-      if (token && session?.user?.type) {
-        // console.log("FCM Token:", token, "provider");
-        const fp = await fpPromise;
-        const result = await fp.get();
+      // console.log(
+      //   session?.user?.is_notification_enabled,
+      //   "<<<<<<<<<<<<<<< is_notification_enabled "
+      // );
+      if (token && session?.user?.type && fpPromise) {
         try {
-          await enableNotificationsAction({
-            device_token: token,
-            agent: result.visitorId,
-            type: session?.user?.type,
-          });
+          const fp = await fpPromise;
+          // console.log(fp, "<<<<< fp");
+          // console.log(
+          //   fp && !session?.user?.is_notification_enabled,
+          //   "<<<<<<<< fp && !session?.user?.is_notification_enabled"
+          // );
+          if (fp && !session?.user?.is_notification_enabled) {
+            const result = await fp.get();
+            await toggleNotificationsAction({
+              device_token: token,
+              agent: result.visitorId,
+              type: session?.user?.type,
+            });
+          }
         } catch (error) {
           console.log(error);
         }
@@ -74,8 +104,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
     // Listen for incoming FCM messages
     onMessageListener()
       .then((payload: MessagePayload) => {
-        console.log(payload);
-        if (payload && payload.notification) {
+        if (payload?.notification) {
           toast(payload.notification.title, {
             description: payload.notification.body,
             action: {

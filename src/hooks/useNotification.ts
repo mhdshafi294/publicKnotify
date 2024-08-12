@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { messaging, getToken, onMessage } from "@/lib/firebaseConfig";
 import { toast } from "sonner";
+import Env from "@/lib/env";
 
 /**
  * Custom hook that handles Firebase Cloud Messaging (FCM) notifications.
@@ -28,8 +29,7 @@ export const useNotification = () => {
         try {
           const token = await getToken(messaging!, {
             // add non-null assertion
-            vapidKey:
-              "BEiNGMt9FADp7mzukiPMsqDUvDmyz1KLkMHR38Od36OxlzPQ5GDpGSW9p8ESsAFKLFgNb-9X26O7ubjJ0SuPtLA",
+            vapidKey: Env.FIREBASE_VAPID_KEY,
           });
           // console.log("FCM Token:", token);
         } catch (error) {

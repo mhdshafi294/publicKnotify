@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"; // Internal utility function import
 import { Link } from "@/navigation"; // Internal navigation import
 import { ApiResponse } from "@/types"; // Internal API response type import
 import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
+import StatisticsContainer from "./_components/statistics_container";
 
 // Function to fetch podcasts, cached to optimize performance
 const getPodcasts = cache(async (type: string) => {
@@ -60,121 +61,98 @@ const StatisticsPage = async ({
   // Determine the selected podcast ID
   const podcastId = searchParams.podcastId
     ? (searchParams.podcastId as string)
-    : selfPodcastsList[0].id.toString();
+    : selfPodcastsList[0]
+    ? selfPodcastsList[0].id.toString()
+    : undefined;
 
-  // Fetch statistics data
-  const statisticsData = await getStatisticsAction({
-    type: params.userType,
-    podcat_id: podcastId,
-  });
+  // If no podcast ID is provided, show a prompt to publish podcasts
+  if (podcastId === undefined) {
+    return (
+      <StatisticsContainer selfPodcastsList={selfPodcastsList}>
+        <div className="w-full h-[calc(50dvh-112px)] flex justify-center items-center">
+          <h2 className="text-3xl font-semibold italic">
+            {t("PublishPodcastsAndYouCanSeeTheirStatisticsHere")}
+          </h2>
+        </div>
+      </StatisticsContainer>
+    );
+  } else {
+    // Fetch statistics data for the selected podcast
+    const statisticsData = await getStatisticsAction({
+      type: params.userType,
+      podcat_id: podcastId,
+    });
 
-  return (
-    <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
-      <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
-        {/* Sidebar with podcast list */}
-        <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-4 flex flex-col items-center lg:gap-12 gap-6">
-          <div className="w-full flex justify-center items-center gap-3">
-            <Image
-              src="/statistics.png"
-              alt="Statistics"
-              width={800}
-              height={124}
-              className="size-full z-10 rounded-lg object-contain"
-            />
+    return (
+      <StatisticsContainer selfPodcastsList={selfPodcastsList}>
+        <>
+          {/* Time and average listens statistics */}
+          <div className="bg-greeny flex justify-center flex-col items-center text-primary">
+            <h3 className="text-5xl font-bold">9 min</h3>
+            <p className="text-2xl capitalize">{t("totalTime")}</p>
           </div>
-          <div className="flex flex-col items-start justify-start w-full gap-10">
-            <div className="size-full flex flex-col justify-start items-start">
-              <h2 className="text-2xl font-bold capitalize">
-                {t("podcastNames")}
-              </h2>
-              {selfPodcastsList.map((podcast) => (
-                <Link
-                  href={{ search: `?podcastId=${podcast.id}` }}
-                  scroll={false}
-                  key={podcast.id}
-                  className={cn(
-                    buttonVariants({ variant: "link" }),
-                    "text-lg px-0 capitalize"
-                  )}
-                >
-                  {podcast.name}
-                </Link>
+          <div className="bg-primary flex justify-center flex-col items-center">
+            <h3 className="text-5xl font-bold">
+              {statisticsData.average_listens}
+            </h3>
+            <p className="text-2xl capitalize">{t("averageListens")}</p>
+          </div>
+
+          {/* Revenue statistics */}
+          <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
+            <div className="w-full flex justify-start items-center gap-2">
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {/* SVG paths for icon */}
+              </svg>
+              <h3 className="text-2xl capitalize font-bold">
+                {t("revenueStatistics")}
+              </h3>
+            </div>
+            <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
+              {statisticsData.average_listens}
+            </div>
+          </div>
+
+          {/* Social media statistics */}
+          <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
+            <div className="w-full flex justify-start items-center gap-2">
+              <h3 className="text-xl font-bold md:max-w-[75%] capitalize">
+                {t("averageListens")}
+              </h3>
+            </div>
+            <div className="space-y-4 mt-2 w-full">
+              {socialMedia.map((media, index) => (
+                <div className="space-y-2" key={index}>
+                  <div className="flex justify-between items-center text-greeny">
+                    <div className="flex justify-start items-center text-base gap-2">
+                      <Image
+                        src={media.icon}
+                        alt={media.name}
+                        width={24}
+                        height={24}
+                      />
+                      <span className="text-foreground">{media.name}</span>
+                    </div>
+                    <span>{statisticsData.youtube_video}</span>
+                  </div>
+                  <Progress
+                    value={statisticsData.average_listens}
+                    className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
+                  />
+                </div>
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Statistics section */}
-        <div className="w-full relative lg:w-9/12">
-          <div className="w-full p-5 flex justify-end sticky bg-secondary px-4 rounded-lg top-20 min-h-10">
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 [&_>_div]:p-8 [&_>_div]:rounded-md">
-              {/* Time and average listens */}
-              <div className="bg-greeny flex justify-center flex-col items-center text-primary">
-                <h3 className="text-5xl font-bold">9 min</h3>
-                <p className="text-2xl capitalize">{t("totalTime")}</p>
-              </div>
-              <div className="bg-primary flex justify-center flex-col items-center">
-                <h3 className="text-5xl font-bold">
-                  {statisticsData.average_listens}
-                </h3>
-                <p className="text-2xl capitalize">{t("averageListens")}</p>
-              </div>
-              {/* Revenue statistics */}
-              <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
-                <div className="w-full flex justify-start items-center gap-2">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 40 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* SVG paths for icon */}
-                  </svg>
-                  <h3 className="text-2xl capitalize font-bold">
-                    {t("revenueStatistics")}
-                  </h3>
-                </div>
-                <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
-                  {statisticsData.average_listens}
-                </div>
-              </div>
-              {/* Social media statistics */}
-              <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
-                <div className="w-full flex justify-start items-center gap-2">
-                  <h3 className="text-xl font-bold md:max-w-[75%] capitalize">
-                    {t("averageListens")}
-                  </h3>
-                </div>
-                <div className="space-y-4 mt-2 w-full">
-                  {socialMedia.map((media, index) => (
-                    <div className="space-y-2" key={index}>
-                      <div className="flex justify-between items-center text-greeny">
-                        <div className="flex justify-start items-center text-base gap-2">
-                          <Image
-                            src={media.icon}
-                            alt={media.name}
-                            width={24}
-                            height={24}
-                          />
-                          <span className="text-foreground">{media.name}</span>
-                        </div>
-                        <span>{statisticsData.youtube_video}</span>
-                      </div>
-                      <Progress
-                        value={statisticsData.average_listens}
-                        className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </MaxWidthContainer>
-    </main>
-  );
+        </>
+      </StatisticsContainer>
+    );
+  }
 };
 
 export default StatisticsPage;

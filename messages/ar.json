@@ -280,7 +280,9 @@
     "activate": "تفعيل",
     "prices": "الأسعار",
     "averageNumberOfListeners": "متوسط عدد المستمعين",
-    "podcsatsCount": "مجموع عدد البودكاستات"
+    "podcsatsCount": "مجموع عدد البودكاستات",
+    "NoPublishedPodcastsYet": "لا توجد بودكاستات منشورة بعد",
+    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "انشر بودكاستاتك و سوف ترى احصائياتها هنا"
   },
   "notifications": {
     "notifications": "notifications"

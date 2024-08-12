@@ -96,7 +96,7 @@ const ProfileCard = async ({
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
             <Link
-              href={`/${session?.user?.type}/profile/statistics`}
+              href={`/${session?.user?.type}/statistics`}
               className="flex justify-center items-center gap-5 opacity-75 hover:opacity-100 duration-200"
             >
               <PieChart className="size-5" strokeWidth={3} />
