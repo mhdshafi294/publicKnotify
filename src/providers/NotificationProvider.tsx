@@ -75,7 +75,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
       if (token && session?.user?.type && fpPromise) {
         try {
           const fp = await fpPromise;
-          if (fp && session?.user?.is_notification_enabled) {
+          if (fp && !session?.user?.is_notification_enabled) {
             const result = await fp.get();
             await toggleNotificationsAction({
               device_token: token,
