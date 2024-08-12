@@ -72,6 +72,7 @@ export const authOptions: AuthOptions = {
         phone: {},
         password: {},
         type: {},
+        agent: {},
       },
       type: "credentials",
       // Authorize the user with credentials

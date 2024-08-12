@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 /**
  * Type definition for the store's state and actions.
@@ -13,6 +14,18 @@ type Store = {
    * Indicates whether the notification panel is open.
    */
   isOpen: boolean;
+
+  /**
+   * Indicates whether notifications are enabled.
+   */
+  isEnabled: boolean;
+
+  /**
+   * Sets whether notifications are enabled.
+   *
+   * @param isEnabled - The new state of notification enabling.
+   */
+  setIsEnabled: (isEnabled: boolean) => void;
 
   /**
    * Sets the number of unread notifications.
@@ -30,41 +43,59 @@ type Store = {
    * Sets the open state of the notification panel.
    *
    * @param isOpen - The new open state of the notification panel.
+   * If the panel is closed, the number of unread notifications is reset to 0.
    */
   setIsOpen: (isOpen: boolean) => void;
 };
 
 /**
- * Zustand store for managing notification state.
+ * Zustand store for managing notification state with persistence in local storage.
  */
-const useNotificationStore = create<Store>()((set) => ({
-  unread: 0,
-  isOpen: false,
+const useNotificationStore = create<Store>()(
+  persist(
+    (set) => ({
+      unread: 0,
+      isOpen: false,
+      isEnabled: false,
 
-  /**
-   * Sets the number of unread notifications.
-   *
-   * @param unread - The new number of unread notifications.
-   */
-  setUnread: (unread) => set((state) => ({ ...state, unread })),
+      /**
+       * Sets whether notifications are enabled.
+       *
+       * @param isEnabled - The new state of notification enabling.
+       */
+      setIsEnabled: (isEnabled) => set((state) => ({ ...state, isEnabled })),
 
-  /**
-   * Increments the number of unread notifications by one.
-   */
-  plusOneUnread: () => set((state) => ({ ...state, unread: state.unread + 1 })),
+      /**
+       * Sets the number of unread notifications.
+       *
+       * @param unread - The new number of unread notifications.
+       */
+      setUnread: (unread) => set((state) => ({ ...state, unread })),
 
-  /**
-   * Sets the open state of the notification panel.
-   *
-   * @param isOpen - The new open state of the notification panel.
-   * If the panel is closed, the number of unread notifications is reset to 0.
-   */
-  setIsOpen: (isOpen) =>
-    set((state) => ({
-      ...state,
-      isOpen,
-      unread: !isOpen ? 0 : state.unread,
-    })),
-}));
+      /**
+       * Increments the number of unread notifications by one.
+       */
+      plusOneUnread: () =>
+        set((state) => ({ ...state, unread: state.unread + 1 })),
+
+      /**
+       * Sets the open state of the notification panel.
+       *
+       * @param isOpen - The new open state of the notification panel.
+       * If the panel is closed, the number of unread notifications is reset to 0.
+       */
+      setIsOpen: (isOpen) =>
+        set((state) => ({
+          ...state,
+          isOpen,
+          unread: !isOpen ? 0 : state.unread,
+        })),
+    }),
+    {
+      name: "notification-store", // Unique name for local storage key
+      getStorage: () => localStorage, // Use local storage as the storage mechanism
+    }
+  )
+);
 
 export default useNotificationStore;
