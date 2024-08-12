@@ -1,5 +1,21 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistStorage, StorageValue } from "zustand/middleware";
+
+/**
+ * Custom storage wrapper to ensure compatibility with Zustand's persist middleware.
+ */
+const localStorageWrapper: PersistStorage<Store> = {
+  getItem: (name) => {
+    const value = localStorage.getItem(name);
+    return value ? JSON.parse(value) : null;
+  },
+  setItem: (name, value) => {
+    localStorage.setItem(name, JSON.stringify(value));
+  },
+  removeItem: (name) => {
+    localStorage.removeItem(name);
+  },
+};
 
 /**
  * Type definition for the store's state and actions.
@@ -93,7 +109,7 @@ const useNotificationStore = create<Store>()(
     }),
     {
       name: "notification-store", // Unique name for local storage key
-      getStorage: () => localStorage, // Use local storage as the storage mechanism
+      storage: localStorageWrapper, // Custom localStorage wrapper
     }
   )
 );
