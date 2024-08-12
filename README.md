@@ -80,6 +80,10 @@ Contributing
 
 ### Authors and Acknowledgment
 
+Main Author MHD Shafil AlNahhas
+Contributed Author Amir Helwani
+For R-link
+
 Thank you to everyone who has contributed to this project.
 
 ### Project Status
