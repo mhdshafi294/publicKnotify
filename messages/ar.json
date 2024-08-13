@@ -282,7 +282,9 @@
     "averageNumberOfListeners": "متوسط عدد المستمعين",
     "podcsatsCount": "مجموع عدد البودكاستات",
     "NoPublishedPodcastsYet": "لا توجد بودكاستات منشورة بعد",
-    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "انشر بودكاستاتك و سوف ترى احصائياتها هنا"
+    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "انشر بودكاستاتك و سوف ترى احصائياتها هنا",
+    "notificationsUpdated": "تم تحديث الاشعارات",
+    "notificationsUpdateFailed": "فشل تحديث الاشعارات"
   },
   "notifications": {
     "notifications": "notifications"

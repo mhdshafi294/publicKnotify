@@ -10,6 +10,8 @@ import { toast } from "sonner";
 import { MessagePayload } from "firebase/messaging";
 import { toggleNotificationsAction } from "@/app/actions/notificationActions";
 import useNotificationStore from "@/store/use-notification-store";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 // Explicitly define the type for FingerprintJS Agent
 type FingerprintJSAgent = import("@fingerprintjs/fingerprintjs").Agent;
@@ -49,6 +51,8 @@ interface NotificationProviderProps {
 const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
+  const t = useTranslations("Index");
+
   const { data: session, update: updateSession } = useSession();
   const plusOneUnreadNotifications = useNotificationStore(
     (state) => state.plusOneUnread
@@ -58,6 +62,23 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
 
   const [fpPromise, setFpPromise] =
     useState<Promise<FingerprintJSAgent | null> | null>(null);
+
+  // Mutation for updating user profile
+  const { mutate: server_toggleNotificationsAction, isPending } = useMutation({
+    mutationFn: toggleNotificationsAction,
+    onSuccess: async () => {
+      toast.success(t("notificationsUpdated"));
+      await updateSession({
+        ...session?.user,
+        is_notification_enabled: true,
+      });
+      setIsEnabled(true);
+    },
+    onError: (error) => {
+      console.log(error.message);
+      toast.error(t("notificationsUpdateFailed"));
+    },
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -82,21 +103,28 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
       if (token && session?.user?.type && fpPromise) {
         try {
           const fp = await fpPromise;
-          if (fp && !session?.user?.is_notification_enabled && !isEnabled) {
+          console.log(session, "<<<<<<<<<<session before");
+          console.log(isEnabled, "<<<<<<<<<<<<<<< isEnabled before");
+          if (fp && !session?.user?.is_notification_enabled) {
             const result = await fp.get();
-            await toggleNotificationsAction({
+            server_toggleNotificationsAction({
               device_token: token,
               agent: result.visitorId,
               type: session?.user?.type,
             });
-            updateSession({
-              ...session,
-              user: {
-                ...session?.user,
-                is_notification_enabled: true,
-              },
-            }); //?? Why this does not Update user.is_notification_enabled to be true after toggling notifications
-            setIsEnabled(true);
+            // await toggleNotificationsAction({
+            //   device_token: token,
+            //   agent: result.visitorId,
+            //   type: session?.user?.type,
+            // });
+            // updateSession({
+            //   ...session,
+            //   user: {
+            //     ...session?.user,
+            //     is_notification_enabled: true,
+            //   },
+            // }); //?? Why this does not Update user.is_notification_enabled to be true after toggling notifications
+            // setIsEnabled(true);
             // Todo: Clean these console.logs after done testing
             // console.log(
             //   isEnabled,
