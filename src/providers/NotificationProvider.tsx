@@ -89,7 +89,7 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
               agent: result.visitorId,
               type: session?.user?.type,
             });
-            const sessionResult = await updateSession({
+            updateSession({
               ...session,
               user: {
                 ...session?.user,
