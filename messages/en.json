@@ -282,7 +282,9 @@
     "averageNumberOfListeners": "Average number of listeners",
     "podcsatsCount": "Podcasts count",
     "NoPublishedPodcastsYet": "No published podcasts yet",
-    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "Publish podcasts and you can see their statistics here"
+    "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "Publish podcasts and you can see their statistics here",
+    "notificationsUpdated": "Notifications updated",
+    "notificationsUpdateFailed": "Notifications update failed"
   },
   "notifications": {
     "notifications": "notifications"

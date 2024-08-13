@@ -49,7 +49,7 @@ interface SignInFormProps {
 const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   const t = useTranslations("Index");
   const [loading, setLoading] = useState<boolean>(false);
-  const [fpResult, setFpResult] = useState<string | null>(null);
+  const [visitorId, setVisitorId] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       if (fpPromise) {
         const fp = await fpPromise;
         const result = await fp.get();
-        setFpResult(result.visitorId);
+        setVisitorId(result.visitorId);
       }
     };
 
@@ -90,7 +90,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         phone: `${data.phone.code}${data.phone.phone}`,
         password: data.password,
         type: type,
-        agent: fpResult,
+        agent: visitorId,
         redirect: false,
         callbackUrl: "/", // TODO: Add callback URL
       });
@@ -116,11 +116,12 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         throw signInResponse?.error;
       } else if (signInResponse?.error?.includes("403")) {
         setLoading(false);
-        toast.warning(t("blockedByAdmin"));
+        toast.dismiss();
         toast.warning(t("notVerifiedByTheAdmenYet"));
         throw signInResponse?.error;
       } else {
         setLoading(false);
+        toast.dismiss();
         toast.error(t("errorOccurred"));
         throw signInResponse?.error;
       }

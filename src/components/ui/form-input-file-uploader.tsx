@@ -13,6 +13,8 @@ import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL } from "@/lib/utils";
 import { Image, Upload, X } from "lucide-react";
 import { Button } from "./button";
+import FileUploader from "./file-uploader";
+import { PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
