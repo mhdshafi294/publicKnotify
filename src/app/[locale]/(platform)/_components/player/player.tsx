@@ -56,8 +56,8 @@ const Player = () => {
     if (data && !isPending && !isError) {
       if (audioElement) {
         const handleCanPlayThrough = () => {
-          setCurrentTime(data?.playback_position?.current_position || 0);
           setIsLoaded(true);
+          setCurrentTime(data?.playback_position?.current_position || 0);
           setIsLoading(false);
           audioElement.play();
           setIsPlaying(true);
@@ -192,9 +192,9 @@ const Player = () => {
 
   // Reset states when podcastId changes
   useEffect(() => {
-    setCurrentTime(0);
-    setDuration(0);
-    setSliderValue([0]);
+    // setCurrentTime(0);
+    // setDuration(0);
+    // setSliderValue([0]);
     setIsLoaded(false);
     setIsPlaying(false);
     if (ref.current) {
