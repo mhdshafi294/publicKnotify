@@ -6,8 +6,15 @@ export type Statistics = {
   total_revenue: number | null;
   viewsCount: number | null;
   average_listens: number | null;
-  youtube_video: number | null;
-  youtube_channel: number | null;
+  youtube_video: string | null;
+  youtube_channel: YoutubeChannel | null;
+};
+
+export type YoutubeChannel = {
+  viewCount: number;
+  subscriberCount: number;
+  hiddenSubscriberCount: boolean;
+  videoCount: number;
 };
 
 export type StatisticsResponse = ApiResponse & {

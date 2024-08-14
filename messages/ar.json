@@ -284,7 +284,9 @@
     "NoPublishedPodcastsYet": "لا توجد بودكاستات منشورة بعد",
     "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "انشر بودكاستاتك و سوف ترى احصائياتها هنا",
     "notificationsUpdated": "تم تحديث الاشعارات",
-    "notificationsUpdateFailed": "فشل تحديث الاشعارات"
+    "notificationsUpdateFailed": "فشل تحديث الاشعارات",
+    "viewsCount": "عدد المشاهدات",
+    "youtubeViewsCount": "عدد المشاهدات على YouTube"
   },
   "notifications": {
     "notifications": "notifications"

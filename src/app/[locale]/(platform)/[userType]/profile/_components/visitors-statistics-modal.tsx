@@ -50,7 +50,7 @@ const VisitorsStatisticsModal = ({
             <PricingCard
               name="first"
               text={t("averageNumberOfListeners")}
-              price={statistics?.average_listeners.toString()}
+              price={statistics?.average_listeners.toFixed(3).toString()}
             />
             <PricingCard
               name="middle"
@@ -60,8 +60,8 @@ const VisitorsStatisticsModal = ({
             {statistics?.youtube ? (
               <PricingCard
                 name="end"
-                text={t("youtube")}
-                price={statistics?.youtube}
+                text={t("youtubeViewsCount")}
+                price={statistics?.youtube.viewCount.toString()}
               />
             ) : null}
           </div>

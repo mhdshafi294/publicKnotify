@@ -60,7 +60,7 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
           />
         ) : (
           <p className="text-2xl capitalize">
-            {price ? `$${price}` : "no price set yet"}
+            {price ? `${price}` : "no price set yet"}
           </p>
         )}
 

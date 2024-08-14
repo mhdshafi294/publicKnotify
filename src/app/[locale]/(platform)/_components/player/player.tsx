@@ -56,6 +56,7 @@ const Player = () => {
     if (data && !isPending && !isError) {
       if (audioElement) {
         const handleCanPlayThrough = () => {
+          setCurrentTime(data?.playback_position?.current_position || 0);
           setIsLoaded(true);
           setIsLoading(false);
           audioElement.play();
