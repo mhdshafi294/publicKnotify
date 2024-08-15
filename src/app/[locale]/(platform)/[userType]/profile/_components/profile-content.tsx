@@ -127,7 +127,7 @@ const ProfileContent = async ({
   }
 
   return (
-    <div className="w-full lg:w-8/12">
+    <div className="w-full max-w-screen-sm  lg:w-8/12">
       <div className="w-full flex justify-end min-h-10">
         {/* Display a button for sending a request if the user is a company viewing a podcaster's profile */}
         {profileType === "podcaster" && session?.user?.type === "company" ? (

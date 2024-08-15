@@ -10,7 +10,7 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { usePathname } from "@/navigation";
 import usePlayerStore from "@/store/use-player-store";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pause, Play, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -33,10 +33,13 @@ const Player = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
+  const queryClient = useQueryClient();
+
   const ref = useRef<ElementRef<"audio">>(null);
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
+    gcTime: 0,
     enabled: !!podcastId && !!session?.user?.type,
     queryFn: () =>
       getPodcastDetailsAction({
@@ -49,16 +52,20 @@ const Player = () => {
     if (ref.current) {
       ref.current.volume = volume;
     }
-  }, [volume]);
+  }, [volume, data]);
 
   useEffect(() => {
     const audioElement = ref.current;
     if (data && !isPending && !isError) {
+      console.log(data, "<<<<<<<<<<<player data");
       if (audioElement) {
         const handleCanPlayThrough = () => {
           setIsLoaded(true);
-          setCurrentTime(data?.playback_position?.current_position || 0);
           setIsLoading(false);
+          console.log(
+            data?.playback_position?.current_position,
+            "<<<<<<<<<<<<<<current_position"
+          );
           audioElement.play();
           setIsPlaying(true);
         };
@@ -67,9 +74,17 @@ const Player = () => {
         audioElement.addEventListener("timeupdate", () =>
           setCurrentTime(audioElement.currentTime)
         );
-        audioElement.addEventListener("loadeddata", () =>
-          setDuration(audioElement.duration)
-        );
+        audioElement.addEventListener("loadeddata", () => {
+          setDuration(audioElement.duration);
+          console.log(
+            data?.playback_position?.current_position,
+            "<<<<<<<<<<<<<<current_position loadeddata"
+          );
+          audioElement.currentTime =
+            data?.playback_position?.current_position || 0;
+          setCurrentTime(data?.playback_position?.current_position || 0);
+          setSliderValue([data?.playback_position?.current_position || 0]);
+        });
 
         return () => {
           audioElement.removeEventListener(
@@ -192,9 +207,9 @@ const Player = () => {
 
   // Reset states when podcastId changes
   useEffect(() => {
-    // setCurrentTime(0);
-    // setDuration(0);
-    // setSliderValue([0]);
+    setCurrentTime(0);
+    setSliderValue([0]);
+    setDuration(0);
     setIsLoaded(false);
     setIsPlaying(false);
     if (ref.current) {

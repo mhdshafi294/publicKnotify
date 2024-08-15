@@ -92,19 +92,9 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
      */
     const getTokenAndSubscribe = async () => {
       const token = await requestNotificationPermission();
-      // Todo: Clean these console.logs after done testing
-      // console.log(session?.user, "<<<<<<<<<<<<<<< user ");
-      // console.log(isEnabled, "<<<<<<<<<<<<<<< is_notification_enabled ");
-      // if (session?.user?.is_notification_enabled) {
-      //   console.log("hiiiiiiii");
-      //   setIsEnabled(true);
-      // }
-      // console.log(isEnabled, "<<<<<<<<<<<<<<< is_notification_enabled after");
       if (token && session?.user?.type && fpPromise) {
         try {
           const fp = await fpPromise;
-          console.log(session, "<<<<<<<<<<session before");
-          console.log(isEnabled, "<<<<<<<<<<<<<<< isEnabled before");
           if (fp && !session?.user?.is_notification_enabled) {
             const result = await fp.get();
             server_toggleNotificationsAction({
@@ -112,26 +102,6 @@ const NotificationProvider: React.FC<NotificationProviderProps> = ({
               agent: result.visitorId,
               type: session?.user?.type,
             });
-            // await toggleNotificationsAction({
-            //   device_token: token,
-            //   agent: result.visitorId,
-            //   type: session?.user?.type,
-            // });
-            // updateSession({
-            //   ...session,
-            //   user: {
-            //     ...session?.user,
-            //     is_notification_enabled: true,
-            //   },
-            // }); //?? Why this does not Update user.is_notification_enabled to be true after toggling notifications
-            // setIsEnabled(true);
-            // Todo: Clean these console.logs after done testing
-            // console.log(
-            //   isEnabled,
-            //   "<<<<<<<<<<<<<<< is_notification_enabled after2"
-            // );
-            // console.log(sessionResult, "<<<<< result");
-            // console.log(session?.user, "<<<<<<<<<<<<<<< user updated ");
           }
         } catch (error) {
           console.log(error);

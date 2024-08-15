@@ -106,12 +106,14 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         } catch (error) {
           toast.error(t("errorOccurred"));
         }
+        toast.dismiss();
         toast.warning(t("verificationCodeSent"));
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
+        toast.dismiss();
         toast.error(t("invalidPhoneOrPassword"));
         throw signInResponse?.error;
       } else if (signInResponse?.error?.includes("403")) {
@@ -130,13 +132,16 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
       setLoading(false);
       if (err.response?.status == 434) {
         await sendCode({ body: { phone: data.phone }, type });
+        toast.dismiss();
         toast.warning(t("verificationCodeSent"));
         router.push(
           `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
         );
       } else if (err.response?.status == 422) {
+        toast.dismiss();
         toast.error(t("invalidPhone"));
       } else {
+        toast.dismiss();
         toast.error(t("tryAgain"));
       }
     }
