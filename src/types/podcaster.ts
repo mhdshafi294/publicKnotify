@@ -1,5 +1,6 @@
 import { ApiResponse, Pagination } from ".";
 import { Category } from "./podcast";
+import { YoutubeChannel } from "./statistics";
 
 export type Podcaster = {
   id: number;
@@ -37,7 +38,7 @@ export type PodcasterDetails = {
 export type Statistics = {
   podcsats_count: number;
   average_listeners: number;
-  youtube: any;
+  youtube: YoutubeChannel;
 };
 
 export type PodcasterResponse = ApiResponse & {

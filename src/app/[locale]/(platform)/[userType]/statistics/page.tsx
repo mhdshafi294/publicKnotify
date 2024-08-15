@@ -4,12 +4,8 @@ import Image from "next/image"; // Next.js image component import
 import { getTranslations } from "next-intl/server"; // Next.js i18n import
 
 //internal dependencies
-import { buttonVariants } from "@/components/ui/button"; // Internal button variants import
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal UI component import
 import { Progress } from "@/components/ui/progress"; // Internal progress component import
 import axiosInstance from "@/lib/axios.config"; // Internal axios configuration import
-import { cn } from "@/lib/utils"; // Internal utility function import
-import { Link } from "@/navigation"; // Internal navigation import
 import { ApiResponse } from "@/types"; // Internal API response type import
 import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
 import StatisticsContainer from "./_components/statistics_container";
@@ -88,8 +84,8 @@ const StatisticsPage = async ({
         <>
           {/* Time and average listens statistics */}
           <div className="bg-greeny flex justify-center flex-col items-center text-primary">
-            <h3 className="text-5xl font-bold">9 min</h3>
-            <p className="text-2xl capitalize">{t("totalTime")}</p>
+            <h3 className="text-5xl font-bold">{statisticsData.viewsCount}</h3>
+            <p className="text-2xl capitalize">{t("viewsCount")}</p>
           </div>
           <div className="bg-primary flex justify-center flex-col items-center">
             <h3 className="text-5xl font-bold">
@@ -115,7 +111,25 @@ const StatisticsPage = async ({
               </h3>
             </div>
             <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
-              {statisticsData.average_listens}
+              <p className=" font-bold">
+                Revenues:{" "}
+                <span className="font-normal opacity-75">
+                  {statisticsData?.revenue
+                    ? +statisticsData?.revenue?.toFixed(2)
+                    : 0}
+                </span>
+              </p>
+            </div>
+            <div className="w-full bg-black/20 border border-border/5 p-2 rounded-md">
+              <p className=" font-bold">
+                Totla revenue:{" "}
+                <span className="font-normal opacity-75">
+                  {" $"}
+                  {statisticsData?.total_revenue
+                    ? +statisticsData?.total_revenue?.toFixed(2)
+                    : 0}
+                </span>
+              </p>
             </div>
           </div>
 
@@ -139,10 +153,18 @@ const StatisticsPage = async ({
                       />
                       <span className="text-foreground">{media.name}</span>
                     </div>
-                    <span>{statisticsData.youtube_video}</span>
+                    <span>{statisticsData.youtube_channel?.viewCount}</span>
                   </div>
                   <Progress
-                    value={statisticsData.average_listens}
+                    value={
+                      ((statisticsData.youtube_channel?.viewCount
+                        ? statisticsData.youtube_channel?.viewCount
+                        : 15) /
+                        (statisticsData.youtube_channel?.viewCount
+                          ? statisticsData.youtube_channel?.viewCount * 3
+                          : 100)) *
+                      100
+                    }
                     className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
                   />
                 </div>

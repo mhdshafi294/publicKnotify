@@ -16,7 +16,7 @@ type PlatformLayoutProps = {
  */
 const PlatformLayout: React.FC<PlatformLayoutProps> = ({ children }) => {
   return (
-    <div className="h-full min-h-[100dvh]  w-full grid grid-rows-[auto_1fr_auto]">
+    <div className="h-full min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-between ">
       {/* Navbar component at the top */}
       <Navbar />
 

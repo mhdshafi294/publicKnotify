@@ -47,18 +47,22 @@ const VisitorsPricingModal = ({ pricings }: { pricings: Price | null }) => {
             <PricingCard
               name="first"
               text={t("firstPodcast")}
-              price={pricings?.first}
+              price={`$${pricings?.first}`}
             />
             <PricingCard
               name="middle"
               text={t("middle")}
-              price={pricings?.middle}
+              price={`$${pricings?.middle}`}
             />
-            <PricingCard name="end" text={t("end")} price={pricings?.end} />
+            <PricingCard
+              name="end"
+              text={t("end")}
+              price={`$${pricings?.end}`}
+            />
             <PricingCard
               name="video"
               text={t("addingVideo")}
-              price={pricings?.video}
+              price={`$${pricings?.video}`}
             />
           </div>
         </DialogHeader>

@@ -284,7 +284,9 @@
     "NoPublishedPodcastsYet": "No published podcasts yet",
     "PublishPodcastsAndYouCanSeeTheirStatisticsHere": "Publish podcasts and you can see their statistics here",
     "notificationsUpdated": "Notifications updated",
-    "notificationsUpdateFailed": "Notifications update failed"
+    "notificationsUpdateFailed": "Notifications update failed",
+    "viewsCount": "Views count",
+    "youtubeViewsCount": "YouTube views count"
   },
   "notifications": {
     "notifications": "notifications"
