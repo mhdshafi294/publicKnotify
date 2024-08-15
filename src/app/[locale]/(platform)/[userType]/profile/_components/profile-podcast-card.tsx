@@ -34,13 +34,14 @@ const ProfilePodcastCard = ({
 
   return (
     <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
-      <div className="size-44 rounded-lg relative">
+      <div className="aspect-square rounded-lg relative">
         {/* Conditional rendering to handle missing thumbnails */}
         <Image
           src={podcast.thumbnail || "/default-thumbnail.jpg"} // Fallback to a default image if thumbnail is missing
           alt={podcast.name}
           className="object-cover rounded-lg"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge
@@ -50,7 +51,7 @@ const ProfilePodcastCard = ({
         />
       </div>
       {/* Display the playback progress */}
-      <Progress value={progress} className="w-44 h-2 mt-1" />
+      <Progress value={progress} className="w-full h-2 mt-1" />
 
       {/* Podcast name and type */}
       <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">

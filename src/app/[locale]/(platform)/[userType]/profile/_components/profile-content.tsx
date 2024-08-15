@@ -31,6 +31,7 @@ import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-p
 import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
 import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
 import InfiniteScrollPodcastsByPodcaster from "./infinite-scroll-podcasts-by-podcaster";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 /**
  * Component for displaying profile content with infinite scroll functionality.
@@ -127,7 +128,7 @@ const ProfileContent = async ({
   }
 
   return (
-    <div className="w-full max-w-screen-sm  lg:w-8/12">
+    <div className="w-full lg:w-9/12">
       <div className="w-full flex justify-end min-h-10">
         {/* Display a button for sending a request if the user is a company viewing a podcaster's profile */}
         {profileType === "podcaster" && session?.user?.type === "company" ? (
@@ -147,64 +148,82 @@ const ProfileContent = async ({
       {isSelfProfile ? (
         profileType === "podcaster" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-            <InfiniteScrollSelfPlaylists
-              initialData={contentData1 as Playlist[] | undefined}
-              search={search}
-              type={profileType}
-            />
-            <InfiniteScrollSelfPodcasts
-              initialData={contentData2 as SelfPodcastDetails[] | undefined}
-              search={search}
-              type={profileType}
-            />
+            <MaxWidthContainer className="w-full">
+              <InfiniteScrollSelfPlaylists
+                initialData={contentData1 as Playlist[] | undefined}
+                search={search}
+                type={profileType}
+              />
+            </MaxWidthContainer>
+            <MaxWidthContainer className="w-full">
+              <InfiniteScrollSelfPodcasts
+                initialData={contentData2 as SelfPodcastDetails[] | undefined}
+                search={search}
+                type={profileType}
+              />
+            </MaxWidthContainer>
           </div>
         ) : profileType === "company" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-            <InfiniteScrollCompanySelfPodcasters
-              initialData={contentData1 as Podcaster[] | undefined}
-              type={session?.user?.type!}
-            />
-            <InfiniteScrollSelfCompanyPodcasts
-              initialData={contentData2 as Podcast[] | undefined}
-              type={session?.user?.type!}
-              podcasterId={params.profileId}
-            />
+            <MaxWidthContainer className="w-full">
+              <InfiniteScrollCompanySelfPodcasters
+                initialData={contentData1 as Podcaster[] | undefined}
+                type={session?.user?.type!}
+              />
+            </MaxWidthContainer>
+            <MaxWidthContainer className="w-full">
+              <InfiniteScrollSelfCompanyPodcasts
+                initialData={contentData2 as Podcast[] | undefined}
+                type={session?.user?.type!}
+                podcasterId={params.profileId}
+              />
+            </MaxWidthContainer>
           </div>
         ) : profileType === "user" ? (
           <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-            <InfiniteScrollPlayback
-              initialData={contentData2 as Podcast[] | undefined}
-              type={session?.user?.type!}
-              podcasterId={params.profileId}
-            />
+            <MaxWidthContainer className="w-full">
+              <InfiniteScrollPlayback
+                initialData={contentData2 as Podcast[] | undefined}
+                type={session?.user?.type!}
+                podcasterId={params.profileId}
+              />
+            </MaxWidthContainer>
           </div>
         ) : null
       ) : profileType === "podcaster" ? (
         <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-          <InfiniteScrollPlaylistsByPodcaster
-            podcasterId={params.profileId}
-            initialData={contentData1 as Playlist[] | undefined}
-            search={search}
-            type={session?.user?.type!}
-          />
-          <InfiniteScrollPodcastsByPodcaster
-            initialData={contentData2 as Podcast[] | undefined}
-            type={session?.user?.type!}
-            podcasterId={params.profileId}
-          />
+          <MaxWidthContainer className="w-full">
+            <InfiniteScrollPlaylistsByPodcaster
+              podcasterId={params.profileId}
+              initialData={contentData1 as Playlist[] | undefined}
+              search={search}
+              type={session?.user?.type!}
+            />
+          </MaxWidthContainer>
+          <MaxWidthContainer className="w-full">
+            <InfiniteScrollPodcastsByPodcaster
+              initialData={contentData2 as Podcast[] | undefined}
+              type={session?.user?.type!}
+              podcasterId={params.profileId}
+            />
+          </MaxWidthContainer>
         </div>
       ) : profileType === "company" ? (
         <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
-          <InfiniteScrollPodcastersByCompany
-            companyId={params.profileId}
-            initialData={contentData1 as Podcaster[] | undefined}
-            type={session?.user?.type!}
-          />
-          <InfiniteScrollPodcastsByCompany
-            initialData={contentData2 as Podcast[] | undefined}
-            type={session?.user?.type!}
-            companyId={params.profileId}
-          />
+          <MaxWidthContainer className="w-full">
+            <InfiniteScrollPodcastersByCompany
+              companyId={params.profileId}
+              initialData={contentData1 as Podcaster[] | undefined}
+              type={session?.user?.type!}
+            />
+          </MaxWidthContainer>
+          <MaxWidthContainer className="w-full">
+            <InfiniteScrollPodcastsByCompany
+              initialData={contentData2 as Podcast[] | undefined}
+              type={session?.user?.type!}
+              companyId={params.profileId}
+            />
+          </MaxWidthContainer>
         </div>
       ) : null}
     </div>

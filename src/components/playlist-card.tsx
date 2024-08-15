@@ -14,12 +14,13 @@ const PlaylistCard = ({
 }) => {
   return (
     <Link href={`/${userType}/playlist/${playlist.id}`} className="w-full ">
-      <div className="size-44 rounded-lg relative">
+      <div className="aspect-square rounded-lg relative">
         <Image
           src={playlist.image ? playlist.image : "/playlist-filler.webp"}
           alt={playlist.name}
           className="object-cover rounded-lg"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge

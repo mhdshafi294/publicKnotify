@@ -23,12 +23,13 @@ const SelfPlaylistCard = ({
 }) => {
   return (
     <Link href={`/${userType}/playlist/${playlist.id}`} className="w-full">
-      <div className="size-44 rounded-lg relative">
+      <div className="aspect-square rounded-lg relative">
         <Image
           src={playlist.image}
           alt={playlist.name}
           className="object-cover rounded-lg"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge
@@ -37,7 +38,7 @@ const SelfPlaylistCard = ({
           )}
         />
       </div>
-      <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">
+      <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100 capitalize">
         {playlist.name}
       </p>
       <p className="text-xs text-primary font-semibold opacity-75">
