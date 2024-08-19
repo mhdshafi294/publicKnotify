@@ -1,4 +1,3 @@
-import React from "react";
 import PodcasterDashboard from "../_components/podcaster-dashboard";
 
 const Page = ({
