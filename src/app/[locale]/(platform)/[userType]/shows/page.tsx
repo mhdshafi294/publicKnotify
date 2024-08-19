@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 
 const Page = () => {
@@ -5,3 +6,11 @@ const Page = () => {
 };
 
 export default Page;
+=======
+
+const AllShowsPage = () => {
+  return <div>AllShowsPage</div>;
+};
+
+export default AllShowsPage;
+>>>>>>> 3f3f2057ce8d8f1fc52fb6120665cd94679da7f3
