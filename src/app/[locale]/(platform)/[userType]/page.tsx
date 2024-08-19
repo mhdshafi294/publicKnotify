@@ -37,9 +37,9 @@ export default async function Home({
   }
 
   // Redirect to podcasrter dashboard if the user is a podcaster
-  // if (session?.user?.type === "podcaster") {
-  //   redirect(`/${session?.user?.type}/shows/1`);
-  // }
+  if (session?.user?.type === "podcaster") {
+    redirect(`/${session?.user?.type}/shows/1`);
+  }
 
   // Fetch translations for the "Index" namespace
   const t = await getTranslations("Index");
