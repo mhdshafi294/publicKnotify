@@ -107,7 +107,7 @@ export default async function SearchPage({
   };
 
   return (
-    <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
+    <main className="flex flex-1 flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
       <MaxWidthContainer className="w-full">
         <div className="w-full flex justify-between items-center mb-10">
           <h1 className="text-4xl font-bold">{t("search")}</h1>

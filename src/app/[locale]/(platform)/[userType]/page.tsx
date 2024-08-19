@@ -55,7 +55,7 @@ export default async function Home({
   };
 
   return (
-    <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
+    <main className="flex flex-1 flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
       <h1 className="sr-only">{t("homePageTitle")}</h1>
       {content()}
     </main>

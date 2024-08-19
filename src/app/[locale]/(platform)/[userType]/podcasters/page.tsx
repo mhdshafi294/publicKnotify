@@ -43,7 +43,7 @@ export default async function PodcastersPage({
   });
 
   return (
-    <main className="py-10">
+    <main className="py-10 flex-1">
       <MaxWidthContainer className="flex flex-col gap-7">
         <div className="w-full flex justify-between items-center gap-2">
           <h2 className="lg:text-5xl font-bold">{t("podcasters")}</h2>

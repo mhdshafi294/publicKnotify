@@ -13,7 +13,7 @@ const CompaniesSection = async () => {
   const t = await getTranslations("Index");
 
   return (
-    <MaxWidthContainer className="space-y-4">
+    <MaxWidthContainer className="space-y-4 flex-1 h-full">
       <h2 className="px-3 font-bold text-3xl capitalize">
         {t("trendingCompanies")}
       </h2>

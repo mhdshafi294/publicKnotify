@@ -92,7 +92,7 @@ const AddPlaylistForm: React.FC<{
   if (!isMounted) return null;
 
   return (
-    <main className="flex flex-col items-center justify-start gap-6 w-full min-h-[clac(100vh_-_20px)]">
+    <main className="flex flex-1 flex-col items-center justify-start gap-6 w-full min-h-[clac(100vh_-_20px)]">
       <Form {...form}>
         <form className="w-full flex flex-col gap-5 px-0">
           <div className="h-full">

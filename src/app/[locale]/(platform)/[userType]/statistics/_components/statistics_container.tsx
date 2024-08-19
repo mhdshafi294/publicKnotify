@@ -30,7 +30,7 @@ const StatisticsContainer = ({
   const t = useTranslations("Index");
 
   return (
-    <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
+    <main className="flex flex-1 lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
       <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
         {/* Sidebar with podcast list */}
         <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-4 flex flex-col items-center lg:gap-12 gap-6">

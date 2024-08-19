@@ -92,7 +92,7 @@ export default async function ProfilePage({
   if (!profileData || !profileType || isSelfProfile === undefined) return null;
 
   return (
-    <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between py-12">
+    <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between flex-1 py-12">
       <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
         <ProfileCard
           profileData={profileData!}

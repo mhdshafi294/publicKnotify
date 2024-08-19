@@ -8,9 +8,9 @@ import SupportForm from "./_components/support-form";
  *
  * @returns {JSX.Element} The support page content.
  */
-const SupportPage = async () => {
+const SupportPage = () => {
   return (
-    <MaxWidthContainer className="pt-16 space-y-5">
+    <MaxWidthContainer className="pt-16 flex-1 space-y-5">
       {/* Support form component */}
       <SupportForm />
     </MaxWidthContainer>

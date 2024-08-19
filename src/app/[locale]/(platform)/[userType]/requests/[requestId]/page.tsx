@@ -65,7 +65,7 @@ export default async function RequestPage({
   const direction = getDirection(locale);
 
   return (
-    <main className="flex flex-col items-center justify-center gap-6 w-full">
+    <main className="flex flex-col flex-1 items-center justify-center gap-6 w-full">
       <MaxWidthContainer>
         <Card className="bg-card/50 border-card-foreground/10 w-full min-h-[50dvh] lg:px-7 lg:py-3">
           <CardHeader>
