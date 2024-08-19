@@ -286,7 +286,8 @@
     "notificationsUpdated": "تم تحديث الاشعارات",
     "notificationsUpdateFailed": "فشل تحديث الاشعارات",
     "viewsCount": "عدد المشاهدات",
-    "youtubeViewsCount": "عدد المشاهدات على YouTube"
+    "youtubeViewsCount": "عدد المشاهدات على YouTube",
+    "error": "خطأ"
   },
   "notifications": {
     "notifications": "notifications"
