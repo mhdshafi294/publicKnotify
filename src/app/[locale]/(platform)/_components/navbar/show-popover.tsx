@@ -9,7 +9,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { ChevronDown, LayoutDashboard, PlusSquare, Settings } from "lucide-react";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  PlusSquare,
+  Settings,
+} from "lucide-react";
 import { useLocale } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
@@ -75,7 +80,11 @@ const ShowPopover = () => {
           </div>
           <Separator className="bg-foreground/20" />
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
-            <Link passHref href="/podcaster/profile/shows" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/profile/shows"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -94,7 +103,11 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link passHref href="/podcaster/profile/shows" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/profile/shows"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -113,7 +126,11 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link passHref href="/podcaster/profile/shows" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/profile/shows"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -132,7 +149,11 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link passHref href="/podcaster/profile/shows" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/profile/shows"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -151,7 +172,11 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link passHref href="/podcaster/profile/shows" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/profile/shows"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-4">
                 <LayoutDashboard
                   strokeWidth={1}
@@ -165,7 +190,7 @@ const ShowPopover = () => {
           </div>
           <Separator className="bg-foreground/20" />
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
-            <Link passHref href="/podcaster/profile/shows" className="w-full">
+            <Link passHref href="/podcaster/shows/1/new" className="w-full">
               <span className="flex justify-start items-center gap-4">
                 <PlusSquare
                   strokeWidth={1}
