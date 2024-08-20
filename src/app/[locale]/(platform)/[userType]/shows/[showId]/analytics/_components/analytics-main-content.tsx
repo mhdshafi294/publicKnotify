@@ -6,6 +6,7 @@ import DashboardCardContainer from "../../../_components/dashboard-card-containe
 import AnalyticsHeader from "./analytics-header";
 import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
 import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
+import AnalyticsYoutube from "./analytics-youtube";
 
 const AnalyticsMainContent = ({
   params,
@@ -38,6 +39,7 @@ const AnalyticsMainContent = ({
           chart={<LastFiveFirstSevenDaysChart />}
         />
       </div>
+      <AnalyticsYoutube />
     </main>
   );
 };
