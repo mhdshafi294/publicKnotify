@@ -32,8 +32,8 @@ const MostViewsChart = () => {
         accessibilityLayer
         data={chartData}
         margin={{
-          left: 12,
-          right: 12,
+          left: -24,
+          right: 0,
         }}
       >
         <CartesianGrid vertical={false} />
@@ -44,7 +44,7 @@ const MostViewsChart = () => {
           tickMargin={8}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
+        <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={7} />
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
@@ -53,7 +53,9 @@ const MostViewsChart = () => {
           dataKey="view"
           type="linear"
           stroke="var(--color-view)"
-          strokeWidth={2}
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
           dot={false}
         />
       </LineChart>

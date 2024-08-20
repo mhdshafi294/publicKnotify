@@ -1,9 +1,14 @@
 import React from "react";
-import DashboardMediumCard from "./dashboard-medium-card";
 import DashboardMainContent from "./dashboard-main-content";
 import DashboardSidebar from "./dashboard-sidebar";
 
-const PodcasterDashboard = () => {
+const PodcasterDashboard = ({
+  params,
+  searchParams,
+}: {
+  params: { userType: string; showId: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   return (
     <div className="flex-1 h-full flex flex-col xl:flex-row w-full">
       {/* Left Sidebar */}
@@ -14,7 +19,7 @@ const PodcasterDashboard = () => {
         episodesCount={10}
       />
       {/* Main Content */}
-      <DashboardMainContent />
+      <DashboardMainContent {...{ params, searchParams }} />
     </div>
   );
 };

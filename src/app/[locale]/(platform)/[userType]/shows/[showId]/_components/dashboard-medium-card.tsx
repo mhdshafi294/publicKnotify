@@ -1,10 +1,11 @@
+import React from "react";
+import Image from "next/image";
+import { Check } from "lucide-react";
+
+import { Link } from "@/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { Check } from "lucide-react";
-import Image from "next/image";
-import React from "react";
-import DashboardCardContainer from "./dashboard-card-container";
+import DashboardCardContainer from "../../_components/dashboard-card-container";
 
 type DashboardMediumCardProps = {
   imageSrc: string;

@@ -287,7 +287,9 @@
     "notificationsUpdateFailed": "Notifications update failed",
     "viewsCount": "Views count",
     "youtubeViewsCount": "YouTube views count",
-    "error": "Error"
+    "error": "Error",
+    "Add Podcast": "Add Podcast",
+    "dashboard": "Dashboard"
   },
   "notifications": {
     "notifications": "notifications"

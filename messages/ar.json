@@ -287,7 +287,9 @@
     "notificationsUpdateFailed": "فشل تحديث الاشعارات",
     "viewsCount": "عدد المشاهدات",
     "youtubeViewsCount": "عدد المشاهدات على YouTube",
-    "error": "خطأ"
+    "error": "خطأ",
+    "Add Podcast": "اضافة بودكاست",
+    "dashboard": "لوحة التحكم"
   },
   "notifications": {
     "notifications": "notifications"

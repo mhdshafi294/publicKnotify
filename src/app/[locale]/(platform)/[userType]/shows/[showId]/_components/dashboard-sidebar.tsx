@@ -16,7 +16,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   ...props
 }) => {
   return (
-    <div className="bg-[#1a1929] w-full xl:w-80 flex xl:flex-col p-8 xl:pt-16 gap-5">
+    <aside className="bg-card-secondary w-full xl:w-80 flex xl:flex-col p-8 xl:pt-16 gap-5">
       <div className="w-44 xl:size-64 aspect-square relative">
         <Image
           src={imgSrc}
@@ -31,7 +31,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         <p className="opacity-50 font-light">{description}</p>
         <p className="opacity-75 font-bold">{episodesCount} episodes</p>
       </div>
-    </div>
+    </aside>
   );
 };
 
