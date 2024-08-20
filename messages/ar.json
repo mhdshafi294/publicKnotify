@@ -286,7 +286,10 @@
     "notificationsUpdated": "تم تحديث الاشعارات",
     "notificationsUpdateFailed": "فشل تحديث الاشعارات",
     "viewsCount": "عدد المشاهدات",
-    "youtubeViewsCount": "عدد المشاهدات على YouTube"
+    "youtubeViewsCount": "عدد المشاهدات على YouTube",
+    "error": "خطأ",
+    "Add Podcast": "اضافة بودكاست",
+    "dashboard": "لوحة التحكم"
   },
   "notifications": {
     "notifications": "notifications"

@@ -113,7 +113,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
           <CarouselNext />
         </div>
       </div>
-      <CarouselContent className="w-full mt-5 ms-0 min-h-56">
+      <CarouselContent className="w-full mt-5 ms-0 min-h-56 gap-3">
         {data?.pages[0].podcasts.length === 0 ? (
           <p className="text-lg my-auto opacity-50 italic">
             {t("noPodcastsYet")}
@@ -123,7 +123,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
             page.podcasts.map((podcast) => (
               <CarouselItem
                 key={podcast.id}
-                className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
+                className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <ProfilePodcastCard podcast={podcast} userType={type} />
               </CarouselItem>

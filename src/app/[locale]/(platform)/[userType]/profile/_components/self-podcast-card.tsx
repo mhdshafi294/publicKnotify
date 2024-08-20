@@ -23,12 +23,13 @@ const SelfPodcastCard = ({
 }) => {
   return (
     <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
-      <div className="size-44 rounded-lg relative">
+      <div className="aspect-square rounded-lg relative">
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
           alt={podcast.name}
           className="object-cover rounded-lg"
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge

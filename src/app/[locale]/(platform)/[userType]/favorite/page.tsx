@@ -24,7 +24,7 @@ export default function FavoritesPage({
   return (
     <>
       {/* Main content area */}
-      <main className="flex flex-col flex-grow items-center justify-between pt-10 lg:pt-24">
+      <main className="flex flex-col flex-grow items-center justify-between flex-1 pt-10 lg:pt-24">
         {/* Container to handle maximum width and layout */}
         <MaxWidthContainer className="w-full h-full flex flex-col gap-2 lg:flex-row lg:gap-10">
           {/* Component to render favorite categories list */}

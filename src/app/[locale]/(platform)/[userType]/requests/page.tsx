@@ -58,7 +58,7 @@ export default async function Requests({
   const requestsData = requestsResponse.requests;
 
   return (
-    <main className="py-10">
+    <main className="py-10 flex-1">
       <MaxWidthContainer className="flex flex-col gap-7">
         {/* Status filter and search bar section */}
         <div className="flex justify-between items-center">

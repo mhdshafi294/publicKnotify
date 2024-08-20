@@ -12,7 +12,7 @@ interface NewPublishProps {
  * NewPublish component that renders the podcast creation form and drafts section.
  *
  * @param {NewPublishProps} props - The properties passed to the component.
- * @returns {JSX.Element} The new publish component.
+ * @returns {JSX.Element} The Add Podcast component.
  *
  * @example
  * ```tsx

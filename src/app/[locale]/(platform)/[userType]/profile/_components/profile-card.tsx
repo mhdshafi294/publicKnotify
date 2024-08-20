@@ -197,9 +197,6 @@ const ProfileCard = async ({
               />
             )
           ) : null}
-          {"youtube_account" in profileData ? (
-            <AuthSpotifyButton spotify_account={profileData?.spotify_account} />
-          ) : null}
         </div>
       ) : null}
     </div>

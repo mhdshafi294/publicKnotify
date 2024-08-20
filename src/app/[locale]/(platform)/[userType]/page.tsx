@@ -7,7 +7,7 @@ import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
-import CompaniesSection from "../_components/Companies-section";
+import PodcasterDashboard from "./shows/[showId]/_components/podcaster-dashboard";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -36,6 +36,11 @@ export default async function Home({
     redirect("/login");
   }
 
+  // Redirect to podcasrter dashboard if the user is a podcaster
+  if (session?.user?.type === "podcaster") {
+    redirect(`/${session?.user?.type}/shows/1`);
+  }
+
   // Fetch translations for the "Index" namespace
   const t = await getTranslations("Index");
 
@@ -43,19 +48,19 @@ export default async function Home({
   const content = () => {
     if (session?.user?.type !== "podcaster") {
       return (
-        <>
+        <div className="mt-8">
           <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
           <PodcastersSection params={params} searchParams={searchParams} />
-        </>
+        </div>
       );
     } else {
-      return <CompaniesSection />;
+      return <PodcasterDashboard />;
     }
   };
 
   return (
-    <main className="flex flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
+    <main className="flex flex-1 flex-col items-start justify-start gap-6 w-full mb-2">
       <h1 className="sr-only">{t("homePageTitle")}</h1>
       {content()}
     </main>

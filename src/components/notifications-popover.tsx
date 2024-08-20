@@ -36,6 +36,7 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
   }, []);
 
   const {
+    error,
     isError,
     isLoading,
     data: initialnotificationsData,
@@ -46,10 +47,12 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
   });
 
   if (isError) {
+    console.log("Error getting notifications", error);
     return (
-      <div className="mt-2">
-        <p>{t("error")}</p>
-      </div>
+      <BellRing
+        strokeWidth={1.5}
+        className="stroke-white size-[18px] lg:size-auto opacity-50"
+      />
     );
   }
 

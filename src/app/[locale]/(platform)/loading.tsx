@@ -34,7 +34,23 @@ const Loading = () => {
         </div>
       </div>
       {/* Loader Component */}
-      <Loader variant="bars" size="xl" className="text-greeny" />
+      {/* <Loader variant="bars" size="xl" className="text-greeny" /> */}
+      <div className="loading-text flex items-center gap-2 text-greeny text-9xl font-sans">
+        <span className="loading-text-words animate-blur-1 blur-lg">
+          <Image
+            src="/KnotifyK.svg"
+            alt="Knotify logo"
+            width={73}
+            height={21}
+          />
+        </span>
+        <span className="loading-text-words animate-blur-2 blur">n</span>
+        <span className="loading-text-words animate-blur-3 blur">o</span>
+        <span className="loading-text-words animate-blur-4 blur">t</span>
+        <span className="loading-text-words animate-blur-5 blur">i</span>
+        <span className="loading-text-words animate-blur-6 blur">f</span>
+        <span className="loading-text-words animate-blur-7 blur">y</span>
+      </div>
     </div>
   );
 };

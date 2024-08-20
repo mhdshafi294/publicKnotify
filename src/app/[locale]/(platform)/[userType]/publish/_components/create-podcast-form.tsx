@@ -279,7 +279,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
   if (!isMounted) return null;
 
   return (
-    <main className="flex flex-col items-center justify-start gap-6 w-full min-h-[calc(100vh_-_112px)]">
+    <main className="flex flex-col flex-1 items-center justify-start gap-6 w-full min-h-[calc(100vh_-_112px)]">
       <Form {...form}>
         <form
           className="w-full px-0"

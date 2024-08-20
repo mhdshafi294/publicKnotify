@@ -37,7 +37,7 @@ const PrivacyPage = async ({ params }: { params: { locale: string } }) => {
   const t = await getTranslations("Index");
 
   return (
-    <MaxWidthContainer className="pt-16 space-y-5">
+    <MaxWidthContainer className="pt-16 flex-1 space-y-5">
       <h1 className="text-2xl font-bold">{t("privacyPolicy")}</h1>
       <article
         dangerouslySetInnerHTML={{

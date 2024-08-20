@@ -155,7 +155,7 @@ const CreateRequest = () => {
   if (!isMounted) return null;
 
   return (
-    <main className="flex flex-col items-center justify-center gap-6 w-full mt-10">
+    <main className="flex flex-1 flex-col items-center justify-center gap-6 w-full mt-10">
       <Form {...form}>
         <form
           className="w-full px-0"

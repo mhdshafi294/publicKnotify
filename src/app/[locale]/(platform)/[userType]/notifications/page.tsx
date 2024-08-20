@@ -43,7 +43,7 @@ export default async function NotificationsPage({
   const initialNotificationsData = notificationsResponse.notifications;
 
   return (
-    <main className="py-10">
+    <main className="py-10 flex-1">
       <MaxWidthContainer className="flex flex-col gap-7">
         <div className="flex items-center">
           <h2 className="lg:text-3xl font-bold capitalize">
