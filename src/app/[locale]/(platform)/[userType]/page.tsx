@@ -54,8 +54,6 @@ export default async function Home({
           <PodcastersSection params={params} searchParams={searchParams} />
         </div>
       );
-    } else {
-      return <PodcasterDashboard />;
     }
   };
 
