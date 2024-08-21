@@ -8,6 +8,7 @@ import { Form } from "@/components/ui/form";
 import ShowArtworkSection from "./show-artwork-section";
 import FormatSection from "./format-section";
 import CategorizationSection from "./categorization-section";
+import OwnerDetailsSection from "./owner-details-section";
 
 const CreateShowContainer = () => {
   const form = useForm<CreateShowSchema>({
@@ -26,8 +27,7 @@ const CreateShowContainer = () => {
         <ShowArtworkSection />
         <FormatSection />
         <CategorizationSection />
-        <div className="h-96 bg-background rounded-xl px-12 py-8">k</div>
-        <div className="h-96 bg-background rounded-xl px-12 py-8">k</div>
+        <OwnerDetailsSection />
       </div>
     </Form>
   );

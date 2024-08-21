@@ -1,5 +1,5 @@
 const AllShowsPage = () => {
-  return <div>AllShowsPage</div>;
+  return <main className="flex-1">AllShowsPage</main>;
 };
 
 export default AllShowsPage;
