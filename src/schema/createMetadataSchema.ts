@@ -42,11 +42,19 @@ export const createMetadataSchema = z
     name: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.name" }),
+    eposide_url: z
+      .string()
+      .min(1, { message: "createMetadataSchema.errorMessage.name" }),
     summary: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.summary" })
       .min(25, { message: "createMetadataSchema.errorMessage.summaryShort" }),
+    notes: z.string().optional(),
+    footer: z.string().optional(),
     type: z.enum(["video", "audio"], {
+      required_error: "createMetadataSchema.errorMessage.typeRequired",
+    }),
+    episode_type: z.enum(["full", "bonus", "trailer"], {
       required_error: "createMetadataSchema.errorMessage.typeRequired",
     }),
     publishing_date: z.date({
@@ -67,9 +75,13 @@ export const createMetadataSchema = z
     hashtags: z.string().array().nonempty({
       message: "createMetadataSchema.errorMessage.hashtagsEmpty",
     }),
+    contributors: z.string().array().nonempty({
+      message: "createMetadataSchema.errorMessage.hashtagsEmpty",
+    }),
     company_request_id: z.string().optional(),
     podcast_id: z.string().optional(),
     terms: z.boolean(),
+    explicit_lannguage: z.boolean(),
   })
   .refine((data) => data.terms, {
     message: "createMetadataSchema.errorMessage.terms",

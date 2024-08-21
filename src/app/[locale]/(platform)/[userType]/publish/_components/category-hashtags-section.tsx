@@ -29,6 +29,20 @@ const CategoryHashtagsSection: React.FC<CategoryHashtagsSectionProps> = ({
 
   return (
     <>
+      <ArrayFormInput
+        name="contributors"
+        control={control}
+        label={t("contributorsLabel")}
+        className="w-full bg-background"
+        defaultValues={getValues()}
+      />
+      <ArrayFormInput
+        name="hashtags"
+        control={control}
+        label={t("hashtagsLabel")}
+        className="w-full bg-background"
+        defaultValues={getValues()}
+      />
       <div className="w-full flex justify-between gap-5">
         <ArraySelectManyFormInput
           name="categories"
@@ -39,13 +53,6 @@ const CategoryHashtagsSection: React.FC<CategoryHashtagsSectionProps> = ({
           defaultValues={getValues()}
         />
       </div>
-      <ArrayFormInput
-        name="hashtags"
-        control={control}
-        label={t("hashtagsLabel")}
-        className="w-full bg-background"
-        defaultValues={getValues()}
-      />
     </>
   );
 };

@@ -6,6 +6,9 @@ import { useFormContext } from "react-hook-form";
 import FormInput from "@/components/ui/form-input";
 import FormInputTextarea from "@/components/ui/form-input-textarea";
 import SelectFormInput from "@/components/ui/select-form-input";
+import FormInputWithPreText from "@/components/ui/form-input-with-pre-text";
+import FormCheckbox from "@/components/ui/form-checkbox";
+import FormInputRichText from "@/components/ui/form-input-rich-text";
 
 type BasicInfoSectionProps = {
   t: (key: string) => string;
@@ -23,7 +26,7 @@ type BasicInfoSectionProps = {
  * ```
  */
 const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
 
   return (
     <>
@@ -36,13 +39,54 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           label={t("nameLabel")}
           control={control}
         />
-        {/* Select input for the podcast type (audio/video) */}
+        <FormInputWithPreText
+          name="eposide_url"
+          className="bg-background w-full"
+          placeholder={t("")}
+          label={t("eposideUrlLabel")}
+          preText=".../episodes/"
+          control={control}
+        />
+      </div>
+      <FormCheckbox
+        name="explicit_lannguage"
+        control={control}
+        className="mt-0"
+        checkboxClassName="size-4 rounded-full"
+        label={t("explicitLanguageLabel")}
+      />
+      <div className="w-full flex justify-between gap-5">
+        {/* Select input for the podcast media type (audio/video) */}
         <SelectFormInput
           name="type"
-          placeholder={t("podcastTypePlaceholder")}
-          label={t("typeLabel")}
+          placeholder={t("podcastMediaTypePlaceholder")}
+          label={t("mediaTypeLabel")}
           control={control}
           options={["audio", "video"]}
+        />
+        {/* Select input for the podcast type (full/bonus/trailer) */}
+        <SelectFormInput
+          name="episode_type"
+          placeholder={t("episodeTypePlaceholder")}
+          label={t("episodeTypeLabel")}
+          control={control}
+          options={["full", "bonus", "trailer"]}
+        />
+        <FormInput
+          name="session"
+          type="number"
+          className="bg-background w-full"
+          placeholder={"1"}
+          label={t("sessionLabel")}
+          control={control}
+        />
+        <FormInput
+          name="episode_order"
+          type="number"
+          className="bg-background w-full"
+          placeholder={"1"}
+          label={t("episodeLabel")}
+          control={control}
         />
       </div>
       {/* Textarea input for the podcast summary */}
@@ -50,6 +94,18 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
         name="summary"
         label={t("summaryLabel")}
         placeholder={t("summaryPlaceholder")}
+        control={control}
+      />
+      <FormInputRichText
+        name="notes"
+        label={t("notesLabel")}
+        placeholder={t("notesPlaceholder")}
+        control={control}
+      />
+      <FormInputRichText
+        name="footer"
+        label={t("footerLabel")}
+        placeholder={t("footerPlaceholder")}
         control={control}
       />
     </>

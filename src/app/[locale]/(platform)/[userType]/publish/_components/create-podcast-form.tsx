@@ -74,8 +74,10 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     resolver: zodResolver(createMetadataSchema),
     defaultValues: {
       name: "",
+      eposide_url: "",
       summary: "",
       type: "audio",
+      episode_type: "full",
       publishing_date: new Date(),
       publishing_time: "16:11",
       company_tag: "",
@@ -84,8 +86,10 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
       play_list_id: undefined,
       categories: [],
       hashtags: [],
+      contributors: [],
       company_request_id: "",
       podcast_id: "",
+      explicit_lannguage: false,
       terms: true,
     },
   });
@@ -95,6 +99,14 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
   }, []);
 
   let podcastType = form.watch("type");
+  let podcastName = form.watch("name");
+
+  useEffect(() => {
+    if (podcastName) {
+      form.setValue("eposide_url", podcastName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [podcastName]);
 
   // Redirect if user type is not 'podcaster'
   useEffect(() => {
@@ -163,6 +175,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     if (draft) {
       form.reset({
         name: draft.name!,
+        eposide_url: draft.name!,
         summary: draft.summary!,
         type: draft.type!,
         publishing_date: new Date(draft.publishing_date!),
@@ -261,6 +274,9 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     });
     data.hashtags.forEach((hashtag, index) => {
       formData.append(`hashtags[${index}]`, hashtag);
+    });
+    data.hashtags.forEach((contributors, index) => {
+      formData.append(`hashtags[${index}]`, contributors);
     });
 
     if (request_id && !podcast_id)

@@ -77,6 +77,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
       <div className="flex items-center justify-end gap-2">
         <Button
           className="capitalize text-sm lg:hidden"
+          size="lg"
           variant="secondary"
           onClick={() => setIsShow(!isShow)}
           type="button"
@@ -86,7 +87,8 @@ const FormHeader: React.FC<FormHeaderProps> = ({
         <Button
           disabled={isPending}
           className={cn("capitalize mt-0 text-sm", { hidden: step === 2 })}
-          variant="secondary"
+          size="lg"
+          variant="outline"
           type="button"
           onClick={() => {
             router.push(`/profile/${session?.user?.id}`);
@@ -97,6 +99,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
         <Button
           disabled={isPending}
           className={cn("capitalize mt-0 text-sm", { hidden: step === 2 })}
+          size="lg"
           variant="default"
           type="submit"
         >
@@ -105,6 +108,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
         <Button
           disabled={isPending}
           className={cn("capitalize mt-0 text-sm", { hidden: step === 1 })}
+          size="lg"
           variant="secondary"
           type="button"
           onClick={onBack}
@@ -114,6 +118,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
         <Button
           disabled={isPending}
           className={cn("capitalize mt-0 text-sm", { hidden: step === 1 })}
+          size="lg"
           variant="outline"
           type="submit"
         >
