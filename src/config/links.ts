@@ -18,7 +18,7 @@ type Link = {
  * //   { id: 2, label: "Requests", href: "/requests" },
  * //   { id: 3, label: "Statistics", href: "/statistics" },
  * //   { id: 4, label: "Favorite", href: "/favorite" },
- * //   { id: 5, label: "New Publish", href: "/publish" }
+ * //   { id: 5, label: "Add Podcast", href: "/publish" }
  * // ]
  * ```
  */
@@ -33,14 +33,14 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Statistics",
-    href: "/statistics",
+    href: "/shows/1/analytics",
   },
   {
     label: "Favorite",
     href: "/favorite",
   },
   {
-    label: "New Publish",
+    label: "Add Podcast",
     href: "/publish",
   },
 ].map((link, index) => ({ ...link, id: index + 1 }));

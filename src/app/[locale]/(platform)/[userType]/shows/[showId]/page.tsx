@@ -1,4 +1,4 @@
-import PodcasterDashboard from "../_components/podcaster-dashboard";
+import PodcasterDashboard from "./_components/podcaster-dashboard";
 
 const Page = ({
   params,
@@ -8,9 +8,9 @@ const Page = ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   return (
-    <main className="flex flex-1 flex-col items-start justify-start gap-6 w-full">
-      <PodcasterDashboard />
-    </main>
+    <div className="flex flex-1 flex-col items-start justify-start gap-6 w-full">
+      <PodcasterDashboard {...{ params, searchParams }} />
+    </div>
   );
 };
 

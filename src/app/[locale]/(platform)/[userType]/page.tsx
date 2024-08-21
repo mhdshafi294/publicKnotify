@@ -7,7 +7,7 @@ import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
-import PodcasterDashboard from "./shows/_components/podcaster-dashboard";
+import PodcasterDashboard from "./shows/[showId]/_components/podcaster-dashboard";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -54,8 +54,6 @@ export default async function Home({
           <PodcastersSection params={params} searchParams={searchParams} />
         </div>
       );
-    } else {
-      return <PodcasterDashboard />;
     }
   };
 

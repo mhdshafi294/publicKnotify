@@ -1,7 +1,6 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
-import UserOptions from "./user-0ptions";
 import {
   Sheet,
   SheetContent,
@@ -13,11 +12,8 @@ import {
 import {
   AlignJustifyIcon,
   BellRingIcon,
-  HeartHandshakeIcon,
-  LifeBuoyIcon,
   LogOutIcon,
   SettingsIcon,
-  ShieldAlertIcon,
   User,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -31,7 +27,7 @@ import { useTranslations } from "next-intl";
 import useNotificationStore from "@/store/use-notification-store";
 
 const MobileNavbar = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const pathname = usePathname();
   const t = useTranslations("Index");
   const isOpen = useNotificationStore((state) => state.isOpen);
@@ -74,7 +70,7 @@ const MobileNavbar = () => {
           <div className="flex flex-col gap-2 px-6">
             <div className="flex flex-col justify-start items-start gap-0">
               {mainNavLinks.map((link) => {
-                if (link.label !== "New Publish") {
+                if (link.label !== "Add Podcast") {
                   return (
                     <Link
                       key={link.href}
@@ -97,7 +93,10 @@ const MobileNavbar = () => {
                         }
                       )}
                     >
-                      {t(link.label)}
+                      {session?.user?.type === "podcaster" &&
+                      link.label === "Home"
+                        ? t("dashboard")
+                        : t(link.label)}
                     </Link>
                   );
                 } else {
