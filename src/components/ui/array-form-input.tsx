@@ -3,6 +3,7 @@
 import { Control, FieldValues, useFormContext } from "react-hook-form";
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,6 +32,7 @@ interface PropsType<T extends FieldValues>
   label: string;
   labelClassName?: string | undefined;
   control: Control<T>;
+  description?: string;
   defaultValues: Partial<T>;
 }
 
@@ -41,6 +43,7 @@ function ArrayFormInput<T extends FieldValues>({
   label,
   labelClassName,
   defaultValues,
+  description = "",
   ...props
 }: PropsType<T>) {
   const { setValue, getValues } = useFormContext();
@@ -89,7 +92,7 @@ function ArrayFormInput<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex justify-start flex-col gap-3 items-start">
               <div className="w-full flex items-stretch gap-2">
                 <Input
                   onKeyDown={createNewCategory}
@@ -126,6 +129,9 @@ function ArrayFormInput<T extends FieldValues>({
                   Add
                 </Button>
               </div>
+              {description ? (
+                <FormDescription>{description}</FormDescription>
+              ) : null}
               {items.length > 0 ? (
                 <ScrollArea className="w-full whitespace-nowrap mt-3">
                   <div className="flex gap-2 pb-2">
@@ -157,6 +163,7 @@ function ArrayFormInput<T extends FieldValues>({
               ) : null}
             </div>
           </FormControl>
+
           <FormMessage className="capitalize font-normal" />
         </FormItem>
       )}

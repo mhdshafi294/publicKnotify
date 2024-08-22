@@ -78,13 +78,13 @@ function ColorPicker<T extends FieldValues>({
             {label}
           </FormLabel>
 
-          <FormControl>
-            <div className="PopoverContent border border-input justify-between px-5 p-2 flex items-center gap-1 relative bg-background rounded-lg">
-              <span className="text-sm">{field.value || "Pick a color"}</span>
-              <div
-                className="size-5 border border-input bg-background"
-                style={{ backgroundColor: field.value || color }}
-              />
+          <div className="PopoverContent border border-input justify-between px-5 p-2 flex items-center gap-1 relative bg-background rounded-lg">
+            <span className="text-sm">{field.value || "Pick a color"}</span>
+            <div
+              className="size-5 border border-input bg-background"
+              style={{ backgroundColor: field.value || color }}
+            />
+            <FormControl>
               <Input
                 type="color"
                 className={cn(
@@ -93,9 +93,8 @@ function ColorPicker<T extends FieldValues>({
                 {...props}
                 {...field}
               />
-            </div>
-          </FormControl>
-
+            </FormControl>
+          </div>
           {description ? (
             <FormDescription>{description}</FormDescription>
           ) : null}

@@ -36,4 +36,11 @@ axiosInstance.interceptors.request.use(async (config) => {
   return config;
 });
 
+export const axiosPublicInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    Accept: "application/json",
+  },
+});
+
 export default axiosInstance;

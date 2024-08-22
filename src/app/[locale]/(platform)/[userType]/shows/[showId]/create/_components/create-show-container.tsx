@@ -14,9 +14,17 @@ const CreateShowContainer = () => {
   const form = useForm<CreateShowSchema>({
     resolver: zodResolver(CreateShowSchema),
     defaultValues: {
-      title: "",
+      authors: [],
+      categories: [],
+      categories1: [],
+      copyright: "",
+      image: new File([], ""),
+      name: "",
+      owner_email: "",
+      show_owner: "",
+      tags: [],
       description: "",
-      type: "all",
+      type: "1",
     },
   });
 

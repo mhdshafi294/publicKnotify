@@ -21,7 +21,7 @@ const FormatSection = () => {
       : "For Shows with episodes presented and recommended oldest-to-newest and grouped by seasons. This option is recommended for narrative and storytelling formats.";
 
   return (
-    <div className="bg-background rounded-xl px-12 py-10 space-y-5">
+    <div className="bg-card-secondary border border-border-secondary shadow-[2px_2px_0px_0px_#302e3e] rounded-xl px-12 py-10 space-y-5">
       <h2 className="text-2xl pb-2">03. Format</h2>
       <FormField
         control={form.control}
@@ -37,7 +37,7 @@ const FormatSection = () => {
               >
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
-                    <RadioGroupItem value="all" />
+                    <RadioGroupItem value="1" />
                   </FormControl>
                   <FormLabel className="font-normal text-base">
                     Episodic
@@ -45,7 +45,7 @@ const FormatSection = () => {
                 </FormItem>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
-                    <RadioGroupItem value="mentions" />
+                    <RadioGroupItem value="2" />
                   </FormControl>
                   <FormLabel className="font-normal text-base">
                     Episodic with Seasons
@@ -53,7 +53,7 @@ const FormatSection = () => {
                 </FormItem>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
-                    <RadioGroupItem value="none" />
+                    <RadioGroupItem value="3" />
                   </FormControl>
                   <FormLabel className="font-normal text-base">
                     Serial
