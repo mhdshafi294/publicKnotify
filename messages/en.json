@@ -272,7 +272,7 @@
     "show-distribution": "Show Distribution",
     "RSS Feed": "RSS Feed",
     "To access your RSS feed, please": "To access your RSS feed, please",
-    "select a plan.": "select a plan.",
+    "select a plan": "select a plan.",
     "main-distribution-channels": "Main Distribution Channels",
     "main-distribution-channels-description-1": "Some of the distribution channels below will automatically find your RSS feed and update them. Make sure your show is on the channels you want by explicitly setting them up with our distribution tools.",
     "main-distribution-channels-description-2": "Most podcast platforms and hosting providers require an owner email or verification code to submit your show. They are hidden from your RSS feed by default, edit these settings in your",

@@ -32,24 +32,28 @@ const distributionPage = () => {
         <h1 className="text-3xl font-bold">{t("show-distribution")}</h1>
         <div className="flex flex-col">
           <h2 className="text-xl font-bold">{t("RSS Feed")}</h2>
-          <p className="text-sm">
-            {t("To access your RSS feed, please")}
-            <span className="font-semibold">{t("select a plan.")}</span>
-          </p>
+          <div className="text-sm">
+            <span className="opacity-70">
+              {t("To access your RSS feed, please")}
+            </span>{" "}
+            <span className="font-semibold">{t("select a plan")}</span>
+          </div>
         </div>
         <div className="flex flex-col">
           <h2 className="text-xl font-bold">
             {t("main-distribution-channels")}
           </h2>
-          <p className="text-sm">
-            {t("main-distribution-channels-description")}
+          <p className="text-sm opacity-70">
+            {t("main-distribution-channels-description-1")}
           </p>
         </div>
         <DashboardCardContainer className="relative">
-          <p className="text-sm">
-            {t("main-distribution-channels-description-2")}
+          <div className="text-sm">
+            <span className="opacity-70">
+              {t("main-distribution-channels-description-2")}
+            </span>{" "}
             <span className="font-semibold">{t("show settings")}</span>
-          </p>
+          </div>
           <div className="absolute -top-3 start-8 rounded-full p-1 border-greeny_lighter bg-greeny_lighter/50">
             <p className="text-xs">{t("Verification Tip")}</p>
           </div>
