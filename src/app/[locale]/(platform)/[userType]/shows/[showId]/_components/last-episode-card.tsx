@@ -66,7 +66,7 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
           <EllipsisIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-card-secondary border-input">
-          <Link href={`/podcaster/shows/${showId}/episodes/${episodeId}`}>
+          <Link href={`/podcaster/shows/${showId}/episodes/133`}>
             <DropdownMenuItem>Episode Details</DropdownMenuItem>
           </Link>
         </DropdownMenuContent>

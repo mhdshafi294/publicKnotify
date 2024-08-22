@@ -66,7 +66,6 @@ function ColorPicker<T extends FieldValues>({
 }: PropsType<T>) {
   const locale = useLocale();
   const dir = getDirection(locale);
-  const [color, setColor] = useState<string>("#0051ff");
 
   return (
     <FormField
@@ -82,7 +81,7 @@ function ColorPicker<T extends FieldValues>({
             <span className="text-sm">{field.value || "Pick a color"}</span>
             <div
               className="size-5 border border-input bg-background"
-              style={{ backgroundColor: field.value || color }}
+              style={{ backgroundColor: field.value }}
             />
             <FormControl>
               <Input

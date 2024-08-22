@@ -41,6 +41,6 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Add Podcast",
-    href: "/publish",
+    href: "/shows/1/publish",
   },
 ].map((link, index) => ({ ...link, id: index + 1 }));
