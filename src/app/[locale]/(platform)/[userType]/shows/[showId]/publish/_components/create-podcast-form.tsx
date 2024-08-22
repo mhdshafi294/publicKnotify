@@ -49,6 +49,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
   isShow: isShowState,
   setIsShow: setIsShowState,
 }) => {
+  console.log(showId, "<<<<<<<<<<showId");
   // Initialize hooks
   const { data: session } = useSession();
   const t = useTranslations("Index");
