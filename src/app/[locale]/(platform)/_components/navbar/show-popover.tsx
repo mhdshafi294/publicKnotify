@@ -174,7 +174,7 @@ const ShowPopover = () => {
             </Link>
             <Link
               passHref
-              href="/podcaster/profile/shows"
+              href="/podcaster/shows"
               className="w-full group"
             >
               <span className="flex justify-start items-center gap-4">

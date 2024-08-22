@@ -15,6 +15,7 @@ import WebIcon from "@/components/icons/web-icon";
 import YoutubeIcon from "@/components/icons/youtube-icon";
 
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
+import ColorPicker from "@/components/ui/color-picker";
 
 // Define the type for the podcastResponse. Replace 'any' with the correct type if available.
 type PodcastResponseType = any;
@@ -66,7 +67,7 @@ const StepContent: React.FC<StepContentProps> = ({
   t,
   dir,
 }) => {
-  const { watch } = useFormContext();
+  const { watch, control } = useFormContext();
 
   // Render content based on the current step
   if (step === 1) {
@@ -80,6 +81,12 @@ const StepContent: React.FC<StepContentProps> = ({
         />
         <CategoryHashtagsSection t={t} />
         <MediaUploadSection podcastResponse={podcastResponse} t={t} />
+        <ColorPicker
+          control={control}
+          className="w-44"
+          name="recast_color_border"
+          label={t("recastBorderColor")}
+        />
       </>
     );
   } else if (step === 2) {

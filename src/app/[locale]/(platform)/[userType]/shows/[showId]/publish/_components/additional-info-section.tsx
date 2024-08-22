@@ -13,7 +13,9 @@ import {
 import FormInput from "@/components/ui/form-input";
 import DatePicker from "@/components/ui/date-picker";
 import TimePicker from "@/components/ui/time-picker";
-import SelectPlayList from "@/app/[locale]/(platform)/[userType]/publish/_components/select-play-list";
+import SelectPlayList from "@/app/[locale]/(platform)/[userType]/shows/[showId]/publish/_components/select-play-list";
+import { useLocale } from "next-intl";
+import { getDirection } from "@/lib/utils";
 
 type AdditionalInfoSectionProps = {
   addToPlayList: boolean;
@@ -38,6 +40,8 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
   t,
 }) => {
   const { control } = useFormContext();
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <>
@@ -64,8 +68,8 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
           control={control}
         />
       </div>
-      <div className="w-full space-y-3">
-        <div className="flex items-center gap-3">
+      {/* <div className="w-full space-y-3">
+        <div className="flex items-center gap-3" dir={dir}>
           <Checkbox
             checked={addToPlayList}
             onCheckedChange={() => setAddToPlayList(!addToPlayList)}
@@ -84,7 +88,7 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             control={control}
             name="play_list_id"
             render={({ field }) => (
-              <FormItem className="w-full">
+              <FormItem className="w-full" dir={dir}>
                 <FormLabel className="text-lg capitalize">
                   {t("playlistLabel")}
                 </FormLabel>
@@ -94,7 +98,7 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             )}
           />
         ) : null}
-      </div>
+      </div> */}
     </>
   );
 };

@@ -48,6 +48,10 @@ export type SelfPodcastDetails = {
   podcast: string;
   playlist_id: number;
   order: number;
+  note: string;
+  contributors: boolean;
+  tags: boolean;
+  episode_type: string;
   // created_at: string;
   // podcaster: PodcastPodcaster;
   // request_id: string;

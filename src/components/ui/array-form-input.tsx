@@ -9,11 +9,20 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import {
+  ComponentPropsWithoutRef,
+  ElementRef,
+  LegacyRef,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { cn, getDirection } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { Trash } from "lucide-react";
+import { Plus, Trash, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import { Button } from "./button";
+import { undefined } from "zod";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -38,6 +47,10 @@ function ArrayFormInput<T extends FieldValues>({
   const [items, setItems] = useState<string[]>(
     (defaultValues[name] as string[]) || []
   );
+  // const [inputCurrentValue, setInputCurrentValue] = useState("");
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
   const t = useTranslations("Index");
 
   useEffect(() => {
@@ -76,34 +89,72 @@ function ArrayFormInput<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div className="flex flex-col md:flex-row gap-3 items-center">
-              <Input
-                onKeyDown={createNewCategory}
-                placeholder={t("placeholder", { name: name.toString() })}
-                className={cn("w-20", className)}
-              />
-              <ScrollArea className="w-full whitespace-nowrap mt-3">
-                <div className="flex gap-2 pb-2">
-                  {items.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-center relative group bg-greeny text-black rounded-lg text-sm py-1 px-3 h-7 font-semibold overflow-hidden"
-                      onClick={() => {
-                        setItems((prev) => prev.filter((i) => i !== item));
-                      }}
-                    >
-                      <span
+            <div className="flex flex-col gap-3 items-center">
+              <div className="w-full flex items-stretch gap-2">
+                <Input
+                  onKeyDown={createNewCategory}
+                  placeholder={t("placeholder", { name: name.toString() })}
+                  className={cn("w-full", className)}
+                  ref={inputRef}
+                  // onChange={(e) => {
+                  //   setInputCurrentValue(e.target.value);
+                  // }}
+                />
+                <Button
+                  variant="default"
+                  size={"default"}
+                  className="px-8"
+                  type="button"
+                  onClick={() => {
+                    if (
+                      inputRef &&
+                      typeof inputRef?.current?.value === "string" &&
+                      inputRef?.current?.value.trim() !== ""
+                    ) {
+                      setItems((prev) => {
+                        const createdCategory = inputRef.current?.value.trim();
+                        if (!prev.includes(createdCategory!.trim())) {
+                          return [...prev, createdCategory!.trim()];
+                        } else {
+                          return prev;
+                        }
+                      });
+                      inputRef.current.value = "";
+                    }
+                  }}
+                >
+                  Add
+                </Button>
+              </div>
+              {items.length > 0 ? (
+                <ScrollArea className="w-full whitespace-nowrap mt-3">
+                  <div className="flex gap-2 pb-2">
+                    {items.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-center gap-1 relative group bg-greeny text-black rounded-sm text-xs ps-2 h-6 font-semibold overflow-hidden"
+                      >
+                        {/* <span
                         className="absolute w-full h-full bg-red-500 top-0 left-0 hidden group-hover:flex text-white justify-center items-center"
                         aria-hidden
                       >
                         <Trash size={18} />
-                      </span>
-                      #{item}
-                    </div>
-                  ))}
-                  <ScrollBar orientation="horizontal" className="h-1.5" />
-                </div>
-              </ScrollArea>
+                      </span> */}
+                        {item}
+                        <span
+                          className="py-1 px-1.5 cursor-pointer h-full flex items-center justify-center"
+                          onClick={() => {
+                            setItems((prev) => prev.filter((i) => i !== item));
+                          }}
+                        >
+                          <X size={12} />
+                        </span>
+                      </div>
+                    ))}
+                    <ScrollBar orientation="horizontal" className="h-1.5" />
+                  </div>
+                </ScrollArea>
+              ) : null}
             </div>
           </FormControl>
           <FormMessage className="capitalize font-normal" />

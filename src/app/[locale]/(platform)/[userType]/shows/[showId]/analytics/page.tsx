@@ -1,6 +1,5 @@
 import React from "react";
 import AnalyticsSidebar from "./_components/analytics-sidebar";
-import DashboardAnalyticsSection from "../_components/dashboard-analytics-section";
 import AnalyticsMainContent from "./_components/analytics-main-content";
 
 const ShowAnalyticsPage = ({

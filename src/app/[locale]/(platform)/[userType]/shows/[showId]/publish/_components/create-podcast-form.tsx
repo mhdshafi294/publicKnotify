@@ -28,6 +28,8 @@ import FormSection from "./form-section";
 
 // Type definition for the component props
 type CreatePodcastFormProps = {
+  showId: string;
+  isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -42,7 +44,11 @@ type CreatePodcastFormProps = {
  * <CreatePodcastForm setIsShow={setIsShow} />
  * ```
  */
-const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
+const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
+  showId,
+  isShow: isShowState,
+  setIsShow: setIsShowState,
+}) => {
   // Initialize hooks
   const { data: session } = useSession();
   const t = useTranslations("Index");
@@ -62,7 +68,6 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
   const [draft, setDraft] = useState<
     SelfPodcastDetails | RequestDetails | null
   >(null);
-  const [isShowState, setIsShowState] = useState<boolean>(false); // Initialize isShow state
 
   // Retrieve query parameters
   const request_id = searchParams.get("request_id");
@@ -74,19 +79,26 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     resolver: zodResolver(createMetadataSchema),
     defaultValues: {
       name: "",
+      eposide_url: "",
       summary: "",
+      notes: "",
+      footer: "",
       type: "audio",
+      episode_type: "full",
       publishing_date: new Date(),
       publishing_time: "16:11",
       company_tag: "",
       thumbnail: undefined,
       background: undefined,
-      play_list_id: undefined,
+      play_list_id: showId,
       categories: [],
       hashtags: [],
+      contributors: [],
       company_request_id: "",
       podcast_id: "",
+      explicit_language: false,
       terms: true,
+      recast_color_border: "#0051ff",
     },
   });
 
@@ -95,6 +107,14 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
   }, []);
 
   let podcastType = form.watch("type");
+  let podcastName = form.watch("name");
+
+  useEffect(() => {
+    if (podcastName) {
+      form.setValue("eposide_url", podcastName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [podcastName]);
 
   // Redirect if user type is not 'podcaster'
   useEffect(() => {
@@ -163,6 +183,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     if (draft) {
       form.reset({
         name: draft.name!,
+        eposide_url: draft.name!,
         summary: draft.summary!,
         type: draft.type!,
         publishing_date: new Date(draft.publishing_date!),
@@ -239,16 +260,24 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
    * @param {createMetadataSchema} data - The form data.
    */
   const handleSubmit = async (data: createMetadataSchema) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
+    formData.append("eposide_url", data.name);
     formData.append("summary", data.summary);
     formData.append("type", data.type);
+    formData.append("episode_type", data.type);
     formData.append(
       "publishing_date",
       format(data.publishing_date, "yyyy-MM-dd")
     );
     formData.append("publishing_time", data.publishing_time);
     formData.append("company_tag", data.company_tag);
+
+    if (data.notes) formData.append("notes", data.notes);
+    if (data.footer) formData.append("footer", data.footer);
+    if (data.recast_color_border)
+      formData.append("recast_color_border", data.recast_color_border);
 
     if (data.thumbnail instanceof File)
       formData.append("thumbnail", data.thumbnail);
@@ -262,6 +291,13 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({ setIsShow }) => {
     data.hashtags.forEach((hashtag, index) => {
       formData.append(`hashtags[${index}]`, hashtag);
     });
+    data.contributors.forEach((contributors, index) => {
+      formData.append(`hashtags[${index}]`, contributors);
+    });
+    formData.append(
+      "explicit_language",
+      data.explicit_language ? "true" : "false"
+    );
 
     if (request_id && !podcast_id)
       formData.append("company_request_id", request_id);
