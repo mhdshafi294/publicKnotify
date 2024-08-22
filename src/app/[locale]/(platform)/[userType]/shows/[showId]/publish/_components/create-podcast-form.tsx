@@ -25,6 +25,7 @@ import { Form } from "@/components/ui/form";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import FormHeader from "./form-header";
 import FormSection from "./form-section";
+import { ZodError } from "zod";
 
 // Type definition for the component props
 type CreatePodcastFormProps = {
@@ -49,7 +50,6 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
   isShow: isShowState,
   setIsShow: setIsShowState,
 }) => {
-  // console.log(showId, "<<<<<<<<<<showId");
   // Initialize hooks
   const { data: session } = useSession();
   const t = useTranslations("Index");
@@ -80,7 +80,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
     resolver: zodResolver(createMetadataSchema),
     defaultValues: {
       name: "",
-      eposide_url: "",
+      episode_url: "",
       summary: "",
       notes: "",
       footer: "",
@@ -112,7 +112,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
 
   useEffect(() => {
     if (podcastName) {
-      form.setValue("eposide_url", podcastName);
+      form.setValue("episode_url", podcastName);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [podcastName]);
@@ -184,12 +184,13 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
     if (draft) {
       form.reset({
         name: draft.name!,
-        eposide_url: draft.name!,
+        episode_url: draft.name!,
         summary: draft.summary!,
         type: draft.type!,
         publishing_date: new Date(draft.publishing_date!),
         publishing_time: draft.publishing_time?.slice(0, 5),
         company_tag: "",
+        play_list_id: showId,
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
         thumbnail: podcastResponse?.podcast?.thumbnail
@@ -200,7 +201,9 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
           : undefined,
         company_request_id: request_id ? request_id : undefined,
         podcast_id: podcast_id ? podcast_id : undefined,
+        explicit_language: false,
         terms: true,
+        recast_color_border: "#0051ff",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -261,60 +264,75 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
    * @param {createMetadataSchema} data - The form data.
    */
   const handleSubmit = async (data: createMetadataSchema) => {
-    console.log(data);
-    const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("eposide_url", data.name);
-    formData.append("summary", data.summary);
-    formData.append("type", data.type);
-    formData.append(
-      "episode_type",
-      data.episode_type === "trailer"
-        ? "3"
-        : data.episode_type === "bonus"
-        ? "2"
-        : "1"
-    );
-    formData.append(
-      "publishing_date",
-      format(data.publishing_date, "yyyy-MM-dd")
-    );
-    formData.append("publishing_time", data.publishing_time);
-    formData.append("company_tag", data.company_tag);
+    try {
+      // console.log(data);
+      // Your form submission logic here
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("episode_url", data.name);
+      formData.append("summary", data.summary);
+      formData.append("type", data.type);
+      formData.append(
+        "episode_type",
+        data.episode_type === "trailer"
+          ? "3"
+          : data.episode_type === "bonus"
+          ? "2"
+          : "1"
+      );
+      formData.append(
+        "publishing_date",
+        format(data.publishing_date, "yyyy-MM-dd")
+      );
+      formData.append("publishing_time", data.publishing_time);
+      formData.append("company_tag", data.company_tag);
 
-    if (data.notes) formData.append("notes", data.notes);
-    if (data.footer) formData.append("footer", data.footer);
-    if (data.recast_color_border)
-      formData.append("recast_color_border", data.recast_color_border);
+      if (data.notes) formData.append("note", data.notes);
+      if (data.footer) formData.append("footer", data.footer);
+      if (data.recast_color_border)
+        formData.append("recast_color_border", data.recast_color_border);
 
-    if (data.thumbnail instanceof File)
-      formData.append("thumbnail", data.thumbnail);
-    if (data.background instanceof File)
-      formData.append("background", data.background);
-    if (data.play_list_id) formData.append("playlist_id", data.play_list_id);
+      if (data.thumbnail instanceof File)
+        formData.append("thumbnail", data.thumbnail);
+      if (data.background instanceof File)
+        formData.append("background", data.background);
+      if (data.play_list_id) formData.append("playlist_id", data.play_list_id);
 
-    data.categories.forEach((category, index) => {
-      formData.append(`categories[${index}]`, category);
-    });
-    data.hashtags.forEach((hashtag, index) => {
-      formData.append(`hashtags[${index}]`, hashtag);
-    });
-    data.contributors.forEach((contributors, index) => {
-      formData.append(`hashtags[${index}]`, contributors);
-    });
-    formData.append("explicit_language", data.explicit_language ? "1" : "0");
-
-    if (request_id && !podcast_id)
-      formData.append("company_request_id", request_id);
-    if (podcast_id) {
-      server_updateMetadataAction({
-        formData,
-        type: "podcaster",
-        id: podcast_id,
+      data.categories.forEach((category, index) => {
+        formData.append(`categories[${index}]`, category);
       });
-    } else {
-      server_createMetadataAction({ formData, type: "podcaster" });
+      data.hashtags.forEach((hashtag, index) => {
+        formData.append(`hashtags[${index}]`, hashtag);
+      });
+      data.contributors.forEach((contributors, index) => {
+        formData.append(`hashtags[${index}]`, contributors);
+      });
+      formData.append("explicit_language", data.explicit_language ? "1" : "0");
+
+      if (request_id && !podcast_id)
+        formData.append("company_request_id", request_id);
+      if (podcast_id) {
+        server_updateMetadataAction({
+          formData,
+          type: "podcaster",
+          id: podcast_id,
+        });
+      } else {
+        server_createMetadataAction({ formData, type: "podcaster" });
+      }
+    } catch (error) {
+      if (error instanceof ZodError) {
+        console.log("Zod validation error:", error.errors);
+      } else {
+        console.error("Other error:", error);
+      }
     }
+  };
+
+  const handleError = (errors: any) => {
+    console.log(showId, "<<<<<<<<<<showId");
+    console.log(form.getValues().play_list_id, "<<<<<<<<play_list_id");
+    console.log("Validation Errors:", errors);
   };
 
   if (!isMounted) return null;
@@ -324,9 +342,10 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
       <Form {...form}>
         <form
           className="w-full px-0"
-          onSubmit={form.handleSubmit((data) => {
-            handleSubmit(data);
-          })}
+          onSubmit={form.handleSubmit(handleSubmit, handleError)}
+          // onSubmit={form.handleSubmit((data) => {
+          //   handleSubmit(data);
+          // })}
         >
           <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch pb-3">
             <div className="space-y-5 lg:col-start-4 lg:col-span-9">

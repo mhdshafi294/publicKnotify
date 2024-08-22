@@ -42,9 +42,7 @@ export const createMetadataSchema = z
     name: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.name" }),
-    eposide_url: z
-      .string()
-      .min(1, { message: "createMetadataSchema.errorMessage.name" }),
+    episode_url: z.string(),
     summary: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.summary" })

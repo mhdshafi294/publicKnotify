@@ -40,7 +40,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           control={control}
         />
         <FormInputWithPreText
-          name="eposide_url"
+          name="episode_url"
           className="bg-background w-full"
           placeholder=""
           label={t("eposideUrlLabel")}

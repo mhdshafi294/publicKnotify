@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useEditor, EditorContent, Editor } from "@tiptap/react";
+import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import { useLocale } from "next-intl";
 import {
   FormControl,
@@ -29,7 +29,7 @@ import {
 import { Button } from "./button";
 import { Separator } from "./separator";
 
-const MenuBar = ({ editor }: { editor: Editor | null }) => {
+const MenuBar = ({ editor }: { editor: any }) => {
   if (!editor) {
     return null;
   }
@@ -73,11 +73,11 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         <Button
           size="icon"
           variant={
-            editor.isActive("heading", { level: 3 }) ? "default" : "ghost"
+            editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
           }
           type="button"
           onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 3 }).run()
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
           }
         >
           <HeadingIcon size={20} />
@@ -85,11 +85,11 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         <Button
           size="icon"
           variant={
-            editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
+            editor.isActive("heading", { level: 3 }) ? "default" : "ghost"
           }
           type="button"
           onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
           }
         >
           <HeadingIcon size={16} />
@@ -143,7 +143,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
 };
 
 interface PropsType<T extends FieldValues> {
-  name: keyof T;
+  name: Path<T>; // Use `Path` instead of `keyof`
   label: string;
   className?: string;
   labelClassName?: string;
@@ -165,8 +165,8 @@ function FormInputRichText<T extends FieldValues>({
 
   const editor = useEditor({
     extensions: [StarterKit, Underline],
-    content: "",
     immediatelyRender: false,
+    content: "", // Empty string by default
     editorProps: {
       attributes: {
         class: cn(
@@ -178,16 +178,22 @@ function FormInputRichText<T extends FieldValues>({
     },
   });
 
-  // useEffect(() => {
-  //   if (placeholder && editor) {
-  //     editor.commands.setContent(placeholder);
-  //   }
-  // }, [editor, placeholder]);
+  useEffect(() => {
+    if (editor) {
+      // Initialize content with field value
+      editor.commands.setContent(control._formValues[name]);
+
+      // Listen for content updates and trigger field.onChange
+      editor.on("update", () => {
+        control._formValues[name] = editor.getHTML();
+      });
+    }
+  }, [editor, control, name]);
 
   return (
     <FormField
       control={control as Control<FieldValues>}
-      name={name.toString()}
+      name={name}
       render={({ field }) => (
         <FormItem dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
@@ -196,11 +202,7 @@ function FormInputRichText<T extends FieldValues>({
           <FormControl>
             <div className="w-full bg-background rounded-lg">
               <MenuBar editor={editor} />
-              <EditorContent
-                editor={editor}
-                defaultValue={field.value}
-                onChange={() => field.onChange(editor?.getHTML())} //!! does not updated
-              />
+              <EditorContent editor={editor} />
             </div>
           </FormControl>
           <FormMessage className="capitalize font-normal" />

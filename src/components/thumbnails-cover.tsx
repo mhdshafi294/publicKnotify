@@ -24,7 +24,7 @@ const ThumbnailsCover = ({
           width={126}
           height={124}
           className={cn(
-            "w-[126px] h-[124px] z-10 rounded-lg object-cover translate-x-14 ",
+            "w-auto h-auto z-10 rounded-lg object-cover translate-x-14 ",
             { "translate-x-14 -rotate-12": dir === "ltr" },
             { "-translate-x-14 rotate-12": dir === "rtl" }
           )}
@@ -42,7 +42,7 @@ const ThumbnailsCover = ({
           width={126}
           height={124}
           className={cn(
-            "w-[126px] h-[124px] z-10 rounded-lg object-cover ",
+            "w-auto h-auto z-10 rounded-lg object-cover ",
             { "-translate-x-14 rotate-12": dir === "ltr" },
             { "translate-x-14 -rotate-12": dir === "rtl" }
           )}
