@@ -60,7 +60,7 @@ function FormInputWithPreText<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <div className="w-full flex">
+            <div className="w-full flex" dir="ltr">
               <div className="px-4 bg-input  rounded-s-sm flex justify-center items-center text-foreground/70">
                 {preText}
               </div>

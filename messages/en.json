@@ -226,6 +226,7 @@
         "backgroundSize": "Background size must be less than 4MB.",
         "categoriesEmpty": "Categories can't be empty!",
         "hashtagsEmpty": "Hashtags can't be empty!",
+        "contributorsEmpty": "Contributors can't be empty!",
         "terms": "You must agree to the terms.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "Thumbnail is required when type is audio",
         "BackgroundIsRequiredWhenTypeIsAudio": "Background is required when type is audio",
@@ -238,7 +239,8 @@
         "thumbnail-invalid-type": "Invalid thumbnail type",
         "background-invalid-type": "Invalid background type",
         "thumbnail-size": "Thumbnail size must be less than 4MB",
-        "background-size": "Background size must be less than 4MB"
+        "background-size": "Background size must be less than 4MB",
+        "explicit_language": "Explicit language is required"
       }
     },
     "selectPlaylist": "Select playlist",
@@ -327,7 +329,9 @@
     "notesLabel": "Episodic Notes",
     "notesPlaceholder": "Episodic Notes",
     "footerLabel": "Episodic Footer",
-    "footerPlaceholder": "Episodic Footer"
+    "footerPlaceholder": "Episodic Footer",
+    "recastBorderColor": "Recast Border Color",
+    "Index": "Index"
   },
   "notifications": {
     "notifications": "notifications"

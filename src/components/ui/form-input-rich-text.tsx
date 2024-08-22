@@ -35,7 +35,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   }
 
   return (
-    <div className="pb-1 flex items-center justify-between">
+    <div className="p-1 flex items-center justify-between border border-input rounded-t-lg">
       <div className="flex items-center">
         <Button
           variant={editor.isActive("bold") ? "default" : "ghost"}
@@ -73,18 +73,6 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         <Button
           size="icon"
           variant={
-            editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
-          }
-          type="button"
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
-        >
-          <HeadingIcon size={20} />
-        </Button>
-        <Button
-          size="icon"
-          variant={
             editor.isActive("heading", { level: 3 }) ? "default" : "ghost"
           }
           type="button"
@@ -92,7 +80,19 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
             editor.chain().focus().toggleHeading({ level: 3 }).run()
           }
         >
-          <HeadingIcon size={18} />
+          <HeadingIcon size={20} />
+        </Button>
+        <Button
+          size="icon"
+          variant={
+            editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
+          }
+          type="button"
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+        >
+          <HeadingIcon size={16} />
         </Button>
         <Button
           size="icon"
@@ -102,7 +102,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         >
           <QuoteIcon size={18} />
         </Button>
-        <Separator orientation="vertical" className="h-7 bg-card-secondary" />
+        <Separator orientation="vertical" className="h-7 bg-input" />
         <Button
           size="icon"
           variant={editor.isActive("bulletList") ? "default" : "ghost"}
@@ -166,10 +166,11 @@ function FormInputRichText<T extends FieldValues>({
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     content: "",
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: cn(
-          "w-full text-white bg-background rounded-b-sm border border-border-secondary min-h-[200px] p-4 prose max-w-full",
+          "w-full text-white bg-background rounded-b-lg border border-input  min-h-[200px] p-4 prose prose-p:text-white prose-strong:text-white prose-blockquote:text-white prose-headings:text-white max-w-full",
           className
         ),
         dir,
@@ -177,11 +178,11 @@ function FormInputRichText<T extends FieldValues>({
     },
   });
 
-  useEffect(() => {
-    if (placeholder && editor) {
-      editor.commands.setContent(placeholder);
-    }
-  }, [editor, placeholder]);
+  // useEffect(() => {
+  //   if (placeholder && editor) {
+  //     editor.commands.setContent(placeholder);
+  //   }
+  // }, [editor, placeholder]);
 
   return (
     <FormField
@@ -193,19 +194,14 @@ function FormInputRichText<T extends FieldValues>({
             {label}
           </FormLabel>
           <FormControl>
-            <Controller
-              name={field.name as Path<T>} // Cast the field.name to Path<T>
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="w-full bg-background rounded-sm">
-                  <MenuBar editor={editor} />
-                  <EditorContent
-                    editor={editor}
-                    onChange={() => onChange(editor?.getHTML())}
-                  />
-                </div>
-              )}
-            />
+            <div className="w-full bg-background rounded-lg">
+              <MenuBar editor={editor} />
+              <EditorContent
+                editor={editor}
+                defaultValue={field.value}
+                onChange={() => field.onChange(editor?.getHTML())}
+              />
+            </div>
           </FormControl>
           <FormMessage className="capitalize font-normal" />
         </FormItem>

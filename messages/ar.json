@@ -242,6 +242,7 @@
         "backgroundSize": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت.",
         "categoriesEmpty": "الفئات لا يمكن أن تكون فارغة!",
         "hashtagsEmpty": "الوسوم لا يمكن أن تكون فارغة!",
+        "contributorsEmpty": "المساهمين لا يمكن أن تكون فارغة!",
         "terms": "يجب أن توافق على الشروط.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر صوتي.",
         "BackgroundIsRequiredWhenTypeIsAudio": "الخلفية مطلوبة عندما يكون النوع عنصر صوتي.",
@@ -254,7 +255,8 @@
         "thumbnail-invalid-type": "نوع الصورة المصغرة غير صالح",
         "background-invalid-type": "نوع الخلفية غير صالح",
         "thumbnail-size": "يجب أن يكون حجم الصورة المصغرة أقل من 4 ميغابايت",
-        "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت"
+        "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت",
+        "explicit_language": "يجب أن تحدد اللغة العائمة"
       }
     },
     "selectPlaylist": "اختر قائمة التشغيل",
@@ -327,7 +329,9 @@
     "notesLabel": "ملاحظات",
     "descriptionLabel": "ملاحظات",
     "footerLabel": "تذيلة للحلقات",
-    "footerPlaceholder": "اكتب تذيلة للحلقات"
+    "footerPlaceholder": "اكتب تذيلة للحلقات",
+    "recastBorderColor": "تغيير لون الحدود",
+    "Index": "الفهرس"
   },
   "notifications": {
     "notifications": "notifications"
