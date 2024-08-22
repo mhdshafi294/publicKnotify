@@ -199,7 +199,7 @@ function FormInputRichText<T extends FieldValues>({
               <EditorContent
                 editor={editor}
                 defaultValue={field.value}
-                onChange={() => field.onChange(editor?.getHTML())}
+                onChange={() => field.onChange(editor?.getHTML())} //!! does not updated
               />
             </div>
           </FormControl>

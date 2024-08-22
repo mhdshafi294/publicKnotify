@@ -49,7 +49,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
   isShow: isShowState,
   setIsShow: setIsShowState,
 }) => {
-  console.log(showId, "<<<<<<<<<<showId");
+  // console.log(showId, "<<<<<<<<<<showId");
   // Initialize hooks
   const { data: session } = useSession();
   const t = useTranslations("Index");
@@ -189,7 +189,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
         type: draft.type!,
         publishing_date: new Date(draft.publishing_date!),
         publishing_time: draft.publishing_time?.slice(0, 5),
-        company_tag: draft.company_tag!,
+        company_tag: "",
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
         thumbnail: podcastResponse?.podcast?.thumbnail
@@ -267,7 +267,14 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
     formData.append("eposide_url", data.name);
     formData.append("summary", data.summary);
     formData.append("type", data.type);
-    formData.append("episode_type", data.type);
+    formData.append(
+      "episode_type",
+      data.episode_type === "trailer"
+        ? "3"
+        : data.episode_type === "bonus"
+        ? "2"
+        : "1"
+    );
     formData.append(
       "publishing_date",
       format(data.publishing_date, "yyyy-MM-dd")
@@ -295,10 +302,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
     data.contributors.forEach((contributors, index) => {
       formData.append(`hashtags[${index}]`, contributors);
     });
-    formData.append(
-      "explicit_language",
-      data.explicit_language ? "true" : "false"
-    );
+    formData.append("explicit_language", data.explicit_language ? "1" : "0");
 
     if (request_id && !podcast_id)
       formData.append("company_request_id", request_id);

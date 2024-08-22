@@ -94,7 +94,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
             router.push(`/profile/${session?.user?.id}`);
           }}
         >
-          {isPending ? <ButtonLoader /> : t("cancel")}
+          {t("cancel")}
         </Button>
         <Button
           disabled={isPending}

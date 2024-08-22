@@ -80,11 +80,7 @@ const ShowPopover = () => {
           </div>
           <Separator className="bg-foreground/20" />
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
-            <Link
-              passHref
-              href="/podcaster/profile/shows"
-              className="w-full group"
-            >
+            <Link passHref href="/podcaster/shows/1" className="w-full group">
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -103,11 +99,7 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link
-              passHref
-              href="/podcaster/profile/shows"
-              className="w-full group"
-            >
+            <Link passHref href="/podcaster/shows/2" className="w-full group">
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -126,11 +118,7 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link
-              passHref
-              href="/podcaster/profile/shows"
-              className="w-full group"
-            >
+            <Link passHref href="/podcaster/shows/3" className="w-full group">
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -149,11 +137,7 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link
-              passHref
-              href="/podcaster/profile/shows"
-              className="w-full group"
-            >
+            <Link passHref href="/podcaster/shows/4" className="w-full group">
               <span className="flex justify-start items-center gap-3">
                 <Image
                   width={35}
@@ -172,11 +156,7 @@ const ShowPopover = () => {
                 </div>
               </span>
             </Link>
-            <Link
-              passHref
-              href="/podcaster/shows"
-              className="w-full group"
-            >
+            <Link passHref href="/podcaster/shows" className="w-full group">
               <span className="flex justify-start items-center gap-4">
                 <LayoutDashboard
                   strokeWidth={1}
