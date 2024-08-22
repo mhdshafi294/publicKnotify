@@ -210,6 +210,12 @@
     "label": "Categories",
     "addLabel": "Add Categories",
     "deleteConfirmation": "Do you want to delete this category?",
+    "all-shows": "All shows",
+    "add-show": "Add show",
+    "owner": "Owner",
+    "role": "Role",
+    "audience": "Audience",
+    "show-setting": "Show settings",
     "createMetadataSchema": {
       "errorMessage": {
         "email": "Email is required.",
@@ -226,6 +232,7 @@
         "backgroundSize": "Background size must be less than 4MB.",
         "categoriesEmpty": "Categories can't be empty!",
         "hashtagsEmpty": "Hashtags can't be empty!",
+        "contributorsEmpty": "Contributors can't be empty!",
         "terms": "You must agree to the terms.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "Thumbnail is required when type is audio",
         "BackgroundIsRequiredWhenTypeIsAudio": "Background is required when type is audio",
@@ -238,7 +245,8 @@
         "thumbnail-invalid-type": "Invalid thumbnail type",
         "background-invalid-type": "Invalid background type",
         "thumbnail-size": "Thumbnail size must be less than 4MB",
-        "background-size": "Background size must be less than 4MB"
+        "background-size": "Background size must be less than 4MB",
+        "explicit_language": "Explicit language is required"
       }
     },
     "selectPlaylist": "Select playlist",
@@ -266,13 +274,26 @@
     "Order": "Order",
     "Main Feed": "Main Feed",
     "unpublished": "Unpublished",
-    "episode": "Episode",
+    "episodes": "Episodes",
+    "add-episode": "Add Episode",
+    "episodes-page-description": "Find all of your drafts and episodes in the tabs below. When a draft is assigned a Publish Date and an audio file, it will automatically be moved to the Episodes tab and go live on its assigned date.",
+    "show-distribution": "Show Distribution",
+    "RSS Feed": "RSS Feed",
+    "To access your RSS feed, please": "To access your RSS feed, please",
+    "select a plan": "select a plan.",
+    "main-distribution-channels": "Main Distribution Channels",
+    "main-distribution-channels-description-1": "Some of the distribution channels below will automatically find your RSS feed and update them. Make sure your show is on the channels you want by explicitly setting them up with our distribution tools.",
+    "main-distribution-channels-description-2": "Most podcast platforms and hosting providers require an owner email or verification code to submit your show. They are hidden from your RSS feed by default, edit these settings in your",
+    "show settings": "show settings.",
+    "Verification Tip": "Verification Tip",
     "Alternate Episode": "Alternate Episode",
     "platform": {
       "web": "Web",
       "youtube": "YouTube",
       "spotify": "Spotify",
       "apple": "Apple Podcasts",
+      "ivoox": "ivoox",
+      "instagram": "Instagram",
       "google": "Google Podcasts"
     },
     "draft": "Draft",
@@ -314,7 +335,9 @@
     "notesLabel": "Episodic Notes",
     "notesPlaceholder": "Episodic Notes",
     "footerLabel": "Episodic Footer",
-    "footerPlaceholder": "Episodic Footer"
+    "footerPlaceholder": "Episodic Footer",
+    "recastBorderColor": "Recast Border Color",
+    "Index": "Index"
   },
   "notifications": {
     "notifications": "notifications"

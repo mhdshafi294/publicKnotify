@@ -182,7 +182,18 @@
     "eposideUrlLabel": "عنوان URL للحلقة",
     "explicitLanguageLabel": "الحلقة تحتوى على لغة مخالفة",
     "nameLabel": "الاسم",
-    "episode": "حلقة",
+    "episodes": "الحلقات",
+    "add-episode": "إضافة حلقة",
+    "episodes-page-description": "ابحث عن جميع مسوداتك وحلقاتك في الألسنة أدناه. عندما يُعطى تاريخ نشر وملف صوتي للمسودة، سيتم نقلها تلقائيًا إلى علامة التبويب الحلقات وتُنشر في التاريخ المحدد.",
+    "show-distribution": "عرض التوزيع",
+    "RSS Feed": "تغذية RSS",
+    "To access your RSS feed, please": "للوصول إلى تغذية RSS الخاصة بك، يرجى",
+    "select a plan": "اختيار خطة.",
+    "main-distribution-channels": "القنوات الرئيسية للتوزيع",
+    "main-distribution-channels-description-1": "بعض القنوات التوزيعية أدناه ستجد تغذية RSS الخاصة بك تلقائيًا وتقوم بتحديثها. تأكد من أن عرضك موجود على القنوات التي تريدها عن طريق إعدادها صراحةً باستخدام أدوات التوزيع لدينا.",
+    "main-distribution-channels-description-2": "معظم منصات البودكاست ومقدمي الاستضافة يتطلبون بريد إلكتروني للمالك أو رمز تحقق لتقديم عرضك. هذه المعلومات مخفية بشكل افتراضي من تغذية RSS الخاصة بك، قم بتعديل هذه الإعدادات في",
+    "show settings": "إعدادات العرض.",
+    "Verification Tip": "نصيحة التحقق",
     "episodeLabel": "حلقة #",
     "session": "الموسم",
     "sessionLabel": "الموسم #",
@@ -215,6 +226,12 @@
     "label": "التصنيفات",
     "addLabel": "أضف التصنيفات",
     "deleteConfirmation": "هل تريد حذف هذا التصنيف؟",
+    "all-shows": "جميع العروض",
+    "add-show": "إضافة عرض",
+    "owner": "المالك",
+    "role": "الدور",
+    "audience": "الجمهور",
+    "show-setting": "إعدادات العرض",
     "createMetadataSchema": {
       "errorMessage": {
         "email": "البريد الإلكتروني مطلوب.",
@@ -231,6 +248,7 @@
         "backgroundSize": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت.",
         "categoriesEmpty": "الفئات لا يمكن أن تكون فارغة!",
         "hashtagsEmpty": "الوسوم لا يمكن أن تكون فارغة!",
+        "contributorsEmpty": "المساهمين لا يمكن أن تكون فارغة!",
         "terms": "يجب أن توافق على الشروط.",
         "ThumbnailIsRequiredWhenTypeIsAudio": "الصورة المصغرة مطلوبة عندما يكون النوع عنصر صوتي.",
         "BackgroundIsRequiredWhenTypeIsAudio": "الخلفية مطلوبة عندما يكون النوع عنصر صوتي.",
@@ -243,7 +261,8 @@
         "thumbnail-invalid-type": "نوع الصورة المصغرة غير صالح",
         "background-invalid-type": "نوع الخلفية غير صالح",
         "thumbnail-size": "يجب أن يكون حجم الصورة المصغرة أقل من 4 ميغابايت",
-        "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت"
+        "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت",
+        "explicit_language": "يجب أن تحدد اللغة العائمة"
       }
     },
     "selectPlaylist": "اختر قائمة التشغيل",
@@ -278,7 +297,9 @@
       "youtube": "يوتيوب",
       "spotify": "سبوتيفاي",
       "apple": "آبل بودكاست",
-      "google": "جوجل بودكاست"
+      "google": "جوجل بودكاست",
+      "ivoox": "ايفوكس",
+      "instagram": "انستغرام"
     },
     "draft": "مسودة",
     "selectPodcaster": "اختر البودكاستر",
@@ -314,7 +335,9 @@
     "notesLabel": "ملاحظات",
     "descriptionLabel": "ملاحظات",
     "footerLabel": "تذيلة للحلقات",
-    "footerPlaceholder": "اكتب تذيلة للحلقات"
+    "footerPlaceholder": "اكتب تذيلة للحلقات",
+    "recastBorderColor": "تغيير لون الحدود",
+    "Index": "الفهرس"
   },
   "notifications": {
     "notifications": "notifications"

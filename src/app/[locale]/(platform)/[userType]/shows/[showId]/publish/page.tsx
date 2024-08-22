@@ -5,6 +5,7 @@ import CreatePodcastForm from "./_components/create-podcast-form";
 import InfiniteScrollDrafts from "./_components/infinite-scroll-drafts";
 
 interface NewPublishProps {
+  params: { userType: string; showId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
@@ -19,7 +20,7 @@ interface NewPublishProps {
  * <NewPublish searchParams={{ request_id: "123", podcast_id: "456" }} />
  * ```
  */
-export default function NewPublish({ searchParams }: NewPublishProps) {
+export default function NewPublish({ params, searchParams }: NewPublishProps) {
   // Initialize the state to show or hide drafts
   const [isShow, setIsShow] = useState(false);
 
@@ -27,11 +28,15 @@ export default function NewPublish({ searchParams }: NewPublishProps) {
   const { request_id, podcast_id } = searchParams;
 
   return (
-    <div className="flex relative mt-10 min-h-[calc(100vh-112px)]">
+    <div className="flex relative  min-h-[calc(100vh-112px)]">
       {/* InfiniteScrollDrafts component for displaying the list of drafts */}
       <InfiniteScrollDrafts isShow={isShow} setIsShow={setIsShow} />
       {/* CreatePodcastForm component for creating a new podcast */}
-      <CreatePodcastForm setIsShow={setIsShow} />
+      <CreatePodcastForm
+        isShow={isShow}
+        setIsShow={setIsShow}
+        showId={params.showId}
+      />
     </div>
   );
 }

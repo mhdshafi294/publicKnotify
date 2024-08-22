@@ -49,8 +49,9 @@ export const createMetadataSchema = z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.summary" })
       .min(25, { message: "createMetadataSchema.errorMessage.summaryShort" }),
-    notes: z.string().optional(),
-    footer: z.string().optional(),
+    notes: z.string(),
+    footer: z.string(),
+    recast_color_border: z.string(),
     type: z.enum(["video", "audio"], {
       required_error: "createMetadataSchema.errorMessage.typeRequired",
     }),
@@ -68,7 +69,7 @@ export const createMetadataSchema = z
       .min(1, { message: "createMetadataSchema.errorMessage.companyTag" }),
     thumbnail: fileOrUrlSchema.optional(),
     background: fileOrUrlSchema.optional(),
-    play_list_id: z.string().optional(),
+    play_list_id: z.string(),
     categories: z.string().array().nonempty({
       message: "createMetadataSchema.errorMessage.categoriesEmpty",
     }),
@@ -76,12 +77,12 @@ export const createMetadataSchema = z
       message: "createMetadataSchema.errorMessage.hashtagsEmpty",
     }),
     contributors: z.string().array().nonempty({
-      message: "createMetadataSchema.errorMessage.hashtagsEmpty",
+      message: "createMetadataSchema.errorMessage.contributorsEmpty",
     }),
     company_request_id: z.string().optional(),
     podcast_id: z.string().optional(),
     terms: z.boolean(),
-    explicit_lannguage: z.boolean(),
+    explicit_language: z.boolean().optional(),
   })
   .refine((data) => data.terms, {
     message: "createMetadataSchema.errorMessage.terms",
