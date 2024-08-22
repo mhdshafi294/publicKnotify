@@ -9,23 +9,23 @@ const DashboardHeaderSection = () => {
         title="Publish an episode"
         description="In order to submit and publish your Show, you must first publish an episode"
         linkName="Add Podcast"
-        linkHref="/podcaster/publish"
+        linkHref="/podcaster/shows/1/publish"
         done={true}
       />
       <DashboardMediumCard
         imageSrc="/podcaster-filler.webp"
         title="Publish an episode"
         description="In order to submit and publish your Show, you must first publish an episode"
-        linkName="Add Podcast"
-        linkHref="/podcaster/publish"
-        done={true}
+        linkName="Show Episodes"
+        linkHref="/podcaster/shows/1/episodes"
+        done={false}
       />
       <DashboardMediumCard
         imageSrc="/podcast-filler.webp"
         title="Publish an episode"
         description="In order to submit and publish your Show, you must first publish an episode"
         linkName="Add Podcast"
-        linkHref="/podcaster/publish"
+        linkHref="/podcaster/shows/1/publish"
         done={false}
       />
     </section>

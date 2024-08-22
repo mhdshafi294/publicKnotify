@@ -228,7 +228,7 @@ export default async function RequestPage({
                 ) : session?.user?.type === "podcaster" &&
                   request.status.toLowerCase() === "accepted by podcaster" ? (
                   <Link
-                    href={`/podcaster/publish?${searchParams.toString()}`}
+                    href={`/podcaster/shows/1/publish?${searchParams.toString()}`}
                     className={cn(buttonVariants({ variant: "default" }), "")}
                   >
                     {t("publish")}

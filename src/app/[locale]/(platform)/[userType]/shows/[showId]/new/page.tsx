@@ -4,8 +4,8 @@ import { Link } from "@/navigation";
 
 const NewShowPage = () => {
   return (
-    <div className="flex-1 flex justify-center items-center bg-[#034843]">
-      <div className="w-full space-y-6 max-w-screen-md bg-background py-8 px-20 rounded-xl">
+    <div className="flex-1 flex justify-center items-center">
+      <div className="bg-card-secondary border border-border-secondary shadow-[2px_2px_0px_0px_#302e3e] rounded-xl px-12 py-10 space-y-5">
         <h2 className="text-6xl leading-tight font-semibold">
           Let’s get started by adding a show
         </h2>
