@@ -226,6 +226,12 @@
     "label": "التصنيفات",
     "addLabel": "أضف التصنيفات",
     "deleteConfirmation": "هل تريد حذف هذا التصنيف؟",
+    "all-shows": "جميع العروض",
+    "add-show": "إضافة عرض",
+    "owner": "المالك",
+    "role": "الدور",
+    "audience": "الجمهور",
+    "show-setting": "إعدادات العرض",
     "createMetadataSchema": {
       "errorMessage": {
         "email": "البريد الإلكتروني مطلوب.",
