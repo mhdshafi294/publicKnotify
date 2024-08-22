@@ -24,7 +24,7 @@ const SocialCard = ({ icon, title }: { title: string; icon: string }) => {
   );
 };
 
-const distributionPage = () => {
+const DistributionPage = () => {
   const t = useTranslations("Index");
   return (
     <div className="flex flex-col items-center w-full flex-1 lg:min-h-[calc(100vh-72px)] relative h-full justify-between p-4 sm:p-6 md:p-8 gap-4">
@@ -74,4 +74,4 @@ const distributionPage = () => {
   );
 };
 
-export default distributionPage;
+export default DistributionPage;
