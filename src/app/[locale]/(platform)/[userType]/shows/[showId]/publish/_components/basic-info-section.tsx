@@ -42,14 +42,14 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
         <FormInputWithPreText
           name="eposide_url"
           className="bg-background w-full"
-          placeholder={t("")}
+          placeholder=""
           label={t("eposideUrlLabel")}
           preText=".../episodes/"
           control={control}
         />
       </div>
       <FormCheckbox
-        name="explicit_lannguage"
+        name="explicit_language"
         control={control}
         className="mt-0"
         checkboxClassName="size-4 rounded-full"
@@ -99,13 +99,11 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
       <FormInputRichText
         name="notes"
         label={t("notesLabel")}
-        placeholder={t("notesPlaceholder")}
         control={control}
       />
       <FormInputRichText
         name="footer"
         label={t("footerLabel")}
-        placeholder={t("footerPlaceholder")}
         control={control}
       />
     </>
