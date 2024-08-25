@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["Podcasters"]
+  "cSpell.words": [
+    "Podcasters"
+  ],
+  "i18n-ally.localesPaths": [
+    "messages"
+  ],
+  "i18n-ally.keystyle": "nested"
 }

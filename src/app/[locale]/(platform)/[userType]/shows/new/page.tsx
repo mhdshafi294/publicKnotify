@@ -5,7 +5,7 @@ import { Link } from "@/navigation";
 const NewShowPage = () => {
   return (
     <div className="flex-1 flex justify-center items-center">
-      <div className="bg-card-secondary border border-border-secondary shadow-[2px_2px_0px_0px_#302e3e] rounded-xl px-12 py-10 space-y-5">
+      <div className="max-w-screen-md bg-card-secondary border border-border-secondary shadow-[2px_2px_0px_0px_#302e3e] rounded-xl px-12 py-10 space-y-5">
         <h2 className="text-6xl leading-tight font-semibold">
           Let’s get started by adding a show
         </h2>
@@ -21,7 +21,7 @@ const NewShowPage = () => {
             Import Existing Show
           </Button>
           <Link
-            href="/podcaster/shows/1/create"
+            href="/podcaster/shows/create"
             className={cn(
               buttonVariants({
                 size: "lg",

@@ -245,6 +245,7 @@
         "thumbnail-invalid-type": "Invalid thumbnail type",
         "background-invalid-type": "Invalid background type",
         "thumbnail-size": "Thumbnail size must be less than 4MB",
+        "thumbnail-type": "file type must be image",
         "background-size": "Background size must be less than 4MB",
         "explicit_language": "Explicit language is required"
       }
@@ -337,7 +338,27 @@
     "footerLabel": "Episodic Footer",
     "footerPlaceholder": "Episodic Footer",
     "recastBorderColor": "Recast Border Color",
-    "Index": "Index"
+    "Index": "Index",
+    "error-message": {
+      "title": "title field is required",
+      "description": "description field is required",
+      "categories": "categories field is required",
+      "authors": "authors field is required",
+      "tags": "tags field is required",
+      "type": "type field is required",
+      "show-owner": "show owner field is required",
+      "owner_email": "owner email field is required",
+      "email-invalid": "Invalid email address",
+      "copyright": "copyright field is required"
+    },
+    "create-show-category": {
+      "title": "04. Categorization"
+    },
+    "category": {
+      "description": "At least one category is required to create your show. These are used by podcast apps, like Apple Podcasts to categorize the show for listeners to discover."
+    },
+    "create_show": "create new show",
+    "view_all_shows": "view all shows"
   },
   "notifications": {
     "notifications": "notifications"

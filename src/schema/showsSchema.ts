@@ -6,9 +6,7 @@ export const CreateShowSchema = z.object({
   image: z
     .instanceof(File)
     .refine(
-      (img) =>
-        !img?.name ||
-        (img.type.startsWith("image/") && img.type !== "image/svg+xml"),
+      (img) => img.type.startsWith("image/") && img.type !== "image/svg+xml",
       {
         message: "createMetadataSchema.errorMessage.thumbnail-type",
       }
@@ -17,10 +15,12 @@ export const CreateShowSchema = z.object({
       message: "createMetadataSchema.errorMessage.thumbnail-size",
     }),
   type: z.string().min(1, "error-message.type"),
-  categories: z.array(z.string()).refine((arr) => arr.length > 0, {
-    message: "error-message.categories",
-  }),
-  categories1: z.array(z.string()),
+  categories: z
+    .array(z.string().optional())
+    .refine((arr) => arr.filter(Boolean).length > 0, {
+      message: "error-message.categories",
+    }),
+  categories1: z.array(z.string().optional()),
   authors: z.array(z.string()).refine((arr) => arr.length > 0, {
     message: "error-message.authors",
   }),
@@ -30,7 +30,7 @@ export const CreateShowSchema = z.object({
   show_owner: z.string().min(1, "error-message.show-owner"),
   owner_email: z
     .string()
-    .min(1, "error-message.show-owner")
+    .min(1, "error-message.owner_email")
     .email("error-message.email-invalid"),
   copyright: z.string().min(1, "error-message.copyright"),
 });

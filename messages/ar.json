@@ -257,6 +257,7 @@
         "addPlaceError": "يجب أن تحدد مكان الاعلان",
         "podcaster_id": "يجب أن تحدد البودكاست",
         "thumbnail-required": "الصورة المصغرة مطلوبة",
+        "thumbnail-type": "نوع الصورة غير صالح",
         "background-required": "الخلفية مطلوبة",
         "thumbnail-invalid-type": "نوع الصورة المصغرة غير صالح",
         "background-invalid-type": "نوع الخلفية غير صالح",
@@ -337,7 +338,27 @@
     "footerLabel": "تذيلة للحلقات",
     "footerPlaceholder": "اكتب تذيلة للحلقات",
     "recastBorderColor": "تغيير لون الحدود",
-    "Index": "الفهرس"
+    "Index": "الفهرس",
+    "error-message": {
+      "title": "حقل العنوان مطلوب",
+      "description": "حقل الوصف مطلوب",
+      "categories": "حقل الفئات مطلوب",
+      "authors": "يرجى إضافة مؤلف واحد على الأقل",
+      "tags": "يرجى إضافة وسم واحد على الأقل",
+      "type": "حقل النوع مطلوب",
+      "show_owner": "حقل المالك مطلوب",
+      "owner_email": "حقل البريد الكتروني للمالك مطلوب",
+      "email-invalid": "عنوان البريد الالكتروني غير صالح",
+      "copyright": "حقل الحقوق مطلوب"
+    },
+    "create-show-category": {
+      "title": "04. التصنيف"
+    },
+    "category": {
+      "description": "مطلوب فئة واحدة على الأقل لإنشاء العرض الخاص بك. \nيتم استخدامها بواسطة تطبيقات البودكاست، مثل Apple Podcasts لتصنيف العرض ليكتشفه المستمعون."
+    },
+    "create_show": "إنشاء عرض جديد",
+    "view_all_shows": "عرض جميع العروض"
   },
   "notifications": {
     "notifications": "notifications"
