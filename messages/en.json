@@ -339,15 +339,13 @@
     "footerPlaceholder": "Episodic Footer",
     "recastBorderColor": "Recast Border Color",
     "Index": "Index",
-<<<<<<< HEAD
     "all_time_views": "All-Time Views",
     "top-country": "Top Country",
     "most-popular-time": "Most Popular Time",
     "view-analytics": "View Analytics",
     "most-popular-day": "Most Popular Day",
     "analytics-overview": "Analytics Overview",
-    "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "The Audience Overview has the at-a-glance analytics you need to start understanding your show’s performance"
-=======
+    "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "The Audience Overview has the at-a-glance analytics you need to start understanding your show’s performance",
     "error-message": {
       "title": "title field is required",
       "description": "description field is required",
@@ -368,7 +366,6 @@
     },
     "create_show": "create new show",
     "view_all_shows": "view all shows"
->>>>>>> 43d42bdcc9c49300ac03ff5d3be2533f96f74ba8
   },
   "notifications": {
     "notifications": "notifications"

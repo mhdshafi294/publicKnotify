@@ -339,13 +339,11 @@
     "footerPlaceholder": "اكتب تذيلة للحلقات",
     "recastBorderColor": "تغيير لون الحدود",
     "Index": "الفهرس",
-<<<<<<< HEAD
     "all_time_views": "مجموع المشاهدات",
     "top-country": "البلد الأكثر شعبية",
     "most-popular-time": "الوقت الأكثر شعبية",
     "view-analytics": "عرض التحليلات",
-    "most-popular-day": "اليوم الأكثر شعبية"
-=======
+    "most-popular-day": "اليوم الأكثر شعبية",
     "error-message": {
       "title": "حقل العنوان مطلوب",
       "description": "حقل الوصف مطلوب",
@@ -366,7 +364,6 @@
     },
     "create_show": "إنشاء عرض جديد",
     "view_all_shows": "عرض جميع العروض"
->>>>>>> 43d42bdcc9c49300ac03ff5d3be2533f96f74ba8
   },
   "notifications": {
     "notifications": "notifications"
