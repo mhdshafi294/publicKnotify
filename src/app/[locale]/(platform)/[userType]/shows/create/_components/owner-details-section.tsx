@@ -35,7 +35,7 @@ const OwnerDetailsSection = () => {
     formData.append("show_owner", data.show_owner);
     formData.append("owner_email", data.owner_email);
     formData.append("type", data.type);
-    formData.append("footer", "test"); //TODO:remoce this field
+    formData.append("footer", "test"); //TODO:remove this field
     data.categories.forEach((category, index) => {
       if (category) formData.append(`categories[${index}]`, category);
     });
