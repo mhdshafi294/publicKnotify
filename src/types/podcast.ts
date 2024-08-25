@@ -1,4 +1,4 @@
-import { ApiResponse, Pagination } from ".";
+import { ApiResponse, Pagination, TranslationsType } from ".";
 import { Podcaster, PodcasterDetails } from "./podcaster";
 
 export type PodcastDetails = {
@@ -18,18 +18,7 @@ export type PodcastDetails = {
     total_time: number;
   } | null;
   created_at: string;
-  playlist: PlayList | null;
-};
-
-export type PlayList = {
-  id: 1;
-  name: string;
-  description: string;
-  image: string;
-  podcasts_count: number;
-  type: string;
-  created_at: string;
-  podcasts: [];
+  playlist: Playlist | null;
 };
 
 export type SelfPodcastDetails = {
@@ -40,18 +29,23 @@ export type SelfPodcastDetails = {
   is_published: boolean;
   publishing_date: string;
   publishing_time: string;
-  company_tag: string;
+  company_tag: string | null;
   categories: CategoryDetails[];
   hashTags: HashTag[];
   thumbnail: string;
+  youtube_thumbnail: string;
   background: string;
   podcast: string;
   playlist_id: number;
   order: number;
-  note: string;
-  contributors: boolean;
-  tags: boolean;
-  episode_type: string;
+  episode_type: number | null;
+  episode_type_translation: string | null;
+  note: string | null;
+  contributors: string[] | boolean;
+  tags: string[] | boolean;
+  recast_color_border: string | null;
+  alternate_episode_url: string | null;
+  explicit_language: number;
   // created_at: string;
   // podcaster: PodcastPodcaster;
   // request_id: string;
@@ -94,7 +88,10 @@ export type Podcast = {
 export type Category = {
   id: number;
   name: string;
+  parent_id: number | null;
+  translations: TranslationsType[];
   created_at: string;
+  updated_at: string;
 };
 
 export type PlaybackPosition = {
@@ -107,9 +104,17 @@ export type Playlist = {
   id: number;
   name: string;
   description: string;
+  footer: string | null;
   image: string;
   podcasts_count: number;
-  type: string;
+  type: number | null;
+  type_translation: string | null;
+  authors: string[];
+  tags: string[];
+  show_owners: string | null;
+  owner_email: string | null;
+  copyright: string | null;
+  categories: Category[];
   created_at: string;
   podcasts: SelfPodcastDetails[];
 };
