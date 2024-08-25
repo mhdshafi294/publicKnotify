@@ -17,15 +17,17 @@ const DashboardMainContent = ({
 }) => {
   return (
     <main className="bg-background w-full flex-1 py-16 px-8 xl:px-16 flex flex-col gap-8">
-      <DashboardHeaderSection params={params} />
+      <DashboardHeaderSection params={params} showData={showData} />
       <DashboardAnalyticsSection params={params} />
-      <LastEpisodeCard
-        imgSrc="/podcast-filler.webp"
-        title="Episode Title"
-        showId={params.showId}
-        episodeId={"1"}
-        publishDate={"2024-08-11"}
-      />
+      {showData.playlist?.podcasts.length > 0 ? (
+        <LastEpisodeCard
+          imgSrc="/podcast-filler.webp"
+          title={showData.playlist.podcasts[0].name}
+          showId={params.showId}
+          episodeId={showData.playlist.podcasts[0].id.toString()}
+          publishDate={showData.playlist.podcasts[0].publishing_date}
+        />
+      ) : null}
     </main>
   );
 };

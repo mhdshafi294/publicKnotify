@@ -365,7 +365,10 @@
       "description": "At least one category is required to create your show. These are used by podcast apps, like Apple Podcasts to categorize the show for listeners to discover."
     },
     "create_show": "create new show",
-    "view_all_shows": "view all shows"
+    "view_all_shows": "view all shows",
+    "downloads-today": "Downloads Today",
+    "5-latest-episodes": "5 Latest Episodes",
+    "first-7-days-since-release": "First 7 Days Since Release"
   },
   "notifications": {
     "notifications": "notifications"

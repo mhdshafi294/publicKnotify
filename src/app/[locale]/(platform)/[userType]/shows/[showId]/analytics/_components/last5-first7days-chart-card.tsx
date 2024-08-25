@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatDate } from "date-fns";
+import { useTranslations } from "next-intl";
 
 type LastFiveFirstSevenDaysChartCardProps = {
   params: { userType: string; showId: string };
@@ -20,14 +21,16 @@ type LastFiveFirstSevenDaysChartCardProps = {
 const LastFiveFirstSevenDaysChartCard: React.FC<
   LastFiveFirstSevenDaysChartCardProps
 > = ({ params, chart }) => {
+  const t = useTranslations("Index");
+
   return (
     <DashboardCardContainer className="flex-1 h-full flex flex-col gap-10 w-full">
       <div className="w-full flex justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold capitalize">
-            <span className="opacity-80">5 Latest Episodes</span>
+            <span className="opacity-80">{t("5-latest-episodes")}</span>
             <br />
-            <span className="text-3xl">First 7 Days Since Release</span>
+            <span className="text-3xl">{t("first-7-days-since-release")}</span>
           </h2>
         </div>
       </div>

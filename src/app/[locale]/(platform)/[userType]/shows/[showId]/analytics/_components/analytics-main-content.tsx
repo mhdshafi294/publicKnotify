@@ -1,8 +1,6 @@
 import React from "react";
-import DashboardAnalyticsSection from "../../_components/dashboard-analytics-section";
 import ViewsChartCard from "../../_components/views-chart-card";
 import MostViewsChart from "../../_components/most-views-chart";
-import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsHeader from "./analytics-header";
 import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
 import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
@@ -30,8 +28,6 @@ const AnalyticsMainContent = async ({
   });
 
   const showStatistics = await getShowStatisticsAction({
-    // start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    // end_date: new Date().toISOString(),
     show_id: params.showId,
     type: "podcaster",
   });
@@ -47,7 +43,7 @@ const AnalyticsMainContent = async ({
           .
         </p>
       </header>
-      <AnalyticsHeader />
+      <AnalyticsHeader showStatistics={showStatistics} />
       <div className="w-full h-[637px]">
         <ViewsChartCard
           title={t("all_time_views")}
@@ -59,7 +55,11 @@ const AnalyticsMainContent = async ({
       <div className="w-full h-[637px]">
         <LastFiveFirstSevenDaysChartCard
           params={params}
-          chart={<LastFiveFirstSevenDaysChart />}
+          chart={
+            <LastFiveFirstSevenDaysChart
+              five_latest_episodes={showStatistics.five_latest_episodes}
+            />
+          }
         />
       </div>
       <AnalyticsYoutube />

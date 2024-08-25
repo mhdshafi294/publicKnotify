@@ -363,7 +363,10 @@
       "description": "مطلوب فئة واحدة على الأقل لإنشاء العرض الخاص بك. \nيتم استخدامها بواسطة تطبيقات البودكاست، مثل Apple Podcasts لتصنيف العرض ليكتشفه المستمعون."
     },
     "create_show": "إنشاء عرض جديد",
-    "view_all_shows": "عرض جميع العروض"
+    "view_all_shows": "عرض جميع العروض",
+    "downloads-today": "تحميلات اليوم",
+    "5-latest-episodes": "آخر 5 حلقات",
+    "first-7-days-since-release": "أول 7 أيام منذ الإصدار"
   },
   "notifications": {
     "notifications": "notifications"

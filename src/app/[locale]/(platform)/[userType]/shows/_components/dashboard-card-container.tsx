@@ -17,7 +17,7 @@ const DashboardCardContainer: React.FC<DashboardCardContainerProps> = ({
   return (
     <div
       className={cn(
-        "p-8 bg-card-secondary border border-border-secondary rounded-[32px] shadow-[2px_2px_0px_0px_#302e3e] relative",
+        "p-8 bg-card-secondary border border-border-secondary rounded-[8px] shadow-[2px_2px_0px_0px_#302e3e] relative",
         className
       )}
     >
