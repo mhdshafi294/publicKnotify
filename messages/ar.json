@@ -337,7 +337,12 @@
     "footerLabel": "تذيلة للحلقات",
     "footerPlaceholder": "اكتب تذيلة للحلقات",
     "recastBorderColor": "تغيير لون الحدود",
-    "Index": "الفهرس"
+    "Index": "الفهرس",
+    "all_time_views": "مجموع المشاهدات",
+    "top-country": "البلد الأكثر شعبية",
+    "most-popular-time": "الوقت الأكثر شعبية",
+    "view-analytics": "عرض التحليلات",
+    "most-popular-day": "اليوم الأكثر شعبية"
   },
   "notifications": {
     "notifications": "notifications"

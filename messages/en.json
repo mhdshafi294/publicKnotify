@@ -337,7 +337,14 @@
     "footerLabel": "Episodic Footer",
     "footerPlaceholder": "Episodic Footer",
     "recastBorderColor": "Recast Border Color",
-    "Index": "Index"
+    "Index": "Index",
+    "all_time_views": "All-Time Views",
+    "top-country": "Top Country",
+    "most-popular-time": "Most Popular Time",
+    "view-analytics": "View Analytics",
+    "most-popular-day": "Most Popular Day",
+    "analytics-overview": "Analytics Overview",
+    "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "The Audience Overview has the at-a-glance analytics you need to start understanding your show’s performance"
   },
   "notifications": {
     "notifications": "notifications"

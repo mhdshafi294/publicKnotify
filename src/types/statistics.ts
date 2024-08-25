@@ -21,6 +21,13 @@ export type ShowStatistics = {
   youtube_channel?: YoutubeChannel | null;
 };
 
+export type ShowViewsStatistics = {
+  views_over_time: {
+    date: string;
+    views_count: number;
+  }[];
+};
+
 export type PlaylistStatistics = {
   total_views: number;
   last_7_days_views: number;
@@ -51,4 +58,12 @@ export type YoutubeChannel = {
 
 export type StatisticsResponse = ApiResponse & {
   statistics: Statistics;
+};
+
+export type ShowStatisticsResponse = ApiResponse & {
+  statistics: ShowStatistics;
+};
+
+export type ShowViewsStatisticsResponse = ApiResponse & {
+  statistics: ShowViewsStatistics;
 };

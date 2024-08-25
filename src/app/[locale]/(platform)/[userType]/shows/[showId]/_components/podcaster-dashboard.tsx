@@ -6,6 +6,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import { PlaylistResponse } from "@/types/podcast";
 import { redirect } from "@/navigation";
+import { getShowViewsStatisticsAction } from "@/app/actions/statisticsActions";
+import { ShowViewsStatistics } from "@/types/statistics";
 
 const PodcasterDashboard = async ({
   params,
@@ -14,32 +16,34 @@ const PodcasterDashboard = async ({
   params: { userType: string; showId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  let ShowData: PlaylistResponse;
-
   const session = await getServerSession(authOptions);
 
   if (session?.user?.type === "podcaster") {
-    ShowData = await getPlayListAction({
+    const showData = await getPlayListAction({
       id: params.showId,
       type: session?.user?.type!,
     });
+
+    return (
+      <div className="flex-1 h-full flex flex-col xl:flex-row w-full">
+        {/* Left Sidebar */}
+        <DashboardSidebar
+          imgSrc={
+            showData?.playlist?.image
+              ? showData?.playlist?.image
+              : "/podcast-filler.webp"
+          }
+          tile={showData?.playlist?.name}
+          description={showData?.playlist?.description}
+          episodesCount={showData?.playlist?.podcasts?.length}
+        />
+        {/* Main Content */}
+        <DashboardMainContent {...{ params, searchParams, showData }} />
+      </div>
+    );
   } else {
     redirect("/");
   }
-
-  return (
-    <div className="flex-1 h-full flex flex-col xl:flex-row w-full">
-      {/* Left Sidebar */}
-      <DashboardSidebar
-        imgSrc="/podcast-filler.webp"
-        tile="First Show"
-        description="lorem ipsum dolor sit amet consectetur adipiscing elit dolor sit amet consectetur adipiscing elit"
-        episodesCount={10}
-      />
-      {/* Main Content */}
-      <DashboardMainContent {...{ params, searchParams }} />
-    </div>
-  );
 };
 
 export default PodcasterDashboard;

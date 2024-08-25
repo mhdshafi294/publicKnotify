@@ -22,13 +22,13 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
   description,
   linkName,
   linkHref,
-  done,
+  done = false,
 }) => {
   return (
     <DashboardCardContainer className="2xl:h-[404px] flex 2xl:flex-col gap-3">
       <div
         className={cn(
-          "2xl:w-full 2xl:h-[150px] w-[270px] h-[165px] relative grayscale-0",
+          "2xl:w-full 2xl:h-[192px] w-[270px] h-[192px] relative grayscale-0",
           {
             grayscale: done,
           }
@@ -39,7 +39,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
           alt="podcaster dashboard"
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover rounded "
+          className="object-cover rounded-[32px]"
         />
       </div>
       <div className="flex flex-col gap-5 flex-1 mt-6">

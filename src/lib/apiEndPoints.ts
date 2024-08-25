@@ -45,6 +45,7 @@ export const UPLOAD_MEDIA_FILE = "/upload-media-file";
 export const PROFILE = "/profile";
 export const PUBLISH = "/publish";
 export const PLAY_LIST = "/play-list";
+export const PLAYLIST = "/playlist";
 export const PLAYLISTS = "/playlists";
 export const PRICE = "/price";
 export const PUBLISHED_PODCASTS = "/published-podcasts";
@@ -57,6 +58,7 @@ export const NOTIFICATION = "/notification";
 export const STATISTICS = "/statistics";
 export const TOGGLE = "/toggle";
 export const ENABLE = "/enable";
+export const VIEWS_OVER_TIME = "/views-over-time";
 
 // Social interaction endpoints
 export const POST_URL = "/post";
