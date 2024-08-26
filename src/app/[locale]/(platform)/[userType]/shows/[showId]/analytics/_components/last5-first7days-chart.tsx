@@ -13,64 +13,167 @@ const LastFiveFirstSevenDaysChart = ({
 }: {
   five_latest_episodes: EpisodesStatistics[];
 }) => {
-  console.log(five_latest_episodes);
-
   const chartData = [
     {
       day: "1",
-      episode1: five_latest_episodes[0]?.daily_views[0] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[0] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[0] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[0] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[0] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[0]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[0]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[0]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[0]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[0]
+        ] || 0,
     },
     {
       day: "2",
-      episode1: five_latest_episodes[0]?.daily_views[1] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[1] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[1] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[1] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[1] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[1]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[1]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[1]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[1]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[1]
+        ] || 0,
     },
     {
       day: "3",
-      episode1: five_latest_episodes[0]?.daily_views[2] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[2] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[2] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[2] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[2] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[2]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[2]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[2]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[2]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[2]
+        ] || 0,
     },
     {
       day: "4",
-      episode1: five_latest_episodes[0]?.daily_views[3] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[3] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[3] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[3] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[3] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[3]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[3]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[3]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[3]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[3]
+        ] || 0,
     },
     {
       day: "5",
-      episode1: five_latest_episodes[0]?.daily_views[4] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[4] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[4] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[4] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[4] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[4]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[4]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[4]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[4]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[4]
+        ] || 0,
     },
     {
       day: "6",
-      episode1: five_latest_episodes[0]?.daily_views[5] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[5] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[5] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[5] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[5] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[5]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[5]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[5]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[5]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[5]
+        ] || 0,
     },
     {
       day: "7",
-      episode1: five_latest_episodes[0]?.daily_views[6] || 0,
-      episode2: five_latest_episodes[1]?.daily_views[6] || 0,
-      episode3: five_latest_episodes[2]?.daily_views[6] || 0,
-      episode4: five_latest_episodes[3]?.daily_views[6] || 0,
-      episode5: five_latest_episodes[4]?.daily_views[6] || 0,
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[6]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[6]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[6]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[6]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[6]
+        ] || 0,
     },
   ];
 

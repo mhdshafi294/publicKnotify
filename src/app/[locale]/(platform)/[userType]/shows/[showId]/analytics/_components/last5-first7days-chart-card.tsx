@@ -12,15 +12,18 @@ import {
 } from "@/components/ui/table";
 import { formatDate } from "date-fns";
 import { useTranslations } from "next-intl";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { EpisodesStatistics } from "@/types/statistics";
 
 type LastFiveFirstSevenDaysChartCardProps = {
   params: { userType: string; showId: string };
   chart: React.ReactNode;
+  five_latest_episodes: EpisodesStatistics[];
 };
 
 const LastFiveFirstSevenDaysChartCard: React.FC<
   LastFiveFirstSevenDaysChartCardProps
-> = ({ params, chart }) => {
+> = ({ params, chart, five_latest_episodes }) => {
   const t = useTranslations("Index");
 
   return (
@@ -35,28 +38,38 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
         </div>
       </div>
       <div className="w-full h-80 relative">{chart}</div>
-      <Table className="flex-1 shrink-0 grow ">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Ep #</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead className="text-right">Release Date</TableHead>
-            <TableHead className="text-right">Days Since Release</TableHead>
-            <TableHead className="text-right">Views</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">S1:E1</TableCell>
-            <TableCell>test episode</TableCell>
-            <TableCell className="text-right">
-              {formatDate(new Date(18, 8, 2024), "PPP")}
-            </TableCell>
-            <TableCell className="text-right">2</TableCell>
-            <TableCell className="text-right">2</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      <ScrollArea className="w-full h-20">
+        <Table className="flex-1 shrink-0 grow w-full ">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Ep #</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead className="text-right">Release Date</TableHead>
+              <TableHead className="text-right">Days Since Release</TableHead>
+              <TableHead className="text-right">Views</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="w-full">
+            {five_latest_episodes.map((episode) => (
+              <TableRow key={episode.podcast.id}>
+                <TableCell className="font-medium">
+                  {episode.podcast.id}
+                </TableCell>
+                <TableCell>{episode.podcast.name}</TableCell>
+                <TableCell className="text-right">
+                  {formatDate(new Date(episode.podcast.publishing_date), "PPP")}
+                </TableCell>
+                <TableCell className="text-right">
+                  {episode.days_since_release}
+                </TableCell>
+                <TableCell className="text-right">
+                  {episode.total_views}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </ScrollArea>
     </DashboardCardContainer>
   );
 };

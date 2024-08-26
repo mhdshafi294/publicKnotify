@@ -9,14 +9,12 @@ import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 
 import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import ThumbnailsCover from "@/components/thumbnails-cover";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { cn, getDirection } from "@/lib/utils";
 import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { Link, useRouter } from "@/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
 
 interface InfiniteScrollDraftsProps {
   search?: string;
@@ -42,8 +40,6 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   const router = useRouter();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
-  const initialRender = useRef(true);
-  const current_podcast_id = searchParams.get("podcast_id");
 
   useEffect(() => {
     setIsMounted(true);
@@ -115,23 +111,24 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
       <ul className="w-full p-3 pe-0" dir={dir}>
         <ScrollArea className="w-full pe-3 flex flex-col gap-3 " dir={dir}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 w-full">
-          {data?.pages.map((page) => (
+            {data?.pages.map((page) =>
               page?.podcasts.map((podcast) => (
                 <li key={podcast?.id}>
                   <Link
                     className={cn(
-                      "w-full rounded-lg bg-white/15 h-[100px] cursor-pointer flex items-center gap-2 overflow-hidden"
+                      "w-full rounded-lg bg-card-secondary border border-l-0 border-t-0 border-border-secondary h-[120px] cursor-pointer flex items-center gap-2 overflow-hidden"
                     )}
                     href={`episodes/${podcast?.id}`}
                   >
-                    <div className="w-1/3 h-[100px]">
-                      <img
+                    <div className="w-7/12 h-[120px] relative">
+                      <Image
                         src={podcast?.thumbnail}
                         alt={`${podcast?.thumbnail}`}
+                        fill
                         className="object-cover w-full h-full"
                       />
                     </div>
-                    <div className="w-full px-3 py-4 space-y-3 cursor-pointer">
+                    <div className="w-full h-full px-3 py-4 flex flex-col justify-between cursor-pointer">
                       <div className="flex items-center justify-between gap-3">
                         <p className="font-bold text-base">{podcast?.name}</p>
                         <SquareArrowOutUpRightIcon
@@ -151,8 +148,8 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
                   </Link>
                 </li>
               ))
-            ))}
-            </div>
+            )}
+          </div>
           <div ref={ref} className="mt-4 flex items-center justify-center">
             {isFetchingNextPage && <Loader />}
             <span className="sr-only">{t("loading")}</span>

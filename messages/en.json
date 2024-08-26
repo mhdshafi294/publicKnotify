@@ -368,7 +368,13 @@
     "view_all_shows": "view all shows",
     "downloads-today": "Downloads Today",
     "5-latest-episodes": "5 Latest Episodes",
-    "first-7-days-since-release": "First 7 Days Since Release"
+    "first-7-days-since-release": "First 7 Days Since Release",
+    "youtube-analytics": "YouTube Analytics",
+    "an-overview-of-your-youtube-chanel-performance-regarding-this-show": "An overview of your YouTube chanel performance regarding this show.",
+    "all-time-views": "All-Time Views",
+    "subscriber-count": "Subscriber Count",
+    "hidden-subscriber-count": "Hidden Subscriber Count",
+    "video-count": "Video Count"
   },
   "notifications": {
     "notifications": "notifications"

@@ -55,6 +55,7 @@ const AnalyticsMainContent = async ({
       <div className="w-full h-[637px]">
         <LastFiveFirstSevenDaysChartCard
           params={params}
+          five_latest_episodes={showStatistics.five_latest_episodes}
           chart={
             <LastFiveFirstSevenDaysChart
               five_latest_episodes={showStatistics.five_latest_episodes}

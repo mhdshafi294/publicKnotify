@@ -366,7 +366,12 @@
     "view_all_shows": "عرض جميع العروض",
     "downloads-today": "تحميلات اليوم",
     "5-latest-episodes": "آخر 5 حلقات",
-    "first-7-days-since-release": "أول 7 أيام منذ الإصدار"
+    "first-7-days-since-release": "أول 7 أيام منذ الإصدار",
+    "youtube-analytics": "تحليلات يوتيوب",
+    "all-time-views": "المشاهدات في كل الأوقات",
+    "video-count": "عدد الفيديو",
+    "hidden-subscriber-count": "عدد المشتركين المخفي",
+    "subscriber-count": "عدد المشتركين"
   },
   "notifications": {
     "notifications": "notifications"
