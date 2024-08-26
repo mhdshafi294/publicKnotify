@@ -375,7 +375,8 @@
     "subscriber-count": "Subscriber Count",
     "hidden-subscriber-count": "Hidden Subscriber Count",
     "video-count": "Video Count",
-    "Dashboard": "Dashboard"
+    "Dashboard": "Dashboard",
+    "views-today": "Views Today"
   },
   "notifications": {
     "notifications": "notifications"

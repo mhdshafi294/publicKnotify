@@ -330,8 +330,8 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
   };
 
   const handleError = (errors: any) => {
-    console.log(showId, "<<<<<<<<<<showId");
-    console.log(form.getValues().play_list_id, "<<<<<<<<play_list_id");
+    // console.log(showId, "<<<<<<<<<<showId");
+    // console.log(form.getValues().play_list_id, "<<<<<<<<play_list_id");
     console.log("Validation Errors:", errors);
   };
 

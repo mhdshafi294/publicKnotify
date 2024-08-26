@@ -372,7 +372,8 @@
     "video-count": "عدد الفيديو",
     "hidden-subscriber-count": "عدد المشتركين المخفي",
     "subscriber-count": "عدد المشتركين",
-    "Dashboard": "لوحة التحكم"
+    "Dashboard": "لوحة التحكم",
+    "views-today": "مشاهدات اليوم"
   },
   "notifications": {
     "notifications": "notifications"

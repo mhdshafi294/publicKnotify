@@ -28,7 +28,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
-  console.log(showViews);
+  // console.log(showViews);
   const chartData = [
     {
       day: format(

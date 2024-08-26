@@ -44,6 +44,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
               <Image
                 width={56}
                 height={40}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover h-10 w-14"
                 src={
                   playlists.find(
@@ -68,21 +69,33 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
           alignOffset={0}
           className="border p-0 border-foreground/20"
         >
-          {/* <div className="w-full px-4 py-3 flex justify-between items-center">
+          <div className="w-full px-4 py-3 flex justify-between items-center">
             <div className="flex justify-start items-center gap-3">
               <Image
-                width={35}
-                height={35}
-                className="object-cover size-auto"
-                src="/draftC.png"
+                width={48}
+                height={36}
+                className="object-cover h-9 w-12"
+                src={
+                  playlists.find(
+                    (show) => show.id.toString() === paramas.showId
+                  )?.image || "/draftC.png"
+                }
                 alt="show image preview"
               />
               <div>
                 <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200">
-                  show name
+                  {
+                    playlists.find(
+                      (show) => show.id.toString() === paramas.showId
+                    )?.name
+                  }
                 </p>
                 <p className="leading-4 text-sm text-foreground/60">
-                  example@gmail.com
+                  {
+                    playlists.find(
+                      (show) => show.id.toString() === paramas.showId
+                    )?.owner_email
+                  }
                 </p>
               </div>
             </div>
@@ -92,7 +105,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
             >
               <Settings className="size-5" />
             </Button>
-          </div> */}
+          </div>
           <Separator className="bg-foreground/20" />
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
             {playlists.slice(0, 5).map((playlist) => (

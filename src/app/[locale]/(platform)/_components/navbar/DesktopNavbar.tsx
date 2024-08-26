@@ -22,7 +22,8 @@ const DesktopNavbar = () => {
   const params = useParams();
   const t = useTranslations("Index");
 
-  console.log(params.showId, "<<<<<<<<");
+  // console.log(params.showId, "<<<<<<<<");
+  // console.log(pathname.lastIndexOf("/"), "<<<<<<<<");
 
   useEffect(() => {
     const updatedSearchText = searchParams.get("podcasterId");
@@ -70,7 +71,9 @@ const DesktopNavbar = () => {
                 href={
                   link.label !== "Dashboard"
                     ? `/${session?.user?.type}${link.href}`
-                    : `/${params.showId}${link.href}`
+                    : params.showId !== undefined
+                    ? `/${session?.user?.type}${link.href}/${params.showId}`
+                    : `/${session?.user?.type}/`
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),
@@ -82,7 +85,7 @@ const DesktopNavbar = () => {
                         link.href !== "/shows") ||
                       (link.href === "/" && pathname.lastIndexOf("/") === 0) ||
                       (link.href === "/shows" &&
-                        pathname.lastIndexOf("/shows") === 0),
+                        pathname.lastIndexOf("/") === 16),
                   },
                   {
                     hidden:

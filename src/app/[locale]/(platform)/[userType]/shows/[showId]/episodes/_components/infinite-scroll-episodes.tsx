@@ -92,7 +92,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
     },
     initialPageParam: 1,
   });
-  console.log(data);
+  // console.log(data);
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
