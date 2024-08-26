@@ -9,7 +9,7 @@ import { Link, usePathname } from "@/navigation";
 import { useSession } from "next-auth/react";
 import UserOptions from "./user-0ptions";
 import { SearchIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -19,7 +19,10 @@ const DesktopNavbar = () => {
   const [searchText, setSearchText] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
+  const params = useParams();
   const t = useTranslations("Index");
+
+  console.log(params.showId, "<<<<<<<<");
 
   useEffect(() => {
     const updatedSearchText = searchParams.get("podcasterId");
@@ -64,27 +67,43 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.href}
-                href={`/${session?.user?.type}${link.href}`}
+                href={
+                  link.label !== "Dashboard"
+                    ? `/${session?.user?.type}${link.href}`
+                    : `/${params.showId}${link.href}`
+                }
                 className={cn(
                   buttonVariants({ variant: "link" }),
-
                   "text-white p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary hover:before:h-0.5 before:translate-y-4 before:rounded-full before:opacity-100 before:duration-0":
-                      (pathname.includes(link.href) && link.href !== "/") ||
-                      (link.href === "/" && pathname.lastIndexOf("/") === 0),
+                      (pathname.includes(link.href) &&
+                        link.href !== "/" &&
+                        link.href !== "/shows") ||
+                      (link.href === "/" && pathname.lastIndexOf("/") === 0) ||
+                      (link.href === "/shows" &&
+                        pathname.lastIndexOf("/shows") === 0),
                   },
                   {
                     hidden:
                       session?.user?.type === "user" &&
                       (link.label === "Requests" ||
                         link.label === "Statistics"),
+                  },
+                  {
+                    hidden:
+                      session?.user?.type === "user" ||
+                      (session?.user?.type === "company" &&
+                        link.label === "Dashboard"),
+                  },
+                  {
+                    hidden:
+                      session?.user?.type === "podcaster" &&
+                      link.label === "Home",
                   }
                 )}
               >
-                {session?.user?.type === "podcaster" && link.label === "Home"
-                  ? t("dashboard")
-                  : t(link.label)}
+                {t(link.label)}
               </Link>
             );
         })}

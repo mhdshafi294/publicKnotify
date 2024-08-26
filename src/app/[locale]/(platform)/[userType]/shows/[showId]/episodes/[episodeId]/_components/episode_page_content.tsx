@@ -1,49 +1,29 @@
-"use client";
-
 import { getSelfPodcastAction } from "@/app/actions/podcastActions";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Separator } from "@/components/ui/separator";
-import { useQuery } from "@tanstack/react-query";
-import { Ellipsis } from "lucide-react";
-import { useEffect, useState } from "react";
+
 import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import { Link } from "@/navigation";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { getDistanceToNow } from "@/lib/utils";
 import { format } from "date-fns";
+import { getTranslations } from "next-intl/server";
 
-const EpisodePageContent = ({
+const EpisodePageContent = async ({
   params,
   searchParams,
 }: {
   params: { userType: string; showId: string; episodeId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Fetch podcast draft data
-  const {
-    data: podcastResponse,
-    isPending: isPodcastPending,
-    isError: isPodcastError,
-  } = useQuery({
-    queryKey: ["podcast_draft", params.episodeId],
-    queryFn: () =>
-      getSelfPodcastAction({ id: params.episodeId!, type: "podcaster" }),
-    enabled: !!params.episodeId && isMounted,
+  const podcastResponse = await getSelfPodcastAction({
+    id: params.episodeId!,
+    type: "podcaster",
   });
-  const t = useTranslations("Index");
+
+  const t = await getTranslations("Index");
+
   return (
     <div className="flex max-md:flex-col w-full flex-1 lg:min-h-[calc(100vh-72px)] relative h-full justify-between p-4 sm:p-6 md:p-8 gap-4">
       <DashboardCardContainer className="flex flex-col col-span-1 gap-6 h-full justify-center p-4 w-full md:w-1/3">
@@ -84,14 +64,14 @@ const EpisodePageContent = ({
           {podcastResponse?.podcast?.podcast && (
             <div className="w-full">
               <audio
-                className="w-full rounded-none"
+                className="w-full bg-transparent opacity-75"
                 src={podcastResponse?.podcast?.podcast}
                 controls
               />
             </div>
           )}
         </div>
-        <Separator />
+        <Separator className="bg-border-secondary border-border-secondary " />
         <div className="flex flex-col gap-4">
           <p>{t("Full Episode")}</p>
           <div>
@@ -103,19 +83,16 @@ const EpisodePageContent = ({
             <p className="opacity-70">{podcastResponse?.podcast?.note}</p>
           </div>
         </div>
+        <Separator className="bg-border-secondary mb-1" />
         <div className="flex gap-4">
-          <div className="w-1/2">
-            <Separator className="mb-1" />
-            <p className="font-light text-sm">{t("Contributors")}</p>
-            <p className="opacity-70">
-              {podcastResponse?.podcast?.contributors ? "yes" : "no"}
-            </p>
-          </div>
-          <div className="w-1/2">
-            <Separator className="mb-1" />
-            <p className="font-light text-sm">{t("Tags")}</p>
-            <p className="opacity-70">
-              {podcastResponse?.podcast?.tags ? t("yes") : t("no")}
+          <div className="w-fulle">
+            <p className="opacity-60 font-bold text-sm">{t("Contributors")}</p>
+            <p className="">
+              {podcastResponse?.podcast?.contributors instanceof Array
+                ? podcastResponse?.podcast?.contributors
+                    .map((contributor) => contributor)
+                    .join(", ")
+                : "none"}
             </p>
           </div>
         </div>
@@ -148,25 +125,28 @@ const EpisodePageContent = ({
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-2">
-                <p className="opacity-50 text-xs">
-                  {getDistanceToNow(
-                    podcastResponse?.podcast?.publishing_date!,
-                    podcastResponse?.podcast?.publishing_time!
-                  )}
-                  <span className="mx-3">at</span>
-                  <span className="opacity-70 text-sm">
-                    {format(
-                      new Date(
-                        `${podcastResponse?.podcast
-                          ?.publishing_date!} ${podcastResponse?.podcast
-                          ?.publishing_time!}`
-                      ),
-                      "MMM do, yyyy HH:mm bbb"
+              {podcastResponse?.podcast?.publishing_date &&
+              podcastResponse?.podcast?.publishing_time ? (
+                <div className="flex items-center gap-2">
+                  <p className="opacity-50 text-xs">
+                    {getDistanceToNow(
+                      podcastResponse?.podcast?.publishing_date!,
+                      podcastResponse?.podcast?.publishing_time!
                     )}
-                  </span>
-                </p>
-              </div>
+                    <span className="mx-3 opacity-70 ">at</span>
+                    <span className="opacity-70 text-sm">
+                      {format(
+                        new Date(
+                          `${podcastResponse?.podcast
+                            ?.publishing_date!} ${podcastResponse?.podcast
+                            ?.publishing_time!}`
+                        ),
+                        "MMM do, yyyy HH:mm bbb"
+                      )}
+                    </span>
+                  </p>
+                </div>
+              ) : null}
             </div>
           </div>
         </DashboardCardContainer>
