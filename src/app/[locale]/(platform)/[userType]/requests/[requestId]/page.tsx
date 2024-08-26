@@ -158,8 +158,8 @@ export default async function RequestPage({
                 <div className="flex md:justify-end gap-2 w-full pb-3">
                   {request.categories.map((category) => (
                     <Link
-                      href="/"
-                      className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2"
+                      href={`${session?.user?.type}/category/${category.id}`}
+                      className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2 w-fit"
                       key={category.id}
                     >
                       <div className="size-4 relative">

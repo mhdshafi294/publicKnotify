@@ -14,9 +14,9 @@ const FormatSection = () => {
   const form = useFormContext<CreateShowSchema>();
 
   const typeDescription =
-    form.watch("type") === "all"
+    form.watch("type") === "1"
       ? "This is the default format with episodes presented and recommended from newest-to-oldest. This option is recommended for stand-alone episodes."
-      : form.watch("type") === "mentions"
+      : form.watch("type") === "2"
       ? "For Shows with episodes presented and recommended newest-to-oldest and grouped by seasons. This option is recommended for stand-alone episodes."
       : "For Shows with episodes presented and recommended oldest-to-newest and grouped by seasons. This option is recommended for narrative and storytelling formats.";
 

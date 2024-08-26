@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis, MenuIcon } from "lucide-react";
+import Image from "next/image";
 const AllShowsPage = () => {
   const t = useTranslations("Index");
   return (
@@ -45,7 +46,13 @@ const AllShowsPage = () => {
             <TableBody>
               <TableRow>
                 <TableCell className="flex gap-3 items-center">
-                  <img src="/draftC.png" className="size-16" alt="" />{" "}
+                  <Image
+                    src="/draftC.png"
+                    width={64}
+                    height={64}
+                    className="object-cover"
+                    alt=""
+                  />{" "}
                   <p className="font-bold">name</p>
                 </TableCell>
                 <TableCell className="">1</TableCell>
@@ -58,9 +65,9 @@ const AllShowsPage = () => {
                         <Ellipsis />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>{t('episodes')}</DropdownMenuItem>
-                        <DropdownMenuItem>{t('audience')}</DropdownMenuItem>
-                        <DropdownMenuItem>{t('show-setting')}</DropdownMenuItem>
+                        <DropdownMenuItem>{t("episodes")}</DropdownMenuItem>
+                        <DropdownMenuItem>{t("audience")}</DropdownMenuItem>
+                        <DropdownMenuItem>{t("show-setting")}</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

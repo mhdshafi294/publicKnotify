@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import DashboardCardContainer from "../../_components/dashboard-card-container";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
+import Image from "next/image";
 
 const SocialCard = ({ icon, title }: { title: string; icon: string }) => {
   const t = useTranslations("Index");
@@ -10,7 +11,13 @@ const SocialCard = ({ icon, title }: { title: string; icon: string }) => {
     <DashboardCardContainer className="rounded-none bg-transparent px-8 py-4">
       <div className="flex justify-between items-center gap-4">
         <div className="flex items-center gap-2">
-          <img src={icon} alt="" className="size-12" />
+          <Image
+            src={icon}
+            alt=""
+            height={48}
+            width={48}
+            className="size-12 object-cover"
+          />
           <p>{t(title)}</p>
         </div>
         <div>

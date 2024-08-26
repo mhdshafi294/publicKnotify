@@ -7,7 +7,7 @@ import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
-import PodcasterDashboard from "./shows/[showId]/_components/podcaster-dashboard";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -38,7 +38,18 @@ export default async function Home({
 
   // Redirect to podcasrter dashboard if the user is a podcaster
   if (session?.user?.type === "podcaster") {
-    redirect(`/${session?.user?.type}/shows/1`);
+    const showsResponse = await getPlayListsAction({
+      type: "podcaster",
+      page: "1",
+      count: "5",
+    });
+    if (showsResponse?.playlists?.length > 0) {
+      redirect(
+        `/${session?.user?.type}/shows/${showsResponse.playlists[0].id}`
+      );
+    } else {
+      redirect(`/${session?.user?.type}/shows/create`);
+    }
   }
 
   // Fetch translations for the "Index" namespace

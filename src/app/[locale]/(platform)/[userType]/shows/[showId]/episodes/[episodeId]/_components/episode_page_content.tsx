@@ -15,6 +15,9 @@ import { useEffect, useState } from "react";
 import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { getDistanceToNow } from "@/lib/utils";
+import { format } from "date-fns";
 
 const EpisodePageContent = ({
   params,
@@ -46,11 +49,14 @@ const EpisodePageContent = ({
       <DashboardCardContainer className="flex flex-col col-span-1 gap-6 h-full justify-center p-4 w-full md:w-1/3">
         <div className="w-full">
           {podcastResponse?.podcast?.background ? (
-            <img
-              src={podcastResponse?.podcast?.background}
-              alt=""
-              className="w-full max-h-[400px] object-cover"
-            />
+            <div className="w-full h-[200px] relative">
+              <Image
+                src={podcastResponse?.podcast?.background}
+                alt=""
+                fill
+                className="object-cover"
+              />
+            </div>
           ) : (
             <video
               src={podcastResponse?.podcast?.background}
@@ -59,9 +65,11 @@ const EpisodePageContent = ({
             />
           )}
           <div className="flex items-center gap-4">
-            <img
-              className="size-12"
-              src={podcastResponse?.podcast?.thumbnail}
+            <Image
+              className="size-12 object-cover"
+              width={48}
+              height={48}
+              src={podcastResponse?.podcast?.thumbnail as string}
               alt=""
             />
             <div>
@@ -83,7 +91,7 @@ const EpisodePageContent = ({
             </div>
           )}
         </div>
-        <Separator />
+        <Separator className="bg-border-secondary " />
         <div className="flex flex-col gap-4">
           <p>{t("Full Episode")}</p>
           <div>
@@ -97,14 +105,14 @@ const EpisodePageContent = ({
         </div>
         <div className="flex gap-4">
           <div className="w-1/2">
-            <Separator className="mb-1" />
+            <Separator className="bg-border-secondary mb-1" />
             <p className="font-light text-sm">{t("Contributors")}</p>
             <p className="opacity-70">
               {podcastResponse?.podcast?.contributors ? "yes" : "no"}
             </p>
           </div>
           <div className="w-1/2">
-            <Separator className="mb-1" />
+            <Separator className="bg-border-secondary mb-1" />
             <p className="font-light text-sm">{t("Tags")}</p>
             <p className="opacity-70">
               {podcastResponse?.podcast?.tags ? t("yes") : t("no")}
@@ -123,16 +131,16 @@ const EpisodePageContent = ({
           <div className="flex gap-4 flex-col">
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
-                <p>{t("Main Feed")}</p>
+                <p className="opacity-70">{t("Main Feed")}</p>
                 {podcastResponse?.podcast?.is_published ? (
-                  <div className="border border-greeny p-1">
+                  <div className="border-spacing-2 border-2 border-greeny/20 rounded-3xl  py-1 px-2">
                     <p className="text-xs flex items-center gap-1">
                       <span className="size-1.5 rounded-full bg-greeny"></span>{" "}
                       {t("published")}
                     </p>
                   </div>
                 ) : (
-                  <div className="border border-destructive p-1">
+                  <div className="border-spacing-2 border-2 border-destructive/20 rounded-3xl  py-1 px-2">
                     <p className="text-xs flex items-center gap-1">
                       <span className="size-1.5 rounded-full bg-destructive"></span>{" "}
                       {t("unpublished")}
@@ -141,9 +149,22 @@ const EpisodePageContent = ({
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <p>
-                  {podcastResponse?.podcast?.publishing_date}{" "}
-                  {podcastResponse?.podcast?.publishing_time}
+                <p className="opacity-50 text-xs">
+                  {getDistanceToNow(
+                    podcastResponse?.podcast?.publishing_date!,
+                    podcastResponse?.podcast?.publishing_time!
+                  )}
+                  <span className="mx-3 opacity-70 ">at</span>
+                  <span className="opacity-70 text-sm">
+                    {format(
+                      new Date(
+                        `${podcastResponse?.podcast
+                          ?.publishing_date!} ${podcastResponse?.podcast
+                          ?.publishing_time!}`
+                      ),
+                      "MMM do, yyyy HH:mm bbb"
+                    )}
+                  </span>
                 </p>
               </div>
             </div>
@@ -153,14 +174,27 @@ const EpisodePageContent = ({
           <h1 className="text-xl font-bold">{t("categories")}</h1>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {podcastResponse?.podcast?.categories.map((category, index) => (
-              <div key={index} className="flex gap-4 items-center w-full">
-                <img
-                  src={category.image}
-                  className="size-10 rounded-full"
-                  alt={category.name}
-                />
-                <p className="opacity-70">{category.name}</p>
-              </div>
+              <Link
+                href={`podcaster/category/${category.id}`}
+                className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2 w-fit"
+                key={category.id}
+              >
+                <div className="size-4 relative">
+                  <Image
+                    fill
+                    className="rounded object-contain"
+                    src={
+                      category.image ? category.image : "/podcast-filler.webp"
+                    }
+                    alt={category.name}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-bold capitalize">
+                    {category.name}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </DashboardCardContainer>
@@ -168,8 +202,11 @@ const EpisodePageContent = ({
           <h1 className="text-xl font-bold">{t("hashtags")}</h1>
           <div className="flex items-center gap-4">
             {podcastResponse?.podcast?.hashTags.map((hashtag, index) => (
-              <div key={index} className="border p-1 border-primary">
-                <p className="opacity-70">{hashtag.name}</p>
+              <div
+                key={hashtag.id}
+                className="shrink-0 text-sm bg-greeny_lighter/30 text-greeny px-3 py-1 font-semibold rounded-lg cursor-default"
+              >
+                #{hashtag.name}
               </div>
             ))}
           </div>

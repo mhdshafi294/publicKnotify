@@ -24,7 +24,9 @@ const EpisodesPageContent = ({
       <div className="w-full flex flex-col gap-4 px-4 sm:px-6 md:px-8 py-8">
         <h2 className="font-bold text-2xl">{t("episodes")}</h2>
         <DashboardCardContainer className="max-w-[600px]">
-          <p className="text-sm leading-6">{t("episodes-page-description")}</p>
+          <p className="text-sm leading-6 text-card-foreground/70">
+            {t("episodes-page-description")}
+          </p>
         </DashboardCardContainer>
       </div>
       <div className="px-4 sm:px-6 md:px-8 w-full">
@@ -34,7 +36,7 @@ const EpisodesPageContent = ({
               value="episodes"
               className="data-[state=active]:max-md:text-primary data-[state=active]:max-md:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:before:h-0.5 data-[state=active]:before:start-0 before:start-[100%] before:end-0 before:!z-[100000] before:transition-all before:duration-300  data-[state=active]:before:bg-primary"
             >
-            {t("episodes")}
+              {t("episodes")}
             </TabsTrigger>
             <TabsTrigger
               value="drafts"

@@ -6,26 +6,200 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", likes: 186, views: 80 },
-  { month: "February", likes: 305, views: 200 },
-  { month: "March", likes: 237, views: 120 },
-  { month: "April", likes: 73, views: 190 },
-  { month: "May", likes: 209, views: 130 },
-  { month: "June", likes: 214, views: 140 },
-];
-const chartConfig = {
-  likes: {
-    label: "Likes",
-    color: "hsl(var(--chart-1))",
-  },
-  views: {
-    label: "Views",
-    color: "hsl(var(--chart-2))",
-  },
-} satisfies ChartConfig;
+import { EpisodesStatistics } from "@/types/statistics";
 
-const LastFiveFirstSevenDaysChart = () => {
+const LastFiveFirstSevenDaysChart = ({
+  five_latest_episodes,
+}: {
+  five_latest_episodes: EpisodesStatistics[];
+}) => {
+  const chartData = [
+    {
+      day: "1",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[0]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[0]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[0]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[0]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[0]
+        ] || 0,
+    },
+    {
+      day: "2",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[1]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[1]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[1]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[1]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[1]
+        ] || 0,
+    },
+    {
+      day: "3",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[2]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[2]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[2]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[2]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[2]
+        ] || 0,
+    },
+    {
+      day: "4",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[3]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[3]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[3]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[3]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[3]
+        ] || 0,
+    },
+    {
+      day: "5",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[4]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[4]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[4]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[4]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[4]
+        ] || 0,
+    },
+    {
+      day: "6",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[5]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[5]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[5]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[5]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[5]
+        ] || 0,
+    },
+    {
+      day: "7",
+      episode1:
+        five_latest_episodes[0]?.daily_views[
+          Object.keys(five_latest_episodes[0]?.daily_views)[6]
+        ] || 0,
+      episode2:
+        five_latest_episodes[1]?.daily_views[
+          Object.keys(five_latest_episodes[1]?.daily_views)[6]
+        ] || 0,
+      episode3:
+        five_latest_episodes[2]?.daily_views[
+          Object.keys(five_latest_episodes[2]?.daily_views)[6]
+        ] || 0,
+      episode4:
+        five_latest_episodes[3]?.daily_views[
+          Object.keys(five_latest_episodes[3]?.daily_views)[6]
+        ] || 0,
+      episode5:
+        five_latest_episodes[4]?.daily_views[
+          Object.keys(five_latest_episodes[4]?.daily_views)[6]
+        ] || 0,
+    },
+  ];
+
+  const chartConfig = {
+    episode1: {
+      label: five_latest_episodes[0]?.podcast.name,
+      color: "hsl(var(--chart-1))",
+    },
+    episode2: {
+      label: five_latest_episodes[1]?.podcast.name,
+      color: "hsl(var(--chart-2))",
+    },
+    episode3: {
+      label: five_latest_episodes[2]?.podcast.name,
+      color: "hsl(var(--chart-3))",
+    },
+    episode4: {
+      label: five_latest_episodes[3]?.podcast.name,
+      color: "hsl(var(--chart-4))",
+    },
+    episode5: {
+      label: five_latest_episodes[4]?.podcast.name,
+      color: "hsl(var(--chart-5))",
+    },
+  } satisfies ChartConfig;
+
   return (
     <ChartContainer config={chartConfig} className="w-full h-full">
       <AreaChart
@@ -38,7 +212,7 @@ const LastFiveFirstSevenDaysChart = () => {
       >
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="day"
           tickLine={false}
           axisLine={false}
           tickMargin={8}
@@ -47,19 +221,43 @@ const LastFiveFirstSevenDaysChart = () => {
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Area
-          dataKey="views"
+          dataKey="episode5"
           type="natural"
-          fill="var(--color-views)"
+          fill="var(--color-episode5)"
           fillOpacity={0.4}
-          stroke="var(--color-views)"
+          stroke="var(--color-episode5)"
           stackId="a"
         />
         <Area
-          dataKey="likes"
+          dataKey="episode4"
           type="natural"
-          fill="var(--color-likes)"
+          fill="var(--color-episode4)"
           fillOpacity={0.4}
-          stroke="var(--color-likes)"
+          stroke="var(--color-episode4)"
+          stackId="a"
+        />
+        <Area
+          dataKey="episode3"
+          type="natural"
+          fill="var(--color-episode3)"
+          fillOpacity={0.4}
+          stroke="var(--color-episode3)"
+          stackId="a"
+        />
+        <Area
+          dataKey="episode2"
+          type="natural"
+          fill="var(--color-episode2)"
+          fillOpacity={0.4}
+          stroke="var(--color-episode2)"
+          stackId="a"
+        />
+        <Area
+          dataKey="episode1"
+          type="natural"
+          fill="var(--color-episode1)"
+          fillOpacity={0.4}
+          stroke="var(--color-episode1)"
           stackId="a"
         />
       </AreaChart>

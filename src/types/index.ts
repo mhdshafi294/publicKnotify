@@ -15,3 +15,10 @@ export type ApiResponse = {
 export type ApiResponseWithPagination = ApiResponse & {
   pagination: Pagination;
 };
+
+export type TranslationsType = {
+  id: number;
+  [key: string]: string | number;
+  locale: string;
+  name: string;
+};

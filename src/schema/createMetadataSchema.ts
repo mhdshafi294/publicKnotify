@@ -42,9 +42,7 @@ export const createMetadataSchema = z
     name: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.name" }),
-    eposide_url: z
-      .string()
-      .min(1, { message: "createMetadataSchema.errorMessage.name" }),
+    episode_url: z.string(),
     summary: z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.summary" })
@@ -64,9 +62,7 @@ export const createMetadataSchema = z
     publishing_time: z.string().refine((val) => timeRegex.test(val), {
       message: "createMetadataSchema.errorMessage.invalidTimeFormat",
     }),
-    company_tag: z
-      .string()
-      .min(1, { message: "createMetadataSchema.errorMessage.companyTag" }),
+    company_tag: z.string(),
     thumbnail: fileOrUrlSchema.optional(),
     background: fileOrUrlSchema.optional(),
     play_list_id: z.string(),

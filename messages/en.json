@@ -245,6 +245,7 @@
         "thumbnail-invalid-type": "Invalid thumbnail type",
         "background-invalid-type": "Invalid background type",
         "thumbnail-size": "Thumbnail size must be less than 4MB",
+        "thumbnail-type": "file type must be image",
         "background-size": "Background size must be less than 4MB",
         "explicit_language": "Explicit language is required"
       }
@@ -337,7 +338,43 @@
     "footerLabel": "Episodic Footer",
     "footerPlaceholder": "Episodic Footer",
     "recastBorderColor": "Recast Border Color",
-    "Index": "Index"
+    "Index": "Index",
+    "all_time_views": "All-Time Views",
+    "top-country": "Top Country",
+    "most-popular-time": "Most Popular Time",
+    "view-analytics": "View Analytics",
+    "most-popular-day": "Most Popular Day",
+    "analytics-overview": "Analytics Overview",
+    "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "The Audience Overview has the at-a-glance analytics you need to start understanding your show’s performance",
+    "error-message": {
+      "title": "title field is required",
+      "description": "description field is required",
+      "categories": "categories field is required",
+      "authors": "authors field is required",
+      "tags": "tags field is required",
+      "type": "type field is required",
+      "show-owner": "show owner field is required",
+      "owner_email": "owner email field is required",
+      "email-invalid": "Invalid email address",
+      "copyright": "copyright field is required"
+    },
+    "create-show-category": {
+      "title": "04. Categorization"
+    },
+    "category": {
+      "description": "At least one category is required to create your show. These are used by podcast apps, like Apple Podcasts to categorize the show for listeners to discover."
+    },
+    "create_show": "create new show",
+    "view_all_shows": "view all shows",
+    "downloads-today": "Downloads Today",
+    "5-latest-episodes": "5 Latest Episodes",
+    "first-7-days-since-release": "First 7 Days Since Release",
+    "youtube-analytics": "YouTube Analytics",
+    "an-overview-of-your-youtube-chanel-performance-regarding-this-show": "An overview of your YouTube chanel performance regarding this show.",
+    "all-time-views": "All-Time Views",
+    "subscriber-count": "Subscriber Count",
+    "hidden-subscriber-count": "Hidden Subscriber Count",
+    "video-count": "Video Count"
   },
   "notifications": {
     "notifications": "notifications"
