@@ -373,7 +373,13 @@
     "hidden-subscriber-count": "عدد المشتركين المخفي",
     "subscriber-count": "عدد المشتركين",
     "Dashboard": "لوحة التحكم",
-    "views-today": "مشاهدات اليوم"
+    "views-today": "مشاهدات اليوم",
+    "select_show_here": "Select a show here",
+    "get_started": "لنبدأ بإضافة عرض",
+    "get_started_description": "سواء كنت تبدأ من الصفر أو تستورد من منصة أخرى ، نحن نوفر لك الدعم",
+    "import_existing_show": "استيراد عرض موجود",
+    "start_from_scratch": "ابدأ من الصفر",
+    "show-page": "عرض الصفحة"
   },
   "notifications": {
     "notifications": "notifications"

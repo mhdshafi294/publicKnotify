@@ -3,7 +3,7 @@ import SelectPopover from "@/components/select-popver";
 import { axiosPublicInstance } from "@/lib/axios.config";
 import { CategoryDetails, CategoryResponse } from "@/types/podcast";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 type PropsType = {
@@ -15,18 +15,25 @@ type PropsType = {
 const SelectCategory: FC<PropsType> = ({ label, index, query }) => {
   const form = useFormContext();
   const formFieldName = `categories1.${index}`;
-  const watch = form.watch(formFieldName);
+  const selectedCategoryWatch = form.watch(formFieldName);
+
+  console.log(selectedCategoryWatch, "<<<<<<<<<<<<<<<<<<<watch");
 
   const categoryQuery = useQuery({
-    queryKey: ["categories", formFieldName],
+    queryKey: ["categories", { formFieldName, watch: selectedCategoryWatch }],
     queryFn: async () => {
       const { data } = await axiosPublicInstance.get<CategoryResponse>(
-        `/api/categories?category_id=${watch}`
+        `/api/categories?category_id=${selectedCategoryWatch}`
       );
       return data.categories;
     },
-    enabled: !!watch,
+    enabled: !!selectedCategoryWatch,
   });
+
+  useEffect(() => {
+    form.setValue(`categories.${index}`, undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategoryWatch]);
 
   return (
     <div className="w-full">
@@ -37,7 +44,7 @@ const SelectCategory: FC<PropsType> = ({ label, index, query }) => {
           disabled={query.isError || query.isLoading}
           isError={query.isError}
           isPending={query.isPending}
-          formFieldName={`categories1.${index}`}
+          formFieldName={formFieldName}
           itemIdKey="id"
           itemNameKey="name"
           items={query.data || []}
@@ -51,7 +58,11 @@ const SelectCategory: FC<PropsType> = ({ label, index, query }) => {
           items={categoryQuery.data || []}
           isPending={categoryQuery.isPending}
           isError={categoryQuery.isError}
-          disabled={!watch ||categoryQuery.isError || categoryQuery.isLoading}
+          disabled={
+            !selectedCategoryWatch ||
+            categoryQuery.isError ||
+            categoryQuery.isLoading
+          }
           label=""
         />
       </div>

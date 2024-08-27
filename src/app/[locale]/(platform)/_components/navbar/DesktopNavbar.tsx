@@ -1,29 +1,42 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { SearchIcon } from "lucide-react";
+
 import { LanguageSwitcher } from "@/components/language-switcher";
 import NotificationsPopover from "@/components/notifications-popover";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNavLinks } from "@/config/links";
 import { cn } from "@/lib/utils";
-import { Link, usePathname } from "@/navigation";
-import { useSession } from "next-auth/react";
+import { Link } from "@/navigation";
 import UserOptions from "./user-0ptions";
-import { SearchIcon } from "lucide-react";
-import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { Playlist } from "@/types/podcast";
 
-const DesktopNavbar = () => {
+/**
+ * The DesktopNavbar component renders the navigation bar for larger screens.
+ *
+ * It includes user options, notifications, language switching, and links based on the user's role.
+ *
+ * @param {Object} props - Component props.
+ * @param {Playlist[]} [props.playlists] - The optional list of playlists to display in the navigation links.
+ *
+ * @returns {JSX.Element} The rendered DesktopNavbar component.
+ */
+const DesktopNavbar = ({
+  playlists,
+}: {
+  playlists?: Playlist[];
+}): JSX.Element => {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [searchText, setSearchText] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const params = useParams();
   const t = useTranslations("Index");
-
-  // console.log(params.showId, "<<<<<<<<");
-  // console.log(pathname.lastIndexOf("/"), "<<<<<<<<");
 
   useEffect(() => {
     const updatedSearchText = searchParams.get("podcasterId");
@@ -48,7 +61,13 @@ const DesktopNavbar = () => {
             return (
               <Link
                 key={link.id}
-                href={`/${session?.user?.type}${link.href}`}
+                href={
+                  params.showId
+                    ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
+                    : playlists
+                    ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
+                    : `/`
+                }
                 className={cn(
                   buttonVariants({
                     variant:
@@ -69,11 +88,14 @@ const DesktopNavbar = () => {
               <Link
                 key={link.href}
                 href={
-                  link.label !== "Dashboard"
-                    ? `/${session?.user?.type}${link.href}`
-                    : params.showId !== undefined
-                    ? `/${session?.user?.type}${link.href}/${params.showId}`
-                    : `/${session?.user?.type}/`
+                  link.label === "Dashboard"
+                    ? params.showId !== undefined
+                      ? `/${session?.user?.type}${link.href}/${params.showId}`
+                      : `/${session?.user?.type}/`
+                    : link.label === "Statistics" &&
+                      session?.user?.type === "podcaster"
+                    ? `/podcasters/shows/${params.showId}/analytics`
+                    : `/${session?.user?.type}${link.href}`
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),

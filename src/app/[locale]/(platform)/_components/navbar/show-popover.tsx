@@ -1,5 +1,16 @@
 "use client";
 
+import React, { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import {
+  ChevronDown,
+  LayoutDashboard,
+  PlusSquare,
+  Settings,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -10,20 +21,22 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { Playlist } from "@/types/podcast";
-import {
-  ChevronDown,
-  LayoutDashboard,
-  PlusSquare,
-  Settings,
-} from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import Image from "next/image";
-import { useParams } from "next/navigation";
-import { useState } from "react";
 
-const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
+/**
+ * The ShowPopover component displays a dropdown-style popover menu
+ * allowing the user to switch between different playlists, view settings, or create a new show.
+ *
+ * The component uses a combination of popovers and buttons to manage user interactions
+ * and display relevant playlists in the UI.
+ *
+ * @param {Object} props - Component props.
+ * @param {Playlist[]} props.playlists - The list of available playlists to display.
+ *
+ * @returns {JSX.Element} The rendered ShowPopover component.
+ */
+const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
   const [openPopover, setOpenPopover] = useState(false);
-  const paramas = useParams();
+  const params = useParams();
   const locale = useLocale();
   const t = useTranslations("Index");
 
@@ -47,18 +60,14 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover h-10 w-14"
                 src={
-                  playlists.find(
-                    (show) => show.id.toString() === paramas.showId
-                  )?.image || "/draftC.png"
+                  playlists.find((show) => show.id.toString() === params.showId)
+                    ?.image || "/draftC.png"
                 }
                 alt="show image preview"
               />
-              <p className="text-base">
-                {
-                  playlists.find(
-                    (show) => show.id.toString() === paramas.showId
-                  )?.name
-                }
+              <p className="text-sm font-bold">
+                {playlists.find((show) => show.id.toString() === params.showId)
+                  ?.name || t("select_show_here")}
               </p>
               <ChevronDown className="size-4" />
             </span>
@@ -69,6 +78,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
           alignOffset={0}
           className="border p-0 border-foreground/20"
         >
+          {/* Current Playlist Details */}
           <div className="w-full px-4 py-3 flex justify-between items-center">
             <div className="flex justify-start items-center gap-3">
               <Image
@@ -76,9 +86,8 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
                 height={36}
                 className="object-cover h-9 w-12"
                 src={
-                  playlists.find(
-                    (show) => show.id.toString() === paramas.showId
-                  )?.image || "/draftC.png"
+                  playlists.find((show) => show.id.toString() === params.showId)
+                    ?.image || "/draftC.png"
                 }
                 alt="show image preview"
               />
@@ -86,14 +95,14 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
                 <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200">
                   {
                     playlists.find(
-                      (show) => show.id.toString() === paramas.showId
+                      (show) => show.id.toString() === params.showId
                     )?.name
                   }
                 </p>
                 <p className="leading-4 text-sm text-foreground/60">
                   {
                     playlists.find(
-                      (show) => show.id.toString() === paramas.showId
+                      (show) => show.id.toString() === params.showId
                     )?.owner_email
                   }
                 </p>
@@ -106,7 +115,10 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
               <Settings className="size-5" />
             </Button>
           </div>
+
           <Separator className="bg-foreground/20" />
+
+          {/* Playlist Links */}
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
             {playlists.slice(0, 5).map((playlist) => (
               <Link
@@ -146,9 +158,16 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }) => {
               </span>
             </Link>
           </div>
+
           <Separator className="bg-foreground/20" />
+
+          {/* Create New Show Link */}
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
-            <Link passHref href="/podcaster/shows/new" className="w-full group">
+            <Link
+              passHref
+              href="/podcaster/shows/create"
+              className="w-full group"
+            >
               <span className="flex justify-start items-center gap-4">
                 <PlusSquare
                   strokeWidth={1}

@@ -37,7 +37,7 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Statistics",
-    href: "/shows/1/analytics",
+    href: "statistics",
   },
   {
     label: "Favorite",
@@ -45,6 +45,6 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Add Podcast",
-    href: "/shows/1/publish",
+    href: "/publish",
   },
 ].map((link, index) => ({ ...link, id: index + 1 }));
