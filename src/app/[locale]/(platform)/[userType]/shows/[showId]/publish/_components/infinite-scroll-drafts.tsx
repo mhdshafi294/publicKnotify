@@ -22,6 +22,7 @@ interface InfiniteScrollDraftsProps {
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
   search?: string;
   is_published?: number;
+  showId?: string;
 }
 
 /**
@@ -40,6 +41,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   setIsShow,
   search,
   is_published = 0,
+  showId,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [currentPodcastId, setCurrentPodcastId] = useState<string | null>(null);
@@ -74,7 +76,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["podcastsDrafts", { search, is_published }],
+    queryKey: ["podcastsDrafts", { search, is_published, showId }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: SelfPodcastsDetailsResponse = await getSelfPodcastsAction(
         {
@@ -82,6 +84,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
           search,
           is_published,
           page: pageParam.toString(),
+          playlist_id: showId,
         }
       );
       return {

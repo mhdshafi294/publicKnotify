@@ -1,16 +1,24 @@
 "use client";
 
-import { CreateShowSchema } from "@/schema/showsSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import ShowInfoSection from "./show-info-section";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateShowSchema } from "@/schema/showsSchema";
 import { Form } from "@/components/ui/form";
+import ShowInfoSection from "./show-info-section";
 import ShowArtworkSection from "./show-artwork-section";
 import FormatSection from "./format-section";
 import CategorizationSection from "./categorization-section";
 import OwnerDetailsSection from "./owner-details-section";
 
-const CreateShowContainer = () => {
+/**
+ * The CreateShowContainer component handles the form logic and layout for creating a new show.
+ * It includes sections for show information, artwork, format, categorization, and owner details.
+ * The form is validated using Zod and React Hook Form.
+ *
+ * @returns {JSX.Element} The rendered CreateShowContainer component.
+ */
+const CreateShowContainer: React.FC = () => {
   const form = useForm<CreateShowSchema>({
     resolver: zodResolver(CreateShowSchema),
     defaultValues: {

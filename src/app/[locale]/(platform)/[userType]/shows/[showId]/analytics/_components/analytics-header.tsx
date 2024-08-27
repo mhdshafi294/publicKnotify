@@ -1,14 +1,25 @@
 import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
-import { ShowStatistics, ShowViewsStatistics } from "@/types/statistics";
+import { ShowStatistics } from "@/types/statistics";
 import { useTranslations } from "next-intl";
 
+/**
+ * The AnalyticsHeader component displays key statistics for a show in a summary view.
+ *
+ * It includes metrics such as all-time views, views today, views over the last 7 days, and unique listeners.
+ *
+ * @param {Object} props - Component props.
+ * @param {ShowStatistics} props.showStatistics - The statistics data for the show.
+ *
+ * @returns {JSX.Element} The rendered AnalyticsHeader component.
+ */
 const AnalyticsHeader = ({
   showStatistics,
 }: {
   showStatistics: ShowStatistics;
-}) => {
+}): JSX.Element => {
   const t = useTranslations("Index");
+
   return (
     <DashboardCardContainer className="w-full flex gap-3">
       <div className="w-full flex flex-col gap-1 justify-between">
@@ -20,30 +31,30 @@ const AnalyticsHeader = ({
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">
-          {t("views-today")}
-        </h2>
+        <h2 className="text-base font-bold opacity-50">{t("views_today")}</h2>
         <p className="font-bold text-xl capitalize">
           {showStatistics?.playlist_statistics?.today_views}
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
         <h2 className="text-base font-bold opacity-50">
-          Last 7 Days (Including Today)
+          {t("last_7_days_including_today")}
         </h2>
         <p className="font-bold text-xl">
           {showStatistics?.playlist_statistics?.last_7_days_views}
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">Previous 7 Days</h2>
+        <h2 className="text-base font-bold opacity-50">
+          {t("previous_7_days")}
+        </h2>
         <p className="font-bold text-xl">
           {showStatistics?.playlist_statistics?.previous_7_days_views}
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
         <h2 className="text-base font-bold opacity-50">
-          Unique Listeners Last 7 Days
+          {t("unique_listeners_last_7_days")}
         </h2>
         <p className="font-bold text-xl">
           {showStatistics?.playlist_statistics?.unique_listeners_last_7_days}

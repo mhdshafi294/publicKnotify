@@ -247,15 +247,24 @@ export const getSelfPodcastsAction = async ({
   count = "24",
   search,
   is_published,
+  playlist_id,
   type,
 }: {
   page?: string;
   count?: string;
   search?: string;
   is_published?: number;
+  playlist_id?: string;
   type: string;
 }) => {
-  return await getSelfPodcasts({ page, count, search, is_published, type });
+  return await getSelfPodcasts({
+    page,
+    count,
+    search,
+    is_published,
+    type,
+    playlist_id,
+  });
 };
 
 /**

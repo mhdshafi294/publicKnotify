@@ -1,20 +1,30 @@
-import { PlaylistResponse } from "@/types/podcast";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
 type DashboardSidebarProps = {
   imgSrc: string;
-  tile: string;
+  title: string;
   description: string;
   episodesCount: number;
 };
 
+/**
+ * The DashboardSidebar component displays the sidebar content for the dashboard,
+ * including the show image, title, description, and the number of episodes.
+ *
+ * @param {DashboardSidebarProps} props - The props for the component.
+ * @param {string} props.imgSrc - The source URL for the show image.
+ * @param {string} props.title - The title of the show.
+ * @param {string} props.description - A brief description of the show.
+ * @param {number} props.episodesCount - The total number of episodes available for the show.
+ *
+ * @returns {JSX.Element} The rendered DashboardSidebar component.
+ */
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   imgSrc,
-  tile,
+  title,
   description,
   episodesCount,
-  ...props
 }) => {
   return (
     <aside className="bg-card-secondary w-full xl:w-80 flex xl:flex-col p-8 xl:pt-16 gap-5">
@@ -28,7 +38,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         />
       </div>
       <div className="flex flex-col gap-5">
-        <h2 className="text-xl font-bold">{tile}</h2>
+        <h2 className="text-xl font-bold">{title}</h2>
         <p className="opacity-50 font-light">{description}</p>
         <p className="opacity-75 font-bold">{episodesCount} episodes</p>
       </div>

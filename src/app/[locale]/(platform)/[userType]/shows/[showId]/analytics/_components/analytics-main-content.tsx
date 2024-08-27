@@ -11,15 +11,28 @@ import {
 } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
 
+/**
+ * The AnalyticsMainContent component is responsible for rendering the main content of the analytics page.
+ *
+ * It displays various statistics about a show, including views over time, performance of the latest episodes,
+ * and YouTube channel analytics if applicable.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.params - Route parameters containing user type and show ID.
+ * @param {Object} props.searchParams - Query string parameters for filtering or additional actions.
+ *
+ * @returns {Promise<JSX.Element>} The rendered AnalyticsMainContent component.
+ */
 const AnalyticsMainContent = async ({
   params,
   searchParams,
 }: {
   params: { userType: string; showId: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}): Promise<JSX.Element> => {
   const t = await getTranslations("Index");
 
+  // Fetch show views statistics
   const showViews = await getShowViewsStatisticsAction({
     start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     end_date: new Date().toISOString(),
@@ -27,6 +40,7 @@ const AnalyticsMainContent = async ({
     type: "podcaster",
   });
 
+  // Fetch show general statistics
   const showStatistics = await getShowStatisticsAction({
     show_id: params.showId,
     type: "podcaster",
@@ -43,7 +57,10 @@ const AnalyticsMainContent = async ({
           .
         </p>
       </header>
+      {/* Overview Header */}
       <AnalyticsHeader showStatistics={showStatistics} />
+
+      {/* All Time Views Chart */}
       <div className="w-full h-[637px]">
         <ViewsChartCard
           title={t("all_time_views")}
@@ -52,6 +69,8 @@ const AnalyticsMainContent = async ({
           chart={<MostViewsChart showViews={showViews} />}
         />
       </div>
+
+      {/* Performance of Last Five Episodes in First Seven Days */}
       <div className="w-full h-[637px]">
         <LastFiveFirstSevenDaysChartCard
           params={params}
@@ -63,7 +82,8 @@ const AnalyticsMainContent = async ({
           }
         />
       </div>
-      <AnalyticsYoutube />
+      {/* YouTube Channel Analytics */}
+      <AnalyticsYoutube youtube_channel={showStatistics.youtube_channel} />
     </main>
   );
 };

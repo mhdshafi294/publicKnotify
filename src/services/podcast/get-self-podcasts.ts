@@ -7,12 +7,14 @@ const getSelfPodcasts = async ({
   count,
   search,
   is_published,
+  playlist_id,
   type,
 }: {
   page: string;
   count: string;
   search?: string;
   is_published?: number;
+  playlist_id?: string;
   type: string;
 }) => {
   // console.log(is_published);
@@ -24,6 +26,7 @@ const getSelfPodcasts = async ({
         count,
         search,
         is_published,
+        playlist_id,
       },
     }
   );
