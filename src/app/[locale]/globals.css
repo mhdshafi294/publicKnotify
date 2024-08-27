@@ -160,6 +160,71 @@
   max-height: var(--radix-popover-content-available-height);
 }
 
+/* General panel background and rounded corners */
+audio::-webkit-media-controls-panel {
+  background-color: hsl(var(--border-secondary)); /* Use your card color */
+  border-radius: 9999px; /* Fully rounded corners */
+  padding: 0.5rem; /* Adds some padding for spacing */
+}
+
+/* Styling play, mute, and other control buttons */
+audio::-webkit-media-controls-play-button,
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-seek-back-button,
+audio::-webkit-media-controls-seek-forward-button {
+  filter: brightness(0.9); /* Slightly darkens controls */
+  border-radius: 50%; /* Rounds the buttons */
+}
+
+/* Timeline Container */
+audio::-webkit-media-controls-timeline-container {
+  background-color: hsl(var(--border-secondary)); /* Your border color */
+  border-radius: 0.25rem;
+}
+
+/* Volume Slider Styling */
+audio::-webkit-media-controls-volume-slider-container {
+  background-color: hsl(var(--input));
+  border-radius: 0.25rem;
+}
+
+/* Hover Effects */
+audio::-webkit-media-controls-play-button:hover,
+audio::-webkit-media-controls-mute-button:hover {
+  filter: brightness(1.1); /* Brightens slightly on hover */
+}
+
+/* Current Time and Time Remaining Styling */
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: hsl(var(--foreground)); /* Foreground color */
+  font-size: 0.875rem;
+}
+/* Styling for time display elements */
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+  color: hsl(var(--foreground)); /* Use your foreground color */
+  font-size: 0.875rem; /* Adjust to ensure readability */
+  font-weight: 500; /* Slightly reduce the font weight */
+  text-shadow: none; /* Remove any potential text shadows */
+  opacity: 0.7; /* Ensure full opacity without any blending */
+}
+/* Remove border and shadow from the media controls panel */
+audio::-webkit-media-controls-panel {
+  background-color: hsl(var(--card)); /* Ensure consistent background color */
+  border: none; /* Remove any borders */
+  box-shadow: none; /* Remove any shadows */
+  border-radius: 9999px; /* Fully round the corners without causing overflow */
+  padding: 0.5rem;
+}
+
+/* Additional tweak to ensure no unwanted effects */
+audio {
+  border: none; /* Remove border from the audio element itself */
+  outline: none; /* Remove any outlines */
+  box-shadow: none; /* Remove any shadows */
+}
+
 /* Loading spinner styles */
 .loading {
   @apply pointer-events-none inline-block;

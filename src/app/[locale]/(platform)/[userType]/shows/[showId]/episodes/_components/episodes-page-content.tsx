@@ -1,11 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import InfiniteScrollDrafts from "./infinite-scroll-episodes";
 import { useTranslations } from "next-intl";
+
 const EpisodesPageContent = ({
   params,
   searchParams,

@@ -42,6 +42,8 @@ const Loading = () => {
             alt="Knotify logo"
             width={73}
             height={21}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className=" object-cover"
           />
         </span>
         <span className="loading-text-words animate-blur-2 blur">n</span>

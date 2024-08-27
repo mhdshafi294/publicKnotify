@@ -57,15 +57,15 @@ const Player = () => {
   useEffect(() => {
     const audioElement = ref.current;
     if (data && !isPending && !isError) {
-      console.log(data, "<<<<<<<<<<<player data");
+      // console.log(data, "<<<<<<<<<<<player data");
       if (audioElement) {
         const handleCanPlayThrough = () => {
           setIsLoaded(true);
           setIsLoading(false);
-          console.log(
-            data?.playback_position?.current_position,
-            "<<<<<<<<<<<<<<current_position"
-          );
+          // console.log(
+          //   data?.playback_position?.current_position,
+          //   "<<<<<<<<<<<<<<current_position"
+          // );
           audioElement.play();
           setIsPlaying(true);
         };
@@ -76,10 +76,10 @@ const Player = () => {
         );
         audioElement.addEventListener("loadeddata", () => {
           setDuration(audioElement.duration);
-          console.log(
-            data?.playback_position?.current_position,
-            "<<<<<<<<<<<<<<current_position loadeddata"
-          );
+          // console.log(
+          //   data?.playback_position?.current_position,
+          //   "<<<<<<<<<<<<<<current_position loadeddata"
+          // );
           audioElement.currentTime =
             data?.playback_position?.current_position || 0;
           setCurrentTime(data?.playback_position?.current_position || 0);

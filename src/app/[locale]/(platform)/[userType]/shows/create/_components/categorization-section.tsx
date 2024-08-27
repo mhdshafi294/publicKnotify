@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 const CategorizationSection = () => {
   const form = useFormContext<CreateShowSchema>();
   const t = useTranslations("Index");
-  console.log(form.formState.errors)
+  console.log(form.formState.errors);
 
   const categoryQuery = useQuery({
     queryKey: ["categories"],
@@ -28,8 +28,8 @@ const CategorizationSection = () => {
       <p>{t("category.description")}</p>
       <div className="grid grid-cols-1 gap-x-4 gap-y-8">
         <SelectCategory label="1st Category" query={categoryQuery} index={0} />
-        <SelectCategory label="2st Category" query={categoryQuery} index={1} />
-        <SelectCategory label="3st Category" query={categoryQuery} index={2} />
+        <SelectCategory label="2nd Category" query={categoryQuery} index={1} />
+        <SelectCategory label="3rd Category" query={categoryQuery} index={2} />
         {form.formState.errors.categories?.message ? (
           <p className="text-red-500">
             {t(form.formState.errors.categories?.message)}

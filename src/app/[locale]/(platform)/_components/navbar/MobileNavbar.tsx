@@ -1,6 +1,17 @@
 "use client";
 
+import React from "react";
 import { signOut, useSession } from "next-auth/react";
+import { useParams, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import {
+  AlignJustifyIcon,
+  BellRingIcon,
+  LogOutIcon,
+  SettingsIcon,
+  User,
+} from "lucide-react";
+
 import {
   Sheet,
   SheetContent,
@@ -9,26 +20,35 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  AlignJustifyIcon,
-  BellRingIcon,
-  LogOutIcon,
-  SettingsIcon,
-  User,
-} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { mainNavLinks } from "@/config/links";
-import { Link, usePathname } from "@/navigation";
+import { Link } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { useTranslations } from "next-intl";
 import useNotificationStore from "@/store/use-notification-store";
+import { Playlist } from "@/types/podcast";
 
-const MobileNavbar = () => {
+/**
+ * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
+ *
+ * This component includes a sliding drawer with user information, navigation links, settings, and language switcher.
+ * It is designed specifically for smaller screen sizes and hides itself on larger screens.
+ *
+ * @param {Object} props - Component props.
+ * @param {Playlist[]} [props.playlists] - The optional list of playlists to display in the navigation links.
+ *
+ * @returns {JSX.Element} The rendered MobileNavbar component.
+ */
+const MobileNavbar = ({
+  playlists,
+}: {
+  playlists?: Playlist[];
+}): JSX.Element => {
   const { data: session } = useSession();
   const pathname = usePathname();
+  const params = useParams();
   const t = useTranslations("Index");
   const isOpen = useNotificationStore((state) => state.isOpen);
   const setIsOpen = useNotificationStore((state) => state.setIsOpen);
@@ -74,22 +94,45 @@ const MobileNavbar = () => {
                   return (
                     <Link
                       key={link.href}
-                      href={`/${session?.user?.type}${link.href}`}
+                      href={
+                        link.label === "Dashboard"
+                          ? params.showId !== undefined
+                            ? `/${session?.user?.type}${link.href}/${params.showId}`
+                            : `/${session?.user?.type}/`
+                          : link.label === "Statistics" &&
+                            session?.user?.type === "podcaster"
+                          ? `/podcasters/shows/${params.showId}/analytics`
+                          : `/${session?.user?.type}${link.href}`
+                      }
                       className={cn(
                         buttonVariants({ variant: "link" }),
                         "text-white p-0 no-underline hover:no-underline ",
                         {
                           "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
                             (pathname.includes(link.href) &&
-                              link.href !== "/") ||
+                              link.href !== "/" &&
+                              link.href !== "/shows") ||
                             (link.href === "/" &&
-                              pathname.lastIndexOf("/") === 0),
+                              pathname.lastIndexOf("/") === 0) ||
+                            (link.href === "/shows" &&
+                              pathname.lastIndexOf("/") === 16),
                         },
                         {
                           hidden:
                             session?.user?.type === "user" &&
-                            (t(link.label) === t("requests") ||
-                              t(link.label) === t("statistics")),
+                            (link.label === "Requests" ||
+                              link.label === "Statistics"),
+                        },
+                        {
+                          hidden:
+                            session?.user?.type === "user" ||
+                            (session?.user?.type === "company" &&
+                              link.label === "Dashboard"),
+                        },
+                        {
+                          hidden:
+                            session?.user?.type === "podcaster" &&
+                            link.label === "Home",
                         }
                       )}
                     >
@@ -102,7 +145,13 @@ const MobileNavbar = () => {
                 } else {
                   <Link
                     key={link.href}
-                    href={`/${session?.user?.type}${link.href}`}
+                    href={
+                      params.showId
+                        ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
+                        : playlists
+                        ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
+                        : `/`
+                    }
                     className={cn(
                       buttonVariants({ variant: "link" }),
                       "text-white p-0 no-underline hover:no-underline ",

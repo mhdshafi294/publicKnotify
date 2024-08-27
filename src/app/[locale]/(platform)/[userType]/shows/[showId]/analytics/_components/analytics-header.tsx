@@ -21,7 +21,7 @@ const AnalyticsHeader = ({
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
         <h2 className="text-base font-bold opacity-50">
-          {t("downloads-today")}
+          {t("views-today")}
         </h2>
         <p className="font-bold text-xl capitalize">
           {showStatistics?.playlist_statistics?.today_views}

@@ -28,12 +28,16 @@ export const mainNavLinks: Link[] = [
     href: "/",
   },
   {
+    label: "Dashboard",
+    href: "/shows",
+  },
+  {
     label: "Requests",
     href: "/requests",
   },
   {
     label: "Statistics",
-    href: "/shows/1/analytics",
+    href: "statistics",
   },
   {
     label: "Favorite",
@@ -41,6 +45,6 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Add Podcast",
-    href: "/shows/1/publish",
+    href: "/publish",
   },
 ].map((link, index) => ({ ...link, id: index + 1 }));

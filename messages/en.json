@@ -374,7 +374,17 @@
     "all-time-views": "All-Time Views",
     "subscriber-count": "Subscriber Count",
     "hidden-subscriber-count": "Hidden Subscriber Count",
-    "video-count": "Video Count"
+    "video-count": "Video Count",
+    "Dashboard": "Dashboard",
+    "views-today": "Views Today",
+    "select_show_here": "Select a show here",
+    "get_started": "Let’s get started by adding a show",
+    "get_started_description": "Whether you’re starting from scratch or importing from another platform, we’ve got you covered",
+    "import_existing_show": "Import Existing Show",
+    "start_from_scratch": "Start from scratch",
+    "show-page": "Show Page",
+    "show-dashboard": "Show Dashboard",
+    "shows-table": "Shows Table"
   },
   "notifications": {
     "notifications": "notifications"
