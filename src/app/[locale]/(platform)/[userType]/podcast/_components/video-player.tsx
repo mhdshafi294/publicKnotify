@@ -11,6 +11,11 @@ interface VideoPlayerProps {
   podcastId: number;
   thumbnail: string;
   src: string;
+  playback_position: {
+    id: number;
+    current_position: number;
+    total_time: number;
+  } | null;
 }
 
 /**
@@ -23,7 +28,12 @@ interface VideoPlayerProps {
  * @param {string} thumbnail - The URL of the podcast thumbnail.
  * @param {string} src - The URL of the podcast media.
  */
-const VideoPlayer: FC<VideoPlayerProps> = ({ podcastId, thumbnail, src }) => {
+const VideoPlayer: FC<VideoPlayerProps> = ({
+  podcastId,
+  thumbnail,
+  src,
+  playback_position,
+}) => {
   const { data: session } = useSession(); // Access session data using NextAuth
   const videoRef = useRef<HTMLVideoElement>(null); // Create a ref for the video element
 
@@ -48,28 +58,39 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ podcastId, thumbnail, src }) => {
 
   // Function to handle saving playback progress
   const handleSavePlayback = () => {
-    try {
-      server_savePlaybackAction({
-        type: session?.user?.type!,
-        id: podcastId.toString(),
-        current_position: parseInt(currentTime.toString()),
-        total_time: parseInt(duration.toString()),
-      });
-    } catch (error) {
-      console.error("Error saving the playback:", error);
+    if (session?.user?.type && podcastId) {
+      try {
+        server_savePlaybackAction({
+          type: session.user.type,
+          id: podcastId.toString(),
+          current_position: parseInt(currentTime.toString()),
+          total_time: parseInt(duration.toString()),
+        });
+      } catch (error) {
+        console.error("Error saving the playback:", error);
+      }
+      setPodcastId(null); // Reset podcast ID in the store
+    } else {
+      console.error("User type or Podcast ID is missing.");
     }
-    setPodcastId(null); // Reset podcast ID in the store
   };
 
   useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = playback_position?.current_position
+        ? playback_position.current_position
+        : 0; // Set initial playback time
+    }
+  }, []);
+
+  useEffect(() => {
     setIsRunning(false); // Ensure the player is not running initially
-    setPodcastId(podcastId); // Set the current podcast ID in the store
+    setPodcastId(null); // Set the current podcast ID in the store
 
     if (videoRef.current) {
-      videoRef.current.currentTime = currentTime; // Set initial playback time
-
       // Set duration and update current time on loaded metadata
       videoRef.current.addEventListener("loadedmetadata", () => {
+        videoRef.current?.play();
         setDuration(videoRef.current?.duration || 0);
       });
 
@@ -82,6 +103,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ podcastId, thumbnail, src }) => {
       videoRef.current.addEventListener("pause", handleSavePlayback);
       videoRef.current.addEventListener("ended", handleSavePlayback);
       videoRef.current.addEventListener("seeked", handleSavePlayback);
+      videoRef.current.addEventListener("suspend", handleSavePlayback);
     }
 
     // Clean up event listeners on unmount
@@ -92,6 +114,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({ podcastId, thumbnail, src }) => {
         videoRef.current.removeEventListener("pause", handleSavePlayback);
         videoRef.current.removeEventListener("ended", handleSavePlayback);
         videoRef.current.removeEventListener("seeked", handleSavePlayback);
+        videoRef.current.removeEventListener("suspend", handleSavePlayback);
       }
     };
 

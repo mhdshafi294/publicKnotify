@@ -66,7 +66,7 @@ const SideScrollPlaylistPodcasts = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:absolute lg:bottom-0 lg:left-0 lg:bg-secondary lg:border lg:border-card-foreground/10 pt-10 lg:z-40",
+        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:absolute lg:bottom-0 lg:left-0 lg:bg-card-secondary lg:border lg:border-card-foreground/10 pt-10 lg:z-40",
         { "lg:rounded-tr-3xl": dir === "ltr" },
         { "lg:rounded-tl-3xl": dir === "rtl" }
       )}

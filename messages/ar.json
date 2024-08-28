@@ -433,7 +433,8 @@
     "copyrightLabel": "حقوق النشر",
     "saveAndPreviewButton": "حفظ ومعاينة",
     "showCreatedSuccessfully": "تم إنشاء العرض بنجاح",
-    "no-price-set-yet": "لم يتم تحديد السعر بعد"
+    "no-price-set-yet": "لم يتم تحديد السعر بعد",
+    "pick-a-date": "اختر موعدًا"
   },
   "notifications": {
     "notifications": "notifications"

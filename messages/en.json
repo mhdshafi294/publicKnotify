@@ -436,7 +436,8 @@
     "copyrightLabel": "Copyright",
     "saveAndPreviewButton": "Save and Preview",
     "showCreatedSuccessfully": "Show created successfully",
-    "no-price-set-yet": "no price set yet"
+    "no-price-set-yet": "no price set yet",
+    "pick-a-date": "Pick a date"
   },
   "notifications": {
     "notifications": "notifications"

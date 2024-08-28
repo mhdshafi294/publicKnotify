@@ -5,6 +5,8 @@ import Image from "next/image"; // External dependency
 
 import usePlayerStore from "@/store/use-player-store"; // Internal store import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import
+import { Badge } from "@/components/ui/badge";
+import { Link } from "@/navigation";
 
 // Props interface for AudioPodcast
 interface PropsType {
@@ -40,7 +42,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
   }, [podcast.id]);
 
   return (
-    <div className="bg-secondary w-full lg:w-9/12 mx-auto space-y-4 p-6 rounded-xl mb-5">
+    <div className="bg-card-secondary w-full lg:w-9/12 mx-auto space-y-4 p-6 rounded-xl mb-5">
       <div className="mx-auto aspect-video relative">
         <Image
           width={1920}
@@ -50,9 +52,35 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
           alt={podcast.name}
         />
       </div>
-      <div className="space-y-2">
-        <h1 className="text-3xl capitalize font-bold">{podcast.name}</h1>
-        <p className="text-greeny capitalize">{podcast.podcaster.full_name}</p>
+      <div className="flex justify-between items-center">
+        <div className="space-y-2">
+          <div className="flex items-end gap-5 w-full">
+            <h1 className="text-2xl md:text-3xl capitalize font-bold">
+              {podcast.name}
+            </h1>
+            <div className="flex justify-start items-center flex-wrap gap-1">
+              {podcast.hashTags.map((tag) => (
+                <Badge
+                  className="bg-greeny/20 text-greeny hover:bg-greeny/30 hover:text-greeny cursor-default"
+                  key={tag.id}
+                >
+                  #{tag.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+          <Link
+            href={`/podcaster/profile/${podcast.podcaster.id}`}
+            className="inline-block text-greeny/90 font-bold capitalize hover:underline"
+          >
+            {podcast.podcaster.full_name}
+          </Link>
+
+          <p className="text-sm opacity-70">{podcast.summary}</p>
+          <p className="text-xs opacity-50">
+            {podcast.created_at.split(" ")[0]}
+          </p>
+        </div>
       </div>
     </div>
   );
