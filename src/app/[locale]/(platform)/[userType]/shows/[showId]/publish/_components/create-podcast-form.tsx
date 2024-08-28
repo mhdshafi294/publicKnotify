@@ -280,11 +280,15 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
           ? "2"
           : "1"
       );
-      formData.append(
-        "publishing_date",
-        format(data.publishing_date, "yyyy-MM-dd")
-      );
-      formData.append("publishing_time", data.publishing_time);
+      if (data.publishing_date) {
+        formData.append(
+          "publishing_date",
+          format(data.publishing_date, "yyyy-MM-dd")
+        );
+      }
+      if (data.publishing_time) {
+        formData.append("publishing_time", data.publishing_time);
+      }
       formData.append("company_tag", data.company_tag);
 
       if (data.notes) formData.append("note", data.notes);
