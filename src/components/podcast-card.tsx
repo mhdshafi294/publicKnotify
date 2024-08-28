@@ -39,11 +39,15 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
       // role="button"
       tabIndex={0}
       className={cn(
-        "w-full flex group transition-colors group duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
+        "w-full flex group relative transition-colors group duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
         className
       )}
     >
-      <div className="relative aspect-video rounded-lg">
+      <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
+      <Link
+        href={`/${user?.user?.type}/podcast/${podcast.id}`}
+        className="relative aspect-video rounded-lg"
+      >
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
           alt={`${podcast.name} thumbnail`}
@@ -55,8 +59,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
             router.push(`/${user?.user?.type}/podcast/${podcast.id}`)
           }
         />
-        <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
-      </div>
+      </Link>
       <div className="flex items-end justify-between ">
         <div>
           <Link passHref href={`/${user?.user?.type}/podcast/${podcast.id}`}>

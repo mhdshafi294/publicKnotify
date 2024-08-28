@@ -125,9 +125,9 @@ const MobileNavbar = ({
                         },
                         {
                           hidden:
-                            session?.user?.type === "user" ||
-                            (session?.user?.type === "company" &&
-                              link.label === "Dashboard"),
+                            (session?.user?.type === "user" ||
+                              session?.user?.type === "company") &&
+                            link.label === "Dashboard",
                         },
                         {
                           hidden:

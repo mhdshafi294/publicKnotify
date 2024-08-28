@@ -1,8 +1,13 @@
 "use client";
-import {
-  getPodcastDetailsAction,
-  savePlaybackAction,
-} from "@/app/actions/podcastActions";
+
+// External Imports
+import { useEffect, useRef, useState, Fragment, ElementRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { Pause, Play, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
+
+// Internal Imports
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,33 +15,39 @@ import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { usePathname } from "@/navigation";
 import usePlayerStore from "@/store/use-player-store";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Pause, Play, RotateCcw, RotateCw, Volume2, X } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import { ElementRef, Fragment, useEffect, useRef, useState } from "react";
+import {
+  getPodcastDetailsAction,
+  savePlaybackAction,
+} from "@/app/actions/podcastActions";
 
+/**
+ * Player Component
+ *
+ * This component handles the podcast player functionality, including play/pause,
+ * volume control, and saving playback progress to the server.
+ */
 const Player = () => {
-  const podcastId = usePlayerStore((state) => state.podcastId);
-  const setPodcastId = usePlayerStore((state) => state.setPodcastId);
-  const isPlaying = usePlayerStore((state) => state.isRunning);
-  const setIsPlaying = usePlayerStore((state) => state.setIsRunning);
-  const toggleRunning = usePlayerStore((state) => state.toggleRunning);
-  const duration = usePlayerStore((state) => state.duration);
-  const currentTime = usePlayerStore((state) => state.currentTime);
-  const setDuration = usePlayerStore((state) => state.setDuration);
-  const setCurrentTime = usePlayerStore((state) => state.setCurrentTime);
+  const podcastId = usePlayerStore((state) => state.podcastId); // Get podcast ID from the store
+  const setPodcastId = usePlayerStore((state) => state.setPodcastId); // Set podcast ID in the store
+  const isPlaying = usePlayerStore((state) => state.isRunning); // Get play/pause state from the store
+  const setIsPlaying = usePlayerStore((state) => state.setIsRunning); // Set play/pause state in the store
+  const toggleRunning = usePlayerStore((state) => state.toggleRunning); // Toggle play/pause state
+  const duration = usePlayerStore((state) => state.duration); // Get duration of the podcast
+  const currentTime = usePlayerStore((state) => state.currentTime); // Get current time of playback
+  const setDuration = usePlayerStore((state) => state.setDuration); // Set duration in the store
+  const setCurrentTime = usePlayerStore((state) => state.setCurrentTime); // Set current time in the store
 
-  const { data: session } = useSession();
-  const [volume, setVolume] = useState(1);
-  const [sliderValue, setSliderValue] = useState([0]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
-  const queryClient = useQueryClient();
+  const { data: session } = useSession(); // Get session data using NextAuth
+  const [volume, setVolume] = useState(1); // State for volume control
+  const [sliderValue, setSliderValue] = useState([0]); // State for the slider value
+  const [isLoaded, setIsLoaded] = useState(false); // State to check if the podcast is loaded
+  const [isLoading, setIsLoading] = useState(false); // State to manage loading state
+  const pathname = usePathname(); // Get current path
+  const queryClient = useQueryClient(); // React Query Client
 
-  const ref = useRef<ElementRef<"audio">>(null);
+  const ref = useRef<ElementRef<"audio">>(null); // Ref for the audio element
 
+  // Query to fetch podcast details
   const { data, isPending, isError } = useQuery({
     queryKey: ["podcast", podcastId],
     gcTime: 0,
@@ -48,24 +59,21 @@ const Player = () => {
       }),
   });
 
+  // Effect to set volume when it changes
   useEffect(() => {
     if (ref.current) {
       ref.current.volume = volume;
     }
   }, [volume, data]);
 
+  // Effect to handle podcast loading and playback
   useEffect(() => {
     const audioElement = ref.current;
     if (data && !isPending && !isError) {
-      // console.log(data, "<<<<<<<<<<<player data");
       if (audioElement) {
         const handleCanPlayThrough = () => {
           setIsLoaded(true);
           setIsLoading(false);
-          // console.log(
-          //   data?.playback_position?.current_position,
-          //   "<<<<<<<<<<<<<<current_position"
-          // );
           audioElement.play();
           setIsPlaying(true);
         };
@@ -76,10 +84,6 @@ const Player = () => {
         );
         audioElement.addEventListener("loadeddata", () => {
           setDuration(audioElement.duration);
-          // console.log(
-          //   data?.playback_position?.current_position,
-          //   "<<<<<<<<<<<<<<current_position loadeddata"
-          // );
           audioElement.currentTime =
             data?.playback_position?.current_position || 0;
           setCurrentTime(data?.playback_position?.current_position || 0);
@@ -94,13 +98,14 @@ const Player = () => {
         };
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, isError, isPending]);
+  }, [data, isError, isPending, setCurrentTime, setDuration, setIsPlaying]);
 
+  // Effect to update slider value when currentTime changes
   useEffect(() => {
     setSliderValue([currentTime]);
   }, [currentTime]);
 
+  // Effect to manage playback progress update every second
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (isPlaying && ref.current) {
@@ -117,19 +122,17 @@ const Player = () => {
         clearInterval(interval);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying]);
+  }, [isPlaying, setCurrentTime]);
 
-  const {
-    data: savePlaybackActionData,
-    mutate: server_savePlaybackAction,
-    isPending: isSavePending,
-  } = useMutation({
-    mutationFn: savePlaybackAction,
-    onSuccess: () => {},
-    onError: () => {},
-  });
+  // Mutation to save playback progress to the server
+  const { mutate: server_savePlaybackAction, isPending: isSavePending } =
+    useMutation({
+      mutationFn: savePlaybackAction,
+      onSuccess: () => {},
+      onError: () => {},
+    });
 
+  // Function to toggle play/pause
   const togglePlayPause = async () => {
     const formData = new FormData();
     formData.append("current_position", currentTime.toString());
@@ -164,6 +167,7 @@ const Player = () => {
     setIsLoading(false);
   };
 
+  // Effect to handle play/pause state change
   useEffect(() => {
     if (ref.current) {
       if (!isPlaying) {
@@ -174,6 +178,7 @@ const Player = () => {
     }
   }, [isPlaying]);
 
+  // Function to handle slider time change
   const handleTimeChange = (value: number[]) => {
     setSliderValue(value);
     if (ref.current) {
@@ -182,6 +187,7 @@ const Player = () => {
     }
   };
 
+  // Function to skip time by a specific number of seconds
   const skipTime = (seconds: number) => {
     if (ref.current) {
       const newTime = Math.min(
@@ -194,6 +200,7 @@ const Player = () => {
     }
   };
 
+  // Function to format time into HH:MM:SS format
   const formatTime = (time: number) => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
@@ -205,7 +212,7 @@ const Player = () => {
       .padStart(2, "0")}`;
   };
 
-  // Reset states when podcastId changes
+  // Effect to reset states when podcastId changes
   useEffect(() => {
     setCurrentTime(0);
     setSliderValue([0]);
@@ -216,18 +223,17 @@ const Player = () => {
       ref.current.currentTime = 0;
       ref.current.pause();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [podcastId]);
+  }, [podcastId, setCurrentTime, setDuration, setIsPlaying]);
 
   return (
     <Fragment>
-      {/* <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-0")} /> */}
       <footer
         className={cn(
-          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-secondary w-full z-[999]",
+          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-[#1A1A1A] w-full z-[999]",
           podcastId ? "translate-y-0" : "translate-y-full fixed"
         )}
       >
+        {/* Display podcast information if available */}
         {!isError && !isPending && data ? (
           <div className="hidden lg:flex justify-start items-center h-full gap-2">
             <div className="h-full">
@@ -261,6 +267,7 @@ const Player = () => {
 
         <div className="h-full w-full lg:w-2/5 gap-1 max-w-screen-md flex flex-col justify-center items-center">
           <div className="flex w-full justify-between lg:justify-center items-center gap-2">
+            {/* Display podcast information for smaller screens */}
             {!isError && !isPending && data ? (
               <div className=" flex lg:hidden justify-start items-center max-h-10 gap-2">
                 <div className="h-full">
@@ -291,6 +298,7 @@ const Player = () => {
                 </div>
               </div>
             )}
+            {/* Buttons for playback controls */}
             <Button
               variant="ghost"
               size="icon"
@@ -361,6 +369,7 @@ const Player = () => {
               onValueChange={(value) => setVolume(value[0])}
             />
           </div>
+          {/* Button to close the player */}
           {!pathname.includes("/podcast/") ? (
             <Button
               variant="ghost"

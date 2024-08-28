@@ -1,8 +1,8 @@
-import { FC } from "react"; // Core React import
-
+import { FC } from "react";
 import { Badge } from "@/components/ui/badge"; // Internal UI component import
 import { Link } from "@/navigation"; // Internal navigation import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import
+import VideoPlayer from "./video-player"; // Import the client component
 
 // Props interface for VideoPodcast
 interface PropsType {
@@ -21,36 +21,43 @@ interface PropsType {
  */
 const VideoPodcast: FC<PropsType> = ({ podcast }) => {
   return (
-    <div className="bg-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl">
-      <div className="mx-auto aspect-video relative">
-        <video
-          className="size-full object-cover rounded-md"
-          controlsList="nodownload"
-          poster={podcast.thumbnail}
-          src={podcast.podcast}
-          controls
-        />
-      </div>
+    <div className="bg-card-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl mb-5">
+      {/* Video player */}
+      <VideoPlayer
+        podcastId={podcast.id}
+        thumbnail={podcast.thumbnail}
+        src={podcast.podcast}
+        playback_position={podcast.playback_position}
+      />
+
       <div className="flex justify-between items-center">
-        <div className="space-y-1">
-          <h1 className="text-2xl md:text-3xl capitalize font-bold">
-            {podcast.name}
-          </h1>
+        <div className="space-y-2">
+          <div className="flex items-end gap-5 w-full">
+            <h1 className="text-2xl md:text-3xl capitalize font-bold">
+              {podcast.name}
+            </h1>
+            <div className="flex justify-start items-center flex-wrap gap-1">
+              {podcast.hashTags.map((tag) => (
+                <Badge
+                  className="bg-greeny/20 text-greeny hover:bg-greeny/30 hover:text-greeny cursor-default"
+                  key={tag.id}
+                >
+                  #{tag.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
           <Link
             href={`/podcaster/profile/${podcast.podcaster.id}`}
-            className="inline-block text-greeny capitalize hover:underline"
+            className="inline-block text-greeny/90 font-bold capitalize hover:underline"
           >
             {podcast.podcaster.full_name}
           </Link>
-          <p>{podcast.created_at.split(" ")[0]}</p>
-          <div className="flex justify-start items-center flex-wrap">
-            {podcast.hashTags.map((tag) => (
-              <Badge className="bg-greeny text-background" key={tag.id}>
-                #{tag.name}
-              </Badge>
-            ))}
-          </div>
-          <p className="text-sm">{podcast.summary}</p>
+
+          <p className="text-sm opacity-70">{podcast.summary}</p>
+          <p className="text-xs opacity-50">
+            {podcast.created_at.split(" ")[0]}
+          </p>
         </div>
       </div>
     </div>

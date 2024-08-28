@@ -56,12 +56,17 @@ export const createMetadataSchema = z
     episode_type: z.enum(["full", "bonus", "trailer"], {
       required_error: "createMetadataSchema.errorMessage.typeRequired",
     }),
-    publishing_date: z.date({
-      required_error: "createMetadataSchema.errorMessage.dateRequired",
-    }),
-    publishing_time: z.string().refine((val) => timeRegex.test(val), {
-      message: "createMetadataSchema.errorMessage.invalidTimeFormat",
-    }),
+    publishing_date: z
+      .date({
+        required_error: "createMetadataSchema.errorMessage.dateRequired",
+      })
+      .optional(),
+    publishing_time: z
+      .string()
+      .refine((val) => timeRegex.test(val), {
+        message: "createMetadataSchema.errorMessage.invalidTimeFormat",
+      })
+      .optional(),
     company_tag: z.string(),
     thumbnail: fileOrUrlSchema.optional(),
     background: fileOrUrlSchema.optional(),

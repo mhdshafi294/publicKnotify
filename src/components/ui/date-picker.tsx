@@ -1,7 +1,7 @@
 import { Control, FieldValues } from "react-hook-form";
 import { ComponentPropsWithoutRef } from "react";
 import { format } from "date-fns";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CalendarIcon } from "lucide-react";
 
 import { cn, getDirection } from "@/lib/utils";
@@ -61,6 +61,7 @@ function DatePicker<T extends FieldValues>({
 }: PropsType<T>) {
   const locale = useLocale();
   const dir = getDirection(locale);
+  const t = useTranslations("Index");
 
   return (
     <FormField
@@ -86,7 +87,7 @@ function DatePicker<T extends FieldValues>({
                   {field.value ? (
                     format(field.value, "PPP")
                   ) : (
-                    <span>Pick a date</span>
+                    <span>{t("pick-a-date")}</span>
                   )}
                   <CalendarIcon className="ms-3 size-4 opacity-50 -translate-y-0.5" />
                 </Button>
@@ -98,7 +99,7 @@ function DatePicker<T extends FieldValues>({
                 selected={field.value}
                 onSelect={field.onChange}
                 disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
+                  date < new Date() || date < new Date("1900-01-01")
                 }
                 initialFocus
               />

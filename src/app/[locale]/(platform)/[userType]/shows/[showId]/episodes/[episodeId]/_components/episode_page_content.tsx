@@ -92,7 +92,13 @@ const EpisodePageContent = async ({
           </div>
           <div>
             <h4 className="text-md font-bold">{t("Episode Notes")}</h4>
-            <p className="opacity-70">{podcastResponse?.podcast?.note}</p>
+            {podcastResponse?.podcast?.note ? (
+              <article
+                dangerouslySetInnerHTML={{
+                  __html: podcastResponse?.podcast?.note,
+                }}
+              />
+            ) : null}
           </div>
         </div>
         <Separator className="bg-border-secondary mb-1" />
