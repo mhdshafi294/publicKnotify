@@ -163,40 +163,47 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
           className="w-full h-[calc(100vh-350px)] flex flex-col flex-wrap gap-5 pe-3"
           dir={dir}
         >
-          {data?.pages.map((page) =>
-            page?.podcasts.map((podcast) => (
-              <li key={podcast?.id} className="w-full mt-3">
-                <div
-                  className={cn(
-                    "w-full rounded-lg p-3 bg-white/15 space-y-3 cursor-pointer",
-                    {
-                      "bg-background border border-card-foreground/10":
-                        currentPodcastId === podcast?.id.toString(),
-                    }
-                  )}
-                  onClick={() => {
-                    setCurrentPodcastId(podcast?.id.toString());
-                    setIsShow(false);
-                  }}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-bold text-sm">{podcast?.name}</p>
-                    <SquareArrowOutUpRightIcon
-                      size={12}
-                      className="text-card-foreground/70"
-                    />
+          {data?.pages[0]?.podcasts !== undefined &&
+          data?.pages[0]?.podcasts?.length > 0 ? (
+            data?.pages.map((page) =>
+              page?.podcasts.map((podcast) => (
+                <li key={podcast?.id} className="w-full mt-3">
+                  <div
+                    className={cn(
+                      "w-full rounded-lg p-3 bg-white/15 space-y-3 cursor-pointer",
+                      {
+                        "bg-background border border-card-foreground/10":
+                          currentPodcastId === podcast?.id.toString(),
+                      }
+                    )}
+                    onClick={() => {
+                      setCurrentPodcastId(podcast?.id.toString());
+                      setIsShow(false);
+                    }}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-bold text-sm">{podcast?.name}</p>
+                      <SquareArrowOutUpRightIcon
+                        size={12}
+                        className="text-card-foreground/70"
+                      />
+                    </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs opacity-50">
+                        {podcast?.publishing_date}
+                      </p>
+                      <p className="font-bold text-xs opacity-70">
+                        {podcast?.is_published ? t("published") : t("draft")}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs opacity-50">
-                      {podcast?.publishing_date}
-                    </p>
-                    <p className="font-bold text-xs opacity-70">
-                      {podcast?.is_published ? t("published") : t("draft")}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            ))
+                </li>
+              ))
+            )
+          ) : (
+            <li className="italic font-semibold text-center opacity-75 h-full flex flex-1 justify-center items-center w-full mt-5">
+              {t("there-are-no-drafts-fot-this-show")}
+            </li>
           )}
           <div ref={ref} className="mt-4 flex items-center justify-center">
             {isFetchingNextPage && <Loader />}
