@@ -68,7 +68,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
     onSuccess: () => {
       setPublished(true);
       toast.dismiss();
-      router.push(`podcast/${podcast_id}`);
+      router.push(`/podcaster/podcast/${podcast_id}`);
       toast.success(t("podcastPublished"));
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
     },

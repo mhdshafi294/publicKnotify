@@ -43,7 +43,10 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
         className
       )}
     >
-      <div className="relative aspect-video rounded-lg">
+      <Link
+        href={`/${user?.user?.type}/podcast/${podcast.id}`}
+        className="relative aspect-video rounded-lg"
+      >
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
           alt={`${podcast.name} thumbnail`}
@@ -56,7 +59,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
           }
         />
         <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
-      </div>
+      </Link>
       <div className="flex items-end justify-between ">
         <div>
           <Link passHref href={`/${user?.user?.type}/podcast/${podcast.id}`}>

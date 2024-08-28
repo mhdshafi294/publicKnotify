@@ -90,7 +90,7 @@ const PricingsContainer: FC<{ pricings: Price | null }> = ({ pricings }) => {
         {/* Display the pricing cards with prices for different sections */}
         <PricingCard
           name="first"
-          text={t("firstPodcast")}
+          text={t("first")}
           price={currentPricings?.first}
         />
         <PricingCard

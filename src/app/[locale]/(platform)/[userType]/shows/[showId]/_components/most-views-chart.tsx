@@ -2,6 +2,7 @@
 
 import React from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { format, parseISO } from "date-fns";
 import {
   ChartConfig,
   ChartContainer,
@@ -9,119 +10,38 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ShowViewsStatistics } from "@/types/statistics";
-import { format, parseISO } from "date-fns";
 
-// const chartData = [
-//   { day: "Sun", view: 186 },
-//   { day: "Mon", view: 305 },
-//   { day: "Tus", view: 237 },
-//   { day: "Thu", view: 73 },
-//   { day: "Fri", view: 209 },
-//   { day: "Sat", view: 214 },
-// ];
+type MostViewsChartProps = {
+  showViews: ShowViewsStatistics;
+};
 
-const chartConfig = {
-  view: {
-    label: "view",
-    color: "hsl(var(--chart-1))",
-  },
-} satisfies ChartConfig;
+/**
+ * The MostViewsChart component renders a line chart showing the daily views
+ * for a show over the last seven days.
+ *
+ * @param {MostViewsChartProps} props - The props for the component.
+ * @param {ShowViewsStatistics} props.showViews - The statistics data for the show views.
+ *
+ * @returns {JSX.Element} The rendered MostViewsChart component.
+ */
+const MostViewsChart: React.FC<MostViewsChartProps> = ({ showViews }) => {
+  const chartData = Array.from({ length: 7 }, (_, index) => ({
+    day: format(
+      parseISO(
+        showViews?.views_over_time[index]?.date ||
+          new Date(Date.now() - (7 - index) * 24 * 60 * 60 * 1000).toISOString()
+      ),
+      "EEE"
+    ),
+    view: showViews?.views_over_time[index]?.views_count || 0,
+  }));
 
-const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
-  // console.log(showViews);
-  const chartData = [
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[0]?.date
-            ? showViews?.views_over_time[0]?.date
-            : new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[0]?.views_count
-        ? showViews?.views_over_time[0]?.views_count
-        : 0,
+  const chartConfig = {
+    view: {
+      label: "view",
+      color: "hsl(var(--chart-1))",
     },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[1]?.date
-            ? showViews?.views_over_time[1]?.date
-            : new Date(Date.now() - 6 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[1]?.views_count
-        ? showViews?.views_over_time[1]?.views_count
-        : 0,
-    },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[2]?.date
-            ? showViews?.views_over_time[2]?.date
-            : new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[2]?.views_count
-        ? showViews?.views_over_time[2]?.views_count
-        : 0,
-    },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[3]?.date
-            ? showViews?.views_over_time[3]?.date
-            : new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[3]?.views_count
-        ? showViews?.views_over_time[3]?.views_count
-        : 0,
-    },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[4]?.date
-            ? showViews?.views_over_time[4]?.date
-            : new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[4]?.views_count
-        ? showViews?.views_over_time[4]?.views_count
-        : 0,
-    },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[5]?.date
-            ? showViews?.views_over_time[5]?.date
-            : new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[5]?.views_count
-        ? showViews?.views_over_time[5]?.views_count
-        : 0,
-    },
-    {
-      day: format(
-        parseISO(
-          showViews?.views_over_time[6]?.date
-            ? showViews?.views_over_time[6]?.date
-            : new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-        ),
-        "EEE"
-      ),
-      view: showViews?.views_over_time[6]?.views_count
-        ? showViews?.views_over_time[6]?.views_count
-        : 0,
-    },
-  ];
+  } satisfies ChartConfig;
 
   return (
     <ChartContainer config={chartConfig}>
@@ -151,8 +71,6 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
           type="linear"
           stroke="var(--color-view)"
           strokeWidth={5}
-          markerWidth={20}
-          width={20}
           dot={false}
         />
       </LineChart>

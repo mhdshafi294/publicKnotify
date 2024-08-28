@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { formatDate, formatDistanceToNow } from "date-fns";
-
+import { format, formatDistanceToNow } from "date-fns";
+import { useTranslations } from "next-intl";
 import { Link } from "@/navigation";
 import DashboardCardContainer from "../../_components/dashboard-card-container";
 import {
@@ -21,6 +21,19 @@ type LastEpisodeCardProps = {
   publishDate: string;
 };
 
+/**
+ * The LastEpisodeCard component displays the latest episode's information, including the thumbnail,
+ * title, and publication date. It also provides quick actions via a dropdown menu.
+ *
+ * @param {LastEpisodeCardProps} props - The props for the component.
+ * @param {string} props.imgSrc - The source URL for the episode thumbnail image.
+ * @param {string} props.title - The title of the episode.
+ * @param {string} props.showId - The ID of the show the episode belongs to.
+ * @param {string} props.episodeId - The ID of the episode.
+ * @param {string} props.publishDate - The publication date of the episode.
+ *
+ * @returns {JSX.Element} The rendered LastEpisodeCard component.
+ */
 const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
   imgSrc,
   title,
@@ -28,33 +41,37 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
   episodeId,
   publishDate,
 }) => {
+  const t = useTranslations("Index");
+
   return (
     <DashboardCardContainer className="lg:h-[170px] flex justify-between items-center">
+      {/* Episode Thumbnail and Details */}
       <div className="flex items-center gap-6">
         <Image
           src={imgSrc}
-          alt="last published podcast thumbnail"
+          alt={t("last-published-episode-thumbnail")}
           width={200}
           height={200}
           className="size-[107px] object-cover"
         />
         <div className="flex flex-col gap-2">
           <p className="font-bold text-sm opacity-75 uppercase">
-            Lastest Episode
+            {t("latest-episode")}
           </p>
           <Link href={`/podcaster/shows/${showId}/episodes/${episodeId}`}>
             <h2 className="font-bold hover:underline">{title}</h2>
           </Link>
           <p className="opacity-50 text-xs">
-            {"published from "}
+            {t("published-from")}{" "}
             {formatDistanceToNow(new Date(publishDate), {
               addSuffix: false,
-            })}
-            {" ago on "}
-            {formatDate(new Date(publishDate), "PPP")}
+            })}{" "}
+            {t("ago-on")} {format(new Date(publishDate), "PPP")}
           </p>
         </div>
       </div>
+
+      {/* Dropdown Menu */}
       <DropdownMenu>
         <DropdownMenuTrigger
           className={buttonVariants({
@@ -66,8 +83,8 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
           <EllipsisIcon />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-card-secondary border-input">
-          <Link href={`/podcaster/shows/${showId}/episodes/133`}>
-            <DropdownMenuItem>Episode Details</DropdownMenuItem>
+          <Link href={`/podcaster/shows/${showId}/episodes/${episodeId}`}>
+            <DropdownMenuItem>{t("episode-details")}</DropdownMenuItem>
           </Link>
         </DropdownMenuContent>
       </DropdownMenu>

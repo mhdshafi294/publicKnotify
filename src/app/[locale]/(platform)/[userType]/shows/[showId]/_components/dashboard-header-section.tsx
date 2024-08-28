@@ -1,37 +1,53 @@
 import React from "react";
 import DashboardMediumCard from "./dashboard-medium-card";
 import { PlaylistResponse } from "@/types/podcast";
+import { useTranslations } from "next-intl";
 
-const DashboardHeaderSection = ({
-  showData,
-  params,
-}: {
+type DashboardHeaderSectionProps = {
   showData: PlaylistResponse;
   params: { userType: string; showId: string };
+};
+
+/**
+ * The DashboardHeaderSection component renders a grid of medium-sized cards that provide
+ * quick actions and information related to the show, such as publishing an episode,
+ * viewing episodes, and submitting the show for distribution.
+ *
+ * @param {DashboardHeaderSectionProps} props - The props for the component.
+ * @param {PlaylistResponse} props.showData - Data about the current playlist, including episode count.
+ * @param {Object} props.params - Route parameters, including user type and show ID.
+ *
+ * @returns {JSX.Element} The rendered DashboardHeaderSection component.
+ */
+const DashboardHeaderSection: React.FC<DashboardHeaderSectionProps> = ({
+  showData,
+  params,
 }) => {
+  const t = useTranslations("Index");
+
   return (
     <section className="w-full grid grid-rows-3 2xl:grid-rows-1 2xl:grid-cols-3 gap-8">
       <DashboardMediumCard
         imageSrc="/podcast-filler.webp"
-        title="Publish an episode"
-        description="In order to submit and publish your Show, you must first publish an episode"
-        linkName="Add Podcast"
+        title={t("publish-episode")}
+        description={t("publish-episode-description")}
+        linkName={t("add-podcast")}
         linkHref={`/podcaster/shows/${params.showId}/publish`}
         done={showData?.playlist?.podcasts_count > 0}
       />
       <DashboardMediumCard
         imageSrc="/podcaster-filler.webp"
-        title="Publish an episode"
-        description="In order to submit and publish your Show, you must first publish an episode"
-        linkName="Show Episodes"
+        title={t("show-episodes")}
+        description={t("show-episodes-description")}
+        linkName={t("view-episodes")}
         linkHref={`/podcaster/shows/${params.showId}/episodes`}
       />
       <DashboardMediumCard
         imageSrc="/playlist-filler.webp"
-        title="Submit your show"
-        description="To allow listeners to enjoy your show, submit your feed to Apple Podcasts, Spotify, and more"
-        linkName="Show Distribution"
-        linkHref={`/podcaster/shows/${params.showId}/distrebution`}
+        title={t("submit-show")}
+        description={t("submit-show-description")}
+        linkName={t("show-distribution")}
+        linkHref={`/podcaster/shows/${params.showId}/distribution`}
       />
     </section>
   );

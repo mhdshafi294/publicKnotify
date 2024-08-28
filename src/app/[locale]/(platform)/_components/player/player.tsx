@@ -224,7 +224,7 @@ const Player = () => {
       {/* <div className={cn("h-px w-full", podcastId ? "pb-24" : "pb-0")} /> */}
       <footer
         className={cn(
-          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-secondary w-full z-[999]",
+          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-card-secondary w-full z-[999]",
           podcastId ? "translate-y-0" : "translate-y-full fixed"
         )}
       >

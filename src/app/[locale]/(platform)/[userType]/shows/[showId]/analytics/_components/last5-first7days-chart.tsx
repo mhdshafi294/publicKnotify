@@ -1,4 +1,6 @@
 "use client";
+
+import React from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
@@ -8,174 +10,30 @@ import {
 } from "@/components/ui/chart";
 import { EpisodesStatistics } from "@/types/statistics";
 
-const LastFiveFirstSevenDaysChart = ({
-  five_latest_episodes,
-}: {
+type LastFiveFirstSevenDaysChartProps = {
   five_latest_episodes: EpisodesStatistics[];
-}) => {
-  const chartData = [
-    {
-      day: "1",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[0]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[0]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[0]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[0]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[0]
-        ] || 0,
-    },
-    {
-      day: "2",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[1]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[1]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[1]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[1]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[1]
-        ] || 0,
-    },
-    {
-      day: "3",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[2]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[2]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[2]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[2]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[2]
-        ] || 0,
-    },
-    {
-      day: "4",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[3]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[3]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[3]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[3]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[3]
-        ] || 0,
-    },
-    {
-      day: "5",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[4]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[4]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[4]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[4]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[4]
-        ] || 0,
-    },
-    {
-      day: "6",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[5]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[5]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[5]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[5]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[5]
-        ] || 0,
-    },
-    {
-      day: "7",
-      episode1:
-        five_latest_episodes[0]?.daily_views[
-          Object.keys(five_latest_episodes[0]?.daily_views)[6]
-        ] || 0,
-      episode2:
-        five_latest_episodes[1]?.daily_views[
-          Object.keys(five_latest_episodes[1]?.daily_views)[6]
-        ] || 0,
-      episode3:
-        five_latest_episodes[2]?.daily_views[
-          Object.keys(five_latest_episodes[2]?.daily_views)[6]
-        ] || 0,
-      episode4:
-        five_latest_episodes[3]?.daily_views[
-          Object.keys(five_latest_episodes[3]?.daily_views)[6]
-        ] || 0,
-      episode5:
-        five_latest_episodes[4]?.daily_views[
-          Object.keys(five_latest_episodes[4]?.daily_views)[6]
-        ] || 0,
-    },
-  ];
+};
+
+/**
+ * The LastFiveFirstSevenDaysChart component renders an area chart showing the daily views
+ * for the last five episodes during the first seven days since their release.
+ *
+ * @param {LastFiveFirstSevenDaysChartProps} props - The props for the component.
+ * @param {EpisodesStatistics[]} props.five_latest_episodes - An array of statistics for the last five episodes.
+ *
+ * @returns {JSX.Element} The rendered LastFiveFirstSevenDaysChart component.
+ */
+const LastFiveFirstSevenDaysChart: React.FC<
+  LastFiveFirstSevenDaysChartProps
+> = ({ five_latest_episodes }) => {
+  const chartData = Array.from({ length: 7 }, (_, index) => ({
+    day: (index + 1).toString(),
+    episode1: five_latest_episodes[0]?.daily_views[index] || 0,
+    episode2: five_latest_episodes[1]?.daily_views[index] || 0,
+    episode3: five_latest_episodes[2]?.daily_views[index] || 0,
+    episode4: five_latest_episodes[3]?.daily_views[index] || 0,
+    episode5: five_latest_episodes[4]?.daily_views[index] || 0,
+  }));
 
   const chartConfig = {
     episode1: {
@@ -216,50 +74,23 @@ const LastFiveFirstSevenDaysChart = ({
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => `Day ${value}`}
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Area
-          dataKey="episode5"
-          type="natural"
-          fill="var(--color-episode5)"
-          fillOpacity={0.4}
-          stroke="var(--color-episode5)"
-          stackId="a"
-        />
-        <Area
-          dataKey="episode4"
-          type="natural"
-          fill="var(--color-episode4)"
-          fillOpacity={0.4}
-          stroke="var(--color-episode4)"
-          stackId="a"
-        />
-        <Area
-          dataKey="episode3"
-          type="natural"
-          fill="var(--color-episode3)"
-          fillOpacity={0.4}
-          stroke="var(--color-episode3)"
-          stackId="a"
-        />
-        <Area
-          dataKey="episode2"
-          type="natural"
-          fill="var(--color-episode2)"
-          fillOpacity={0.4}
-          stroke="var(--color-episode2)"
-          stackId="a"
-        />
-        <Area
-          dataKey="episode1"
-          type="natural"
-          fill="var(--color-episode1)"
-          fillOpacity={0.4}
-          stroke="var(--color-episode1)"
-          stackId="a"
-        />
+        {["episode5", "episode4", "episode3", "episode2", "episode1"].map(
+          (episodeKey, index) => (
+            <Area
+              key={episodeKey}
+              dataKey={episodeKey}
+              type="natural"
+              fill={`var(--color-${episodeKey})`}
+              fillOpacity={0.4}
+              stroke={`var(--color-${episodeKey})`}
+              stackId="a"
+            />
+          )
+        )}
       </AreaChart>
     </ChartContainer>
   );

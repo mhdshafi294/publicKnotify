@@ -6,6 +6,7 @@ import { Check, SquarePen } from "lucide-react";
 // Internal Imports
 import FormInput from "@/components/ui/form-input";
 import usePricingsStore from "@/store/edit-pricings-store";
+import { useTranslations } from "next-intl";
 
 type PropsType = {
   price: string | undefined;
@@ -31,6 +32,8 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
   // Get form context to manage the input fields if in edit mode
   const form = useFormContext();
 
+  const t = useTranslations("Index");
+
   return (
     <div className="w-full flex justify-start items-center p-4 gap-2 rounded-2xl bg-secondary">
       {/* Icon container with gradient background */}
@@ -48,11 +51,11 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
         )}
       </div>
 
-      <div className="leading-5">
+      <div className="leading-5 w-full">
         {/* If in edit mode, show an input field for the price; otherwise, show the price text */}
         {editMode ? (
           <FormInput
-            className="h-8 text-2xl focus-visible:ring-transparent bg-transparent border-0 px-0 rounded-none"
+            className="h-8 text-2xl focus-visible:ring-transparent bg-transparent border-0 px-0 py-2 w-full"
             control={form.control}
             placeholder="Enter price"
             name={name}
@@ -60,7 +63,7 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
           />
         ) : (
           <p className="text-2xl capitalize">
-            {price ? `${price}` : "no price set yet"}
+            {price ? `${price}` : t("no-price-set-yet")}
           </p>
         )}
 

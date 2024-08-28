@@ -46,7 +46,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
           width={1920}
           height={500}
           className="size-full object-cover rounded-lg"
-          src={podcast.background}
+          src={podcast.background || "/podcast-filler.webp"}
           alt={podcast.name}
         />
       </div>

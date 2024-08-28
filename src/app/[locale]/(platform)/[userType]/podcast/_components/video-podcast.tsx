@@ -1,8 +1,8 @@
-import { FC } from "react"; // Core React import
-
+import { FC } from "react";
 import { Badge } from "@/components/ui/badge"; // Internal UI component import
 import { Link } from "@/navigation"; // Internal navigation import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import
+import VideoPlayer from "./video-player"; // Import the client component
 
 // Props interface for VideoPodcast
 interface PropsType {
@@ -22,15 +22,13 @@ interface PropsType {
 const VideoPodcast: FC<PropsType> = ({ podcast }) => {
   return (
     <div className="bg-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl">
-      <div className="mx-auto aspect-video relative">
-        <video
-          className="size-full object-cover rounded-md"
-          controlsList="nodownload"
-          poster={podcast.thumbnail}
-          src={podcast.podcast}
-          controls
-        />
-      </div>
+      {/* Video player */}
+      <VideoPlayer
+        podcastId={podcast.id}
+        thumbnail={podcast.thumbnail}
+        src={podcast.podcast}
+      />
+
       <div className="flex justify-between items-center">
         <div className="space-y-1">
           <h1 className="text-2xl md:text-3xl capitalize font-bold">

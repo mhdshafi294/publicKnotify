@@ -59,7 +59,7 @@ export default async function Home({
   const content = () => {
     if (session?.user?.type !== "podcaster") {
       return (
-        <div className="mt-8">
+        <div className="mt-8 w-full">
           <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
           <PodcastersSection params={params} searchParams={searchParams} />

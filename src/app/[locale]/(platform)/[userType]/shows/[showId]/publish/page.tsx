@@ -30,7 +30,11 @@ export default function NewPublish({ params, searchParams }: NewPublishProps) {
   return (
     <div className="flex relative  min-h-[calc(100vh-112px)]">
       {/* InfiniteScrollDrafts component for displaying the list of drafts */}
-      <InfiniteScrollDrafts isShow={isShow} setIsShow={setIsShow} />
+      <InfiniteScrollDrafts
+        isShow={isShow}
+        setIsShow={setIsShow}
+        showId={params.showId}
+      />
       {/* CreatePodcastForm component for creating a new podcast */}
       <CreatePodcastForm
         isShow={isShow}

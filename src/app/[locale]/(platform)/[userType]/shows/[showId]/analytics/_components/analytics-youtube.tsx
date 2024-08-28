@@ -1,15 +1,33 @@
 import React from "react";
+import { useTranslations } from "next-intl";
+import { OctagonAlert } from "lucide-react";
+
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import YoutubeIconWhite from "@/components/icons/youtube-icon-white";
-import { useTranslations } from "next-intl";
+import { YoutubeChannel } from "@/types/statistics";
 
-const AnalyticsYoutube = () => {
+/**
+ * The AnalyticsYoutube component displays an overview of YouTube analytics for the given show.
+ *
+ * It shows key metrics such as view count, subscriber count, hidden subscriber count, and video count.
+ *
+ * @param {Object} props - Component props.
+ * @param {YoutubeChannel | null | undefined} props.youtube_channel - The YouTube channel analytics data.
+ *
+ * @returns {JSX.Element} The rendered AnalyticsYoutube component.
+ */
+const AnalyticsYoutube = ({
+  youtube_channel,
+}: {
+  youtube_channel: YoutubeChannel | null | undefined;
+}): JSX.Element => {
   const t = useTranslations("Index");
 
   return (
     <DashboardCardContainer className="w-full flex flex-col gap-5">
+      {/* Header */}
       <div className="flex flex-col gap-1">
-        <h3 className="flex items-center gap-2 text-base font-bold uppercase ">
+        <h3 className="flex items-center gap-2 text-base font-bold uppercase">
           <YoutubeIconWhite />
           {t("youtube-analytics")}
         </h3>
@@ -19,28 +37,73 @@ const AnalyticsYoutube = () => {
           )}
         </p>
       </div>
+
+      {/* YouTube Analytics Details */}
       <div className="w-full flex gap-3">
+        {/* All-time Views */}
         <div className="w-full flex flex-col gap-1 justify-between">
           <h2 className="text-base font-bold opacity-50">
             {t("all-time-views")}
           </h2>
-          <p className="font-bold text-xl">500</p>
+          <p className="font-bold text-xl">
+            {youtube_channel?.viewCount ? (
+              youtube_channel.viewCount
+            ) : (
+              <span className="text-sm font-bold flex items-center">
+                <OctagonAlert className="me-1 size-4" />
+                {t("no-data")}
+              </span>
+            )}
+          </p>
         </div>
+
+        {/* Subscriber Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
           <h2 className="text-base font-bold opacity-50">
             {t("subscriber-count")}
           </h2>
-          <p className="font-bold text-xl capitalize">25</p>
+          <p className="font-bold text-xl capitalize">
+            {youtube_channel?.subscriberCount ? (
+              youtube_channel.subscriberCount
+            ) : (
+              <span className="text-sm font-bold flex items-center">
+                <OctagonAlert className="me-1 size-4" />
+                {t("no-data")}
+              </span>
+            )}
+          </p>
         </div>
+
+        {/* Hidden Subscriber Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
           <h2 className="text-base font-bold opacity-50">
             {t("hidden-subscriber-count")}
           </h2>
-          <p className="font-bold text-xl">100</p>
+          <p className="font-bold text-xl">
+            {youtube_channel?.hiddenSubscriberCount ? (
+              youtube_channel.hiddenSubscriberCount
+            ) : (
+              <span className="text-sm font-bold flex items-center">
+                <OctagonAlert className="me-1 size-4" />
+                {t("no-data")}
+              </span>
+            )}
+          </p>
         </div>
+
+        {/* Video Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
           <h2 className="text-base font-bold opacity-50">{t("video-count")}</h2>
-          <p className="font-bold text-xl">92</p>
+          <p className="font-bold text-xl">
+            {youtube_channel?.videoCount ? (
+              youtube_channel.videoCount
+            ) : (
+              <span className="text-sm font-bold flex items-center">
+                <OctagonAlert className="me-1 size-4" />
+                {t("no-data")}
+              </span>
+            )}
+          </p>
         </div>
       </div>
     </DashboardCardContainer>

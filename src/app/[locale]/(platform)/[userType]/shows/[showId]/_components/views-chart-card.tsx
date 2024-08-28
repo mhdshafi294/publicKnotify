@@ -3,7 +3,6 @@ import DashboardCardContainer from "../../_components/dashboard-card-container";
 import { Link } from "@/navigation";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import MostViewsChart from "./most-views-chart";
 
 type ViewsChartCardProps = {
   title: string;
@@ -17,6 +16,21 @@ type ViewsChartCardProps = {
   chart: React.ReactNode;
 };
 
+/**
+ * The ViewsChartCard component displays a chart with associated metadata, including a title, value, and optional link.
+ *
+ * It is used to show key metrics like total views, along with a graphical representation of the data.
+ *
+ * @param {ViewsChartCardProps} props - The props for the component.
+ * @param {string} props.title - The title of the card, usually representing the metric being displayed.
+ * @param {string} [props.description] - An optional description for additional context.
+ * @param {string} props.value - The primary value being highlighted on the card (e.g., number of views).
+ * @param {Object} props.params - Route parameters, including user type and show ID.
+ * @param {Object} [props.link] - Optional link details including the href and link name.
+ * @param {React.ReactNode} props.chart - The chart component to render within the card.
+ *
+ * @returns {JSX.Element} The rendered ViewsChartCard component.
+ */
 const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   title,
   description,

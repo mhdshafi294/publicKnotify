@@ -1,15 +1,21 @@
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { Check } from "lucide-react";
-import Image from "next/image";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 type DashboardCardContainerProps = {
   className?: string;
   children?: React.ReactNode;
 };
 
+/**
+ * The DashboardCardContainer component is a reusable container component used for displaying content
+ * in a card-like structure with padding, background, and border styling.
+ *
+ * @param {DashboardCardContainerProps} props - The props for the component.
+ * @param {string} [props.className] - Optional additional class names to style the container.
+ * @param {React.ReactNode} [props.children] - The content to be rendered inside the container.
+ *
+ * @returns {JSX.Element} The rendered DashboardCardContainer component.
+ */
 const DashboardCardContainer: React.FC<DashboardCardContainerProps> = ({
   className,
   children,

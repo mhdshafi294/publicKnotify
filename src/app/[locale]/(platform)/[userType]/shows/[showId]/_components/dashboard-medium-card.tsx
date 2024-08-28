@@ -16,6 +16,21 @@ type DashboardMediumCardProps = {
   done?: boolean;
 };
 
+/**
+ * The DashboardMediumCard component displays a card with an image, title, description, and a call-to-action link.
+ *
+ * It is used in the dashboard to present quick actions for the user, such as viewing episodes or submitting a show.
+ *
+ * @param {DashboardMediumCardProps} props - The props for the component.
+ * @param {string} props.imageSrc - The source URL of the image to display in the card.
+ * @param {string} props.title - The title of the card.
+ * @param {string} props.description - The description of the card.
+ * @param {string} props.linkName - The text for the call-to-action link.
+ * @param {string} props.linkHref - The URL for the call-to-action link.
+ * @param {boolean} [props.done=false] - Indicates if the task associated with the card is completed.
+ *
+ * @returns {JSX.Element} The rendered DashboardMediumCard component.
+ */
 const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
   imageSrc,
   title,
@@ -26,6 +41,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
 }) => {
   return (
     <DashboardCardContainer className="2xl:h-[404px] flex 2xl:flex-col justify-between gap-5 rounded-[32px]">
+      {/* Image Section */}
       <div
         className={cn(
           "2xl:w-full 2xl:h-[170px] w-[270px] h-[170px] relative grayscale-0",
@@ -42,11 +58,15 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
           className="object-cover rounded-[32px]"
         />
       </div>
+
+      {/* Content Section */}
       <div className="flex flex-col gap-4 justify-end flex-1">
         <h2 className="text-lg ">{title}</h2>
         <p className="opacity-50">{description}</p>
+
+        {/* Conditional CTA or "Done" Indicator */}
         {done ? (
-          <div className="2xl:mt-auto flex gap-3  items-center text-greeny">
+          <div className="2xl:mt-auto flex gap-3 items-center text-greeny">
             <div className="size-7 rounded bg-greeny/20 flex justify-center items-center">
               <Check className="stroke-greeny" />
             </div>

@@ -1,17 +1,16 @@
 import React from "react";
+import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDate } from "date-fns";
-import { useTranslations } from "next-intl";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EpisodesStatistics } from "@/types/statistics";
 
@@ -21,6 +20,17 @@ type LastFiveFirstSevenDaysChartCardProps = {
   five_latest_episodes: EpisodesStatistics[];
 };
 
+/**
+ * The LastFiveFirstSevenDaysChartCard component displays a chart and table summarizing the performance
+ * of the last five episodes over the first seven days since release.
+ *
+ * @param {LastFiveFirstSevenDaysChartCardProps} props - The props for the component.
+ * @param {Object} props.params - Route parameters, including user type and show ID.
+ * @param {React.ReactNode} props.chart - The chart component to render within the card.
+ * @param {EpisodesStatistics[]} props.five_latest_episodes - An array of statistics for the last five episodes.
+ *
+ * @returns {JSX.Element} The rendered LastFiveFirstSevenDaysChartCard component.
+ */
 const LastFiveFirstSevenDaysChartCard: React.FC<
   LastFiveFirstSevenDaysChartCardProps
 > = ({ params, chart, five_latest_episodes }) => {
@@ -28,6 +38,7 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
 
   return (
     <DashboardCardContainer className="flex-1 h-full flex flex-col gap-10 w-full">
+      {/* Header Section */}
       <div className="w-full flex justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-lg font-semibold capitalize">
@@ -37,16 +48,22 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
           </h2>
         </div>
       </div>
+
+      {/* Chart Section */}
       <div className="w-full h-80 relative">{chart}</div>
+
+      {/* Table Section */}
       <ScrollArea className="w-full h-20">
-        <Table className="flex-1 shrink-0 grow w-full ">
+        <Table className="flex-1 shrink-0 grow w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Ep #</TableHead>
-              <TableHead>Title</TableHead>
-              <TableHead className="text-right">Release Date</TableHead>
-              <TableHead className="text-right">Days Since Release</TableHead>
-              <TableHead className="text-right">Views</TableHead>
+              <TableHead className="w-[100px]">{t("episode-number")}</TableHead>
+              <TableHead>{t("title")}</TableHead>
+              <TableHead className="text-right">{t("release-date")}</TableHead>
+              <TableHead className="text-right">
+                {t("days-since-release")}
+              </TableHead>
+              <TableHead className="text-right">{t("views")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="w-full">
@@ -57,7 +74,7 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
                 </TableCell>
                 <TableCell>{episode.podcast.name}</TableCell>
                 <TableCell className="text-right">
-                  {formatDate(new Date(episode.podcast.publishing_date), "PPP")}
+                  {format(new Date(episode.podcast.publishing_date), "PPP")}
                 </TableCell>
                 <TableCell className="text-right">
                   {episode.days_since_release}
