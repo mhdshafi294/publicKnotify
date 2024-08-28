@@ -74,7 +74,7 @@ function SelectFormInput<T extends FieldValues>({
             dir={dir}
           >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="capitalize">
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
