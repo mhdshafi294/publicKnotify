@@ -21,7 +21,7 @@ const AnalyticsHeader = ({
   const t = useTranslations("Index");
 
   return (
-    <DashboardCardContainer className="w-full flex gap-3">
+    <DashboardCardContainer className="w-full flex flex-col sm:flex-row gap-5 sm:gap-3">
       <div className="w-full flex flex-col gap-1 justify-between">
         <h2 className="text-base font-bold opacity-50">
           {t("all_time_views")}

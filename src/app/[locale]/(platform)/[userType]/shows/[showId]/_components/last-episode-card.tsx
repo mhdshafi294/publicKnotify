@@ -44,9 +44,9 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
   const t = useTranslations("Index");
 
   return (
-    <DashboardCardContainer className="lg:h-[170px] flex justify-between items-center">
+    <DashboardCardContainer className="lg:h-[170px] flex justify-between sm:items-center">
       {/* Episode Thumbnail and Details */}
-      <div className="flex items-center gap-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-6">
         <Image
           src={imgSrc}
           alt={t("last-published-episode-thumbnail")}

@@ -41,7 +41,7 @@ export function LanguageSwitcher() {
             variant={"ghost"}
             className="hover:bg-transparent hover:text-white"
           >
-            <Globe />
+            <Globe className="size-5 md:size-7" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56 text-white border-input border-opacity-20">

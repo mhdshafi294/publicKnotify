@@ -7,7 +7,9 @@ const Page = () => {
   const [active, setActive] = React.useState(false);
 
   useEffect(() => {
-    setActive(true);
+    setTimeout(() => {
+      setActive(true);
+    }, 500);
   }, []);
 
   return (

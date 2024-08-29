@@ -78,7 +78,10 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.currentTime = playback_position?.current_position
-        ? playback_position.current_position
+        ? playback_position?.current_position <=
+          playback_position?.total_time - 10
+          ? playback_position.current_position
+          : 0
         : 0; // Set initial playback time
     }
   }, []);

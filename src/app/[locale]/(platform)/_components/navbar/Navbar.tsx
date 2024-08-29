@@ -36,8 +36,8 @@ const Navbar = async (): Promise<JSX.Element> => {
             <Image
               src="/KnotifyLogo.svg"
               alt="Knotify logo"
-              width={73}
-              height={21}
+              width={94.9}
+              height={27.3}
             />
           </Link>
           {/* Podcaster-specific content */}
