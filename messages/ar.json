@@ -434,7 +434,8 @@
     "saveAndPreviewButton": "حفظ ومعاينة",
     "showCreatedSuccessfully": "تم إنشاء العرض بنجاح",
     "no-price-set-yet": "لم يتم تحديد السعر بعد",
-    "pick-a-date": "اختر موعدًا"
+    "pick-a-date": "اختر موعدًا",
+    "there-are-no-drafts-fot-this-show": "لا توجد مسودات لهذا العرض"
   },
   "notifications": {
     "notifications": "notifications"

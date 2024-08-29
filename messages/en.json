@@ -437,7 +437,8 @@
     "saveAndPreviewButton": "Save and Preview",
     "showCreatedSuccessfully": "Show created successfully",
     "no-price-set-yet": "no price set yet",
-    "pick-a-date": "Pick a date"
+    "pick-a-date": "Pick a date",
+    "there-are-no-drafts-fot-this-show": "There are no drafts fot this show"
   },
   "notifications": {
     "notifications": "notifications"

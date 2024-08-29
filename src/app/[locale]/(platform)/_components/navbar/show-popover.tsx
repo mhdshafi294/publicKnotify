@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
+import { Link, usePathname } from "@/navigation";
 import { Playlist } from "@/types/podcast";
 
 /**
@@ -37,6 +37,7 @@ import { Playlist } from "@/types/podcast";
 const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
   const [openPopover, setOpenPopover] = useState(false);
   const params = useParams();
+  const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("Index");
 
@@ -65,7 +66,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 }
                 alt="show image preview"
               />
-              <p className="text-sm font-bold">
+              <p className="text-sm font-bold capitalize">
                 {playlists.find((show) => show.id.toString() === params.showId)
                   ?.name || t("select_show_here")}
               </p>
@@ -124,7 +125,11 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
               <Link
                 key={playlist.id}
                 passHref
-                href={`/podcaster/shows/${playlist.id}`}
+                href={
+                  !params.showId
+                    ? `/podcaster/shows/${playlist.id}`
+                    : pathname.replace(/shows\/[^/]+/, `shows/${playlist.id}`)
+                }
                 className="w-full group"
               >
                 <div className="flex justify-start items-center gap-3">
@@ -136,12 +141,20 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                     alt="show image preview"
                   />
                   <div>
-                    <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200">
+                    <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200 capitalize">
                       {playlist.name}
                     </p>
                     <p className="leading-4 text-sm text-foreground/60">
                       {playlist.owner_email}
                     </p>
+                    {/* <p className="leading-4 text-xs text-foreground/40">
+                      {!params.showId
+                        ? `/podcaster/shows/${playlist.id}`
+                        : pathname.replace(
+                            /shows\/[^/]+/,
+                            `shows/${playlist.id}`
+                          )}
+                    </p> */}
                   </div>
                 </div>
               </Link>
