@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 

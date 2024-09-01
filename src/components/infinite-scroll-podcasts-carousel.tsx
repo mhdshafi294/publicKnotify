@@ -14,7 +14,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { getTrendingAction } from "@/app/actions/podcastActions";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 import { getDirection } from "@/lib/utils";

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import Loader from "@/components/ui/loader";
 import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import {

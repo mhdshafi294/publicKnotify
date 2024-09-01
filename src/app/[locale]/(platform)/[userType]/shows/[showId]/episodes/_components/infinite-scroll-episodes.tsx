@@ -10,7 +10,7 @@ import { SquareArrowOutUpRightIcon, X } from "lucide-react";
 import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Loader from "@/components/ui/loader";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
 import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { Link, useRouter } from "@/navigation";

@@ -148,7 +148,9 @@ const MobileNavbar = ({
                     href={
                       params.showId
                         ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
-                        : playlists
+                        : playlists !== undefined &&
+                          playlists?.length > 0 &&
+                          playlists[0].id !== undefined
                         ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
                         : `/`
                     }

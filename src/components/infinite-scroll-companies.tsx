@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import CompanyCard from "@/app/[locale]/(platform)/_components/company-card";
 import { getCompaniesAction } from "@/app/actions/companyActions";
 import Loader from "@/components/ui/loader";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { CompaniesResponse, Company } from "@/types/company";
 import { useSession } from "next-auth/react";
 

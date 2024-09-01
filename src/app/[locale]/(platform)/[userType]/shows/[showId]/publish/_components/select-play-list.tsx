@@ -10,7 +10,7 @@ import React, {
 import { useDebounce } from "use-debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 import { Button } from "@/components/ui/button";
 import {

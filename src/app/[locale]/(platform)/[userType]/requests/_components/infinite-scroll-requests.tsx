@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 // Local imports
 import { Request, RequestsResponse } from "@/types/request";
 import RequestCard from "./request-card";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { getRequestsAction } from "@/app/actions/requestsActions";
 import Loader from "@/components/ui/loader";
 
