@@ -40,11 +40,11 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
   done = false,
 }) => {
   return (
-    <DashboardCardContainer className="2xl:h-[404px] flex 2xl:flex-col justify-between gap-5 rounded-[32px]">
+    <DashboardCardContainer className="2xl:h-[404px] flex flex-col sm:flex-row 2xl:flex-col justify-between gap-5 rounded-[32px]">
       {/* Image Section */}
       <div
         className={cn(
-          "2xl:w-full 2xl:h-[170px] w-[270px] h-[170px] relative grayscale-0",
+          "2xl:w-full sm:w-[270px] w-full h-[170px] relative grayscale-0",
           {
             grayscale: done,
           }
@@ -78,7 +78,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
               buttonVariants({
                 variant: "outline",
                 className:
-                  "2xl:w-full w-fit 2xl:mt-auto capitalize text-base rounded-sm border-input text-white/70 font-bold",
+                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm border-input text-white/70 font-bold",
               })
             )}
             href={linkHref}

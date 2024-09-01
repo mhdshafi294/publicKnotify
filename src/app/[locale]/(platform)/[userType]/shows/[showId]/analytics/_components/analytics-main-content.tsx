@@ -61,7 +61,7 @@ const AnalyticsMainContent = async ({
       <AnalyticsHeader showStatistics={showStatistics} />
 
       {/* All Time Views Chart */}
-      <div className="w-full h-[637px]">
+      <div className="w-full lg:h-[637px]">
         <ViewsChartCard
           title={t("all_time_views")}
           value={showStatistics?.playlist_statistics?.total_views.toString()}

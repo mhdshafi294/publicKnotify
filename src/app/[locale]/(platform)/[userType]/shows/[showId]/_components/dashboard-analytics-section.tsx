@@ -53,7 +53,7 @@ const DashboardAnalyticsSection = async ({
       />
 
       {/* Summary Card with Key Metrics */}
-      <DashboardCardContainer className="lg:w-56 lg:h-full flex lg:flex-col gap-3">
+      <DashboardCardContainer className="lg:w-56 lg:h-full flex flex-col sm:flex-row lg:flex-col gap-3">
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-50">
             {t("all_time_views")}
@@ -62,19 +62,19 @@ const DashboardAnalyticsSection = async ({
             {showStatistics?.playlist_statistics?.total_views}
           </p>
         </div>
-        <Separator className="w-full bg-border-secondary" />
+        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-50">{t("top-country")}</h2>
           <p className="font-bold text-xl capitalize">Netherlands</p>
         </div>
-        <Separator className="w-full bg-border-secondary" />
+        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-50">
             {t("most-popular-time")}
           </h2>
           <p className="font-bold text-xl">11am - 12pm</p>
         </div>
-        <Separator className="w-full bg-border-secondary" />
+        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-50">
             {t("most-popular-day")}

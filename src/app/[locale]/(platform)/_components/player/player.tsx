@@ -84,10 +84,28 @@ const Player = () => {
         );
         audioElement.addEventListener("loadeddata", () => {
           setDuration(audioElement.duration);
-          audioElement.currentTime =
-            data?.playback_position?.current_position || 0;
-          setCurrentTime(data?.playback_position?.current_position || 0);
-          setSliderValue([data?.playback_position?.current_position || 0]);
+          audioElement.currentTime = data?.playback_position?.current_position
+            ? data?.playback_position?.current_position <=
+              data?.playback_position?.total_time - 10
+              ? data?.playback_position.current_position
+              : 0
+            : 0;
+          setCurrentTime(
+            data?.playback_position?.current_position
+              ? data?.playback_position?.current_position <=
+                data?.playback_position?.total_time - 10
+                ? data?.playback_position.current_position
+                : 0
+              : 0
+          );
+          setSliderValue([
+            data?.playback_position?.current_position
+              ? data?.playback_position?.current_position <=
+                data?.playback_position?.total_time - 10
+                ? data?.playback_position.current_position
+                : 0
+              : 0,
+          ]);
         });
 
         return () => {

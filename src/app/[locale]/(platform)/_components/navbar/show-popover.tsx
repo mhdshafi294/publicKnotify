@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/navigation";
 import { Playlist } from "@/types/podcast";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 /**
  * The ShowPopover component displays a dropdown-style popover menu
@@ -39,6 +40,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
   const params = useParams();
   const pathname = usePathname();
   const locale = useLocale();
+  const isDeskTop = useMediaQuery("(min-width: 640px)");
   const t = useTranslations("Index");
 
   return (
@@ -59,7 +61,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 width={56}
                 height={40}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover h-10 w-14"
+                className="object-cover h-5 w-7 md:h-10 md:w-14"
                 src={
                   playlists.find((show) => show.id.toString() === params.showId)
                     ?.image || "/draftC.png"
@@ -75,7 +77,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          align={locale === "ar" ? "end" : "start"}
+          align={!isDeskTop ? "center" : locale === "ar" ? "end" : "start"}
           alignOffset={0}
           className="border p-0 border-foreground/20"
         >

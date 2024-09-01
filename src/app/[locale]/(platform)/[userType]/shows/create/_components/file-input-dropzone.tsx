@@ -44,10 +44,10 @@ const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
   return (
     <div className="flex justify-start items-start gap-4">
       <div
-        {...getRootProps({ refKey: "innerRef" })}
+        {...getRootProps({ refKey: "innerref" })}
         className="size-40 border border-dashed flex justify-center items-center shrink-0"
       >
-        <input {...getInputProps({ ref: inputRef, refKey: "innerRef" })} />
+        <input {...getInputProps({ ref: inputRef, refKey: "innerref" })} />
         {file && file.name ? (
           <div
             className={cn(

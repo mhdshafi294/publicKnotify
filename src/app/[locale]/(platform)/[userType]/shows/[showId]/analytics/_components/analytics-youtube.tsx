@@ -39,7 +39,7 @@ const AnalyticsYoutube = ({
       </div>
 
       {/* YouTube Analytics Details */}
-      <div className="w-full flex gap-3">
+      <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-3">
         {/* All-time Views */}
         <div className="w-full flex flex-col gap-1 justify-between">
           <h2 className="text-base font-bold opacity-50">

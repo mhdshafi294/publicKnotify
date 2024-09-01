@@ -62,7 +62,7 @@ const MobileNavbar = ({
         >
           <AlignJustifyIcon />
         </SheetTrigger>
-        <SheetContent className="border-l-muted/25 px-0">
+        <SheetContent className="border-l-border-secondary px-0">
           <SheetHeader>
             <SheetTitle className="flex gap-3 me-3 w-full h-full px-6">
               <Avatar className="cursor-pointer">
@@ -86,7 +86,7 @@ const MobileNavbar = ({
             </SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
-          <Separator className="my-2" />
+          <Separator className="my-2 bg-border-secondary" />
           <div className="flex flex-col gap-2 px-6">
             <div className="flex flex-col justify-start items-start gap-0">
               {mainNavLinks.map((link) => {
@@ -197,7 +197,7 @@ const MobileNavbar = ({
               </Link>
             </div>
           </div>
-          <Separator className="my-5" />
+          <Separator className="my-5  bg-border-secondary" />
           <div className="mx-6 flex flex-col gap-5">
             <div className="flex justify-between items-center">
               <p>{t("language")}</p>
