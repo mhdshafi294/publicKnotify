@@ -1,28 +1,10 @@
 import { CONVERSATIONS, REQUEST, SHOW } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { RequestResponse } from "@/types/request";
+import { ConversationsResponse } from "@/types/conversation";
 
-const getConversations = async ({
-  page,
-  count,
-  search,
-  type,
-}: {
-  page: string;
-  count: string;
-  search?: string;
-  type: string;
-}) => {
-  const params: any = {
-    page,
-    count,
-    search,
-  };
-  const { data } = await axiosInstance.get<RequestResponse>(
-    `/${type}${CONVERSATIONS}`,
-    {
-      params,
-    }
+const getConversations = async ({ type }: { type: string }) => {
+  const { data } = await axiosInstance.get<ConversationsResponse>(
+    `/${type}${CONVERSATIONS}`
   );
   return data;
 };
