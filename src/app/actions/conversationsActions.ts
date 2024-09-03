@@ -10,13 +10,19 @@ export const getConversationsAction = async ({ type }: { type: string }) => {
 };
 
 export const getConversationMessagesAction = async ({
+  page = "1",
+  count = "50",
   id,
   type,
 }: {
+  page?: string;
+  count?: string;
   id: string;
   type: string;
 }) => {
   const getConversationMessagesResponse = await getConversationMessages({
+    page,
+    count,
     id,
     type,
   });

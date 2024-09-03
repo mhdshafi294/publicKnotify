@@ -1,3 +1,4 @@
+import { MessagesSquareIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 const EmptyState = () => {
@@ -17,7 +18,8 @@ const EmptyState = () => {
         items-center 
       "
     >
-      <div className="text-center items-center flex flex-col">
+      <div className="text-center items-center justify-center gap-2 flex flex-col">
+        <MessagesSquareIcon size={36} />
         <h3 className="mt-2 text-2xl font-semibold italic">
           {t("select-a-chat")}
         </h3>

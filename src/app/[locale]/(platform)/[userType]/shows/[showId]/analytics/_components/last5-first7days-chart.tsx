@@ -1,7 +1,13 @@
 "use client";
-
-import React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -9,10 +15,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { EpisodesStatistics } from "@/types/statistics";
-
-type LastFiveFirstSevenDaysChartProps = {
-  five_latest_episodes: EpisodesStatistics[];
-};
 
 /**
  * The LastFiveFirstSevenDaysChart component renders an area chart showing the daily views
@@ -23,17 +25,37 @@ type LastFiveFirstSevenDaysChartProps = {
  *
  * @returns {JSX.Element} The rendered LastFiveFirstSevenDaysChart component.
  */
-const LastFiveFirstSevenDaysChart: React.FC<
-  LastFiveFirstSevenDaysChartProps
-> = ({ five_latest_episodes }) => {
-  const chartData = Array.from({ length: 7 }, (_, index) => ({
-    day: (index + 1).toString(),
-    episode1: five_latest_episodes[0]?.daily_views[index] || 0,
-    episode2: five_latest_episodes[1]?.daily_views[index] || 0,
-    episode3: five_latest_episodes[2]?.daily_views[index] || 0,
-    episode4: five_latest_episodes[3]?.daily_views[index] || 0,
-    episode5: five_latest_episodes[4]?.daily_views[index] || 0,
-  }));
+const LastFiveFirstSevenDaysChart = ({
+  five_latest_episodes,
+}: {
+  five_latest_episodes: EpisodesStatistics[];
+}) => {
+  interface ChartData {
+    day: string;
+    episode1: number;
+    episode2: number;
+    episode3: number;
+    episode4: number;
+    episode5: number;
+  }
+
+  const chartData: ChartData[] = Array.from({ length: 7 }, (_, dayIndex) => {
+    const day = (dayIndex + 1).toString();
+
+    const dailyViews = five_latest_episodes.reduce(
+      (views, episode, episodeIndex) => {
+        return {
+          ...views,
+          [`episode${episodeIndex + 1}`]:
+            episode?.daily_views[Object.keys(episode?.daily_views)[dayIndex]] ||
+            0,
+        };
+      },
+      {} as Omit<ChartData, "day">
+    );
+
+    return { day, ...dailyViews };
+  });
 
   const chartConfig = {
     episode1: {
@@ -60,7 +82,7 @@ const LastFiveFirstSevenDaysChart: React.FC<
 
   return (
     <ChartContainer config={chartConfig} className="w-full h-full">
-      <AreaChart
+      <LineChart
         accessibilityLayer
         data={chartData}
         margin={{
@@ -74,24 +96,56 @@ const LastFiveFirstSevenDaysChart: React.FC<
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value) => `Day ${value}`}
+          tickFormatter={(value) => value.slice(0, 3)}
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        {["episode5", "episode4", "episode3", "episode2", "episode1"].map(
-          (episodeKey, index) => (
-            <Area
-              key={episodeKey}
-              dataKey={episodeKey}
-              type="natural"
-              fill={`var(--color-${episodeKey})`}
-              fillOpacity={0.4}
-              stroke={`var(--color-${episodeKey})`}
-              stackId="a"
-            />
-          )
-        )}
-      </AreaChart>
+        <Line
+          dataKey="episode5"
+          type="linear"
+          stroke="var(--color-episode5)"
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
+          dot={true}
+        />
+        <Line
+          dataKey="episode4"
+          type="linear"
+          stroke="var(--color-episode4)"
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
+          dot={true}
+        />
+        <Line
+          dataKey="episode3"
+          type="linear"
+          stroke="var(--color-episode3)"
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
+          dot={true}
+        />
+        <Line
+          dataKey="episode2"
+          type="linear"
+          stroke="var(--color-episode2)"
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
+          dot={true}
+        />
+        <Line
+          dataKey="episode1"
+          type="linear"
+          stroke="var(--color-episode1)"
+          strokeWidth={5}
+          markerWidth={20}
+          width={20}
+          dot={true}
+        />
+      </LineChart>
     </ChartContainer>
   );
 };

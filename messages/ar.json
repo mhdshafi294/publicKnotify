@@ -438,7 +438,11 @@
     "there-are-no-drafts-fot-this-show": "لا توجد مسودات لهذا العرض",
     "select-a-chat-or-start-a-new-conversation": "حدد دردشة أو ابدأ محادثة جديدة",
     "select-a-chat": "حدد دردشة",
-    "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "لبدء محادثة، يجب أن يكون لديك طلب مقبول أولاً، ثم سيتم فتح الدردشة مع المستخدم ذي الصلة تلقائيًا."
+    "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "لبدء محادثة، يجب أن يكون لديك طلب مقبول أولاً، ثم سيتم فتح الدردشة مع المستخدم ذي الصلة تلقائيًا.",
+    "there-is-no-messages-in-this-chat-yet": "لا توجد رسائل في هذه الدردشة حتى الآن",
+    "you-can-start-a-conversation-with-this": "يمكنك بدء محادثة مع هذا",
+    "today": "اليوم",
+    "yesterday": "أمس"
   },
   "notifications": {
     "notifications": "notifications"

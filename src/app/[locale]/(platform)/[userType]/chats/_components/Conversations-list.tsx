@@ -6,31 +6,42 @@ import React, { useEffect } from "react";
 import ConversationCard from "./conversation-card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useChatStore from "@/store/conversations/use-chat-store";
 
 type ConversationListProps = {
-  initialConversations: Conversation[];
+  ConversationsList: Conversation[];
   type: string;
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-const ConversationList: React.FC<ConversationListProps> = ({
-  initialConversations,
+const ConversationsList: React.FC<ConversationListProps> = ({
+  ConversationsList,
   type,
+  searchParams,
 }) => {
   const t = useTranslations("Index");
+  const { setConversationId } = useChatStore((state) => state);
+
+  useEffect(() => {
+    if (searchParams.conversation_id !== undefined) {
+      setConversationId(+searchParams.conversation_id);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams.conversation_id]);
 
   return (
     <div
       className={cn(
-        "absolute inset-0 w-full  md:relative md:inset-auto  md:w-80 bg-card-secondary px-3 py-5 rounded-2xl border border-border-secondary"
+        "absolute inset-0 w-full md:relative md:inset-auto md:w-80 bg-card-secondary py-5 rounded-2xl border border-border-secondary"
       )}
     >
-      <h2 className="text-2xl font-bold mb-5">
+      <h2 className="text-2xl font-bold px-3 mb-5">
         {type === "podcaster" ? t("companies") : t("podcasters")}
       </h2>
-      {initialConversations.length > 0 ? (
+      {ConversationsList.length > 0 ? (
         <ScrollArea className="h-[calc(100%-52px)]">
           <ul className=" flex flex-col">
-            {initialConversations.map((conversation) => (
+            {ConversationsList.map((conversation) => (
               <li key={conversation?.id}>
                 <ConversationCard conversation={conversation!} />
               </li>
@@ -53,4 +64,4 @@ const ConversationList: React.FC<ConversationListProps> = ({
   );
 };
 
-export default ConversationList;
+export default ConversationsList;

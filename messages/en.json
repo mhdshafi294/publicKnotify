@@ -443,7 +443,11 @@
     "companies": "companies",
     "select-a-chat": "Select a chat",
     "no-conversations-opened-yet": "No chats opened yet",
-    "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "To start a chat you should have an accepted request first, then a chat with the related user will be opened automatically."
+    "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "To start a chat you should have an accepted request first, then a chat with the related user will be opened automatically.",
+    "there-is-no-messages-in-this-chat-yet": "There is no messages in this chat yet",
+    "you-can-start-a-conversation-with-this": "You can start a conversation with this",
+    "today": "today",
+    "yesterday": "yesterday"
   },
   "notifications": {
     "notifications": "notifications"

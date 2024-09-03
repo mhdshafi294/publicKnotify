@@ -2,7 +2,7 @@ import {
   getConversationMessagesAction,
   getConversationsAction,
 } from "@/app/actions/conversationsActions";
-import ConversationList from "./_components/Conversation-list";
+import ConversationsList from "./_components/Conversations-list";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
@@ -47,15 +47,16 @@ export default async function ChatPage({
 
   return (
     <MaxWidthContainer className="h-[calc(80vh-200px)] flex-1 flex gap-9 md:py-8 ">
-      <ConversationList
-        initialConversations={conversations.conversations}
+      <ConversationsList
+        searchParams={searchParams}
+        ConversationsList={conversations.conversations}
         type={session?.user?.type!}
       />
       {searchParams.conversation_id !== undefined &&
       ConversationMessagesResponse ? (
         <ChatWindow
           searchParams={searchParams}
-          messages={ConversationMessagesResponse.messages}
+          initialMessages={ConversationMessagesResponse?.messages}
           type={session?.user?.type!}
         />
       ) : (
