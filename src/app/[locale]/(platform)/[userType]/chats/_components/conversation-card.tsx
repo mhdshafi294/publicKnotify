@@ -25,7 +25,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   useEffect(() => {
     // This effect ensures that the code using `window` runs only on the client
     if (!isMounted) {
-      setIsMounted(true); //! just for git commit message "continue working on the chat system: conversations list sidebar, conversation card to show and select a chat, the chatiing box except the input field"
+      setIsMounted(true);
     }
   }, []);
 

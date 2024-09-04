@@ -447,7 +447,8 @@
     "there-is-no-messages-in-this-chat-yet": "There is no messages in this chat yet",
     "you-can-start-a-conversation-with-this": "You can start a conversation with this",
     "today": "today",
-    "yesterday": "yesterday"
+    "yesterday": "yesterday",
+    "write-a-message": "Write a message..."
   },
   "notifications": {
     "notifications": "notifications"

@@ -56,7 +56,7 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
   });
 
   const chartData = Array.from({ length: 7 }, (_, index) =>
-    getDayData(index, 7 - index)
+    getDayData(index, 6 - index)
   );
 
   return (

@@ -11,9 +11,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getConversationMessagesAction } from "@/app/actions/conversationsActions";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import useChatStore from "@/store/conversations/use-chat-store";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import ChatMessage from "./chat-message";
 import { useRouter } from "next/navigation";
 import Loader from "@/components/ui/loader";
@@ -47,6 +46,8 @@ const ChatWindow = ({
   // Intersection observer for detecting when to fetch the next page
   const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
 
+  const conversation_id = searchParams.conversation_id as string | undefined;
+
   // Infinite query setup
   const {
     isError,
@@ -56,12 +57,12 @@ const ChatWindow = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["messages", { type }],
+    queryKey: ["messages", { type, conversation_id }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: ConversationMessagesResponse =
         await getConversationMessagesAction({
           type,
-          id: searchParams.conversation_id as string,
+          id: conversation_id as string,
           page: pageParam.toString(),
         });
       return {
@@ -127,15 +128,18 @@ const ChatWindow = ({
 
   return (
     <div className="flex-1 px-3 pt-1">
-      {!searchParams.conversation_id || !conversationId ? (
+      {!conversation_id || !conversationId ? (
         <div className="flex-1 px-3 py-5 flex justify-center items-center">
           <EmptyState />
         </div>
       ) : (
-        <div className="flex flex-col gap-5 h-full">
-          <div className="w-full flex justify-between items-center">
+        <div className="flex flex-col h-full bg-card-secondary rounded-2xl ">
+          <div className="w-full flex gap-2 items-center bg-card p-4 rounded-t-2xl">
+            <button onClick={closeChat} className="group p-2">
+              <ArrowLeftIcon className="opacity-70 group-hover:opacity-100 duration-200" />
+            </button>
             <div className="flex items-center gap-3">
-              <div className="relative size-16 rounded-full overflow-hidden">
+              <div className="relative size-12 rounded-full overflow-hidden">
                 <Image
                   fill
                   className="rounded-full object-cover"
@@ -152,11 +156,8 @@ const ChatWindow = ({
                 {userName}
               </h3>
             </div>
-            <Button variant={"ghost"} size={"icon"} onClick={closeChat}>
-              <X />
-            </Button>
           </div>
-          <div className="w-full flex-1 bg-card-secondary rounded-2xl relative">
+          <div className="w-full flex-1 relative">
             {initialMessages.length === 0 ? (
               <div
                 className="
@@ -182,29 +183,31 @@ const ChatWindow = ({
                 </div>
               </div>
             ) : (
-              <div className="w-full flex flex-col gap-0 relative">
-                <div
-                  ref={ref}
-                  className="col-span-1 mt-0.5 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
-                >
-                  {isFetchingNextPage && <Loader className="size-9" />}
-                  <span className="sr-only">{t("loading")}</span>
-                </div>
-                <ScrollArea className="flex-1 flex flex-col gap-3">
-                  {data?.pages.map((page) =>
-                    page.messages.map((message) => (
-                      <ChatMessage
-                        key={message.id}
-                        message={message}
-                        type={type}
-                        date={message.created_at}
-                      />
-                    ))
-                  )}
+              <div className="w-full h-full relative">
+                <ScrollArea className="h-[620px]">
+                  <div className="h-fit flex flex-col-reverse gap-3">
+                    {data?.pages.map((page) =>
+                      page.messages.map((message) => (
+                        <ChatMessage
+                          key={message.id}
+                          message={message}
+                          type={type}
+                          date={message.created_at}
+                        />
+                      ))
+                    )}
+                    <div
+                      ref={ref}
+                      className="col-span-1 mt-0.5 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
+                    >
+                      {isFetchingNextPage && <Loader className="size-9" />}
+                      <span className="sr-only">{t("loading")}</span>
+                    </div>
+                  </div>
                 </ScrollArea>
               </div>
             )}
-            <ChatInput />
+            <ChatInput conversation_id={conversation_id} type={type} />
           </div>
         </div>
       )}

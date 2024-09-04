@@ -1,3 +1,5 @@
+"use server";
+
 import getConversationMessages from "@/services/conversations/get-conversation-messages";
 import getConversations from "@/services/conversations/get-conversations";
 import storeMessage from "@/services/conversations/store-message";

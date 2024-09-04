@@ -442,7 +442,8 @@
     "there-is-no-messages-in-this-chat-yet": "لا توجد رسائل في هذه الدردشة حتى الآن",
     "you-can-start-a-conversation-with-this": "يمكنك بدء محادثة مع هذا",
     "today": "اليوم",
-    "yesterday": "أمس"
+    "yesterday": "أمس",
+    "write-a-message": "أكتب رسالة..."
   },
   "notifications": {
     "notifications": "notifications"
