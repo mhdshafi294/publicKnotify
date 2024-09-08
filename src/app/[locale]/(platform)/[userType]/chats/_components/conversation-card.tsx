@@ -49,7 +49,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
       <div className="relative size-16 rounded-full overflow-hidden">
         <Image
           fill
-          className="rounded-full object-cover"
+          className="size-16 rounded-full object-cover"
           src={
             conversation.user_image && conversation.user_image.length > 0
               ? conversation.user_image
@@ -59,13 +59,13 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
-      <div className="flex flex-col justify-center gap-4">
-        <div className="flex justify-between items-center gap-2">
+      <div className="flex flex-col justify-center gap-2 flex-1">
+        <div className="w-full flex justify-between items-center gap-2">
           <h3 className="font-bold text-base text-wrap capitalize">
             {conversation?.user_name}
           </h3>
           {conversation?.last_message?.created_at ? (
-            <p className="font-bold text-sm text-wrap opacity-50">
+            <p className="text-[10px] text-wrap opacity-50">
               {isToday(new Date(conversation?.last_message?.created_at))
                 ? t("today")
                 : isYesterday(new Date(conversation?.last_message?.created_at))
@@ -77,7 +77,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
             </p>
           ) : null}
         </div>
-        <p className="text-xs text-wrap opacity-70">
+        <p className="text-xs text-wrap opacity-70 text-start">
           {conversation?.last_message?.content}
         </p>
       </div>

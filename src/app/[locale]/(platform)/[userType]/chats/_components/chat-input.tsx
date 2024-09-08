@@ -5,6 +5,7 @@ import {
   ImageIcon,
   PaperclipIcon,
   SendHorizonalIcon,
+  SendHorizontalIcon,
   SendIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -78,7 +79,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
   });
 
   const handleSubmit = async (data: MessageStoreSchema) => {
-    console.log(data);
+    // console.log(data);
     try {
       // console.log(data);
       // Your form submission logic here
@@ -92,6 +93,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
       }
 
       server_storeMessageAction({ formData, type });
+      console.log("message submitted");
       form.reset();
     } catch (error) {
       if (error instanceof ZodError) {
@@ -146,7 +148,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
             </FormItem>
           )}
         />
-
         <ChatImageInputDialog
           handleSubmit={handleSubmit}
           handleError={handleError}
@@ -158,10 +159,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
           handleError={handleError}
         />
         <button className="p-1 group" type="submit">
-          <SendIcon
-            strokeWidth={3}
-            size={28}
-            className="group-hover:opacity-100 duration-200 stroke-primary fill-primary"
+          <SendHorizontalIcon
+            strokeWidth={1}
+            size={36}
+            className="group-hover:scale-110 duration-200 stroke-card fill-primary"
           />
         </button>
       </form>

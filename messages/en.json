@@ -448,9 +448,11 @@
     "you-can-start-a-conversation-with-this": "You can start a conversation with this",
     "today": "today",
     "yesterday": "yesterday",
-    "write-a-message": "Write a message..."
+    "write-a-message": "Write a message...",
+    "season": "season"
   },
   "notifications": {
     "notifications": "notifications"
-  }
+  },
+  "season": "season"
 }

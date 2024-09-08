@@ -289,6 +289,8 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
       if (data.publishing_time) {
         formData.append("publishing_time", data.publishing_time);
       }
+      if (data.season) formData.append("season", data.season);
+      if (data.episode_order) formData.append("season", data.episode_order);
       formData.append("company_tag", data.company_tag);
 
       if (data.notes) formData.append("note", data.notes);

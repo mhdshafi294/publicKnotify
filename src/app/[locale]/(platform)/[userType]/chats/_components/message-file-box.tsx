@@ -29,7 +29,7 @@ const MessageFileBox = forwardRef<HTMLDivElement, PropsType>(
           className={cn(
             "w-fit max-w-[75%] md:max-w-[45%] px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
-              ? "col-start-2 bg-primary text-background rounded-ee-none"
+              ? "col-start-2 bg-primary rounded-ee-none"
               : "col-end-2 bg-background border rounded-es-none"
           )}
         >
@@ -49,7 +49,11 @@ const MessageFileBox = forwardRef<HTMLDivElement, PropsType>(
               {content}
             </p>
           ) : null}
-          <ChatMessageDate isSending={isSending} messageDate={messageDate} />
+          <ChatMessageDate
+            isSending={isSending}
+            messageDate={messageDate}
+            isSender={isSender}
+          />
         </div>
       </div>
     );

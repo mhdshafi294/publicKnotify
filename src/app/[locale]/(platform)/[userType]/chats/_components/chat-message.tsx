@@ -1,22 +1,24 @@
+"use client";
+
 import { ConversationMessage } from "@/types/conversation";
 import React from "react";
 import MessageBox from "./message-box";
 import { commonImageExtensions } from "@/constant";
 import MessageFileBox from "./message-file-box";
-import { format, isToday, isYesterday } from "date-fns";
+import { format, isSameDay, isToday, isYesterday } from "date-fns";
 import { useTranslations } from "next-intl";
 import MessageImagesBox from "./message-images-box";
 
 type ChatMessageProps = {
   message: ConversationMessage;
+  previousMessage: ConversationMessage;
   type: string;
-  date: string;
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({
   message,
+  previousMessage,
   type,
-  date: messageDate,
 }) => {
   const t = useTranslations("Index");
 
@@ -32,14 +34,21 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     //     : undefined,
   };
   const msg = () => {
-    if (message?.media?.length === 0) return <MessageBox {...setting} />;
+    if (message?.media?.length === 0)
+      return <MessageBox {...setting} key={message.id} />;
     else if (
       message.media.length >= 1 &&
       commonImageExtensions.includes(
         message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
       )
     )
-      return <MessageImagesBox {...setting} images={message?.media} />;
+      return (
+        <MessageImagesBox
+          {...setting}
+          images={message?.media}
+          key={message.id}
+        />
+      );
     else if (
       message.media.length === 1 &&
       !commonImageExtensions.includes(
@@ -55,13 +64,23 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             ),
             url: message?.media[0],
           }}
+          key={message.id}
         />
       );
   };
   const date = () => {
+    if (
+      previousMessage &&
+      isSameDay(
+        new Date(message.created_at),
+        new Date(previousMessage.created_at)
+      )
+    )
+      return null;
+
     return (
       <div className="w-full flex justify-center items-center">
-        <p className="bg-background text-foreground border text-xs px-2 py-1 rounded text-">
+        <p className="bg-card text-card-foreground/80 text-xs px-3 py-1.5 rounded-full">
           {isToday(new Date(message?.created_at))
             ? t("today")
             : isYesterday(new Date(message?.created_at))

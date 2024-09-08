@@ -46,7 +46,7 @@ export default async function ChatPage({
   }
 
   return (
-    <MaxWidthContainer className="h-[calc(80vh-200px)] flex-1 flex gap-9 md:py-8 ">
+    <MaxWidthContainer className="flex-1 flex gap-9 md:py-8 ">
       <ConversationsList
         searchParams={searchParams}
         ConversationsList={conversations.conversations}

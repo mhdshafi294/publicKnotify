@@ -184,15 +184,15 @@ const ChatWindow = ({
               </div>
             ) : (
               <div className="w-full h-full relative">
-                <ScrollArea className="h-[620px]">
-                  <div className="h-fit flex flex-col-reverse gap-3">
+                <ScrollArea className="h-[calc(100dvh-280px)]">
+                  <div className="h-fit flex flex-col-reverse gap-3 py-3">
                     {data?.pages.map((page) =>
-                      page.messages.map((message) => (
+                      page.messages.map((message, index) => (
                         <ChatMessage
                           key={message.id}
                           message={message}
                           type={type}
-                          date={message.created_at}
+                          previousMessage={page.messages[index + 1]}
                         />
                       ))
                     )}

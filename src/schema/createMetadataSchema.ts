@@ -67,6 +67,8 @@ export const createMetadataSchema = z
         message: "createMetadataSchema.errorMessage.invalidTimeFormat",
       })
       .optional(),
+    season: z.string().optional(),
+    episode_order: z.string().optional(),
     company_tag: z.string(),
     thumbnail: fileOrUrlSchema.optional(),
     background: fileOrUrlSchema.optional(),
