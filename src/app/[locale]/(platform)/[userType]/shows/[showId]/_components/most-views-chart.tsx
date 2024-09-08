@@ -2,7 +2,6 @@
 
 import React from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-import { format, parseISO } from "date-fns";
 import {
   ChartConfig,
   ChartContainer,
@@ -10,10 +9,23 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ShowViewsStatistics } from "@/types/statistics";
+import { format, parseISO } from "date-fns";
 
-type MostViewsChartProps = {
-  showViews: ShowViewsStatistics;
-};
+// const chartData = [
+//   { day: "Sun", view: 186 },
+//   { day: "Mon", view: 305 },
+//   { day: "Tus", view: 237 },
+//   { day: "Thu", view: 73 },
+//   { day: "Fri", view: 209 },
+//   { day: "Sat", view: 214 },
+// ];
+
+const chartConfig = {
+  view: {
+    label: "view",
+    color: "hsl(var(--chart-1))",
+  },
+} satisfies ChartConfig;
 
 /**
  * The MostViewsChart component renders a line chart showing the daily views
@@ -24,24 +36,28 @@ type MostViewsChartProps = {
  *
  * @returns {JSX.Element} The rendered MostViewsChart component.
  */
-const MostViewsChart: React.FC<MostViewsChartProps> = ({ showViews }) => {
-  const chartData = Array.from({ length: 7 }, (_, index) => ({
+
+const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
+  // console.log(showViews);
+  const getDayData = (index: number, offsetDays: number) => ({
     day: format(
       parseISO(
-        showViews?.views_over_time[index]?.date ||
-          new Date(Date.now() - (7 - index) * 24 * 60 * 60 * 1000).toISOString()
+        showViews?.views_over_time[index]?.date
+          ? showViews?.views_over_time[index]?.date
+          : new Date(
+              Date.now() - offsetDays * 24 * 60 * 60 * 1000
+            ).toISOString()
       ),
       "EEE"
     ),
-    view: showViews?.views_over_time[index]?.views_count || 0,
-  }));
+    view: showViews?.views_over_time[index]?.views_count
+      ? showViews?.views_over_time[index]?.views_count
+      : 0,
+  });
 
-  const chartConfig = {
-    view: {
-      label: "view",
-      color: "hsl(var(--chart-1))",
-    },
-  } satisfies ChartConfig;
+  const chartData = Array.from({ length: 7 }, (_, index) =>
+    getDayData(index, 6 - index)
+  );
 
   return (
     <ChartContainer config={chartConfig}>
@@ -71,6 +87,8 @@ const MostViewsChart: React.FC<MostViewsChartProps> = ({ showViews }) => {
           type="linear"
           stroke="var(--color-view)"
           strokeWidth={5}
+          markerWidth={20}
+          width={20}
           dot={false}
         />
       </LineChart>

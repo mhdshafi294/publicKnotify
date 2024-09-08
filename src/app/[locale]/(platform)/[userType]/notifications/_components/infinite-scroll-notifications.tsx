@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns"; // External utility for date for
 import { useTranslations } from "next-intl"; // External dependency for internationalization
 
 import { Notification, NotificationsResponse } from "@/types/notification"; // Internal type definitions
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer"; // Internal custom hook for intersection observer
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"; // Internal custom hook for intersection observer
 import { getNotificationsAction } from "@/app/actions/notificationActions"; // Internal function for fetching notifications
 import Loader from "@/components/ui/loader"; // Internal component for loading indicator
 import { Separator } from "@/components/ui/separator"; // Internal component for separator

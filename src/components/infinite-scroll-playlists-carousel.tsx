@@ -14,7 +14,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import PlaylistCard from "./playlist-card";

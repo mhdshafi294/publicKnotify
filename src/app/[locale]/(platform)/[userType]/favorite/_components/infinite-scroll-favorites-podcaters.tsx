@@ -8,7 +8,7 @@ import { PodcasterCard } from "@/components/podcaster-card";
 import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
 import useGetFavoritePodcasters from "@/hooks/queries/use-get-favorite-podcasters";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Podcaster } from "@/types/podcaster";
 
 // TypeScript Interface for Props

@@ -16,7 +16,7 @@ import Loader from "@/components/ui/loader";
  */
 const Loading = () => {
   return (
-    <div className="h-dvh w-screen overflow-hidden  flex flex-col items-center justify-center bg-background">
+    <div className="h-[calc(100vh-72px)] w-screen overflow-hidden flex flex-col items-center justify-center bg-background">
       {/* Background Elements */}
       <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
@@ -29,6 +29,7 @@ const Loading = () => {
             className="opacity-50"
             src="/auth-r-bg.svg"
             alt="background logo"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             fill
           />
         </div>

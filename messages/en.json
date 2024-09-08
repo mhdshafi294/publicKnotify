@@ -438,7 +438,17 @@
     "showCreatedSuccessfully": "Show created successfully",
     "no-price-set-yet": "no price set yet",
     "pick-a-date": "Pick a date",
-    "there-are-no-drafts-fot-this-show": "There are no drafts fot this show"
+    "there-are-no-drafts-fot-this-show": "There are no drafts fot this show",
+    "select-a-chat-or-start-a-new-conversation": "Select a chat or start a new conversation",
+    "companies": "companies",
+    "select-a-chat": "Select a chat",
+    "no-conversations-opened-yet": "No chats opened yet",
+    "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "To start a chat you should have an accepted request first, then a chat with the related user will be opened automatically.",
+    "there-is-no-messages-in-this-chat-yet": "There is no messages in this chat yet",
+    "you-can-start-a-conversation-with-this": "You can start a conversation with this",
+    "today": "today",
+    "yesterday": "yesterday",
+    "write-a-message": "Write a message..."
   },
   "notifications": {
     "notifications": "notifications"

@@ -12,7 +12,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import ThumbnailsCover from "@/components/thumbnails-cover";
 import Loader from "@/components/ui/loader";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
 import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { useRouter } from "@/navigation";

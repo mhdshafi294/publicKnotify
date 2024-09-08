@@ -7,7 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
 import useGetFavoritePodcasts from "@/hooks/queries/use-get-favorite-podcasts";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Podcast } from "@/types/podcast";
 
 // TypeScript Interface for Props

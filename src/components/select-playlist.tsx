@@ -20,7 +20,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { useDebounce } from "use-debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Loader from "@/components/ui/loader";
 import { getPlayListsAction } from "@/app/actions/podcastActions";

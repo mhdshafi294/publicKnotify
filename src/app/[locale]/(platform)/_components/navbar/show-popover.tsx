@@ -21,7 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/navigation";
 import { Playlist } from "@/types/podcast";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /**
  * The ShowPopover component displays a dropdown-style popover menu

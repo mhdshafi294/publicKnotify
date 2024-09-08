@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { getTrendingAction } from "@/app/actions/podcastActions";
 import { PodcastCard } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
 
 /**

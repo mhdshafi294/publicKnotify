@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 

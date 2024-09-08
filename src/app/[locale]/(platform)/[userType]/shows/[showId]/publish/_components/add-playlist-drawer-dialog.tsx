@@ -3,7 +3,7 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import { Button } from "@/components/ui/button";
 import {
