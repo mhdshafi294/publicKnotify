@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import {
@@ -57,12 +58,10 @@ const ChatImageInputDialog = ({
 
   const handleRemoveFile = (index: number) => {
     // Get the current media array using getValues to ensure it's up-to-date
-    const currentMedia = form.getValues("media") || [];
+    // const currentMedia = form.getValues("media") || [];
 
     // Remove the file at the specified index
-    const updatedMedia = currentMedia.filter(
-      (_: any, i: number) => i !== index
-    );
+    const updatedMedia = mediaArray.filter((_: any, i: number) => i !== index);
 
     let newMediaIndex = mediaIndex;
 
@@ -85,13 +84,6 @@ const ChatImageInputDialog = ({
 
     // Update the form with the new media array
     form.setValue("media", updatedMedia, { shouldValidate: true });
-
-    // Debugging logs
-    console.log("Removing index:", index);
-    console.log("Current media:", currentMedia);
-    console.log("Updated media:", updatedMedia);
-    console.log("Old mediaIndex:", mediaIndex);
-    console.log("New mediaIndex:", newMediaIndex);
   };
 
   const openFileDialog = () => {
@@ -102,7 +94,10 @@ const ChatImageInputDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onCloseAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           {mediaArray.length > 0 ? (
             <DialogTitle>
@@ -120,11 +115,11 @@ const ChatImageInputDialog = ({
             </DialogTitle>
           ) : null}
         </DialogHeader>
-        {mediaArray[mediaIndex] ? (
-          <PhotoProvider maskOpacity={0.5}>
+        {mediaArray.length > 0 ? (
+          <>
+            {/* <PhotoProvider maskOpacity={0.5}> */}
             {mediaArray[mediaIndex]?.name ? (
-              <PhotoView src={convertFileToURL(mediaArray[mediaIndex])}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+              <>
                 {commonImageExtensions.includes(
                   mediaArray[mediaIndex]?.name?.slice(
                     mediaArray[mediaIndex]?.name?.lastIndexOf(".") + 1
@@ -142,7 +137,27 @@ const ChatImageInputDialog = ({
                 ) : (
                   <FileSymlinkIcon strokeWidth={1} className="w-full h-full " />
                 )}
-              </PhotoView>
+              </>
+            ) : mediaArray[0]?.name ? (
+              <>
+                {commonImageExtensions.includes(
+                  mediaArray[0]?.name?.slice(
+                    mediaArray[0]?.name?.lastIndexOf(".") + 1
+                  )
+                ) ? (
+                  <img
+                    className={cn(
+                      "object-contain relative cursor-pointer w-full max-h-[500px] rounded-lg",
+                      "before:absolute before:inset-0 before: bg-secondary before:z-10",
+                      isLoaded ? "before:hidden" : "before:block"
+                    )}
+                    src={convertFileToURL(mediaArray[0])}
+                    alt="image"
+                  />
+                ) : (
+                  <FileSymlinkIcon strokeWidth={1} className="w-full h-full " />
+                )}
+              </>
             ) : null}
             <ScrollArea>
               <div className="w-full flex flex-row-reverse gap-2">
@@ -174,7 +189,7 @@ const ChatImageInputDialog = ({
                     {/* Remove button */}
                     <button
                       onClick={() => handleRemoveFile(index)}
-                      className="absolute top-0 right-0 p-1 bg-black/50 text-white "
+                      className="absolute top-0 right-0 p-1 bg-black/50 text-white z-10"
                     >
                       <X size={16} />
                     </button>
@@ -201,7 +216,8 @@ const ChatImageInputDialog = ({
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-          </PhotoProvider>
+            {/* </PhotoProvider> */}
+          </>
         ) : null}
         <div className="w-full bg-card rounded-full flex items-center justify-between px-3">
           <MessageContentFieltd

@@ -14,19 +14,16 @@ export function usePusher(channelName: string) {
 
   useEffect(() => {
     if (!pusherClientRef.current) {
-      pusherClientRef.current = new Pusher(
-        process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
-        {
-          cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
-          authEndpoint: `${API_URL}/broadcasting/auth`,
-          auth: {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
+      pusherClientRef.current = new Pusher("b980829bac24670ac87f", {
+        cluster: "mt1",
+        authEndpoint: `${API_URL}broadcasting/auth`,
+        auth: {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
-        }
-      );
+        },
+      });
     }
 
     if (!channelRef.current) {

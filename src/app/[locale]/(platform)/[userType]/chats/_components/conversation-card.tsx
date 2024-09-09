@@ -16,9 +16,8 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   conversation,
 }) => {
   const t = useTranslations("Index");
-  const { setConversationId, setUserImage, setUserName } = useChatStore(
-    (state) => state
-  );
+  const { setConversationId, setUserImage, setUserName, setUuid } =
+    useChatStore((state) => state);
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -38,6 +37,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     setConversationId(conversation.id);
     setUserImage(conversation.user_image);
     setUserName(conversation.user_name);
+    setUuid(conversation.uuid ? conversation.uuid : undefined);
     router.push(`${currentPath}?${searchParams.toString()}`);
   };
 

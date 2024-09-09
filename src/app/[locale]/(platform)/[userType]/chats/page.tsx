@@ -57,6 +57,7 @@ export default async function ChatPage({
         <ChatWindow
           searchParams={searchParams}
           initialMessages={ConversationMessagesResponse?.messages}
+          recevier={ConversationMessagesResponse?.receiver}
           type={session?.user?.type!}
         />
       ) : (

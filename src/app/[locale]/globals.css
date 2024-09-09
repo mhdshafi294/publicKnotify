@@ -100,6 +100,14 @@
   }
 }
 
+.styled-scrollbar::-webkit-scrollbar {
+  @apply rounded-full w-1 px-1;
+}
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full w-1 bg-border-secondary;
+  /* background-clip: content-box; */
+}
+
 /* Apply base styles to all elements */
 @layer base {
   * {
@@ -121,6 +129,11 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* .styled-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  } */
 
   /* Loading blur text animation */
   @keyframes blur-text {
