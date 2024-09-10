@@ -26,6 +26,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     if (!isMounted) {
       setIsMounted(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goToConversation = () => {

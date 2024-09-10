@@ -20,6 +20,7 @@ export type ConversationMessage = {
   content: string | null;
   media: string[];
   is_sender: boolean;
+  is_sending?: undefined | null | boolean;
   seen_at: null | string;
   created_at: string;
 };

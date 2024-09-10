@@ -49,7 +49,7 @@ export default async function ChatPage({
     <MaxWidthContainer className="flex-1 flex gap-9 md:py-8 ">
       <ConversationsList
         searchParams={searchParams}
-        ConversationsList={conversations.conversations}
+        initialConversationsList={conversations.conversations}
         type={session?.user?.type!}
       />
       {searchParams.conversation_id !== undefined &&

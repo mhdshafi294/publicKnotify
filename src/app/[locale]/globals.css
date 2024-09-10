@@ -101,10 +101,10 @@
 }
 
 .styled-scrollbar::-webkit-scrollbar {
-  @apply rounded-full w-1 px-1;
+  @apply rounded-full w-2;
 }
 .styled-scrollbar::-webkit-scrollbar-thumb {
-  @apply rounded-full w-1 bg-border-secondary;
+  @apply rounded-full w-2 bg-border-secondary;
   /* background-clip: content-box; */
 }
 

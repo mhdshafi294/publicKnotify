@@ -12,19 +12,21 @@ import MessageImagesBox from "./message-images-box";
 type ChatMessageProps = {
   message: ConversationMessage;
   previousMessage: ConversationMessage;
+  isSending?: boolean;
   type: string;
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({
   message,
   previousMessage,
+  isSending = false,
   type,
 }) => {
   const t = useTranslations("Index");
 
   const setting = {
     key: message.id,
-    isSending: false,
+    isSending,
     messageDate: message.created_at,
     isSender: message.is_sender,
     content: message.content,

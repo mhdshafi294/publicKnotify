@@ -12,8 +12,10 @@ export function usePusher(channelName: string) {
   const pusherClientRef = useRef<Pusher | null>(null);
   const channelRef = useRef<Channel | null>(null);
 
+  Pusher.logToConsole = true;
+
   useEffect(() => {
-    if (!pusherClientRef.current) {
+    if (!pusherClientRef.current && token) {
       pusherClientRef.current = new Pusher("b980829bac24670ac87f", {
         cluster: "mt1",
         authEndpoint: `${API_URL}broadcasting/auth`,
@@ -26,8 +28,8 @@ export function usePusher(channelName: string) {
       });
     }
 
-    if (!channelRef.current) {
-      channelRef.current = pusherClientRef.current.subscribe(channelName);
+    if (!channelRef.current && pusherClientRef?.current) {
+      channelRef.current = pusherClientRef?.current?.subscribe(channelName);
     }
 
     return () => {

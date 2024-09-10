@@ -74,7 +74,6 @@ const ChatWindow = ({
   }, [conversation_id]);
 
   // Initialize Pusher to subscribe to conversation events
-
   const { channel } = usePusher(
     `private-conversation.${uuid ? uuid : recevier.uuid}`
   );
@@ -147,10 +146,11 @@ const ChatWindow = ({
         created_at: pusherNewMessage.created_at,
       };
 
-      setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
+      if (!newMessage.is_sender)
+        setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
 
       // Scroll to the bottom when a new message is received
-      bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
+      // bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     // Subscribe to the `new-message` event in the channel
@@ -160,6 +160,7 @@ const ChatWindow = ({
     return () => {
       channel.unbind("App\\Events\\SendMessage", handleNewMessage);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channel]);
 
   // useEffect(() => {
@@ -170,7 +171,10 @@ const ChatWindow = ({
     if (!showScrollToBottom) {
       bottomRef?.current?.scrollIntoView({ behavior: "instant" });
     }
-  }, [showScrollToBottom, newMessages]);
+    if (showScrollToBottom && newMessages[newMessages.length - 1]?.is_sender) {
+      bottomRef?.current?.scrollIntoView({ behavior: "instant" });
+    }
+  }, [newMessages]);
 
   // Scroll to bottom button functionality for the ScrollArea
   useEffect(() => {
@@ -279,6 +283,7 @@ const ChatWindow = ({
                           key={`new-${message.id}`} // Ensure unique key for real-time messages
                           message={message}
                           type={type}
+                          isSending={message?.is_sending ? true : false}
                           previousMessage={
                             index > 0
                               ? data?.pages[0]?.messages[index - 1]!
@@ -308,7 +313,12 @@ const ChatWindow = ({
                 </div>
               </div>
             )}
-            <ChatInput conversation_id={conversation_id} type={type} />
+            <ChatInput
+              conversation_id={conversation_id}
+              type={type}
+              newMessages={newMessages}
+              setNewMessages={setNewMessages}
+            />
             {showScrollToBottom ? (
               <button
                 className="absolute bottom-20 right-10 p-3 bg-secondary text-white rounded-full shadow-lg"
