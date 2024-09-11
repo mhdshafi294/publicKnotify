@@ -20,7 +20,19 @@ export type ConversationMessage = {
   content: string | null;
   media: string[];
   is_sender: boolean;
+  is_sending?: undefined | null | boolean;
   seen_at: null | string;
+  created_at: string;
+};
+
+export type PusherMessage = {
+  content: null | string;
+  media: string[];
+  sender_id: number;
+  sender_type: string;
+  uuid: string;
+  id: number;
+  conversation_id: number;
   created_at: string;
 };
 
@@ -57,21 +69,17 @@ export type Message = MessageType & {
   createdAt: string;
 };
 
-export type PusherMessage = {
-  content: null | string;
-  media: string[];
-  sender_id: number;
-  sender_type: string;
-  uuid: string;
-  id: number;
-  conversation_id: number;
-  created_at: string;
-};
-
 export type SendMessageBody = {
   id: number;
   content?: string;
   files?: File[];
+};
+
+export type ReceiverType = {
+  id: number;
+  full_name: string;
+  image: string;
+  uuid: string;
 };
 
 export type ConversationsResponse = ApiResponse & {
@@ -81,5 +89,6 @@ export type ConversationsResponse = ApiResponse & {
 
 export type ConversationMessagesResponse = ApiResponse & {
   messages: ConversationMessage[];
+  receiver: ReceiverType;
   pagination: Pagination;
 };

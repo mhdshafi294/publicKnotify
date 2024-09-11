@@ -16,9 +16,8 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   conversation,
 }) => {
   const t = useTranslations("Index");
-  const { setConversationId, setUserImage, setUserName } = useChatStore(
-    (state) => state
-  );
+  const { setConversationId, setUserImage, setUserName, setUuid } =
+    useChatStore((state) => state);
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -27,6 +26,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     if (!isMounted) {
       setIsMounted(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const goToConversation = () => {
@@ -38,6 +38,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     setConversationId(conversation.id);
     setUserImage(conversation.user_image);
     setUserName(conversation.user_name);
+    setUuid(conversation.uuid ? conversation.uuid : undefined);
     router.push(`${currentPath}?${searchParams.toString()}`);
   };
 
@@ -49,7 +50,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
       <div className="relative size-16 rounded-full overflow-hidden">
         <Image
           fill
-          className="rounded-full object-cover"
+          className="size-16 rounded-full object-cover"
           src={
             conversation.user_image && conversation.user_image.length > 0
               ? conversation.user_image
@@ -59,7 +60,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
-      <div className="flex flex-col justify-center gap-4 w-full">
+      <div className="flex flex-col justify-center gap-2 flex-1">
         <div className="w-full flex justify-between items-center gap-2">
           <h3 className="font-bold text-base text-wrap capitalize">
             {conversation?.user_name}
@@ -78,7 +79,9 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           ) : null}
         </div>
         <p className="text-xs text-wrap opacity-70 text-start">
-          {conversation?.last_message?.content}
+          {conversation?.last_message?.content
+            ? conversation?.last_message?.content
+            : "file"}
         </p>
       </div>
     </button>

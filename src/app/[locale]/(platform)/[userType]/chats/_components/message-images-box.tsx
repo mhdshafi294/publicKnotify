@@ -42,7 +42,7 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[90%] xl:max-w-[40%] cursor-pointer px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <div className="grid grid-cols-2 grid-rows-2 justify-items-center gap-1">
@@ -64,6 +64,7 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
                         <span className="text-xl">{images.length - 4}</span>
                       </div>
                     ) : null}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className="object-cover size-full rounded-lg"
                       src={image}
@@ -75,11 +76,15 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
             </PhotoProvider>
           </div>
           {content ? (
-            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm">
+            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
               {content}
             </p>
           ) : null}
-          <ChatMessageDate isSending={isSending} messageDate={messageDate} />
+          <ChatMessageDate
+            isSending={isSending}
+            messageDate={messageDate}
+            isSender={isSender}
+          />
         </div>
       </div>
     );

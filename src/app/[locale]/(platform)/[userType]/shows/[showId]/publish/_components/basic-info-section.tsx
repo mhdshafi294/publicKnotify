@@ -73,11 +73,11 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           options={["full", "bonus", "trailer"]}
         />
         <FormInput
-          name="session"
+          name="season"
           type="number"
           className="bg-background w-full"
           placeholder={"1"}
-          label={t("sessionLabel")}
+          label={t("season")}
           control={control}
         />
         <FormInput

@@ -12,19 +12,21 @@ import MessageImagesBox from "./message-images-box";
 type ChatMessageProps = {
   message: ConversationMessage;
   previousMessage: ConversationMessage;
+  isSending?: boolean;
   type: string;
 };
 
 const ChatMessage: React.FC<ChatMessageProps> = ({
   message,
   previousMessage,
+  isSending = false,
   type,
 }) => {
   const t = useTranslations("Index");
 
   const setting = {
     key: message.id,
-    isSending: false,
+    isSending,
     messageDate: message.created_at,
     isSender: message.is_sender,
     content: message.content,
@@ -34,14 +36,21 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     //     : undefined,
   };
   const msg = () => {
-    if (message?.media?.length === 0) return <MessageBox {...setting} />;
+    if (message?.media?.length === 0)
+      return <MessageBox {...setting} key={message.id} />;
     else if (
       message.media.length >= 1 &&
       commonImageExtensions.includes(
         message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
       )
     )
-      return <MessageImagesBox {...setting} images={message?.media} />;
+      return (
+        <MessageImagesBox
+          {...setting}
+          images={message?.media}
+          key={message.id}
+        />
+      );
     else if (
       message.media.length === 1 &&
       !commonImageExtensions.includes(
@@ -57,6 +66,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             ),
             url: message?.media[0],
           }}
+          key={message.id}
         />
       );
   };

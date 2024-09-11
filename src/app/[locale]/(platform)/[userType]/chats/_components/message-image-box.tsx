@@ -29,12 +29,13 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[80%] md:max-w-[40%] px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <PhotoProvider maskOpacity={0.5}>
             {image ? (
               <PhotoView src={image}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   className={cn(
                     "object-contain relative cursor-pointer w-full max-h-[500px] rounded-lg",
@@ -49,11 +50,15 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
             ) : null}
           </PhotoProvider>
           {content ? (
-            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm">
+            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
               {content}
             </p>
           ) : null}
-          <ChatMessageDate isSending={isSending} messageDate={messageDate} />
+          <ChatMessageDate
+            isSending={isSending}
+            messageDate={messageDate}
+            isSender={isSender}
+          />
         </div>
       </div>
     );

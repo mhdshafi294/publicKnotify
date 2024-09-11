@@ -46,10 +46,10 @@ export default async function ChatPage({
   }
 
   return (
-    <MaxWidthContainer className="h-[calc(80vh-200px)] flex-1 flex gap-9 md:py-8 ">
+    <MaxWidthContainer className="flex-1 flex md:gap-9 md:py-8 px-0 sm:px-0 md:px-8 md: relative">
       <ConversationsList
         searchParams={searchParams}
-        ConversationsList={conversations.conversations}
+        initialConversationsList={conversations.conversations}
         type={session?.user?.type!}
       />
       {searchParams.conversation_id !== undefined &&
@@ -57,6 +57,7 @@ export default async function ChatPage({
         <ChatWindow
           searchParams={searchParams}
           initialMessages={ConversationMessagesResponse?.messages}
+          recevier={ConversationMessagesResponse?.receiver}
           type={session?.user?.type!}
         />
       ) : (

@@ -5,6 +5,7 @@ import {
   ImageIcon,
   PaperclipIcon,
   SendHorizonalIcon,
+  SendHorizontalIcon,
   SendIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -20,14 +21,25 @@ import { ZodError } from "zod";
 import MessageContentFieltd from "./message-content-fieltd";
 import ChatImageInputDialog from "./chat-image-input-dialog";
 import { Input } from "@/components/ui/input";
+import { ConversationMessage } from "@/types/conversation";
+import { convertFileToURL } from "@/lib/utils";
+import { format } from "date-fns";
 
 type ChatInputProps = {
   conversation_id: string | undefined;
   type: string;
+  newMessages: ConversationMessage[];
+  setNewMessages: React.Dispatch<React.SetStateAction<ConversationMessage[]>>;
 };
 
-const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
+const ChatInput: React.FC<ChatInputProps> = ({
+  conversation_id,
+  type,
+  newMessages,
+  setNewMessages,
+}) => {
   const t = useTranslations("Index");
+  const sendMessageSound = "/audio/send-message.mp3";
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
@@ -65,12 +77,15 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
   const {
     data,
     mutate: server_storeMessageAction,
+    mutateAsync,
     isPending,
     error,
   } = useMutation({
     mutationFn: storeMessageAction,
     onMutate: () => {},
-    onSuccess: (data) => {},
+    onSuccess: () => {
+      new Audio(sendMessageSound).play();
+    },
     onError: (error) => {
       toast.dismiss();
       console.log(error, "mutate error");
@@ -78,20 +93,47 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
   });
 
   const handleSubmit = async (data: MessageStoreSchema) => {
-    console.log(data);
+    // console.log(data);
+    const id = new Date().getTime();
+
+    const newMessage: ConversationMessage = {
+      id: id,
+      content: data.content ? data.content : null,
+      media: data.media.map((media) => convertFileToURL(media)) || [],
+      is_sender: true,
+      is_sending: true,
+      seen_at: null,
+      created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
+    };
+    if (newMessage.media.length === 0) {
+      setNewMessages((prevMessages) => [...prevMessages, newMessage]);
+    }
+
+    form.reset();
+
     try {
       // console.log(data);
       // Your form submission logic here
       const formData = new FormData();
       formData.append("conversation_id", data.conversation_id);
-      formData.append("content", data.content);
+
+      if (data.content) formData.append("content", data.content);
       if (data.media && data.media.length > 0) {
         data.media.forEach((media, index) => {
           formData.append(`media[${index}]`, media);
         });
       }
 
-      server_storeMessageAction({ formData, type });
+      await mutateAsync({ formData, type });
+
+      setNewMessages((prevMessages) =>
+        prevMessages.map((message) =>
+          message.id === id ? { ...message, is_sending: false } : message
+        )
+      );
+
+      console.log("message submitted");
+
       form.reset();
     } catch (error) {
       if (error instanceof ZodError) {
@@ -123,7 +165,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
   return (
     <Form {...form}>
       <form
-        className="w-full absolute bottom-0 bg-card rounded-b-2xl flex items-center justify-between p-3"
+        className="w-full absolute bottom-0 bg-card md:rounded-b-2xl flex items-center justify-between p-3"
         onSubmit={form.handleSubmit(handleSubmit, handleError)}
       >
         {/* File Upload Button */}
@@ -157,10 +199,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ conversation_id, type }) => {
           handleError={handleError}
         />
         <button className="p-1 group" type="submit">
-          <SendIcon
-            strokeWidth={0.5}
-            size={28}
-            className="group-hover:opacity-100 duration-200 stroke-card fill-primary"
+          <SendHorizontalIcon
+            strokeWidth={1}
+            size={36}
+            className="group-hover:scale-110 duration-200 stroke-card fill-primary"
           />
         </button>
       </form>

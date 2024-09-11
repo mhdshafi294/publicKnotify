@@ -26,7 +26,7 @@ const MessageBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[90%] md:max-w-[60%] px-4 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <p
@@ -35,7 +35,11 @@ const MessageBox = forwardRef<HTMLDivElement, PropsType>(
           >
             {content || ""}
           </p>
-          <ChatMessageDate isSending={isSending} messageDate={messageDate} />
+          <ChatMessageDate
+            isSending={isSending}
+            messageDate={messageDate}
+            isSender={isSender}
+          />
         </div>
       </div>
     );
