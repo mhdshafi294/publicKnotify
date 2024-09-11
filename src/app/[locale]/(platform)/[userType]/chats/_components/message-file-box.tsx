@@ -30,7 +30,7 @@ const MessageFileBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[75%] md:max-w-[45%] px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <a

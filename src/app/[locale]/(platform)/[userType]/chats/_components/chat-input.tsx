@@ -39,6 +39,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   setNewMessages,
 }) => {
   const t = useTranslations("Index");
+  const sendMessageSound = "/audio/send-message.mp3";
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
@@ -82,7 +83,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
   } = useMutation({
     mutationFn: storeMessageAction,
     onMutate: () => {},
-    onSuccess: (data) => {},
+    onSuccess: () => {
+      new Audio(sendMessageSound).play();
+    },
     onError: (error) => {
       toast.dismiss();
       console.log(error, "mutate error");
@@ -102,7 +105,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
       seen_at: null,
       created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
     };
-    setNewMessages((prevMessages) => [...prevMessages, newMessage]);
+    if (newMessage.media.length === 0) {
+      setNewMessages((prevMessages) => [...prevMessages, newMessage]);
+    }
 
     form.reset();
 
@@ -160,7 +165,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   return (
     <Form {...form}>
       <form
-        className="w-full absolute bottom-0 bg-card rounded-b-2xl flex items-center justify-between p-3"
+        className="w-full absolute bottom-0 bg-card md:rounded-b-2xl flex items-center justify-between p-3"
         onSubmit={form.handleSubmit(handleSubmit, handleError)}
       >
         {/* File Upload Button */}

@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Conversation,
-  ConversationMessage,
-  PusherMessage,
-} from "@/types/conversation";
+import { Conversation } from "@/types/conversation";
 import { useTranslations } from "next-intl";
 import React, { useEffect } from "react";
 import ConversationCard from "./conversation-card";
@@ -27,7 +23,7 @@ const ConversationsList: React.FC<ConversationListProps> = ({
   searchParams,
 }) => {
   const t = useTranslations("Index");
-  const { setConversationId } = useChatStore((state) => state);
+  const { conversationId, setConversationId } = useChatStore((state) => state);
   const { data: session } = useSession();
   const router = useRouter();
   const [mounted, isMounted] = React.useState(false);
@@ -52,22 +48,28 @@ const ConversationsList: React.FC<ConversationListProps> = ({
   }, [searchParams.conversation_id]);
 
   // Initialize Pusher to subscribe to conversation events
-  const { channel } = usePusher(
+  const { pusherClient } = usePusher(
     `private-${session?.user?.type}.conversations.${session?.user?.id}`
   );
 
   // Pusher event handling for real-time updates
   useEffect(() => {
+    const channel = pusherClient?.subscribe(
+      `private-${session?.user?.type}.conversations.${session?.user?.id}`
+    );
+
     if (!channel) return;
 
-    const handleUpdatedConversation = (pusherNewConversation: Conversation) => {
-      console.log(pusherNewConversation, "<<< pusherNewConversation");
-      // setConversationsList((prevConversationsList) => [
-      //   pusherNewConversation,
-      //   ...prevConversationsList.filter(
-      //     (conversation) => conversation.id !== pusherNewConversation.id
-      //   ),
-      // ]);
+    const handleUpdatedConversation = (pusherNewConversation: any) => {
+      const updatedConversation: Conversation =
+        pusherNewConversation.conversation;
+
+      setConversationsList((prevConversationsList) => [
+        updatedConversation,
+        ...prevConversationsList.filter(
+          (conversation) => conversation.id !== updatedConversation.id
+        ),
+      ]);
     };
 
     // Subscribe to the `new-message` event in the channel
@@ -76,14 +78,16 @@ const ConversationsList: React.FC<ConversationListProps> = ({
     // Clean up the event listener when the component unmounts
     return () => {
       channel.unbind("App\\Events\\ActorChat", handleUpdatedConversation);
+      channel.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel]);
+  }, [pusherClient, session?.user]);
 
   return (
     <div
       className={cn(
-        "absolute inset-0 w-full md:relative md:inset-auto md:w-80 bg-card-secondary py-5 rounded-2xl border border-border-secondary"
+        "absolute inset-0 w-full md:relative md:inset-auto md:w-80 bg-card-secondary py-5 md:rounded-2xl border border-border-secondary duration-300 z-10",
+        { "max-md:translate-x-[-100%]": conversationId }
       )}
     >
       <h2 className="text-2xl font-bold px-3 mb-5">

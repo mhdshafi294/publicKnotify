@@ -29,7 +29,7 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[80%] md:max-w-[40%] px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <PhotoProvider maskOpacity={0.5}>

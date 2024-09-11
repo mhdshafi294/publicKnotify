@@ -42,7 +42,7 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
             "w-fit max-w-[90%] xl:max-w-[40%] cursor-pointer px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
               ? "col-start-2 bg-primary rounded-ee-none"
-              : "col-end-2 bg-background border rounded-es-none"
+              : "col-end-2 bg-card rounded-es-none"
           )}
         >
           <div className="grid grid-cols-2 grid-rows-2 justify-items-center gap-1">

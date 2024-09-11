@@ -79,7 +79,9 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           ) : null}
         </div>
         <p className="text-xs text-wrap opacity-70 text-start">
-          {conversation?.last_message?.content}
+          {conversation?.last_message?.content
+            ? conversation?.last_message?.content
+            : "file"}
         </p>
       </div>
     </button>

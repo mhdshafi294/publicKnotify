@@ -21,6 +21,7 @@ import Loader from "@/components/ui/loader";
 import ChatInput from "./chat-input";
 import { usePusher } from "@/hooks/usePusher";
 import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
 
 const ChatWindow = ({
   searchParams,
@@ -40,6 +41,7 @@ const ChatWindow = ({
   const [newMessages, setNewMessages] = useState<ConversationMessage[]>([]); // To track real-time messages
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollableElementRef = useRef<HTMLDivElement>(null);
+  const receiveMessageSound = "/audio/receive-message.mp3";
 
   const { data: session } = useSession();
 
@@ -72,11 +74,6 @@ const ChatWindow = ({
       setUuid(recevier.uuid);
     }
   }, [conversation_id]);
-
-  // Initialize Pusher to subscribe to conversation events
-  const { channel } = usePusher(
-    `private-conversation.${uuid ? uuid : recevier.uuid}`
-  );
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -132,23 +129,44 @@ const ChatWindow = ({
     }
   }, [data]);
 
+  // Initialize Pusher to subscribe to conversation events
+  const { pusherClient } = usePusher(
+    `private-conversation.${uuid ? uuid : recevier.uuid}`
+  );
+
   // Pusher event handling for real-time updates
   useEffect(() => {
+    const channel = pusherClient?.subscribe("private-conversation." + uuid!);
+
     if (!channel) return;
 
     const handleNewMessage = (pusherNewMessage: PusherMessage) => {
+      // console.log(pusherNewMessage, "<<< pusherNewMessage");
       const newMessage: ConversationMessage = {
         id: pusherNewMessage.id,
         content: pusherNewMessage.content,
         media: pusherNewMessage.media || [],
-        is_sender: pusherNewMessage.sender_id === session?.user?.id,
+        is_sender: pusherNewMessage.sender_type
+          .toLocaleLowerCase()
+          .includes(session?.user?.type?.toLocaleLowerCase()!),
         seen_at: null,
         created_at: pusherNewMessage.created_at,
       };
 
-      if (!newMessage.is_sender)
-        setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
+      // console.log(
+      //   pusherNewMessage.sender_type.toLocaleLowerCase(),
+      //   session?.user?.type?.toLocaleLowerCase(),
+      //   "<<< id"
+      // );
 
+      // console.log(newMessage, !newMessage.is_sender, "<<< newMessage");
+
+      if (!newMessage.is_sender || newMessage.media.length > 0) {
+        setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
+        if (!newMessage.is_sender) {
+          new Audio(receiveMessageSound).play();
+        }
+      }
       // Scroll to the bottom when a new message is received
       // bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
     };
@@ -159,9 +177,10 @@ const ChatWindow = ({
     // Clean up the event listener when the component unmounts
     return () => {
       channel.unbind("App\\Events\\SendMessage", handleNewMessage);
+      channel.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [channel]);
+  }, [pusherClient, uuid]);
 
   // useEffect(() => {
   //   bottomRef?.current?.scrollIntoView({ behavior: "instant" });
@@ -225,14 +244,19 @@ const ChatWindow = ({
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
 
   return (
-    <div className="flex-1 px-3 pt-1">
+    <div
+      className={cn(
+        "absolute inset-0 w-full md:relative md:inset-auto md:flex-1 md:px-3 md:pt-1 duration-300",
+        { "max-md:translate-x-[100%]": !conversationId }
+      )}
+    >
       {!conversation_id || !conversationId ? (
         <div className="flex-1 px-3 py-5 flex justify-center items-center">
           <EmptyState />
         </div>
       ) : (
-        <div className="flex flex-col h-full bg-card-secondary rounded-2xl ">
-          <div className="w-full flex gap-2 items-center bg-card p-4 rounded-t-2xl">
+        <div className="flex flex-col h-full bg-card-secondary md:rounded-2xl ">
+          <div className="w-full flex gap-2 items-center bg-card p-4 md:rounded-t-2xl">
             <button onClick={closeChat} className="group p-2">
               <ArrowLeftIcon className="opacity-70 group-hover:opacity-100 duration-200" />
             </button>
@@ -271,7 +295,7 @@ const ChatWindow = ({
             ) : (
               <div className="w-full h-full relative">
                 <div
-                  className="h-[calc(100dvh-286px)] overflow-y-auto styled-scrollbar"
+                  className="h-[calc(100dvh-219px)] md:h-[calc(100dvh-286px)] overflow-y-auto styled-scrollbar"
                   ref={scrollableElementRef} // Attach the ref to the scrollable div inside ScrollArea
                 >
                   <div className="h-fit flex flex-col-reverse gap-3">
@@ -287,6 +311,8 @@ const ChatWindow = ({
                           previousMessage={
                             index > 0
                               ? data?.pages[0]?.messages[index - 1]!
+                              : data?.pages[0]?.messages[0]
+                              ? data?.pages[0]?.messages[0]
                               : message
                           }
                         />
