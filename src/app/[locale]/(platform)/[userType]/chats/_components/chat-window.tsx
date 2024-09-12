@@ -203,6 +203,9 @@ const ChatWindow = ({
       if (scrollableElementRef.current) {
         const isAtBottom = scrollHeight! - scrollTop! <= clientHeight! + 100;
         setShowScrollToBottom(!isAtBottom); // Show button if user is not at the bottom
+        if (isAtBottom) {
+          setUnreadMessagesCounter(0);
+        }
       }
     };
 

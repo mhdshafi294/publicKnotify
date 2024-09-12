@@ -69,7 +69,7 @@ const CreateRequest = () => {
       background: new File([], ""),
       categories: [],
       hashtags: [],
-      ad_period: "1:0",
+      ad_period: "00:01:00",
       ad_place: "first",
       podcaster_id:
         typeof searchParams.get("podcasterId") === "string"

@@ -35,7 +35,7 @@ function DurationPickerFormInput<T extends FieldValues>({
   const [seconds, setSeconds] = useState("");
 
   useEffect(() => {
-    const formattedValue = `${minutes.padStart(2, "0")}:${seconds.padStart(
+    const formattedValue = `00:${minutes.padStart(2, "0")}:${seconds.padStart(
       2,
       "0"
     )}`;
