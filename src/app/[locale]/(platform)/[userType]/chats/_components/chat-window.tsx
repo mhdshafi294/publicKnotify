@@ -70,9 +70,9 @@ const ChatWindow = ({
   useEffect(() => {
     if (conversation_id && !conversationId) {
       setConversationId(+conversation_id);
-      setUserName(recevier.full_name);
-      setUserImage(recevier.image);
-      setUuid(recevier.uuid);
+      setUserName(recevier?.full_name);
+      setUserImage(recevier?.image);
+      setUuid(recevier?.uuid);
     }
   }, [conversation_id]);
 
@@ -132,7 +132,7 @@ const ChatWindow = ({
 
   // Initialize Pusher to subscribe to conversation events
   const { pusherClient } = usePusher(
-    `private-conversation.${uuid ? uuid : recevier.uuid}`
+    `private-conversation.${uuid ? uuid : recevier?.uuid}`
   );
 
   // Pusher event handling for real-time updates
@@ -282,7 +282,7 @@ const ChatWindow = ({
             </div>
           </div>
           <div className="w-full flex-1 relative">
-            {initialMessages.length === 0 ? (
+            {initialMessages?.length === 0 ? (
               <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-0 h-full flex justify-center items-center">
                 <div className="text-center items-center flex flex-col gap-3">
                   <p className="text-sm opacity-70">
@@ -349,7 +349,7 @@ const ChatWindow = ({
             />
             {showScrollToBottom ? (
               <button
-                className="absolute bottom-20 right-10 p-3 bg-secondary text-white rounded-full shadow-lg "
+                className="absolute bottom-20 right-3 p-3 bg-secondary text-white rounded-full shadow-lg "
                 onClick={scrollToBottom}
               >
                 <div
