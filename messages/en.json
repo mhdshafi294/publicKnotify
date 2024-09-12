@@ -449,7 +449,8 @@
     "today": "today",
     "yesterday": "yesterday",
     "write-a-message": "Write a message...",
-    "season": "season"
+    "season": "season",
+    "messages": "Messages"
   },
   "notifications": {
     "notifications": "notifications"

@@ -17,6 +17,7 @@ import {
   HeartHandshakeIcon,
   LifeBuoyIcon,
   LogOutIcon,
+  MessagesSquareIcon,
   Settings,
   ShieldAlertIcon,
   User,
@@ -53,11 +54,12 @@ const UserOptions = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-background border-card shadow-2xl w-screen md:w-56">
+          <DropdownMenuContent className="bg-background border-none shadow-2xl w-screen md:w-56 rounded-2xl p-2">
             <DropdownMenuLabel>
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="bg-card" />
+            <DropdownMenuSeparator className="opacity-20" />
+
             <Link href={`/terms`}>
               <DropdownMenuItem>
                 <HeartHandshakeIcon className="me-2 h-4 w-4" />
@@ -76,13 +78,19 @@ const UserOptions = () => {
                 <span>{t("support")}</span>
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuSeparator className="bg-card my-2" />
+            <DropdownMenuSeparator className=" my-2 opacity-20" />
             <Link
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
               <DropdownMenuItem>
                 <User className="me-2 h-4 w-4" />
                 <span>{t("profile")}</span>
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/${session?.user?.type}/chats`}>
+              <DropdownMenuItem>
+                <MessagesSquareIcon className="me-2 h-4 w-4" />
+                <span>{t("messages")}</span>
               </DropdownMenuItem>
             </Link>
             <Link href={`/${session?.user?.type}/settings`}>
