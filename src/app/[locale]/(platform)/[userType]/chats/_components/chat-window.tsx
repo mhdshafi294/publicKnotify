@@ -38,6 +38,7 @@ const ChatWindow = ({
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const [unreadMessagesCounter, setUnreadMessagesCounter] = useState(0);
   const [newMessages, setNewMessages] = useState<ConversationMessage[]>([]); // To track real-time messages
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollableElementRef = useRef<HTMLDivElement>(null);
@@ -141,7 +142,6 @@ const ChatWindow = ({
     if (!channel) return;
 
     const handleNewMessage = (pusherNewMessage: PusherMessage) => {
-      // console.log(pusherNewMessage, "<<< pusherNewMessage");
       const newMessage: ConversationMessage = {
         id: pusherNewMessage.id,
         content: pusherNewMessage.content,
@@ -153,23 +153,16 @@ const ChatWindow = ({
         created_at: pusherNewMessage.created_at,
       };
 
-      // console.log(
-      //   pusherNewMessage.sender_type.toLocaleLowerCase(),
-      //   session?.user?.type?.toLocaleLowerCase(),
-      //   "<<< id"
-      // );
-
-      // console.log(newMessage, !newMessage.is_sender, "<<< newMessage");
-
       if (!newMessage.is_sender || newMessage.media.length > 0) {
         setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
+        setUnreadMessagesCounter((prevCounter) => prevCounter + 1);
         if (!newMessage.is_sender) {
           new Audio(receiveMessageSound).play();
         }
       }
-      // Scroll to the bottom when a new message is received
-      // bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
     };
+    // Scroll to the bottom when a new message is received
+    // bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
 
     // Subscribe to the `new-message` event in the channel
     channel.bind("App\\Events\\SendMessage", handleNewMessage);
@@ -194,6 +187,12 @@ const ChatWindow = ({
       bottomRef?.current?.scrollIntoView({ behavior: "instant" });
     }
   }, [newMessages]);
+
+  useEffect(() => {
+    if (!showScrollToBottom) {
+      setUnreadMessagesCounter(0);
+    }
+  }, [showScrollToBottom]);
 
   // Scroll to bottom button functionality for the ScrollArea
   useEffect(() => {
@@ -347,9 +346,17 @@ const ChatWindow = ({
             />
             {showScrollToBottom ? (
               <button
-                className="absolute bottom-20 right-10 p-3 bg-secondary text-white rounded-full shadow-lg"
+                className="absolute bottom-20 right-10 p-3 bg-secondary text-white rounded-full shadow-lg "
                 onClick={scrollToBottom}
               >
+                <div
+                  className={cn(
+                    "absolute bottom-9 right-9 size-7 flex justify-center items-center bg-primary p-2 rounded-full text-xs",
+                    { hidden: unreadMessagesCounter === 0 }
+                  )}
+                >
+                  {unreadMessagesCounter}
+                </div>
                 <ChevronDownIcon className="size-6" />
               </button>
             ) : null}

@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import useChatStore from "@/store/conversations/use-chat-store";
 import { Conversation } from "@/types/conversation";
 import { format, isToday, isYesterday } from "date-fns";
@@ -10,14 +11,21 @@ import React, { useEffect, useState } from "react";
 
 type ConversationCardProps = {
   conversation: Conversation;
+  setConversationsList: React.Dispatch<React.SetStateAction<Conversation[]>>;
 };
 
 const ConversationCard: React.FC<ConversationCardProps> = ({
   conversation,
+  setConversationsList,
 }) => {
   const t = useTranslations("Index");
-  const { setConversationId, setUserImage, setUserName, setUuid } =
-    useChatStore((state) => state);
+  const {
+    conversationId,
+    setConversationId,
+    setUserImage,
+    setUserName,
+    setUuid,
+  } = useChatStore((state) => state);
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -29,6 +37,23 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (conversationId === conversation.id) {
+      setConversationsList((prevConversationsList) => {
+        return prevConversationsList.map((prevConversation) => {
+          if (prevConversation.id === conversation.id) {
+            return {
+              ...prevConversation,
+              messages_count: 0,
+            };
+          }
+          return prevConversation;
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversationId]);
+
   const goToConversation = () => {
     const currentPath = window.location.pathname; // Safe to use here
     const searchParams = new URLSearchParams(window.location.search);
@@ -39,12 +64,27 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     setUserImage(conversation.user_image);
     setUserName(conversation.user_name);
     setUuid(conversation.uuid ? conversation.uuid : undefined);
+
+    setConversationsList((prevConversationsList) => {
+      return prevConversationsList.map((prevConversation) => {
+        if (prevConversation.id === conversation.id) {
+          return {
+            ...prevConversation,
+            messages_count: 0,
+          };
+        }
+        return prevConversation;
+      });
+    });
     router.push(`${currentPath}?${searchParams.toString()}`);
   };
 
   return (
     <button
-      className="w-full flex gap-5 cursor-pointer px-3 py-2 hover:bg-secondary"
+      className={cn(
+        "w-full flex gap-5 cursor-pointer px-3 py-2 hover:bg-secondary relative",
+        { "bg-secondary": conversationId === conversation.id }
+      )}
       onClick={goToConversation}
     >
       <div className="relative size-16 rounded-full overflow-hidden">
@@ -78,11 +118,22 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
             </p>
           ) : null}
         </div>
-        <p className="text-xs text-wrap opacity-70 text-start">
-          {conversation?.last_message?.content
-            ? conversation?.last_message?.content
-            : "file"}
-        </p>
+        <div className="w-full flex justify-between items-center gap-2">
+          <p className="text-xs text-wrap opacity-70 text-start">
+            {conversation?.last_message?.content
+              ? conversation?.last_message?.content
+              : "file"}
+          </p>
+          {!!conversation.messages_count ? (
+            <div
+              className={cn(
+                " size-5 flex justify-center items-center bg-primary p-2 rounded-full text-xs"
+              )}
+            >
+              {conversation.messages_count}
+            </div>
+          ) : null}
+        </div>
       </div>
     </button>
   );
