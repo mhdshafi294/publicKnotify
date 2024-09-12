@@ -40,10 +40,6 @@ const ConversationsList: React.FC<ConversationListProps> = ({
   }, []);
 
   useEffect(() => {
-    console.log(conversationsList, "<<<<<<<<<<conversationsList");
-  }, [conversationsList]);
-
-  useEffect(() => {
     if (searchParams.conversation_id !== undefined) {
       setConversationId(+searchParams.conversation_id);
     }
