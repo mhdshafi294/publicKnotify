@@ -443,7 +443,8 @@
     "you-can-start-a-conversation-with-this": "يمكنك بدء محادثة مع هذا",
     "today": "اليوم",
     "yesterday": "أمس",
-    "write-a-message": "أكتب رسالة..."
+    "write-a-message": "أكتب رسالة...",
+    "messages": "رسائل"
   },
   "notifications": {
     "notifications": "notifications"

@@ -24,6 +24,9 @@ const ConversationsList: React.FC<ConversationListProps> = ({
 }) => {
   const t = useTranslations("Index");
   const { conversationId, setConversationId } = useChatStore((state) => state);
+  const [conversationsList, setConversationsList] = React.useState<
+    Conversation[]
+  >(initialConversationsList);
   const { data: session } = useSession();
   const router = useRouter();
   const [mounted, isMounted] = React.useState(false);
@@ -36,9 +39,9 @@ const ConversationsList: React.FC<ConversationListProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [conversationsList, setConversationsList] = React.useState<
-    Conversation[]
-  >(initialConversationsList);
+  useEffect(() => {
+    console.log(conversationsList, "<<<<<<<<<<conversationsList");
+  }, [conversationsList]);
 
   useEffect(() => {
     if (searchParams.conversation_id !== undefined) {
@@ -61,8 +64,16 @@ const ConversationsList: React.FC<ConversationListProps> = ({
     if (!channel) return;
 
     const handleUpdatedConversation = (pusherNewConversation: any) => {
-      const updatedConversation: Conversation =
-        pusherNewConversation.conversation;
+      const updatedConversation: Conversation = {
+        ...pusherNewConversation.conversation,
+        messages_count:
+          pusherNewConversation.conversation.id === conversationId
+            ? 0
+            : pusherNewConversation.conversation.messages_count
+            ? pusherNewConversation.conversation.messages_count + 1
+            : 1,
+      };
+      // pusherNewConversation.conversation;
 
       setConversationsList((prevConversationsList) => [
         updatedConversation,
@@ -98,7 +109,10 @@ const ConversationsList: React.FC<ConversationListProps> = ({
           <ul className=" flex flex-col">
             {conversationsList.map((conversation) => (
               <li key={conversation?.id}>
-                <ConversationCard conversation={conversation!} />
+                <ConversationCard
+                  conversation={conversation!}
+                  setConversationsList={setConversationsList}
+                />
               </li>
             ))}
           </ul>
