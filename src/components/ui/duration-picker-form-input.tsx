@@ -39,6 +39,7 @@ function DurationPickerFormInput<T extends FieldValues>({
       2,
       "0"
     )}`;
+    console.log(formattedValue, "<<<<<<<<<<<<<<formattedValue");
     setValue(name as string, formattedValue);
   }, [minutes, seconds, setValue, name]);
 
