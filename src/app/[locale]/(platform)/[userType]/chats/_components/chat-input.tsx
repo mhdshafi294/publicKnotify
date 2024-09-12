@@ -1,30 +1,40 @@
 "use client";
 
-import TextareaAutosize from "react-textarea-autosize";
-import {
-  ImageIcon,
-  PaperclipIcon,
-  SendHorizonalIcon,
-  SendHorizontalIcon,
-  SendIcon,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MessageStoreSchema } from "@/schema/messageStoreSchema";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
-import { storeMessageAction } from "@/app/actions/conversationsActions";
+import { format } from "date-fns";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import MessageContentFieltd from "./message-content-fieltd";
-import ChatImageInputDialog from "./chat-image-input-dialog";
+
+import TextareaAutosize from "react-textarea-autosize";
+import { PaperclipIcon, SendHorizontalIcon } from "lucide-react";
+
+import { MessageStoreSchema } from "@/schema/messageStoreSchema";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { ConversationMessage } from "@/types/conversation";
 import { convertFileToURL } from "@/lib/utils";
-import { format } from "date-fns";
+import { storeMessageAction } from "@/app/actions/conversationsActions";
 
+import MessageContentFieltd from "./message-content-fieltd";
+import ChatImageInputDialog from "./chat-image-input-dialog";
+
+/**
+ * ChatInput Component
+ *
+ * This component renders an input field for sending chat messages, along with an image/file
+ * upload button. It handles form validation, file uploads, and sending messages via mutation.
+ * The input field supports autosizing for longer text and includes real-time message updates.
+ *
+ * @param {string | undefined} conversation_id - The ID of the conversation.
+ * @param {string} type - The type of conversation (e.g., podcaster, user).
+ * @param {ConversationMessage[]} newMessages - The current list of messages.
+ * @param {React.Dispatch<React.SetStateAction<ConversationMessage[]>>} setNewMessages - Function to update the message list.
+ * @returns {JSX.Element} The rendered chat input component.
+ */
 type ChatInputProps = {
   conversation_id: string | undefined;
   type: string;
@@ -42,15 +52,9 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const sendMessageSound = "/audio/send-message.mp3";
 
   const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => {
-    if (!isMounted) {
-      setIsMounted(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
 
+  // Form setup using react-hook-form and Zod schema validation
   const form = useForm<MessageStoreSchema>({
     resolver: zodResolver(MessageStoreSchema),
     defaultValues: {
@@ -60,11 +64,21 @@ const ChatInput: React.FC<ChatInputProps> = ({
     },
   });
 
+  // Ensure the component is mounted only on the client
+  useEffect(() => {
+    if (!isMounted) {
+      setIsMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Reset form when the conversation ID changes
   useEffect(() => {
     form.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversation_id]);
 
+  // Show image dialog when media is selected
   useEffect(() => {
     if (form.watch("media")?.length! > 0) {
       setImageDialogOpen(true);
@@ -74,28 +88,23 @@ const ChatInput: React.FC<ChatInputProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.watch("media")]);
 
-  const {
-    data,
-    mutate: server_storeMessageAction,
-    mutateAsync,
-    isPending,
-    error,
-  } = useMutation({
+  // Mutation for sending messages
+  const { mutateAsync } = useMutation({
     mutationFn: storeMessageAction,
-    onMutate: () => {},
     onSuccess: () => {
       new Audio(sendMessageSound).play();
     },
     onError: (error) => {
       toast.dismiss();
-      console.log(error, "mutate error");
+      console.error("Error sending message:", error);
     },
   });
 
+  // Form submission handler
   const handleSubmit = async (data: MessageStoreSchema) => {
-    // console.log(data);
     const id = new Date().getTime();
 
+    // Create a new message with temporary values
     const newMessage: ConversationMessage = {
       id: id,
       content: data.content ? data.content : null,
@@ -105,6 +114,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
       seen_at: null,
       created_at: format(new Date(), "yyyy-MM-dd HH:mm:ss"),
     };
+
+    // Add the new message to the list (if no media is included)
     if (newMessage.media.length === 0) {
       setNewMessages((prevMessages) => [...prevMessages, newMessage]);
     }
@@ -112,8 +123,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
     form.reset();
 
     try {
-      // console.log(data);
-      // Your form submission logic here
+      // Prepare form data for submission
       const formData = new FormData();
       formData.append("conversation_id", data.conversation_id);
 
@@ -124,30 +134,27 @@ const ChatInput: React.FC<ChatInputProps> = ({
         });
       }
 
+      // Submit the message via mutation
       await mutateAsync({ formData, type });
 
+      // Update message status to sent
       setNewMessages((prevMessages) =>
         prevMessages.map((message) =>
           message.id === id ? { ...message, is_sending: false } : message
         )
       );
-
-      console.log("message submitted");
-
-      form.reset();
     } catch (error) {
       if (error instanceof ZodError) {
-        console.log("Zod validation error:", error.errors);
+        console.error("Zod validation error:", error.errors);
       } else {
-        console.error("Other error:", error);
+        console.error("Error:", error);
       }
     }
   };
 
+  // Error handler for form validation
   const handleError = (errors: any) => {
-    // console.log(showId, "<<<<<<<<<<showId");
-    // console.log(form.getValues().play_list_id, "<<<<<<<<play_list_id");
-    console.log("Validation Errors:", errors);
+    console.error("Validation Errors:", errors);
   };
 
   // File input change handler
@@ -188,16 +195,22 @@ const ChatInput: React.FC<ChatInputProps> = ({
             </FormItem>
           )}
         />
+
+        {/* Image Input Dialog */}
         <ChatImageInputDialog
           handleSubmit={handleSubmit}
           handleError={handleError}
           isOpen={imageDialogOpen}
           setOpen={setImageDialogOpen}
         />
+
+        {/* Message Input Field */}
         <MessageContentFieltd
           handleSubmit={handleSubmit}
           handleError={handleError}
         />
+
+        {/* Send Button */}
         <button className="p-1 group" type="submit">
           <SendHorizontalIcon
             strokeWidth={1}

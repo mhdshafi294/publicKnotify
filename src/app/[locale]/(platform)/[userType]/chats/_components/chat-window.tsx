@@ -1,51 +1,69 @@
 "use client";
 
+import React, { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { ArrowLeftIcon, ChevronDownIcon } from "lucide-react";
+
 import {
   ConversationMessage,
   ReceiverType,
   ConversationMessagesResponse,
   PusherMessage,
 } from "@/types/conversation";
-import React, { useEffect, useRef, useState } from "react";
-import EmptyState from "./empty-state";
-import { useTranslations } from "next-intl";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { getConversationMessagesAction } from "@/app/actions/conversationsActions";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import useChatStore from "@/store/conversations/use-chat-store";
-import Image from "next/image";
-import { ArrowLeftIcon, ChevronDownIcon } from "lucide-react";
-import ChatMessage from "./chat-message";
-import { useRouter } from "next/navigation";
-import Loader from "@/components/ui/loader";
-import ChatInput from "./chat-input";
 import { usePusher } from "@/hooks/usePusher";
-import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 
+import EmptyState from "./empty-state";
+import ChatMessage from "./chat-message";
+import Loader from "@/components/ui/loader";
+import ChatInput from "./chat-input";
+
+/**
+ * ChatWindow Component
+ *
+ * This component renders a chat window for users to see their conversation messages.
+ * It supports paginated message loading and real-time updates through Pusher.
+ * The user can scroll through the chat history and send new messages.
+ *
+ * @param {Object} searchParams - Query parameters from the URL, includes `conversation_id`.
+ * @param {ConversationMessage[]} initialMessages - Initial list of messages to display.
+ * @param {ReceiverType} receiver - The recipient of the conversation.
+ * @param {string} type - The type of user (e.g., podcaster, user).
+ * @returns {JSX.Element} The rendered chat window.
+ */
 const ChatWindow = ({
   searchParams,
   initialMessages,
-  recevier,
+  receiver,
   type,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
   initialMessages: ConversationMessage[];
-  recevier: ReceiverType;
+  receiver: ReceiverType;
   type: string;
 }) => {
   const t = useTranslations("Index");
   const router = useRouter();
+  const { data: session } = useSession();
+
+  // State variables for controlling the component's behavior
   const [isMounted, setIsMounted] = useState(false);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const [unreadMessagesCounter, setUnreadMessagesCounter] = useState(0);
-  const [newMessages, setNewMessages] = useState<ConversationMessage[]>([]); // To track real-time messages
+  const [newMessages, setNewMessages] = useState<ConversationMessage[]>([]); // Real-time messages
+
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollableElementRef = useRef<HTMLDivElement>(null);
   const receiveMessageSound = "/audio/receive-message.mp3";
 
-  const { data: session } = useSession();
-
+  // State from chat store to manage conversation data
   const {
     conversationId,
     setConversationId,
@@ -61,21 +79,24 @@ const ChatWindow = ({
 
   const conversation_id = searchParams.conversation_id as string | undefined;
 
+  // Handle component mounting
   useEffect(() => {
     if (!isMounted) {
       setIsMounted(true);
     }
   }, []);
 
+  // Set conversation ID, user image, name, and UUID when the conversation ID changes
   useEffect(() => {
     if (conversation_id && !conversationId) {
       setConversationId(+conversation_id);
-      setUserName(recevier?.full_name);
-      setUserImage(recevier?.image);
-      setUuid(recevier?.uuid);
+      setUserName(receiver?.full_name);
+      setUserImage(receiver?.image);
+      setUuid(receiver?.uuid);
     }
   }, [conversation_id]);
 
+  // Fetch conversation messages with infinite scrolling
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["messages", { type, conversation_id }],
@@ -124,18 +145,18 @@ const ChatWindow = ({
       },
     });
 
+  // Scroll to the bottom of the chat when new data is loaded
   useEffect(() => {
     if (data?.pages && data.pages[1] === undefined) {
       bottomRef?.current?.scrollIntoView({ behavior: "instant" });
     }
   }, [data]);
 
-  // Initialize Pusher to subscribe to conversation events
+  // Initialize Pusher for real-time messages
   const { pusherClient } = usePusher(
-    `private-conversation.${uuid ? uuid : recevier?.uuid}`
+    `private-conversation.${uuid ? uuid : receiver?.uuid}`
   );
 
-  // Pusher event handling for real-time updates
   useEffect(() => {
     const channel = pusherClient?.subscribe("private-conversation." + uuid!);
 
@@ -153,32 +174,27 @@ const ChatWindow = ({
         created_at: pusherNewMessage.created_at,
       };
 
+      // Handle receiving new messages
       if (!newMessage.is_sender || newMessage.media.length > 0) {
-        setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to the state
+        setNewMessages((prevMessages) => [...prevMessages, newMessage]); // Add to new messages
         setUnreadMessagesCounter((prevCounter) => prevCounter + 1);
         if (!newMessage.is_sender) {
-          new Audio(receiveMessageSound).play();
+          new Audio(receiveMessageSound).play(); // Play sound for new messages
         }
       }
     };
-    // Scroll to the bottom when a new message is received
-    // bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
 
-    // Subscribe to the `new-message` event in the channel
+    // Subscribe to real-time message events
     channel.bind("App\\Events\\SendMessage", handleNewMessage);
 
-    // Clean up the event listener when the component unmounts
+    // Cleanup event listener when component unmounts
     return () => {
       channel.unbind("App\\Events\\SendMessage", handleNewMessage);
       channel.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pusherClient, uuid]);
 
-  // useEffect(() => {
-  //   bottomRef?.current?.scrollIntoView({ behavior: "instant" });
-  // }, [newMessages]);
-
+  // Scroll to the bottom of the chat when new messages arrive
   useEffect(() => {
     if (!showScrollToBottom) {
       bottomRef?.current?.scrollIntoView({ behavior: "instant" });
@@ -188,21 +204,23 @@ const ChatWindow = ({
     }
   }, [newMessages]);
 
+  // Reset unread message counter when the user scrolls to the bottom
   useEffect(() => {
     if (!showScrollToBottom) {
       setUnreadMessagesCounter(0);
     }
   }, [showScrollToBottom]);
 
-  // Scroll to bottom button functionality for the ScrollArea
+  // Handle scrolling within the chat
   useEffect(() => {
     const handleScroll = () => {
       const scrollHeight = scrollableElementRef?.current?.scrollHeight;
       const clientHeight = scrollableElementRef?.current?.clientHeight;
       const scrollTop = scrollableElementRef?.current?.scrollTop;
+
       if (scrollableElementRef.current) {
         const isAtBottom = scrollHeight! - scrollTop! <= clientHeight! + 100;
-        setShowScrollToBottom(!isAtBottom); // Show button if user is not at the bottom
+        setShowScrollToBottom(!isAtBottom); // Show scroll-to-bottom button if not at the bottom
         if (isAtBottom) {
           setUnreadMessagesCounter(0);
         }
@@ -226,10 +244,12 @@ const ChatWindow = ({
     scrollableElementRef?.current?.clientHeight,
   ]);
 
+  // Scroll to the bottom of the chat
   const scrollToBottom = () => {
     bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Close the chat and remove conversation ID from the URL
   const closeChat = () => {
     setConversationId(undefined);
     const searchParams = new URLSearchParams(window.location.search);
@@ -237,12 +257,11 @@ const ChatWindow = ({
     router.push(`${window.location.pathname}?${searchParams.toString()}`);
   };
 
-  // Effect to trigger loading more messages when the user scrolls to the bottom
+  // Load more messages when the user scrolls to the bottom
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
-      fetchNextPage(); // Fetch the next page of messages
+      fetchNextPage();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetchingNextPage, hasNextPage, isIntersecting]);
 
   return (
@@ -257,7 +276,7 @@ const ChatWindow = ({
           <EmptyState />
         </div>
       ) : (
-        <div className="flex flex-col h-full bg-card-secondary md:rounded-2xl ">
+        <div className="flex flex-col h-full bg-card-secondary md:rounded-2xl">
           <div className="w-full flex gap-2 items-center bg-card p-4 md:rounded-t-2xl">
             <button onClick={closeChat} className="group p-2">
               <ArrowLeftIcon className="opacity-70 group-hover:opacity-100 duration-200" />

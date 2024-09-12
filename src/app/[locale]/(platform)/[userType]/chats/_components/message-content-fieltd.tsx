@@ -1,10 +1,22 @@
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { useTranslations } from "next-intl";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
+import { useTranslations } from "next-intl";
 
-const MessageContentFieltd = ({
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+
+/**
+ * MessageContentField Component
+ *
+ * This component renders an autosizing textarea field for writing a message.
+ * It integrates with react-hook-form for form state management and provides a keydown
+ * handler to handle submission when the "Enter" key is pressed without the Shift key.
+ *
+ * @param {Function} handleSubmit - Function to handle form submission.
+ * @param {Function} handleError - Function to handle form validation errors.
+ * @returns {JSX.Element} The rendered message content field component.
+ */
+const MessageContentField = ({
   handleSubmit,
   handleError,
 }: {
@@ -36,6 +48,7 @@ const MessageContentFieltd = ({
               }}
             />
           </FormControl>
+          {/* Optionally, a form message can be added here */}
           {/* <FormMessage /> */}
         </FormItem>
       )}
@@ -43,4 +56,4 @@ const MessageContentFieltd = ({
   );
 };
 
-export default MessageContentFieltd;
+export default MessageContentField;

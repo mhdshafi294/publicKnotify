@@ -1,9 +1,25 @@
-import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import ChatMessageDate from "./chat-message-date";
-import { useImageOnLoad } from "@/hooks/use-image-on-load";
 
+import { cn } from "@/lib/utils";
+import { useImageOnLoad } from "@/hooks/use-image-on-load";
+import ChatMessageDate from "./chat-message-date";
+
+/**
+ * MessageImageBox Component
+ *
+ * This component displays a single image inside a chat message, along with optional
+ * text content and a message date. It also includes logic for loading the image
+ * and displaying a placeholder while the image is loading. Users can click on the image
+ * to view it in full size using the `PhotoProvider` and `PhotoView` from `react-photo-view`.
+ *
+ * @param {boolean} isSender - Indicates if the message was sent by the current user.
+ * @param {string} messageDate - The date and time of the message.
+ * @param {boolean} isSending - Indicates whether the message is still being sent.
+ * @param {string} [image] - The image URL to be displayed.
+ * @param {string | null} content - Optional text content for the message.
+ * @returns {JSX.Element | null} The rendered message image box component.
+ */
 type PropsType = {
   isSender: boolean;
   messageDate: string;
@@ -11,9 +27,13 @@ type PropsType = {
   image?: string;
   content: string | null;
 };
+
+// The MessageImageBox component is wrapped with forwardRef for ref forwarding
 const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
   ({ image, isSender, content, isSending, messageDate }, ref) => {
+    // Hook to handle image loading and determine if the image has finished loading
     const { handleImageOnLoad, isLoaded } = useImageOnLoad();
+
     return (
       <div
         ref={ref}
@@ -32,6 +52,7 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
               : "col-end-2 bg-card rounded-es-none"
           )}
         >
+          {/* Display the image inside PhotoProvider for image preview functionality */}
           <PhotoProvider maskOpacity={0.5}>
             {image ? (
               <PhotoView src={image}>
@@ -39,8 +60,8 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
                 <img
                   className={cn(
                     "object-contain relative cursor-pointer w-full max-h-[500px] rounded-lg",
-                    "before:absolute before:inset-0 before: bg-secondary before:z-10",
-                    isLoaded ? "before:hidden" : "before:block"
+                    "before:absolute before:inset-0 before:bg-secondary before:z-10",
+                    isLoaded ? "before:hidden" : "before:block" // Show loading overlay until image is fully loaded
                   )}
                   src={image}
                   onLoad={handleImageOnLoad}
@@ -49,11 +70,15 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
               </PhotoView>
             ) : null}
           </PhotoProvider>
+
+          {/* If there is additional text content, display it below the image */}
           {content ? (
             <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
               {content}
             </p>
           ) : null}
+
+          {/* Display the message date and whether it is still sending */}
           <ChatMessageDate
             isSending={isSending}
             messageDate={messageDate}
