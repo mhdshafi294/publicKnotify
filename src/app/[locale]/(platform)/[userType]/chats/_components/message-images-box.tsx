@@ -1,10 +1,26 @@
-import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
 import { forwardRef } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import { Plus } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import ChatMessageDate from "./chat-message-date";
 import MessageImageBox from "./message-image-box";
 
+/**
+ * MessageImagesBox Component
+ *
+ * This component is responsible for rendering a collection of images within a chat message.
+ * It uses the `react-photo-view` for image previewing and applies conditional rendering based on the
+ * number of images. It supports cases where there are up to 4 images visible, with a "plus" icon
+ * indicating additional hidden images.
+ *
+ * @param {boolean} isSender - Indicates whether the message is sent by the current user.
+ * @param {string[]} images - Array of image URLs.
+ * @param {string | null} content - The text content of the message (optional).
+ * @param {boolean} isSending - Flag to show if the message is still in the process of being sent.
+ * @param {string} messageDate - The date of the message.
+ * @returns {JSX.Element | null} The rendered component displaying the images, or null if no images are present.
+ */
 type PropsType = {
   isSender: boolean;
   images: string[];
@@ -12,21 +28,29 @@ type PropsType = {
   isSending: boolean;
   messageDate: string;
 };
+
+// The MessageImagesBox component is wrapped with forwardRef for ref forwarding
 const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
   ({ images, isSender, content, isSending, messageDate }, ref) => {
+    // Return null if there are no images
     if (images.length === 0) return null;
-    if (images.length >= 1 && images.length <= 3)
+
+    // If there are 1 to 3 images, render each individually
+    if (images.length >= 1 && images.length <= 3) {
       return images.map((image, index) => (
         <MessageImageBox
+          key={index}
           isSending={isSending}
           messageDate={messageDate}
           ref={ref}
-          key={index}
           isSender={isSender}
           content={index === images.length - 1 ? content : ""}
           image={image}
         />
       ));
+    }
+
+    // For 4 or more images, render them in a grid format
     return (
       <div
         ref={ref}
@@ -58,6 +82,7 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
                       index > 3 && "hidden"
                     )}
                   >
+                    {/* Display a plus icon and the number of hidden images if there are more than 4 */}
                     {index === 3 && images.length > 4 ? (
                       <div className="absolute inset-0 bg-black/40 rounded-lg flex justify-center items-center text-white">
                         <Plus className="text-white size-4" />
@@ -75,11 +100,13 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
               ))}
             </PhotoProvider>
           </div>
+          {/* Display content if available */}
           {content ? (
             <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
               {content}
             </p>
           ) : null}
+          {/* Display message date and status */}
           <ChatMessageDate
             isSending={isSending}
             messageDate={messageDate}

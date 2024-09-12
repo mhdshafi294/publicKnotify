@@ -1,29 +1,41 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import React, { useState, useRef } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslations } from "next-intl";
+import {
+  FileSymlinkIcon,
+  PlusSquareIcon,
+  SendHorizontalIcon,
+  X,
+} from "lucide-react";
+
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { commonImageExtensions } from "@/constant";
-import { useTranslations } from "next-intl";
-import { useState, useRef } from "react";
-import { useFormContext } from "react-hook-form";
-import MessageContentFieltd from "./message-content-fieltd";
-import { PhotoProvider, PhotoView } from "react-photo-view";
-import { useImageOnLoad } from "@/hooks/use-image-on-load";
-import { cn, convertFileToURL } from "@/lib/utils";
-import {
-  FileSymlinkIcon,
-  PlusSquareIcon,
-  SendHorizontalIcon,
-  Trash2Icon,
-  X,
-} from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { commonImageExtensions } from "@/constant";
+import { cn, convertFileToURL } from "@/lib/utils";
+import MessageContentFieltd from "./message-content-fieltd";
+import { useImageOnLoad } from "@/hooks/use-image-on-load";
 
+/**
+ * ChatImageInputDialog Component
+ *
+ * This component renders a dialog box for users to preview, add, or remove images/files
+ * before sending them in a chat. It also provides an input for adding a message to the media.
+ * The component supports multiple file uploads and allows previewing different media types.
+ *
+ * @param {Function} handleSubmit - Function to handle form submission.
+ * @param {Function} handleError - Function to handle form validation errors.
+ * @param {boolean} isOpen - Whether the dialog is open or not.
+ * @param {Function} setOpen - Function to toggle the dialog's open state.
+ * @returns {JSX.Element} The rendered image input dialog component.
+ */
 const ChatImageInputDialog = ({
   handleSubmit,
   handleError,
@@ -36,7 +48,6 @@ const ChatImageInputDialog = ({
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const t = useTranslations("Index");
-
   const [mediaIndex, setMediaIndex] = useState(0);
   const { handleImageOnLoad, isLoaded } = useImageOnLoad();
   const form = useFormContext();
@@ -45,7 +56,7 @@ const ChatImageInputDialog = ({
   // Watch the media array to ensure reactivity
   const mediaArray = form.getValues("media");
 
-  // Function to handle the file selection and add it to the "media" field
+  // Handle adding files to the "media" field
   const handleAddFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
@@ -56,36 +67,26 @@ const ChatImageInputDialog = ({
     }
   };
 
+  // Handle removing a file from the media array
   const handleRemoveFile = (index: number) => {
-    // Get the current media array using getValues to ensure it's up-to-date
-    // const currentMedia = form.getValues("media") || [];
-
-    // Remove the file at the specified index
     const updatedMedia = mediaArray.filter((_: any, i: number) => i !== index);
-
     let newMediaIndex = mediaIndex;
 
+    // Adjust mediaIndex based on the new media array length
     if (updatedMedia.length === 0) {
-      // If no media is left, reset mediaIndex to 0
       newMediaIndex = 0;
-    } else if (index === 0) {
-      // If removing the first item, keep mediaIndex at 0 (new first item)
-      newMediaIndex = 0;
-    } else if (index >= updatedMedia.length) {
-      // If removing the last item, set index to the new last item
+    } else if (index === 0 || index >= updatedMedia.length) {
       newMediaIndex = updatedMedia.length - 1;
     } else if (index <= mediaIndex) {
-      // If the removed item is at or before the current mediaIndex, decrement mediaIndex
       newMediaIndex = mediaIndex - 1;
     }
 
-    // Ensure mediaIndex is valid and not negative
+    // Update media index and media array in the form
     setMediaIndex(Math.max(newMediaIndex, 0));
-
-    // Update the form with the new media array
     form.setValue("media", updatedMedia, { shouldValidate: true });
   };
 
+  // Open file dialog to select files
   const openFileDialog = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click(); // Trigger file input click
@@ -107,18 +108,19 @@ const ChatImageInputDialog = ({
                 )
               )
                 ? `${mediaArray.length} ${
-                    mediaArray.length > 0 ? "images" : "image"
+                    mediaArray.length > 1 ? "images" : "image"
                   } selected`
                 : `${mediaArray.length} ${
-                    mediaArray.length > 0 ? "files" : "file"
+                    mediaArray.length > 1 ? "files" : "file"
                   } selected`}
             </DialogTitle>
           ) : null}
         </DialogHeader>
-        {mediaArray.length > 0 ? (
+
+        {mediaArray.length > 0 && (
           <>
-            {/* <PhotoProvider maskOpacity={0.5}> */}
-            {mediaArray[mediaIndex]?.name ? (
+            {/* Display media preview (image or file icon) */}
+            {mediaArray[mediaIndex]?.name && (
               <>
                 {commonImageExtensions.includes(
                   mediaArray[mediaIndex]?.name?.slice(
@@ -138,27 +140,9 @@ const ChatImageInputDialog = ({
                   <FileSymlinkIcon strokeWidth={1} className="w-full h-full " />
                 )}
               </>
-            ) : mediaArray[0]?.name ? (
-              <>
-                {commonImageExtensions.includes(
-                  mediaArray[0]?.name?.slice(
-                    mediaArray[0]?.name?.lastIndexOf(".") + 1
-                  )
-                ) ? (
-                  <img
-                    className={cn(
-                      "object-contain relative cursor-pointer w-full max-h-[500px] rounded-lg",
-                      "before:absolute before:inset-0 before: bg-secondary before:z-10",
-                      isLoaded ? "before:hidden" : "before:block"
-                    )}
-                    src={convertFileToURL(mediaArray[0])}
-                    alt="image"
-                  />
-                ) : (
-                  <FileSymlinkIcon strokeWidth={1} className="w-full h-full " />
-                )}
-              </>
-            ) : null}
+            )}
+
+            {/* Scrollable media thumbnails */}
             <ScrollArea>
               <div className="w-full flex flex-row-reverse gap-2">
                 {mediaArray.map((media: File, index: number) => (
@@ -171,7 +155,6 @@ const ChatImageInputDialog = ({
                     )}
                     onClick={() => setMediaIndex(index)}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {commonImageExtensions.includes(
                       media?.name?.slice(media?.name?.lastIndexOf(".") + 1)
                     ) ? (
@@ -183,10 +166,11 @@ const ChatImageInputDialog = ({
                     ) : (
                       <FileSymlinkIcon
                         strokeWidth={1.5}
-                        className="w-full h-full "
+                        className="w-full h-full"
                       />
                     )}
-                    {/* Remove button */}
+
+                    {/* Remove file button */}
                     <button
                       onClick={() => handleRemoveFile(index)}
                       className="absolute top-0 right-0 p-1 bg-black/50 text-white z-10"
@@ -195,7 +179,8 @@ const ChatImageInputDialog = ({
                     </button>
                   </div>
                 ))}
-                {/* File input button */}
+
+                {/* Button to add more files */}
                 <button
                   onClick={openFileDialog}
                   className="size-20 flex justify-center items-center rounded-lg border border-border-secondary"
@@ -205,6 +190,7 @@ const ChatImageInputDialog = ({
                     className="size-14 fill-foreground/60 stroke-popover"
                   />
                 </button>
+
                 {/* Hidden file input */}
                 <input
                   ref={fileInputRef}
@@ -216,9 +202,10 @@ const ChatImageInputDialog = ({
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-            {/* </PhotoProvider> */}
           </>
-        ) : null}
+        )}
+
+        {/* Message input and send button */}
         <div className="w-full bg-card rounded-full flex items-center justify-between px-3">
           <MessageContentFieltd
             handleSubmit={handleSubmit}

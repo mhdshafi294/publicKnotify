@@ -1,8 +1,25 @@
-import { cn } from "@/lib/utils";
-import { File } from "lucide-react";
 import { forwardRef } from "react";
+import { File } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 import ChatMessageDate from "./chat-message-date";
 
+/**
+ * MessageFileBox Component
+ *
+ * This component is responsible for rendering a downloadable file in a chat message.
+ * The file is displayed with a file icon and a truncated name if it exceeds a certain length.
+ * It also displays optional text content along with the message date and the sending status.
+ *
+ * @param {boolean} isSender - Indicates if the message was sent by the current user.
+ * @param {string} messageDate - The date and time of the message.
+ * @param {boolean} isSending - Indicates whether the message is still being sent.
+ * @param {Object} file - The file object containing `name` and `url`.
+ * @param {string} file.name - The name of the file.
+ * @param {string} file.url - The URL of the file for downloading.
+ * @param {string | null} content - Optional text content for the message.
+ * @returns {JSX.Element | null} The rendered message file box component.
+ */
 type PropsType = {
   isSender: boolean;
   messageDate: string;
@@ -13,6 +30,8 @@ type PropsType = {
   };
   content: string | null;
 };
+
+// The MessageFileBox component is wrapped with forwardRef for ref forwarding
 const MessageFileBox = forwardRef<HTMLDivElement, PropsType>(
   ({ file, isSender, content, isSending, messageDate }, ref) => {
     return (
@@ -33,22 +52,28 @@ const MessageFileBox = forwardRef<HTMLDivElement, PropsType>(
               : "col-end-2 bg-card rounded-es-none"
           )}
         >
+          {/* Link to download the file */}
           <a
             target="_blank"
             href={file.url}
             title={file.name}
             className="flex text-ellipsis justify-start items-center gap-1 border border-transparent rounded-lg p-2 hover:bg-secondary/20 hover:border-primary-foreground"
+            rel="noreferrer"
           >
             <File className="size-4" />
             {file.name.length > 25
               ? `${file.name.slice(0, 10)}...${file.name.slice(-10)}`
               : file.name}
           </a>
+
+          {/* Optional message content */}
           {content ? (
             <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm">
               {content}
             </p>
           ) : null}
+
+          {/* Display the message date and whether it is still sending */}
           <ChatMessageDate
             isSending={isSending}
             messageDate={messageDate}

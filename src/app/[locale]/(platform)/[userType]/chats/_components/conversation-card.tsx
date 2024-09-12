@@ -1,14 +1,27 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { format, isToday, isYesterday } from "date-fns";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+
 import { cn } from "@/lib/utils";
 import useChatStore from "@/store/conversations/use-chat-store";
 import { Conversation } from "@/types/conversation";
-import { format, isToday, isYesterday } from "date-fns";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
 
+/**
+ * ConversationCard Component
+ *
+ * This component renders a card for an individual conversation in the chat list.
+ * It displays the user's image, name, last message, and the date of the last message.
+ * If the conversation has unread messages, a message count badge is shown.
+ * Clicking on the card navigates to the conversation.
+ *
+ * @param {Conversation} conversation - The conversation data to display.
+ * @param {React.Dispatch<React.SetStateAction<Conversation[]>>} setConversationsList - Function to update the list of conversations.
+ * @returns {JSX.Element} The rendered conversation card component.
+ */
 type ConversationCardProps = {
   conversation: Conversation;
   setConversationsList: React.Dispatch<React.SetStateAction<Conversation[]>>;
@@ -29,14 +42,15 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
+  // Ensure that the component only runs on the client
   useEffect(() => {
-    // This effect ensures that the code using `window` runs only on the client
     if (!isMounted) {
       setIsMounted(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Reset the message count for the currently selected conversation
   useEffect(() => {
     if (conversationId === conversation.id) {
       setConversationsList((prevConversationsList) => {
@@ -54,6 +68,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversationId]);
 
+  // Navigate to the selected conversation
   const goToConversation = () => {
     const currentPath = window.location.pathname; // Safe to use here
     const searchParams = new URLSearchParams(window.location.search);
@@ -65,6 +80,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     setUserName(conversation.user_name);
     setUuid(conversation.uuid ? conversation.uuid : undefined);
 
+    // Reset the message count for the selected conversation
     setConversationsList((prevConversationsList) => {
       return prevConversationsList.map((prevConversation) => {
         if (prevConversation.id === conversation.id) {
@@ -76,6 +92,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
         return prevConversation;
       });
     });
+
     router.push(`${currentPath}?${searchParams.toString()}`);
   };
 
@@ -87,6 +104,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
       )}
       onClick={goToConversation}
     >
+      {/* Display the user's image */}
       <div className="relative size-16 rounded-full overflow-hidden">
         <Image
           fill
@@ -100,6 +118,8 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
+
+      {/* Conversation details */}
       <div className="flex flex-col justify-center gap-2 flex-1">
         <div className="w-full flex justify-between items-center gap-2">
           <h3 className="font-bold text-base text-wrap capitalize">
@@ -118,21 +138,19 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
             </p>
           ) : null}
         </div>
+
+        {/* Last message and unread messages count */}
         <div className="w-full flex justify-between items-center gap-2">
           <p className="text-xs text-wrap opacity-70 text-start">
             {conversation?.last_message?.content
               ? conversation?.last_message?.content
               : "file"}
           </p>
-          {!!conversation.messages_count ? (
-            <div
-              className={cn(
-                " size-5 flex justify-center items-center bg-primary p-2 rounded-full text-xs"
-              )}
-            >
+          {!!conversation.messages_count && (
+            <div className="size-5 flex justify-center items-center bg-primary p-2 rounded-full text-xs">
               {conversation.messages_count}
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </button>

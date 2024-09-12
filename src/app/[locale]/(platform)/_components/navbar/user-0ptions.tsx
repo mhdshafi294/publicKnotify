@@ -87,12 +87,14 @@ const UserOptions = () => {
                 <span>{t("profile")}</span>
               </DropdownMenuItem>
             </Link>
-            <Link href={`/${session?.user?.type}/chats`}>
-              <DropdownMenuItem>
-                <MessagesSquareIcon className="me-2 h-4 w-4" />
-                <span>{t("messages")}</span>
-              </DropdownMenuItem>
-            </Link>
+            {session?.user?.type !== "user" ? (
+              <Link href={`/${session?.user?.type}/chats`}>
+                <DropdownMenuItem>
+                  <MessagesSquareIcon className="me-2 h-4 w-4" />
+                  <span>{t("messages")}</span>
+                </DropdownMenuItem>
+              </Link>
+            ) : null}
             <Link href={`/${session?.user?.type}/settings`}>
               <DropdownMenuItem>
                 <Settings className="me-2 h-4 w-4" />

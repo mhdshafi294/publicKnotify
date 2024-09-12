@@ -97,7 +97,7 @@ const DesktopNavbar = ({
                     : link.label === "Statistics" &&
                       session?.user?.type === "podcaster"
                     ? `/podcasters/shows/${params.showId}/analytics`
-                    : `/${session?.user?.type}${link.href}`
+                    : `/${session?.user?.type}/${link.href}`
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),

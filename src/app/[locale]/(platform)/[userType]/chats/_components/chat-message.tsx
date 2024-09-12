@@ -1,14 +1,30 @@
 "use client";
 
-import { ConversationMessage } from "@/types/conversation";
 import React from "react";
-import MessageBox from "./message-box";
-import { commonImageExtensions } from "@/constant";
-import MessageFileBox from "./message-file-box";
 import { format, isSameDay, isToday, isYesterday } from "date-fns";
 import { useTranslations } from "next-intl";
+
+import { ConversationMessage } from "@/types/conversation";
+import { commonImageExtensions } from "@/constant";
+import MessageBox from "./message-box";
+import MessageFileBox from "./message-file-box";
 import MessageImagesBox from "./message-images-box";
 
+/**
+ * ChatMessage Component
+ *
+ * This component renders an individual message in a chat, including support for text messages,
+ * image messages, and file attachments. It handles determining the message type (text, image, or file)
+ * and rendering the appropriate component.
+ *
+ * It also displays the date above the message when the message is from a different day than the previous message.
+ *
+ * @param {ConversationMessage} message - The current message data to display.
+ * @param {ConversationMessage} previousMessage - The previous message in the conversation, used to check if a date label should be displayed.
+ * @param {boolean} [isSending=false] - Indicates whether the message is still being sent.
+ * @param {string} type - The type of conversation (e.g., podcaster, user).
+ * @returns {JSX.Element} The rendered chat message component.
+ */
 type ChatMessageProps = {
   message: ConversationMessage;
   previousMessage: ConversationMessage;
@@ -24,26 +40,25 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 }) => {
   const t = useTranslations("Index");
 
+  // Common settings for message components
   const setting = {
     key: message.id,
     isSending,
     messageDate: message.created_at,
     isSender: message.is_sender,
     content: message.content,
-    // ref:
-    //   props.messageRefId && props.messageRefId === message.id
-    //     ? props.messageRef
-    //     : undefined,
   };
+
+  // Determine the type of message to display (text, image, or file)
   const msg = () => {
-    if (message?.media?.length === 0)
+    if (message?.media?.length === 0) {
       return <MessageBox {...setting} key={message.id} />;
-    else if (
+    } else if (
       message.media.length >= 1 &&
       commonImageExtensions.includes(
         message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
       )
-    )
+    ) {
       return (
         <MessageImagesBox
           {...setting}
@@ -51,12 +66,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           key={message.id}
         />
       );
-    else if (
+    } else if (
       message.media.length === 1 &&
       !commonImageExtensions.includes(
         message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
       )
-    )
+    ) {
       return (
         <MessageFileBox
           {...setting}
@@ -69,7 +84,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           key={message.id}
         />
       );
+    }
   };
+
+  // Conditionally render the date between messages from different days
   const date = () => {
     if (
       previousMessage &&
@@ -77,8 +95,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         new Date(message.created_at),
         new Date(previousMessage.created_at)
       )
-    )
+    ) {
       return null;
+    }
 
     return (
       <div className="w-full flex justify-center items-center">

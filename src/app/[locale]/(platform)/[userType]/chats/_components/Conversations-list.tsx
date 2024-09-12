@@ -1,16 +1,28 @@
 "use client";
 
-import { Conversation } from "@/types/conversation";
-import { useTranslations } from "next-intl";
 import React, { useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
+
+import { Conversation } from "@/types/conversation";
 import ConversationCard from "./conversation-card";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import useChatStore from "@/store/conversations/use-chat-store";
 import { usePusher } from "@/hooks/usePusher";
-import { useSession } from "next-auth/react";
 import { useRouter } from "@/navigation";
 
+/**
+ * ConversationsList Component
+ *
+ * This component renders a list of conversations and updates in real-time using Pusher for chat updates.
+ * It also manages the chat's state and displays an empty state message when no conversations are available.
+ *
+ * @param {Conversation[]} initialConversationsList - Initial list of conversations to display.
+ * @param {string} type - The user type (e.g., podcaster, user).
+ * @param {Object} searchParams - Query parameters from the URL, including conversation_id.
+ * @returns {JSX.Element} The rendered conversation list component.
+ */
 type ConversationListProps = {
   initialConversationsList: Conversation[];
   type: string;
@@ -31,14 +43,15 @@ const ConversationsList: React.FC<ConversationListProps> = ({
   const router = useRouter();
   const [mounted, isMounted] = React.useState(false);
 
+  // Ensure that the component mounts only on the client
   useEffect(() => {
-    // This effect ensures that the code using `window` runs only on the client
     if (!mounted) {
       isMounted(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Set conversation ID based on the searchParams
   useEffect(() => {
     if (searchParams.conversation_id !== undefined) {
       setConversationId(+searchParams.conversation_id);
@@ -46,12 +59,11 @@ const ConversationsList: React.FC<ConversationListProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams.conversation_id]);
 
-  // Initialize Pusher to subscribe to conversation events
+  // Initialize Pusher to subscribe to conversation events for real-time updates
   const { pusherClient } = usePusher(
     `private-${session?.user?.type}.conversations.${session?.user?.id}`
   );
 
-  // Pusher event handling for real-time updates
   useEffect(() => {
     const channel = pusherClient?.subscribe(
       `private-${session?.user?.type}.conversations.${session?.user?.id}`
@@ -69,8 +81,8 @@ const ConversationsList: React.FC<ConversationListProps> = ({
             ? pusherNewConversation.conversation.messages_count + 1
             : 1,
       };
-      // pusherNewConversation.conversation;
 
+      // Update the conversation list to reflect real-time changes
       setConversationsList((prevConversationsList) => [
         updatedConversation,
         ...prevConversationsList.filter(
@@ -79,10 +91,10 @@ const ConversationsList: React.FC<ConversationListProps> = ({
       ]);
     };
 
-    // Subscribe to the `new-message` event in the channel
+    // Subscribe to the `new-message` event in the Pusher channel
     channel.bind("App\\Events\\ActorChat", handleUpdatedConversation);
 
-    // Clean up the event listener when the component unmounts
+    // Cleanup event listeners when the component unmounts
     return () => {
       channel.unbind("App\\Events\\ActorChat", handleUpdatedConversation);
       channel.unsubscribe();
@@ -100,9 +112,11 @@ const ConversationsList: React.FC<ConversationListProps> = ({
       <h2 className="text-2xl font-bold px-3 mb-5">
         {type === "podcaster" ? t("companies") : t("podcasters")}
       </h2>
+
+      {/* Render the list of conversations or show an empty state */}
       {conversationsList.length > 0 ? (
         <ScrollArea className="h-[calc(100%-52px)]">
-          <ul className=" flex flex-col">
+          <ul className="flex flex-col">
             {conversationsList.map((conversation) => (
               <li key={conversation?.id}>
                 <ConversationCard
