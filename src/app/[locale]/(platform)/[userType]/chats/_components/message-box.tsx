@@ -25,7 +25,9 @@ type PropsType = {
 
 // Helper function to detect URLs in the content
 const extractContentWithLinks = (content: string) => {
-  const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+  const urlRegex =
+    /(?:https?:\/\/)?(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?(?:[\/?][^\s]*)?/g;
+
   const parts = content.split(urlRegex);
   const urls = content.match(urlRegex) || []; // Ensure urls is not null
   return { parts, urls };
