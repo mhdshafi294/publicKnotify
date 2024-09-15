@@ -107,6 +107,13 @@
   @apply rounded-full w-2 bg-border-secondary;
   /* background-clip: content-box; */
 }
+.styled-scrollbar-mini::-webkit-scrollbar {
+  @apply rounded-full w-1 h-1;
+}
+.styled-scrollbar-mini::-webkit-scrollbar-thumb {
+  @apply rounded-full w-1 h-1 bg-border-secondary;
+  /* background-clip: content-box; */
+}
 
 /* Apply base styles to all elements */
 @layer base {

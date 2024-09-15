@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-
 import { cn } from "@/lib/utils";
 import ChatMessageDate from "./chat-message-date";
 
@@ -14,7 +13,7 @@ import ChatMessageDate from "./chat-message-date";
  * @param {boolean} isSender - Indicates if the message was sent by the current user.
  * @param {string} messageDate - The date and time of the message.
  * @param {boolean} isSending - Indicates whether the message is still being sent.
- * @param {string | null} content - The content of the message.
+ * @param {string | null} content - The content of the message, which may contain plain text and URLs.
  * @returns {JSX.Element} The rendered message box component.
  */
 type PropsType = {
@@ -24,9 +23,21 @@ type PropsType = {
   content: string | null;
 };
 
+// Helper function to detect URLs in the content
+const extractContentWithLinks = (content: string) => {
+  const urlRegex = /https?:\/\/[^\s/$.?#].[^\s]*/g;
+  const parts = content.split(urlRegex);
+  const urls = content.match(urlRegex) || []; // Ensure urls is not null
+  return { parts, urls };
+};
+
 // The MessageBox component is wrapped with forwardRef for ref forwarding
 const MessageBox = forwardRef<HTMLDivElement, PropsType>(
   ({ isSender, content, messageDate, isSending }, ref) => {
+    if (!content) return null; // Handle the case where content is null
+
+    const { parts, urls } = extractContentWithLinks(content);
+
     return (
       <div
         ref={ref}
@@ -48,9 +59,23 @@ const MessageBox = forwardRef<HTMLDivElement, PropsType>(
           {/* Display the message content */}
           <p
             dir="auto"
-            className="whitespace-break-spaces overflow-x-auto w-full text-sm"
+            className="whitespace-break-spaces overflow-x-auto w-full text-sm styled-scrollbar-mini"
           >
-            {content || ""}
+            {parts.map((part, index) => (
+              <span key={index}>
+                {part}
+                {urls[index] && (
+                  <a
+                    href={urls[index]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline opacity-90 hover:opacity-100"
+                  >
+                    {urls[index]}
+                  </a>
+                )}
+              </span>
+            ))}
           </p>
 
           {/* Display the message date and whether it is still sending */}

@@ -99,7 +99,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   return (
     <button
       className={cn(
-        "w-full flex gap-5 cursor-pointer px-3 py-2 hover:bg-secondary relative",
+        "w-full  flex gap-5 cursor-pointer px-3 py-2 hover:bg-secondary relative",
         { "bg-secondary": conversationId === conversation.id }
       )}
       onClick={goToConversation}
@@ -126,7 +126,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
             {conversation?.user_name}
           </h3>
           {conversation?.last_message?.created_at ? (
-            <p className="text-[10px] text-wrap opacity-50">
+            <p className="text-[10px] text-wrap text-ellipsis opacity-50 ">
               {isToday(new Date(conversation?.last_message?.created_at))
                 ? t("today")
                 : isYesterday(new Date(conversation?.last_message?.created_at))
@@ -140,8 +140,8 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
         </div>
 
         {/* Last message and unread messages count */}
-        <div className="w-full flex justify-between items-center gap-2">
-          <p className="text-xs text-wrap opacity-70 text-start">
+        <div className="w-full flex justify-between items-center gap-2 ">
+          <p className="text-xs text-wrap opacity-70 text-start max-h-12 overflow-hidden truncate max-w-[85%]">
             {conversation?.last_message?.content
               ? conversation?.last_message?.content
               : "file"}

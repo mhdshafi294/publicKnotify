@@ -328,13 +328,21 @@ const ChatWindow = ({
                           key={`new-${message.id}`} // Ensure unique key for real-time messages
                           message={message}
                           type={type}
+                          // isSending={message?.is_sending ? true : false}
+                          // previousMessage={
+                          //   index > 0
+                          //     ? data?.pages[0]?.messages[
+                          //         data?.pages[0]?.messages.length - 1
+                          //       ]!
+                          //     : data?.pages[0]?.messages[0]
+                          //     ? data?.pages[0]?.messages[0]
+                          //     : message
+                          // }
                           isSending={message?.is_sending ? true : false}
                           previousMessage={
-                            index > 0
-                              ? data?.pages[0]?.messages[index - 1]!
+                            newMessages.length > 1 && index > 0
+                              ? newMessages[index - 1]
                               : data?.pages[0]?.messages[0]
-                              ? data?.pages[0]?.messages[0]
-                              : message
                           }
                         />
                       ))}
