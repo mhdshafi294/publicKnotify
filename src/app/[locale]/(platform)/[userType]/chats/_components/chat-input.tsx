@@ -78,6 +78,11 @@ const ChatInput: React.FC<ChatInputProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversation_id]);
 
+  useEffect(() => {
+    if (!imageDialogOpen) form.setValue("media", []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageDialogOpen]);
+
   // Show image dialog when media is selected
   useEffect(() => {
     if (form.watch("media")?.length! > 0) {

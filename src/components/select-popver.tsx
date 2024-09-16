@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { cn } from "@/lib/utils";
 import { Check } from "lucide-react";
 import { FieldPath, FieldValues, UseFormReturn } from "react-hook-form";
@@ -14,6 +14,7 @@ import {
 import { FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface SelectPopoverProps<
   TItem extends { [key: string]: string | number },
@@ -51,6 +52,8 @@ function SelectPopover<
   onSelect = () => {},
 }: SelectPopoverProps<TItem, TFormValues, TFieldName>) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("Index");
+
   if (isPending)
     return (
       <div className="w-full space-y-2">
@@ -59,12 +62,13 @@ function SelectPopover<
           type="button"
           variant="outline"
           disabled
-        className="w-full hover:bg-background capitalize justify-start mb-2 rounded-md min-h-10 flex-wrap h-fit gap-1"
+          className="w-full hover:bg-background capitalize justify-start mb-2 rounded-md min-h-10 flex-wrap h-fit gap-1"
         >
           {`Select ${label}`}
         </Button>
       </div>
     );
+
   if (isError)
     return (
       <div className="w-full space-y-2">
@@ -73,12 +77,13 @@ function SelectPopover<
           type="button"
           variant="outline"
           disabled
-        className="w-full hover:bg-background capitalize justify-start mb-2 rounded-md min-h-10 flex-wrap h-fit gap-1"
+          className="w-full hover:bg-background capitalize justify-start mb-2 rounded-md min-h-10 flex-wrap h-fit gap-1"
         >
-          something went wrong
+          {t("something-went-wrong")}
         </Button>
       </div>
     );
+
   return (
     <FormField
       control={form.control}
@@ -105,7 +110,11 @@ function SelectPopover<
                   : placeholder}
               </Button>
             </PopoverTrigger>
-            <PopoverContent side="bottom" sideOffset={0} className="p-1 PopoverContent">
+            <PopoverContent
+              side="bottom"
+              sideOffset={0}
+              className="p-1 PopoverContent"
+            >
               <Command
                 filter={(value, search) => {
                   const object = items.find(

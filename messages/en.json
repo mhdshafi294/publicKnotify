@@ -450,7 +450,9 @@
     "yesterday": "yesterday",
     "write-a-message": "Write a message...",
     "season": "season",
-    "messages": "Messages"
+    "messages": "Messages",
+    "showUpdatedSuccessfully": "Show updated successfully",
+    "something-went-wrong": "something went wrong"
   },
   "notifications": {
     "notifications": "notifications"

@@ -1,5 +1,6 @@
 "use server";
 
+import getShowMostPopularStatistics from "@/services/statistics/get-show-most-popular-statistics";
 import getShowStatistics from "@/services/statistics/get-show-statistics";
 import getShowViewsStatistics from "@/services/statistics/get-show-views-statistics";
 // Importing the statistics service
@@ -107,6 +108,27 @@ export const getShowViewsStatisticsAction = async ({
     end_date,
     day,
     podcat_id,
+    show_id,
+    type,
+  });
+};
+
+/**
+ * Fetches most popular statistics for a specific show based on the provided parameters.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.show_id - The ID of the show.
+ * @param {string} params.type - The type of most popular statistics.
+ * @returns {Promise} - The API response containing the most popular statistics data.
+ */
+export const getShowMostPopularStatisticsAction = async ({
+  show_id,
+  type,
+}: {
+  show_id: string;
+  type: string;
+}) => {
+  return await getShowMostPopularStatistics({
     show_id,
     type,
   });

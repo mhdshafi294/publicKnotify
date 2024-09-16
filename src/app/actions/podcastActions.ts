@@ -28,12 +28,12 @@ import authYoutube from "@/services/podcast/platform/youtube/auth-youtube";
 import publishYoutube from "@/services/podcast/platform/youtube/publish-youtube";
 
 // Playlist services
-import createPlaylists from "@/services/podcast/playList/create-playlists";
+import createPlaylist from "@/services/podcast/playList/create-playlist";
 import deletePlaylist from "@/services/podcast/playList/delete-playlist";
 import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
 import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-by-podcaster";
-import updatePlaylists from "@/services/podcast/playList/update-playlists";
+import updatePlaylist from "@/services/podcast/playList/update-playlist";
 
 // Actions related to podcasts
 /**
@@ -415,14 +415,14 @@ export const getPlayListAction = async ({
  * @param {string} params.type - The type of playlist.
  * @returns {Promise} - The API response.
  */
-export const createPlayListsAction = async ({
+export const createPlayListAction = async ({
   formData,
   type,
 }: {
   formData: FormData;
   type: string;
 }) => {
-  return await createPlaylists({ formData, type });
+  return await createPlaylist({ formData, type });
 };
 
 /**
@@ -434,7 +434,7 @@ export const createPlayListsAction = async ({
  * @param {string} params.type - The type of playlist.
  * @returns {Promise} - The API response.
  */
-export const updatePlayListsAction = async ({
+export const updatePlayListAction = async ({
   formData,
   type,
   id,
@@ -443,7 +443,7 @@ export const updatePlayListsAction = async ({
   type: string;
   id: string;
 }) => {
-  return await updatePlaylists({ formData, type, id });
+  return await updatePlaylist({ formData, type, id });
 };
 
 /**

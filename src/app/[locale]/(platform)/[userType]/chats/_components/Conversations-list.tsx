@@ -11,6 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import useChatStore from "@/store/conversations/use-chat-store";
 import { usePusher } from "@/hooks/usePusher";
 import { useRouter } from "@/navigation";
+import { lastIndexOf } from "lodash";
 
 /**
  * ConversationsList Component
@@ -72,15 +73,35 @@ const ConversationsList: React.FC<ConversationListProps> = ({
     if (!channel) return;
 
     const handleUpdatedConversation = (pusherNewConversation: any) => {
+      const isSelfSender =
+        session?.user?.id === pusherNewConversation?.sender_id &&
+        pusherNewConversation?.sender_type
+          ?.toLowerCase()
+          ?.slice(pusherNewConversation?.sender_type.lastIndexOf("/") + 1)
+          .includes(session?.user?.type?.toLowerCase());
+
       const updatedConversation: Conversation = {
         ...pusherNewConversation.conversation,
+        id: pusherNewConversation.conversation_id,
+        user_id: pusherNewConversation.sender_id,
+        user_name: isSelfSender
+          ? pusherNewConversation?.conversation?.receiver?.name
+          : pusherNewConversation?.conversation?.sender?.name,
+        user_image: isSelfSender
+          ? pusherNewConversation?.conversation?.receiver?.image
+          : pusherNewConversation?.conversation?.sender?.image,
         messages_count:
-          pusherNewConversation.conversation.id === conversationId
+          pusherNewConversation.conversation_id === conversationId
             ? 0
             : pusherNewConversation.conversation.messages_count
             ? pusherNewConversation.conversation.messages_count + 1
             : 1,
       };
+
+      // const updatedConversation: Conversation | undefined = conversationsList.find(
+      //   (conversation) =>
+      //     conversation.id === pusherNewConversation.conversation.id
+      // )
 
       // Update the conversation list to reflect real-time changes
       setConversationsList((prevConversationsList) => [

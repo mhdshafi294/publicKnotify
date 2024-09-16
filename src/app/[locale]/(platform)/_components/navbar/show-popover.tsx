@@ -111,12 +111,12 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 </p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              className="w-fit hover:bg-transparent text-foreground/60 hover:text-foreground"
+            <Link
+              href={`/podcaster/shows/${params.showId}/edit`}
+              className="w-fit hover:bg-transparent text-foreground/60 hover:text-foreground duration-200"
             >
               <Settings className="size-5" />
-            </Button>
+            </Link>
           </div>
 
           <Separator className="bg-foreground/20" />

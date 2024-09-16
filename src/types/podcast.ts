@@ -111,7 +111,7 @@ export type Playlist = {
   type_translation: string | null;
   authors: string[];
   tags: string[];
-  show_owners: string | null;
+  show_owner: string | null;
   owner_email: string | null;
   copyright: string | null;
   categories: Category[];

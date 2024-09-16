@@ -4,6 +4,7 @@ import MostViewsChart from "./most-views-chart";
 import { Separator } from "@/components/ui/separator";
 import ViewsChartCard from "./views-chart-card";
 import {
+  getShowMostPopularStatisticsAction,
   getShowStatisticsAction,
   getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
@@ -31,6 +32,11 @@ const DashboardAnalyticsSection = async ({
   const showViews = await getShowViewsStatisticsAction({
     start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     end_date: new Date().toISOString(),
+    show_id: params.showId,
+    type: "podcaster",
+  });
+
+  const showMostPopular = await getShowMostPopularStatisticsAction({
     show_id: params.showId,
     type: "podcaster",
   });

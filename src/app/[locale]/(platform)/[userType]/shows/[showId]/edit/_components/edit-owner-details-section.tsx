@@ -6,14 +6,18 @@ import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-import { createPlayListAction } from "@/app/actions/podcastActions";
+import { updatePlayListAction } from "@/app/actions/podcastActions";
 import ArrayFormInput from "@/components/ui/array-form-input";
 import { Button } from "@/components/ui/button";
 import FormInput from "@/components/ui/form-input";
 import FormInputWithPreText from "@/components/ui/form-input-with-pre-text";
 import { useRouter } from "@/navigation";
 import { CreateShowSchema } from "@/schema/showsSchema";
+import ButtonLoader from "@/components/ui/button-loader";
 
+interface EditOwnerDetailsSectionProps {
+  showId: string;
+}
 /**
  * The OwnerDetailsSection component handles the form section for entering and submitting details about
  * the owner of a show, including authors, show owner, email, and copyright information.
@@ -22,15 +26,17 @@ import { CreateShowSchema } from "@/schema/showsSchema";
  *
  * @returns {JSX.Element} The rendered OwnerDetailsSection component.
  */
-const OwnerDetailsSection: React.FC = () => {
+const EditOwnerDetailsSection: React.FC<EditOwnerDetailsSectionProps> = ({
+  showId,
+}) => {
   const form = useFormContext<CreateShowSchema>();
   const router = useRouter();
   const t = useTranslations("Index");
 
   const { mutate, isPending } = useMutation({
-    mutationFn: createPlayListAction,
+    mutationFn: updatePlayListAction,
     onSuccess: () => {
-      toast.success(t("showCreatedSuccessfully"));
+      toast.success(t("showUpdatedSuccessfully"));
       router.push("/");
       router.refresh();
     },
@@ -41,11 +47,12 @@ const OwnerDetailsSection: React.FC = () => {
   });
 
   const handleSubmit = (data: CreateShowSchema) => {
+    console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("copyright", data.copyright);
     formData.append("description", data.description);
-    formData.append("image", data.image);
+    if (data.image instanceof File) formData.append("image", data.image);
     formData.append("show_owner", data.show_owner);
     formData.append("owner_email", data.owner_email);
     formData.append("type", data.type);
@@ -59,7 +66,8 @@ const OwnerDetailsSection: React.FC = () => {
     data.tags.forEach((tag, index) => {
       if (tag) formData.append(`tags[${index}]`, tag);
     });
-    mutate({ formData, type: "podcaster" });
+    formData.append("_method", "put");
+    mutate({ formData, type: "podcaster", id: showId });
   };
 
   return (
@@ -101,10 +109,10 @@ const OwnerDetailsSection: React.FC = () => {
           form.handleSubmit(handleSubmit)();
         }}
       >
-        {t("saveAndPreviewButton")}
+        {isPending ? <ButtonLoader /> : t("saveAndPreviewButton")}
       </Button>
     </div>
   );
 };
 
-export default OwnerDetailsSection;
+export default EditOwnerDetailsSection;

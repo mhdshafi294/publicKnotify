@@ -27,7 +27,7 @@ import MessageImagesBox from "./message-images-box";
  */
 type ChatMessageProps = {
   message: ConversationMessage;
-  previousMessage: ConversationMessage;
+  previousMessage?: ConversationMessage | null | undefined;
   isSending?: boolean;
   type: string;
 };
@@ -54,19 +54,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
     if (message?.media?.length === 0) {
       return <MessageBox {...setting} key={message.id} />;
     } else if (
-      message.media.length >= 1 &&
-      commonImageExtensions.includes(
-        message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
-      )
-    ) {
-      return (
-        <MessageImagesBox
-          {...setting}
-          images={message?.media}
-          key={message.id}
-        />
-      );
-    } else if (
       message.media.length === 1 &&
       !commonImageExtensions.includes(
         message?.media[0].slice(message?.media[0].lastIndexOf(".") + 1)
@@ -83,6 +70,48 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
           }}
           key={message.id}
         />
+      );
+    } else if (
+      message.media.length >= 1 &&
+      message.media.every((mediaItem) =>
+        commonImageExtensions.includes(
+          mediaItem.slice(mediaItem.lastIndexOf(".") + 1)
+        )
+      )
+    ) {
+      return (
+        <MessageImagesBox
+          {...setting}
+          images={message?.media}
+          key={message.id}
+        />
+      );
+    } else {
+      return message?.media?.map((media, index) =>
+        !commonImageExtensions.includes(
+          media.slice(media.lastIndexOf(".") + 1)
+        ) ? (
+          <MessageFileBox
+            {...setting}
+            key={`${message.id} ${index}`}
+            content={
+              index === message?.media?.length - 1 ? message?.content : ""
+            }
+            file={{
+              name: media.slice(media.lastIndexOf("/") + 1),
+              url: media,
+            }}
+          />
+        ) : (
+          <MessageImagesBox
+            {...setting}
+            key={`${message.id} ${index}`}
+            content={
+              index === message?.media?.length - 1 ? message?.content : ""
+            }
+            images={[media]}
+          />
+        )
       );
     }
   };

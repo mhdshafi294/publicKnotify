@@ -43,6 +43,9 @@ export const metadata: Metadata = {
       href: "/logo.svg",
     },
   ],
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 /**

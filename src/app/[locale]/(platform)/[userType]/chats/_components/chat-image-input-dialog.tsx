@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
@@ -96,6 +96,7 @@ const ChatImageInputDialog = ({
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent
+        className="sm:max-w-[475px]"
         onPointerDownOutside={(e) => e.preventDefault()}
         onCloseAutoFocus={(e) => e.preventDefault()}
       >
@@ -129,7 +130,7 @@ const ChatImageInputDialog = ({
                 ) ? (
                   <img
                     className={cn(
-                      "object-contain relative cursor-pointer w-full max-h-[500px] rounded-lg",
+                      "object-contain relative cursor-pointer w-full max-h-[400px] rounded-lg",
                       "before:absolute before:inset-0 before: bg-secondary before:z-10",
                       isLoaded ? "before:hidden" : "before:block"
                     )}
