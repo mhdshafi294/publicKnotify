@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
 import QueryProvider from "@/providers/QueryClientProvider";
 import NotificationProvider from "@/providers/NotificationProvider";
+import { ThemeProvider } from "@/providers/theme-provider";
+
 import "react-photo-view/dist/react-photo-view.css";
 
 // Font configurations
@@ -104,12 +106,19 @@ export default async function RootLayout({
         )}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider>
-            <QueryProvider>
-              <NotificationProvider>{children}</NotificationProvider>
-              <Toaster />
-            </QueryProvider>
-          </AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AuthProvider>
+              <QueryProvider>
+                <NotificationProvider>{children}</NotificationProvider>
+                <Toaster />
+              </QueryProvider>
+            </AuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

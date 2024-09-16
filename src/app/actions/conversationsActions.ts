@@ -13,7 +13,7 @@ export const getConversationsAction = async ({ type }: { type: string }) => {
 
 export const getConversationMessagesAction = async ({
   page = "1",
-  count = "50",
+  count = "250",
   id,
   type,
 }: {

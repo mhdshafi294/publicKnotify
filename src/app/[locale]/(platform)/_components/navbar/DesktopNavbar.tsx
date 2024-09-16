@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import UserOptions from "./user-0ptions";
 import { Playlist } from "@/types/podcast";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 /**
  * The DesktopNavbar component renders the navigation bar for larger screens.
@@ -46,6 +47,7 @@ const DesktopNavbar = ({
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
       <LanguageSwitcher />
+      <DarkModeToggle />
       <UserOptions />
       <NotificationsPopover className="hidden lg:block" />
       <div className="flex justify-end items-center gap-5">
@@ -78,7 +80,7 @@ const DesktopNavbar = ({
                         ? "default"
                         : "outline",
                   }),
-                  " text-white hover:text-white border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
+                  " text-foreground hover:text-foreground border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >
@@ -101,7 +103,7 @@ const DesktopNavbar = ({
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-white p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
+                  "text-foreground p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary hover:before:h-0.5 before:translate-y-4 before:rounded-full before:opacity-100 before:duration-0":
                       (pathname.includes(link.href) &&
