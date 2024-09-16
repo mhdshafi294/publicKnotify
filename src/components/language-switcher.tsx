@@ -44,9 +44,9 @@ export function LanguageSwitcher() {
             <Globe className="size-5 md:size-7" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56 text-white border-input border-opacity-20">
+        <DropdownMenuContent className="border border-border-secondary bg-background shadow-2xl w-screen md:w-56 rounded-2xl p-2">
           <DropdownMenuLabel>{t("language")}</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator className="opacity-20" />
           {locales.map(({ locale, name }) => {
             const href = `/${pathname.split("/").slice(2).join("/")}?${params}`;
             if (session) {

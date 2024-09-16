@@ -7,6 +7,8 @@ import Image from "next/image";
 import {
   AirplayIcon,
   EllipsisIcon,
+  PencilIcon,
+  SettingsIcon,
   SquareArrowOutUpRightIcon,
   TrendingUpIcon,
 } from "lucide-react";
@@ -162,6 +164,12 @@ export default function AllShowsPage(): JSX.Element | null {
                             <DropdownMenuItem className="text-xs">
                               <SquareArrowOutUpRightIcon className="size-4 mr-2" />
                               {t("show-dashboard")}
+                            </DropdownMenuItem>
+                          </Link>
+                          <Link href={`/podcaster/shows/${playlist.id}/edit`}>
+                            <DropdownMenuItem className="text-xs">
+                              <SettingsIcon className="size-4 mr-2" />
+                              {t("edit")}
                             </DropdownMenuItem>
                           </Link>
                         </DropdownMenuContent>

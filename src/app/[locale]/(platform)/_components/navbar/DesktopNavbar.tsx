@@ -78,7 +78,7 @@ const DesktopNavbar = ({
                         ? "default"
                         : "outline",
                   }),
-                  " text-white hover:text-white border-white hover:bg-white/10 h-9 px-5",
+                  " text-white hover:text-white border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >

@@ -61,6 +61,7 @@ export const STATISTICS = "/statistics";
 export const TOGGLE = "/toggle";
 export const ENABLE = "/enable";
 export const VIEWS_OVER_TIME = "/views-over-time";
+export const MOST_POPULAR = "/most-popular";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

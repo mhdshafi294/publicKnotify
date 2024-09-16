@@ -17,8 +17,6 @@ const SelectCategory: FC<PropsType> = ({ label, index, query }) => {
   const formFieldName = `categories1.${index}`;
   const selectedCategoryWatch = form.watch(formFieldName);
 
-  console.log(selectedCategoryWatch, "<<<<<<<<<<<<<<<<<<<watch");
-
   const categoryQuery = useQuery({
     queryKey: ["categories", { formFieldName, watch: selectedCategoryWatch }],
     queryFn: async () => {

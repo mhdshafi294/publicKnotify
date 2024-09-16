@@ -8,7 +8,7 @@ import { useRouter } from "@/navigation";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-import { createPlayListsAction } from "@/app/actions/podcastActions";
+import { createPlayListAction } from "@/app/actions/podcastActions";
 import { createPlaylistSchema } from "@/schema/createPlaylistSchema";
 
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,7 @@ const AddPlaylistForm: React.FC<{
     isPending,
     error,
   } = useMutation({
-    mutationFn: createPlayListsAction,
+    mutationFn: createPlayListAction,
     onMutate: () => {
       toast.loading("Creating new playlist...");
     },

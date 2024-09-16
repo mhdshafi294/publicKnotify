@@ -28,6 +28,13 @@ export type ShowViewsStatistics = {
   }[];
 };
 
+export type ShowMostPopularStatistics = {
+  most_popular_time: string | null;
+  most_popular_day: string | null;
+  top_country: string | null;
+  all_time_views: number;
+};
+
 export type PlaylistStatistics = {
   total_views: number;
   last_7_days_views: number;
@@ -66,4 +73,8 @@ export type ShowStatisticsResponse = ApiResponse & {
 
 export type ShowViewsStatisticsResponse = ApiResponse & {
   statistics: ShowViewsStatistics;
+};
+
+export type ShowMostPopularStatisticsResponse = ApiResponse & {
+  statistics: ShowMostPopularStatistics;
 };

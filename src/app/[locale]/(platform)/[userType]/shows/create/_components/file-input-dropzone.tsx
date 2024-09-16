@@ -7,7 +7,7 @@ import { Dispatch, FC, useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 
 type PropsType = {
-  file: File | null;
+  file: File | string | null;
   setFile: Dispatch<React.SetStateAction<File | null>>;
 };
 
@@ -48,7 +48,8 @@ const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
         className="size-40 border border-dashed flex justify-center items-center shrink-0"
       >
         <input {...getInputProps({ ref: inputRef, refKey: "innerref" })} />
-        {file && file.name ? (
+        {(file instanceof File && file.name) ||
+        (typeof file === "string" && file.length > 0) ? (
           <div
             className={cn(
               "flex flex-col size-full gap-3 justify-center items-center",
@@ -56,7 +57,7 @@ const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
             )}
           >
             <Image
-              src={convertFileToURL(file)}
+              src={file instanceof File ? convertFileToURL(file) : file}
               alt="image"
               width={300}
               height={300}

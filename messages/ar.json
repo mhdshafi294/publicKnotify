@@ -444,7 +444,8 @@
     "today": "اليوم",
     "yesterday": "أمس",
     "write-a-message": "أكتب رسالة...",
-    "messages": "رسائل"
+    "messages": "رسائل",
+    "showUpdatedSuccessfully": "تم تحديث معلومات البرنامج بنجاح"
   },
   "notifications": {
     "notifications": "notifications"

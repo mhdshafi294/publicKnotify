@@ -90,9 +90,9 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
         </PopoverTrigger>
         <PopoverContent
           align="end"
-          className="flex flex-col h-[300px] py-2 px-0 w-[100vw] max-lg:rounded-none lg:w-96"
+          className="flex flex-col h-[400px] py-2 px-0 w-[100vw] max-lg:rounded-none lg:w-96 bg-background shadow-2xl rounded-2xl p-2"
         >
-          <div className="w-full px-4 pe-5 py-2 flex justify-between items-center">
+          <div className="w-full px-4 pe-5 py-3 flex justify-between items-center">
             <p className="  text-xl font-bold capitalize">
               {t("notifications")}
             </p>
@@ -101,7 +101,7 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
               <span className="-translate-y-[1px]">{t("new")}</span>
             </div>
           </div>
-          <Separator />
+          <Separator className="opacity-20" />
           {/* <NotificationContent /> */}
 
           <ScrollArea className="w-full h-[300px]">
@@ -118,8 +118,8 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
               />
             ) : null}
           </ScrollArea>
-          <Separator />
-          <div className="w-full px-4 flex justify-center items-center mt-2">
+          {/* <Separator /> */}
+          <div className="w-full px-4 flex justify-center items-center my-3">
             <Link
               href={`/${session?.user?.type}/notifications`}
               className={cn(

@@ -107,7 +107,7 @@ const InfiniteScrollNotificationsDialog = ({
                 <p className="text-xs opacity-70 mt-2">{notification?.body}</p>
               </li>
               {index !== page?.notifications.length - 1 && (
-                <Separator className="opacity-80" />
+                <Separator className="opacity-20" />
               )}
             </React.Fragment>
           ))

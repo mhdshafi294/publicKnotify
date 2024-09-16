@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -86,6 +87,22 @@ const ChatWindow = ({
     }
   }, []);
 
+  useEffect(() => {
+    // Add event listener for Escape key
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeChat();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      // Cleanup event listener
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   // Set conversation ID, user image, name, and UUID when the conversation ID changes
   useEffect(() => {
     if (conversation_id && !conversationId) {
@@ -95,6 +112,12 @@ const ChatWindow = ({
       setUuid(receiver?.uuid);
     }
   }, [conversation_id]);
+
+  useEffect(() => {
+    if (conversationId) {
+      bottomRef?.current?.scrollIntoView({ behavior: "instant" });
+    }
+  }, [conversationId]);
 
   // Fetch conversation messages with infinite scrolling
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

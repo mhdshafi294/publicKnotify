@@ -54,7 +54,7 @@ const UserOptions = () => {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-background border-none shadow-2xl w-screen md:w-56 rounded-2xl p-2">
+          <DropdownMenuContent className="w-screen md:w-56">
             <DropdownMenuLabel>
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
