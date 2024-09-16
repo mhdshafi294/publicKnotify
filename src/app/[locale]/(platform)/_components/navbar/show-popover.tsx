@@ -95,7 +95,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 alt="show image preview"
               />
               <div>
-                <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200">
+                <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200 capitalize">
                   {
                     playlists.find(
                       (show) => show.id.toString() === params.showId

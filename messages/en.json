@@ -452,7 +452,11 @@
     "season": "season",
     "messages": "Messages",
     "showUpdatedSuccessfully": "Show updated successfully",
-    "something-went-wrong": "something went wrong"
+    "something-went-wrong": "something went wrong",
+    "toggle-theme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
   },
   "notifications": {
     "notifications": "notifications"

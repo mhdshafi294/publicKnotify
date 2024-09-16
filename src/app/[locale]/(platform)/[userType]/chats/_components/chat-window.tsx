@@ -76,7 +76,9 @@ const ChatWindow = ({
     setUuid,
   } = useChatStore((state) => state);
 
-  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
+  const { isIntersecting, ref } = useIntersectionObserver({
+    threshold: 0
+  });
 
   const conversation_id = searchParams.conversation_id as string | undefined;
 
@@ -351,16 +353,6 @@ const ChatWindow = ({
                           key={`new-${message.id}`} // Ensure unique key for real-time messages
                           message={message}
                           type={type}
-                          // isSending={message?.is_sending ? true : false}
-                          // previousMessage={
-                          //   index > 0
-                          //     ? data?.pages[0]?.messages[
-                          //         data?.pages[0]?.messages.length - 1
-                          //       ]!
-                          //     : data?.pages[0]?.messages[0]
-                          //     ? data?.pages[0]?.messages[0]
-                          //     : message
-                          // }
                           isSending={message?.is_sending ? true : false}
                           previousMessage={
                             newMessages.length > 1 && index > 0
@@ -382,9 +374,9 @@ const ChatWindow = ({
                     )}
                     <div
                       ref={ref}
-                      className="col-span-1 mt-0.5 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
+                      className="col-span-1 mb-20 flex items-center justify-center sm:col-span-2 md:col-span-3 lg:col-span-4"
                     >
-                      {isFetchingNextPage && <Loader className="size-9" />}
+                      {isFetchingNextPage && <Loader />}
                       <span className="sr-only">{t("loading")}</span>
                     </div>
                   </div>

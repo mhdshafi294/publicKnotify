@@ -445,7 +445,11 @@
     "yesterday": "أمس",
     "write-a-message": "أكتب رسالة...",
     "messages": "رسائل",
-    "showUpdatedSuccessfully": "تم تحديث معلومات البرنامج بنجاح"
+    "showUpdatedSuccessfully": "تم تحديث معلومات البرنامج بنجاح",
+    "toggle-theme": "تبديل الموضوع",
+    "light": "ضوء",
+    "dark": "مظلم",
+    "system": "نظام"
   },
   "notifications": {
     "notifications": "notifications"
