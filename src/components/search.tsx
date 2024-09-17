@@ -73,7 +73,7 @@ const Search: React.FC<{ searchText?: string; searchFor: string }> = ({
         value={text}
         placeholder={`${t("search")} ${searchFor}...`}
         onChange={(e) => setText(e.target.value)}
-        className="py-1.5 pl-10 placeholder:text-white/50"
+        className="py-1.5 pl-10 placeholder:text-foreground/50 dark:placeholder:text-white/50"
       />
     </div>
   );

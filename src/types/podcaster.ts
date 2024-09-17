@@ -37,7 +37,7 @@ export type PodcasterDetails = {
 
 export type Statistics = {
   podcsats_count: number;
-  average_listeners: number;
+  average_listeners: string;
   youtube: YoutubeChannel;
 };
 

@@ -47,16 +47,22 @@ const VisitorsStatisticsModal = ({
           </div>
           <div className="w-full py-2 flex gap-4 flex-col justify-start items-start">
             {/* Display the pricing cards with prices for different sections */}
-            <PricingCard
-              name="first"
-              text={t("averageNumberOfListeners")}
-              price={statistics?.average_listeners.toFixed(3).toString()}
-            />
-            <PricingCard
-              name="middle"
-              text={t("podcsatsCount")}
-              price={statistics?.podcsats_count.toString()}
-            />
+            {statistics?.average_listeners ? (
+              <PricingCard
+                name="first"
+                text={t("averageNumberOfListeners")}
+                price={parseFloat(statistics?.average_listeners)
+                  ?.toFixed(3)
+                  .toString()}
+              />
+            ) : null}
+            {statistics?.podcsats_count ? (
+              <PricingCard
+                name="middle"
+                text={t("podcsatsCount")}
+                price={statistics?.podcsats_count.toString()}
+              />
+            ) : null}
             {statistics?.youtube ? (
               <PricingCard
                 name="end"

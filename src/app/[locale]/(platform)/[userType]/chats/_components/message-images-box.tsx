@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { Plus } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { cn, extractContentWithLinks } from "@/lib/utils";
 import ChatMessageDate from "./chat-message-date";
 import MessageImageBox from "./message-image-box";
 
@@ -50,6 +50,15 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
       ));
     }
 
+    let parts: string[] = [];
+    let urls: [] | RegExpMatchArray = [];
+
+    if (content) {
+      const spearated = extractContentWithLinks(content);
+      parts = spearated.parts;
+      urls = spearated.urls;
+    }
+
     // For 4 or more images, render them in a grid format
     return (
       <div
@@ -65,7 +74,7 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
           className={cn(
             "w-fit max-w-[90%] xl:max-w-[40%] cursor-pointer px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
-              ? "col-start-2 bg-primary rounded-ee-none"
+              ? "col-start-2 bg-primary rounded-ee-none text-primary-foreground"
               : "col-end-2 bg-card rounded-es-none"
           )}
         >
@@ -101,9 +110,23 @@ const MessageImagesBox = forwardRef<HTMLDivElement, PropsType>(
             </PhotoProvider>
           </div>
           {/* Display content if available */}
-          {content ? (
-            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
-              {content}
+          {content && parts ? (
+            <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-3">
+              {parts.map((part, index) => (
+                <span key={index}>
+                  {part}
+                  {urls[index] && (
+                    <a
+                      href={urls[index]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline opacity-90 hover:opacity-100"
+                    >
+                      {urls[index]}
+                    </a>
+                  )}
+                </span>
+              ))}
             </p>
           ) : null}
           {/* Display message date and status */}

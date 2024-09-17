@@ -77,7 +77,7 @@ const ChatWindow = ({
   } = useChatStore((state) => state);
 
   const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0
+    threshold: 0,
   });
 
   const conversation_id = searchParams.conversation_id as string | undefined;
@@ -89,21 +89,21 @@ const ChatWindow = ({
     }
   }, []);
 
-  useEffect(() => {
-    // Add event listener for Escape key
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeChat();
-      }
-    };
+  // useEffect(() => {
+  //   // Add event listener for Escape key
+  //   const handleKeyDown = (event: KeyboardEvent) => {
+  //     if (event.key === "Escape") {
+  //       closeChat();
+  //     }
+  //   };
 
-    window.addEventListener("keydown", handleKeyDown);
+  //   window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      // Cleanup event listener
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+  //   return () => {
+  //     // Cleanup event listener
+  //     window.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // }, []);
 
   // Set conversation ID, user image, name, and UUID when the conversation ID changes
   useEffect(() => {
@@ -391,7 +391,7 @@ const ChatWindow = ({
             />
             {showScrollToBottom ? (
               <button
-                className="absolute bottom-20 right-3 p-3 bg-secondary text-white rounded-full shadow-lg "
+                className="absolute bottom-20 right-3 p-3 bg-border-secondary dark:bg-secondary dark:text-white rounded-full shadow-lg "
                 onClick={scrollToBottom}
               >
                 <div

@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -60,7 +61,7 @@ const MobileNavbar = ({
         <SheetTrigger
           className={buttonVariants({ size: "icon", variant: "ghost" })}
         >
-          <AlignJustifyIcon />
+          <AlignJustifyIcon className="text-white" />
         </SheetTrigger>
         <SheetContent className="border-l-border-secondary px-0">
           <SheetHeader>
@@ -102,11 +103,17 @@ const MobileNavbar = ({
                           : link.label === "Statistics" &&
                             session?.user?.type === "podcaster"
                           ? `/podcasters/shows/${params.showId}/analytics`
-                          : `/${session?.user?.type}${link.href}`
+                          : link.label === "Statistics" &&
+                            session?.user?.type === "podcaster" &&
+                            playlists !== undefined &&
+                            playlists?.length > 0 &&
+                            playlists[0].id !== undefined
+                          ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                          : `/${session?.user?.type}/${link.href}`
                       }
                       className={cn(
                         buttonVariants({ variant: "link" }),
-                        "text-white p-0 no-underline hover:no-underline ",
+                        "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline ",
                         {
                           "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
                             (pathname.includes(link.href) &&
@@ -156,7 +163,7 @@ const MobileNavbar = ({
                     }
                     className={cn(
                       buttonVariants({ variant: "link" }),
-                      "text-white p-0 no-underline hover:no-underline ",
+                      "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline ",
                       {
                         "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
                           (pathname.includes(link.href) && link.href !== "/") ||
@@ -174,7 +181,7 @@ const MobileNavbar = ({
                 href={`/terms`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-white p-0 no-underline hover:no-underline "
+                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
                 )}
               >
                 <span>{t("terms")}</span>
@@ -183,7 +190,7 @@ const MobileNavbar = ({
                 href={`/privacy`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-white p-0 no-underline hover:no-underline "
+                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
                 )}
               >
                 <span>{t("privacy")}</span>
@@ -192,7 +199,7 @@ const MobileNavbar = ({
                 href={`/support`}
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-white p-0 no-underline hover:no-underline "
+                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
                 )}
               >
                 <span>{t("support")}</span>
@@ -204,6 +211,10 @@ const MobileNavbar = ({
             <div className="flex justify-between items-center">
               <p>{t("language")}</p>
               <LanguageSwitcher />
+            </div>
+            <div className="flex justify-between items-center">
+              <p>{t("toggle-theme")}</p>
+              <DarkModeToggle />
             </div>
             <Link
               className="flex gap-1 items-center"

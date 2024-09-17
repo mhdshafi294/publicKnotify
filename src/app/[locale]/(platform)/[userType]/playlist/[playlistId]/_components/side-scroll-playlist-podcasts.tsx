@@ -91,7 +91,8 @@ const SideScrollPlaylistPodcasts = ({
                   buttonVariants({ variant: "outline" }),
                   "w-full h-fit flex gap-1 items-center justify-start mt-3 border-none ps-1 py-2 group cursor-default",
                   {
-                    "bg-primary/50": podcast.id === parseInt(currentPodcastId),
+                    "bg-primary/20 dark:bg-primary/50":
+                      podcast.id === parseInt(currentPodcastId),
                   }
                 )}
               >

@@ -6,6 +6,7 @@ import { Link } from "@/navigation";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import DashboardCardContainer from "../../_components/dashboard-card-container";
+import { useTranslations } from "next-intl";
 
 type DashboardMediumCardProps = {
   imageSrc: string;
@@ -39,6 +40,8 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
   linkHref,
   done = false,
 }) => {
+  const t = useTranslations("Index");
+
   return (
     <DashboardCardContainer className="2xl:h-[404px] flex flex-col sm:flex-row 2xl:flex-col justify-between gap-5 rounded-[32px]">
       {/* Image Section */}
@@ -70,7 +73,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
             <div className="size-7 rounded bg-greeny/20 flex justify-center items-center">
               <Check className="stroke-greeny" />
             </div>
-            <p className="">Done!</p>
+            <div className="">{t("done")}!</div>
           </div>
         ) : (
           <Link
@@ -78,7 +81,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
               buttonVariants({
                 variant: "outline",
                 className:
-                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm border-input text-white/70 font-bold",
+                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm dark:border-input border-border-secondary dark:text-white/70 font-bold",
               })
             )}
             href={linkHref}

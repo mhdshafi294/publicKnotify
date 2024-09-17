@@ -56,7 +56,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 : ""
             )}
           >
-            <span className="inline-flex justify-between items-center gap-2">
+            <span className="inline-flex justify-between items-center gap-2 text-secondary-foreground">
               <Image
                 width={56}
                 height={40}
@@ -68,7 +68,7 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 }
                 alt="show image preview"
               />
-              <p className="text-sm font-bold capitalize">
+              <p className="text-sm  font-bold capitalize">
                 {playlists.find((show) => show.id.toString() === params.showId)
                   ?.name || t("select_show_here")}
               </p>

@@ -209,11 +209,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         </p>
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
-            <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
-            <span className="text-white text-lg font-bold leading-5">
+            <div className="w-full max-w-[146px] h-[1px] dark:bg-white" />
+            <span className="dark:text-white text-lg font-bold leading-5">
               {t("or")}
             </span>
-            <div className="w-full max-w-[146px] h-[1px] bg-white"></div>
+            <div className="w-full max-w-[146px] h-[1px] dark:bg-white" />
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">
             <AppleLogin />

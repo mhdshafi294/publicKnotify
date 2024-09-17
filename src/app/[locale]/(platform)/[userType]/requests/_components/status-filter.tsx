@@ -75,7 +75,7 @@ const StatusFilter = ({ status }: { status?: string }) => {
           variant="link"
           onClick={() => setFilter((prev) => (prev === numCode ? "" : numCode))}
           className={cn(
-            "capitalize text-white/80 underline-offset-4 hover:no-underline text-base hover:text-white",
+            "capitalize text-foreground opacity-80 hover:opacity-100 font-bold duration-200 underline-offset-4 hover:no-underline text-base ",
             {
               "text-greeny before:absolute before:size-[6px] before:bg-greeny hover:before:bg-greeny_lighter before:translate-y-4 before:rounded-full hover:text-greeny_lighter":
                 numCode === status,

@@ -77,7 +77,7 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
           className={buttonVariants({
             variant: "outline",
             size: "icon",
-            className: "text-white/70",
+            className: "dark:text-white/70",
           })}
         >
           <EllipsisIcon />

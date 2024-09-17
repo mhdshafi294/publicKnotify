@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/navigation";
 import { useSession } from "next-auth/react";
 import { getDirection } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const locales = [
   { locale: "ar" as const, name: "Arabic" },
@@ -31,22 +32,33 @@ export function LanguageSwitcher() {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(Array.from(searchParams.entries()));
   const { data: session, status } = useSession();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
     <div>
       <DropdownMenu dir={dir}>
         <DropdownMenuTrigger asChild>
-          <Button
-            size={"icon"}
-            variant={"ghost"}
-            className="hover:bg-transparent hover:text-white"
-          >
-            <Globe className="size-5 md:size-7" />
-          </Button>
+          {isDesktop ? (
+            <DropdownMenuItem className="hidden md:flex">
+              <Globe className="size-4 me-2" />
+              <span>{t("language")}</span>
+            </DropdownMenuItem>
+          ) : (
+            <Button
+              size={"icon"}
+              variant={"outline"}
+              className="hover:bg-transparent md:hidden flex gap-2 hover:text-foreground"
+            >
+              <Globe className="size-5 md:size-7" />
+            </Button>
+          )}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="border border-border-secondary bg-background shadow-2xl w-screen md:w-56 rounded-2xl p-2">
-          <DropdownMenuLabel>{t("language")}</DropdownMenuLabel>
-          <DropdownMenuSeparator className="opacity-20" />
+        <DropdownMenuContent
+          align="end"
+          className="border border-border-secondary bg-background shadow-2xl rounded-2xl p-2"
+        >
+          {/* <DropdownMenuLabel>{t("language")}</DropdownMenuLabel>
+          <DropdownMenuSeparator className="opacity-20" /> */}
           {locales.map(({ locale, name }) => {
             const href = `/${pathname.split("/").slice(2).join("/")}?${params}`;
             if (session) {

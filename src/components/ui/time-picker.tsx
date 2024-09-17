@@ -92,7 +92,7 @@ function TimePicker<T extends FieldValues>({
               <Input
                 type="time"
                 className={cn(
-                  "bg-background border border-zinc-600 text-white text-sm rounded-md group-hover:bg-white group-hover:text-background block w-full px-3 py-2",
+                  "bg-background border dark:text-white text-sm rounded-md dark:group-hover:bg-white dark:group-hover:text-background block w-full px-3 py-2",
                   { "": dir === "rtl" }
                 )}
                 min="00:00"

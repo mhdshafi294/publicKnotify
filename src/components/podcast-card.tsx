@@ -39,7 +39,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
       // role="button"
       tabIndex={0}
       className={cn(
-        "w-full flex group relative transition-colors group duration-300 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
+        "w-full flex group relative transition-colors duration-300 bg-secondary/20 hover:bg-secondary/50 rounded-lg p-3 flex-col gap-2 overflow-hidden",
         className
       )}
     >

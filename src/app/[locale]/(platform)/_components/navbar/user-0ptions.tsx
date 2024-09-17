@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { Separator } from "@/components/ui/separator";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -58,8 +60,7 @@ const UserOptions = () => {
             <DropdownMenuLabel>
               {session?.user?.full_name as string}
             </DropdownMenuLabel>
-            <DropdownMenuSeparator className="opacity-20" />
-
+            <DropdownMenuSeparator className="dark:opacity-20" />
             <Link href={`/terms`}>
               <DropdownMenuItem>
                 <HeartHandshakeIcon className="me-2 h-4 w-4" />
@@ -78,7 +79,7 @@ const UserOptions = () => {
                 <span>{t("support")}</span>
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuSeparator className=" my-2 opacity-20" />
+            <DropdownMenuSeparator className=" my-2 dark:opacity-20" />
             <Link
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
             >
@@ -95,6 +96,8 @@ const UserOptions = () => {
                 </DropdownMenuItem>
               </Link>
             ) : null}
+            <LanguageSwitcher />
+            <DarkModeToggle />
             <Link href={`/${session?.user?.type}/settings`}>
               <DropdownMenuItem>
                 <Settings className="me-2 h-4 w-4" />

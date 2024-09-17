@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
-import { cn } from "@/lib/utils";
+import { cn, extractContentWithLinks } from "@/lib/utils";
 import { useImageOnLoad } from "@/hooks/use-image-on-load";
 import ChatMessageDate from "./chat-message-date";
 
@@ -34,6 +34,15 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
     // Hook to handle image loading and determine if the image has finished loading
     const { handleImageOnLoad, isLoaded } = useImageOnLoad();
 
+    let parts: string[] = [];
+    let urls: [] | RegExpMatchArray = [];
+
+    if (content) {
+      const spearated = extractContentWithLinks(content);
+      parts = spearated.parts;
+      urls = spearated.urls;
+    }
+
     return (
       <div
         ref={ref}
@@ -48,7 +57,7 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
           className={cn(
             "w-fit max-w-[80%] md:max-w-[40%] px-2 py-2 rounded-2xl min-h-10 min-w-10",
             isSender
-              ? "col-start-2 bg-primary rounded-ee-none"
+              ? "col-start-2 bg-primary rounded-ee-none text-primary-foreground"
               : "col-end-2 bg-card rounded-es-none"
           )}
         >
@@ -74,7 +83,21 @@ const MessageImageBox = forwardRef<HTMLDivElement, PropsType>(
           {/* If there is additional text content, display it below the image */}
           {content ? (
             <p className="whitespace-break-spaces overflow-x-auto w-full font-Almarai text-sm mt-1">
-              {content}
+              {parts.map((part, index) => (
+                <span key={index}>
+                  {part}
+                  {urls[index] && (
+                    <a
+                      href={urls[index]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline opacity-90 hover:opacity-100"
+                    >
+                      {urls[index]}
+                    </a>
+                  )}
+                </span>
+              ))}
             </p>
           ) : null}
 

@@ -46,14 +46,12 @@ const DesktopNavbar = ({
 
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">
-      <LanguageSwitcher />
-      <DarkModeToggle />
       <UserOptions />
       <NotificationsPopover className="hidden lg:block" />
-      <div className="flex justify-end items-center gap-5">
+      <div className="flex justify-end items-center gap-5 ">
         <Link
           href={{ pathname: "/search", query: { searchText } }}
-          className="px-0 opacity-75 hover:opacity-100 duration-200"
+          className="px-0 text-secondary-foreground opacity-85 hover:opacity-100 duration-200"
         >
           <SearchIcon className="" size={20} />
           <span className="sr-only">{t("search")}</span>
@@ -80,7 +78,7 @@ const DesktopNavbar = ({
                         ? "default"
                         : "outline",
                   }),
-                  " text-foreground hover:text-foreground border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
+                  " text-secondary-foreground hover:text-secondary-foreground  border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >
@@ -97,13 +95,20 @@ const DesktopNavbar = ({
                       ? `/${session?.user?.type}${link.href}/${params.showId}`
                       : `/${session?.user?.type}/`
                     : link.label === "Statistics" &&
-                      session?.user?.type === "podcaster"
-                    ? `/podcasters/shows/${params.showId}/analytics`
+                      session?.user?.type === "podcaster" &&
+                      params.showId
+                    ? `/podcaster/shows/${params.showId}/analytics`
+                    : link.label === "Statistics" &&
+                      session?.user?.type === "podcaster" &&
+                      playlists !== undefined &&
+                      playlists?.length > 0 &&
+                      playlists[0].id !== undefined
+                    ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
                     : `/${session?.user?.type}/${link.href}`
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),
-                  "text-foreground p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
+                  "text-secondary-foreground p-0 no-underline hover:no-underline before:absolute before:h-0.5 hover:before:w-7 before:bg-greeny before:translate-y-4 before:rounded-full before:opacity-0 hover:before:opacity-100 before:duration-300",
                   {
                     "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary hover:before:h-0.5 before:translate-y-4 before:rounded-full before:opacity-100 before:duration-0":
                       (pathname.includes(link.href) &&
