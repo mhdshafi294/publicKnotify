@@ -247,7 +247,7 @@ const Player = () => {
     <Fragment>
       <footer
         className={cn(
-          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-[#1A1A1A] w-full z-[999]",
+          "sticky transition-transform duration-300 ease-out bottom-0 p-2 gap-4 left-0 flex justify-between items-center h-20 bg-card dark:bg-[#1A1A1A] w-full z-[999]",
           podcastId ? "translate-y-0" : "translate-y-full fixed"
         )}
       >
@@ -267,7 +267,7 @@ const Player = () => {
               <h2 className="text-foreground lg:text-lg capitalize font-bold ">
                 {data.name}
               </h2>
-              <p className="text-foreground/20 capitalize text-sm">
+              <p className="text-foreground/40  dark:text-foreground/20 capitalize text-sm">
                 {data.podcaster.full_name}
               </p>
             </div>

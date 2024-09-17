@@ -99,3 +99,13 @@ export function getDistanceToNow(date: string, time: string): string {
   const parsedDate = new Date(dateTimeString);
   return formatDistanceToNow(parsedDate, { addSuffix: true });
 }
+
+// Helper function to detect URLs in the content
+export const extractContentWithLinks = (content: string) => {
+  const urlRegex =
+    /(?:https?:\/\/)?(?:localhost:\d{1,5}|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?)(?:[\/?][^\s]*)?/g;
+
+  const parts = content.split(urlRegex);
+  const urls = content.match(urlRegex) || []; // Ensure urls is not null
+  return { parts, urls };
+};

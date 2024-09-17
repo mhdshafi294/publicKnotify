@@ -99,8 +99,10 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
   return (
     <button
       className={cn(
-        "w-full  flex gap-5 cursor-pointer px-3 py-2 hover:bg-secondary relative",
-        { "bg-secondary": conversationId === conversation.id }
+        "w-full  flex gap-5 cursor-pointer px-3 py-2 hover:bg-border dark:hover:bg-secondary relative",
+        {
+          "dark:bg-secondary bg-border": conversationId === conversation.id,
+        }
       )}
       onClick={goToConversation}
     >

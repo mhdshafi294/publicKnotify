@@ -28,7 +28,7 @@ const Navbar = async (): Promise<JSX.Element> => {
   }
 
   return (
-    <div className="sticky top-0 left-0 h-[71px] w-full z-50 bg-secondary">
+    <div className="sticky top-0 left-0 h-[71px] w-full z-50 bg-accent dark:bg-secondary">
       <MaxWidthContainer className="h-full flex justify-between items-center">
         <div className="flex justify-start items-center gap-2">
           {/* Logo and Home Link */}

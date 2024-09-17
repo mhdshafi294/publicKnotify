@@ -64,12 +64,12 @@ const PodcastCardPlayButton: React.FC<PropsType> = ({ podcastId, type }) => {
     >
       {selectedPodcastId === podcastId ? (
         isRunning ? (
-          <Pause className="size-5 fill-foreground" />
+          <Pause className="size-5 fill-white" />
         ) : (
-          <Play className="size-5 fill-foreground" />
+          <Play className="size-5 fill-white" />
         )
       ) : (
-        <Play className="size-5 fill-foreground" />
+        <Play className="size-5 fill-white" />
       )}
     </Button>
   );

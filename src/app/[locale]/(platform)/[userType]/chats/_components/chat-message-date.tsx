@@ -28,7 +28,12 @@ const ChatMessageDate: FC<PropsType> = ({
   isSender,
 }) => {
   return (
-    <p className="text-[10px] pt-0.5 select-none flex justify-end items-center gap-1">
+    <p
+      className={cn(
+        "text-[10px] pt-0.5 select-none flex justify-end items-center gap-1",
+        { "text-primary-foreground": isSender }
+      )}
+    >
       {/* Display message time with lower opacity for received messages */}
       <span className={cn({ "opacity-60": !isSender })}>
         {format(new Date(messageDate), "hh:mm aa")}

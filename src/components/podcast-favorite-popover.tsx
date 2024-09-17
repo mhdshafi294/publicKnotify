@@ -171,7 +171,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
         forceMount
       >
         <p className="px-4 w-full text-sm">{t("addToFavoriteLists")}</p>
-        <Separator className="mt-2 bg-slate-900" />
+        <Separator className="mt-2 bg-border-secondary/30" />
         <Input
           onKeyDown={createNewCategory}
           placeholder={t("newFavoriteList")}
@@ -180,7 +180,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
         <p className="py-2 px-3 text-xs opacity-50 font-light">
           {t("typeAndPressSpace")}
         </p>
-        <Separator className="mb-4 bg-slate-900" />
+        <Separator className="mb-4 bg-border-secondary/30" />
         <ScrollArea className="min-h-36 max-h-80 px-2">
           <ToggleGroup type="multiple" className="mt-2 flex-wrap" size={"sm"}>
             {isCategoriesPending ? (

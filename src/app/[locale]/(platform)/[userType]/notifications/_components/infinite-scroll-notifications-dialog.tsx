@@ -98,7 +98,7 @@ const InfiniteScrollNotificationsDialog = ({
               <li className="w-full px-4">
                 <div className="w-full flex items-center justify-between">
                   <h3 className="">{notification?.title}</h3>
-                  <p className="text-[10px] text-greeny_lighter/70">
+                  <p className="text-[10px] text-greeny dark:text-greeny_lighter/70">
                     {formatDistanceToNow(new Date(notification?.created_at), {
                       addSuffix: true,
                     })}

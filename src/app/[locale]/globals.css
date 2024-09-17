@@ -10,52 +10,64 @@
 /* Base layer for CSS variables */
 @layer base {
   :root {
-    /* Light mode colors */
-    --background: 0 0% 100%;
-    --background-secondary: 210 20% 98%;
-    --foreground: 223 75% 6%;
+    /* Background and foreground colors */
+    --background: 0 0% 89%; /* Almost white background for a light feel */
+    --background-secondary: 0 0% 92%; /* Slightly darker background for sections */
+    --foreground: 210 10% 20%; /* Dark text for readability */
 
-    --card: 0 0% 100%;
-    --card-secondary: 210 20% 98%;
-    --card-foreground: 223 75% 6%;
+    /* Card colors */
+    --card: 0 0% 100%; /* White card background to contrast with the light background */
+    --card-secondary: 0 0% 95%; /* Soft gray for secondary cards */
+    --card-foreground: 210 10% 20%; /* Dark text for readability on light cards */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 223 75% 6%;
+    /* Popover colors */
+    --popover: 0 0% 98%; /* Popover matches light background */
+    --popover-foreground: 210 10% 20%; /* Dark text for popovers */
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary colors */
+    --primary: 220 80% 50%; /* Vivid blue for primary elements */
+    --primary-foreground: 0 0% 100%; /* White text on primary elements */
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary colors */
+    --secondary: 210 15% 75%; /* Muted blue for secondary elements */
+    --secondary-foreground: 0 0% 100%; /* White text on secondary elements */
 
-    --greeny: 163 94% 24%;
-    --greeny-foreground: 210 40% 98%;
+    /* Greeny colors */
+    --greeny: 163 83% 32%;
+    --greeny-foreground: 210 47.4% 11.2%;
 
-    --greeny_lighter: 163 94% 34%;
-    --greeny_lighter-foreground: 210 40% 98%;
+    --greeny_lighter: 161 79% 67%;
+    --greeny_lighter-foreground: 210 47.4% 11.2%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted colors */
+    --muted: 0 0% 80%; /* Soft muted background */
+    --muted-foreground: 210 10% 40%; /* Dark muted foreground for contrast */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent colors */
+    --accent: 210 15% 20%;
+    --accent-foreground: 0 0% 100%; /* White text on accent elements */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive colors */
+    --destructive: 0 70% 60%; /* Vivid red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White text on destructive actions */
 
-    --border: 214.3 31.8% 91.4%;
-    --border-secondary: 210 20% 90%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221 83% 53%;
+    /* Border and input colors */
+    --border: 0 0% 85%; /* Soft borders that are visible */
+    --border-secondary: 0 0% 75%; /* Lighter secondary borders */
+    --input: 0 0% 100%; /* White input backgrounds */
+    --ring: 220 80% 50%; /* Blue ring color for focused elements */
 
+    /* Border radius */
     --radius: 0.5rem;
 
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Chart colors */
+    --chart-1: 220 80% 50%; /* Vivid blue for charts */
+    --chart-2: 160 60% 45%; /* Muted green for charts */
+    --chart-3: 30 80% 55%; /* Warm orange for charts */
+    --chart-4: 280 60% 60%; /* Soft purple */
+    --chart-5: 340 70% 55%; /* Muted pink-red */
   }
+
   /* Dark mode colors */
   .dark {
     /* Background and foreground colors */

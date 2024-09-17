@@ -33,7 +33,7 @@ const SignIp = ({
         className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
       >
         {/* Tabs List: container for the tab triggers */}
-        <TabsList className="w-full h-14 grid grid-cols-3 bg-transparent text-white rounded-md mb-6 px-0 border-none border-transparent">
+        <TabsList className="w-full h-14 grid grid-cols-3 bg-transparent dark:text-white rounded-md mb-6 px-0 border-none border-transparent">
           {/* Tab Trigger for 'user' */}
           <TabsTrigger
             value="user"

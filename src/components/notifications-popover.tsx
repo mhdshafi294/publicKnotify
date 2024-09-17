@@ -73,7 +73,8 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
             buttonVariants({
               variant: "secondary",
               size: "icon",
-              className: "bg-transparent",
+              className:
+                "bg-transparent hover:bg-transparent opacity-85 hover:opacity-100 !duration-200",
             })
           )}
         >
