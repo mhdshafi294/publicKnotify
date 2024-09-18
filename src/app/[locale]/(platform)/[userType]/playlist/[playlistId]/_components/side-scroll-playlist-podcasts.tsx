@@ -107,7 +107,7 @@ const SideScrollPlaylistPodcasts = ({
                 </div>
                 <div>
                   <p className="text-sm font-bold capitalize">{podcast.name}</p>
-                  <p className="text-xs opacity-50">
+                  <p className="text-xs opacity-70 dark:opacity-50">
                     {getDistanceToNow(
                       podcast.publishing_date,
                       podcast.publishing_time

@@ -65,7 +65,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
       {/* Content Section */}
       <div className="flex flex-col gap-4 justify-end flex-1">
         <h2 className="text-lg ">{title}</h2>
-        <p className="opacity-50">{description}</p>
+        <p className="opacity-70 dark:opacity-50">{description}</p>
 
         {/* Conditional CTA or "Done" Indicator */}
         {done ? (

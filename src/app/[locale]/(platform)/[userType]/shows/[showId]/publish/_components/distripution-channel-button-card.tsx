@@ -67,7 +67,8 @@ const DistriputionChannelButtonCard: React.FC<
       className={cn(
         "rounded-md bg-black border h-14 w-60 flex justify-start gap-5 items-center p-2 cursor-pointer",
         {
-          "opacity-50": !selectedPlatforms.includes(platfotmName),
+          "opacity-70 dark:opacity-50":
+            !selectedPlatforms.includes(platfotmName),
         }
       )}
       onClick={handlePlatformSelection}

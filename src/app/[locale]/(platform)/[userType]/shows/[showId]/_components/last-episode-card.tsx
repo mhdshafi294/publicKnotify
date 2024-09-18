@@ -61,7 +61,7 @@ const LastEpisodeCard: React.FC<LastEpisodeCardProps> = ({
           <Link href={`/podcaster/shows/${showId}/episodes/${episodeId}`}>
             <h2 className="font-bold hover:underline">{title}</h2>
           </Link>
-          <p className="opacity-50 text-xs">
+          <p className="opacity-70 dark:opacity-50 text-xs">
             {t("published-from")}{" "}
             {formatDistanceToNow(new Date(publishDate), {
               addSuffix: false,

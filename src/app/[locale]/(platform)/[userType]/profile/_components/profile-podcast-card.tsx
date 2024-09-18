@@ -46,7 +46,7 @@ const ProfilePodcastCard = ({
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge
           className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 duration-200"
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-70 dark:opacity-50 group-hover:opacity-100 duration-200"
           )}
         />
       </div>
@@ -54,7 +54,7 @@ const ProfilePodcastCard = ({
       <Progress value={progress} className="w-full h-2 mt-1" />
 
       {/* Podcast name and type */}
-      <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100">
+      <p className="mt-2 font-bold line-clamp-1 opacity-70 dark:opacity-50 group-hover:opacity-100">
         {podcast.name}
       </p>
       <p className="text-xs text-primary font-semibold opacity-60 capitalize">

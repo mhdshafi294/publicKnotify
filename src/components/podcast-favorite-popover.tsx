@@ -177,7 +177,7 @@ const PodcastFavoritePopover: React.FC<PodcastFavoritePopoverProps> = ({
           placeholder={t("newFavoriteList")}
           className="h-full bg-secondary/30 outline-none border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 rounded-none"
         />
-        <p className="py-2 px-3 text-xs opacity-50 font-light">
+        <p className="py-2 px-3 text-xs opacity-70 dark:opacity-50 font-light">
           {t("typeAndPressSpace")}
         </p>
         <Separator className="mb-4 bg-border-secondary/30" />

@@ -39,7 +39,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       </div>
       <div className="flex flex-col gap-5">
         <h2 className="text-xl font-bold capitalize">{title}</h2>
-        <p className="opacity-50 font-light">{description}</p>
+        <p className="opacity-70 dark:opacity-50 font-light">{description}</p>
         <p className="opacity-75 font-bold">{episodesCount} episodes</p>
       </div>
     </aside>

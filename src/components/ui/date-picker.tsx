@@ -89,7 +89,7 @@ function DatePicker<T extends FieldValues>({
                   ) : (
                     <span>{t("pick-a-date")}</span>
                   )}
-                  <CalendarIcon className="ms-3 size-4 opacity-50 -translate-y-0.5" />
+                  <CalendarIcon className="ms-3 size-4 opacity-70 dark:opacity-50 -translate-y-0.5" />
                 </Button>
               </FormControl>
             </PopoverTrigger>

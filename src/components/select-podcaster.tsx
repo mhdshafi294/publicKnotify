@@ -89,18 +89,18 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                 .flat()
                 .find((client) => client.id.toString() === value)?.full_name
             : t("selectPodcaster")}
-          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" dir={dir}>
         <Command dir={dir}>
           <div className="flex items-center border-b px-3 overflow-hidden">
-            <Search className="me-2 h-4 w-4 shrink-0 opacity-50" />
+            <Search className="me-2 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
               placeholder={t("searchUser")}
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-50"
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-70 dark:opacity-50"
             />
           </div>
           <CommandList>

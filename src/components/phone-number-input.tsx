@@ -77,7 +77,7 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
             className="justify-between border-e rounded-none bg-input ps-2 pe-1 py-1"
           >
             {!code.includes("+") ? `+${code}` : code}
-            <ChevronsUpDown className="ms-1 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className="ms-1 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent
