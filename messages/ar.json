@@ -449,10 +449,13 @@
     "toggle-theme": "تبديل الموضوع",
     "light": "ضوء",
     "dark": "مظلم",
-    "system": "نظام"
+    "system": "نظام",
+    "updatedSuccessfully": "تم التحديث بنجاح"
   },
   "notifications": {
     "notifications": "notifications"
   },
-  "season": "موسم"
+  "season": "موسم",
+  "analytics-overview": "نظرة عامة على التحليلات",
+  "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "تحتوي النظرة العامة على الجمهور على التحليلات السريعة التي تحتاجها للبدء في فهم أداء عروضك"
 }

@@ -37,13 +37,13 @@ const AnalyticsMainContent = async ({
     start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
     end_date: new Date().toISOString(),
     show_id: params.showId,
-    type: "podcaster",
+    type: params.userType,
   });
 
   // Fetch show general statistics
   const showStatistics = await getShowStatisticsAction({
     show_id: params.showId,
-    type: "podcaster",
+    type: params.userType,
   });
 
   return (
@@ -67,6 +67,7 @@ const AnalyticsMainContent = async ({
           value={showStatistics?.playlist_statistics?.total_views.toString()}
           params={params}
           chart={<MostViewsChart showViews={showViews} />}
+          enabled={showStatistics?.enabled}
         />
       </div>
 
@@ -83,7 +84,10 @@ const AnalyticsMainContent = async ({
         />
       </div>
       {/* YouTube Channel Analytics */}
-      <AnalyticsYoutube youtube_channel={showStatistics.youtube_channel} />
+      <AnalyticsYoutube
+        youtube_channel={showStatistics.youtube_channel}
+        enabled={showStatistics?.enabled}
+      />
     </main>
   );
 };

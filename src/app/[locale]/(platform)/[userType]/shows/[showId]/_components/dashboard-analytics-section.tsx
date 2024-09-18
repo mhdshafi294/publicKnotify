@@ -9,6 +9,7 @@ import {
   getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
+import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
 
 type DashboardAnalyticsSectionProps = {
   params: { userType: string; showId: string };
@@ -56,10 +57,16 @@ const DashboardAnalyticsSection = async ({
         params={params}
         link={{ name: t("view-analytics"), href: `${params.showId}/analytics` }}
         chart={<MostViewsChart showViews={showViews} />}
+        enabled={showStatistics?.enabled}
       />
 
       {/* Summary Card with Key Metrics */}
       <DashboardCardContainer className="lg:w-56 lg:h-full flex flex-col sm:flex-row lg:flex-col gap-3">
+        <AnalyticsEnableSwitch
+          className="ms-auto self-end"
+          enabled={showStatistics?.enabled}
+          statiscsType="most_popular"
+        />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
             {t("all_time_views")}

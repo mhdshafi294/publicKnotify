@@ -2,6 +2,7 @@ import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import { ShowStatistics } from "@/types/statistics";
 import { useTranslations } from "next-intl";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
 
 /**
  * The AnalyticsHeader component displays key statistics for a show in a summary view.
@@ -62,6 +63,11 @@ const AnalyticsHeader = ({
           {showStatistics?.playlist_statistics?.unique_listeners_last_7_days}
         </p>
       </div>
+      <AnalyticsEnableSwitch
+        className="ms-auto self-start"
+        enabled={showStatistics?.enabled}
+        statiscsType="playlist_statistics"
+      />
     </DashboardCardContainer>
   );
 };

@@ -83,11 +83,11 @@ const StatisticsPage = async ({
       <StatisticsContainer selfPodcastsList={selfPodcastsList}>
         <>
           {/* Time and average listens statistics */}
-          <div className="bg-greeny flex justify-center flex-col items-center text-primary">
+          <div className="bg-greeny flex justify-center flex-col items-center dark:text-primary">
             <h3 className="text-5xl font-bold">{statisticsData.viewsCount}</h3>
             <p className="text-2xl capitalize">{t("viewsCount")}</p>
           </div>
-          <div className="bg-primary flex justify-center flex-col items-center">
+          <div className="bg-primary text-white flex justify-center flex-col items-center">
             <h3 className="text-5xl font-bold">
               {statisticsData.average_listens}
             </h3>
@@ -95,7 +95,7 @@ const StatisticsPage = async ({
           </div>
 
           {/* Revenue statistics */}
-          <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
+          <div className="bg-[#1A1A1AA6] text-white flex justify-start flex-col items-center gap-2 !p-4">
             <div className="w-full flex justify-start items-center gap-2">
               <svg
                 width="40"
@@ -134,7 +134,7 @@ const StatisticsPage = async ({
           </div>
 
           {/* Social media statistics */}
-          <div className="bg-[#1A1A1AA6] flex justify-start flex-col items-center gap-2 !p-4">
+          <div className="bg-[#1A1A1AA6] text-white flex justify-start flex-col items-center gap-2 !p-4">
             <div className="w-full flex justify-start items-center gap-2">
               <h3 className="text-xl font-bold md:max-w-[75%] capitalize">
                 {t("averageListens")}
@@ -151,7 +151,7 @@ const StatisticsPage = async ({
                         width={24}
                         height={24}
                       />
-                      <span className="text-foreground">{media.name}</span>
+                      <span className="text-white">{media.name}</span>
                     </div>
                     <span>{statisticsData.youtube_channel?.viewCount}</span>
                   </div>
@@ -165,7 +165,7 @@ const StatisticsPage = async ({
                           : 100)) *
                       100
                     }
-                    className="h-1.5 overflow-hidden bg-white [&_>_div]:bg-primary"
+                    className="h-1.5 overflow-hidden bg-white text-black [&_>_div]:bg-primary"
                   />
                 </div>
               ))}

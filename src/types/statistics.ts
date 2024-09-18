@@ -19,6 +19,7 @@ export type ShowStatistics = {
     views_count: number;
   }[];
   youtube_channel?: YoutubeChannel | null;
+  enabled: EnabledStatistics;
 };
 
 export type ShowViewsStatistics = {
@@ -61,6 +62,17 @@ export type YoutubeChannel = {
   subscriberCount: number;
   hiddenSubscriberCount: boolean;
   videoCount: number;
+};
+
+export type EnabledStatistics = {
+  id: number;
+  podcaster_id: number;
+  playlist_statistics: boolean;
+  top_episodes: boolean;
+  youtube_channel: boolean;
+  most_popular: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 export type StatisticsResponse = ApiResponse & {
