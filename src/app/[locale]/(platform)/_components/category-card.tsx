@@ -14,7 +14,7 @@ const CategoryCard: FC<PropsType> = async ({ category }) => {
   return (
     <Link
       href={`/${session?.user?.type}/category/${category.id}`}
-      className="bg-background flex justify-start items-center border rounded-xl w-48 gap-2 p-4"
+      className="bg-background flex justify-start items-center dark:border border-2 border-border-secondary rounded-xl w-48 gap-2 p-4"
       key={category.id}
     >
       <div className="size-10 relative">

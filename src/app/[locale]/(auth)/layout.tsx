@@ -26,7 +26,12 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="absolute size-14 top-10 right-20 -z-20 rounded-full bg-slate-500 blur-[20px]" />
         </div>
         <div className="absolute top-0 right-0 size-[340px] -z-20 blur-lg">
-          <Image className="opacity-50" src="/auth-r-bg.svg" alt="logo" fill />
+          <Image
+            className="opacity-70 dark:opacity-50"
+            src="/auth-r-bg.svg"
+            alt="logo"
+            fill
+          />
         </div>
       </div>
       {/* Children Components */}

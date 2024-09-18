@@ -188,7 +188,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
             <FormItem className="h-fit space-y-0 p-2 ">
               <FormControl>
                 <label className="group cursor-pointer ">
-                  <PaperclipIcon className="opacity-50 group-hover:opacity-100 duration-200" />
+                  <PaperclipIcon className="opacity-70 dark:opacity-50 group-hover:opacity-100 duration-200" />
                   <Input
                     type="file"
                     multiple

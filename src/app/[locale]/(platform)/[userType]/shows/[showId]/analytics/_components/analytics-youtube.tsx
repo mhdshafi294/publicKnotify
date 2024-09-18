@@ -42,7 +42,7 @@ const AnalyticsYoutube = ({
       <div className="w-full flex flex-col gap-5 sm:flex-row sm:gap-3">
         {/* All-time Views */}
         <div className="w-full flex flex-col gap-1 justify-between">
-          <h2 className="text-base font-bold opacity-50">
+          <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("all-time-views")}
           </h2>
           <p className="font-bold text-xl">
@@ -59,7 +59,7 @@ const AnalyticsYoutube = ({
 
         {/* Subscriber Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
-          <h2 className="text-base font-bold opacity-50">
+          <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("subscriber-count")}
           </h2>
           <p className="font-bold text-xl capitalize">
@@ -76,7 +76,7 @@ const AnalyticsYoutube = ({
 
         {/* Hidden Subscriber Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
-          <h2 className="text-base font-bold opacity-50">
+          <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("hidden-subscriber-count")}
           </h2>
           <p className="font-bold text-xl">
@@ -93,7 +93,9 @@ const AnalyticsYoutube = ({
 
         {/* Video Count */}
         <div className="w-full flex flex-col gap-1 justify-between">
-          <h2 className="text-base font-bold opacity-50">{t("video-count")}</h2>
+          <h2 className="text-base font-bold opacity-70 dark:opacity-50">
+            {t("video-count")}
+          </h2>
           <p className="font-bold text-xl">
             {youtube_channel?.videoCount ? (
               youtube_channel.videoCount

@@ -108,7 +108,9 @@ const InfiniteScrollPlaylistsCarousel = ({
       </div>
       <CarouselContent className="w-full mt-5 ms-0 min-h-56 gap-3">
         {data?.pages[0].playlists.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic">No playlists yet</p>
+          <p className="text-lg my-auto opacity-70 dark:opacity-50 italic">
+            No playlists yet
+          </p>
         ) : (
           data?.pages.map((page) =>
             page.playlists.map((playlist) => (

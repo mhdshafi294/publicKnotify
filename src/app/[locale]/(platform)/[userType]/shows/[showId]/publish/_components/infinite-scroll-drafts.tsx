@@ -189,7 +189,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
                       />
                     </div>
                     <div className="flex items-center justify-between gap-3">
-                      <p className="text-xs opacity-50">
+                      <p className="text-xs opacity-70 dark:opacity-50">
                         {podcast?.publishing_date}
                       </p>
                       <p className="font-bold text-xs opacity-70">

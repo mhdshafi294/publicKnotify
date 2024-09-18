@@ -77,7 +77,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
           </Link>
 
           <p className="text-sm opacity-70">{podcast.summary}</p>
-          <p className="text-xs opacity-50">
+          <p className="text-xs opacity-70 dark:opacity-50">
             {podcast.created_at.split(" ")[0]}
           </p>
         </div>

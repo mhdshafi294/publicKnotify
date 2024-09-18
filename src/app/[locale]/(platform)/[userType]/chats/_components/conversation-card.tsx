@@ -128,7 +128,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
             {conversation?.user_name}
           </h3>
           {conversation?.last_message?.created_at ? (
-            <p className="text-[10px] text-wrap text-ellipsis opacity-50 ">
+            <p className="text-[10px] text-wrap text-ellipsis opacity-70 dark:opacity-50 ">
               {isToday(new Date(conversation?.last_message?.created_at))
                 ? t("today")
                 : isYesterday(new Date(conversation?.last_message?.created_at))

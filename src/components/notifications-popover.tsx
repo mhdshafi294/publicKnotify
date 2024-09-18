@@ -51,7 +51,7 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
     return (
       <BellRing
         strokeWidth={1.5}
-        className="stroke-white size-[18px] lg:size-auto opacity-50"
+        className="stroke-white size-[18px] lg:size-auto opacity-70 dark:opacity-50"
       />
     );
   }
@@ -60,7 +60,7 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
     return (
       <BellRing
         strokeWidth={1.5}
-        className="stroke-white size-[18px] lg:size-auto opacity-50"
+        className="stroke-white size-[18px] lg:size-auto opacity-70 dark:opacity-50"
       />
     );
   }

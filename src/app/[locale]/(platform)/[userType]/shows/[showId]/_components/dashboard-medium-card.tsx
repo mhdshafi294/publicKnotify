@@ -65,7 +65,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
       {/* Content Section */}
       <div className="flex flex-col gap-4 justify-end flex-1">
         <h2 className="text-lg ">{title}</h2>
-        <p className="opacity-50">{description}</p>
+        <p className="opacity-70 dark:opacity-50">{description}</p>
 
         {/* Conditional CTA or "Done" Indicator */}
         {done ? (
@@ -81,7 +81,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
               buttonVariants({
                 variant: "outline",
                 className:
-                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm dark:border-input border-border-secondary dark:text-white/70 font-bold",
+                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm dark:border-input border-border-secondary dark:text-opacity-70 font-bold",
               })
             )}
             href={linkHref}

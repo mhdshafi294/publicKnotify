@@ -23,7 +23,7 @@ const AnalyticsHeader = ({
   return (
     <DashboardCardContainer className="w-full flex flex-col sm:flex-row gap-5 sm:gap-3">
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">
+        <h2 className="text-base font-bold opacity-70 dark:opacity-50">
           {t("all_time_views")}
         </h2>
         <p className="font-bold text-xl">
@@ -31,13 +31,15 @@ const AnalyticsHeader = ({
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">{t("views_today")}</h2>
+        <h2 className="text-base font-bold opacity-70 dark:opacity-50">
+          {t("views_today")}
+        </h2>
         <p className="font-bold text-xl capitalize">
           {showStatistics?.playlist_statistics?.today_views}
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">
+        <h2 className="text-base font-bold opacity-70 dark:opacity-50">
           {t("last_7_days_including_today")}
         </h2>
         <p className="font-bold text-xl">
@@ -45,7 +47,7 @@ const AnalyticsHeader = ({
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">
+        <h2 className="text-base font-bold opacity-70 dark:opacity-50">
           {t("previous_7_days")}
         </h2>
         <p className="font-bold text-xl">
@@ -53,7 +55,7 @@ const AnalyticsHeader = ({
         </p>
       </div>
       <div className="w-full flex flex-col gap-1 justify-between">
-        <h2 className="text-base font-bold opacity-50">
+        <h2 className="text-base font-bold opacity-70 dark:opacity-50">
           {t("unique_listeners_last_7_days")}
         </h2>
         <p className="font-bold text-xl">

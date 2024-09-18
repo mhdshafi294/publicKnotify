@@ -34,11 +34,11 @@ const SelfPlaylistCard = ({
         <div className="absolute inset-0 bg-black/20" />
         <PlayLarge
           className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50 group-hover:opacity-100 duration-200"
+            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-70 dark:opacity-50 group-hover:opacity-100 duration-200"
           )}
         />
       </div>
-      <p className="mt-2 font-bold line-clamp-1 opacity-50 group-hover:opacity-100 capitalize">
+      <p className="mt-2 font-bold line-clamp-1 opacity-70 dark:opacity-50 group-hover:opacity-100 capitalize">
         {playlist.name}
       </p>
       <p className="text-xs text-primary font-semibold opacity-75">

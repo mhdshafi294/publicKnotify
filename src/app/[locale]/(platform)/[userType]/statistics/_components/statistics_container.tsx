@@ -65,7 +65,7 @@ const StatisticsContainer = ({
                   </Link>
                 ))
               ) : (
-                <p className="text-lg italic opacity-50">
+                <p className="text-lg italic opacity-70 dark:opacity-50">
                   {t("NoPublishedPodcastsYet")}
                 </p>
               )}

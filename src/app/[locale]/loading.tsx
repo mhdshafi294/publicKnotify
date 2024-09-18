@@ -26,7 +26,7 @@ const Loading = () => {
         </div>
         <div className="absolute top-0 right-0 w-[340px] h-[340px] -z-20 blur-lg">
           <Image
-            className="opacity-50"
+            className="opacity-70 dark:opacity-50"
             src="/auth-r-bg.svg"
             alt="background logo"
             fill

@@ -184,7 +184,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
             />
             <Link
               href={`${type}/forgot-password`}
-              className="text-sm opacity-50 font-light hover:opacity-100 duration-300"
+              className="text-sm opacity-70 dark:opacity-50 font-light hover:opacity-100 duration-300"
             >
               {t("forgotPassword")}
             </Link>

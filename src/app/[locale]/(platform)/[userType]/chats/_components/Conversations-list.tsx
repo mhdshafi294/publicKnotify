@@ -153,7 +153,7 @@ const ConversationsList: React.FC<ConversationListProps> = ({
           <p className="text-center text-lg italic mt-20">
             {t("no-conversations-opened-yet")}
           </p>
-          <p className="text-center text-xs opacity-50">
+          <p className="text-center text-xs opacity-70 dark:opacity-50">
             {t(
               "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically"
             )}

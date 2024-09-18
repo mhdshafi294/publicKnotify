@@ -148,7 +148,7 @@ const EpisodePageContent = async ({
               {podcastResponse?.podcast?.publishing_date &&
               podcastResponse?.podcast?.publishing_time ? (
                 <div className="flex items-center gap-2">
-                  <p className="opacity-50 text-xs">
+                  <p className="opacity-70 dark:opacity-50 text-xs">
                     {getDistanceToNow(
                       podcastResponse?.podcast?.publishing_date!,
                       podcastResponse?.podcast?.publishing_time!

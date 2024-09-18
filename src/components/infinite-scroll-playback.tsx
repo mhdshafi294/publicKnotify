@@ -92,7 +92,7 @@ const InfiniteScrollPlayback = ({
       <h2 className="text-2xl font-bold">{t("history")}</h2>
       <ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
         {data?.pages[0].podcasts.length === 0 ? (
-          <p className="text-lg my-auto opacity-50 italic ">
+          <p className="text-lg my-auto opacity-70 dark:opacity-50 italic ">
             {t("historyEmpty")}
           </p>
         ) : (
