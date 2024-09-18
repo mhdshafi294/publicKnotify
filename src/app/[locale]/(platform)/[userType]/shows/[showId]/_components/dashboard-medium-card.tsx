@@ -81,7 +81,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
               buttonVariants({
                 variant: "outline",
                 className:
-                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm dark:border-input border-border-secondary dark:text-white/70 font-bold",
+                  "2xl:w-full sm:w-fit w-full 2xl:mt-auto capitalize text-base rounded-sm dark:border-input border-border-secondary dark:text-opacity-70 font-bold",
               })
             )}
             href={linkHref}

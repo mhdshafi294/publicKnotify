@@ -2,7 +2,7 @@ import { FC } from "react";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-const buttonVariant = cva("loading", {
+const loaderVariant = cva("loading", {
   variants: {
     variant: {
       spinner: "loading-spinner",
@@ -28,12 +28,15 @@ const buttonVariant = cva("loading", {
 
 interface PropsTypes
   extends React.HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof buttonVariant> {}
+    VariantProps<typeof loaderVariant> {}
 
 const Loader: FC<PropsTypes> = ({ size, variant, className, ...props }) => {
   return (
     <span
-      className={cn(buttonVariant({ variant, size, className }))}
+      className={cn(
+        loaderVariant({ variant, size, className }),
+        "dark:text-foreground text-accent"
+      )}
       {...props}
     />
   );

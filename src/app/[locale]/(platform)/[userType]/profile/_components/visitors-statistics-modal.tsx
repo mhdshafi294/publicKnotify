@@ -43,7 +43,7 @@ const VisitorsStatisticsModal = ({
       <DialogContent>
         <DialogHeader>
           <div className="flex">
-            <DialogTitle className="text-3xl">{t("pricing")}</DialogTitle>
+            <DialogTitle className="text-3xl">{t("statistics")}</DialogTitle>
           </div>
           <div className="w-full py-2 flex gap-4 flex-col justify-start items-start">
             {/* Display the pricing cards with prices for different sections */}
