@@ -450,7 +450,8 @@
     "light": "ضوء",
     "dark": "مظلم",
     "system": "نظام",
-    "updatedSuccessfully": "تم التحديث بنجاح"
+    "updatedSuccessfully": "تم التحديث بنجاح",
+    "wallet": "محفظة"
   },
   "notifications": {
     "notifications": "notifications"

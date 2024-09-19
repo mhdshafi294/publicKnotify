@@ -8,8 +8,10 @@ import {
   AlignJustifyIcon,
   BellRingIcon,
   LogOutIcon,
+  MessagesSquareIcon,
   SettingsIcon,
   User,
+  WalletIcon,
 } from "lucide-react";
 
 import {
@@ -30,6 +32,7 @@ import { Separator } from "@/components/ui/separator";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -216,6 +219,24 @@ const MobileNavbar = ({
               <p>{t("toggle-theme")}</p>
               <DarkModeToggle />
             </div>
+            {session?.user?.type !== "user" ? (
+              <Link
+                className="flex gap-1 items-center"
+                href={`/${session?.user?.type}/chats`}
+              >
+                <MessagesSquareIcon className="me-2 h-4 w-4" />
+                <span>{t("messages")}</span>
+              </Link>
+            ) : null}
+            {session?.user?.type !== "user" ? (
+              <Link
+                className="flex gap-1 items-center"
+                href={`/${session?.user?.type}/wallet`}
+              >
+                <WalletIcon className="me-2 h-4 w-4" />
+                <span>{t("wallet")}</span>
+              </Link>
+            ) : null}
             <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}

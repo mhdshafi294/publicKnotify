@@ -6,7 +6,6 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { SearchIcon } from "lucide-react";
 
-import { LanguageSwitcher } from "@/components/language-switcher";
 import NotificationsPopover from "@/components/notifications-popover";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNavLinks } from "@/config/links";
@@ -14,7 +13,6 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import UserOptions from "./user-0ptions";
 import { Playlist } from "@/types/podcast";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 /**
  * The DesktopNavbar component renders the navigation bar for larger screens.
