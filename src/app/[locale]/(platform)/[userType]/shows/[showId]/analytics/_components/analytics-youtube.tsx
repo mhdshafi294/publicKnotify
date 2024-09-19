@@ -4,7 +4,8 @@ import { OctagonAlert } from "lucide-react";
 
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import YoutubeIconWhite from "@/components/icons/youtube-icon-white";
-import { YoutubeChannel } from "@/types/statistics";
+import { EnabledStatistics, YoutubeChannel } from "@/types/statistics";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
 
 /**
  * The AnalyticsYoutube component displays an overview of YouTube analytics for the given show.
@@ -18,24 +19,33 @@ import { YoutubeChannel } from "@/types/statistics";
  */
 const AnalyticsYoutube = ({
   youtube_channel,
+  enabled,
 }: {
   youtube_channel: YoutubeChannel | null | undefined;
+  enabled: EnabledStatistics;
 }): JSX.Element => {
   const t = useTranslations("Index");
 
   return (
     <DashboardCardContainer className="w-full flex flex-col gap-5">
       {/* Header */}
-      <div className="flex flex-col gap-1">
-        <h3 className="flex items-center gap-2 text-base font-bold uppercase">
-          <YoutubeIconWhite />
-          {t("youtube-analytics")}
-        </h3>
-        <p className="text-xs opacity-70">
-          {t(
-            "an-overview-of-your-youtube-chanel-performance-regarding-this-show"
-          )}
-        </p>
+      <div className="w-full flex justify-between">
+        <div className="flex flex-col gap-1">
+          <h3 className="flex items-center gap-2 text-base font-bold uppercase">
+            <YoutubeIconWhite />
+            {t("youtube-analytics")}
+          </h3>
+          <p className="text-xs opacity-70">
+            {t(
+              "an-overview-of-your-youtube-chanel-performance-regarding-this-show"
+            )}
+          </p>
+        </div>
+        <AnalyticsEnableSwitch
+          className="ms-auto self-end"
+          enabled={enabled}
+          statiscsType="youtube_channel"
+        />
       </div>
 
       {/* YouTube Analytics Details */}

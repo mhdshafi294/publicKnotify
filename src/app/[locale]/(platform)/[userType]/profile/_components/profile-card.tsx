@@ -54,7 +54,7 @@ const ProfileCard = async ({
   const t = await getTranslations("Index");
 
   return (
-    <div className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
+    <aside className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
       {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
@@ -199,7 +199,7 @@ const ProfileCard = async ({
           ) : null}
         </div>
       ) : null}
-    </div>
+    </aside>
   );
 };
 

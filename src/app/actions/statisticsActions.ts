@@ -5,6 +5,7 @@ import getShowStatistics from "@/services/statistics/get-show-statistics";
 import getShowViewsStatistics from "@/services/statistics/get-show-views-statistics";
 // Importing the statistics service
 import getStatistics from "@/services/statistics/get-statistics";
+import postEnableStatistics from "@/services/statistics/post-enable-statiscics";
 
 /**
  * Fetches statistics for a specific podcast based on the provided parameters.
@@ -131,5 +132,23 @@ export const getShowMostPopularStatisticsAction = async ({
   return await getShowMostPopularStatistics({
     show_id,
     type,
+  });
+};
+
+export const postEnableStatisticsAction = async ({
+  type,
+  body,
+}: {
+  type: string;
+  body: {
+    playlist_statistics: number;
+    top_episodes: number;
+    youtube_channel: number;
+    most_popular: number;
+  };
+}) => {
+  return await postEnableStatistics({
+    type,
+    body,
   });
 };
