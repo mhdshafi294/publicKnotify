@@ -25,7 +25,7 @@ export type Contract = {
   media_type: string;
   episode_type: number;
   episode_type_translation: string;
-  ad_palce: string;
+  ad_place: string;
   ad_period: string;
   ad_cost: string;
   publishing_date: string;

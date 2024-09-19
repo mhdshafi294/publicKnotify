@@ -459,7 +459,12 @@
     "system": "System",
     "updatedSuccessfully": "updated successfully",
     "disable-this-analytics-to-be-seen-by-companies": "Disable this analytics to be seen by companies",
-    "enable-this-analytics-to-be-seen-by-companies": "Enable this analytics to be seen by companies"
+    "enable-this-analytics-to-be-seen-by-companies": "Enable this analytics to be seen by companies",
+    "total-received": "Total received",
+    "to-be-transferred": "To be transferred",
+    "last-payment-at": "Last payment at",
+    "wallet": "Wallet",
+    "no-transactions-yet": "no transactions yet"
   },
   "notifications": {
     "notifications": "notifications"
