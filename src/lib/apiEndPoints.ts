@@ -64,6 +64,7 @@ export const VIEWS_OVER_TIME = "/views-over-time";
 export const MOST_POPULAR = "/most-popular";
 export const ENABLE_DISABLE = "/enable-disable";
 export const WALLET = "/wallet";
+export const CONTRACTS = "/contracts";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

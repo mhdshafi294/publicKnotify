@@ -21,9 +21,9 @@ import {
   Settings,
   ShieldAlertIcon,
   User,
+  WalletIcon,
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { Separator } from "@/components/ui/separator";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
@@ -93,6 +93,14 @@ const UserOptions = () => {
                 <DropdownMenuItem>
                   <MessagesSquareIcon className="me-2 h-4 w-4" />
                   <span>{t("messages")}</span>
+                </DropdownMenuItem>
+              </Link>
+            ) : null}
+            {session?.user?.type !== "user" ? (
+              <Link href={`/${session?.user?.type}/wallet`}>
+                <DropdownMenuItem>
+                  <WalletIcon className="me-2 h-4 w-4" />
+                  <span>{t("wallet")}</span>
                 </DropdownMenuItem>
               </Link>
             ) : null}
