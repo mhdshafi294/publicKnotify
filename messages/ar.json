@@ -451,7 +451,12 @@
     "dark": "مظلم",
     "system": "نظام",
     "updatedSuccessfully": "تم التحديث بنجاح",
-    "wallet": "محفظة"
+    "wallet": "محفظة",
+    "episode-type": "نوع الحلقة",
+    "ad-period": "فترة الإعلان",
+    "created-at": "تم إنشاؤها في",
+    "media-type": "نوع الوسائط",
+    "with": "مع"
   },
   "notifications": {
     "notifications": "notifications"

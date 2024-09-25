@@ -28,7 +28,7 @@ const RequestCard: FC<{ request: Request }> = ({ request }) => {
 
   return (
     <Link href={`requests/${request.id}`}>
-      <Card className="bg-card/50 border-card-foreground/10">
+      <Card className="bg-card/50 hover:bg-card/80 duration-200 border-card-foreground/10">
         <CardHeader>
           <div className="flex gap-3">
             <div className="w-full flex flex-col justify-start gap-3">

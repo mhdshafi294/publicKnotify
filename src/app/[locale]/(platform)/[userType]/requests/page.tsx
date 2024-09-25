@@ -21,7 +21,7 @@ import StatusFilter from "./_components/status-filter";
  *
  * @returns {JSX.Element} The requests page content.
  */
-export default async function Requests({
+export default async function RequestsPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };

@@ -1,5 +1,6 @@
-import { ApiResponse } from ".";
+import { ApiResponse, Pagination } from ".";
 import { Company } from "./company";
+import { Podcaster } from "./podcaster";
 
 export type Contract = {
   id: number;
@@ -14,7 +15,9 @@ export type Contract = {
   publishing_date: string;
   publishing_time: string;
   description: string;
-  company: Company;
+  company?: Company;
+  podcaster?: Podcaster;
+  created_at: string;
 };
 
 export type ContractResponse = ApiResponse & {
@@ -23,4 +26,5 @@ export type ContractResponse = ApiResponse & {
 
 export type ContractsResponse = ApiResponse & {
   contracts: Contract[];
+  pagination: Pagination;
 };
