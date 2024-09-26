@@ -21,6 +21,7 @@ export const getContractsAction = async ({
   search,
   company_request_id,
   company_id,
+  podcaster_id,
   type,
 }: {
   page?: string;
@@ -28,6 +29,7 @@ export const getContractsAction = async ({
   search?: string;
   company_request_id?: string;
   company_id?: string;
+  podcaster_id?: string;
   type: string;
 }) => {
   return await getContracts({
@@ -36,6 +38,7 @@ export const getContractsAction = async ({
     search,
     company_request_id,
     company_id,
+    podcaster_id,
     type,
   });
 };

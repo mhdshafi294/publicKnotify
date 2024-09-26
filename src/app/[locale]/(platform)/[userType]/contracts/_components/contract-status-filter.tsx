@@ -19,13 +19,7 @@ import { cn } from "@/lib/utils";
  *
  * @param {string} status - The initial status filter from the URL parameters.
  */
-const ContractsFilter = ({
-  company_request_id,
-  company_id,
-}: {
-  company_request_id?: string;
-  company_id?: string;
-}) => {
+const ContractStatusFilter = ({ status }: { status?: string }) => {
   // Initialize hooks for navigation, session, and translations
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -34,7 +28,7 @@ const ContractsFilter = ({
   const t = useTranslations("Index");
 
   // State to manage the current status filter
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState(status);
 
   /**
    * Memoized STATUS array that defines the status codes and corresponding titles.
@@ -46,9 +40,9 @@ const ContractsFilter = ({
         numCode: session?.user?.type === "podcaster" ? "2" : "12",
         title: t("pending"),
       },
-      { numCode: "34", title: t("rejected") },
-      { numCode: "5", title: t("accepted") },
-      { numCode: "6", title: t("done") },
+      { numCode: "3", title: t("rejected") },
+      { numCode: "4", title: t("payed") },
+      { numCode: "5", title: t("expired") },
     ],
     [session?.user?.type, t]
   );
@@ -69,7 +63,7 @@ const ContractsFilter = ({
     } else {
       params.delete("status");
     }
-    router.push(`requests?${params.toString()}`);
+    router.push(`contracts?${params.toString()}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
@@ -96,4 +90,4 @@ const ContractsFilter = ({
   );
 };
 
-export default ContractsFilter;
+export default ContractStatusFilter;

@@ -1,41 +1,63 @@
 "use client";
 import { cn, getDirection } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { Button } from "./ui/button";
+import { CheckIcon, Search, SlidersHorizontalIcon } from "lucide-react";
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { useDebounce } from "use-debounce";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+
+import { useLocale, useTranslations } from "next-intl";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "./ui/command";
-import { Input } from "./ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { ScrollArea } from "./ui/scroll-area";
-import Loader from "./ui/loader";
-import { useLocale, useTranslations } from "next-intl";
+} from "@/components/ui/command";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Loader from "@/components/ui/loader";
+import { Input } from "@/components/ui/input";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { getRequestsAction } from "@/app/actions/requestsActions";
 
-type PropsType = {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
-};
-
-const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
+const SelectRequestFilter: React.FC<{ filterFor: string }> = ({
+  filterFor,
+}) => {
   const [open, setOpen] = useState(false);
+  const initialRender = useRef(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { data: session } = useSession();
+  const t = useTranslations("Index");
   const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
+  const [filter, setFilter] = useState(searchParams.get("request_id") || "");
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+  const [isMounted, setIsMounted] = useState(false);
 
-  const t = useTranslations("Index");
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     isPending,
@@ -46,14 +68,14 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["selectPodcasters", debouncedValue],
+    queryKey: ["requestFilter", debouncedValue],
     queryFn: ({ pageParam }) =>
-      getPodcastersAction({
-        count: "30",
+      getRequestsAction({
         page: pageParam.toString(),
-        type: "company",
+        type: session?.user?.type!,
         search: debouncedValue,
       }),
+    enabled: open,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination.next_page_url) {
@@ -63,6 +85,26 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
       }
     },
   });
+
+  /**
+   * Effect that updates the URL parameters based on the selected filter.
+   * It triggers whenever the `filter` state changes, except on the initial render.
+   */
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (filter) {
+      params.set("request_id", filter);
+    } else {
+      params.delete("request_id");
+    }
+    router.push(`${filterFor}?${params.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filter]);
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
@@ -81,26 +123,27 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded bg-background"
+          className="w-full md:w-fit justify-between rounded-lg bg-background"
         >
-          {value
+          {filter
             ? data?.pages
-                .map((page) => page.podcasters)
+                .map((page) => page.requests)
                 .flat()
-                .find((client) => client.id.toString() === value)?.full_name
-            : t("selectPodcaster")}
-          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
+                .find((client) => client.id.toString() === debouncedValue)
+                ?.name || t("selectRequest")
+            : t("selectRequest")}
+          <SlidersHorizontalIcon className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80" dir={dir}>
-        <Command dir={dir}>
+      <PopoverContent className="w-80 p-1" dir={dir} align="start">
+        <Command dir={dir} className="rounded-xl bg-background">
           <div className="flex items-center border-b px-3 overflow-hidden">
             <Search className="me-2 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
-              placeholder={t("searchUser")}
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none  dark:border-transparent border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 focus-visible:border-transparent disabled:opacity-50"
+              placeholder={t("searchRequest")}
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none dark:border-transparent border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 focus-visible:border-transparent disabled:opacity-50"
             />
           </div>
           <CommandList>
@@ -113,27 +156,27 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                     {error.name}
                     {error.message}
                   </CommandEmpty>
-                ) : data.pages[0].podcasters.length === 0 ? (
+                ) : data.pages[0].requests.length === 0 ? (
                   <CommandEmpty>{t("noUserFound")}</CommandEmpty>
                 ) : (
                   data?.pages.map((page) =>
-                    page?.podcasters.map((podcaster) => (
+                    page?.requests.map((request) => (
                       <CommandItem
-                        key={podcaster.id}
-                        value={podcaster.id.toString()}
+                        key={request.id}
+                        value={request.id.toString()}
                         onSelect={(currentValue) => {
-                          setValue(
-                            page?.podcasters
+                          setFilter(
+                            page?.requests
                               .find(
-                                (podcaster) =>
-                                  podcaster.id.toString() === currentValue
+                                (request) =>
+                                  request.id.toString() === currentValue
                               )
-                              ?.id.toString() === value
+                              ?.id.toString() === debouncedValue
                               ? ""
-                              : page?.podcasters
+                              : page?.requests
                                   .find(
-                                    (podcaster) =>
-                                      podcaster.id.toString() === currentValue
+                                    (request) =>
+                                      request.id.toString() === currentValue
                                   )!
                                   .id.toString()
                           );
@@ -143,20 +186,20 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
                             <AvatarImage
-                              src={podcaster.image}
-                              alt={podcaster.full_name}
+                              src={request.name}
+                              alt={request.name}
                               className="object-cover"
                             />
                             <AvatarFallback className="bg-greeny_lighter text-[10px] text-black font-bold">
-                              {podcaster.full_name.slice(0, 2).toUpperCase()}
+                              {request.name.slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <p>{podcaster.full_name}</p>
+                          <p>{request.name}</p>
                         </div>
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            value === podcaster.id.toString()
+                            debouncedValue === request.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}
@@ -182,4 +225,4 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
   );
 };
 
-export default SelectPodcaster;
+export default SelectRequestFilter;

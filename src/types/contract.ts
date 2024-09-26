@@ -18,6 +18,7 @@ export type Contract = {
   company?: Company;
   podcaster?: Podcaster;
   created_at: string;
+  request_name: string;
 };
 
 export type ContractResponse = ApiResponse & {

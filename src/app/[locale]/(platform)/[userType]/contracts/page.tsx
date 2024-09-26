@@ -9,8 +9,11 @@ import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import InfiniteScrollContracts from "./_components/infinite-scroll-contracts";
-import ContractsFilter from "./_components/contracts-filters";
 import SelectCompanyFilter from "./_components/select-company-filter";
+import SelectPodcasterFilter from "./_components/select-podcaster-filter";
+import SelectRequestFilter from "./_components/select-request-filter";
+import ContractStatusFilter from "./_components/contract-status-filter";
+import { FilePlus2Icon } from "lucide-react";
 
 const ContractsPage = async ({
   params,
@@ -30,6 +33,16 @@ const ContractsPage = async ({
     typeof searchParams.company_id === "string"
       ? searchParams.company_id
       : undefined;
+  const podcaster_id =
+    typeof searchParams.podcaster_id === "string"
+      ? searchParams.podcaster_id
+      : undefined;
+  const status =
+    typeof searchParams.status === "string" ? searchParams.status : undefined;
+
+  // If the status parameter exists and is a string, split it into an array of statuses
+  const statusArray =
+    typeof status === "string" && status?.length > 0 ? status?.split("") : [];
 
   // Fetching the current session using NextAuth's getServerSession
   const session = await getServerSession(authOptions);
@@ -43,6 +56,7 @@ const ContractsPage = async ({
     search,
     company_request_id,
     company_id,
+    podcaster_id,
   });
 
   // Extracting the contracts data from the response
@@ -51,29 +65,36 @@ const ContractsPage = async ({
   return (
     <main className="py-10 flex-1">
       <MaxWidthContainer className="flex flex-col gap-7">
-        {/* Status filter and search bar section */}
         <div className="w-full flex justify-between items-center">
           {/* Status filter component */}
-          {/* <ContractsFilter
-            company_request_id={company_request_id}
-            company_id={company_id}
-          /> */}
-          <SelectCompanyFilter />
-
-          {/* Search bar and create request button for companies */}
+          <ContractStatusFilter status={status} />
           <div className="flex justify-end items-center gap-2 ms-auto justify-self-end">
-            <Search searchText={search} searchFor="contracts" />
+            <div className="flex gap-2">
+              {session?.user?.type === "podcaster" ? (
+                <SelectCompanyFilter filterFor="contracts" />
+              ) : (
+                <SelectPodcasterFilter filterFor="contracts" />
+              )}
+              <SelectRequestFilter filterFor="contracts" />
+            </div>
+            {/* <Search searchText={search} searchFor="contracts" /> */}
             {session?.user?.type === "podcaster" ? (
               <Link
                 href="contracts/create"
-                className={cn(buttonVariants({ variant: "outline" }))}
+                className={cn(
+                  buttonVariants({
+                    variant: "secondary",
+                    className:
+                      "flex justify-center items-center gap-1 rounded-lg",
+                  })
+                )}
               >
-                {t("create")}
+                <span>{t("create")}</span>
+                <FilePlus2Icon className="size-3" />
               </Link>
             ) : null}
           </div>
         </div>
-
         {/* Infinite scroll component for loading requests */}
         <InfiniteScrollContracts
           initialContracts={contractsData}

@@ -8,6 +8,7 @@ const getContracts = async ({
   search,
   company_request_id,
   company_id,
+  podcaster_id,
   type,
 }: {
   page: string;
@@ -15,6 +16,7 @@ const getContracts = async ({
   search?: string;
   company_request_id?: string;
   company_id?: string;
+  podcaster_id?: string;
   type: string;
 }) => {
   const params: any = {
@@ -23,6 +25,7 @@ const getContracts = async ({
     search,
     company_request_id,
     company_id,
+    podcaster_id,
   };
 
   const { data } = await axiosInstance.get<ContractsResponse>(

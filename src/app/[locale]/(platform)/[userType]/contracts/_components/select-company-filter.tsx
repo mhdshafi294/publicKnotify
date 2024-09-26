@@ -1,6 +1,11 @@
 "use client";
 import { cn, getDirection } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+import {
+  CheckIcon,
+  ChevronsUpDown,
+  Search,
+  SlidersHorizontalIcon,
+} from "lucide-react";
 import {
   Dispatch,
   FC,
@@ -42,20 +47,27 @@ import { getCompaniesAction } from "@/app/actions/companyActions";
 //   setValue: Dispatch<SetStateAction<string>>;
 // };
 
-const SelectCompanyFilter = () => {
+const SelectCompanyFilter: React.FC<{ filterFor: string }> = ({
+  filterFor,
+}) => {
   const [open, setOpen] = useState(false);
   const initialRender = useRef(true);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
   const t = useTranslations("Index");
-  const [preDebouncedValue, setDebouncedValue] = useState(
-    searchParams?.get("company_id") || ""
-  );
+  const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
+  const [filter, setFilter] = useState(searchParams.get("company_id") || "");
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
   });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     isPending,
@@ -66,14 +78,14 @@ const SelectCompanyFilter = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["selectcompanies"],
+    queryKey: ["companyFilter", debouncedValue],
     queryFn: ({ pageParam }) =>
       getCompaniesAction({
-        count: "30",
         page: pageParam.toString(),
-        type: "company",
+        type: session?.user?.type!,
         search: debouncedValue,
       }),
+    enabled: open,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.pagination.next_page_url) {
@@ -95,14 +107,14 @@ const SelectCompanyFilter = () => {
     }
 
     const params = new URLSearchParams(searchParams.toString());
-    if (debouncedValue) {
-      params.set("company_id", debouncedValue);
+    if (filter) {
+      params.set("company_id", filter);
     } else {
       params.delete("company_id");
     }
-    router.push(`requests?${params.toString()}`);
+    router.push(`${filterFor}?${params.toString()}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue]);
+  }, [filter]);
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
@@ -123,25 +135,25 @@ const SelectCompanyFilter = () => {
           aria-expanded={open}
           className="w-full md:w-fit justify-between rounded-lg bg-background"
         >
-          {debouncedValue
+          {filter
             ? data?.pages
                 .map((page) => page.companies)
                 .flat()
                 .find((client) => client.id.toString() === debouncedValue)
-                ?.full_name
-            : t("selectcompany")}
-          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
+                ?.full_name || t("selectCompany")
+            : t("selectCompany")}
+          <SlidersHorizontalIcon className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" dir={dir}>
-        <Command dir={dir}>
+      <PopoverContent className="w-80 p-1" dir={dir} align="start">
+        <Command dir={dir} className="rounded-xl bg-background">
           <div className="flex items-center border-b px-3 overflow-hidden">
             <Search className="me-2 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
             <Input
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
-              placeholder={t("searchUser")}
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-50"
+              placeholder={t("searchCompany")}
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none dark:border-transparent border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 focus-visible:border-transparent disabled:opacity-50"
             />
           </div>
           <CommandList>
@@ -163,7 +175,7 @@ const SelectCompanyFilter = () => {
                         key={company.id}
                         value={company.id.toString()}
                         onSelect={(currentValue) => {
-                          setDebouncedValue(
+                          setFilter(
                             page?.companies
                               .find(
                                 (company) =>
