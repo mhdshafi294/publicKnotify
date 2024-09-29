@@ -40,7 +40,7 @@ interface PropsType<T extends FieldValues>
 function FormInput<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   labelClassName,
   ...props

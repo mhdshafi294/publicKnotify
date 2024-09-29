@@ -463,7 +463,16 @@
     "searchRequest": "ابحث عن طلب",
     "searchPodcaster": "ابحث عن بودكاستر",
     "payed": "دفعت",
-    "expired": "منتهي الصلاحية"
+    "expired": "منتهي الصلاحية",
+    "preview": "معاينة",
+    "cost": "يكلف",
+    "dollars": "دولار",
+    "cents": "سنتا",
+    "selectrequest": "حدد الطلب",
+    "creatingContract": "إنشاء العقد...",
+    "contractCreated": "تم إنشاء العقد",
+    "updatingContract": "تحديث العقد",
+    "contractUpdated": "تم تحديث العقد"
   },
   "notifications": {
     "notifications": "notifications"

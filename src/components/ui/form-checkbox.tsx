@@ -40,7 +40,7 @@ interface PropsType<T extends FieldValues>
  */
 function FormCheckbox<T extends FieldValues>({
   control,
-  className,
+  className: className,
   name,
   label,
   labelClassName,

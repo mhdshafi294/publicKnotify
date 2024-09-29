@@ -480,7 +480,19 @@
     "expired": "expired",
     "related-request": "related request",
     "request-name": "Request Name",
-    "contract-description": "Contract Description"
+    "contract-description": "Contract Description",
+    "publish-time": "publish time",
+    "not-created-yet": "not created yet",
+    "contract-status": "contract status",
+    "preview": "preview",
+    "cost": "cost",
+    "dollars": "dollars",
+    "cents": "cents",
+    "selectrequest": "select a request",
+    "creatingContract": "Creating contract...",
+    "contractCreated": "contract created",
+    "updatingContract": "updating contract",
+    "contractUpdated": "contract updated"
   },
   "notifications": {
     "notifications": "notifications"

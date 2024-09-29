@@ -13,7 +13,7 @@ import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { cn, getDirection } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 
-interface PropsType<T extends FieldValues>
+interface PricePropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
   className?: string;
@@ -23,7 +23,7 @@ interface PropsType<T extends FieldValues>
   control: Control<T>;
 }
 
-function DurationPickerFormInput<T extends FieldValues>({
+function PricePickerFormInput<T extends FieldValues>({
   control,
   name,
   className,
@@ -31,19 +31,16 @@ function DurationPickerFormInput<T extends FieldValues>({
   label,
   labelClassName,
   ...props
-}: PropsType<T>) {
+}: PricePropsType<T>) {
   const { setValue } = useFormContext();
-  const [minutes, setMinutes] = useState("");
-  const [seconds, setSeconds] = useState("");
+  const [dollars, setDollars] = useState("");
+  const [cents, setCents] = useState("");
 
   useEffect(() => {
-    const formattedValue = `00:${minutes.padStart(2, "0")}:${seconds.padStart(
-      2,
-      "0"
-    )}`;
-    // console.log(formattedValue, "<<<<<<<<<<<<<<formattedValue");
+    // Ensure that cents are always formatted to two decimal places
+    const formattedValue = `${dollars}.${cents.padStart(2, "0")}`;
     setValue(name as string, formattedValue);
-  }, [minutes, seconds, setValue, name]);
+  }, [dollars, cents, setValue, name]);
 
   const locale = useLocale();
   const dir = getDirection(locale);
@@ -60,32 +57,31 @@ function DurationPickerFormInput<T extends FieldValues>({
           </FormLabel>
           <FormControl>
             <div className="flex gap-2" dir={dir}>
-              <div className="flex flex-col  gap-0.5 flex-1">
+              <div className="flex flex-col gap-0.5 flex-1">
                 <Input
                   type="number"
-                  className={cn("", className)}
-                  placeholder={t("mins")}
+                  className={cn("w-full", className)}
+                  placeholder={t("dollars")}
                   min="0"
-                  max="59"
                   {...props}
-                  onChange={(e) => setMinutes(e.target.value)}
-                  value={minutes}
+                  onChange={(e) => setDollars(e.target.value)}
+                  value={dollars}
                 />
-                <p className="text-xs opacity-70 font-bold">{t("mins")}</p>
+                <p className="text-xs opacity-70 font-bold">{t("dollars")}</p>
               </div>
-              <span className="self-start translate-y-1">:</span>
-              <div className="flex flex-col  gap-0.5 flex-1">
+              <span className="self-baseline ">.</span>
+              <div className="flex flex-col gap-0.5 flex-1">
                 <Input
                   type="number"
-                  className={cn("", className)}
-                  placeholder={t("secs")}
+                  className={cn("w-full", className)}
+                  placeholder={t("cents")}
                   min="0"
-                  max="59"
+                  max="99"
                   {...props}
-                  onChange={(e) => setSeconds(e.target.value)}
-                  value={seconds}
+                  onChange={(e) => setCents(e.target.value)}
+                  value={cents}
                 />
-                <p className="text-xs opacity-70 font-bold">{t("secs")}</p>
+                <p className="text-xs opacity-70 font-bold">{t("cents")}</p>
               </div>
             </div>
           </FormControl>
@@ -96,4 +92,4 @@ function DurationPickerFormInput<T extends FieldValues>({
   );
 }
 
-export default DurationPickerFormInput;
+export default PricePickerFormInput;

@@ -52,7 +52,7 @@ function FormFileInput<T extends FieldValues>({
   name,
   label,
   labelClassName,
-  className,
+  className: className,
   initValue,
   disabled,
   ...props

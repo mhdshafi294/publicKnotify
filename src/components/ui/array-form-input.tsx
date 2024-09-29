@@ -39,7 +39,7 @@ interface PropsType<T extends FieldValues>
 function ArrayFormInput<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   labelClassName,
   defaultValues,

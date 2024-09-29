@@ -61,7 +61,12 @@ const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
         <CardContent>
           <div className="flex flex-col-reverse lg:flex-row items-stretch gap-2">
             <div className="lg:w-9/12 text-wrap overflow-hidden flex flex-col gap-3 justify-between">
-              <p className="text-wrap">{contract?.description}</p>
+              <article
+                className="text-wrap text-xl"
+                dangerouslySetInnerHTML={{
+                  __html: contract?.description,
+                }}
+              />
               <div className="flex flex-wrap gap-2">
                 <div className="">
                   <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">

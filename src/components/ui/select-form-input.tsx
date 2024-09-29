@@ -50,7 +50,7 @@ function SelectFormInput<T extends FieldValues>({
   control,
   name,
   options,
-  className,
+  className: className,
   label,
   labelClassName,
   ...props

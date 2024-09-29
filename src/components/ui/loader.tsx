@@ -30,7 +30,12 @@ interface PropsTypes
   extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof loaderVariant> {}
 
-const Loader: FC<PropsTypes> = ({ size, variant, className, ...props }) => {
+const Loader: FC<PropsTypes> = ({
+  size,
+  variant,
+  className: className,
+  ...props
+}) => {
   return (
     <span
       className={cn(

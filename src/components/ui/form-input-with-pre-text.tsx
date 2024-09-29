@@ -41,7 +41,7 @@ interface PropsType<T extends FieldValues>
 function FormInputWithPreText<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   preText,
   labelClassName,

@@ -36,7 +36,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
   return (
     <div className="p-1 flex items-center justify-between border border-input rounded-t-lg">
-      <div className="flex items-center">
+      <div className="flex items-center flex-wrap">
         <Button
           variant={editor.isActive("bold") ? "default" : "ghost"}
           size={"icon"}
