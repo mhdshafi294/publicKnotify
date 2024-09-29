@@ -2,6 +2,7 @@
 
 import {
   createContractAction,
+  getContractAction,
   updateContractAction,
 } from "@/app/actions/contractActions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
@@ -99,6 +100,45 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
     enabled: !!form.getValues("company_request_id") && isMounted,
   });
 
+  const {
+    data: contractResponseData,
+    isPending: isContractPending,
+    isError: isContractError,
+  } = useQuery({
+    queryKey: ["contract_to_edit", contract_id],
+    queryFn: () =>
+      getContractAction({
+        id: contract_id!,
+        type: "podcaster",
+      }),
+    enabled: !!contract_id && isMounted,
+  });
+
+  // Reset form with draft data
+  useEffect(() => {
+    if (contractResponseData) {
+      form.reset({
+        company_request_id: contractResponseData.request_name,
+        media_type: contractResponseData.media_type as "audio" | "video",
+        episode_type: contractResponseData.episode_type_translation as
+          | "full"
+          | "bonus"
+          | "trailer",
+        ad_place: contractResponseData.ad_place as
+          | "video"
+          | "middle"
+          | "end"
+          | "first",
+        ad_period: contractResponseData.ad_period,
+        ad_cost: contractResponseData.ad_cost,
+        publishing_date: new Date(contractResponseData.publishing_date!),
+        publishing_time: contractResponseData.publishing_time?.slice(0, 5),
+        description: contractResponseData.description,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contract_id, contractResponseData]);
+
   // Mutation for creating metadata
   const {
     data: createMetadataResponse,
@@ -154,7 +194,6 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
       // console.log(data);
       // Your form submission logic here
       const formData = new FormData();
-      formData.append("company_request_id", data.company_request_id);
       formData.append("media_type", data.media_type);
       formData.append(
         "episode_type",
@@ -185,6 +224,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
           id: contract_id,
         });
       } else {
+        formData.append("company_request_id", data.company_request_id);
         server_createContractAction({ formData, type: "podcaster" });
       }
     } catch (error) {
@@ -215,6 +255,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
             <div className="w-full flex justify-between gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
+                disabled={contract_id ? true : false}
                 name="company_request_id"
                 render={({ field }) => (
                   <FormItem className="w-full" dir={dir}>

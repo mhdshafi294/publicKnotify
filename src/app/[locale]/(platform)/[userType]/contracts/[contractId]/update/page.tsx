@@ -1,4 +1,5 @@
 import React from "react";
+import ContractForm from "../../_components/contract-form";
 
 const UpdatePage = ({
   params,
@@ -7,7 +8,7 @@ const UpdatePage = ({
   params: { userType: string; contractId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  return <div>UpdatePage</div>;
+  return <ContractForm contract_id={params.contractId} />;
 };
 
 export default UpdatePage;
