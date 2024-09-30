@@ -492,7 +492,8 @@
     "creatingContract": "Creating contract...",
     "contractCreated": "contract created",
     "updatingContract": "updating contract",
-    "contractUpdated": "contract updated"
+    "contractUpdated": "contract updated",
+    "status": "Status"
   },
   "notifications": {
     "notifications": "notifications"

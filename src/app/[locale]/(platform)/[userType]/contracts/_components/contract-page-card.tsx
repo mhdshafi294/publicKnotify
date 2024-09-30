@@ -1,5 +1,5 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -7,10 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { FileCheck2Icon, ScrollTextIcon, ArrowDown } from "lucide-react";
-import { getServerSession, Session } from "next-auth";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import {
+  FileCheck2Icon,
+  ScrollTextIcon,
+  ArrowDown,
+  SquarePenIcon,
+} from "lucide-react";
+import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
-import { getTranslations } from "next-intl/server";
 import React, { use } from "react";
 
 type ContractPageCardProps = {
@@ -65,8 +71,20 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                 <CardTitle className="capitalize">{id ? id : "***"}</CardTitle>
                 <FileCheck2Icon size={18} className="text-card-foreground/30" />
               </div>
-              <div className="text-xs lg:text-lg rounded bg-card-foreground text-card px-2 py-1.5 font-semibold">
-                {status_translation ? status_translation : t("contract-status")}
+              <div className="flex justify-end items-center gap-3">
+                <Link
+                  href={`${id}/update`}
+                  className={cn(
+                    buttonVariants({
+                      variant: "secondary",
+                      className:
+                        "text-lg flex justify-center items-center gap-1 capitalize",
+                    })
+                  )}
+                >
+                  <SquarePenIcon size={16} />
+                  {t("update")}
+                </Link>
               </div>
             </div>
             <div className="flex flex-col gap-3">
@@ -114,7 +132,6 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                 __html: description,
               }}
             />
-            <div className="flex flex-wrap gap-2"></div>
           </div>
           <div className="flex lg:grid lg:grid-cols-2 gap-5 lg:w-4/12">
             <div className="flex flex-col gap-4">
@@ -137,6 +154,16 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                   {t("adPosition")}
                 </p>
                 <p className="text-sm lg:text-lg font-bold ">{ad_place}</p>
+              </div>
+              <div className="">
+                <p className="text-xs lg:text-base text-card-foreground/80 dark:text-card-foreground/50">
+                  {t("status")}
+                </p>
+                <div className="w-fit mt-1 text-xs rounded-full bg-card-foreground text-card px-3 py-1.5 font-semibold">
+                  {status_translation
+                    ? status_translation
+                    : t("contract-status")}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-4">
@@ -175,7 +202,7 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
         </div>
       </CardContent>
       <CardFooter className="!mt-auto justify-self-end">
-        <div className="flex w-full items-baseline">
+        <div className="flex w-full justify-between items-baseline">
           <p className="text-sm font-bold text-card-foreground/80 dark:text-card-foreground/50">
             {t("created-at")} {created_at ? created_at : t("not-created-yet")}
           </p>

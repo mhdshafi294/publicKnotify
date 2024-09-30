@@ -57,6 +57,7 @@ export const getRequestAction = async ({
   id: string;
   type: string;
 }) => {
+  console.log(id);
   const getRequestResponse = await getRequest({
     id,
     type,

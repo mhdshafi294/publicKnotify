@@ -32,9 +32,13 @@ function DurationPickerFormInput<T extends FieldValues>({
   labelClassName,
   ...props
 }: PropsType<T>) {
-  const { setValue } = useFormContext();
-  const [minutes, setMinutes] = useState("");
-  const [seconds, setSeconds] = useState("");
+  const { setValue, getValues } = useFormContext();
+  const [minutes, setMinutes] = useState(
+    getValues(name as string)?.split(":")[1] || "00"
+  );
+  const [seconds, setSeconds] = useState(
+    getValues(name as string)?.split(":")[2] || "00"
+  );
 
   useEffect(() => {
     const formattedValue = `00:${minutes.padStart(2, "0")}:${seconds.padStart(

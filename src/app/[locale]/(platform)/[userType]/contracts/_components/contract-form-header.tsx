@@ -13,14 +13,16 @@ type ContractFormHeaderProps = {
   isPending: boolean;
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
-  isRequestCreated: boolean;
+  isRequestReady: boolean;
+  isUpdate: boolean;
 };
 
 const ContractFormHeader: React.FC<ContractFormHeaderProps> = ({
   isPending,
   step,
   setStep,
-  isRequestCreated,
+  isRequestReady,
+  isUpdate,
 }) => {
   const router = useRouter();
   const form = useFormContext();
@@ -47,7 +49,7 @@ const ContractFormHeader: React.FC<ContractFormHeaderProps> = ({
           {t("cancel")}
         </Button>
         <Button
-          disabled={isPending || isRequestCreated}
+          disabled={isPending || (!isRequestReady && !isUpdate)}
           className={cn("capitalize mt-0 text-sm", {
             hidden: step === 2,
           })}

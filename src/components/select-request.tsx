@@ -25,9 +25,10 @@ import { getRequestsAction } from "@/app/actions/requestsActions";
 type PropsType = {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
+  disabled?: boolean;
 };
 
-const SelectRequest: FC<PropsType> = ({ value, setValue }) => {
+const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
   const [open, setOpen] = useState(false);
   const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
@@ -82,6 +83,7 @@ const SelectRequest: FC<PropsType> = ({ value, setValue }) => {
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between rounded bg-background"
+          disabled={disabled}
         >
           {value
             ? data?.pages
@@ -89,7 +91,7 @@ const SelectRequest: FC<PropsType> = ({ value, setValue }) => {
                 .flat()
                 .find((client) => client.id.toString() === value)?.name
             : t("selectrequest")}
-          <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
+          <ChevronsUpDown className="size-4 shrink-0 opacity-70 dark:opacity-50 justify-self-end ms-auto" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80" dir={dir}>

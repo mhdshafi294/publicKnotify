@@ -9,13 +9,11 @@ const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const costRegex = /^\d+(\.\d{1,2})?$/;
 
 export const ContractSchema = z.object({
-  company_request_id: z
-    .string()
-    .min(1, "createMetadataSchema.errorMessage.name"),
+  company_request_id: z.string().optional(),
   media_type: z.enum(["video", "audio"], {
     required_error: "createMetadataSchema.errorMessage.typeRequired",
   }),
-  episode_type: z.enum(["full", "bonus", "trailer"], {
+  episode_type: z.enum(["Full", "Bonus", "Trailer"], {
     required_error: "createMetadataSchema.errorMessage.typeRequired",
   }),
   ad_place: z.enum(["middle", "end", "first", "video"], {

@@ -6,10 +6,10 @@ export type Contract = {
   id: number;
   status: number;
   status_translation: string;
-  media_type: string;
+  media_type: "audio" | "video";
   episode_type: number;
-  episode_type_translation: string;
-  ad_place: string;
+  episode_type_translation: "Full" | "Bonus" | "Trailer";
+  ad_place: "video" | "middle" | "end" | "first";
   ad_period: string;
   ad_cost: string;
   publishing_date: string;
@@ -19,6 +19,7 @@ export type Contract = {
   podcaster?: Podcaster;
   created_at: string;
   request_name: string;
+  request_id: string;
 };
 
 export type ContractResponse = ApiResponse & {

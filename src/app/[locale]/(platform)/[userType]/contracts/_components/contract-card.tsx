@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { SquareArrowOutUpRightIcon, SquarePenIcon } from "lucide-react";
 
 import { Contract } from "@/types/contract";
 import {
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 /**
  * contractCard Component
@@ -27,8 +29,8 @@ const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
   const t = useTranslations("Index");
 
   return (
-    <Link href={`contracts/${contract?.id}`}>
-      <Card className="bg-card-secondary/70 hover:bg-card-secondary duration-200 border-card-foreground/10 min-h-96 relative flex flex-col rounded-sm">
+    <Link href={`contracts/${contract?.id}`} className="min-h-full">
+      <Card className="bg-card-secondary/70 hover:bg-card-secondary duration-200 border-card-foreground/10 min-h-96 h-full relative flex flex-col rounded-sm">
         <CardHeader>
           <div className="flex gap-3">
             <div className="w-full flex flex-col justify-start gap-3">
@@ -43,7 +45,7 @@ const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
                     className="text-card-foreground/30"
                   />
                 </div>
-                <div className="text-xs rounded bg-card-foreground text-card px-2 py-1.5 font-semibold">
+                <div className="text-xs rounded-full bg-card-foreground text-card px-3 py-1.5 font-semibold">
                   {contract?.status_translation}
                 </div>
               </div>
@@ -116,10 +118,29 @@ const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
           </div>
         </CardContent>
         <CardFooter className="!mt-auto justify-self-end">
-          <div className="flex w-full items-baseline">
+          <div className="flex w-full items-baseline justify-between">
             <p className="text-[10px] font-bold text-card-foreground/80 dark:text-card-foreground/50">
               {t("created-at")} {contract?.created_at}
             </p>
+            <Link
+              href={`contracts/${contract?.id}/update`}
+              legacyBehavior
+              passHref
+            >
+              <span
+                className={cn(
+                  buttonVariants({
+                    variant: "secondary",
+                    size: "sm",
+                    className:
+                      "text-sm flex justify-center items-center gap-1 capitalize",
+                  })
+                )}
+              >
+                <SquarePenIcon size={16} />
+                {t("update")}
+              </span>
+            </Link>
           </div>
         </CardFooter>
       </Card>
