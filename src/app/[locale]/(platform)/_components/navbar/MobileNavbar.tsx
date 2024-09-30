@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import {
   AlignJustifyIcon,
   BellRingIcon,
+  HandshakeIcon,
   LogOutIcon,
   MessagesSquareIcon,
   SettingsIcon,
@@ -235,6 +236,15 @@ const MobileNavbar = ({
               >
                 <WalletIcon className="me-2 h-4 w-4" />
                 <span>{t("wallet")}</span>
+              </Link>
+            ) : null}
+            {session?.user?.type !== "user" ? (
+              <Link
+                className="flex gap-1 items-center"
+                href={`/${session?.user?.type}/contracts`}
+              >
+                <HandshakeIcon className="me-2 h-4 w-4" />
+                <span>{t("contracts")}</span>
               </Link>
             ) : null}
             <Link

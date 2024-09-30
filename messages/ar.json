@@ -472,7 +472,9 @@
     "creatingContract": "إنشاء العقد...",
     "contractCreated": "تم إنشاء العقد",
     "updatingContract": "تحديث العقد",
-    "contractUpdated": "تم تحديث العقد"
+    "contractUpdated": "تم تحديث العقد",
+    "contracts": "العقود",
+    "contract": "عقد"
   },
   "notifications": {
     "notifications": "notifications"
