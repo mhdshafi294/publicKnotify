@@ -38,7 +38,7 @@ const StepFormContent: React.FC<StepFormContentProps> = ({
         className="bg-card-secondary duration-200 border-card-foreground/10 flex-1 relative flex flex-col p-4"
       >
         <CardContent className="space-y-3">
-          <FormFields form={form} contract_id={contract_id} />
+          <FormFields form={form} contract_id={contract_id} dir={dir} />
         </CardContent>
       </Card>
     );
