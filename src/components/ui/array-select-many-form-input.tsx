@@ -33,7 +33,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
   control,
   name,
   action,
-  className,
+  className: className,
   label,
   labelClassName,
   defaultValues,

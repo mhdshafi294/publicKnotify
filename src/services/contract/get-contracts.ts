@@ -1,12 +1,40 @@
-import { CONTRACTS, SHOW, STATISTICS, WALLET } from "@/lib/apiEndPoints";
+import { CONTRACTS } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { ContractResponse } from "@/types/contract";
+import { ContractsResponse } from "@/types/contract";
 
-const getContracts = async ({ type }: { type: string }) => {
-  const { data } = await axiosInstance.get<ContractResponse>(
-    `/${type}${CONTRACTS}`
+const getContracts = async ({
+  page,
+  count,
+  search,
+  company_request_id,
+  company_id,
+  podcaster_id,
+  type,
+}: {
+  page: string;
+  count: string;
+  search?: string;
+  company_request_id?: string;
+  company_id?: string;
+  podcaster_id?: string;
+  type: string;
+}) => {
+  const params: any = {
+    page,
+    count,
+    search,
+    company_request_id,
+    company_id,
+    podcaster_id,
+  };
+
+  const { data } = await axiosInstance.get<ContractsResponse>(
+    `/${type}${CONTRACTS}`,
+    {
+      params,
+    }
   );
-  return data.contracts;
+  return data;
 };
 
 export default getContracts;

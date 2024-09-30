@@ -9,6 +9,7 @@ export type Podcaster = {
   is_favorite: boolean;
   categories: Category[];
   favourite_categories: Category[];
+  stories: string[];
 };
 
 export type Price = {

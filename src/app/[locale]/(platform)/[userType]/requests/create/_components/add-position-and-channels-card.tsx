@@ -60,10 +60,9 @@ const AddPositionAndChannelsCard: React.FC<AddPositionAndChannelsCardProps> = ({
           className="bg-background h-full py-5 rounded-lg px-3"
           labelClassName="text-lg w-full h-full"
           groupClassName="flex-col items-start gap-3"
-          groupItemClassName="bg-card/50 rounded-lg px-5 w-full"
-          radioGroupItemClassName="size-6 border-none bg-greeny/10"
+          groupclassName="bg-card/50 rounded-lg px-5 w-full"
+          radioGroupclassName="size-6 border-none bg-greeny/10"
         />
-
         {/* Form inputs for selecting distribution channels */}
         <div className="space-y-2 mt-5">
           <p className="text-lg">{t("distributionChannels")}</p>

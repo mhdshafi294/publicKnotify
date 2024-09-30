@@ -17,6 +17,7 @@ interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
   name: keyof T;
   className?: string;
+  FormItemClassName?: string;
   label: string;
   labelClassName?: string | undefined;
   control: Control<T>;
@@ -26,20 +27,25 @@ function DurationPickerFormInput<T extends FieldValues>({
   control,
   name,
   className,
+  FormItemClassName,
   label,
   labelClassName,
   ...props
 }: PropsType<T>) {
-  const { setValue } = useFormContext();
-  const [minutes, setMinutes] = useState("");
-  const [seconds, setSeconds] = useState("");
+  const { setValue, getValues } = useFormContext();
+  const [minutes, setMinutes] = useState(
+    getValues(name as string)?.split(":")[1] || "00"
+  );
+  const [seconds, setSeconds] = useState(
+    getValues(name as string)?.split(":")[2] || "00"
+  );
 
   useEffect(() => {
     const formattedValue = `00:${minutes.padStart(2, "0")}:${seconds.padStart(
       2,
       "0"
     )}`;
-    console.log(formattedValue, "<<<<<<<<<<<<<<formattedValue");
+    // console.log(formattedValue, "<<<<<<<<<<<<<<formattedValue");
     setValue(name as string, formattedValue);
   }, [minutes, seconds, setValue, name]);
 
@@ -52,16 +58,16 @@ function DurationPickerFormInput<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="" dir={dir}>
+        <FormItem className={cn("", FormItemClassName)} dir={dir}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
           <FormControl>
             <div className="flex gap-2" dir={dir}>
-              <div className="flex flex-col  gap-0.5">
+              <div className="flex flex-col  gap-0.5 flex-1">
                 <Input
                   type="number"
-                  className={cn("w-20", className)}
+                  className={cn("", className)}
                   placeholder={t("mins")}
                   min="0"
                   max="59"
@@ -72,10 +78,10 @@ function DurationPickerFormInput<T extends FieldValues>({
                 <p className="text-xs opacity-70 font-bold">{t("mins")}</p>
               </div>
               <span className="self-start translate-y-1">:</span>
-              <div className="flex flex-col  gap-0.5">
+              <div className="flex flex-col  gap-0.5 flex-1">
                 <Input
                   type="number"
-                  className={cn("w-20", className)}
+                  className={cn("", className)}
                   placeholder={t("secs")}
                   min="0"
                   max="59"

@@ -1,5 +1,5 @@
 import { Control, FieldValues, useFormContext } from "react-hook-form";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import React, { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { cn, getDirection } from "@/lib/utils";
 import {
   FormField,
@@ -19,8 +19,8 @@ interface PropsType<T extends FieldValues>
   label: string;
   labelClassName?: string;
   groupClassName?: string;
-  groupItemClassName?: string;
-  radioGroupItemClassName?: string;
+  groupclassName?: string;
+  radioGroupclassName?: string;
   control: Control<T>;
   options: string[];
   price?: Price;
@@ -29,12 +29,12 @@ interface PropsType<T extends FieldValues>
 function PriceRadioGroupFormInput<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   labelClassName,
   groupClassName,
-  groupItemClassName,
-  radioGroupItemClassName,
+  groupclassName,
+  radioGroupclassName,
   options,
   price,
   ...props
@@ -73,7 +73,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                   key={option}
                   className={cn(
                     "flex items-center gap-2 space-y-0",
-                    groupItemClassName
+                    groupclassName
                   )}
                   dir={dir}
                   onClick={() =>
@@ -83,7 +83,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                   <FormControl>
                     <RadioGroupItem
                       value={option}
-                      className={cn("min-w-fit", radioGroupItemClassName)}
+                      className={cn("min-w-fit", radioGroupclassName)}
                       dir={dir}
                     />
                   </FormControl>
@@ -94,7 +94,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                       </span>
                       {option}
                     </div>
-                    {price && (
+                    {price ? (
                       <>
                         <span className=" text-gray-500">
                           $
@@ -109,7 +109,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                             : ""}
                         </span>
                       </>
-                    )}
+                    ) : null}
                   </FormLabel>
                 </FormItem>
               ))}

@@ -24,7 +24,7 @@ interface CheckboxProps<T extends FieldValues>
 function ToggleFormInput<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   labelClassName,
   icon,

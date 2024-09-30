@@ -41,7 +41,7 @@ function PasswordInput<T extends FieldValues>({
   name,
   label,
   labelClassName,
-  className,
+  className: className,
   ...props
 }: PropsType<T>) {
   const [toggle, setToggle] = useState(false);

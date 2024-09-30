@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { ComponentPropsWithoutRef, useState } from "react";
+import React, { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL } from "@/lib/utils";
 import { Image, Upload, X } from "lucide-react";
 import { Button } from "./button";
@@ -30,7 +30,7 @@ function FormFileInputUploader<T extends FieldValues>({
   name,
   label,
   labelClassName,
-  className,
+  className: className,
   initValue,
   ...props
 }: PropsType<T>) {

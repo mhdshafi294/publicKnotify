@@ -55,7 +55,7 @@ function DatePicker<T extends FieldValues>({
   name,
   label,
   description,
-  className,
+  className: className,
   labelClassName,
   ...props
 }: PropsType<T>) {

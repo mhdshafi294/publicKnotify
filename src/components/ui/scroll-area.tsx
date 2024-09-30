@@ -10,7 +10,7 @@ const ScrollArea = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
     thumbClassName?: string;
   }
->(({ className, children, thumbClassName, ...props }, ref) => (
+>(({ className: className, children, thumbClassName, ...props }, ref) => (
   <ScrollAreaPrimitive.Root
     ref={ref}
     className={cn("relative overflow-hidden", className)}
@@ -32,25 +32,35 @@ const ScrollBar = React.forwardRef<
   > & {
     thumbClassName?: string;
   }
->(({ className, thumbClassName, orientation = "vertical", ...props }, ref) => (
-  <ScrollAreaPrimitive.ScrollAreaScrollbar
-    ref={ref}
-    orientation={orientation}
-    className={cn(
-      "flex touch-none select-none transition-colors",
-      orientation === "vertical" &&
-        "h-full w-2.5 border-l border-l-transparent p-[1px]",
-      orientation === "horizontal" &&
-        "h-2.5 flex-col border-t border-t-transparent p-[1px]",
-      className
-    )}
-    {...props}
-  >
-    <ScrollAreaPrimitive.ScrollAreaThumb
-      className={cn("relative flex-1 rounded-full bg-card", thumbClassName)}
-    />
-  </ScrollAreaPrimitive.ScrollAreaScrollbar>
-));
+>(
+  (
+    {
+      className: className,
+      thumbClassName,
+      orientation = "vertical",
+      ...props
+    },
+    ref
+  ) => (
+    <ScrollAreaPrimitive.ScrollAreaScrollbar
+      ref={ref}
+      orientation={orientation}
+      className={cn(
+        "flex touch-none select-none transition-colors",
+        orientation === "vertical" &&
+          "h-full w-2.5 border-l border-l-transparent p-[1px]",
+        orientation === "horizontal" &&
+          "h-2.5 flex-col border-t border-t-transparent p-[1px]",
+        className
+      )}
+      {...props}
+    >
+      <ScrollAreaPrimitive.ScrollAreaThumb
+        className={cn("relative flex-1 rounded-full bg-card", thumbClassName)}
+      />
+    </ScrollAreaPrimitive.ScrollAreaScrollbar>
+  )
+);
 ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName;
 
 export { ScrollArea, ScrollBar };

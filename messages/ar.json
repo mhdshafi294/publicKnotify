@@ -451,12 +451,37 @@
     "dark": "مظلم",
     "system": "نظام",
     "updatedSuccessfully": "تم التحديث بنجاح",
-    "wallet": "محفظة"
+    "wallet": "محفظة",
+    "episode-type": "نوع الحلقة",
+    "ad-period": "فترة الإعلان",
+    "created-at": "تم إنشاؤها في",
+    "media-type": "نوع الوسائط",
+    "with": "مع",
+    "selectCompany": "اختر شركة",
+    "searchCompany": "ابحث عن شركة",
+    "selectRequest": "اختر الطلب",
+    "searchRequest": "ابحث عن طلب",
+    "searchPodcaster": "ابحث عن بودكاستر",
+    "payed": "دفعت",
+    "expired": "منتهي الصلاحية",
+    "preview": "معاينة",
+    "cost": "يكلف",
+    "dollars": "دولار",
+    "cents": "سنتا",
+    "selectrequest": "حدد الطلب",
+    "creatingContract": "إنشاء العقد...",
+    "contractCreated": "تم إنشاء العقد",
+    "updatingContract": "تحديث العقد",
+    "contractUpdated": "تم تحديث العقد"
   },
   "notifications": {
     "notifications": "notifications"
   },
   "season": "موسم",
   "analytics-overview": "نظرة عامة على التحليلات",
-  "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "تحتوي النظرة العامة على الجمهور على التحليلات السريعة التي تحتاجها للبدء في فهم أداء عروضك"
+  "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "تحتوي النظرة العامة على الجمهور على التحليلات السريعة التي تحتاجها للبدء في فهم أداء عروضك",
+  "new": "جديد",
+  "create": "أنشئ",
+  "request_name": "اسم الطلب",
+  "request-name": ""
 }

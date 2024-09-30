@@ -102,7 +102,7 @@ const DesktopNavbar = ({
                       playlists?.length > 0 &&
                       playlists[0].id !== undefined
                     ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
-                    : `/${session?.user?.type}/${link.href}`
+                    : `/${session?.user?.type}${link.href}`
                 }
                 className={cn(
                   buttonVariants({ variant: "link" }),

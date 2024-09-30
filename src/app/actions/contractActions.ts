@@ -15,8 +15,32 @@ export const getContractAction = async ({
   return await getContract({ type, id });
 };
 
-export const getContractsAction = async ({ type }: { type: string }) => {
-  return await getContracts({ type });
+export const getContractsAction = async ({
+  page = "1",
+  count = "21",
+  search,
+  company_request_id,
+  company_id,
+  podcaster_id,
+  type,
+}: {
+  page?: string;
+  count?: string;
+  search?: string;
+  company_request_id?: string;
+  company_id?: string;
+  podcaster_id?: string;
+  type: string;
+}) => {
+  return await getContracts({
+    page,
+    count,
+    search,
+    company_request_id,
+    company_id,
+    podcaster_id,
+    type,
+  });
 };
 
 export const createContractAction = async ({

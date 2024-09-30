@@ -46,7 +46,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["selectPodcasters"],
+    queryKey: ["selectPodcasters", debouncedValue],
     queryFn: ({ pageParam }) =>
       getPodcastersAction({
         count: "30",
@@ -81,7 +81,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between rounded-lg bg-background"
+          className="w-full justify-between rounded bg-background"
         >
           {value
             ? data?.pages
@@ -92,7 +92,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-0" dir={dir}>
+      <PopoverContent className="w-80" dir={dir}>
         <Command dir={dir}>
           <div className="flex items-center border-b px-3 overflow-hidden">
             <Search className="me-2 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
@@ -100,7 +100,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
               defaultValue={debouncedValue}
               onChange={(event) => setDebouncedValue(event.target.value)}
               placeholder={t("searchUser")}
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:ring-0 focus-visible:border-transparent disabled:opacity-50"
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none  dark:border-transparent border-transparent placeholder:text-muted-foreground disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 focus-visible:border-transparent disabled:opacity-50"
             />
           </div>
           <CommandList>

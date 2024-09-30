@@ -41,7 +41,7 @@ interface PropsType<T extends FieldValues>
 function FormInputTextarea<T extends FieldValues>({
   control,
   name,
-  className,
+  className: className,
   label,
   labelClassName,
   placeholder,
