@@ -60,7 +60,10 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
   );
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer
+      config={chartConfig}
+      className="w-full h-96 lg:h-48 2xl:h-96 flex-1"
+    >
       <LineChart
         accessibilityLayer
         data={chartData}

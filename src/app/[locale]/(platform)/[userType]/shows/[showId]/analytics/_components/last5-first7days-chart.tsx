@@ -100,7 +100,7 @@ const LastFiveFirstSevenDaysChart = ({
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Line
+        <Area
           dataKey="episode5"
           type="linear"
           stroke="var(--color-episode5)"
@@ -109,7 +109,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Line
+        <Area
           dataKey="episode4"
           type="linear"
           stroke="var(--color-episode4)"
@@ -118,7 +118,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Line
+        <Area
           dataKey="episode3"
           type="linear"
           stroke="var(--color-episode3)"
@@ -127,7 +127,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Line
+        <Area
           dataKey="episode2"
           type="linear"
           stroke="var(--color-episode2)"
@@ -136,7 +136,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Line
+        <Area
           dataKey="episode1"
           type="linear"
           stroke="var(--color-episode1)"

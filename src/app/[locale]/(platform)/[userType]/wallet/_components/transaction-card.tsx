@@ -25,7 +25,11 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
         <div className="w-full flex justify-between">
           <div className="w-full flex gap-5">
             <Image
-              src={transaction?.contract?.company?.image}
+              src={
+                transaction?.contract?.company?.image
+                  ? transaction?.contract?.company?.image
+                  : "/podcaster-filler.webp"
+              }
               alt={`${transaction?.contract?.company?.full_name} logo`}
               width={80}
               height={80}

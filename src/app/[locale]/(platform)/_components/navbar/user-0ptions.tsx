@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  HandshakeIcon,
   HeartHandshakeIcon,
   LifeBuoyIcon,
   LogOutIcon,
@@ -101,6 +102,14 @@ const UserOptions = () => {
                 <DropdownMenuItem>
                   <WalletIcon className="me-2 h-4 w-4" />
                   <span>{t("wallet")}</span>
+                </DropdownMenuItem>
+              </Link>
+            ) : null}
+            {session?.user?.type !== "user" ? (
+              <Link href={`/${session?.user?.type}/contracts`}>
+                <DropdownMenuItem>
+                  <HandshakeIcon className="me-2 h-4 w-4" />
+                  <span>{t("contracts")}</span>
                 </DropdownMenuItem>
               </Link>
             ) : null}

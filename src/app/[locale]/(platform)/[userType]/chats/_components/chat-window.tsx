@@ -7,7 +7,12 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { ArrowLeftIcon, ChevronDownIcon } from "lucide-react";
+import {
+  ArrowLeftIcon,
+  ChevronDownIcon,
+  FilePlus2Icon,
+  HandshakeIcon,
+} from "lucide-react";
 
 import {
   ConversationMessage,
@@ -25,6 +30,8 @@ import EmptyState from "./empty-state";
 import ChatMessage from "./chat-message";
 import Loader from "@/components/ui/loader";
 import ChatInput from "./chat-input";
+import { Link } from "@/navigation";
+import { buttonVariants } from "@/components/ui/button";
 
 /**
  * ChatWindow Component
@@ -323,6 +330,39 @@ const ChatWindow = ({
               <h3 className="font-bold text-base text-wrap capitalize">
                 {userName}
               </h3>
+            </div>
+            <div className="justify-self-end flex justify-end items-center gap-2 ms-auto">
+              <Link
+                className={cn(
+                  buttonVariants({
+                    variant: "outline",
+                    className: "flex gap-1 items-center",
+                  })
+                )}
+                href={`/${session?.user?.type}/contracts/create`}
+              >
+                <span>
+                  {t("new")} {t("contract")}
+                </span>
+                <FilePlus2Icon className="size-3" />
+              </Link>
+              <Link
+                className={cn(
+                  buttonVariants({
+                    variant: "default",
+                    className:
+                      "flex gap-1 items-center bg-card-foreground text-background hover:bg-card-foreground/80",
+                  })
+                )}
+                href={`/${session?.user?.type}/contracts/?${
+                  session?.user?.type === "podcaster"
+                    ? "company_id"
+                    : "podcaster_id"
+                }=${receiver?.id}`}
+              >
+                <span>{t("contracts")}</span>
+                <HandshakeIcon className="size-3" />
+              </Link>
             </div>
           </div>
           <div className="w-full flex-1 relative">

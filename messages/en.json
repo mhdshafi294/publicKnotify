@@ -493,7 +493,9 @@
     "contractCreated": "contract created",
     "updatingContract": "updating contract",
     "contractUpdated": "contract updated",
-    "status": "Status"
+    "status": "Status",
+    "contracts": "contracts",
+    "contract": "contract"
   },
   "notifications": {
     "notifications": "notifications"
