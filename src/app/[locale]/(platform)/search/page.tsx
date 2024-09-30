@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import { redirect } from "@/navigation";
+import React from "react";
 
 // Local imports
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";

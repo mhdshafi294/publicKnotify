@@ -122,7 +122,7 @@ export type Playlist = {
 export type SearchResponse = ApiResponse & {
   search: {
     podcasters: {
-      data: Omit<PodcasterDetails, "phone" | "email" | "price">[];
+      data: Podcaster[];
       pagination: Pagination;
     };
     podcasts: { data: Podcast[]; pagination: Pagination };
