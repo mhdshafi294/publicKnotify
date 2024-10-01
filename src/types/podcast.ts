@@ -119,6 +119,22 @@ export type Playlist = {
   podcasts: SelfPodcastDetails[];
 };
 
+export type DistributionLinks = {
+  id: number;
+  type: string;
+  playlist: {
+    id: number;
+    name: string;
+    image: string;
+    podcaster_email: string;
+    created_at: string;
+    updated_at: string;
+  };
+  url: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SearchResponse = ApiResponse & {
   search: {
     podcasters: {
@@ -163,7 +179,16 @@ export type CategoryResponse = ApiResponse & {
 export type PlaylistResponse = ApiResponse & {
   playlist: Playlist;
 };
+
 export type PlaylistsResponse = ApiResponse & {
   playlists: Playlist[];
   pagination: Pagination;
+};
+
+export type RssResponse = ApiResponse & {
+  rss: string;
+};
+
+export type DistreputionsResponse = ApiResponse & {
+  links: DistributionLinks[];
 };

@@ -34,6 +34,10 @@ import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
 import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-by-podcaster";
 import updatePlaylist from "@/services/podcast/playList/update-playlist";
+import getRss from "@/services/rss/get-rss";
+import createShowRss from "@/services/rss/create-show-rss";
+import getDistributionLinks from "@/services/podcast/playList/dstributionLinks/get-dstribution-links";
+import createUpdateDstributionLinks from "@/services/podcast/playList/dstributionLinks/crearte-update-dstribution-links";
 
 // Actions related to podcasts
 /**
@@ -603,4 +607,61 @@ export const getSearchAction = async ({
   type: string;
 }) => {
   return await getSearch({ count, search, page, type });
+};
+
+//todo: add documentation comments here
+
+export const getRssAction = async ({
+  showId,
+  type,
+}: {
+  type: string;
+  showId: string;
+}) => {
+  return await getRss({ type, showId });
+};
+
+export const createShowRssAction = async ({
+  showId,
+  type,
+}: {
+  type: string;
+  showId: string;
+}) => {
+  return await createShowRss({ type, showId });
+};
+
+export const getDistributionLinksAction = async ({
+  count = "4",
+  page = "1",
+  search,
+  playlist_id,
+  type,
+}: {
+  search?: string;
+  playlist_id?: string;
+  count?: string;
+  page?: string;
+  type: string;
+}) => {
+  return await getDistributionLinks({
+    count,
+    search,
+    page,
+    playlist_id,
+    type,
+  });
+};
+
+export const createUpdateDistributionLinksAction = async ({
+  formData,
+  type,
+}: {
+  formData: FormData;
+  type: string;
+}) => {
+  return await createUpdateDstributionLinks({
+    formData,
+    type,
+  });
 };

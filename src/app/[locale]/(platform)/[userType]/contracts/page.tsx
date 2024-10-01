@@ -101,6 +101,7 @@ const ContractsPage = async ({
           search={search}
           company_request_id={company_request_id}
           company_id={company_id}
+          status={status}
           type={session?.user?.type!}
         />
       </MaxWidthContainer>

@@ -474,16 +474,20 @@
     "updatingContract": "تحديث العقد",
     "contractUpdated": "تم تحديث العقد",
     "contracts": "العقود",
-    "contract": "عقد"
+    "contract": "عقد",
+    "main-feed": "التغذية الرئيسية",
+    "public": "عام",
+    "acceptedByAdmin": "مقبولة من قبل المشرف",
+    "text-copied-to-clipboard": "تم نسخ النص إلى الحافظة",
+    "failed-to-copy-text": "فشل في نسخ النص",
+    "copy": "ينسخ",
+    "step-1-link-generator": "الخطوة 1: مولد الارتباط",
+    "request-name": "",
+    "apple-podcasts-is-by-far-the-largest-directory-of-podcasts-and-getting-your-podcast-into-it-is-fairly-easy-youll-just-need-an-rss-feed-url-that-passes-their-validation-check": "يعد Apple Podcasts أكبر دليل للبودكاست على الإطلاق، ومن السهل جدًا إدخال البودكاست الخاص بك فيه. \nستحتاج فقط إلى عنوان URL لخلاصة RSS الذي يجتاز فحص التحقق من الصحة.",
+    "get-started-by-submitting-your-podcast-to-apple-podcasts-connect-if-youve-validated-your-feed-and-have-received-your-url-from-apple-proceed-to-step-2": "ابدأ بإرسال البودكاست الخاص بك إلى Apple Podcasts Connect. \nإذا قمت بالتحقق من صحة خلاصتك وتلقيت عنوان URL الخاص بك من Apple، فانتقل إلى الخطوة 2.",
+    "once-youve-received-your-apple-podcasts-url-paste-it-in-the-field-below-well-display-a-link-to-your-show-on-apple-podcasts-on-your-audio-player-show-page-and-episode-pages": "بمجرد استلام عنوان URL الخاص بـ Apple Podcasts، قم بلصقه في الحقل أدناه. \nسنعرض رابطًا لعرضك على Apple Podcasts على مشغل الصوت وصفحة العرض وصفحات الحلقات."
   },
   "notifications": {
     "notifications": "notifications"
-  },
-  "season": "موسم",
-  "analytics-overview": "نظرة عامة على التحليلات",
-  "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "تحتوي النظرة العامة على الجمهور على التحليلات السريعة التي تحتاجها للبدء في فهم أداء عروضك",
-  "new": "جديد",
-  "create": "أنشئ",
-  "request_name": "اسم الطلب",
-  "request-name": ""
+  }
 }

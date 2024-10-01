@@ -9,6 +9,7 @@ const getContracts = async ({
   company_request_id,
   company_id,
   podcaster_id,
+  status,
   type,
 }: {
   page: string;
@@ -17,6 +18,7 @@ const getContracts = async ({
   company_request_id?: string;
   company_id?: string;
   podcaster_id?: string;
+  status?: string;
   type: string;
 }) => {
   const params: any = {
@@ -25,6 +27,7 @@ const getContracts = async ({
     search,
     company_request_id,
     company_id,
+    status,
     podcaster_id,
   };
 

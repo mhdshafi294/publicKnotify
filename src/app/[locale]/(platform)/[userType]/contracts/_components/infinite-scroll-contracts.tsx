@@ -31,8 +31,16 @@ const InfiniteScrollContracts: React.FC<{
   search?: string;
   company_request_id?: string;
   company_id?: string;
+  status?: string;
   type: string;
-}> = ({ initialContracts, search, company_request_id, company_id, type }) => {
+}> = ({
+  initialContracts,
+  search,
+  company_request_id,
+  company_id,
+  status,
+  type,
+}) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
 
@@ -48,13 +56,17 @@ const InfiniteScrollContracts: React.FC<{
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["contracts", { type, search, company_request_id, company_id }],
+    queryKey: [
+      "contracts",
+      { type, search, company_request_id, company_id, status },
+    ],
     queryFn: async ({ pageParam = 1 }) => {
       const response: ContractsResponse = await getContractsAction({
         type,
         search,
         company_request_id,
         company_id,
+        status,
         page: pageParam.toString(),
       });
       return {

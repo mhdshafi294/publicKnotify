@@ -1,8 +1,8 @@
 import axiosInstance from "@/lib/axios.config";
-import { PLAYLISTS } from "@/lib/apiEndPoints";
+import { PLAYLIST_DISTRIBUTION } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
-const createPlaylist = async ({
+const createUpdateDstributionLinks = async ({
   formData,
   type,
 }: {
@@ -10,10 +10,10 @@ const createPlaylist = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.post<ApiResponse>(
-    `/${type}${PLAYLISTS}`,
+    `/${type}${PLAYLIST_DISTRIBUTION}`,
     formData
   );
   return data;
 };
 
-export default createPlaylist;
+export default createUpdateDstributionLinks;
