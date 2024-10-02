@@ -32,7 +32,7 @@ const DistributionPage = async ({
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   if (session?.user?.type !== "podcaster") {

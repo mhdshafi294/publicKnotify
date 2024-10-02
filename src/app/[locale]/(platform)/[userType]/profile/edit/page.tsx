@@ -24,7 +24,7 @@ const EditProfilepage = async () => {
 
   // Redirect to login page if no session exists
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
     return null; // Ensure no further rendering if redirected
   }
 

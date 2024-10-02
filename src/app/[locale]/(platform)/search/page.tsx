@@ -47,7 +47,7 @@ export default async function SearchPage({
 
   // Redirect to login page if not authenticated
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   // Initialize data variables

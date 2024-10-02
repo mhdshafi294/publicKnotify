@@ -74,21 +74,23 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                 <CardTitle className="capitalize">{id ? id : "***"}</CardTitle>
                 <FileCheck2Icon size={18} className="text-card-foreground/30" />
               </div>
-              <div className="flex justify-end items-center gap-3">
-                <Link
-                  href={`${id}/update`}
-                  className={cn(
-                    buttonVariants({
-                      variant: "secondary",
-                      className:
-                        "text-lg flex justify-center items-center gap-1 capitalize",
-                    })
-                  )}
-                >
-                  <SquarePenIcon size={16} />
-                  {t("update")}
-                </Link>
-              </div>
+              {session?.user?.type === "podcaster" && status_code === 1 ? (
+                <div className="flex justify-end items-center gap-3">
+                  <Link
+                    href={`${id}/update`}
+                    className={cn(
+                      buttonVariants({
+                        variant: "secondary",
+                        className:
+                          "text-lg flex justify-center items-center gap-1 capitalize",
+                      })
+                    )}
+                  >
+                    <SquarePenIcon size={16} />
+                    {t("update")}
+                  </Link>
+                </div>
+              ) : null}
             </div>
             <div className="flex flex-col gap-3">
               <div className="text-sm lg:text-xl capitalize">

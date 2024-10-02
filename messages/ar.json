@@ -499,7 +499,8 @@
     "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "ابحث عن رابط بودكاست Amazon Music الخاص بك هنا، الصق رابط Amazon Music الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
     "pay": "يدفع",
     "payment": "قسط",
-    "processing": "يعالج"
+    "processing": "يعالج",
+    "contract-can-not-be-edited-after-accepted-by-admin": "لا يمكن تعديل العقد بعد قبوله من قبل المشرف"
   },
   "notifications": {
     "notifications": "notifications"

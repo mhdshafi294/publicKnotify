@@ -33,7 +33,7 @@ export default async function Home({
 
   // Redirect to login if the session is not available
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   // Redirect to podcasrter dashboard if the user is a podcaster

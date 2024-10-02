@@ -4,7 +4,7 @@ import Search from "@/components/search";
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
+import { Link, redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import React from "react";
@@ -46,6 +46,15 @@ const ContractsPage = async ({
 
   // Fetching the current session using NextAuth's getServerSession
   const session = await getServerSession(authOptions);
+
+  if (session === null) {
+    redirect(`/sign-in`);
+  }
+
+  if (session?.user?.type === "user") {
+    // Redirect users of type "user" to their specific page
+    redirect(`/`);
+  }
 
   // Fetch translations for the "Index" namespace
   const t = await getTranslations("Index");
@@ -103,6 +112,7 @@ const ContractsPage = async ({
           company_id={company_id}
           status={status}
           type={session?.user?.type!}
+          session={session!}
         />
       </MaxWidthContainer>
     </main>

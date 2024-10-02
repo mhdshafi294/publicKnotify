@@ -520,7 +520,8 @@
     "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Find your Amazon Music Podcast URL here. Paste your Amazon Music URL and we'll display a link on your audio player, show page and episode pages.",
     "pay": "Pay",
     "payment": "Payment",
-    "processing": "processing"
+    "processing": "processing",
+    "contract-can-not-be-edited-after-accepted-by-admin": "Contract can not be edited after accepted by admin"
   },
   "notifications": {
     "notifications": "notifications"

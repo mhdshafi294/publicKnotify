@@ -36,7 +36,7 @@ export default async function ChatPage({
 
   // Redirect to login page if the session is not found
   if (!session) {
-    redirect("/login");
+    redirect("/sign-in");
   }
 
   // Redirect users to their specific dashboard based on their user type

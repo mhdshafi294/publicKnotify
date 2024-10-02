@@ -85,12 +85,6 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
       isMounted,
   });
 
-  console.log(
-    !!form.getValues("company_request_id"),
-    form.getValues("company_request_id"),
-    "<<<<<<company_request_id"
-  );
-
   useEffect(() => {
     if (contractResponseData) {
       form.reset({
@@ -147,6 +141,10 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
     });
 
   const handleSubmit = async (data: ContractSchema) => {
+    if (contractResponseData && contractResponseData.status !== 1) {
+      toast.error(t("contract-can-not-be-edited-after-accepted-by-admin"));
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("media_type", data.media_type);
