@@ -263,7 +263,8 @@
         "background-invalid-type": "نوع الخلفية غير صالح",
         "thumbnail-size": "يجب أن يكون حجم الصورة المصغرة أقل من 4 ميغابايت",
         "background-size": "يجب أن يكون حجم الخلفية أقل من 4 ميغابايت",
-        "explicit_language": "يجب أن تحدد اللغة العائمة"
+        "explicit_language": "يجب أن تحدد اللغة العائمة",
+        "notes": "يجب أن تحدد الملاحظات"
       }
     },
     "selectPlaylist": "اختر قائمة التشغيل",
@@ -495,7 +496,10 @@
     "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode": "يمكنك توزيع محتوى الصوت الخاص بك على YouTube و YouTube Music عبر خلاصة RSS الخاصة بك. سيقوم YouTube تلقائيًا بإنشاء مقاطع فيديو لمحتواك باستخدام العمل الفني الافتراضي لبرنامجك والصوت. نحن ندعم الصور بنسبة 16:9 في إعدادات العرض الخاصة بك والعمل الفني المخصص لكل حلقة",
     "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق رابط قناتك على YouTube وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
     "add-your-podcast-to-their-combined-and-rapidly-growing-audience-of-55-million-customers": "أضف البودكاست الخاص بك إلى جمهورهم المشترك والذي ينمو بسرعة ويبلغ 55 مليون عميل",
-    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "ابحث عن رابط بودكاست Amazon Music الخاص بك هنا، الصق رابط Amazon Music الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات"
+    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "ابحث عن رابط بودكاست Amazon Music الخاص بك هنا، الصق رابط Amazon Music الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
+    "pay": "يدفع",
+    "payment": "قسط",
+    "processing": "يعالج"
   },
   "notifications": {
     "notifications": "notifications"

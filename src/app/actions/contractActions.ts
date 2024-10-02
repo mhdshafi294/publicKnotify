@@ -1,5 +1,6 @@
 "use server";
 
+import contractPayment from "@/services/contract/contract-payment";
 import createContract from "@/services/contract/create-contract";
 import getContract from "@/services/contract/get-contract";
 import getContracts from "@/services/contract/get-contracts";
@@ -73,4 +74,14 @@ export const updateContractAction = async ({
     type,
     id,
   });
+};
+
+export const contractPaymentAction = async ({
+  type,
+  id,
+}: {
+  type: string;
+  id: string;
+}) => {
+  return await contractPayment({ type, id });
 };

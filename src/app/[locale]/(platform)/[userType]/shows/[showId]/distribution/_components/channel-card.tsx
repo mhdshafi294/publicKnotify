@@ -110,7 +110,7 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
               </p>
               <p className="opacity-80 font-thin">{content.step1}</p>
               <a
-                href={content.link}
+                href={content.submitLink}
                 className={cn(
                   buttonVariants({
                     variant: "outline",

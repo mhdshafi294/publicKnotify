@@ -38,6 +38,7 @@ const ContractPage = async ({
         <ContractPageCard
           id={contract?.id}
           status_translation={contract?.status_translation}
+          status_code={contract?.status}
           request_name={contract?.request_name}
           secondPartyData={secondPartyData}
           description={contract?.description}

@@ -247,7 +247,8 @@
         "thumbnail-size": "Thumbnail size must be less than 4MB",
         "thumbnail-type": "file type must be image",
         "background-size": "Background size must be less than 4MB",
-        "explicit_language": "Explicit language is required"
+        "explicit_language": "Explicit language is required",
+        "notes": "Notes is required"
       }
     },
     "selectPlaylist": "Select playlist",
@@ -516,7 +517,10 @@
     "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode": "You can distribute your audio content to YouTube and YouTube Music via your RSS feed. YouTube will automatically generate videos of your content for you using your default show artwork and audio. We support 16:9 images in your Show Settings and custom artwork for each episode.",
     "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Paste your YouTube channel URL. We'll display a link on your audio player, show page and episode pages.",
     "add-your-podcast-to-their-combined-and-rapidly-growing-audience-of-55-million-customers": "Add your podcast to their combined and rapidly growing audience of 55 million + customers.",
-    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Find your Amazon Music Podcast URL here. Paste your Amazon Music URL and we'll display a link on your audio player, show page and episode pages."
+    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Find your Amazon Music Podcast URL here. Paste your Amazon Music URL and we'll display a link on your audio player, show page and episode pages.",
+    "pay": "Pay",
+    "payment": "Payment",
+    "processing": "processing"
   },
   "notifications": {
     "notifications": "notifications"

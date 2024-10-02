@@ -162,13 +162,13 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
   // Set draft data based on response
   useEffect(() => {
     if (!isPodcastPending && !isPodcastError && podcastResponse?.podcast) {
-      setDraft(podcastResponse?.podcast);
+      setDraft(podcastResponse?.podcast as SelfPodcastDetails);
     } else if (
       !isRequestPending &&
       !isRequestError &&
       requestResponse?.request
     ) {
-      setDraft(requestResponse?.request);
+      setDraft(requestResponse?.request as RequestDetails);
     }
   }, [
     isPodcastPending,
@@ -186,13 +186,20 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
         name: draft.name!,
         episode_url: draft.name!,
         summary: draft.summary!,
+        notes: "note" in draft && draft.note ? draft.note : "",
+        footer: "footer" in draft && draft.footer ? draft.footer : "",
         type: draft.type!,
+        episode_type: "full",
         publishing_date: new Date(draft.publishing_date!),
         publishing_time: draft.publishing_time?.slice(0, 5),
         company_tag: "",
         play_list_id: showId,
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
+        contributors:
+          "contributors" in draft && typeof draft.contributors !== "boolean"
+            ? draft.contributors
+            : undefined,
         thumbnail: podcastResponse?.podcast?.thumbnail
           ? podcastResponse?.podcast?.thumbnail
           : undefined,
