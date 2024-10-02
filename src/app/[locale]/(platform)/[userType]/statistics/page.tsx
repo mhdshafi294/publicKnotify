@@ -1,5 +1,5 @@
 //external dependencies
-import { cache } from "react"; // React cache utility import
+import { cache, Fragment } from "react"; // React cache utility import
 import Image from "next/image"; // Next.js image component import
 import { getTranslations } from "next-intl/server"; // Next.js i18n import
 
@@ -81,7 +81,7 @@ const StatisticsPage = async ({
 
     return (
       <StatisticsContainer selfPodcastsList={selfPodcastsList}>
-        <>
+        <Fragment>
           {/* Time and average listens statistics */}
           <div className="bg-greeny flex justify-center flex-col items-center dark:text-primary">
             <h3 className="text-5xl font-bold">{statisticsData.viewsCount}</h3>
@@ -171,7 +171,7 @@ const StatisticsPage = async ({
               ))}
             </div>
           </div>
-        </>
+        </Fragment>
       </StatisticsContainer>
     );
   }
