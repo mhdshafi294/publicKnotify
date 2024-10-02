@@ -10,6 +10,7 @@ import {
 } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
 import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import { formatTo12Hour } from "@/lib/utils";
 
 type DashboardAnalyticsSectionProps = {
   params: { userType: string; showId: string };
@@ -80,21 +81,33 @@ const DashboardAnalyticsSection = async ({
           <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
             {t("top-country")}
           </h2>
-          <p className="font-bold text-xl capitalize">Netherlands</p>
+          <p className="font-bold text-xl capitalize">
+            {showMostPopular?.top_country
+              ? showMostPopular?.top_country?.country
+              : "N/A"}
+          </p>
         </div>
         <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
             {t("most-popular-time")}
           </h2>
-          <p className="font-bold text-xl">11am - 12pm</p>
+          <p className="font-bold text-xl">
+            {showMostPopular?.most_popular_time
+              ? formatTo12Hour(showMostPopular?.most_popular_time)
+              : "N/A"}
+          </p>
         </div>
         <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
             {t("most-popular-day")}
           </h2>
-          <p className="font-bold text-xl">Sunday</p>
+          <p className="font-bold text-xl">
+            {showMostPopular?.most_popular_day
+              ? showMostPopular?.most_popular_day
+              : "N/A"}
+          </p>
         </div>
       </DashboardCardContainer>
     </section>

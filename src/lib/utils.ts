@@ -1,6 +1,12 @@
+// External imports
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNow } from "date-fns";
+
+// Local constants and functions
+
+// List of languages that use Right-To-Left (RTL) text direction.
+const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
 
 /**
  * Combines multiple class values into a single string using clsx and tailwind-merge.
@@ -43,9 +49,6 @@ export const getTimeZoneOffsetInHours = (): number => {
 
   return timezoneOffsetInHours;
 };
-
-// List of languages that use Right-To-Left (RTL) text direction.
-const RTL_LANGUAGES = ["ar", "he", "fa", "ur"];
 
 /**
  * Determines the text direction (RTL or LTR) based on the given locale.
@@ -100,7 +103,18 @@ export function getDistanceToNow(date: string, time: string): string {
   return formatDistanceToNow(parsedDate, { addSuffix: true });
 }
 
-// Helper function to detect URLs in the content
+/**
+ * Extracts URLs from a given string content and splits the content based on the URLs.
+ *
+ * @param {string} content - The input string containing potential URLs.
+ * @returns {object} An object containing two arrays: `parts` (non-URL text segments) and `urls` (extracted URLs).
+ *
+ * @example
+ * ```ts
+ * const { parts, urls } = extractContentWithLinks('Check this link: http://example.com');
+ * console.log(parts, urls); // Output: ['Check this link: ', ''], ['http://example.com']
+ * ```
+ */
 export const extractContentWithLinks = (content: string) => {
   const urlRegex =
     /(?:https?:\/\/)?(?:localhost:\d{1,5}|(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?)(?:[\/?][^\s]*)?/g;
@@ -109,3 +123,21 @@ export const extractContentWithLinks = (content: string) => {
   const urls = content.match(urlRegex) || []; // Ensure urls is not null
   return { parts, urls };
 };
+
+/**
+ * Formats a 24-hour time into a 12-hour format with 'am' or 'pm' suffix.
+ *
+ * @param {number} hour - The hour to format (0-23).
+ * @returns {string} The formatted time string in 12-hour format.
+ *
+ * @example
+ * ```ts
+ * const formattedTime = formatTo12Hour(14);
+ * console.log(formattedTime); // Output: '2 pm'
+ * ```
+ */
+export function formatTo12Hour(hour: number): string {
+  const suffix = hour >= 12 ? "pm" : "am";
+  const formattedHour = hour % 12 || 12; // Converts 0 to 12 for midnight and adjusts other hours
+  return `${formattedHour} ${suffix}`;
+}
