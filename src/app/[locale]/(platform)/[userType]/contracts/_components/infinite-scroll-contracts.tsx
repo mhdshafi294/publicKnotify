@@ -13,6 +13,8 @@ import Loader from "@/components/ui/loader";
 import ContractCard from "./contract-card";
 import { Contract, ContractsResponse } from "@/types/contract";
 import { getContractsAction } from "@/app/actions/contractActions";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 /**
  * InfiniteScrollcontracts Component
@@ -29,6 +31,7 @@ import { getContractsAction } from "@/app/actions/contractActions";
 const InfiniteScrollContracts: React.FC<{
   initialContracts: Contract[] | undefined;
   search?: string;
+  session: Session;
   company_request_id?: string;
   company_id?: string;
   status?: string;
@@ -36,6 +39,7 @@ const InfiniteScrollContracts: React.FC<{
 }> = ({
   initialContracts,
   search,
+  session,
   company_request_id,
   company_id,
   status,
@@ -122,7 +126,7 @@ const InfiniteScrollContracts: React.FC<{
         {data?.pages.map((page) =>
           page?.contracts.map((contract) => (
             <li key={contract?.id}>
-              <ContractCard contract={contract!} />
+              <ContractCard contract={contract!} session={session} />
             </li>
           ))
         )}

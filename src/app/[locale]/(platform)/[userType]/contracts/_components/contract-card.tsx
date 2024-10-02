@@ -13,6 +13,7 @@ import { Link } from "@/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { Session } from "next-auth";
 
 /**
  * contractCard Component
@@ -24,7 +25,10 @@ import { buttonVariants } from "@/components/ui/button";
  *
  * @returns {JSX.Element} The card displaying the contract details.
  */
-const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
+const ContractCard: FC<{ contract: Contract; session: Session }> = ({
+  contract,
+  session,
+}) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
 
@@ -122,25 +126,27 @@ const ContractCard: FC<{ contract: Contract }> = ({ contract }) => {
             <p className="text-[10px] font-bold text-card-foreground/80 dark:text-card-foreground/50">
               {t("created-at")} {contract?.created_at}
             </p>
-            <Link
-              href={`contracts/${contract?.id}/update`}
-              legacyBehavior
-              passHref
-            >
-              <span
-                className={cn(
-                  buttonVariants({
-                    variant: "secondary",
-                    size: "sm",
-                    className:
-                      "text-sm flex justify-center items-center gap-1 capitalize",
-                  })
-                )}
+            {session?.user?.type === "podcaster" && contract?.status === 1 ? (
+              <Link
+                href={`contracts/${contract?.id}/update`}
+                legacyBehavior
+                passHref
               >
-                <SquarePenIcon size={16} />
-                {t("update")}
-              </span>
-            </Link>
+                <span
+                  className={cn(
+                    buttonVariants({
+                      variant: "secondary",
+                      size: "sm",
+                      className:
+                        "text-sm flex justify-center items-center gap-1 capitalize",
+                    })
+                  )}
+                >
+                  <SquarePenIcon size={16} />
+                  {t("update")}
+                </span>
+              </Link>
+            ) : null}
           </div>
         </CardFooter>
       </Card>

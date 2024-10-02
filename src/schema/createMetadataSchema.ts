@@ -47,7 +47,9 @@ export const createMetadataSchema = z
       .string()
       .min(1, { message: "createMetadataSchema.errorMessage.summary" })
       .min(25, { message: "createMetadataSchema.errorMessage.summaryShort" }),
-    notes: z.string(),
+    notes: z
+      .string()
+      .min(1, { message: "createMetadataSchema.errorMessage.notes" }),
     footer: z.string(),
     recast_color_border: z.string(),
     type: z.enum(["video", "audio"], {

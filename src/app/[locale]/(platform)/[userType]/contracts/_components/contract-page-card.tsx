@@ -17,11 +17,13 @@ import {
 } from "lucide-react";
 import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
-import React, { use } from "react";
+import React from "react";
+import PayButton from "./pay-button";
 
 type ContractPageCardProps = {
   id?: number;
   status_translation?: string;
+  status_code?: number;
   request_name: string;
   secondPartyData: {
     name: string;
@@ -42,6 +44,7 @@ type ContractPageCardProps = {
 const ContractPageCard: React.FC<ContractPageCardProps> = ({
   id,
   status_translation,
+  status_code,
   request_name,
   secondPartyData,
   description,
@@ -71,21 +74,23 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                 <CardTitle className="capitalize">{id ? id : "***"}</CardTitle>
                 <FileCheck2Icon size={18} className="text-card-foreground/30" />
               </div>
-              <div className="flex justify-end items-center gap-3">
-                <Link
-                  href={`${id}/update`}
-                  className={cn(
-                    buttonVariants({
-                      variant: "secondary",
-                      className:
-                        "text-lg flex justify-center items-center gap-1 capitalize",
-                    })
-                  )}
-                >
-                  <SquarePenIcon size={16} />
-                  {t("update")}
-                </Link>
-              </div>
+              {session?.user?.type === "podcaster" && status_code === 1 ? (
+                <div className="flex justify-end items-center gap-3">
+                  <Link
+                    href={`${id}/update`}
+                    className={cn(
+                      buttonVariants({
+                        variant: "secondary",
+                        className:
+                          "text-lg flex justify-center items-center gap-1 capitalize",
+                      })
+                    )}
+                  >
+                    <SquarePenIcon size={16} />
+                    {t("update")}
+                  </Link>
+                </div>
+              ) : null}
             </div>
             <div className="flex flex-col gap-3">
               <div className="text-sm lg:text-xl capitalize">
@@ -202,10 +207,17 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
         </div>
       </CardContent>
       <CardFooter className="!mt-auto justify-self-end">
-        <div className="flex w-full justify-between items-baseline">
+        <div className="flex w-full justify-between items-end">
           <p className="text-sm font-bold text-card-foreground/80 dark:text-card-foreground/50">
             {t("created-at")} {created_at ? created_at : t("not-created-yet")}
           </p>
+          {id && session?.user?.type === "company" ? (
+            <PayButton
+              contractId={id}
+              session={session}
+              disabled={status_code === 4 || status_code === 5}
+            />
+          ) : null}
         </div>
       </CardFooter>
     </Card>

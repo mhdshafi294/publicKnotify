@@ -41,6 +41,7 @@ export type SelfPodcastDetails = {
   episode_type: number | null;
   episode_type_translation: string | null;
   note: string | null;
+  footer: string | null;
   contributors: string[] | boolean;
   tags: string[] | boolean;
   recast_color_border: string | null;

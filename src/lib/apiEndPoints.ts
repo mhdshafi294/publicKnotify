@@ -68,6 +68,7 @@ export const ENABLE_DISABLE = "/enable-disable";
 export const WALLET = "/wallet";
 export const CONTRACTS = "/contracts";
 export const RSS = "/rss";
+export const PAY = "/pay";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

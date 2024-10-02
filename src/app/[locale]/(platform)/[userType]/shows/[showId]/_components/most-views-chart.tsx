@@ -1,15 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -53,7 +45,7 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
         showViews?.views_over_time[index]?.date
           ? showViews?.views_over_time[index]?.date
           : new Date(
-              Date.now() - offsetDays * 24 * 60 * 60 * 1000
+              Date.now() + offsetDays * 24 * 60 * 60 * 1000
             ).toISOString()
       ),
       "EEE"
@@ -64,8 +56,11 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
   });
 
   const chartData = Array.from({ length: 7 }, (_, index) =>
-    getDayData(index, 6 - index)
-  );
+    getDayData(index, 7 - index)
+  ).reverse();
+
+  console.log(showViews, "<<<<<<showViews");
+  console.log(chartData, "<<<<<chartData");
 
   return (
     <ChartContainer
