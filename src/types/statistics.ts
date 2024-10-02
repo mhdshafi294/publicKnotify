@@ -30,9 +30,12 @@ export type ShowViewsStatistics = {
 };
 
 export type ShowMostPopularStatistics = {
-  most_popular_time: string | null;
+  most_popular_time: number | null;
   most_popular_day: string | null;
-  top_country: string | null;
+  top_country: {
+    country: string;
+    count: number;
+  } | null;
   all_time_views: number;
 };
 

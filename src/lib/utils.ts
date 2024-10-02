@@ -109,3 +109,9 @@ export const extractContentWithLinks = (content: string) => {
   const urls = content.match(urlRegex) || []; // Ensure urls is not null
   return { parts, urls };
 };
+
+export function formatTo12Hour(hour: number): string {
+  const suffix = hour >= 12 ? "pm" : "am";
+  const formattedHour = hour % 12 || 12; // Converts 0 to 12 for midnight and adjusts other hours
+  return `${formattedHour} ${suffix}`;
+}
