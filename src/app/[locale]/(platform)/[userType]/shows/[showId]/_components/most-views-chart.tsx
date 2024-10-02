@@ -1,7 +1,15 @@
 "use client";
 
 import React from "react";
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -64,7 +72,7 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
       config={chartConfig}
       className="w-full h-96 lg:h-48 2xl:h-96 flex-1"
     >
-      <LineChart
+      <AreaChart
         accessibilityLayer
         data={chartData}
         margin={{
@@ -85,7 +93,7 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
           cursor={false}
           content={<ChartTooltipContent hideLabel />}
         />
-        <Line
+        <Area
           dataKey="view"
           type="linear"
           stroke="var(--color-view)"
@@ -94,7 +102,7 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
           width={20}
           dot={false}
         />
-      </LineChart>
+      </AreaChart>
     </ChartContainer>
   );
 };

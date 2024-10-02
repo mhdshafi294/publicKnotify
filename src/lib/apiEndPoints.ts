@@ -28,6 +28,8 @@ export const FAVORITES_CATEGORIES = `/my-favorite-categories`;
 export const FAVORITES_LIST = `/my-favorite-list`;
 export const ADD_FAVORITES = `/add-to-favorite`;
 export const REMOVE_FROM_FAVORITES = `/remove-from-favorite`;
+export const PLAYLIST_DISTRIBUTION = `/playlist-links`;
+export const CREATE_SHOW = `/create-show`;
 
 // General actions endpoints
 export const REQUEST = "/request";
@@ -65,6 +67,7 @@ export const MOST_POPULAR = "/most-popular";
 export const ENABLE_DISABLE = "/enable-disable";
 export const WALLET = "/wallet";
 export const CONTRACTS = "/contracts";
+export const RSS = "/rss";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

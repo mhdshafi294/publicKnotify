@@ -295,7 +295,8 @@
       "apple": "Apple Podcasts",
       "ivoox": "ivoox",
       "instagram": "Instagram",
-      "google": "Google Podcasts"
+      "google": "Google Podcasts",
+      "amazon": "Amazon"
     },
     "draft": "Draft",
     "addedSuccessfully": "Added successfully",
@@ -495,15 +496,29 @@
     "contractUpdated": "contract updated",
     "status": "Status",
     "contracts": "contracts",
-    "contract": "contract"
+    "contract": "contract",
+    "main-feed": "main feed",
+    "public": "Public",
+    "acceptedByAdmin": "accepted by admin",
+    "text-copied-to-clipboard": "Text copied to clipboard",
+    "failed-to-copy-text": "Failed to copy text",
+    "copy": "Copy",
+    "get-started-by-submitting-your-podcast-to-apple-podcasts-connect-if-youve-validated-your-feed-and-have-received-your-url-from-apple-proceed-to-step-2": "Get started by submitting your podcast to Apple Podcasts Connect. If you've validated your feed and have received your URL from Apple, proceed to Step 2.",
+    "once-youve-received-your-apple-podcasts-url-paste-it-in-the-field-below-well-display-a-link-to-your-show-on-apple-podcasts-on-your-audio-player-show-page-and-episode-pages": "Once you've received your Apple Podcasts URL, paste it in the field below. We'll display a link to your show on Apple Podcasts on your audio player, show page and episode pages.",
+    "step-1-link-generator": "Step 1: Link Generator",
+    "submit-podcast-to": "Submit podcast to",
+    "step-2-enter-url": "Step 2: Enter URL",
+    "spotify-is-a-digital-music-service-that-gives-you-access-to-millions-of-podcasts-and-songs": "Spotify is a digital music service that gives you access to millions of Podcasts and songs.",
+    "submit-your-podcast-to-spotify-and-get-your-show-url-your-podcast-should-appear-on-spotify-within-a-few-hours-of-submitting-your-rss-feed": "Submit your podcast to Spotify and get your show URL. Your podcast should appear on Spotify within a few hours of submitting your RSS feed.",
+    "request_name": "request name",
+    "apple-podcasts-is-by-far-the-largest-directory-of-podcasts-and-getting-your-podcast-into-it-is-fairly-easy-youll-just-need-an-rss-feed-url-that-passes-their-validation-check": "Apple Podcasts is by far the largest directory of podcasts and getting your podcast into it is fairly easy. You'll just need an RSS feed URL that passes their validation check.",
+    "paste-your-spotify-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Paste your Spotify URL. We'll display a link on your audio player, show page and episode pages.",
+    "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode": "You can distribute your audio content to YouTube and YouTube Music via your RSS feed. YouTube will automatically generate videos of your content for you using your default show artwork and audio. We support 16:9 images in your Show Settings and custom artwork for each episode.",
+    "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Paste your YouTube channel URL. We'll display a link on your audio player, show page and episode pages.",
+    "add-your-podcast-to-their-combined-and-rapidly-growing-audience-of-55-million-customers": "Add your podcast to their combined and rapidly growing audience of 55 million + customers.",
+    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Find your Amazon Music Podcast URL here. Paste your Amazon Music URL and we'll display a link on your audio player, show page and episode pages."
   },
   "notifications": {
     "notifications": "notifications"
-  },
-  "season": "season",
-  "analytics-overview": "analytics overview",
-  "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance": "the audience overview has the at a glance analytics you need to start understanding your shows performance",
-  "new": "new",
-  "create": "create",
-  "request_name": "request name"
+  }
 }

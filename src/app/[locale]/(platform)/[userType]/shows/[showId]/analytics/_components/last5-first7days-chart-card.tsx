@@ -50,10 +50,10 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
       </div>
 
       {/* Chart Section */}
-      <div className="w-full h-80 relative">{chart}</div>
+      <div className="w-full pt-5 h-96 relative">{chart}</div>
 
       {/* Table Section */}
-      <ScrollArea className="w-full h-20">
+      <ScrollArea className="w-full h-48">
         <Table className="flex-1 shrink-0 grow w-full">
           <TableHeader>
             <TableRow>

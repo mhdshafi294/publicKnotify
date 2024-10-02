@@ -10,6 +10,7 @@ import {
   getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
+import { format } from "date-fns";
 
 /**
  * The AnalyticsMainContent component is responsible for rendering the main content of the analytics page.
@@ -34,8 +35,11 @@ const AnalyticsMainContent = async ({
 
   // Fetch show views statistics
   const showViews = await getShowViewsStatisticsAction({
-    start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    end_date: new Date().toISOString(),
+    start_date: format(
+      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      "dd-MM-yyyy"
+    ),
+    end_date: format(new Date().toISOString(), "dd-MM-yyyy"),
     show_id: params.showId,
     type: params.userType,
   });
@@ -72,7 +76,7 @@ const AnalyticsMainContent = async ({
       </div>
 
       {/* Performance of Last Five Episodes in First Seven Days */}
-      <div className="w-full h-[637px]">
+      <div className="w-full h-fit">
         <LastFiveFirstSevenDaysChartCard
           params={params}
           five_latest_episodes={showStatistics.five_latest_episodes}

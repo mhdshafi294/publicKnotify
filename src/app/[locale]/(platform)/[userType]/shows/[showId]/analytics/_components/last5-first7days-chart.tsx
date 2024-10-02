@@ -1,13 +1,5 @@
 "use client";
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
@@ -98,9 +90,9 @@ const LastFiveFirstSevenDaysChart = ({
           tickMargin={8}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={3} />
+        <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={7} />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <Area
+        <Line
           dataKey="episode5"
           type="linear"
           stroke="var(--color-episode5)"
@@ -109,7 +101,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Area
+        <Line
           dataKey="episode4"
           type="linear"
           stroke="var(--color-episode4)"
@@ -118,7 +110,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Area
+        <Line
           dataKey="episode3"
           type="linear"
           stroke="var(--color-episode3)"
@@ -127,7 +119,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Area
+        <Line
           dataKey="episode2"
           type="linear"
           stroke="var(--color-episode2)"
@@ -136,7 +128,7 @@ const LastFiveFirstSevenDaysChart = ({
           width={20}
           dot={true}
         />
-        <Area
+        <Line
           dataKey="episode1"
           type="linear"
           stroke="var(--color-episode1)"

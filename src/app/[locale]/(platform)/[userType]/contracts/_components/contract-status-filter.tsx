@@ -37,9 +37,10 @@ const ContractStatusFilter = ({ status }: { status?: string }) => {
   const STATUS = useMemo(
     () => [
       {
-        numCode: session?.user?.type === "podcaster" ? "2" : "12",
+        numCode: session?.user?.type === "podcaster" ? "1" : "2",
         title: t("pending"),
       },
+      { numCode: "2", title: t("acceptedByAdmin") },
       { numCode: "3", title: t("rejected") },
       { numCode: "4", title: t("payed") },
       { numCode: "5", title: t("expired") },
@@ -79,6 +80,11 @@ const ContractStatusFilter = ({ status }: { status?: string }) => {
             {
               "text-greeny before:absolute before:size-[6px] before:bg-greeny hover:before:bg-greeny_lighter before:translate-y-4 before:rounded-full hover:text-greeny_lighter":
                 numCode === status,
+            },
+            {
+              hidden:
+                session?.user?.type !== "podcaster" &&
+                title === t("acceptedByAdmin"),
             }
           )}
           aria-pressed={numCode === filter} // Accessibility: Indicates active filter for screen readers
