@@ -482,10 +482,20 @@
     "failed-to-copy-text": "فشل في نسخ النص",
     "copy": "ينسخ",
     "step-1-link-generator": "الخطوة 1: مولد الارتباط",
-    "request-name": "",
+    "request-name": "اسم الطلب",
     "apple-podcasts-is-by-far-the-largest-directory-of-podcasts-and-getting-your-podcast-into-it-is-fairly-easy-youll-just-need-an-rss-feed-url-that-passes-their-validation-check": "يعد Apple Podcasts أكبر دليل للبودكاست على الإطلاق، ومن السهل جدًا إدخال البودكاست الخاص بك فيه. \nستحتاج فقط إلى عنوان URL لخلاصة RSS الذي يجتاز فحص التحقق من الصحة.",
     "get-started-by-submitting-your-podcast-to-apple-podcasts-connect-if-youve-validated-your-feed-and-have-received-your-url-from-apple-proceed-to-step-2": "ابدأ بإرسال البودكاست الخاص بك إلى Apple Podcasts Connect. \nإذا قمت بالتحقق من صحة خلاصتك وتلقيت عنوان URL الخاص بك من Apple، فانتقل إلى الخطوة 2.",
-    "once-youve-received-your-apple-podcasts-url-paste-it-in-the-field-below-well-display-a-link-to-your-show-on-apple-podcasts-on-your-audio-player-show-page-and-episode-pages": "بمجرد استلام عنوان URL الخاص بـ Apple Podcasts، قم بلصقه في الحقل أدناه. \nسنعرض رابطًا لعرضك على Apple Podcasts على مشغل الصوت وصفحة العرض وصفحات الحلقات."
+    "once-youve-received-your-apple-podcasts-url-paste-it-in-the-field-below-well-display-a-link-to-your-show-on-apple-podcasts-on-your-audio-player-show-page-and-episode-pages": "بمجرد استلام عنوان URL الخاص بـ Apple Podcasts، قم بلصقه في الحقل أدناه. \nسنعرض رابطًا لعرضك على Apple Podcasts على مشغل الصوت وصفحة العرض وصفحات الحلقات.",
+    "submit-podcast-to": "إرسال البودكاست الى",
+    "step-2-enter-url": "الخطوة 2: ادخال URL",
+    "spotify-is-a-digital-music-service-that-gives-you-access-to-millions-of-podcasts-and-songs": " Spotify هو خدمة موسيقية ديجيتال تعيدك الوصول إلى الكثير من البودكاستات والائلائلائات.",
+    "submit-your-podcast-to-spotify-and-get-your-show-url-your-podcast-should-appear-on-spotify-within-a-few-hours-of-submitting-your-rss-feed": "إرسل بودكاستك ألى Spotify وحصل على عنوان URL للعرض. \nالبودكاست يجب أن يظهر على Spotify في وقتٍ قليلٍ من طلب RSS الخاص بك.",
+    "request_name": "اسم الطلب",
+    "paste-your-spotify-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق رابط Spotify الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
+    "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode": "يمكنك توزيع محتوى الصوت الخاص بك على YouTube و YouTube Music عبر خلاصة RSS الخاصة بك. سيقوم YouTube تلقائيًا بإنشاء مقاطع فيديو لمحتواك باستخدام العمل الفني الافتراضي لبرنامجك والصوت. نحن ندعم الصور بنسبة 16:9 في إعدادات العرض الخاصة بك والعمل الفني المخصص لكل حلقة",
+    "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق رابط قناتك على YouTube وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
+    "add-your-podcast-to-their-combined-and-rapidly-growing-audience-of-55-million-customers": "أضف البودكاست الخاص بك إلى جمهورهم المشترك والذي ينمو بسرعة ويبلغ 55 مليون عميل",
+    "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "ابحث عن رابط بودكاست Amazon Music الخاص بك هنا، الصق رابط Amazon Music الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات"
   },
   "notifications": {
     "notifications": "notifications"
