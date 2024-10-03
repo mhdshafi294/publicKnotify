@@ -18,7 +18,7 @@ import {
 import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import React from "react";
-import PayButton from "./pay-button";
+import ContractPayButton from "./contract-pay-button";
 
 type ContractPageCardProps = {
   id?: number;
@@ -212,7 +212,7 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
             {t("created-at")} {created_at ? created_at : t("not-created-yet")}
           </p>
           {id && session?.user?.type === "company" ? (
-            <PayButton
+            <ContractPayButton
               contractId={id}
               session={session}
               disabled={status_code === 4 || status_code === 5}

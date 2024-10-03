@@ -2,6 +2,7 @@
 
 // Importing schemas and services
 import { EditPricingSchema } from "@/schema/pricingsSchema";
+import assignPayment from "@/services/profile/assign";
 import authenticateYoutube from "@/services/profile/authenticate-youtube";
 import CompanyEditProfile from "@/services/profile/company-edit-profile";
 import getProfile from "@/services/profile/get-profile";
@@ -115,4 +116,8 @@ export const companyEditProfileAction = async (body: FormData) => {
  */
 export const podcasterEditProfileAction = async (body: FormData) => {
   return await podcasterEditProfile(body);
+};
+
+export const assignPaymentAction = async ({ type }: { type: string }) => {
+  return await assignPayment({ type });
 };

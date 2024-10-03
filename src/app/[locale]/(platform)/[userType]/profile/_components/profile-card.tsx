@@ -28,6 +28,8 @@ import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
 import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
 import SpotifyActiveAccountIcon from "@/components/icons/spotify-active-account-icon";
+import ContractPayButton from "../../contracts/_components/contract-pay-button";
+import AssignPayButton from "../../contracts/_components/assign-pay-button";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -147,6 +149,9 @@ const ProfileCard = async ({
         >
           {t("editProfile")}
         </Link>
+      ) : null}
+      {isSelfProfile && profileType === "podcaster" ? (
+        <AssignPayButton />
       ) : null}
       {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" ? (

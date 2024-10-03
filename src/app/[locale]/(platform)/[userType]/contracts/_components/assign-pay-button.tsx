@@ -8,18 +8,18 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
 import { Session } from "next-auth";
+import { assignPaymentAction } from "@/app/actions/profileActions";
 
 type PayButtonProps = {
-  contractId: number;
   disabled?: boolean;
-  session: Session;
+  session?: Session;
 };
 
-const PayButton: React.FC<PayButtonProps> = ({ contractId, disabled }) => {
+const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
   const t = useTranslations("Index");
 
-  const { mutate: server_sendCodeAction, isPending } = useMutation({
-    mutationFn: contractPaymentAction,
+  const { mutate: server_assignPaymentAction, isPending } = useMutation({
+    mutationFn: assignPaymentAction,
     onMutate: () => {
       toast.loading(t("processing"));
     },
@@ -38,13 +38,13 @@ const PayButton: React.FC<PayButtonProps> = ({ contractId, disabled }) => {
   });
 
   const handlePayment = () => {
-    server_sendCodeAction({ type: "company", id: contractId.toString() });
+    server_assignPaymentAction({ type: "podcaster" });
   };
 
   return (
     <Button
       variant="default"
-      className="text-xl gap-2 items-center font-bold bg-foreground text-background hover:bg-background hover:text-foreground"
+      className="w-full text-xl gap-2 items-center font-bold bg-foreground text-background hover:bg-background hover:text-foreground"
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}
@@ -55,4 +55,4 @@ const PayButton: React.FC<PayButtonProps> = ({ contractId, disabled }) => {
   );
 };
 
-export default PayButton;
+export default AssignPayButton;
