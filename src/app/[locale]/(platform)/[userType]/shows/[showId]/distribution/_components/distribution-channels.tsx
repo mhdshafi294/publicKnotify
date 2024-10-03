@@ -42,7 +42,10 @@ const DistributionChannels: React.FC<DistributionChannelsProps> = ({
 
   console.log(showId, isMounted, data, isPending, isError);
   console.log(data?.links);
-  console.log(data?.links.find((link) => link.type === "apple")?.url);
+  console.log(
+    data?.links.find((link) => link.type === "amazon")?.url,
+    "amazon"
+  );
 
   return (
     <div className="flex flex-col gap-5">
@@ -123,7 +126,7 @@ const DistributionChannels: React.FC<DistributionChannelsProps> = ({
           submitLink:
             data?.links.find((link) => link.type === "amazon")?.redirect_url ||
             `https://www.amazon.com/podcasters`,
-          link: data?.links.find((link) => link.type === "amazon ")?.url,
+          link: data?.links.find((link) => link.type === "amazon")?.url,
           step2: t(
             "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
           ),

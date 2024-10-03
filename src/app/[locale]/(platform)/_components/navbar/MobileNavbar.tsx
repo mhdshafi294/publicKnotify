@@ -254,13 +254,13 @@ const MobileNavbar = ({
               <User className="me-2 h-4 w-4" />
               <span>{t("profile")}</span>
             </Link>
-            <Link
+            {/* <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/settings`}
             >
               <SettingsIcon className="me-2 h-4 w-4" />
               <span>{t("settings")}</span>
-            </Link>
+            </Link> */}
             <div
               className="text-red-500 flex gap-1 items-center"
               onClick={() => signOut()}

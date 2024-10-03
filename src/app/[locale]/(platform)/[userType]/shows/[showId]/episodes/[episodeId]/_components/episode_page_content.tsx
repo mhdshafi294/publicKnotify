@@ -4,11 +4,14 @@ import { format } from "date-fns";
 
 import { getSelfPodcastAction } from "@/app/actions/podcastActions";
 import { getTranslations } from "next-intl/server";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import { Link } from "@/navigation";
 import { getDistanceToNow } from "@/lib/utils";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 /**
  * The EpisodePageContent component renders detailed information about a specific podcast episode.
@@ -33,10 +36,12 @@ const EpisodePageContent = async ({
     type: "podcaster",
   });
 
+  const session = await getServerSession(authOptions);
+
   const t = await getTranslations("Index");
 
   return (
-    <div className="flex max-md:flex-col w-full flex-1 lg:min-h-[calc(100vh-72px)] relative h-full justify-between p-4 sm:p-6 md:p-8 gap-4">
+    <MaxWidthContainer className="flex max-md:flex-col w-full flex-1 lg:min-h-[calc(100vh-72px)] relative h-full justify-between p-4 sm:p-6 md:p-8 gap-4">
       {/* Left Column: Podcast Details */}
       <DashboardCardContainer className="flex flex-col col-span-1 gap-6 h-full justify-center p-4 w-full md:w-1/3">
         <div className="w-full">
@@ -173,11 +178,11 @@ const EpisodePageContent = async ({
 
         <DashboardCardContainer className="p-4 flex flex-col gap-8">
           <h1 className="text-xl font-bold">{t("categories")}</h1>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="flex flex-wrap gap-4">
             {podcastResponse?.podcast?.categories.map((category) => (
               <Link
-                href={`podcaster/category/${category.id}`}
-                className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2 w-fit"
+                href={`/${session?.user?.type}/category/${category.id}`}
+                className="bg-background hover:bg-background/60 flex justify-start items-center border border-border-secondary rounded-xl gap-2 px-2.5 py-2 w-fit"
                 key={category.id}
               >
                 <div className="size-4 relative">
@@ -226,7 +231,7 @@ const EpisodePageContent = async ({
           </div>
         </DashboardCardContainer>
       </div>
-    </div>
+    </MaxWidthContainer>
   );
 };
 

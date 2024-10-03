@@ -1,4 +1,4 @@
-import { ApiResponse, Pagination } from ".";
+import { ApiResponse } from ".";
 
 export type Statistics = {
   id: number;
