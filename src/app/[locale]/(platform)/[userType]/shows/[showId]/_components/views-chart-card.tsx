@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import DashboardCardContainer from "../../_components/dashboard-card-container";
 import { Link } from "@/navigation";
@@ -5,17 +7,24 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
 import { EnabledStatistics } from "@/types/statistics";
+import MostViewsChart from "./most-views-chart";
+import { useQuery } from "@tanstack/react-query";
+import { getShowViewsStatisticsAction } from "@/app/actions/statisticsActions";
+import { DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
+import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 
 type ViewsChartCardProps = {
   title: string;
-  description?: string;
+  // description?: string;
   value: string;
   params: { userType: string; showId: string };
   link?: {
     href: string;
     name: string;
   };
-  chart: React.ReactNode;
+  // chart: React.ReactNode;
   enabled: EnabledStatistics;
 };
 
@@ -36,13 +45,35 @@ type ViewsChartCardProps = {
  */
 const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   title,
-  description,
+  // description,
   value,
   params,
   link,
-  chart,
+  // chart,
   enabled,
 }) => {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: addDays(new Date(), -7),
+    to: new Date(),
+  });
+
+  const {
+    data: showViews,
+    isPending,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["podcasterRequest", date],
+    queryFn: () =>
+      getShowViewsStatisticsAction({
+        start_date: date?.from!.toISOString(),
+        end_date: date?.to!.toISOString(),
+        show_id: params.showId,
+        type: params.userType,
+      }),
+    enabled: !!params.showId && !!params.userType,
+  });
+
   return (
     <DashboardCardContainer className="flex-1 h-full flex flex-col gap-8">
       <div className="w-full flex justify-between">
@@ -51,11 +82,20 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
           <p className="font-bold text-3xl">{value}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <AnalyticsEnableSwitch
-            className="ms-auto self-end"
-            enabled={enabled}
-            statiscsType="top_episodes"
-          />
+          <div className="flex justify-end items-center gap-5">
+            {title === "All-Time Views" || title === "مجموع المشاهدات" ? (
+              <DatePickerWithRange
+                date={date}
+                setDate={setDate}
+                className="w-fit"
+              />
+            ) : null}
+            <AnalyticsEnableSwitch
+              className="ms-auto self-end"
+              enabled={enabled}
+              statiscsType="top_episodes"
+            />
+          </div>
           {link ? (
             <Link
               href={link.href}
@@ -71,7 +111,22 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
           ) : null}
         </div>
       </div>
-      {chart}
+      {/* {chart} */}
+      {isPending ? (
+        <MostViewsChart
+          showViews={{
+            views_over_time: [
+              {
+                date: new Date().toISOString(),
+                views_count: 0,
+              },
+            ],
+          }}
+          date={date}
+        />
+      ) : showViews ? (
+        <MostViewsChart showViews={showViews} date={date} />
+      ) : null}
     </DashboardCardContainer>
   );
 };
