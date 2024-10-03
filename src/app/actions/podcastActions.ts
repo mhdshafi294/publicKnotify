@@ -36,8 +36,8 @@ import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-b
 import updatePlaylist from "@/services/podcast/playList/update-playlist";
 import getRss from "@/services/rss/get-rss";
 import createShowRss from "@/services/rss/create-show-rss";
-import getDistributionLinks from "@/services/podcast/playList/dstributionLinks/get-dstribution-links";
-import createUpdateDstributionLinks from "@/services/podcast/playList/dstributionLinks/crearte-update-dstribution-links";
+import getDistributionLinks from "@/services/podcast/playList/dstributionLinks/get-distribution-links";
+import createUpdateDistributionLinks from "@/services/podcast/playList/dstributionLinks/crearte-update-distribution-links";
 
 // Actions related to podcasts
 /**
@@ -660,7 +660,7 @@ export const createUpdateDistributionLinksAction = async ({
   formData: FormData;
   type: string;
 }) => {
-  return await createUpdateDstributionLinks({
+  return await createUpdateDistributionLinks({
     formData,
     type,
   });

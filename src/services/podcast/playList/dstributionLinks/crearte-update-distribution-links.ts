@@ -2,7 +2,7 @@ import axiosInstance from "@/lib/axios.config";
 import { PLAYLIST_DISTRIBUTION } from "@/lib/apiEndPoints";
 import { ApiResponse } from "@/types";
 
-const createUpdateDstributionLinks = async ({
+const createUpdateDistributionLinks = async ({
   formData,
   type,
 }: {
@@ -16,4 +16,4 @@ const createUpdateDstributionLinks = async ({
   return data;
 };
 
-export default createUpdateDstributionLinks;
+export default createUpdateDistributionLinks;

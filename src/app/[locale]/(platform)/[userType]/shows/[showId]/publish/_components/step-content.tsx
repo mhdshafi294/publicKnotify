@@ -6,13 +6,10 @@ import { FormLabel } from "@/components/ui/form";
 import { useTranslations } from "next-intl";
 
 import FileUploader from "@/components/ui/file-uploader";
-import DistriputionChannelButtonCard from "./distripution-channel-button-card";
 import BasicInfoSection from "./basic-info-section";
 import AdditionalInfoSection from "./additional-info-section";
 import MediaUploadSection from "./media-upload-section";
 import CategoryHashtagsSection from "./category-hashtags-section";
-import WebIcon from "@/components/icons/web-icon";
-import YoutubeIcon from "@/components/icons/youtube-icon";
 
 import { API_URL, PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 import ColorPicker from "@/components/ui/color-picker";
@@ -113,7 +110,7 @@ const StepContent: React.FC<StepContentProps> = ({
           setUploadedNewPodcast={setUploadedNewPodcast}
         />
         <p className="text-xs mt-1 opacity-80">{t("supportedFiles")}</p>
-        <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-10">
+        {/* <div className="w-full flex flex-col gap-3 lg:gap-5 mt-5 lg:mt-10">
           <h3 className="capitalize text-lg">
             {t("mainDistributionChannels")}
           </h3>
@@ -131,7 +128,7 @@ const StepContent: React.FC<StepContentProps> = ({
               setSelectedPlatforms={setSelectedPlatforms}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

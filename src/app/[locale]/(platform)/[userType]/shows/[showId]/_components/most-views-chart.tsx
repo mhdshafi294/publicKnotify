@@ -9,7 +9,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ShowViewsStatistics } from "@/types/statistics";
-import { format, parseISO } from "date-fns";
+import { addDays, differenceInDays, format, parseISO } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 // const chartData = [
 //   { day: "Sun", view: 186 },
@@ -37,30 +38,40 @@ const chartConfig = {
  * @returns {JSX.Element} The rendered MostViewsChart component.
  */
 
-const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
-  // console.log(showViews);
-  const getDayData = (index: number, offsetDays: number) => ({
-    day: format(
-      parseISO(
-        showViews?.views_over_time[index]?.date
-          ? showViews?.views_over_time[index]?.date
-          : new Date(
-              Date.now() + offsetDays * 24 * 60 * 60 * 1000
-            ).toISOString()
-      ),
-      "EEE"
-    ),
-    view: showViews?.views_over_time[index]?.views_count
-      ? showViews?.views_over_time[index]?.views_count
-      : 0,
-  });
+const MostViewsChart = ({
+  showViews,
+  date,
+}: {
+  showViews: ShowViewsStatistics;
+  date: DateRange | undefined;
+}) => {
+  const getDayData = (targetDate: Date) => {
+    // Find the corresponding view data for the targetDate
+    const matchedViewData = showViews?.views_over_time.find(
+      (view) => format(parseISO(view.date), "PP") === format(targetDate, "PP")
+    );
 
-  const chartData = Array.from({ length: 7 }, (_, index) =>
-    getDayData(index, 7 - index)
-  ).reverse();
+    return {
+      day: format(targetDate, "PP").split(",")[0], // Format the target date
+      view: matchedViewData ? matchedViewData.views_count : 0,
+    };
+  };
 
-  console.log(showViews, "<<<<<<showViews");
-  console.log(chartData, "<<<<<chartData");
+  // Generate chart data based on the provided date range
+  let chartData: {
+    day: string;
+    view: number;
+  }[] = [];
+
+  if (date) {
+    const totalDays = differenceInDays(date.to!, date.from!);
+
+    // Create an array based on the number of days in the date range
+    chartData = Array.from({ length: totalDays + 1 }, (_, index) => {
+      const targetDate = addDays(date.from!, index); // Increment date by index days
+      return getDayData(targetDate); // Call getDayData with targetDate
+    });
+  }
 
   return (
     <ChartContainer
@@ -80,8 +91,9 @@ const MostViewsChart = ({ showViews }: { showViews: ShowViewsStatistics }) => {
           dataKey="day"
           tickLine={false}
           axisLine={false}
+          minTickGap={20}
           tickMargin={8}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.slice(0, 6)}
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={7} />
         <ChartTooltip

@@ -64,7 +64,7 @@ const AddPositionAndChannelsCard: React.FC<AddPositionAndChannelsCardProps> = ({
           radioGroupclassName="size-6 border-none bg-greeny/10"
         />
         {/* Form inputs for selecting distribution channels */}
-        <div className="space-y-2 mt-5">
+        {/* <div className="space-y-2 mt-5">
           <p className="text-lg">{t("distributionChannels")}</p>
           <div className="w-full flex justify-start gap-2 items-center">
             <ToggleFormInput
@@ -82,7 +82,7 @@ const AddPositionAndChannelsCard: React.FC<AddPositionAndChannelsCardProps> = ({
               disabled={!podcaster?.spotify_account}
             />
           </div>
-        </div>
+        </div> */}
       </CardContent>
       <CardFooter className="lg:hidden">
         <Button

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
@@ -15,14 +14,22 @@ import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useState } from "react";
+import {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  SVGProps,
+  useState,
+} from "react";
 import { createUpdateDistributionLinksAction } from "@/app/actions/podcastActions";
 
 type ChannelCardProps = {
-  icon: string;
+  // icon: string;
   title: string;
   type: string;
   playlist_id: string;
+  PlatfotmIcon: ForwardRefExoticComponent<
+    Omit<SVGProps<SVGSVGElement>, "ref"> & RefAttributes<SVGSVGElement>
+  >;
   content: {
     header: string;
     step1: string;
@@ -44,9 +51,10 @@ type ChannelCardProps = {
  * @returns {JSX.Element} The rendered SocialCard component.
  */
 const ChannelCard: React.FC<ChannelCardProps> = ({
-  icon,
+  // icon,
   title,
   playlist_id,
+  PlatfotmIcon,
   type,
   content,
 }) => {
@@ -90,15 +98,9 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
         <AccordionItem value="item-1" className="border-b-0">
           <AccordionTrigger className="hover:no-underline">
             <div className="flex justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Image
-                  src={icon}
-                  alt={`${title} icon`}
-                  height={48}
-                  width={48}
-                  className="size-12 object-cover"
-                />
-                <p>{t(title)}</p>
+              <div className="flex items-center gap-4">
+                <PlatfotmIcon className="size-12" />
+                <p className="text-xl font-medium">{t(title)}</p>
               </div>
             </div>
           </AccordionTrigger>

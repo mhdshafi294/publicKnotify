@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
-import React, { use, useRef } from "react";
+import React, { useRef } from "react";
 import { toast } from "sonner";
 
 type MainFeedProps = {
@@ -40,10 +40,10 @@ const MainFeed: React.FC<MainFeedProps> = ({ rssUrl }) => {
         </div>
       </div>
       <Separator className="bg-border-secondary" />
-      <div className="w-full flex justify-between items-center gap-2 py-2">
+      <div className="w-full flex justify-between items-stretch gap-2 py-2">
         <div
           ref={textRef}
-          className="text-sm px-2 py-[10px] bg-card-secondary flex-1 rounded-sm  text-ellipsis overflow-hidden tracking-widest"
+          className="text-sm px-2 py-[10px] bg-card-secondary flex-1 rounded-sm text-ellipsis overflow-hidden tracking-widest"
         >
           {rssUrl}
         </div>

@@ -35,11 +35,8 @@ const AnalyticsMainContent = async ({
 
   // Fetch show views statistics
   const showViews = await getShowViewsStatisticsAction({
-    start_date: format(
-      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-      "dd-MM-yyyy"
-    ),
-    end_date: format(new Date().toISOString(), "dd-MM-yyyy"),
+    start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    end_date: new Date().toISOString(),
     show_id: params.showId,
     type: params.userType,
   });
@@ -70,7 +67,7 @@ const AnalyticsMainContent = async ({
           title={t("all_time_views")}
           value={showStatistics?.playlist_statistics?.total_views.toString()}
           params={params}
-          chart={<MostViewsChart showViews={showViews} />}
+          // chart={<MostViewsChart showViews={showViews} />}
           enabled={showStatistics?.enabled}
         />
       </div>

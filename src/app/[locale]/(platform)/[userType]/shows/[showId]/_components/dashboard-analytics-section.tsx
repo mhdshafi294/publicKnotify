@@ -57,7 +57,7 @@ const DashboardAnalyticsSection = async ({
         value={showStatistics?.playlist_statistics?.last_7_days_views.toString()}
         params={params}
         link={{ name: t("view-analytics"), href: `${params.showId}/analytics` }}
-        chart={<MostViewsChart showViews={showViews} />}
+        // chart={<MostViewsChart showViews={showViews} />}
         enabled={showStatistics?.enabled}
       />
 

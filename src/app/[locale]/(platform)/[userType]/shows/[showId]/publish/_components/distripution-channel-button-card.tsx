@@ -8,7 +8,6 @@ import React, {
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import YoutubeIcon from "@/components/icons/youtube-icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
