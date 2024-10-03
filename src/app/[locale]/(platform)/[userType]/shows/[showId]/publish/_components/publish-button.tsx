@@ -20,7 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 interface PublishButtonProps {
   podcast_id: string;
@@ -55,6 +55,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const [published, setPublished] = React.useState(false);
 
   const {
@@ -71,7 +72,9 @@ const PublishButton: React.FC<PublishButtonProps> = ({
       setPublished(true);
       toast.dismiss();
       router.push(
-        `/podcaster/shows/${params.showId}/episodes/${params.episodeId}`
+        `/podcaster/shows/${params.showId}/episodes/${searchParams.get(
+          "podcast_id"
+        )}`
       );
       // router.push(`/podcaster/podcast/${podcast_id}`); // Redirect to podcast page that users would see after publishing
       toast.success(t("podcastPublished"));

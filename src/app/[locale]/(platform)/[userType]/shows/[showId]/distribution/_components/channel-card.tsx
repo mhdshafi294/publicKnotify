@@ -18,6 +18,7 @@ import {
   ForwardRefExoticComponent,
   RefAttributes,
   SVGProps,
+  useEffect,
   useState,
 } from "react";
 import { createUpdateDistributionLinksAction } from "@/app/actions/podcastActions";
@@ -60,6 +61,11 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
 }) => {
   const t = useTranslations("Index");
   const [link, setLink] = useState(content.link || "");
+  console.log(link, "inside the channel card");
+
+  useEffect(() => {
+    setLink(content.link || "");
+  }, [content.link]);
 
   const {
     mutate: server_createUpdateDstributionLinks,
@@ -113,6 +119,7 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
               <p className="opacity-80 font-thin">{content.step1}</p>
               <a
                 href={content.submitLink}
+                target="_blank"
                 className={cn(
                   buttonVariants({
                     variant: "outline",
