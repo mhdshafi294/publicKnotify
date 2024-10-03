@@ -174,7 +174,7 @@ const ProfileCard = async ({
               />
             )
           ) : null}
-          {"youtube_account" in profileData ? (
+          {/* {"youtube_account" in profileData ? (
             isSelfProfile ? (
               <AuthSpotifyButton
                 spotify_account={profileData?.spotify_account}
@@ -196,7 +196,7 @@ const ProfileCard = async ({
                 })}
               />
             )
-          ) : null}
+          ) : null} */}
         </div>
       ) : null}
     </aside>

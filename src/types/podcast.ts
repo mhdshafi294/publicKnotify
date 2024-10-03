@@ -122,18 +122,10 @@ export type Playlist = {
 
 export type DistributionLinks = {
   id: number;
+  playlist_id: number;
+  redirect_url: string;
   type: string;
-  playlist: {
-    id: number;
-    name: string;
-    image: string;
-    podcaster_email: string;
-    created_at: string;
-    updated_at: string;
-  };
   url: string;
-  created_at: string;
-  updated_at: string;
 };
 
 export type SearchResponse = ApiResponse & {
