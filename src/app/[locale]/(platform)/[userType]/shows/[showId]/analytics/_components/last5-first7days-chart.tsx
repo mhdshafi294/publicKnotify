@@ -91,7 +91,10 @@ const LastFiveFirstSevenDaysChart = ({
           tickFormatter={(value) => value.slice(0, 3)}
         />
         <YAxis tickLine={false} axisLine={false} tickMargin={8} tickCount={7} />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent className="w-40" indicator="line" />}
+        />
         <Line
           dataKey="episode5"
           type="linear"
