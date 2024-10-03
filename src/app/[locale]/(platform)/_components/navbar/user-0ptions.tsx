@@ -115,12 +115,12 @@ const UserOptions = () => {
             ) : null}
             <LanguageSwitcher />
             <DarkModeToggle />
-            <Link href={`/${session?.user?.type}/settings`}>
+            {/* <Link href={`/${session?.user?.type}/settings`}>
               <DropdownMenuItem>
                 <Settings className="me-2 h-4 w-4" />
                 <span>{t("settings")}</span>
               </DropdownMenuItem>
-            </Link>
+            </Link> */}
             <DropdownMenuItem
               className="text-red-500"
               onClick={() => signOut()}

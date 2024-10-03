@@ -70,6 +70,8 @@ export const CONTRACTS = "/contracts";
 export const RSS = "/rss";
 export const PAY = "/pay";
 export const ASSIGN = "/assign";
+export const STORIES = "/stories";
+export const MARK_READ = "/mark-read";
 
 // Social interaction endpoints
 export const POST_URL = "/post";
