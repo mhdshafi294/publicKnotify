@@ -12,7 +12,7 @@ import {
   getRssAction,
 } from "@/app/actions/podcastActions";
 import { redirect } from "@/navigation";
-import ChannelCard from "./_components/channel-card";
+import DistributionChannels from "./_components/distribution-channels";
 
 /**
  * The DistributionPage component renders the show distribution settings,
@@ -46,7 +46,7 @@ const DistributionPage = async ({
 
   let rssUrl = rssResponse.rss;
 
-  if (rssUrl.length > 0) {
+  if (rssUrl.length === 0) {
     const newRss = await createShowRssAction({
       type: session?.user?.type!,
       showId: params?.showId!,
@@ -103,86 +103,8 @@ const DistributionPage = async ({
           </div>
         </DashboardCardContainer>
 
-        {/* Social Platforms */}
-        <div className="flex flex-col gap-5">
-          <ChannelCard
-            playlist_id={params?.showId!}
-            icon="/icons/Apple-Podcasts.svg"
-            title="platform.apple"
-            type="apple"
-            content={{
-              header: t(
-                "apple-podcasts-is-by-far-the-largest-directory-of-podcasts-and-getting-your-podcast-into-it-is-fairly-easy-youll-just-need-an-rss-feed-url-that-passes-their-validation-check"
-              ),
-              step1: t(
-                "get-started-by-submitting-your-podcast-to-apple-podcasts-connect-if-youve-validated-your-feed-and-have-received-your-url-from-apple-proceed-to-step-2"
-              ),
-              submitLink: `https://podcastsconnect.apple.com/my-podcasts/new-feed?submitfeed=${rssUrl}`,
-              link: distributionLinks.find((link) => link.type === "apple")
-                ?.url,
-              step2: t(
-                "once-youve-received-your-apple-podcasts-url-paste-it-in-the-field-below-well-display-a-link-to-your-show-on-apple-podcasts-on-your-audio-player-show-page-and-episode-pages"
-              ),
-            }}
-          />
-          <ChannelCard
-            playlist_id={params?.showId!}
-            icon="/icons/Spotify.svg"
-            title="platform.spotify"
-            type="spotify"
-            content={{
-              header: t(
-                "spotify-is-a-digital-music-service-that-gives-you-access-to-millions-of-podcasts-and-songs"
-              ),
-              step1: t(
-                "submit-your-podcast-to-spotify-and-get-your-show-url-your-podcast-should-appear-on-spotify-within-a-few-hours-of-submitting-your-rss-feed"
-              ),
-              submitLink: `https://podcasters.spotify.com`,
-              link: distributionLinks.find((link) => link.type === "spotify")
-                ?.url,
-              step2: t(
-                "paste-your-spotify-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
-              ),
-            }}
-          />
-          <ChannelCard
-            playlist_id={params?.showId!}
-            icon="/icons/YouTube.svg"
-            title="platform.youtube"
-            type="youtube"
-            content={{
-              header: t(
-                "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode"
-              ),
-              step1: "Import your podcast to YouTube and get your channel URL.",
-              submitLink: `https://studio.youtube.com/?d=rsswd`,
-              link: distributionLinks.find((link) => link.type === "youtube")
-                ?.url,
-              step2: t(
-                "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
-              ),
-            }}
-          />
-
-          <ChannelCard
-            playlist_id={params?.showId!}
-            icon="/icons/Amazon.svg"
-            title="platform.amazon"
-            type="amazon"
-            content={{
-              header: "",
-              step1: t(
-                "add-your-podcast-to-their-combined-and-rapidly-growing-audience-of-55-million-customers"
-              ),
-              submitLink: `https://www.amazon.com/podcasters`,
-              link: distributionLinks.find((link) => link.type === "amazon ")
-                ?.url,
-              step2: t(
-                "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
-              ),
-            }}
-          />
-        </div>
+        {/* Distribution Channels */}
+        <DistributionChannels showId={params?.showId!} rssUrl={rssUrl} />
       </div>
     </div>
   );
