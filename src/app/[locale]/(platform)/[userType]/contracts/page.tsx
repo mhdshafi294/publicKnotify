@@ -15,6 +15,12 @@ import SelectRequestFilter from "./_components/select-request-filter";
 import ContractStatusFilter from "./_components/contract-status-filter";
 import { FilePlus2Icon } from "lucide-react";
 
+/**
+ * Renders the ContractsPage component with the specified parameters.
+ * @param {Object} params - An object containing the user type parameter.
+ * @param {Object} searchParams - An object containing search parameters.
+ * @returns None
+ */
 const ContractsPage = async ({
   params,
   searchParams,

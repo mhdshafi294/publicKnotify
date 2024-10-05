@@ -1,20 +1,25 @@
 "use client";
 
-import { contractPaymentAction } from "@/app/actions/contractActions";
+import { assignPaymentAction } from "@/app/actions/profileActions";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { BanknoteIcon } from "lucide-react";
+import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
-import { Session } from "next-auth";
-import { assignPaymentAction } from "@/app/actions/profileActions";
 
 type PayButtonProps = {
   disabled?: boolean;
   session?: Session;
 };
 
+/**
+ * Functional component for a payment button in a React application.
+ * @param {PayButtonProps} disabled - Flag to disable the button.
+ * @param {PayButtonProps} session - Session information for the payment.
+ * @returns A button component for initiating a payment action.
+ */
 const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
   const t = useTranslations("Index");
 

@@ -1,11 +1,11 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import ContractPageCard from "./contract-page-card";
 import { ContractSchema } from "@/schema/contractSchema";
-import { Session } from "next-auth";
-import FormFields from "./form-fields";
 import { format } from "date-fns";
+import { Session } from "next-auth";
+import ContractPageCard from "./contract-page-card";
+import FormFields from "./form-fields";
 
 interface StepFormContentProps {
   step: number;
@@ -21,6 +21,18 @@ interface StepFormContentProps {
   session: Session;
 }
 
+/**
+ * Functional component that renders the content of a step form.
+ * @param {StepFormContentProps} step - The step object containing form data.
+ * @param {any} state - The state of the form.
+ * @param {any} form - The form object.
+ * @param {string} contract_id - The ID of the contract.
+ * @param {string} dir - The direction of the form.
+ * @param {any} requestResponse - The response from the request.
+ * @param {any} secondPartyData - Data of the second party involved.
+ * @param {any} session - The session data.
+ * @returns JSX element representing the content of the step form.
+ */
 const StepFormContent: React.FC<StepFormContentProps> = ({
   step,
   state,

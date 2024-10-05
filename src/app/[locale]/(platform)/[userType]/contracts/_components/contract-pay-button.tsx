@@ -4,10 +4,10 @@ import { contractPaymentAction } from "@/app/actions/contractActions";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { BanknoteIcon } from "lucide-react";
+import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
-import { Session } from "next-auth";
 
 type PayButtonProps = {
   contractId: number;
@@ -15,6 +15,13 @@ type PayButtonProps = {
   session?: Session;
 };
 
+/**
+ * Functional component for a pay button in a contract.
+ * @param {PayButtonProps} contractId - The ID of the contract.
+ * @param {PayButtonProps} disabled - Flag to disable the button.
+ * @param {PayButtonProps} session - The session information.
+ * @returns A button component for making payments in a contract.
+ */
 const ContractPayButton: React.FC<PayButtonProps> = ({
   contractId,
   disabled,
