@@ -521,7 +521,10 @@
     "pay": "Pay",
     "payment": "Payment",
     "processing": "processing",
-    "contract-can-not-be-edited-after-accepted-by-admin": "Contract can not be edited after accepted by admin"
+    "contract-can-not-be-edited-after-accepted-by-admin": "Contract can not be edited after accepted by admin",
+    "add-story": "Add Story",
+    "photos-and-videos": "Photos & videos",
+    "text": "Text"
   },
   "notifications": {
     "notifications": "notifications"

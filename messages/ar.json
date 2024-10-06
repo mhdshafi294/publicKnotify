@@ -500,7 +500,10 @@
     "pay": "يدفع",
     "payment": "قسط",
     "processing": "يعالج",
-    "contract-can-not-be-edited-after-accepted-by-admin": "لا يمكن تعديل العقد بعد قبوله من قبل المشرف"
+    "contract-can-not-be-edited-after-accepted-by-admin": "لا يمكن تعديل العقد بعد قبوله من قبل المشرف",
+    "add-story": "أضف قصة",
+    "photos-and-videos": "صور",
+    "text": "نص"
   },
   "notifications": {
     "notifications": "notifications"

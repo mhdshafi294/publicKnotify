@@ -1,10 +1,11 @@
-import { Fragment } from "react";
+"use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { cn, getDirection } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { Fragment, useState } from "react";
+
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,26 +14,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn, getDirection } from "@/lib/utils";
+import { Link } from "@/navigation";
 import {
   HandshakeIcon,
   HeartHandshakeIcon,
   LifeBuoyIcon,
   LogOutIcon,
   MessagesSquareIcon,
-  Settings,
   ShieldAlertIcon,
   User,
   WalletIcon,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
+import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
   const t = useTranslations("Index");
   const locale = useLocale();
   const dir = getDirection(locale);
+  const [userOptionDropdownMenu, setUserOptionDropdownMenu] = useState(false);
+  const [isStoryMediaDialogOpen, setStoryMediaDialogIsOpen] = useState(false);
+  const [isStoryTextDialogOpen, setStoryTextDialogIsOpen] = useState(false);
 
   return (
     <Fragment>
@@ -44,8 +50,15 @@ const UserOptions = () => {
           {t("signIn")}
         </Link>
       ) : (
-        <DropdownMenu dir={dir}>
-          <DropdownMenuTrigger asChild>
+        <DropdownMenu
+          dir={dir}
+          open={userOptionDropdownMenu}
+          onOpenChange={setUserOptionDropdownMenu}
+        >
+          <DropdownMenuTrigger
+            asChild
+            onClick={() => setUserOptionDropdownMenu(true)}
+          >
             <Avatar className="cursor-pointer">
               <AvatarImage
                 src={session?.user?.image!}
@@ -89,6 +102,14 @@ const UserOptions = () => {
                 <span>{t("profile")}</span>
               </DropdownMenuItem>
             </Link>
+            {session?.user?.type === "podcaster" ? (
+              <AddStoryDropdownMenu
+                isOpen={isStoryMediaDialogOpen}
+                setIsMediaDialogOpen={setStoryMediaDialogIsOpen}
+                setIsTextDialogOpen={setStoryTextDialogIsOpen}
+                setUserOptionDropdownMenu={setUserOptionDropdownMenu}
+              />
+            ) : null}
             {session?.user?.type !== "user" ? (
               <Link href={`/${session?.user?.type}/chats`}>
                 <DropdownMenuItem>
@@ -131,6 +152,12 @@ const UserOptions = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+      <StoryUploadDialogsFormContainer
+        isStoryMediaDialogOpen={isStoryMediaDialogOpen}
+        setStoryMediaDialogIsOpen={setStoryMediaDialogIsOpen}
+        isStoryTextDialogOpen={isStoryTextDialogOpen}
+        setStoryTextDialogIsOpen={setStoryTextDialogIsOpen}
+      />
     </Fragment>
   );
 };
