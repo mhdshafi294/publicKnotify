@@ -1,17 +1,21 @@
 "use client";
 
 import {
-  DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { CircleFadingPlusIcon, ImagesIcon, PencilIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 
-const AddStoryDropdownMenu = () => {
+const AddStoryDropdownMenuSub = ({
+  setUserOptionDropdownMenu,
+}: {
+  setUserOptionDropdownMenu: Dispatch<SetStateAction<boolean>>;
+}) => {
   const t = useTranslations("Index");
   const setIsMediaDialogOpen = useAddStoryDialogsStore(
     (state) => state.setStoryMediaDialogIsOpen
@@ -22,15 +26,16 @@ const AddStoryDropdownMenu = () => {
 
   return (
     <Fragment>
-      <DropdownMenu>
-        <DropdownMenuTrigger className="flex w-full items-center">
+      <DropdownMenuSub>
+        <DropdownMenuSubTrigger className="flex w-full">
           <CircleFadingPlusIcon className="me-2 h-4 w-4" />
           <span>{t("add-story")}</span>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        </DropdownMenuSubTrigger>
+        <DropdownMenuSubContent>
           <DropdownMenuItem
             className="flex"
             onClick={() => {
+              setUserOptionDropdownMenu(false);
               setIsMediaDialogOpen(true);
             }}
           >
@@ -40,17 +45,18 @@ const AddStoryDropdownMenu = () => {
           <DropdownMenuItem
             className="flex"
             onClick={() => {
+              setUserOptionDropdownMenu(false);
               setIsTextDialogOpen(true);
             }}
           >
             <PencilIcon className="me-3 h-4 w-4" />
             <span>{t("text")}</span>
           </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </DropdownMenuSubContent>
+      </DropdownMenuSub>
       {/* <AddStoryMediaDialog isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}
     </Fragment>
   );
 };
 
-export default AddStoryDropdownMenu;
+export default AddStoryDropdownMenuSub;

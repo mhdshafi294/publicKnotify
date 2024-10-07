@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { cn, convertFileToURL } from "@/lib/utils";
 import { Upload } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Dispatch, FC, useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
@@ -12,6 +13,8 @@ type PropsType = {
 };
 
 const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
+  const t = useTranslations("Index");
+
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const onDrop = useCallback(
@@ -34,6 +37,11 @@ const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
         "image/webp": [".webp"],
         "image/bmp": [".bmp"],
         "image/tiff": [".tiff", ".tif"],
+        "image/heic": [".heic"],
+        "image/heif": [".heif"],
+        "image/avif": [".avif"],
+        "image/jpeg2000": [".jp2"],
+        "image/jfif": [".jfif"],
       },
     });
 
@@ -72,19 +80,19 @@ const FileInputDropzone: FC<PropsType> = ({ file, setFile }) => {
             )}
           >
             <Upload />
-            <span className="text-sm">Drag File to Upload</span>
+            <span className="text-sm">{t("drag-file-to-upload")}</span>
           </div>
         )}
       </div>
       <div className="w-full space-y-2">
-        <h3 className="text-xl font-semibold">Upload Image</h3>
+        <h3 className="text-xl font-semibold">{t("upload-image")}</h3>
         <p className="text-sm text-foreground/80">
-          We recommend using an image that is 3000px wide and we will
-          automatically crop it to a square. You can skip this for now if you
-          want but it will be required to publish.
+          {t(
+            "we-recommend-using-an-image-that-is-3000px-wide-and-we-will-automatically-crop-it-to-a-square-you-can-skip-this-for-now-if-you-want-but-it-will-be-required-to-publish"
+          )}
         </p>
         <Button type="button" onClick={openFileDialog}>
-          Choose File
+          {t("choose-file")}
         </Button>
       </div>
     </div>

@@ -28,8 +28,7 @@ import {
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
-import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
+import AddStoryDropdownMenuSub from "../../[userType]/stories/_components/add-story-dropdownsub-menu";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -37,8 +36,6 @@ const UserOptions = () => {
   const locale = useLocale();
   const dir = getDirection(locale);
   const [userOptionDropdownMenu, setUserOptionDropdownMenu] = useState(false);
-  const [isStoryMediaDialogOpen, setStoryMediaDialogIsOpen] = useState(false);
-  const [isStoryTextDialogOpen, setStoryTextDialogIsOpen] = useState(false);
 
   return (
     <Fragment>
@@ -55,10 +52,7 @@ const UserOptions = () => {
           open={userOptionDropdownMenu}
           onOpenChange={setUserOptionDropdownMenu}
         >
-          <DropdownMenuTrigger
-            asChild
-            onClick={() => setUserOptionDropdownMenu(true)}
-          >
+          <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
               <AvatarImage
                 src={session?.user?.image!}
@@ -103,10 +97,7 @@ const UserOptions = () => {
               </DropdownMenuItem>
             </Link>
             {session?.user?.type === "podcaster" ? (
-              <AddStoryDropdownMenu
-                isOpen={isStoryMediaDialogOpen}
-                setIsMediaDialogOpen={setStoryMediaDialogIsOpen}
-                setIsTextDialogOpen={setStoryTextDialogIsOpen}
+              <AddStoryDropdownMenuSub
                 setUserOptionDropdownMenu={setUserOptionDropdownMenu}
               />
             ) : null}
@@ -152,12 +143,6 @@ const UserOptions = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-      <StoryUploadDialogsFormContainer
-        isStoryMediaDialogOpen={isStoryMediaDialogOpen}
-        setStoryMediaDialogIsOpen={setStoryMediaDialogIsOpen}
-        isStoryTextDialogOpen={isStoryTextDialogOpen}
-        setStoryTextDialogIsOpen={setStoryTextDialogIsOpen}
-      />
     </Fragment>
   );
 };

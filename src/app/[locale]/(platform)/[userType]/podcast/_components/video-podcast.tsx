@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge"; // Internal UI component import
 import { Link } from "@/navigation"; // Internal navigation import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import
 import VideoPlayer from "./video-player"; // Import the client component
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getServerSession } from "next-auth";
 
 // Props interface for VideoPodcast
 interface PropsType {
@@ -19,7 +21,8 @@ interface PropsType {
  * @param {PodcastDetails} props.podcast - The details of the podcast to display.
  * @returns {JSX.Element} The rendered component with video podcast details.
  */
-const VideoPodcast: FC<PropsType> = ({ podcast }) => {
+const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
+  const session = await getServerSession(authOptions);
   return (
     <div className="bg-card-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl mb-5">
       {/* Video player */}
@@ -48,7 +51,7 @@ const VideoPodcast: FC<PropsType> = ({ podcast }) => {
             </div>
           </div>
           <Link
-            href={`/podcaster/profile/${podcast.podcaster.id}`}
+            href={`/${session?.user?.type}/profile/podcaster/${podcast.podcaster.id}`}
             className="inline-block text-greeny/90 font-bold capitalize hover:underline"
           >
             {podcast.podcaster.full_name}

@@ -524,7 +524,24 @@
     "contract-can-not-be-edited-after-accepted-by-admin": "Contract can not be edited after accepted by admin",
     "add-story": "Add Story",
     "photos-and-videos": "Photos & videos",
-    "text": "Text"
+    "text": "Text",
+    "share": "Share",
+    "your-story-has-been-shared-successfully": "Your story has been shared successfully!",
+    "sharing-your-story": "Sharing your story...",
+    "here-you-can-create-a-text-story": "Here you can create a text story.",
+    "whats-on-your-mind": "What's on your mind?",
+    "scope": "Scope",
+    "background-color": "background color",
+    "no-podcasts-in-this-playlist-yet": "No podcasts in this playlist yet",
+    "re-send-code": "Re send code",
+    "no-country": "No country",
+    "choose-file": "Choose File",
+    "here-you-can-create-a-media-story": "Here you can create a media story.",
+    "we-recommend-using-an-image-that-is-3000px-wide-and-we-will-automatically-crop-it-to-a-square-you-can-skip-this-for-now-if-you-want-but-it-will-be-required-to-publish": "We recommend using an image that is 3000px wide and we will automatically crop it to a square. You can skip this for now if you want but it will be required to publish.",
+    "upload-image": "Upload Image",
+    "drag-file-to-upload": "Drag File to Upload",
+    "start-time": "start time",
+    "end-time": "end time"
   },
   "notifications": {
     "notifications": "notifications"

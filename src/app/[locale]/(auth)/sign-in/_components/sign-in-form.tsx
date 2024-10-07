@@ -109,7 +109,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         toast.dismiss();
         toast.warning(t("verificationCodeSent"));
         router.push(
-          `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+          `/${type}/verification-code?phone_code=${data.phone.code}&phone=${data.phone.phone}`
         );
       } else if (signInResponse?.error?.includes("422")) {
         setLoading(false);
@@ -135,7 +135,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         toast.dismiss();
         toast.warning(t("verificationCodeSent"));
         router.push(
-          `/${type}/verification-code?phone=${data.phone.code}${data.phone.phone}`
+          `/${type}/verification-code?phone_code=${data.phone.code}&phone=${data.phone.phone}`
         );
       } else if (err.response?.status == 422) {
         toast.dismiss();

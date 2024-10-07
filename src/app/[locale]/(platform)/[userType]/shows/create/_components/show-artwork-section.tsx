@@ -1,17 +1,16 @@
 "use client";
 
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { useTranslations } from "next-intl";
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import FileInputDropzone from "./file-input-dropzone";
 import { CreateShowSchema } from "@/schema/showsSchema";
+import { useTranslations } from "next-intl";
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import FileInputDropzone from "./file-input-dropzone";
 
 /**
  * The ShowArtworkSection component renders a form section for uploading the artwork of the show.

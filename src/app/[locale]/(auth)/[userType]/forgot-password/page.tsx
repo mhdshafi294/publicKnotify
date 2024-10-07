@@ -60,7 +60,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ params }) => {
     onSuccess: () => {
       toast.success(t("confirmed"));
       router.push(
-        `/${params.userType}/check-code?&phone=${phone?.code}${phone?.phone}`
+        `/${params.userType}/check-code?phone_code=${phone.code}&phone=${phone.phone}`
       );
     },
     onError: () => {

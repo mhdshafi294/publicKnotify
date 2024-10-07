@@ -1,5 +1,6 @@
 "use client";
 
+import { createStoryAction } from "@/app/actions/storyActions";
 import { Button } from "@/components/ui/button";
 import ColorPicker from "@/components/ui/color-picker";
 import {
@@ -16,24 +17,29 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import Loader from "@/components/ui/loader";
 import SelectFormInput from "@/components/ui/select-form-input";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { cn, getContrastTextColor } from "@/lib/utils";
 import { AddStorySchema } from "@/schema/addStorySchema";
+import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilIcon, SendHorizontalIcon } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRightIcon, PencilIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Dispatch, SetStateAction } from "react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-const AddStoryTextDialog = ({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: Dispatch<SetStateAction<boolean>>;
-}) => {
+const AddStoryTextDialog = () => {
   const t = useTranslations("Index");
+
+  const isOpen = useAddStoryDialogsStore(
+    (state) => state.isStoryTextDialogOpen
+  );
+  const onOpenChange = useAddStoryDialogsStore(
+    (state) => state.setStoryTextDialogIsOpen
+  );
+
   const form = useForm<AddStorySchema>({
     resolver: zodResolver(AddStorySchema),
     defaultValues: {
@@ -45,8 +51,37 @@ const AddStoryTextDialog = ({
     },
   });
 
-  const handleSubmit = (data: any) => {
-    console.log(data);
+  const {
+    data,
+    mutate: server_createStoryAction,
+    isPending,
+  } = useMutation({
+    mutationFn: createStoryAction,
+    onMutate: () => {
+      toast.loading(t("sharing-your-story"));
+    },
+    onSuccess: () => {
+      toast.dismiss();
+      toast.success(t("your-story-has-been-shared-successfully"));
+      onOpenChange(false);
+    },
+    onError: () => {
+      toast.dismiss();
+      toast.error(t("authYoutubeError"));
+    },
+  });
+
+  const handleSubmit = (data: AddStorySchema) => {
+    console.log(data?.media?.size);
+    const formData = new FormData();
+    formData.append("scope", data.scope);
+    formData.append("description", data.description);
+    formData.append("color", data.color || "#000000");
+    if (data.media && data.media.size > 0) formData.append("media", data.media);
+    if (data.thumbnail && data.thumbnail.size > 0)
+      formData.append("thumbnail", data.thumbnail);
+
+    server_createStoryAction({ type: "podcaster", formData });
   };
 
   // Error handler for form validation
@@ -56,7 +91,7 @@ const AddStoryTextDialog = ({
 
   // console.log(form.getValues());
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       {/* <DialogTrigger className="w-full flex"></DialogTrigger> */}
       <DialogContent>
         <DialogHeader>
@@ -64,7 +99,9 @@ const AddStoryTextDialog = ({
             <span>{t("text")}</span>
             <PencilIcon className="h-4 w-4" />
           </DialogTitle>
-          <DialogDescription>Here you can add a text story.</DialogDescription>
+          <DialogDescription>
+            {t("here-you-can-create-a-text-story")}
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -74,6 +111,7 @@ const AddStoryTextDialog = ({
             <div
               style={{
                 backgroundColor: form.watch("color"),
+                color: getContrastTextColor(form.watch("color") || "#000000"),
               }}
               className={cn(
                 "w-full h-[60dvh] flex justify-center items-center rounded-lg"
@@ -86,7 +124,7 @@ const AddStoryTextDialog = ({
                   <FormItem>
                     <FormControl>
                       <Textarea
-                        placeholder={"What's on your mind?"}
+                        placeholder={t("whats-on-your-mind")}
                         className="w-fit h-fit p-3 resize-none bg-transparent text-3xl rounded-2xl text-center border-none"
                         {...field}
                       />
@@ -101,7 +139,7 @@ const AddStoryTextDialog = ({
                 name="scope"
                 className="w-full flex-1 rounded"
                 placeholder="Select scope"
-                label="Scope"
+                label={t("scope")}
                 control={form.control}
                 options={["all", "company"]}
               />
@@ -109,11 +147,16 @@ const AddStoryTextDialog = ({
                 control={form.control}
                 className="w-full flex-1 rounded"
                 name="color"
-                label="background color"
+                label={t("background-color")}
               />
             </div>
-            <Button type="submit" className="w-fit ms-auto">
-              <SendHorizontalIcon size={24} />
+            <Button
+              type="submit"
+              className="w-fit ms-auto flex justify-between items-center rounded-full gap-3"
+            >
+              {t("share")}
+              {isPending ? <Loader size={"sm"} /> : ""}
+              <ChevronRightIcon size={18} />
             </Button>
           </form>
         </Form>
