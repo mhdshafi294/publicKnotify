@@ -8,7 +8,7 @@ export const AddStorySchema = z.object({
     required_error: "createMetadataSchema.errorMessage.typeRequired",
   }),
   color: z.string().optional(),
-  description: z.string().min(1, "createMetadataSchema.errorMessage.summary"),
+  description: z.string().optional(),
 
   // Media field (optional), accepts either an image or a video
   media: z

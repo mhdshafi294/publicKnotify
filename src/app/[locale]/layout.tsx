@@ -13,6 +13,7 @@ import NotificationProvider from "@/providers/NotificationProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import "react-photo-view/dist/react-photo-view.css";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 

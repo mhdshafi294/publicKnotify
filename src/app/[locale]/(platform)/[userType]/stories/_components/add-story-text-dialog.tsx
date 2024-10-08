@@ -63,6 +63,7 @@ const AddStoryTextDialog = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success(t("your-story-has-been-shared-successfully"));
+      form.reset();
       onOpenChange(false);
     },
     onError: () => {
@@ -75,7 +76,7 @@ const AddStoryTextDialog = () => {
     console.log(data?.media?.size);
     const formData = new FormData();
     formData.append("scope", data.scope);
-    formData.append("description", data.description);
+    formData.append("description", data.description || "");
     formData.append("color", data.color || "#000000");
     if (data.media && data.media.size > 0) formData.append("media", data.media);
     if (data.thumbnail && data.thumbnail.size > 0)
@@ -153,6 +154,7 @@ const AddStoryTextDialog = () => {
             <Button
               type="submit"
               className="w-fit ms-auto flex justify-between items-center rounded-full gap-3"
+              disabled={isPending || form.getValues().description?.length === 0}
             >
               {t("share")}
               {isPending ? <Loader size={"sm"} /> : ""}

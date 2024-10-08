@@ -2,7 +2,6 @@
 
 import { createStoryAction } from "@/app/actions/storyActions";
 import { Button } from "@/components/ui/button";
-import ColorPicker from "@/components/ui/color-picker";
 import {
   Dialog,
   DialogContent,
@@ -19,8 +18,6 @@ import {
 } from "@/components/ui/form";
 import Loader from "@/components/ui/loader";
 import SelectFormInput from "@/components/ui/select-form-input";
-import { Textarea } from "@/components/ui/textarea";
-import { cn, getContrastTextColor } from "@/lib/utils";
 import { AddStorySchema } from "@/schema/addStorySchema";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -52,6 +49,8 @@ const AddStoryMediaDialog = () => {
     },
   });
 
+  console.log(form.watch("media"), "media");
+
   const {
     data,
     mutate: server_createStoryAction,
@@ -64,6 +63,7 @@ const AddStoryMediaDialog = () => {
     onSuccess: () => {
       toast.dismiss();
       toast.success(t("your-story-has-been-shared-successfully"));
+      form.reset();
       onOpenChange(false);
     },
     onError: () => {
@@ -73,12 +73,24 @@ const AddStoryMediaDialog = () => {
   });
 
   const handleSubmit = (data: AddStorySchema) => {
+    console.log(data?.media?.name);
     console.log(data?.media?.size);
     const formData = new FormData();
     formData.append("scope", data.scope);
-    formData.append("description", data.description);
+    formData.append("description", data.description || "");
     formData.append("color", data.color || "#000000");
-    if (data.media && data.media.size > 0) formData.append("media", data.media);
+    if (
+      data.media &&
+      data.media.size > 0 &&
+      data.media.type.startsWith("image/")
+    )
+      formData.append("image", data.media);
+    if (
+      data.media &&
+      data.media.size > 0 &&
+      data.media.type.startsWith("video/")
+    )
+      formData.append("video", data.media);
     if (data.thumbnail && data.thumbnail.size > 0)
       formData.append("thumbnail", data.thumbnail);
 
