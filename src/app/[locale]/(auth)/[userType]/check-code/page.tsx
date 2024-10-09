@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { checkCodeSchema } from "@/schema/authSchema";
+import { checkCodeSchema, forgotPasswordSchema } from "@/schema/authSchema";
 import { useRouter } from "@/navigation";
 import {
   Form,
@@ -22,7 +22,10 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { confirmCheckCodeAction } from "@/app/actions/authActions";
+import {
+  confirmCheckCodeAction,
+  sendCodeAction,
+} from "@/app/actions/authActions";
 
 interface CheckCodeProps {
   params: { userType: string };
@@ -64,7 +67,7 @@ const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
     onSuccess: () => {
       toast.success(t("confirmed"));
       router.push(
-        `/${params.userType}/new-password?phone=${searchParams.phone}&code=${code}`
+        `/${params.userType}/new-password?phone=${searchParams.phone_code}${searchParams.phone}&code=${code}`
       );
     },
     onError: () => {
@@ -83,6 +86,27 @@ const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
       phone: searchParams.phone as string,
       type: params.userType,
     });
+  };
+
+  // Initialize the mutation for sending the code
+  const { mutate: server_sendCodeAction, isPending: isSendCodeActionPending } =
+    useMutation({
+      mutationFn: sendCodeAction,
+      onSuccess: () => {
+        toast.success("new verification code sent");
+      },
+      onError: () => {
+        toast.error(t("errorTryAgain"));
+      },
+    });
+
+  /**
+   * Send new code.
+   *
+   * @param {forgotPasswordSchema} data - The form data.
+   */
+  const sendNewCode = async (data: forgotPasswordSchema) => {
+    server_sendCodeAction({ body: data, type: params.userType });
   };
 
   return (
@@ -130,6 +154,26 @@ const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
           </Button>
         </form>
       </Form>
+      <Button
+        disabled={
+          isSendCodeActionPending ||
+          !searchParams.phone_code ||
+          !searchParams.phone
+        }
+        variant="link"
+        className="capitalize text-greeny"
+        type="button"
+        onClick={() =>
+          sendNewCode({
+            phone: {
+              code: searchParams.phone_code as string,
+              phone: searchParams.phone as string,
+            },
+          })
+        }
+      >
+        {isSendCodeActionPending ? <ButtonLoader /> : t("re-send-code")}
+      </Button>
     </div>
   );
 };

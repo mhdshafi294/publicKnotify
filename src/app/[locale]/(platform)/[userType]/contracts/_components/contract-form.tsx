@@ -26,6 +26,11 @@ interface ContractFormProps {
   contract_id?: string;
 }
 
+/**
+ * Functional component for rendering a contract form.
+ * @param {ContractFormProps} contract_id - The props for the contract form component.
+ * @returns JSX element for the contract form.
+ */
 const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
   const { data: session } = useSession();
   const router = useRouter();

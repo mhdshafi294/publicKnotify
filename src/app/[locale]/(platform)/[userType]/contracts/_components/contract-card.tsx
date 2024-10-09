@@ -1,7 +1,7 @@
-import { FC } from "react";
 import { SquareArrowOutUpRightIcon, SquarePenIcon } from "lucide-react";
+import { FC } from "react";
 
-import { Contract } from "@/types/contract";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,11 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "@/navigation";
-import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Link } from "@/navigation";
+import { Contract } from "@/types/contract";
 import { Session } from "next-auth";
+import { useTranslations } from "next-intl";
 
 /**
  * contractCard Component

@@ -1,10 +1,11 @@
-import { Fragment } from "react";
+"use client";
 
-import { buttonVariants } from "@/components/ui/button";
-import { cn, getDirection } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { signOut, useSession } from "next-auth/react";
+import { Fragment, useState } from "react";
+
+import { LanguageSwitcher } from "@/components/language-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,26 +14,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn, getDirection } from "@/lib/utils";
+import { Link } from "@/navigation";
 import {
   HandshakeIcon,
   HeartHandshakeIcon,
   LifeBuoyIcon,
   LogOutIcon,
   MessagesSquareIcon,
-  Settings,
   ShieldAlertIcon,
   User,
   WalletIcon,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import { LanguageSwitcher } from "@/components/language-switcher";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import AddStoryDropdownMenuSub from "../../[userType]/stories/_components/add-story-dropdownsub-menu";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
   const t = useTranslations("Index");
   const locale = useLocale();
   const dir = getDirection(locale);
+  const [userOptionDropdownMenu, setUserOptionDropdownMenu] = useState(false);
 
   return (
     <Fragment>
@@ -44,7 +47,11 @@ const UserOptions = () => {
           {t("signIn")}
         </Link>
       ) : (
-        <DropdownMenu dir={dir}>
+        <DropdownMenu
+          dir={dir}
+          open={userOptionDropdownMenu}
+          onOpenChange={setUserOptionDropdownMenu}
+        >
           <DropdownMenuTrigger asChild>
             <Avatar className="cursor-pointer">
               <AvatarImage
@@ -89,6 +96,11 @@ const UserOptions = () => {
                 <span>{t("profile")}</span>
               </DropdownMenuItem>
             </Link>
+            {session?.user?.type === "podcaster" ? (
+              <AddStoryDropdownMenuSub
+                setUserOptionDropdownMenu={setUserOptionDropdownMenu}
+              />
+            ) : null}
             {session?.user?.type !== "user" ? (
               <Link href={`/${session?.user?.type}/chats`}>
                 <DropdownMenuItem>

@@ -6,7 +6,23 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   images: {
     domains: ["notify-back.r-link.io"],
-    // domains: ["notify-back.r-link.io", "192.168.132.150:8000"],
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)", // Apply these headers to all routes
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
+          },
+        ],
+      },
+    ];
   },
 };
 

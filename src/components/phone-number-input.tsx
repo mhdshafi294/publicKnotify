@@ -13,6 +13,7 @@ import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import country from "country-list-js";
+import { useTranslations } from "next-intl";
 
 const countriesCode = (
   Object.values(country.all) as { name: string; dialing_code: string }[]
@@ -37,6 +38,7 @@ type PropsType = {
 };
 
 const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
+  const t = useTranslations("Index");
   const [code, setCode] = useState("");
   const [label, setLabel] = useState(
     phone.code
@@ -88,7 +90,7 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
         >
           <Command className="bg-input">
             <CommandInput placeholder="Select country" />
-            <CommandEmpty>No country</CommandEmpty>
+            <CommandEmpty>{t("no-country")}</CommandEmpty>
             <CommandGroup>
               <CommandList className="no-scrollbar">
                 {countriesCode.map((countryCode) => (

@@ -7,6 +7,13 @@ import { getTranslations } from "next-intl/server";
 import React from "react";
 import ContractPageCard from "../_components/contract-page-card";
 
+/**
+ * Renders the ContractPage component based on the provided parameters.
+ * @param {Object} params - An object containing the parameters for the page.
+ * @param {string} params.userType - The type of user accessing the page.
+ * @param {string} params.contractId - The ID of the contract being viewed.
+ * @returns None
+ */
 const ContractPage = async ({
   params,
 }: {

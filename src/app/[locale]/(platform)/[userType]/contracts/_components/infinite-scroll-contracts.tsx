@@ -1,32 +1,29 @@
 "use client";
 
 // Global imports
-import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import React, { useEffect } from "react";
 
 // Local imports
-
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-
-import Loader from "@/components/ui/loader";
-import ContractCard from "./contract-card";
-import { Contract, ContractsResponse } from "@/types/contract";
 import { getContractsAction } from "@/app/actions/contractActions";
-import { useSession } from "next-auth/react";
+import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Contract, ContractsResponse } from "@/types/contract";
 import { Session } from "next-auth";
+import ContractCard from "./contract-card";
 
 /**
- * InfiniteScrollcontracts Component
- * Handles infinite scrolling for a list of contracts with support for search, status filtering, and type-based pagination.
- *
- * @param {Object} props - The props object.
- * @param {contract[] | undefined} props.initialContracts - Initial list of contracts for the first page.
- * @param {string} [props.search] - Optional search query to filter contracts.
- * @param {string[]} [props.status] - Optional array of status filters for contracts.
- * @param {string} props.type - The type of contracts to fetch (e.g., "company", "user").
- *
- * @returns {JSX.Element} The list of contract cards and a loader for infinite scrolling.
+ * Functional component for rendering a list of contracts with infinite scroll functionality.
+ * @param {Object} props - The props object containing the following properties:
+ *   - {Contract[] | undefined} initialContracts: The initial list of contracts to display.
+ *   - {string} [search]: The search query string.
+ *   - {Session} session: The session object.
+ *   - {string} [company_request_id]: The company request ID.
+ *   - {string} [company_id]: The company ID.
+ *   - {string} [status]: The status of the contracts.
+ *   - {string} type: The type of contracts to display.
+ * @returns JSX element for rendering the list of contracts with infinite
  */
 const InfiniteScrollContracts: React.FC<{
   initialContracts: Contract[] | undefined;

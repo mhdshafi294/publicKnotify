@@ -500,9 +500,20 @@
     "pay": "يدفع",
     "payment": "قسط",
     "processing": "يعالج",
-    "contract-can-not-be-edited-after-accepted-by-admin": "لا يمكن تعديل العقد بعد قبوله من قبل المشرف"
+    "contract-can-not-be-edited-after-accepted-by-admin": "لا يمكن تعديل العقد بعد قبوله من قبل المشرف",
+    "add-story": "أضف قصة",
+    "photos-and-videos": "صور أو فيديو",
+    "text": "نص",
+    "here-you-can-create-a-text-story": "هنا يمكنك إنشاء قصة نصية.",
+    "scope": "نِطَاق",
+    "re-send-code": "إعادة إرسال الرمز",
+    "here-you-can-create-a-media-story": "هنا يمكنك إنشاء قصة إعلامية.",
+    "upload-image": "تحميل الصورة",
+    "drag-file-to-upload": "اسحب الملف للتحميل",
+    "crop-and-save-your-image-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها"
   },
   "notifications": {
     "notifications": "notifications"
-  }
+  },
+  "no-podcasts-in-this-playlist-yet": ""
 }

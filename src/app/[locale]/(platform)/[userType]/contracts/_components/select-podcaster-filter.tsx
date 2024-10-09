@@ -1,25 +1,15 @@
 "use client";
 import { cn, getDirection } from "@/lib/utils";
-import {
-  CheckIcon,
-  ChevronsUpDown,
-  FilterIcon,
-  Search,
-  SlidersHorizontalIcon,
-} from "lucide-react";
+import { CheckIcon, Search, SlidersHorizontalIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
 
-import { useLocale, useTranslations } from "next-intl";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -28,14 +18,23 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Loader from "@/components/ui/loader";
 import { Input } from "@/components/ui/input";
-import { useRouter, useSearchParams } from "next/navigation";
+import Loader from "@/components/ui/loader";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
 
+/**
+ * Functional component that represents a SelectPodcasterFilter.
+ * @param {string} filterFor - The filter to apply.
+ * @returns JSX element representing the SelectPodcasterFilter component.
+ */
 const SelectPodcasterFilter: React.FC<{ filterFor: string }> = ({
   filterFor,
 }) => {

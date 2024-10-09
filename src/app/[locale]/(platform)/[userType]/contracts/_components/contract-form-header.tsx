@@ -17,6 +17,16 @@ type ContractFormHeaderProps = {
   isUpdate: boolean;
 };
 
+/**
+ * Functional component for the header of a contract form.
+ * @param {ContractFormHeaderProps} props - The props for the component.
+ * @param {boolean} props.isPending - Flag indicating if the form submission is pending.
+ * @param {number} props.step - The current step of the form.
+ * @param {function} props.setStep - Function to set the step of the form.
+ * @param {boolean} props.isRequestReady - Flag indicating if the request is ready.
+ * @param {boolean} props.isUpdate - Flag indicating if the form is for updating.
+ * @returns JSX element representing the header of the contract form.
+ */
 const ContractFormHeader: React.FC<ContractFormHeaderProps> = ({
   isPending,
   step,

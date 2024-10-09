@@ -6,6 +6,8 @@ import { getPlayListAction } from "@/app/actions/podcastActions"; // Internal fu
 
 import PlaylistPodcast from "./_components/Playlist-podcast"; // Internal component for displaying playlist podcasts
 import SideScrollPlaylistPodcasts from "./_components/side-scroll-playlist-podcasts"; // Internal component for side scrolling podcasts
+import { Fragment } from "react";
+import { getTranslations } from "next-intl/server";
 
 /**
  * PlaylistPage Component
@@ -34,17 +36,32 @@ export default async function PlaylistPage({
     id: params.playlistId,
   });
 
+  const t = await getTranslations("Index");
+
   return (
     <div className="flex flex-col lg:flex-row relative pt-10 min-h-[calc(100vh-72px)]">
-      <PlaylistPodcast
-        params={params}
-        searchParams={searchParams}
-        podcasts={data?.playlist?.podcasts!}
-      />
-      <SideScrollPlaylistPodcasts
-        podcasts={data?.playlist?.podcasts!}
-        playlistName={data?.playlist?.name!}
-      />
+      {data?.playlist?.podcasts?.length > 0 ? (
+        <Fragment>
+          <PlaylistPodcast
+            params={params}
+            searchParams={searchParams}
+            podcasts={data?.playlist?.podcasts!}
+          />
+          <SideScrollPlaylistPodcasts
+            podcasts={data?.playlist?.podcasts!}
+            playlistName={data?.playlist?.name!}
+          />
+        </Fragment>
+      ) : (
+        <div className="w-full h-[clac(100vh-72px)] flex flex-col justify-center items-center gap-56">
+          <h2 className="text-center font-medium text-5xl justify-self-start capitalize">
+            {data?.playlist?.name}
+          </h2>
+          <p className="text-center font-medium text-3xl italic opacity-80">
+            {t("no-podcasts-in-this-playlist-yet")}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

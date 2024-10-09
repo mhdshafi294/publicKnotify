@@ -9,6 +9,7 @@ import { Link } from "@/navigation";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import PodcasterShow from "./podcaster-show";
+import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
 
 /**
  * The Navbar component is responsible for rendering the top navigation bar for the application.
@@ -49,6 +50,8 @@ const Navbar = async (): Promise<JSX.Element> => {
         <DesktopNavbar playlists={playlistData?.playlists!} />
         {/* Mobile Navbar */}
         <MobileNavbar playlists={playlistData?.playlists!} />
+
+        <StoryUploadDialogsFormContainer />
       </MaxWidthContainer>
     </div>
   );

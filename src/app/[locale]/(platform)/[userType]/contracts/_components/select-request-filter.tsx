@@ -1,26 +1,15 @@
 "use client";
 import { cn, getDirection } from "@/lib/utils";
 import { CheckIcon, Search, SlidersHorizontalIcon } from "lucide-react";
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useDebounce } from "use-debounce";
 
-import { useLocale, useTranslations } from "next-intl";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { getRequestsAction } from "@/app/actions/requestsActions";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -29,14 +18,23 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Loader from "@/components/ui/loader";
 import { Input } from "@/components/ui/input";
-import { useRouter, useSearchParams } from "next/navigation";
+import Loader from "@/components/ui/loader";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSession } from "next-auth/react";
-import { getRequestsAction } from "@/app/actions/requestsActions";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
 
+/**
+ * Functional component for selecting a request filter.
+ * @param {string} filterFor - The filter to apply.
+ * @returns JSX element for selecting a request filter.
+ */
 const SelectRequestFilter: React.FC<{ filterFor: string }> = ({
   filterFor,
 }) => {

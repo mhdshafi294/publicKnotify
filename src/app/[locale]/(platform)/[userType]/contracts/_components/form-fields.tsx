@@ -1,21 +1,21 @@
 "use client";
 
-import { Control } from "react-hook-form";
+import SelectRequest from "@/components/select-request";
+import DatePicker from "@/components/ui/date-picker";
+import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
 import {
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import SelectRequest from "@/components/select-request";
+import FormInputRichText from "@/components/ui/form-input-rich-text";
 import PricePickerFormInput from "@/components/ui/price-picker-form-input";
 import SelectFormInput from "@/components/ui/select-form-input";
-import DurationPickerFormInput from "@/components/ui/duration-picker-form-input";
-import DatePicker from "@/components/ui/date-picker";
 import TimePicker from "@/components/ui/time-picker";
-import FormInputRichText from "@/components/ui/form-input-rich-text";
 import { ContractSchema } from "@/schema/contractSchema";
 import { useTranslations } from "next-intl";
+import { Control } from "react-hook-form";
 
 interface FormFieldsProps {
   form: {
@@ -25,6 +25,13 @@ interface FormFieldsProps {
   dir: string;
 }
 
+/**
+ * Functional component that represents a form with multiple form fields.
+ * @param {FormFieldsProps} form - The form object containing form control and data.
+ * @param {string} contract_id - The ID of the contract associated with the form.
+ * @param {string} dir - The direction of the form fields.
+ * @returns JSX element representing the form with form fields.
+ */
 const FormFields: React.FC<FormFieldsProps> = ({ form, contract_id, dir }) => {
   const t = useTranslations("Index");
 

@@ -71,7 +71,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     onSuccess: () => {
       toast.warning(t("verifyAccount"));
       router.push(
-        `${type}/verification-code?phone=${phone.code}${phone.phone}`
+        `/${type}/verification-code?phone_code=${phone.code}&phone=${phone.phone}`
       );
     },
     onError: (error) => {

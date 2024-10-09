@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useParams, usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -34,6 +34,7 @@ import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -58,6 +59,8 @@ const MobileNavbar = ({
   const isOpen = useNotificationStore((state) => state.isOpen);
   const setIsOpen = useNotificationStore((state) => state.setIsOpen);
   const unreadNotifications = useNotificationStore((state) => state.unread);
+  const [isStoryMediaDialogOpen, setStoryMediaDialogIsOpen] = useState(false);
+  const [isStoryTextDialogOpen, setStoryTextDialogIsOpen] = useState(false);
 
   return (
     <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
@@ -220,6 +223,9 @@ const MobileNavbar = ({
               <p>{t("toggle-theme")}</p>
               <DarkModeToggle />
             </div>
+            {session?.user?.type === "podcaster" ? (
+              <AddStoryDropdownMenu />
+            ) : null}
             {session?.user?.type !== "user" ? (
               <Link
                 className="flex gap-1 items-center"

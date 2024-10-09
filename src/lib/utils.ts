@@ -141,3 +141,26 @@ export function formatTo12Hour(hour: number): string {
   const formattedHour = hour % 12 || 12; // Converts 0 to 12 for midnight and adjusts other hours
   return `${formattedHour} ${suffix}`;
 }
+
+/**
+ * Determines the appropriate text color ('white' or 'black') based on the contrast
+ * of the provided hexadecimal color value.
+ * @param {string} hex - The hexadecimal color value (e.g., '#RRGGBB') to evaluate.
+ * @returns 'white' if the contrast is high, 'black' if the contrast is low.
+ */
+export function getContrastTextColor(hex: string): "white" | "black" {
+  // Remove the hash symbol if present
+  const cleanHex = hex.replace("#", "");
+
+  // Convert the hex string into RGB values
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+
+  // Calculate the brightness of the color using the luminance formula
+  // Formula: (0.299 * R) + (0.587 * G) + (0.114 * B)
+  const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+  // Return 'black' if the brightness is higher than 186 (or any threshold), else 'white'
+  return brightness > 186 ? "black" : "white";
+}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.10.0",
     "@fingerprintjs/fingerprintjs": "^4.4.3",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-accordion": "^1.2.0",
@@ -58,6 +59,7 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.51.3",
+    "react-image-crop": "^11.0.7",
     "react-photo-view": "^1.2.6",
     "react-textarea-autosize": "^8.5.3",
     "recharts": "^2.12.7",
