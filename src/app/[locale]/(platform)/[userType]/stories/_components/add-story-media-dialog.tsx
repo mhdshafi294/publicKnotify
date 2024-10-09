@@ -106,7 +106,7 @@ const AddStoryMediaDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       {/* <DialogTrigger className="w-full flex"></DialogTrigger> */}
-      <DialogContent>
+      <DialogContent className="">
         <DialogHeader>
           <DialogTitle className="flex gap-3">
             <span>{t("photos-and-videos")}</span>
@@ -137,7 +137,7 @@ const AddStoryMediaDialog = () => {
               )}
             />
 
-            <div className="w-full flex  justify-between gap-5">
+            <div className=" flex  justify-between gap-5">
               <SelectFormInput
                 name="scope"
                 className="w-full flex-1 rounded"
@@ -150,6 +150,11 @@ const AddStoryMediaDialog = () => {
             <Button
               type="submit"
               className="w-fit ms-auto flex justify-between items-center rounded-full gap-3"
+              disabled={
+                isPending ||
+                !form.formState.isValid ||
+                form.getValues().media?.size === 0
+              }
             >
               {t("share")}
               {isPending ? <Loader size={"sm"} /> : ""}

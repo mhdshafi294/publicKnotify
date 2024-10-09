@@ -509,7 +509,8 @@
     "re-send-code": "إعادة إرسال الرمز",
     "here-you-can-create-a-media-story": "هنا يمكنك إنشاء قصة إعلامية.",
     "upload-image": "تحميل الصورة",
-    "drag-file-to-upload": "اسحب الملف للتحميل"
+    "drag-file-to-upload": "اسحب الملف للتحميل",
+    "crop-and-save-your-image-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها"
   },
   "notifications": {
     "notifications": "notifications"

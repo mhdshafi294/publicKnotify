@@ -1,16 +1,18 @@
 "use client";
 
 import { cn, convertFileToURL } from "@/lib/utils";
-import { TrashIcon, Upload, X } from "lucide-react"; // Import the X icon
+import { BadgeInfoIcon, SaveIcon, TrashIcon, Upload, X } from "lucide-react"; // Import the X icon
 import { useTranslations } from "next-intl";
 import { Dispatch, FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
-import ReactCrop, { Crop } from "react-image-crop";
+import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button"; // Import the Button component
+import { useDebounceEffect } from "@/hooks/useDebounceEffect";
+import { canvasPreview } from "@/lib/reactImageCrop/canvasPreview";
 
 type PropsType = {
   file: File | string | null;
@@ -27,9 +29,12 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
 
+  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFileSrc(acceptedFiles[0]);
-    setFile(acceptedFiles[0]);
+    // setFile(acceptedFiles[0]);
     setError(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,6 +71,8 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
   const handleRemoveFile = () => {
     setFileSrc(null);
     setFile(null);
+    setCrop(undefined);
+    setCompletedCrop(undefined);
     setError(null);
   };
 
@@ -73,94 +80,92 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
     imgRef.current = img;
   }, []);
 
-  const onCropComplete = useCallback(
-    async (crop: Crop) => {
-      const generateCroppedImage = async () => {
-        if (!imgRef.current || !crop) return;
+  const onSaveEditedImage = useCallback(async () => {
+    const generateCroppedImage = async () => {
+      const image = imgRef.current;
+      const previewCanvas = previewCanvasRef.current;
+      if (!image || !previewCanvas || !completedCrop) {
+        throw new Error("Crop canvas does not exist");
+      }
 
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+      // This will size relative to the uploaded image
+      const scaleX = image.naturalWidth / image.width;
+      const scaleY = image.naturalHeight / image.height;
 
-        if (!ctx) return;
+      const offscreen = new OffscreenCanvas(
+        completedCrop.width * scaleX,
+        completedCrop.height * scaleY
+      );
+      const ctx = offscreen.getContext("2d");
+      if (!ctx) {
+        throw new Error("No 2d context");
+      }
 
-        const scaleX = imgRef.current.naturalWidth / imgRef.current.width;
-        const scaleY = imgRef.current.naturalHeight / imgRef.current.height;
+      ctx.drawImage(
+        previewCanvas,
+        0,
+        0,
+        previewCanvas.width,
+        previewCanvas.height,
+        0,
+        0,
+        offscreen.width,
+        offscreen.height
+      );
 
-        // Calculate crop dimensions
-        const cropWidth = crop.width * scaleX;
-        const cropHeight = crop.height * scaleY;
+      return new Promise<File | null>((resolve) => {
+        previewCanvas.toBlob((blob) => {
+          if (!blob) return resolve(null);
+          const croppedFile = new File([blob], "cropped-image.jpeg", {
+            type: "image/jpeg",
+          });
+          resolve(croppedFile);
+        }, "image/jpeg");
+      });
+    };
 
-        // Calculate the rotated dimensions
-        const angleInRadians = (rotate * Math.PI) / 180;
-        const sin = Math.abs(Math.sin(angleInRadians));
-        const cos = Math.abs(Math.cos(angleInRadians));
+    const croppedImageFile = await generateCroppedImage();
+    if (croppedImageFile) {
+      setFile(croppedImageFile);
+    }
+  }, [setFile, scale, rotate]);
 
-        // Adjust canvas size to fit the rotated image
-        canvas.width = (cropWidth * cos + cropHeight * sin) * scale;
-        canvas.height = (cropWidth * sin + cropHeight * cos) * scale;
-
-        // Clear the canvas to avoid any background issues
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Move to center of the canvas for rotation
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(angleInRadians);
-        ctx.scale(scale, scale);
-
-        // Draw the image based on the crop and transformations
-        ctx.drawImage(
+  useDebounceEffect(
+    async () => {
+      if (
+        completedCrop?.width &&
+        completedCrop?.height &&
+        imgRef.current &&
+        previewCanvasRef.current
+      ) {
+        canvasPreview(
           imgRef.current,
-          crop.x * scaleX,
-          crop.y * scaleY,
-          crop.width * scaleX,
-          crop.height * scaleY,
-          -cropWidth / 2, // Center the crop in the canvas
-          -cropHeight / 2,
-          cropWidth,
-          cropHeight
+          previewCanvasRef.current,
+          completedCrop,
+          scale,
+          rotate,
+          setFile
         );
-
-        return new Promise<File | null>((resolve) => {
-          canvas.toBlob((blob) => {
-            if (!blob) return resolve(null);
-            const croppedFile = new File([blob], "cropped-image.jpeg", {
-              type: "image/jpeg",
-            });
-            resolve(croppedFile);
-          }, "image/jpeg");
-        });
-      };
-
-      const croppedImageFile = await generateCroppedImage();
-      if (croppedImageFile) {
-        setFile(croppedImageFile);
       }
     },
-    [setFile, scale, rotate]
+    100,
+    [completedCrop, scale, rotate]
   );
 
-  // useEffect to handle scale and rotate updates
-  // useEffect(() => {
-  //   if (crop) {
-  //     onCropComplete(crop); // Trigger cropping when rotate or scale changes
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [rotate, scale]);
-
   return (
-    <div className="flex gap-4 relative">
+    <div className="flex flex-col gap-4 min-h-80 items-centerrelative">
       {/* File Dropzone and Image/Video Preview */}
       {!(fileSrc instanceof File && fileSrc.type.startsWith("image/")) ? (
         <div
           {...getRootProps({ refKey: "innerref" })}
-          className="h-80 flex-1 border border-dashed flex justify-center items-center shrink-0 rounded-xl"
+          className="h-80 relative flex-1 border border-dashed flex justify-center items-center shrink-0 rounded-xl"
         >
           <input {...getInputProps({ ref: inputRef, refKey: "innerref" })} />
           {(fileSrc instanceof File && fileSrc.name) ||
           (typeof fileSrc === "string" && fileSrc.length > 0) ? (
             <div
               className={cn(
-                "flex flex-col size-full gap-3 justify-center items-center",
+                " flex flex-col size-full gap-3 justify-center items-center",
                 isDragActive ? "shadow-inner shadow-foreground" : ""
               )}
             >
@@ -202,9 +207,9 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
 
       {/* Image Crop, Resize, and Filter Section */}
       {fileSrc instanceof File && fileSrc.type.startsWith("image/") ? (
-        <div className="relative h-70 flex-1 flex flex-col gap-5">
-          {/* <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
+        <div className="relative h-80 flex-1 flex flex-col gap-5">
+          <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-1">
               <Label htmlFor="scale-input">Scale: </Label>
               <Input
                 id="scale-input"
@@ -216,7 +221,7 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
                 onChange={(e) => setScale(Number(e.target.value))}
               />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col gap-1">
               <Label htmlFor="rotate-input">Rotate: </Label>
               <Input
                 id="rotate-input"
@@ -231,38 +236,68 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
                 }
               />
             </div>
-          </div> */}
+            <Button
+              variant="secondary"
+              type="button"
+              size="sm"
+              className="gap-2 "
+              disabled={!convertFileToURL(fileSrc) || !crop}
+              onClick={onSaveEditedImage}
+            >
+              Save <SaveIcon className="h-4 w-4" />
+            </Button>
+          </div>
           <ReactCrop
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
-            onComplete={onCropComplete}
+            onComplete={(c) => setCompletedCrop(c)}
             aspect={undefined} // free cropping
             minHeight={100}
+            minWidth={100}
+            className="h-80 w-full relative"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element*/}
-            <img
-              ref={imgRef}
-              className="h-80 w-full object-contain"
-              alt="Crop me"
-              src={convertFileToURL(fileSrc)}
-              style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
-            />
+            <div className="h-80 w-full relative flex justify-center items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element*/}
+              <img
+                ref={imgRef}
+                className="h-full w-full object-contain"
+                alt="Crop me"
+                src={convertFileToURL(fileSrc)}
+                style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
+              />
+            </div>
           </ReactCrop>
 
           {/* Remove file button */}
           <Button
-            variant="destructive"
+            variant="ghost"
             size="icon"
             onClick={handleRemoveFile}
-            className="absolute top-2 right-2"
+            className="absolute top-12 right-2"
             aria-label="Remove file"
           >
-            <TrashIcon className="h-4 w-4" />
+            <X className="h-4 w-4" />
           </Button>
         </div>
       ) : null}
+      <p className="text-sm text-muted-foreground flex items-center gap-2">
+        <BadgeInfoIcon size={16} />
+        {t("crop-and-save-your-image-before-sharing-it")}
+      </p>
 
       {error && <p className="text-red-500">{error}</p>}
+
+      <div className="flex-1 hidden justify-center items-center">
+        <canvas
+          ref={previewCanvasRef}
+          style={{
+            border: "1px solid black",
+            objectFit: "contain",
+            width: completedCrop?.width,
+            height: completedCrop?.height,
+          }}
+        />
+      </div>
     </div>
   );
 };

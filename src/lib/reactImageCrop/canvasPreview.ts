@@ -1,3 +1,4 @@
+import { Dispatch } from "react";
 import { PixelCrop } from "react-image-crop";
 
 const TO_RADIANS = Math.PI / 180;
@@ -7,7 +8,8 @@ export async function canvasPreview(
   canvas: HTMLCanvasElement,
   crop: PixelCrop,
   scale = 1,
-  rotate = 0
+  rotate = 0,
+  setFile?: Dispatch<React.SetStateAction<File | null>>
 ) {
   const ctx = canvas.getContext("2d");
 

@@ -541,7 +541,8 @@
     "upload-image": "Upload Image",
     "drag-file-to-upload": "Drag File to Upload",
     "start-time": "start time",
-    "end-time": "end time"
+    "end-time": "end time",
+    "crop-and-save-your-image-before-sharing-it": "Crop and save your image before sharing it"
   },
   "notifications": {
     "notifications": "notifications"
