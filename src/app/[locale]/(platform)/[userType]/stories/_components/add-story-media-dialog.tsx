@@ -49,8 +49,6 @@ const AddStoryMediaDialog = () => {
     },
   });
 
-  console.log(form.watch("media"), "media");
-
   const {
     data,
     mutate: server_createStoryAction,

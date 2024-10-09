@@ -1,19 +1,18 @@
 "use client";
 
-import React from "react";
-import DashboardCardContainer from "../../_components/dashboard-card-container";
-import { Link } from "@/navigation";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
-import { EnabledStatistics } from "@/types/statistics";
-import MostViewsChart from "./most-views-chart";
-import { useQuery } from "@tanstack/react-query";
 import { getShowViewsStatisticsAction } from "@/app/actions/statisticsActions";
-import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
-import { Skeleton } from "@/components/ui/skeleton";
+import { buttonVariants } from "@/components/ui/button";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { EnabledStatistics } from "@/types/statistics";
+import { useQuery } from "@tanstack/react-query";
+import { addDays, format } from "date-fns";
+import React from "react";
+import { DateRange } from "react-day-picker";
+import DashboardCardContainer from "../../_components/dashboard-card-container";
+import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import MostViewsChart from "./most-views-chart";
 
 type ViewsChartCardProps = {
   title: string;
@@ -66,8 +65,8 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
     queryKey: ["podcasterRequest", date],
     queryFn: () =>
       getShowViewsStatisticsAction({
-        start_date: date?.from!.toISOString(),
-        end_date: date?.to!.toISOString(),
+        start_date: format(date?.from!, "yyyy-MM-dd"),
+        end_date: format(date?.to!, "yyyy-MM-dd"),
         show_id: params.showId,
         type: params.userType,
       }),

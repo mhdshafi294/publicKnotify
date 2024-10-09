@@ -1,7 +1,10 @@
 "use server";
 
+import getShowCountryStatistics from "@/services/statistics/get-show-country-statistics";
 import getShowMostPopularStatistics from "@/services/statistics/get-show-most-popular-statistics";
+import getShowPlatformStatistics from "@/services/statistics/get-show-platform-statistics";
 import getShowStatistics from "@/services/statistics/get-show-statistics";
+import getShowTimeStatistics from "@/services/statistics/get-show-time-statistics";
 import getShowViewsStatistics from "@/services/statistics/get-show-views-statistics";
 // Importing the statistics service
 import getStatistics from "@/services/statistics/get-statistics";
@@ -135,6 +138,16 @@ export const getShowMostPopularStatisticsAction = async ({
   });
 };
 
+/**
+ * Asynchronously enables statistics for a given type with the specified body.
+ * @param {object} param0 - An object containing the type and body of the statistics to enable.
+ * @param {string} param0.type - The type of statistics to enable.
+ * @param {object} param0.body - The body containing specific statistics values to enable.
+ * @param {number} param0.body.playlist_statistics - The number of playlist statistics to enable.
+ * @param {number} param0.body.top_episodes - The number of top episodes statistics to enable.
+ * @param {number} param0.body.youtube_channel - The number of YouTube channel statistics to enable.
+ * @param {number} param0.body.most_popular - The
+ */
 export const postEnableStatisticsAction = async ({
   type,
   body,
@@ -150,5 +163,84 @@ export const postEnableStatisticsAction = async ({
   return await postEnableStatistics({
     type,
     body,
+  });
+};
+
+/**
+ * Asynchronously fetches show time statistics for a given show ID and type.
+ * @param {Object} showData - An object containing the show ID and type.
+ * @param {string} showData.show_id - The ID of the show for which statistics are requested.
+ * @param {string} showData.type - The type of statistics to retrieve.
+ * @returns {Promise} A promise that resolves to the show time statistics.
+ */
+export const getShowTimeStatisticsAction = async ({
+  start_date,
+  end_date,
+  show_id,
+  type,
+}: {
+  start_date?: string;
+  end_date?: string;
+  show_id: string;
+  type: string;
+}) => {
+  return await getShowTimeStatistics({
+    start_date,
+    end_date,
+    show_id,
+    type,
+  });
+};
+
+/**
+ * Asynchronously retrieves platform statistics for a specific show based on the show ID and type.
+ * @param {Object} show_id - The ID of the show for which statistics are to be retrieved.
+ * @param {Object} type - The type of statistics to retrieve.
+ * @returns {Promise} A promise that resolves with the platform statistics for the specified show.
+ */
+export const getShowPlatformStatisticsAction = async ({
+  start_date,
+  end_date,
+  show_id,
+  type,
+}: {
+  start_date?: string;
+  end_date?: string;
+  show_id: string;
+  type: string;
+}) => {
+  return await getShowPlatformStatistics({
+    start_date,
+    end_date,
+    show_id,
+    type,
+  });
+};
+
+/**
+ * Retrieves country statistics for a specific show based on the provided parameters.
+ * @param {Object} params - An object containing the parameters for fetching country statistics.
+ * @param {string} [params.start_date] - The start date for the statistics.
+ * @param {string} [params.end_date] - The end date for the statistics.
+ * @param {string} params.show_id - The ID of the show for which statistics are requested.
+ * @param {string} params.type - The type of statistics to retrieve.
+ * @returns {Promise} A promise that resolves with the country statistics for the show.
+ */
+export const getShowCountryStatisticsAction = async ({
+  start_date,
+  end_date,
+  show_id,
+  type,
+}: {
+  start_date?: string;
+  end_date?: string;
+  show_id: string;
+  type: string;
+}) => {
+  return await getShowCountryStatistics({
+    start_date,
+    end_date,
+    show_id,
+    type,
   });
 };

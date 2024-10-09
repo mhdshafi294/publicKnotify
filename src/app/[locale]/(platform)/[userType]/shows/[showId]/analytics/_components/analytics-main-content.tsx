@@ -1,16 +1,14 @@
-import React from "react";
-import ViewsChartCard from "../../_components/views-chart-card";
-import MostViewsChart from "../../_components/most-views-chart";
-import AnalyticsHeader from "./analytics-header";
-import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
-import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
-import AnalyticsYoutube from "./analytics-youtube";
 import {
   getShowStatisticsAction,
   getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
-import { format } from "date-fns";
+import ViewsChartCard from "../../_components/views-chart-card";
+import AnalyticsHeader from "./analytics-header";
+import AnalyticsYoutube from "./analytics-youtube";
+import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
+import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
+import PlatformsChartCard from "./platforms-chart-card";
 
 /**
  * The AnalyticsMainContent component is responsible for rendering the main content of the analytics page.
@@ -70,6 +68,12 @@ const AnalyticsMainContent = async ({
           // chart={<MostViewsChart showViews={showViews} />}
           enabled={showStatistics?.enabled}
         />
+      </div>
+
+      {/* All Time Views Chart */}
+      <div className="w-full flex justify-between gap-5 lg:h-[637px]">
+        <PlatformsChartCard params={params} />
+        <PlatformsChartCard params={params} />
       </div>
 
       {/* Performance of Last Five Episodes in First Seven Days */}
