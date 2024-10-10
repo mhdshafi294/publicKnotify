@@ -512,7 +512,13 @@
     "drag-file-to-upload": "اسحب الملف للتحميل",
     "crop-and-save-your-image-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها",
     "top-listening-methods": "أعلى طرق الاستماع",
-    "applications": "التطبيقات"
+    "applications": "التطبيقات",
+    "all-times": "جميع الأوقات",
+    "top-episodes": "أعلى الحلقات",
+    "dwnlds": "تنزيلات",
+    "downloads": "التنزيلات",
+    "top-countries": "أهم الدول",
+    "country": "دولة"
   },
   "notifications": {
     "notifications": "notifications"

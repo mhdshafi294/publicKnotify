@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { PlatformCounter, ShowViewsStatistics } from "@/types/statistics";
+import { PlatformCounter } from "@/types/statistics";
 import { DateRange } from "react-day-picker";
 import {
   Bar,
@@ -37,11 +37,9 @@ const chartConfig = {
 const PlatformChart = ({
   platformsDownloads,
   totalCount,
-  date,
 }: {
   platformsDownloads: PlatformCounter[];
   totalCount: number;
-  date: DateRange | undefined;
 }) => {
   // Generate chart data based on the provided date range
   let chartData: {
@@ -94,14 +92,14 @@ const PlatformChart = ({
             dataKey="view"
             position="insideLeft"
             offset={8}
-            className="fill-[--color-label] font-bold"
+            className="fill-white font-bold"
             fontSize={18}
           />
           <LabelList
             dataKey="percentage"
             position="insideRight"
             offset={8}
-            className="fill-[--color-label] font-bold"
+            className="fill-white font-bold"
             fontSize={18}
           />
         </Bar>

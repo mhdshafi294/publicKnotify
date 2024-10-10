@@ -52,7 +52,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
       media_type: "audio",
       episode_type: "Full",
       ad_place: "first",
-      ad_period: "00:01:00",
+      ad_period: "00:00",
       ad_cost: "10.00",
       publishing_date: new Date(),
       publishing_time: "16:11",

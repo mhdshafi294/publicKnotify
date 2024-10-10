@@ -1,23 +1,25 @@
 "use client";
 
-import {
-  getShowPlatformStatisticsAction,
-  getShowViewsStatisticsAction,
-} from "@/app/actions/statisticsActions";
+import { getShowCountryStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import { useQuery } from "@tanstack/react-query";
-import { addDays, format } from "date-fns";
-import React, { use } from "react";
+import { format } from "date-fns";
+import { useTranslations } from "next-intl";
+import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
-import PlatformChart from "./most-platforms-chart";
-import { useTranslations } from "next-intl";
+import DownloadsMap from "./downloads-map";
 
-type PlatformsChartCardProps = {
+type DownloadsMapCardProps = {
   params: { userType: string; showId: string };
 };
 
-const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
+/**
+ * Functional component that displays a map card for downloads based on the provided props.
+ * @param {DownloadsMapCardProps} params - The props containing necessary data for the component.
+ * @returns {JSX.Element} A map card component displaying download information.
+ */
+const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({ params }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
     to: new Date(),
@@ -26,9 +28,9 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
   const t = useTranslations("Index");
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["showPlatformStatistics", date],
+    queryKey: ["showCountryStatistics", date],
     queryFn: () =>
-      getShowPlatformStatisticsAction({
+      getShowCountryStatisticsAction({
         start_date: format(date?.from!, "yyyy-MM-dd"),
         end_date: format(date?.to!, "yyyy-MM-dd"),
         show_id: params.showId,
@@ -38,7 +40,7 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
   });
 
   return (
-    <DashboardCardContainer className="flex-1 h-full flex flex-col gap-8">
+    <DashboardCardContainer className="flex-1 h-full flex flex-col justify-between gap-8">
       <div className="w-full flex justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase opacity-70">
@@ -56,25 +58,21 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
           </div>
         </div>
       </div>
-      {/* {chart} */}
+      {/* {map} */}
       {isPending ? (
-        <PlatformChart
-          platformsDownloads={[
+        <DownloadsMap
+          downloads={[
             {
-              platform: "",
+              country: "United States",
               count: 0,
             },
           ]}
-          totalCount={0}
         />
       ) : data ? (
-        <PlatformChart
-          platformsDownloads={data?.top_platforms!}
-          totalCount={data?.total_count!}
-        />
+        <DownloadsMap downloads={data.downloads_by_location} />
       ) : null}
     </DashboardCardContainer>
   );
 };
 
-export default PlatformsChartCard;
+export default DownloadsMapCard;

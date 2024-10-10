@@ -24,6 +24,11 @@ import { useLocale, useTranslations } from "next-intl";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
+/**
+ * Represents the main body card component of a form.
+ * This component renders a card with form content inside it.
+ * @returns JSX element representing the main body card of the form.
+ */
 const MainFormBodyCard = () => {
   const form = useFormContext();
   const t = useTranslations("Index");

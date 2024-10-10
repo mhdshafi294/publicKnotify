@@ -37,7 +37,7 @@ export const mainNavLinks: Link[] = [
   },
   {
     label: "Statistics",
-    href: "statistics",
+    href: "/statistics",
   },
   {
     label: "Favorite",

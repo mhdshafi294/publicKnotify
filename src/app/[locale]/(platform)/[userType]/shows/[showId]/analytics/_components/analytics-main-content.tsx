@@ -1,4 +1,5 @@
 import {
+  getShowCountryStatisticsAction,
   getShowStatisticsAction,
   getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
@@ -9,6 +10,10 @@ import AnalyticsYoutube from "./analytics-youtube";
 import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
 import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
 import PlatformsChartCard from "./platforms-chart-card";
+import HourlyViewsChartCard from "./hourly-views-chart-card";
+import TopEpisodesTable from "./top-episodes-table-card";
+import DownloadsMapCard from "./downloads-map-card";
+import TopCountriesTable from "./top-countries-table";
 
 /**
  * The AnalyticsMainContent component is responsible for rendering the main content of the analytics page.
@@ -34,6 +39,13 @@ const AnalyticsMainContent = async ({
   // Fetch show views statistics
   const showViews = await getShowViewsStatisticsAction({
     start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    end_date: new Date().toISOString(),
+    show_id: params.showId,
+    type: params.userType,
+  });
+
+  const showCountries = await getShowCountryStatisticsAction({
+    start_date: new Date(0).toISOString(),
     end_date: new Date().toISOString(),
     show_id: params.showId,
     type: params.userType,
@@ -70,10 +82,29 @@ const AnalyticsMainContent = async ({
         />
       </div>
 
-      {/* All Time Views Chart */}
+      {/*  Charts */}
       <div className="w-full flex justify-between gap-5 lg:h-[637px]">
+        <TopEpisodesTable
+          params={params}
+          top_episodes={showStatistics.top_episodes}
+        />
         <PlatformsChartCard params={params} />
-        <PlatformsChartCard params={params} />
+      </div>
+
+      {/* hourly views Chart */}
+      <div className="w-full lg:h-[637px]">
+        <HourlyViewsChartCard params={params} />
+      </div>
+
+      <div className="w-full lg:h-[637px]">
+        <DownloadsMapCard params={params} />
+      </div>
+
+      <div className="w-full ">
+        <TopCountriesTable
+          top_countries={showCountries.top_countries}
+          total_count={showCountries.total_count}
+        />
       </div>
 
       {/* Performance of Last Five Episodes in First Seven Days */}

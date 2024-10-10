@@ -1,20 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
-import { signOut, useSession } from "next-auth/react";
-import { useParams, usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
 import {
   AlignJustifyIcon,
   BellRingIcon,
   HandshakeIcon,
   LogOutIcon,
   MessagesSquareIcon,
-  SettingsIcon,
   User,
   WalletIcon,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useParams, usePathname } from "next/navigation";
+import { useState } from "react";
 
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -23,17 +27,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { LanguageSwitcher } from "@/components/language-switcher";
 import { mainNavLinks } from "@/config/links";
-import { Link } from "@/navigation";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
+import { Link } from "@/navigation";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
 
 /**
