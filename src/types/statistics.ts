@@ -39,6 +39,35 @@ export type ShowMostPopularStatistics = {
   all_time_views: number;
 };
 
+export type ShowTimeStatistics = {
+  times: {
+    hour: number;
+    count: number;
+  }[];
+};
+
+export type PlatformCounter = {
+  platform: string;
+  count: number;
+};
+
+export type ShowPlatformStatistics = {
+  top_platforms: PlatformCounter[];
+  downloads_by_platform: PlatformCounter[];
+  total_count: number;
+};
+
+export type CountryCounter = {
+  country: string;
+  count: number;
+};
+
+export type ShowCountryStatistics = {
+  top_countries: CountryCounter[];
+  downloads_by_location: CountryCounter[];
+  total_count: number;
+};
+
 export type PlaylistStatistics = {
   total_views: number;
   last_7_days_views: number;
@@ -92,4 +121,16 @@ export type ShowViewsStatisticsResponse = ApiResponse & {
 
 export type ShowMostPopularStatisticsResponse = ApiResponse & {
   statistics: ShowMostPopularStatistics;
+};
+
+export type ShowTimeStatisticsResponse = ApiResponse & {
+  statistics: ShowTimeStatistics;
+};
+
+export type ShowPlatformStatisticsResponse = ApiResponse & {
+  statistics: ShowPlatformStatistics;
+};
+
+export type ShowCountryStatisticsResponse = ApiResponse & {
+  statistics: ShowCountryStatistics;
 };

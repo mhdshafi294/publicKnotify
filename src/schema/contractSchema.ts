@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-// Regular expression for validating time in HH:mm:ss format (24-hour)
-const periodRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+const periodRegex = /^([0-5]?\d):([0-5]\d)$/;
 
 // Regular expression for validating time in HH:mm format (24-hour)
 const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;

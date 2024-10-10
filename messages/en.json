@@ -542,7 +542,16 @@
     "drag-file-to-upload": "Drag File to Upload",
     "start-time": "start time",
     "end-time": "end time",
-    "crop-and-save-your-image-before-sharing-it": "Crop and save your image before sharing it"
+    "crop-and-save-your-image-before-sharing-it": "Crop and save your image before sharing it",
+    "top-listening-methods": "Top Listening Methods",
+    "applications": "Applications",
+    "all-times": "All times",
+    "top-episodes": "Top Episodes",
+    "no-download-data-available": "No download data available",
+    "dwnlds": "DWNLDS",
+    "downloads": "Downloads",
+    "top-countries": "Top Countries",
+    "country": "country"
   },
   "notifications": {
     "notifications": "notifications"
