@@ -46,7 +46,7 @@ const PrivacyPage = async ({ params }: { params: { locale: string } }) => {
               (item) => item.locale === params.locale
             )?.content || "",
         }}
-        className="w-full prose max-w-full bg-secondary p-6 rounded-xl text-foreground *:text-foreground prose-p:opacity-70"
+        className="w-full prose max-w-full bg-secondary p-6 rounded-xl !text-foreground *:text-foreground"
       />
     </MaxWidthContainer>
   );

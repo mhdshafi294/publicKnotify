@@ -46,7 +46,7 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
   return (
     <>
       <div className="w-full flex justify-between gap-5 items-start flex-wrap">
-        <div className="w-[29%]">
+        {/* <div className="w-[29%]">
           <FormInput
             name="company_tag"
             className="bg-background"
@@ -54,7 +54,7 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             label={t("companyTagLabel")}
             control={control}
           />
-        </div>
+        </div> */}
         <DatePicker
           className="w-[29%]"
           name="publishing_date"

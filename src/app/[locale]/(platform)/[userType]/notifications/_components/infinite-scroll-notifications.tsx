@@ -26,7 +26,7 @@ const InfiniteScrollNotifications = ({
   initialNotifications,
   type,
 }: {
-  initialNotifications: Notification[] | undefined;
+  initialNotifications: NotificationsResponse;
   type: string;
 }) => {
   const t = useTranslations("Index"); // Hook for translations
@@ -56,29 +56,9 @@ const InfiniteScrollNotifications = ({
           : undefined;
       },
       initialPageParam: 1,
-      initialData: () => {
-        if (initialNotifications) {
-          return {
-            pages: [
-              {
-                notifications: initialNotifications || [],
-                pagination: {
-                  current_page: 1,
-                  first_page_url: "",
-                  last_page_url: "",
-                  next_page_url:
-                    initialNotifications && initialNotifications.length > 0
-                      ? ""
-                      : null,
-                  per_page: 10,
-                  prev_page_url: null,
-                  total: initialNotifications ? initialNotifications.length : 0,
-                },
-              },
-            ],
-            pageParams: [1],
-          };
-        }
+      initialData: {
+        pages: [initialNotifications],
+        pageParams: [1],
       },
     });
 

@@ -112,7 +112,7 @@ const ContractsPage = async ({
         </div>
         {/* Infinite scroll component for loading requests */}
         <InfiniteScrollContracts
-          initialContracts={contractsData}
+          initialData={contractsResponse}
           search={search}
           company_request_id={company_request_id}
           company_id={company_id}

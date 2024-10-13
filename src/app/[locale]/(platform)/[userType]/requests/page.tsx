@@ -81,7 +81,7 @@ export default async function RequestsPage({
 
         {/* Infinite scroll component for loading requests */}
         <InfiniteScrollRequests
-          initialRequests={requestsData}
+          initialData={requestsResponse}
           search={search}
           status={statusArray}
           type={session?.user?.type!}

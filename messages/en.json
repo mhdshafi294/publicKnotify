@@ -24,6 +24,7 @@
     "profile": "profile",
     "logout": "logout",
     "sign-in": "sign in",
+    "haveAccount": "have an account?",
     "register": "register",
     "sign-up": "sign up",
     "sign-in-with": "sign in with",
@@ -557,7 +558,9 @@
     "downloads-by-country": "Downloads by Country",
     "world-map": "World Map",
     "create-contract": "Create Contract",
-    "go-to-contracts": "Go to contracts"
+    "go-to-contracts": "Go to contracts",
+    "chat": "Chat",
+    "create-podcast": "Create Podcast"
   },
   "notifications": {
     "notifications": "notifications"

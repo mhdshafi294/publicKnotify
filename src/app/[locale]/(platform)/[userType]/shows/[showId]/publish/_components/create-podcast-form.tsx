@@ -181,6 +181,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
 
   // Reset form with draft data
   useEffect(() => {
+    // console.log(draft?.contributors, "<<<<<<<<<<<contributors");
     if (draft) {
       form.reset({
         name: draft.name!,
@@ -192,12 +193,14 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
         episode_type: "full",
         publishing_date: new Date(draft.publishing_date!),
         publishing_time: draft.publishing_time?.slice(0, 5),
-        company_tag: "",
+        company_tag: draft.company_tag ? draft.company_tag : "",
         play_list_id: showId,
         categories: draft.categories.map((category) => category.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
         contributors:
-          "contributors" in draft && typeof draft.contributors !== "boolean"
+          "contributors" in draft &&
+          Array.isArray(draft.contributors) &&
+          typeof draft.contributors[0] === "string"
             ? draft.contributors
             : undefined,
         thumbnail: podcastResponse?.podcast?.thumbnail
@@ -318,7 +321,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
         formData.append(`hashtags[${index}]`, hashtag);
       });
       data.contributors.forEach((contributors, index) => {
-        formData.append(`hashtags[${index}]`, contributors);
+        formData.append(`contributors[${index}]`, contributors);
       });
       formData.append("explicit_language", data.explicit_language ? "1" : "0");
 

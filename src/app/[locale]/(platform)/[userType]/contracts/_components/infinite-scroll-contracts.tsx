@@ -26,7 +26,7 @@ import ContractCard from "./contract-card";
  * @returns JSX element for rendering the list of contracts with infinite
  */
 const InfiniteScrollContracts: React.FC<{
-  initialContracts: Contract[] | undefined;
+  initialData: ContractsResponse;
   search?: string;
   session: Session;
   company_request_id?: string;
@@ -34,7 +34,7 @@ const InfiniteScrollContracts: React.FC<{
   status?: string;
   type: string;
 }> = ({
-  initialContracts,
+  initialData: initialData,
   search,
   session,
   company_request_id,
@@ -85,27 +85,9 @@ const InfiniteScrollContracts: React.FC<{
         : undefined;
     },
     initialPageParam: 1,
-    initialData: () => {
-      if (initialContracts) {
-        return {
-          pages: [
-            {
-              contracts: initialContracts || [],
-              pagination: {
-                current_page: 1,
-                first_page_url: "",
-                last_page_url: "",
-                next_page_url:
-                  initialContracts && initialContracts.length > 0 ? "" : null,
-                per_page: 10,
-                prev_page_url: null,
-                total: initialContracts ? initialContracts.length : 0,
-              },
-            },
-          ],
-          pageParams: [1],
-        };
-      }
+    initialData: {
+      pages: [initialData],
+      pageParams: [1],
     },
   });
 

@@ -53,7 +53,7 @@ export default async function NotificationsPage({
         <div className="w-full bg-card rounded-2xl">
           <ScrollArea className="w-full h-[calc(80dvh-72px)]">
             <InfiniteScrollNotifications
-              initialNotifications={initialNotificationsData}
+              initialNotifications={notificationsResponse}
               type={session?.user?.type!}
             />
           </ScrollArea>

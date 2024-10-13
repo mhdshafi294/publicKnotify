@@ -27,7 +27,7 @@ const PodcastsByCategoryContainer = ({
   type,
   categoryId,
 }: {
-  initialData: Podcast[] | undefined;
+  initialData: PodcastsResponse;
   type: string;
   categoryId: string;
 }) => {
@@ -50,7 +50,7 @@ const PodcastsByCategoryContainer = ({
 
         // Return the fetched data along with pagination info
         return {
-          requests: response.podcasts,
+          podcasts: response.podcasts,
           pagination: {
             ...response.pagination,
             next_page_url: response.pagination.next_page_url,
@@ -59,34 +59,16 @@ const PodcastsByCategoryContainer = ({
         };
       },
       getNextPageParam: (lastPage) => {
-        // Determine the next page to fetch based on the current pagination data
-        return lastPage.pagination.next_page_url
-          ? lastPage.pagination.current_page + 1
-          : undefined;
+        if (lastPage.pagination.next_page_url) {
+          return lastPage.pagination.current_page + 1;
+        } else {
+          return undefined;
+        }
       },
       initialPageParam: 1,
-      initialData: () => {
-        // Initialize the query with the initial data passed as props
-        if (initialData) {
-          return {
-            pages: [
-              {
-                requests: initialData || [],
-                pagination: {
-                  current_page: 1,
-                  first_page_url: "",
-                  last_page_url: "",
-                  next_page_url:
-                    initialData && initialData.length > 0 ? "" : null,
-                  per_page: 10,
-                  prev_page_url: null,
-                  total: initialData ? initialData.length : 0,
-                },
-              },
-            ],
-            pageParams: [1],
-          };
-        }
+      initialData: {
+        pages: [initialData],
+        pageParams: [1],
       },
     });
 
@@ -103,7 +85,7 @@ const PodcastsByCategoryContainer = ({
       {/* Display the list of podcasts */}
       <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {data?.pages.map((page) =>
-          page?.requests.map((podcast) => (
+          page?.podcasts.map((podcast) => (
             <li key={podcast?.id}>
               <PodcastCard podcast={podcast} />
             </li>

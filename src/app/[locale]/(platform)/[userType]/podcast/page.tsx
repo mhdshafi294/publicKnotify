@@ -49,7 +49,7 @@ export default async function PodcastsPage({
             <Search searchText={search} searchFor="podcast" />
           </div>
           <InfiniteScrollPodcasts
-            initialData={firstPageTrendingResponse.podcasts}
+            initialData={firstPageTrendingResponse}
             search={search}
             type={session?.user?.type!}
           />

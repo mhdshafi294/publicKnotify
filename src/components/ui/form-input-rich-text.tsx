@@ -166,7 +166,7 @@ function FormInputRichText<T extends FieldValues>({
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     immediatelyRender: false,
-    content: "", // Empty string by default
+    content: control._formValues[name] || "", // Empty string by default
     editorProps: {
       attributes: {
         class: cn(
@@ -177,7 +177,6 @@ function FormInputRichText<T extends FieldValues>({
       },
     },
   });
-
   useEffect(() => {
     if (editor) {
       // Initialize content with field value
@@ -188,7 +187,8 @@ function FormInputRichText<T extends FieldValues>({
         control._formValues[name] = editor.getHTML();
       });
     }
-  }, [editor, control, name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, control, name, control._formValues[name]]);
 
   return (
     <FormField

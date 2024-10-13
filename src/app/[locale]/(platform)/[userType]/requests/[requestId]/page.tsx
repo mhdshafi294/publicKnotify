@@ -7,7 +7,9 @@ import {
   CalendarClockIcon,
   CircleDollarSignIcon,
   Clock4Icon,
+  MessagesSquareIcon,
   ReplaceAllIcon,
+  RouterIcon,
 } from "lucide-react";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
@@ -158,7 +160,7 @@ export default async function RequestPage({
                 <div className="flex md:justify-end gap-2 w-full pb-3">
                   {request.categories.map((category) => (
                     <Link
-                      href={`${session?.user?.type}/category/${category.id}`}
+                      href={`/${session?.user?.type}/category/${category.id}`}
                       className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2 w-fit"
                       key={category.id}
                     >
@@ -213,7 +215,19 @@ export default async function RequestPage({
               <div className="w-full flex flex-col gap-3 mt-5 self-end">
                 {session?.user?.type === "podcaster" &&
                 request.status.toLowerCase() === "accepted by admin" ? (
-                  <>
+                  <div className="flex gap-2 justify-end">
+                    <Link
+                      href={`/&${session?.user?.type}/chats`}
+                      className={cn(
+                        buttonVariants({
+                          variant: "secondary",
+                          className: "gap-2 font-bold",
+                        })
+                      )}
+                    >
+                      <MessagesSquareIcon size={14} />
+                      {t("chat")}
+                    </Link>
                     <ChangeRequestStatusButton
                       requestId={params?.requestId}
                       userType={session?.user?.type!}
@@ -224,23 +238,70 @@ export default async function RequestPage({
                       userType={session?.user?.type!}
                       status="reject"
                     />
-                  </>
+                  </div>
                 ) : session?.user?.type === "podcaster" &&
                   request.status.toLowerCase() === "accepted by podcaster" ? (
-                  <Link
-                    href={`/podcaster/shows/1/publish?${searchParams.toString()}`}
-                    className={cn(buttonVariants({ variant: "default" }), "")}
-                  >
-                    {t("publish")}
-                  </Link>
+                  <div className="flex gap-2 justify-end">
+                    <Link
+                      href={`/&${session?.user?.type}/chats`}
+                      className={cn(
+                        buttonVariants({
+                          variant: "secondary",
+                          className: "gap-2 font-bold",
+                        })
+                      )}
+                    >
+                      <MessagesSquareIcon size={14} />
+                      {t("chat")}
+                    </Link>
+                    <Link
+                      href={`/podcaster/shows/1/publish?${searchParams.toString()}`}
+                      className={cn(
+                        buttonVariants({
+                          variant: "default",
+                          className: "gap-2 font-bold",
+                        })
+                      )}
+                    >
+                      <RouterIcon size={14} />
+                      {t("create-podcast")}
+                    </Link>
+                  </div>
                 ) : session?.user?.type === "company" &&
                   request.status.toLowerCase() === "pending" ? (
-                  <CancelRequestButton
-                    requestId={params?.requestId}
-                    userType={"company"}
-                  />
+                  <div className="flex gap-2 justify-end">
+                    <Link
+                      href={`/&${session?.user?.type}/chats`}
+                      className={cn(
+                        buttonVariants({
+                          variant: "secondary",
+                          className: "gap-2 font-bold",
+                        })
+                      )}
+                    >
+                      <MessagesSquareIcon size={14} />
+                      {t("chat")}
+                    </Link>
+                    <CancelRequestButton
+                      requestId={params?.requestId}
+                      userType={"company"}
+                    />
+                  </div>
                 ) : (
-                  <></>
+                  <div className="flex gap-2 justify-end">
+                    <Link
+                      href={`/&${session?.user?.type}/chats`}
+                      className={cn(
+                        buttonVariants({
+                          variant: "secondary",
+                          className: "gap-2 font-bold",
+                        })
+                      )}
+                    >
+                      <MessagesSquareIcon size={14} />
+                      {t("chat")}
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

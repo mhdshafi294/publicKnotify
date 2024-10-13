@@ -114,7 +114,7 @@ const NotificationsPopover = ({ className }: { className?: string }) => {
               </div>
             ) : initialnotificationsData ? (
               <InfiniteScrollNotificationsDialog
-                initialNotifications={initialnotificationsData.notifications}
+                initialNotifications={initialnotificationsData}
                 type={session?.user?.type!}
               />
             ) : null}
