@@ -520,7 +520,9 @@
     "top-countries": "أهم الدول",
     "country": "دولة",
     "downloads-by-country": "التنزيلات حسب البلد",
-    "world-map": "خريطة العالم"
+    "world-map": "خريطة العالم",
+    "create-contract": "إنشاء العقد",
+    "go-to-contracts": "الذهاب إلى العقود"
   },
   "notifications": {
     "notifications": "notifications"

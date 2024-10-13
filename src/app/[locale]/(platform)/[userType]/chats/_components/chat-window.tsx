@@ -32,6 +32,12 @@ import Loader from "@/components/ui/loader";
 import ChatInput from "./chat-input";
 import { Link } from "@/navigation";
 import { buttonVariants } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * ChatWindow Component
@@ -309,12 +315,12 @@ const ChatWindow = ({
         </div>
       ) : (
         <div className="flex flex-col h-full bg-card-secondary md:rounded-2xl">
-          <div className="w-full flex gap-2 items-center bg-card p-4 md:rounded-t-2xl">
+          <div className="w-full flex md:gap-2 items-center bg-card p-2 md:p-4 md:rounded-t-2xl">
             <button onClick={closeChat} className="group p-2">
               <ArrowLeftIcon className="opacity-70 group-hover:opacity-100 duration-200" />
             </button>
             <div className="flex items-center gap-3">
-              <div className="relative size-12 rounded-full overflow-hidden">
+              <div className="relative size-10 md:size-12 rounded-full overflow-hidden">
                 <Image
                   fill
                   className="rounded-full object-cover"
@@ -332,37 +338,53 @@ const ChatWindow = ({
               </h3>
             </div>
             <div className="justify-self-end flex justify-end items-center gap-2 ms-auto">
-              <Link
-                className={cn(
-                  buttonVariants({
-                    variant: "outline",
-                    className: "flex gap-1 items-center",
-                  })
-                )}
-                href={`/${session?.user?.type}/contracts/create`}
-              >
-                <span>
-                  {t("new")} {t("contract")}
-                </span>
-                <FilePlus2Icon className="size-3" />
-              </Link>
-              <Link
-                className={cn(
-                  buttonVariants({
-                    variant: "default",
-                    className:
-                      "flex gap-1 items-center bg-card-foreground text-background hover:bg-card-foreground/80",
-                  })
-                )}
-                href={`/${session?.user?.type}/contracts/?${
-                  session?.user?.type === "podcaster"
-                    ? "company_id"
-                    : "podcaster_id"
-                }=${receiver?.id}`}
-              >
-                <span>{t("contracts")}</span>
-                <HandshakeIcon className="size-3" />
-              </Link>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      className={cn(
+                        buttonVariants({
+                          variant: "outline",
+                          className: "flex gap-1 items-center",
+                        })
+                      )}
+                      href={`/${session?.user?.type}/contracts/create`}
+                    >
+                      <span className="hidden md:inline">
+                        {t("new")} {t("contract")}
+                      </span>
+                      <FilePlus2Icon className="size-3" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{t("create-contract")}</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      className={cn(
+                        buttonVariants({
+                          variant: "default",
+                          className:
+                            "flex gap-1 items-center bg-card-foreground text-background hover:bg-card-foreground/80",
+                        })
+                      )}
+                      href={`/${session?.user?.type}/contracts/?${
+                        session?.user?.type === "podcaster"
+                          ? "company_id"
+                          : "podcaster_id"
+                      }=${receiver?.id}`}
+                    >
+                      <span className="hidden md:inline">{t("contracts")}</span>
+                      <HandshakeIcon className="size-3" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{t("go-to-contracts")}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
           <div className="w-full flex-1 relative">
