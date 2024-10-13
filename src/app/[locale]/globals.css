@@ -129,6 +129,10 @@
   }
 }
 
+.prose strong {
+  @apply text-foreground; /* Example: change text color to red */
+}
+
 .styled-scrollbar::-webkit-scrollbar {
   @apply rounded-full w-2;
 }

@@ -13,7 +13,7 @@ const InfiniteScrollPodcasts = ({
   search,
   type,
 }: {
-  initialData: Podcast[] | undefined;
+  initialData: PodcastsResponse;
   search?: string;
   type: string;
 }) => {
@@ -52,38 +52,23 @@ const InfiniteScrollPodcasts = ({
       };
     },
     getNextPageParam: (lastPage) => {
-      return lastPage.pagination.next_page_url
-        ? lastPage.pagination.current_page + 1
-        : undefined;
+      if (lastPage.pagination.next_page_url) {
+        return lastPage.pagination.current_page + 1;
+      } else {
+        return undefined;
+      }
     },
     initialPageParam: 1,
-    initialData: () => {
-      if (initialData) {
-        return {
-          pages: [
-            {
-              podcasts: initialData || [],
-              pagination: {
-                current_page: 1,
-                first_page_url: "",
-                last_page_url: "",
-                next_page_url:
-                  initialData && initialData.length > 0 ? "" : null,
-                per_page: 10,
-                prev_page_url: null,
-                total: initialData ? initialData.length : 0,
-              },
-            },
-          ],
-          pageParams: [1],
-        };
-      }
+    initialData: {
+      pages: [initialData],
+      pageParams: [1],
     },
   });
 
   useEffect(() => {
     // console.log(isIntersecting, "isIntersecting");
     // console.log(hasNextPage, "hasNextPage");
+    // console.log(isFetchingNextPage, "isFetchingNextPage");
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
       // console.log(true);
       fetchNextPage();

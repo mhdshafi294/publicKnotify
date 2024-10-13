@@ -20,6 +20,10 @@ const nextConfig = {
             key: "Cross-Origin-Embedder-Policy",
             value: "require-corp",
           },
+          {
+            key: "Cross-Origin-Resource-Policy",
+            value: "cross-origin", // Adjust this based on your requirements
+          },
         ],
       },
     ];

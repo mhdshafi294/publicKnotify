@@ -42,7 +42,7 @@ const Page = async ({
 
       {/* Render the podcasts in a container */}
       <PodcastsByCategoryContainer
-        initialData={podcastsByCategory.podcasts}
+        initialData={podcastsByCategory}
         categoryId={params.id}
         type={params.userType}
       />

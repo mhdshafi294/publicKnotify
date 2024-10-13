@@ -24,6 +24,7 @@
     "profile": "الملف الشخصي",
     "logout": "خروج",
     "sign-in": "تسجيل الدخول",
+    "haveAccount": "لديك حساب؟",
     "register": "التسجيل",
     "sign-up": "التسجيل",
     "sign-in-with": "تسجيل دخول باستخدام",
@@ -522,10 +523,13 @@
     "downloads-by-country": "التنزيلات حسب البلد",
     "world-map": "خريطة العالم",
     "create-contract": "إنشاء العقد",
-    "go-to-contracts": "الذهاب إلى العقود"
+    "go-to-contracts": "الذهاب إلى العقود",
+    "chat": "محادثة",
+    "create-podcast": "إنشاء بودكاست"
   },
   "notifications": {
     "notifications": "notifications"
   },
-  "no-podcasts-in-this-playlist-yet": ""
+  "no-podcasts-in-this-playlist-yet": "",
+  "chat": "محادثة"
 }
