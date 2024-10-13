@@ -76,7 +76,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["podcastsDrafts", { search, is_published, showId }],
+    queryKey: ["podcastsDrafts", { search, is_published, showId, session }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: SelfPodcastsDetailsResponse = await getSelfPodcastsAction(
         {
@@ -102,6 +102,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
         : undefined;
     },
     initialPageParam: 1,
+    enabled: !!session?.user?.type,
   });
 
   useEffect(() => {
