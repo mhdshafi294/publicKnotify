@@ -22,7 +22,7 @@ const AnalyticsHeader = ({
   const t = useTranslations("Index");
 
   return (
-    <DashboardCardContainer className="w-full flex flex-col sm:flex-row gap-5 sm:gap-3">
+    <DashboardCardContainer className="w-full flex flex-col sm:flex-row gap-5 sm:gap-3 relative pt-14 lg:pt-14">
       <div className="w-full flex flex-col gap-1 justify-between">
         <h2 className="text-base font-bold opacity-70 dark:opacity-50">
           {t("all_time_views")}
@@ -64,7 +64,7 @@ const AnalyticsHeader = ({
         </p>
       </div>
       <AnalyticsEnableSwitch
-        className="ms-auto self-start"
+        className="ms-auto self-start absolute right-4 top-6"
         enabled={showStatistics?.enabled}
         statiscsType="playlist_statistics"
       />

@@ -13,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useTranslations } from "next-intl";
 
 type DatePickerWithRangeProps = {
   date: DateRange | undefined;
@@ -25,6 +26,7 @@ const DatePickerWithRange: React.FC<DatePickerWithRangeProps> = ({
   setDate,
   className,
 }) => {
+  const t = useTranslations("Index");
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -33,23 +35,25 @@ const DatePickerWithRange: React.FC<DatePickerWithRangeProps> = ({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-fit justify-start text-left font-normal text-xs",
+              "w-fit justify-start text-left font-normal text-xs ",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
+            <CalendarIcon className="md:mr-2 h-4 w-4" />
+            <span className="hidden md:inline">
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
               ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
+                t("pick-a-date")
+              )}
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">

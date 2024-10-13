@@ -75,12 +75,12 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
 
   return (
     <DashboardCardContainer className="flex-1 h-full flex flex-col gap-8">
-      <div className="w-full flex justify-between">
+      <div className="w-full flex justify-between gap-3">
         <div className="flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase opacity-70">{title}</h2>
           <p className="font-bold text-3xl">{value}</p>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 shrink">
           <div className="flex justify-end items-center gap-5">
             {title === "All-Time Views" || title === "مجموع المشاهدات" ? (
               <DatePickerWithRange
@@ -90,7 +90,7 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
               />
             ) : null}
             <AnalyticsEnableSwitch
-              className="ms-auto self-end"
+              className="ms-auto"
               enabled={enabled}
               statiscsType="top_episodes"
             />

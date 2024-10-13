@@ -518,7 +518,9 @@
     "dwnlds": "تنزيلات",
     "downloads": "التنزيلات",
     "top-countries": "أهم الدول",
-    "country": "دولة"
+    "country": "دولة",
+    "downloads-by-country": "التنزيلات حسب البلد",
+    "world-map": "خريطة العالم"
   },
   "notifications": {
     "notifications": "notifications"

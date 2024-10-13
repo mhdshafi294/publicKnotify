@@ -53,7 +53,7 @@ const HourlyViewsChart = ({ data }: { data: HourlyViewData[] }) => {
         margin={{
           top: 20,
           right: 30,
-          left: 20,
+          left: -32,
           bottom: 5,
         }}
       >

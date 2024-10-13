@@ -551,7 +551,11 @@
     "dwnlds": "DWNLDS",
     "downloads": "Downloads",
     "top-countries": "Top Countries",
-    "country": "country"
+    "country": "country",
+    "time-of-day": "Time of day",
+    "hourly-views": "Hourly Views",
+    "downloads-by-country": "Downloads by Country",
+    "world-map": "World Map"
   },
   "notifications": {
     "notifications": "notifications"

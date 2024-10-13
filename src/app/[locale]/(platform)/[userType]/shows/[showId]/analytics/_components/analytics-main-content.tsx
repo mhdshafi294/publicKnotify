@@ -61,7 +61,7 @@ const AnalyticsMainContent = async ({
     <main className="bg-background w-full flex-1 py-16 px-8 xl:px-16 flex flex-col gap-8">
       <header className="w-full space-y-2 mb-12">
         <h1 className="text-4xl font-bold">{t("analytics-overview")}</h1>
-        <p className="opacity-75 w-1/3">
+        <p className="opacity-75 lg:w-1/3">
           {t(
             "the-audience-overview-has-the-at-a-glance-analytics-you-need-to-start-understanding-your-shows-performance"
           )}
@@ -82,8 +82,21 @@ const AnalyticsMainContent = async ({
         />
       </div>
 
+      {/* Performance of Last Five Episodes in First Seven Days */}
+      <div className="w-full h-fit">
+        <LastFiveFirstSevenDaysChartCard
+          params={params}
+          five_latest_episodes={showStatistics.five_latest_episodes}
+          chart={
+            <LastFiveFirstSevenDaysChart
+              five_latest_episodes={showStatistics.five_latest_episodes}
+            />
+          }
+        />
+      </div>
+
       {/*  Charts */}
-      <div className="w-full flex justify-between gap-5 lg:h-[637px]">
+      <div className="w-full flex flex-col lg:flex-row lg:justify-between gap-5 lg:h-[637px]">
         <TopEpisodesTable
           params={params}
           top_episodes={showStatistics.top_episodes}
@@ -104,19 +117,6 @@ const AnalyticsMainContent = async ({
         <TopCountriesTable
           top_countries={showCountries.top_countries}
           total_count={showCountries.total_count}
-        />
-      </div>
-
-      {/* Performance of Last Five Episodes in First Seven Days */}
-      <div className="w-full h-fit">
-        <LastFiveFirstSevenDaysChartCard
-          params={params}
-          five_latest_episodes={showStatistics.five_latest_episodes}
-          chart={
-            <LastFiveFirstSevenDaysChart
-              five_latest_episodes={showStatistics.five_latest_episodes}
-            />
-          }
         />
       </div>
 
