@@ -78,7 +78,7 @@ const LastFiveFirstSevenDaysChart = ({
         accessibilityLayer
         data={chartData}
         margin={{
-          left: -20,
+          left: -32,
           right: 12,
         }}
       >

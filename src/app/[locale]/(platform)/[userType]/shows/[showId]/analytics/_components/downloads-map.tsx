@@ -53,7 +53,7 @@ export default function DownloadsMap({
 
   if (!downloads || downloads.length === 0) {
     return (
-      <Card className="relative w-full h-[600px] overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
+      <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
         <CardContent>
           <p className="text-white text-lg">
             {t("no-download-data-available")}
@@ -64,7 +64,7 @@ export default function DownloadsMap({
   }
 
   return (
-    <Card className="relative w-full h-[600px] overflow-hidden dark:bg-[#040a1b] rounded-xl border-none">
+    <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none">
       <CardContent className="p-0">
         <ComposableMap projection="geoMercator">
           <ZoomableGroup center={[0, 680]} zoom={0.85}>

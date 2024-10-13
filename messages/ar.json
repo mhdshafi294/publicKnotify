@@ -518,7 +518,11 @@
     "dwnlds": "تنزيلات",
     "downloads": "التنزيلات",
     "top-countries": "أهم الدول",
-    "country": "دولة"
+    "country": "دولة",
+    "downloads-by-country": "التنزيلات حسب البلد",
+    "world-map": "خريطة العالم",
+    "create-contract": "إنشاء العقد",
+    "go-to-contracts": "الذهاب إلى العقود"
   },
   "notifications": {
     "notifications": "notifications"

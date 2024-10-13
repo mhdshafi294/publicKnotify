@@ -22,13 +22,13 @@ const SignIp = ({
   const t = useTranslations("Index");
 
   return (
-    <div className="md:max-w-[752px] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
+    <div className="md:max-w-[752px] max-w-[80dvw] min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
       {/* Container for the sign-in tabs */}
       <Tabs
         defaultValue={
           searchParams.userType ? (searchParams.userType as string) : "user"
         }
-        className="md:w-[550px] flex flex-col items-center px-3 md:px-0"
+        className="md:w-[550px] max-w-[80dvw] flex flex-col items-center px-3 md:px-0"
       >
         {/* Tabs List: container for the tab triggers */}
         <TabsList className="w-full h-14 grid grid-cols-3 gap-28 justify-items-center bg-transparent dark:text-white rounded-md mb-6 px-0 border-none border-transparent">

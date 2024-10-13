@@ -44,9 +44,9 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({ params }) => {
       <div className="w-full flex justify-between">
         <div className="flex flex-col gap-3">
           <h2 className="text-sm font-bold uppercase opacity-70">
-            {t("applications")}
+            {t("world-map")}
           </h2>
-          <p className="font-bold text-3xl">{t("top-listening-methods")}</p>
+          <p className="font-bold text-3xl">{t("downloads-by-country")}</p>
         </div>
         <div className="flex flex-col gap-3">
           <div className="flex justify-end items-center gap-5">
