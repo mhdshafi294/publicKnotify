@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -120,13 +120,14 @@ const ChatWindow = ({
 
   // Set conversation ID, user image, name, and UUID when the conversation ID changes
   useEffect(() => {
+    setNewMessages([]);
     if (conversation_id && !conversationId) {
       setConversationId(+conversation_id);
       setUserName(receiver?.full_name);
       setUserImage(receiver?.image);
       setUuid(receiver?.uuid);
     }
-  }, [conversation_id]);
+  }, [conversationId]);
 
   useEffect(() => {
     if (conversationId) {
@@ -137,12 +138,12 @@ const ChatWindow = ({
   // Fetch conversation messages with infinite scrolling
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["messages", { type, conversation_id }],
+      queryKey: ["messages", { type, conversationId }],
       queryFn: async ({ pageParam = 1 }) => {
         const response: ConversationMessagesResponse =
           await getConversationMessagesAction({
             type,
-            id: conversation_id as string,
+            id: conversationId?.toString() as string,
             page: pageParam.toString(),
           });
         return {
@@ -154,6 +155,7 @@ const ChatWindow = ({
           },
         };
       },
+      enabled: !!conversationId,
       getNextPageParam: (lastPage) => {
         return lastPage.pagination.next_page_url
           ? lastPage.pagination.current_page + 1
@@ -192,11 +194,14 @@ const ChatWindow = ({
 
   // Initialize Pusher for real-time messages
   const { pusherClient } = usePusher(
-    `private-conversation.${uuid ? uuid : receiver?.uuid}`
+    `private-conversation.${receiver?.uuid}`,
+    conversationId
   );
 
   useEffect(() => {
-    const channel = pusherClient?.subscribe("private-conversation." + uuid!);
+    const channel = pusherClient?.subscribe(
+      "private-conversation." + receiver?.uuid!
+    );
 
     if (!channel) return;
 
@@ -230,7 +235,7 @@ const ChatWindow = ({
       channel.unbind("App\\Events\\SendMessage", handleNewMessage);
       channel.unsubscribe();
     };
-  }, [pusherClient, uuid]);
+  }, [pusherClient, uuid, conversationId]);
 
   // Scroll to the bottom of the chat when new messages arrive
   useEffect(() => {
@@ -240,7 +245,7 @@ const ChatWindow = ({
     if (showScrollToBottom && newMessages[newMessages.length - 1]?.is_sender) {
       bottomRef?.current?.scrollIntoView({ behavior: "instant" });
     }
-  }, [newMessages]);
+  }, [newMessages, conversationId]);
 
   // Reset unread message counter when the user scrolls to the bottom
   useEffect(() => {
@@ -446,7 +451,6 @@ const ChatWindow = ({
               </div>
             )}
             <ChatInput
-              conversation_id={conversation_id}
               type={type}
               newMessages={newMessages}
               setNewMessages={setNewMessages}

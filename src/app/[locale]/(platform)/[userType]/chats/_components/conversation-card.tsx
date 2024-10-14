@@ -39,7 +39,9 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     setUserName,
     setUuid,
   } = useChatStore((state) => state);
+
   const router = useRouter();
+
   const [isMounted, setIsMounted] = useState(false);
 
   // Ensure that the component only runs on the client

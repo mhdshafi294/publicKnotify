@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { useDebounceEffect } from "@/hooks/useDebounceEffect";
 import { canvasPreview } from "@/lib/reactImageCrop/canvasPreview";
 import { Slider } from "@/components/ui/slider";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+
+const ffmpeg = createFFmpeg({ log: true });
 
 type PropsType = {
   file: File | string | null;
@@ -42,9 +45,25 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const [videoTrimStart, setVideoTrimStart] = useState(0);
   const [videoTrimEnd, setVideoTrimEnd] = useState(100);
   const [videoDuration, setVideoDuration] = useState(0);
+  const [isFFmpegReady, setIsFFmpegReady] = useState(false);
+  const [isTrimming, setIsTrimming] = useState(false);
+
+  useEffect(() => {
+    const loadFFmpeg = async () => {
+      if (ffmpeg.isLoaded()) {
+        return;
+      }
+      await ffmpeg.load();
+      setIsFFmpegReady(true);
+    };
+    loadFFmpeg();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFileSrc(acceptedFiles[0]);
+    if (acceptedFiles[0].type.startsWith("video/")) {
+      setFile(acceptedFiles[0]);
+    }
     setError(null);
   }, []);
 
@@ -140,35 +159,55 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   }, [setFile, completedCrop]);
 
   const onSaveTrimmedVideo = useCallback(async () => {
-    if (!videoRef.current || !(fileSrc instanceof File)) return;
+    if (!isFFmpegReady || !videoRef.current || !(fileSrc instanceof File))
+      return;
 
-    const video = videoRef.current;
-    const startTime = (videoTrimStart / 100) * videoDuration;
-    const endTime = (videoTrimEnd / 100) * videoDuration;
+    setIsTrimming(true);
 
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext("2d");
+    try {
+      const inputFileName = "input.mp4";
+      const outputFileName = "output.mp4";
 
-    if (!ctx) return;
+      ffmpeg.FS("writeFile", inputFileName, await fetchFile(fileSrc));
 
-    video.currentTime = startTime;
-    await new Promise<void>((resolve) => {
-      video.onseeked = () => resolve();
-    });
+      const startTime = (videoTrimStart / 100) * videoDuration;
+      const endTime = (videoTrimEnd / 100) * videoDuration;
+      const duration = endTime - startTime;
 
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      await ffmpeg.run(
+        "-ss",
+        startTime.toString(),
+        "-i",
+        inputFileName,
+        "-t",
+        duration.toString(),
+        "-c",
+        "copy",
+        outputFileName
+      );
 
-    canvas.toBlob((blob) => {
-      if (blob) {
-        const trimmedFile = new File([blob], "trimmed-video.mp4", {
-          type: "video/mp4",
-        });
-        setFile(trimmedFile);
-      }
-    }, "video/mp4");
-  }, [fileSrc, setFile, videoTrimStart, videoTrimEnd, videoDuration]);
+      const data = ffmpeg.FS("readFile", outputFileName);
+      const uint8Array = new Uint8Array(data.buffer);
+      const blob = new Blob([uint8Array], { type: "video/mp4" });
+      const trimmedFile = new File([blob], "trimmed-video.mp4", {
+        type: "video/mp4",
+      });
+
+      setFile(trimmedFile);
+      setIsTrimming(false);
+    } catch (error) {
+      console.error("Error during video trimming:", error);
+      setError("An error occurred while trimming the video.");
+      setIsTrimming(false);
+    }
+  }, [
+    isFFmpegReady,
+    fileSrc,
+    setFile,
+    videoTrimStart,
+    videoTrimEnd,
+    videoDuration,
+  ]);
 
   useDebounceEffect(
     async () => {
@@ -352,7 +391,16 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
                   setVideoTrimStart(start);
                   setVideoTrimEnd(end);
                 }}
+                className="w-full"
               />
+              <style jsx>{`
+                .slider-thumb:first-of-type {
+                  background-color: #3b82f6; /* blue-500 */
+                }
+                .slider-thumb:last-of-type {
+                  background-color: #ef4444; /* red-500 */
+                }
+              `}</style>
             </div>
             <Button
               variant="secondary"
@@ -360,8 +408,10 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
               size="sm"
               className="gap-2 ml-4"
               onClick={onSaveTrimmedVideo}
+              disabled={!isFFmpegReady || isTrimming}
             >
-              Trim <Scissors className="h-4 w-4" />
+              {isTrimming ? "Trimming..." : "Trim"}{" "}
+              <Scissors className="h-4 w-4" />
             </Button>
           </div>
           <div className="text-sm">
@@ -395,7 +445,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
         <canvas
           ref={previewCanvasRef}
           style={{
-            border: "1px solid  black",
+            border: "1px solid black",
             objectFit: "contain",
             width: completedCrop?.width,
             height: completedCrop?.height,

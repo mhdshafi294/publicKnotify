@@ -62,7 +62,8 @@ const ConversationsList: React.FC<ConversationListProps> = ({
 
   // Initialize Pusher to subscribe to conversation events for real-time updates
   const { pusherClient } = usePusher(
-    `private-${session?.user?.type}.conversations.${session?.user?.id}`
+    `private-${session?.user?.type}.conversations.${session?.user?.id}`,
+    conversationId
   );
 
   useEffect(() => {
@@ -121,7 +122,7 @@ const ConversationsList: React.FC<ConversationListProps> = ({
       channel.unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pusherClient, session?.user]);
+  }, [pusherClient, session?.user, conversationId]);
 
   return (
     <div

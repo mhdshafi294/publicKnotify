@@ -5,7 +5,7 @@ import Pusher, { Channel } from "pusher-js";
 import { API_URL } from "@/lib/apiEndPoints";
 import { useSession } from "next-auth/react";
 
-export function usePusher(channelName: string) {
+export function usePusher(channelName: string, conversationId?: number) {
   const { data: session } = useSession();
   const token = session?.user?.access_token;
 
@@ -40,7 +40,7 @@ export function usePusher(channelName: string) {
     //   // Optionally, you can clear the pusherClientRef if you know the client should not be reused
     //   // pusherClientRef.current = null;
     // };
-  }, [channelName, token]);
+  }, [channelName, token, conversationId]);
 
   return { pusherClient: pusherClientRef.current };
 }
