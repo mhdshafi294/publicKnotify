@@ -1,7 +1,14 @@
 "use client";
 
 import { cn, convertFileToURL } from "@/lib/utils";
-import { BadgeInfoIcon, SaveIcon, TrashIcon, Upload, X } from "lucide-react"; // Import the X icon
+import {
+  BadgeInfoIcon,
+  SaveIcon,
+  TrashIcon,
+  Upload,
+  X,
+  Scissors,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Dispatch, FC, useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -10,16 +17,20 @@ import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button"; // Import the Button component
+import { Button } from "@/components/ui/button";
 import { useDebounceEffect } from "@/hooks/useDebounceEffect";
 import { canvasPreview } from "@/lib/reactImageCrop/canvasPreview";
+import { Slider } from "@/components/ui/slider";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+
+const ffmpeg = createFFmpeg({ log: true });
 
 type PropsType = {
   file: File | string | null;
   setFile: Dispatch<React.SetStateAction<File | null>>;
 };
 
-const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
+export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const t = useTranslations("Index");
   const [error, setError] = useState<string | null>(null);
   const [fileSrc, setFileSrc] = useState<string | File | null>(file);
@@ -28,15 +39,32 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
   const [rotate, setRotate] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
-
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const [videoTrimStart, setVideoTrimStart] = useState(0);
+  const [videoTrimEnd, setVideoTrimEnd] = useState(100);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [isFFmpegReady, setIsFFmpegReady] = useState(false);
+  const [isTrimming, setIsTrimming] = useState(false);
+
+  useEffect(() => {
+    const loadFFmpeg = async () => {
+      if (ffmpeg.isLoaded()) {
+        return;
+      }
+      await ffmpeg.load();
+      setIsFFmpegReady(true);
+    };
+    loadFFmpeg();
+  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFileSrc(acceptedFiles[0]);
-    // setFile(acceptedFiles[0]);
+    if (acceptedFiles[0].type.startsWith("video/")) {
+      setFile(acceptedFiles[0]);
+    }
     setError(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -55,7 +83,6 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
       "image/avif": [".avif"],
       "image/jpeg2000": [".jp2"],
       "image/jfif": [".jfif"],
-
       "video/mp4": [".mp4"],
       "video/quicktime": [".mov"],
       "video/x-msvideo": [".avi"],
@@ -67,13 +94,15 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
     },
   });
 
-  // Function to handle file removal
   const handleRemoveFile = () => {
     setFileSrc(null);
     setFile(null);
     setCrop(undefined);
     setCompletedCrop(undefined);
     setError(null);
+    setVideoTrimStart(0);
+    setVideoTrimEnd(100);
+    setVideoDuration(0);
   };
 
   const onImageLoaded = useCallback((img: HTMLImageElement) => {
@@ -88,7 +117,6 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
         throw new Error("Crop canvas does not exist");
       }
 
-      // This will size relative to the uploaded image
       const scaleX = image.naturalWidth / image.width;
       const scaleY = image.naturalHeight / image.height;
 
@@ -114,13 +142,13 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
       );
 
       return new Promise<File | null>((resolve) => {
-        previewCanvas.toBlob((blob) => {
+        offscreen.convertToBlob({ type: "image/jpeg" }).then((blob) => {
           if (!blob) return resolve(null);
           const croppedFile = new File([blob], "cropped-image.jpeg", {
             type: "image/jpeg",
           });
           resolve(croppedFile);
-        }, "image/jpeg");
+        });
       });
     };
 
@@ -128,7 +156,58 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
     if (croppedImageFile) {
       setFile(croppedImageFile);
     }
-  }, [setFile, scale, rotate]);
+  }, [setFile, completedCrop]);
+
+  const onSaveTrimmedVideo = useCallback(async () => {
+    if (!isFFmpegReady || !videoRef.current || !(fileSrc instanceof File))
+      return;
+
+    setIsTrimming(true);
+
+    try {
+      const inputFileName = "input.mp4";
+      const outputFileName = "output.mp4";
+
+      ffmpeg.FS("writeFile", inputFileName, await fetchFile(fileSrc));
+
+      const startTime = (videoTrimStart / 100) * videoDuration;
+      const endTime = (videoTrimEnd / 100) * videoDuration;
+      const duration = endTime - startTime;
+
+      await ffmpeg.run(
+        "-ss",
+        startTime.toString(),
+        "-i",
+        inputFileName,
+        "-t",
+        duration.toString(),
+        "-c",
+        "copy",
+        outputFileName
+      );
+
+      const data = ffmpeg.FS("readFile", outputFileName);
+      const uint8Array = new Uint8Array(data.buffer);
+      const blob = new Blob([uint8Array], { type: "video/mp4" });
+      const trimmedFile = new File([blob], "trimmed-video.mp4", {
+        type: "video/mp4",
+      });
+
+      setFile(trimmedFile);
+      setIsTrimming(false);
+    } catch (error) {
+      console.error("Error during video trimming:", error);
+      setError("An error occurred while trimming the video.");
+      setIsTrimming(false);
+    }
+  }, [
+    isFFmpegReady,
+    fileSrc,
+    setFile,
+    videoTrimStart,
+    videoTrimEnd,
+    videoDuration,
+  ]);
 
   useDebounceEffect(
     async () => {
@@ -152,8 +231,22 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
     [completedCrop, scale, rotate]
   );
 
+  useEffect(() => {
+    if (
+      videoRef.current &&
+      fileSrc instanceof File &&
+      fileSrc.type.startsWith("video/")
+    ) {
+      videoRef.current.onloadedmetadata = () => {
+        if (videoRef.current) {
+          setVideoDuration(videoRef.current.duration);
+        }
+      };
+    }
+  }, [fileSrc]);
+
   return (
-    <div className="flex flex-col gap-4 min-h-80 items-centerrelative">
+    <div className="flex flex-col gap-4 min-h-80 relative">
       {/* File Dropzone and Image/Video Preview */}
       {!(fileSrc instanceof File && fileSrc.type.startsWith("image/")) ? (
         <div
@@ -165,7 +258,7 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
           (typeof fileSrc === "string" && fileSrc.length > 0) ? (
             <div
               className={cn(
-                " flex flex-col size-full gap-3 justify-center items-center",
+                "flex flex-col size-full gap-3 justify-center items-center",
                 isDragActive ? "shadow-inner shadow-foreground" : ""
               )}
             >
@@ -179,6 +272,7 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
                 />
               ) : (
                 <video
+                  ref={videoRef}
                   src={
                     fileSrc instanceof File
                       ? convertFileToURL(fileSrc)
@@ -240,7 +334,7 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
               variant="secondary"
               type="button"
               size="sm"
-              className="gap-2 "
+              className="gap-2"
               disabled={!convertFileToURL(fileSrc) || !crop}
               onClick={onSaveEditedImage}
             >
@@ -251,7 +345,7 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
             crop={crop}
             onChange={(_, percentCrop) => setCrop(percentCrop)}
             onComplete={(c) => setCompletedCrop(c)}
-            aspect={undefined} // free cropping
+            aspect={undefined}
             minHeight={100}
             minWidth={100}
             className="h-80 w-full relative"
@@ -280,9 +374,69 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
           </Button>
         </div>
       ) : null}
+
+      {/* Video Trim Section */}
+      {fileSrc instanceof File && fileSrc.type.startsWith("video/") ? (
+        <div className="relative h-80 flex-1 flex flex-col gap-5">
+          <div className="flex justify-between items-end">
+            <div className="flex flex-col gap-1 w-full">
+              <Label htmlFor="trim-slider">Trim Video: </Label>
+              <Slider
+                id="trim-slider"
+                min={0}
+                max={100}
+                step={1}
+                value={[videoTrimStart, videoTrimEnd]}
+                onValueChange={([start, end]) => {
+                  setVideoTrimStart(start);
+                  setVideoTrimEnd(end);
+                }}
+                className="w-full"
+              />
+              <style jsx>{`
+                .slider-thumb:first-of-type {
+                  background-color: #3b82f6; /* blue-500 */
+                }
+                .slider-thumb:last-of-type {
+                  background-color: #ef4444; /* red-500 */
+                }
+              `}</style>
+            </div>
+            <Button
+              variant="secondary"
+              type="button"
+              size="sm"
+              className="gap-2 ml-4"
+              onClick={onSaveTrimmedVideo}
+              disabled={!isFFmpegReady || isTrimming}
+            >
+              {isTrimming ? "Trimming..." : "Trim"}{" "}
+              <Scissors className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="text-sm">
+            Trim: {((videoTrimStart / 100) * videoDuration).toFixed(2)}s -{" "}
+            {((videoTrimEnd / 100) * videoDuration).toFixed(2)}s
+          </div>
+
+          {/* Remove file button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleRemoveFile}
+            className="absolute top-12 right-2"
+            aria-label="Remove file"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      ) : null}
+
       <p className="text-sm text-muted-foreground flex items-center gap-2">
         <BadgeInfoIcon size={16} />
-        {t("crop-and-save-your-image-before-sharing-it")}
+        {fileSrc instanceof File && fileSrc.type.startsWith("image/")
+          ? t("crop-and-save-your-image-before-sharing-it")
+          : t("trim-and-save-your-video-before-sharing-it")}
       </p>
 
       {error && <p className="text-red-500">{error}</p>}
@@ -300,6 +454,4 @@ const MediaInputDropzone: FC<PropsType> = ({ file, setFile }) => {
       </div>
     </div>
   );
-};
-
-export default MediaInputDropzone;
+}

@@ -21,6 +21,7 @@ import { storeMessageAction } from "@/app/actions/conversationsActions";
 
 import MessageContentFieltd from "./message-content-fieltd";
 import ChatImageInputDialog from "./chat-image-input-dialog";
+import useChatStore from "@/store/conversations/use-chat-store";
 
 /**
  * ChatInput Component
@@ -36,20 +37,19 @@ import ChatImageInputDialog from "./chat-image-input-dialog";
  * @returns {JSX.Element} The rendered chat input component.
  */
 type ChatInputProps = {
-  conversation_id: string | undefined;
   type: string;
   newMessages: ConversationMessage[];
   setNewMessages: React.Dispatch<React.SetStateAction<ConversationMessage[]>>;
 };
 
 const ChatInput: React.FC<ChatInputProps> = ({
-  conversation_id,
   type,
   newMessages,
   setNewMessages,
 }) => {
   const t = useTranslations("Index");
   const sendMessageSound = "/audio/send-message.mp3";
+  const conversationId = useChatStore((state) => state.conversationId);
 
   const [isMounted, setIsMounted] = useState(false);
   const [imageDialogOpen, setImageDialogOpen] = useState(false);
@@ -58,7 +58,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   const form = useForm<MessageStoreSchema>({
     resolver: zodResolver(MessageStoreSchema),
     defaultValues: {
-      conversation_id: conversation_id,
+      conversation_id: conversationId?.toString(),
       content: "",
       media: [],
     },
@@ -76,7 +76,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
   useEffect(() => {
     form.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversation_id]);
+  }, [conversationId]);
 
   useEffect(() => {
     if (!imageDialogOpen) form.setValue("media", []);
@@ -130,7 +130,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
     try {
       // Prepare form data for submission
       const formData = new FormData();
-      formData.append("conversation_id", data.conversation_id);
+      console.log(conversationId, "<<<<<conversationId");
+      formData.append("conversation_id", conversationId?.toString()!);
 
       if (data.content) formData.append("content", data.content);
       if (data.media && data.media.length > 0) {

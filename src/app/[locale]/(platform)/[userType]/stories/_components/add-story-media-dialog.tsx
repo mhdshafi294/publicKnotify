@@ -27,9 +27,12 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import MediaInputDropzone from "./media-input-dropzone";
+import { Slider } from "@/components/ui/slider";
+import { useState } from "react";
 
 const AddStoryMediaDialog = () => {
   const t = useTranslations("Index");
+  const [values, setValues] = useState([20, 80]); // Initial values for the two points
 
   const isOpen = useAddStoryDialogsStore(
     (state) => state.isStoryMediaDialogOpen

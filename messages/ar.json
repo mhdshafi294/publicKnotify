@@ -525,7 +525,8 @@
     "create-contract": "إنشاء العقد",
     "go-to-contracts": "الذهاب إلى العقود",
     "chat": "محادثة",
-    "create-podcast": "إنشاء بودكاست"
+    "create-podcast": "إنشاء بودكاست",
+    "trim-and-save-your-video-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها"
   },
   "notifications": {
     "notifications": "notifications"

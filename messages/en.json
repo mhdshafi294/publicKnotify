@@ -560,7 +560,8 @@
     "create-contract": "Create Contract",
     "go-to-contracts": "Go to contracts",
     "chat": "Chat",
-    "create-podcast": "Create Podcast"
+    "create-podcast": "Create Podcast",
+    "trim-and-save-your-video-before-sharing-it": "Trim and save your video before sharing it"
   },
   "notifications": {
     "notifications": "notifications"

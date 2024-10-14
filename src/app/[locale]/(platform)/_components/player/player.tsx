@@ -116,7 +116,8 @@ const Player = () => {
         };
       }
     }
-  }, [data, isError, isPending, setCurrentTime, setDuration, setIsPlaying]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, isError, isPending]);
 
   // Effect to update slider value when currentTime changes
   useEffect(() => {
