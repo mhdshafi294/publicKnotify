@@ -50,8 +50,10 @@ const Navbar = async (): Promise<JSX.Element> => {
         <DesktopNavbar playlists={playlistData?.playlists!} />
         {/* Mobile Navbar */}
         <MobileNavbar playlists={playlistData?.playlists!} />
-
-        <StoryUploadDialogsFormContainer />
+        {/* Story Upload Dialogs Form Container */}
+        {session && session.user.type === "podcaster" ? (
+          <StoryUploadDialogsFormContainer />
+        ) : null}
       </MaxWidthContainer>
     </div>
   );

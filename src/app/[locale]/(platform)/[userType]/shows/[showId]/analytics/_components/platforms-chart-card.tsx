@@ -23,14 +23,19 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
     to: new Date(),
   });
 
+  const date0 = new Date(0);
+  const isDateModified = date?.from?.toString() !== date0.toString();
+
   const t = useTranslations("Index");
 
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["showPlatformStatistics", date],
     queryFn: () =>
       getShowPlatformStatisticsAction({
-        start_date: format(date?.from!, "yyyy-MM-dd"),
-        end_date: format(date?.to!, "yyyy-MM-dd"),
+        start_date: !isDateModified
+          ? undefined
+          : format(date?.from!, "yyyy-MM-dd"),
+        end_date: !isDateModified ? undefined : format(date?.to!, "yyyy-MM-dd"),
         show_id: params.showId,
         type: params.userType,
       }),
@@ -49,7 +54,7 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
         <div className="flex flex-col gap-3">
           <div className="flex justify-end items-center gap-5">
             <DatePickerWithRange
-              date={date}
+              date={isDateModified ? date : undefined}
               setDate={setDate}
               className="w-fit"
             />

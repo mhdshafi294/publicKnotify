@@ -97,7 +97,7 @@ const PlatformChart = ({
           />
           <LabelList
             dataKey="percentage"
-            position="insideRight"
+            position="right"
             offset={8}
             className="fill-white font-bold"
             fontSize={18}

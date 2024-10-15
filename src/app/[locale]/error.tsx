@@ -2,6 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "@/navigation";
+import { LogOutIcon } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -68,12 +70,22 @@ export default function Error({
         <p className="text-lg text-gray-700 mb-6 drop-shadow-md">
           {t("errorMessage")}
         </p>
-        <Button
-          className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary-dark transition-transform transform hover:scale-105"
-          onClick={() => router.push("/")}
-        >
-          Go to Home
-        </Button>
+        <div className="flex justify-center items-center gap-2">
+          <Button
+            className="px-6 py-3 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary-dark transition-transform transform "
+            onClick={() => router.push("/")}
+          >
+            {t("go-to-home")}
+          </Button>
+          {/* <Button
+            variant="destructive"
+            className="px-6 py-3 font-semibold rounded-lg shadow-lg "
+            onClick={() => signOut()}
+          >
+            <LogOutIcon className="me-2 h-4 w-4" />
+            <span>{t("logOut")}</span>
+          </Button> */}
+        </div>
       </div>
     </div>
   );

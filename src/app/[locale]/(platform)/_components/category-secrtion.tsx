@@ -34,7 +34,7 @@ const CategorySecrtion = async () => {
         </div> */}
         </div>
         <CarouselContent
-          className={cn("w-full mt-5", { "ms-0": dir === "rtl" })}
+          className={cn("w-full mt-2", { "ms-0": dir === "rtl" })}
         >
           {categories.map((category) => (
             <CarouselItem key={category.id} className="basis-auto">

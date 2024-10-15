@@ -526,7 +526,9 @@
     "go-to-contracts": "الذهاب إلى العقود",
     "chat": "محادثة",
     "create-podcast": "إنشاء بودكاست",
-    "trim-and-save-your-video-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها"
+    "trim-and-save-your-video-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها",
+    "your-active-stories": "قصصك النشطة",
+    "go-to-home": "اذهب إلى الصفحة الرئيسية"
   },
   "notifications": {
     "notifications": "notifications"
