@@ -1,13 +1,12 @@
-import React from "react";
-import { getServerSession } from "next-auth";
 import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
 import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-section";
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -43,9 +42,9 @@ export default async function Home({
       page: "1",
       count: "5",
     });
-    if (showsResponse.message === "Unauthenticated.") {
-      redirect("/sign-in");
-    }
+    // if (showsResponse.message === "Unauthenticated.") {
+    //   redirect("/sign-in");
+    // }
     if (showsResponse?.playlists?.length > 0) {
       redirect(
         `/${session?.user?.type}/shows/${showsResponse.playlists[0].id}`

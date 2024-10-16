@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
 
+import { getProfileAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
-import { getProfileAction } from "@/app/actions/profileActions";
 
 /**
  * Home Component
@@ -25,11 +25,7 @@ export default async function Home() {
     type: session?.user?.type!,
   });
 
-  if (
-    "Unauthenticated."
-      .toLocaleLowerCase()
-      .includes(profileResponse.message.toLocaleLowerCase())
-  ) {
+  if (profileResponse.message === "Unauthenticated.") {
     redirect("/sign-in");
   }
 

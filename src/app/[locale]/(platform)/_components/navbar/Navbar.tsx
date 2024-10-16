@@ -1,15 +1,15 @@
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import { PlaylistsResponse } from "@/types/podcast";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { Link, redirect } from "@/navigation";
+import { Link } from "@/navigation";
+import { PlaylistsResponse } from "@/types/podcast";
+import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import PodcasterShow from "./podcaster-show";
-import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
 
 /**
  * The Navbar component is responsible for rendering the top navigation bar for the application.
@@ -31,9 +31,9 @@ const Navbar = async (): Promise<JSX.Element> => {
     //   playlistData.message === "Unauthenticated.",
     //   "<<<<<<<<playlistData.message trueee"
     // );
-    if (playlistData.message === "Unauthenticated.") {
-      redirect("/sign-in");
-    }
+    // if (playlistData.message === "Unauthenticated.") {
+    //   redirect("/sign-in");
+    // }
   }
 
   return (
