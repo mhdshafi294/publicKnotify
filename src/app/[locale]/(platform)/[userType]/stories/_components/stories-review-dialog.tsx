@@ -2,17 +2,17 @@
 
 import { getSelfStoriesAction } from "@/app/actions/storyActions";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { cn } from "@/lib/utils";
-import StoryProgress from "./story-progress";
+import { useCallback, useEffect, useRef, useState } from "react";
 import StoryContent from "./story-content";
-import StoryViewers from "./story-viewers";
 import StoryControls from "./story-controls";
+import StoryProgress from "./story-progress";
+import StoryViewers from "./story-viewers";
 
-const STORY_DURATION = 5000; // 5 seconds per story
+const STORY_DURATION = 7000; // 7 seconds per story
 
 const StoriesReviewDialog = () => {
   const t = useTranslations("Index");
@@ -20,9 +20,11 @@ const StoriesReviewDialog = () => {
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const {
     isStoryReviewDialogOpen: isOpen,
@@ -37,6 +39,19 @@ const StoriesReviewDialog = () => {
       }),
     enabled: isOpen,
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen && data?.stories && data?.stories.length > 0) {
@@ -116,19 +131,29 @@ const StoriesReviewDialog = () => {
     }
   }, [isMuted]);
 
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      const touch = e.touches[0];
-      const containerWidth = containerRef.current?.offsetWidth || 0;
-      const touchX = touch.clientX;
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
 
-      if (touchX < containerWidth / 2) {
-        moveToPreviousStory();
-      } else {
-        moveToNextStory();
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (touchStartX.current === null) return;
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const diff = touchStartX.current - touchEndX;
+
+      if (Math.abs(diff) > 50) {
+        // Threshold for swipe
+        if (diff > 0) {
+          moveToNextStory();
+        } else {
+          moveToPreviousStory();
+        }
       }
+
+      touchStartX.current = null;
     },
-    [moveToPreviousStory, moveToNextStory]
+    [moveToNextStory, moveToPreviousStory]
   );
 
   if (!data?.stories || data.stories.length === 0) {
@@ -140,6 +165,7 @@ const StoriesReviewDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
+        dialogClose={false}
         ref={containerRef}
         style={{
           backgroundColor: currentStory.color,
@@ -147,6 +173,7 @@ const StoriesReviewDialog = () => {
         }}
         className={cn("p-0 max-w-md w-full h-[80vh] flex flex-col")}
         onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <DialogTitle className="sr-only">Story Viewer</DialogTitle>
         <StoryProgress
@@ -176,6 +203,7 @@ const StoriesReviewDialog = () => {
           onNext={moveToNextStory}
           onTogglePause={togglePause}
           onToggleMute={toggleMute}
+          isMobile={isMobile}
         />
       </DialogContent>
     </Dialog>

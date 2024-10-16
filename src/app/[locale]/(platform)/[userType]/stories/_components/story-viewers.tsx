@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { SelfStory } from "@/types/stories";
-import { Eye, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Tooltip,
@@ -9,20 +6,23 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { SelfStory } from "@/types/stories";
+import { Eye, X } from "lucide-react";
+import { useState } from "react";
 
 interface StoryViewersProps {
   story: SelfStory;
 }
 
 const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
-  const [isViewAllOpen, setIsViewAllOpen] = useState(false);
+  const [isViewAllOpen, setIsViewAllOpen] = useState(true);
   const maxVisibleViewers = 5;
 
   return (
     <>
       <button
-        className="absolute bottom-16 left-4 flex items-center bg-black/50 rounded-full px-3 py-1"
-        onClick={() => setIsViewAllOpen(true)}
+        className="absolute bottom-16 left-4 flex items-center bg-black/50 rounded-full px-3 py-1 cursor-pointer"
+        onClick={() => setIsViewAllOpen((prev) => !prev)}
       >
         <Eye className="w-4 h-4 text-white mr-2" />
         <span className="text-white text-sm mr-2">{story.viewers_count}</span>
@@ -43,7 +43,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
             </TooltipProvider>
           ))}
           {story.viewers.length > maxVisibleViewers && (
-            <div className="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs cursor-pointer">
+            <div className="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs">
               +{story.viewers.length - maxVisibleViewers}
             </div>
           )}
@@ -52,10 +52,10 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
 
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/80 rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0  duration-300 ease-in-out",
+          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/80 rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-500 ease-in-out",
           isViewAllOpen
-            ? "opacity-100 translate-x-full"
-            : "opacity-0 translate-x-0"
+            ? "opacity-100 md:translate-x-full"
+            : "opacity-0 md:translate-x-0"
         )}
       >
         <div className="flex flex-col h-full">
