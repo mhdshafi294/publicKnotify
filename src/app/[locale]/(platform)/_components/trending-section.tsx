@@ -2,6 +2,7 @@ import { getTrendingAction } from "@/app/actions/podcastActions";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { redirect } from "@/navigation";
 
 const TrendingSection = async ({
   params,
@@ -13,6 +14,10 @@ const TrendingSection = async ({
   const firstPageTrendingResponse = await getTrendingAction({
     type: params.userType,
   });
+
+  if (firstPageTrendingResponse.message === "Unauthenticated.") {
+    redirect("/sign-in");
+  }
 
   // console.log(data);
 
