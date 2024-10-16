@@ -8,19 +8,7 @@ import { useTranslations } from "next-intl";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { cn, getContrastTextColor } from "@/lib/utils";
-
-interface Story {
-  id: number;
-  description: string;
-  type: string;
-  color: string;
-  video: string;
-  image: string;
-  thumbnail: string;
-  viewers_count: number;
-  viewers: { id: number; name: string; type: string; image: string }[];
-  created_at: string;
-}
+import { SelfStory } from "@/types/stories";
 
 const STORY_DURATION = 5000; // 5 seconds per story
 
@@ -84,7 +72,7 @@ const StoriesReviewDialog = () => {
     }
   };
 
-  const renderStoryContent = (story: Story) => {
+  const renderStoryContent = (story: SelfStory) => {
     switch (story.type) {
       case "image":
         return (

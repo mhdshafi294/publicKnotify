@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
+import { getProfileAction } from "@/app/actions/profileActions";
 
 /**
  * Home Component
@@ -17,6 +18,18 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   if (!session || session.expires) {
+    redirect("/sign-in");
+  }
+
+  const profileResponse = await getProfileAction({
+    type: session?.user?.type!,
+  });
+
+  if (
+    "Unauthenticated."
+      .toLocaleLowerCase()
+      .includes(profileResponse.message.toLocaleLowerCase())
+  ) {
     redirect("/sign-in");
   }
 

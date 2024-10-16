@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { PlaylistsResponse } from "@/types/podcast";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { Link } from "@/navigation";
+import { Link, redirect } from "@/navigation";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import PodcasterShow from "./podcaster-show";
@@ -26,6 +26,14 @@ const Navbar = async (): Promise<JSX.Element> => {
   // Fetch playlists if the user is a podcaster
   if (session && session.user.type === "podcaster") {
     playlistData = await getPlayListsAction({ type: "podcaster" });
+    // console.log(playlistData.message, "<<<<<<<<playlistData.message");
+    // console.log(
+    //   playlistData.message === "Unauthenticated.",
+    //   "<<<<<<<<playlistData.message trueee"
+    // );
+    if (playlistData.message === "Unauthenticated.") {
+      redirect("/sign-in");
+    }
   }
 
   return (

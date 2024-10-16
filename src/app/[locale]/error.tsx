@@ -78,8 +78,7 @@ export default function Error({
             {t("go-to-home")}
           </Button>
           <Button
-            variant="destructive"
-            className="px-6 py-3 font-semibold rounded-lg shadow-lg "
+            className="px-6 py-3 font-semibold rounded-lg shadow-lg bg-red-500 text-white hover:bg-red-600 transition-transform transform "
             onClick={() => signOut()}
           >
             <LogOutIcon className="me-2 h-4 w-4" />
