@@ -61,9 +61,9 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFileSrc(acceptedFiles[0]);
-    if (acceptedFiles[0].type.startsWith("video/")) {
-      setFile(acceptedFiles[0]);
-    }
+
+    setFile(acceptedFiles[0]);
+
     setError(null);
   }, []);
 
@@ -302,7 +302,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
       {/* Image Crop, Resize, and Filter Section */}
       {fileSrc instanceof File && fileSrc.type.startsWith("image/") ? (
         <div className="relative h-80 flex-1 flex flex-col gap-5">
-          <div className="flex justify-between items-end">
+          <div className="flex justify-between items-end gap-2">
             <div className="flex flex-col gap-1">
               <Label htmlFor="scale-input">Scale: </Label>
               <Input
@@ -338,7 +338,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
               disabled={!convertFileToURL(fileSrc) || !crop}
               onClick={onSaveEditedImage}
             >
-              Save <SaveIcon className="h-4 w-4" />
+              Crop <SaveIcon className="h-4 w-4" />
             </Button>
           </div>
           <ReactCrop

@@ -43,11 +43,6 @@ export default async function Home({
       page: "1",
       count: "5",
     });
-    // console.log(showsResponse.message, "<<<<<<<<showsResponse.message");
-    // console.log(
-    //   showsResponse.message === "Unauthenticated.",
-    //   "<<<<<<<<showsResponse.message trueee"
-    // );
     if (showsResponse.message === "Unauthenticated.") {
       redirect("/sign-in");
     }
