@@ -23,6 +23,7 @@ const getPlaylists = async ({
       },
     }
   );
+  console.log(data.message, "<<<<<<<<data.message from services");
   return data;
 };
 

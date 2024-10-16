@@ -1,6 +1,6 @@
 import { ApiResponse, ApiResponseWithPagination } from ".";
 
-export type Stories = {
+export type Story = {
   id: number;
   description: string;
   type: string;
@@ -11,7 +11,7 @@ export type Stories = {
   is_viewd: boolean;
 };
 
-export type SelfStories = {
+export type SelfStory = {
   id: number;
   description: string;
   type: string;
@@ -36,10 +36,10 @@ export type StoriesResponse = ApiResponseWithPagination & {
       name: string;
       image: string;
     };
-    stories: Stories;
+    stories: Story;
   };
 };
 
 export type SelfStoriesResponse = ApiResponse & {
-  stories: SelfStories[];
+  stories: SelfStory[];
 };

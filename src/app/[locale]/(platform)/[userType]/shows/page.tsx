@@ -13,7 +13,7 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 
-import { Link, useRouter } from "@/navigation";
+import { Link, redirect, useRouter } from "@/navigation";
 import {
   Table,
   TableBody,
@@ -46,6 +46,9 @@ async function fetchPlaylists(page: string): Promise<PlaylistsResponse> {
     type: "podcaster",
     page,
   });
+  // if(res.message === "Unauthenticated.") {
+  //   redirect("/sign-in");
+  // }
   return res;
 }
 
