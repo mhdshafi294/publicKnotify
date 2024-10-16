@@ -28,6 +28,17 @@ const authMiddleware = withAuth(
   async function onSuccess(req: NextRequest) {
     // Retrieve the token from the request
     const token = await getToken({ req });
+
+    // Check if token exists and whether it's expired
+    if (
+      !token ||
+      (typeof token.exp === "number" && Date.now() >= token.exp * 1000)
+    ) {
+      // Token is either missing or expired, redirect to the sign-in page
+      const url = new URL("/sign-in", req.url);
+      return NextResponse.redirect(url);
+    }
+
     const user = token as CustomUser;
     const userType = user?.type;
 

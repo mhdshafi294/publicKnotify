@@ -16,6 +16,7 @@ import "react-photo-view/dist/react-photo-view.css";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import { redirect } from "@/navigation";
 
 // Font configurations
 const fontSans = FontSans({
