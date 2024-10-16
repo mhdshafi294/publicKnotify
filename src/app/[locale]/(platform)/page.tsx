@@ -16,6 +16,10 @@ export default async function Home() {
   // Fetch the current session using NextAuth's getServerSession
   const session = await getServerSession(authOptions);
 
+  if (!session || session.expires) {
+    redirect("/sign-in");
+  }
+
   // If a session exists, redirect the user to their respective type page
   if (session) {
     redirect(`/${session?.user?.type}`);

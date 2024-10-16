@@ -32,7 +32,7 @@ export default async function Home({
   const session = await getServerSession(authOptions);
 
   // Redirect to login if the session is not available
-  if (!session) {
+  if (!session || session.expires) {
     redirect("/sign-in");
   }
 
@@ -59,7 +59,7 @@ export default async function Home({
   const content = () => {
     if (session?.user?.type !== "podcaster") {
       return (
-        <div className="mt-8 w-full">
+        <div className="mt-8 w-full flex flex-col gap-5">
           <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
           <PodcastersSection params={params} searchParams={searchParams} />

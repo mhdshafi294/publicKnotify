@@ -561,7 +561,9 @@
     "go-to-contracts": "Go to contracts",
     "chat": "Chat",
     "create-podcast": "Create Podcast",
-    "trim-and-save-your-video-before-sharing-it": "Trim and save your video before sharing it"
+    "trim-and-save-your-video-before-sharing-it": "Trim and save your video before sharing it",
+    "your-active-stories": "Your active stories",
+    "go-to-home": "Go to Home"
   },
   "notifications": {
     "notifications": "notifications"

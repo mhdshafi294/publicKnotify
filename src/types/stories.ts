@@ -11,6 +11,24 @@ export type Stories = {
   is_viewd: boolean;
 };
 
+export type SelfStories = {
+  id: number;
+  description: string;
+  type: string;
+  color: string;
+  video: string;
+  image: string;
+  thumbnail: string;
+  viewers_count: number;
+  viewers: {
+    id: number;
+    name: string;
+    type: string;
+    image: string;
+  }[];
+  created_at: string;
+};
+
 export type StoriesResponse = ApiResponseWithPagination & {
   stories: {
     podcaster: {
@@ -23,5 +41,5 @@ export type StoriesResponse = ApiResponseWithPagination & {
 };
 
 export type SelfStoriesResponse = ApiResponse & {
-  stories: Stories;
+  stories: SelfStories[];
 };

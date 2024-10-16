@@ -136,7 +136,7 @@ const InfiniteScrollPodcastersCarousel = ({
           </Link>
         </div>
       </div>
-      <CarouselContent className="w-full mt-5 ms-0 min-h-56 gap-3">
+      <CarouselContent className="w-full mt-2 ms-0 gap-3">
         {data?.pages[0].podcasters.length === 0 ? (
           <p className="text-lg my-auto opacity-70 dark:opacity-50 italic">
             {t("noPodcastersYet")}
