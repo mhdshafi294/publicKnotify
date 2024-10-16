@@ -43,6 +43,9 @@ export default async function Home({
       page: "1",
       count: "5",
     });
+    if (showsResponse.message === "Unauthenticated.") {
+      redirect("/sign-in");
+    }
     if (showsResponse?.playlists?.length > 0) {
       redirect(
         `/${session?.user?.type}/shows/${showsResponse.playlists[0].id}`
