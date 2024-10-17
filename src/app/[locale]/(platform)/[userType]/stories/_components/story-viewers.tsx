@@ -14,6 +14,16 @@ interface StoryViewersProps {
   story: SelfStory;
 }
 
+/**
+ * The StoryViewers component renders a button that displays the number of
+ * viewers for a story, and a dropdown menu that shows all the viewers. When
+ * the button is clicked, it toggles the visibility of the dropdown menu.
+ *
+ * @param {{ story: SelfStory }} props - The props for the component.
+ * @param {SelfStory} props.story - The story object that contains the viewers.
+ *
+ * @example
+ **/
 const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
   const [isViewAllOpen, setIsViewAllOpen] = useState(true);
   const maxVisibleViewers = 5;

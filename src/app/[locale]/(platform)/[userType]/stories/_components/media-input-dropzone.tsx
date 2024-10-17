@@ -250,7 +250,12 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
       {/* File Dropzone and Image/Video Preview */}
       {!(fileSrc instanceof File && fileSrc.type.startsWith("image/")) ? (
         <div
-          {...getRootProps({ refKey: "innerref" })}
+          {...getRootProps({
+            refKey: "innerref",
+            onTouchStart: () => {
+              inputRef.current?.click();
+            },
+          })}
           className="h-80 relative flex-1 border border-dashed flex justify-center items-center shrink-0 rounded-xl"
         >
           <input {...getInputProps({ ref: inputRef, refKey: "innerref" })} />

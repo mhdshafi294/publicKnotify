@@ -10,6 +10,16 @@ interface StoryContentProps {
   onVideoLoad: () => void;
 }
 
+/**
+ * A component that renders the content of a story, given its type.
+ *
+ * If the story type is "image", it renders an Image component with the story's image.
+ * If the story type is "video", it renders a video element with the story's video.
+ * If the story type is "text", it renders a div with the story's description.
+ *
+ * @param {StoryContentProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered content of the story.
+ */
 const StoryContent: React.FC<StoryContentProps> = ({
   story,
   videoRef,

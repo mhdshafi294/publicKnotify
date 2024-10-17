@@ -8,6 +8,23 @@ interface StoryProgressProps {
   onProgressStart: () => void;
 }
 
+/**
+ * StoryProgress
+ *
+ * Progress bar for stories, with each story represented as a
+ * bar segment. The width of each segment is determined by the
+ * `progress` prop, which is a number between 0 and 100. The
+ * `onStoryChange` prop is called when a story segment is clicked,
+ * with the index of the segment as an argument. The `onProgressStart`
+ * prop is called when a story segment is clicked, and is used to
+ * start the progress animation.
+ *
+ * @param stories - array of story objects
+ * @param currentIndex - index of the currently displayed story
+ * @param progress - progress of the current story as a number between 0 and 100
+ * @param onStoryChange - callback when a story segment is clicked
+ * @param onProgressStart - callback when a story segment is clicked
+ */
 const StoryProgress: React.FC<StoryProgressProps> = ({
   stories,
   currentIndex,
