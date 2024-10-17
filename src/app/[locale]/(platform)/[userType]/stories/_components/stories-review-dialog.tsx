@@ -175,7 +175,7 @@ const StoriesReviewDialog = () => {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <DialogTitle className="sr-only">Story Viewer</DialogTitle>
+        <DialogTitle className="sr-only">{t("story-viewer")}</DialogTitle>
         <StoryProgress
           stories={data.stories}
           currentIndex={currentStoryIndex}
