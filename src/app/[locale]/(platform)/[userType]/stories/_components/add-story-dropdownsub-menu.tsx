@@ -38,7 +38,7 @@ const AddStoryDropdownMenuSub = ({
           <CircleFadingPlusIcon className="me-2 h-4 w-4" />
           <span>{t("add-story")}</span>
         </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent>
+        <DropdownMenuSubContent className="rounded-2xl">
           <DropdownMenuItem
             className="flex"
             onClick={() => {

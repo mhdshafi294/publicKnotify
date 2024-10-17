@@ -28,10 +28,10 @@ export interface CustomUser {
 
 // Configure NextAuth options
 export const authOptions: AuthOptions = {
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60 * 24 * 15, // 15 days expiration
-  },
+  // session: {
+  //   strategy: "jwt",
+  //   maxAge: 60 * 60 * 24 * 15, // 15 days expiration
+  // },
   callbacks: {
     // Handle JWT callbacks to include custom user data and handle session updates
     async jwt({ token, user, trigger, session }) {
