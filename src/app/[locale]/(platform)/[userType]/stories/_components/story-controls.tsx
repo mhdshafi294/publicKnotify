@@ -20,6 +20,14 @@ interface StoryControlsProps {
   onToggleMute: () => void;
 }
 
+/**
+ * StoryControls component that renders the controls for the story slider.
+ *
+ * @param {StoryControlsProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered StoryControls component.
+ *
+ * @example
+ **/
 const StoryControls: React.FC<StoryControlsProps> = ({
   currentIndex,
   totalStories,
