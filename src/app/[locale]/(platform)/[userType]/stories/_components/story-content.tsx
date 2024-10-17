@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { SelfStory } from "@/types/stories";
+import { SelfStory, Story } from "@/types/stories";
 import { getContrastTextColor } from "@/lib/utils";
 
 interface StoryContentProps {
-  story: SelfStory;
+  story: SelfStory | Story;
   videoRef: React.RefObject<HTMLVideoElement>;
   isMuted: boolean;
   onVideoEnd: () => void;

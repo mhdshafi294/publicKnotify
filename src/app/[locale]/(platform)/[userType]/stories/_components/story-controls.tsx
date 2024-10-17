@@ -42,28 +42,28 @@ const StoryControls: React.FC<StoryControlsProps> = ({
 }) => {
   return (
     <>
-      {!isMobile && (
-        <>
-          <div className="absolute inset-y-0 left-0 flex items-center">
-            <button
-              onClick={onPrevious}
-              className="p-2 bg-black/30 text-white rounded-r-full"
-              disabled={currentIndex === 0}
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-          </div>
-          <div className="absolute inset-y-0 right-0 flex items-center">
-            <button
-              onClick={onNext}
-              className="p-2 bg-black/30 text-white rounded-l-full"
-              disabled={currentIndex === totalStories - 1}
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
-        </>
-      )}
+      {/* {!isMobile && ( */}
+      <>
+        <div className="absolute inset-y-0 left-0 flex items-center">
+          <button
+            onClick={onPrevious}
+            className="p-2 bg-black/30 text-white rounded-r-full"
+            disabled={currentIndex === 0}
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="absolute inset-y-0 right-0 flex items-center">
+          <button
+            onClick={onNext}
+            className="p-2 bg-black/30 text-white rounded-l-full"
+            disabled={currentIndex === totalStories - 1}
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        </div>
+      </>
+      {/* )} */}
       <div className="absolute bottom-4 right-4 flex gap-2">
         {isVideo && (
           <button

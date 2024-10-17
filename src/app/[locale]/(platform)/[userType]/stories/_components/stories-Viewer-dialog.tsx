@@ -1,10 +1,9 @@
 "use client";
 
-import { getSelfStoriesAction } from "@/app/actions/storyActions";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { useQuery } from "@tanstack/react-query";
+import { SelfStory, Story } from "@/types/stories";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import StoryContent from "./story-content";
@@ -14,7 +13,39 @@ import StoryViewers from "./story-viewers";
 
 const STORY_DURATION = 7000; // 7 seconds per story
 
-const StoriesReviewDialog = () => {
+type StoriesViewerDialogProps = {
+  storyGroup: {
+    podcaster: {
+      id: number;
+      name: string;
+      image: string;
+    };
+    stories: (Story | SelfStory)[];
+  };
+  allStories: {
+    podcaster: {
+      id: number;
+      name: string;
+      image: string;
+    };
+    stories: (Story | SelfStory)[];
+  }[];
+  currentIndex: number;
+  onIndexChange: (index: number) => void;
+  onFinish: () => void;
+};
+
+const isSelfStory = (story: Story | SelfStory): story is SelfStory => {
+  return "viewers_count" in story;
+};
+
+const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
+  storyGroup,
+  allStories,
+  currentIndex,
+  onIndexChange,
+  onFinish,
+}) => {
   const t = useTranslations("Index");
   const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
   const [progress, setProgress] = useState(0);
@@ -25,20 +56,12 @@ const StoriesReviewDialog = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
 
   const {
     isStoryReviewDialogOpen: isOpen,
     setIsStoryReviewDialogOpen: onOpenChange,
   } = useAddStoryDialogsStore();
-
-  const { data } = useQuery({
-    queryKey: ["self_stories"],
-    queryFn: () =>
-      getSelfStoriesAction({
-        type: "podcaster",
-      }),
-    enabled: isOpen,
-  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,7 +77,7 @@ const StoriesReviewDialog = () => {
   }, []);
 
   useEffect(() => {
-    if (isOpen && data?.stories && data?.stories.length > 0) {
+    if (isOpen && storyGroup.stories && storyGroup.stories.length > 0) {
       startProgressTimer();
     }
     return () => {
@@ -62,8 +85,7 @@ const StoriesReviewDialog = () => {
         clearInterval(progressIntervalRef.current);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, data, currentStoryIndex, isPaused]);
+  }, [isOpen, storyGroup, currentStoryIndex, isPaused]);
 
   const startProgressTimer = useCallback(() => {
     if (isPaused) return;
@@ -73,7 +95,7 @@ const StoriesReviewDialog = () => {
       clearInterval(progressIntervalRef.current);
     }
 
-    const currentStory = data?.stories[currentStoryIndex];
+    const currentStory = storyGroup.stories[currentStoryIndex];
     const duration =
       currentStory?.type === "video"
         ? (videoRef.current?.duration || 25) * 1000
@@ -89,25 +111,46 @@ const StoriesReviewDialog = () => {
         return prevProgress + (100 / duration) * 100; // Update every 100ms
       });
     }, 100);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.stories, currentStoryIndex, isPaused]);
+  }, [storyGroup.stories, currentStoryIndex, isPaused]);
 
   const moveToNextStory = useCallback(() => {
-    if (data?.stories && currentStoryIndex < data?.stories.length - 1) {
+    if (currentStoryIndex < storyGroup.stories.length - 1) {
       setCurrentStoryIndex(currentStoryIndex + 1);
       startProgressTimer();
+    } else if (currentIndex < allStories.length - 1) {
+      onIndexChange(currentIndex + 1);
+      setCurrentStoryIndex(0);
     } else {
       onOpenChange(false);
       setCurrentStoryIndex(0);
+      onFinish();
     }
-  }, [data?.stories, currentStoryIndex, onOpenChange, startProgressTimer]);
+  }, [
+    currentStoryIndex,
+    storyGroup.stories.length,
+    currentIndex,
+    allStories.length,
+    onIndexChange,
+    onOpenChange,
+    onFinish,
+    startProgressTimer,
+  ]);
 
   const moveToPreviousStory = useCallback(() => {
     if (currentStoryIndex > 0) {
       setCurrentStoryIndex(currentStoryIndex - 1);
       startProgressTimer();
+    } else if (currentIndex > 0) {
+      onIndexChange(currentIndex - 1);
+      setCurrentStoryIndex(allStories[currentIndex - 1].stories.length - 1);
     }
-  }, [currentStoryIndex, startProgressTimer]);
+  }, [
+    currentStoryIndex,
+    currentIndex,
+    onIndexChange,
+    allStories,
+    startProgressTimer,
+  ]);
 
   const togglePause = useCallback(() => {
     setIsPaused(!isPaused);
@@ -133,34 +176,41 @@ const StoriesReviewDialog = () => {
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
   }, []);
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
-      if (touchStartX.current === null) return;
+      if (touchStartX.current === null || touchStartY.current === null) return;
 
       const touchEndX = e.changedTouches[0].clientX;
-      const diff = touchStartX.current - touchEndX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchStartX.current - touchEndX;
+      const diffY = touchStartY.current - touchEndY;
 
-      if (Math.abs(diff) > 50) {
-        // Threshold for swipe
-        if (diff > 0) {
-          moveToNextStory();
-        } else {
-          moveToPreviousStory();
+      // Check if the swipe is more horizontal than vertical
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (Math.abs(diffX) > 50) {
+          // Threshold for swipe
+          if (diffX > 0) {
+            moveToNextStory();
+          } else {
+            moveToPreviousStory();
+          }
         }
       }
 
       touchStartX.current = null;
+      touchStartY.current = null;
     },
     [moveToNextStory, moveToPreviousStory]
   );
 
-  if (!data?.stories || data.stories.length === 0) {
+  if (!storyGroup.stories || storyGroup.stories.length === 0) {
     return null;
   }
 
-  const currentStory = data.stories[currentStoryIndex];
+  const currentStory = storyGroup.stories[currentStoryIndex];
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -175,9 +225,9 @@ const StoriesReviewDialog = () => {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <DialogTitle className="sr-only">{t("story-viewer")}</DialogTitle>
+        <DialogTitle className="sr-only">Story Viewer</DialogTitle>
         <StoryProgress
-          stories={data.stories}
+          stories={storyGroup.stories as Story[]}
           currentIndex={currentStoryIndex}
           progress={progress}
           onStoryChange={setCurrentStoryIndex}
@@ -191,11 +241,11 @@ const StoriesReviewDialog = () => {
             onVideoEnd={moveToNextStory}
             onVideoLoad={startProgressTimer}
           />
-          <StoryViewers story={currentStory} />
+          {isSelfStory(currentStory) && <StoryViewers story={currentStory} />}
         </div>
         <StoryControls
           currentIndex={currentStoryIndex}
-          totalStories={data.stories.length}
+          totalStories={storyGroup.stories.length}
           isVideo={currentStory.type === "video"}
           isPaused={isPaused}
           isMuted={isMuted}
@@ -210,4 +260,4 @@ const StoriesReviewDialog = () => {
   );
 };
 
-export default StoriesReviewDialog;
+export default StoriesViewerDialog;

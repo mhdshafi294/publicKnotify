@@ -529,7 +529,9 @@
     "trim-and-save-your-video-before-sharing-it": "قم بقص صورتك وحفظها قبل مشاركتها",
     "your-active-stories": "قصصك النشطة",
     "go-to-home": "اذهب إلى الصفحة الرئيسية",
-    "story-viewer": "عارض القصة"
+    "story-viewer": "عارض القصة",
+    "viewers": "المشاهدين",
+    "stories": "قصص"
   },
   "notifications": {
     "notifications": "notifications"

@@ -65,6 +65,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
     setFile(acceptedFiles[0]);
 
     setError(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

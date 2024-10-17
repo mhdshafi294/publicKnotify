@@ -19,8 +19,8 @@ export const getStoriesAction = async ({
   count = "26",
   type,
 }: {
-  page: string;
-  count: string;
+  page?: string;
+  count?: string;
   type: string;
 }) => {
   const getRequestsResponse = await getStories({

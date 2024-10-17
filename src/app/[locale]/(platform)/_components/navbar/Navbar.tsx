@@ -6,7 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Link } from "@/navigation";
 import { PlaylistsResponse } from "@/types/podcast";
-import StoryUploadDialogsFormContainer from "../../[userType]/stories/_components/story-upload-dialogs-form-container";
+import SelfStoriesDialogsContainer from "../../[userType]/stories/_components/self-stories-dialogs-container";
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import PodcasterShow from "./podcaster-show";
@@ -60,7 +60,7 @@ const Navbar = async (): Promise<JSX.Element> => {
         <MobileNavbar playlists={playlistData?.playlists!} />
         {/* Story Upload Dialogs Form Container */}
         {session && session.user.type === "podcaster" ? (
-          <StoryUploadDialogsFormContainer />
+          <SelfStoriesDialogsContainer />
         ) : null}
       </MaxWidthContainer>
     </div>

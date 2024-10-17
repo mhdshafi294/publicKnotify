@@ -7,6 +7,7 @@ import TrendingSection from "@/app/[locale]/(platform)/_components/trending-sect
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
+import StoriesSection from "../_components/stories-section";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -62,6 +63,7 @@ export default async function Home({
     if (session?.user?.type !== "podcaster") {
       return (
         <div className="mt-8 w-full flex flex-col gap-5">
+          <StoriesSection params={params} searchParams={searchParams} />
           <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
           <PodcastersSection params={params} searchParams={searchParams} />

@@ -1,4 +1,4 @@
-import { ApiResponse, Pagination } from ".";
+import { ApiResponse, ApiResponseWithPagination, Pagination } from ".";
 import { Company } from "./company";
 import { CategoryDetails } from "./podcast";
 import { Podcaster } from "./podcaster";
@@ -69,7 +69,6 @@ export type RequestResponse = ApiResponse & {
   request: RequestDetails;
 };
 
-export type RequestsResponse = ApiResponse & {
+export type RequestsResponse = ApiResponseWithPagination & {
   requests: Request[];
-  pagination: Pagination;
 };

@@ -1,7 +1,7 @@
-import { SelfStory } from "@/types/stories";
+import { SelfStory, Story } from "@/types/stories";
 
 interface StoryProgressProps {
-  stories: SelfStory[];
+  stories: SelfStory[] | Story[];
   currentIndex: number;
   progress: number;
   onStoryChange: (index: number) => void;
