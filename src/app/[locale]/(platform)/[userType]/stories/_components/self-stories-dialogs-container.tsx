@@ -1,12 +1,12 @@
 "use client";
 
-import React, { Fragment } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getSelfStoriesAction } from "@/app/actions/storyActions";
+import React, { Fragment, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getSelfStoriesAction } from "@/app/actions/storiesActions";
 import AddStoryMediaDialog from "./add-story-media-dialog";
 import AddStoryTextDialog from "./add-story-text-dialog";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { SelfStoriesResponse, SelfStory } from "@/types/stories";
+import { SelfStoriesResponse } from "@/types/stories";
 import StoriesViewerDialog from "./stories-Viewer-dialog";
 
 const SelfStoriesDialogsContainer = () => {
@@ -19,7 +19,19 @@ const SelfStoriesDialogsContainer = () => {
       getSelfStoriesAction({
         type: "podcaster",
       }),
+    refetchInterval: 30000, // 30 seconds
   });
+
+  const queryClient = useQueryClient();
+
+  // Invalidate the query when `isStoryReviewDialogOpen` changes
+  useEffect(() => {
+    if (isStoryReviewDialogOpen) {
+      queryClient.invalidateQueries({
+        queryKey: ["self_stories"], // Pass the queryKey correctly in an object
+      });
+    }
+  }, [isStoryReviewDialogOpen, queryClient]);
 
   const handleFinishStories = () => {
     setIsStoryReviewDialogOpen(false);
@@ -46,6 +58,7 @@ const SelfStoriesDialogsContainer = () => {
           storyGroup={storyGroup}
           allStories={[storyGroup]}
           currentIndex={0}
+          initialStoryIndex={0}
           onIndexChange={() => {}}
           onFinish={handleFinishStories}
         />

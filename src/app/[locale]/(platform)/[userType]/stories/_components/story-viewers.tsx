@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { SelfStory } from "@/types/stories";
 import { Eye, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 interface StoryViewersProps {
   story: SelfStory;
@@ -37,7 +37,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
   };
 
   return (
-    <>
+    <Fragment>
       <button
         className="absolute z-10 bottom-16 left-4 flex items-center bg-black/50 rounded-full px-3 py-1 cursor-pointer"
         onClick={handleViewersTap}
@@ -111,7 +111,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

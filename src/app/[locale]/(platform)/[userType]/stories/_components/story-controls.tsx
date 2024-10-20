@@ -34,7 +34,6 @@ const StoryControls: React.FC<StoryControlsProps> = ({
   isVideo,
   isPaused,
   isMuted,
-  isMobile,
   onPrevious,
   onNext,
   onTogglePause,
@@ -57,7 +56,7 @@ const StoryControls: React.FC<StoryControlsProps> = ({
           <button
             onClick={onNext}
             className="p-2 bg-black/30 text-white rounded-l-full"
-            disabled={currentIndex === totalStories - 1}
+            // disabled={currentIndex === totalStories - 1}
           >
             <ChevronRight className="w-6 h-6" />
           </button>

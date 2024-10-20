@@ -1,11 +1,8 @@
-import { getTrendingAction } from "@/app/actions/podcastActions";
-import { getStoriesAction } from "@/app/actions/storyActions";
+import { getStoriesAction } from "@/app/actions/storiesActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import InfiniteScrollStoriesCarousel from "@/components/infinite-scroll-stories-carousel";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 
 const StoriesSection = async ({

@@ -4,7 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState, useCallback } from "react";
-import { getStoriesAction } from "@/app/actions/storyActions";
+import { getStoriesAction } from "@/app/actions/storiesActions";
 import {
   Carousel,
   CarouselContent,
@@ -33,6 +33,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
   const [currentPodcasterIndex, setCurrentPodcasterIndex] = useState<
     number | null
   >(null);
+  const [currentStoryIndex, setCurrentStoryIndex] = useState(0);
 
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0,
@@ -85,20 +86,30 @@ const InfiniteScrollStoriesCarousel: React.FC<
       currentPodcasterIndex < allStories.length - 1
     ) {
       setCurrentPodcasterIndex(currentPodcasterIndex + 1);
+      setCurrentStoryIndex(0);
       setIsStoryReviewDialogOpen(true);
     } else {
       setCurrentPodcasterIndex(null);
+      setCurrentStoryIndex(0);
       setIsStoryReviewDialogOpen(false);
     }
   }, [currentPodcasterIndex, data, setIsStoryReviewDialogOpen]);
+
+  const handleActivateStory = useCallback(
+    (index: number, firstUnreadIndex: number) => {
+      setCurrentPodcasterIndex(index);
+      setCurrentStoryIndex(firstUnreadIndex);
+    },
+    []
+  );
 
   const allStories = data?.pages.flatMap((page) => page.stories) || [];
 
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
-      <div className="flex justify-between items-center">
+      {/* <div className="flex justify-between items-center">
         <h2 className="font-bold text-2xl">{t("stories")}</h2>
-      </div>
+      </div> */}
       <CarouselContent className="w-full mt-2 ms-0 gap-3">
         {allStories.length === 0 ? (
           <p className="text-lg my-auto opacity-70 dark:opacity-50 italic">
@@ -114,7 +125,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
                 storyGroup={storyGroup}
                 index={index}
                 isActive={index === currentPodcasterIndex}
-                onActivate={setCurrentPodcasterIndex}
+                onActivate={handleActivateStory}
                 onFinish={handleFinishStories}
               />
             </CarouselItem>
@@ -135,6 +146,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
           storyGroup={allStories[currentPodcasterIndex]}
           allStories={allStories}
           currentIndex={currentPodcasterIndex}
+          initialStoryIndex={currentStoryIndex}
           onIndexChange={setCurrentPodcasterIndex}
           onFinish={handleFinishStories}
         />
