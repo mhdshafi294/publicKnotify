@@ -20,7 +20,7 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
   const session = await getServerSession(authOptions);
 
   return (
-    <Link href={`contract/${transaction?.contract?.id}`}>
+    <Link href={`contracts/${transaction?.contract?.id}`}>
       <div className="w-full p-4 rounded-2xl bg-background hover:bg-border-secondary duration-150 space-y-5">
         <div className="w-full flex justify-between">
           <div className="w-full flex gap-5">

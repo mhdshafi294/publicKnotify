@@ -1,5 +1,6 @@
 "use client";
 
+import { getSelfStoriesAction } from "@/app/actions/storiesActions";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -8,11 +9,12 @@ import {
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
+import { SelfStoriesResponse } from "@/types/stories";
+import { useQuery } from "@tanstack/react-query";
 import {
   BoomBoxIcon,
   CircleFadingPlusIcon,
   ImagesIcon,
-  LoaderCircleIcon,
   PencilIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -30,6 +32,14 @@ const AddStoryDropdownMenuSub = ({
     setStoryTextDialogIsOpen: setIsTextDialogOpen,
     setIsStoryReviewDialogOpen: setIsReviewDialogOpen,
   } = useAddStoryDialogsStore();
+
+  const { data } = useQuery<SelfStoriesResponse>({
+    queryKey: ["self_stories"],
+    queryFn: () =>
+      getSelfStoriesAction({
+        type: "podcaster",
+      }),
+  });
 
   return (
     <Fragment>
@@ -59,17 +69,21 @@ const AddStoryDropdownMenuSub = ({
             <PencilIcon className="me-3 h-4 w-4" />
             <span>{t("text")}</span>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="flex"
-            onClick={() => {
-              setUserOptionDropdownMenu(false);
-              setIsReviewDialogOpen(true);
-            }}
-          >
-            <BoomBoxIcon className="me-3 h-4 w-4" />
-            <span>{t("your-active-stories")}</span>
-          </DropdownMenuItem>
+          {data?.stories && data?.stories?.length > 0 ? (
+            <Fragment>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="flex"
+                onClick={() => {
+                  setUserOptionDropdownMenu(false);
+                  setIsReviewDialogOpen(true);
+                }}
+              >
+                <BoomBoxIcon className="me-3 h-4 w-4" />
+                <span>{t("your-active-stories")}</span>
+              </DropdownMenuItem>
+            </Fragment>
+          ) : null}
         </DropdownMenuSubContent>
       </DropdownMenuSub>
       {/* <AddStoryMediaDialog isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}

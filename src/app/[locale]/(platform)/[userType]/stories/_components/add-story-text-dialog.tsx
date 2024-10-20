@@ -1,6 +1,6 @@
 "use client";
 
-import { createStoryAction } from "@/app/actions/storyActions";
+import { createStoryAction } from "@/app/actions/storiesActions";
 import { Button } from "@/components/ui/button";
 import ColorPicker from "@/components/ui/color-picker";
 import {

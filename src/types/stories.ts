@@ -36,8 +36,8 @@ export type StoriesResponse = ApiResponseWithPagination & {
       name: string;
       image: string;
     };
-    stories: Story;
-  };
+    stories: Story[];
+  }[];
 };
 
 export type SelfStoriesResponse = ApiResponse & {

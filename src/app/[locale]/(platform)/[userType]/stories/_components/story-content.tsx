@@ -1,24 +1,28 @@
-import Image from "next/image";
-import { SelfStory } from "@/types/stories";
 import { getContrastTextColor } from "@/lib/utils";
+import { Story, SelfStory } from "@/types/stories";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 interface StoryContentProps {
-  story: SelfStory;
+  story: Story | SelfStory;
   videoRef: React.RefObject<HTMLVideoElement>;
   isMuted: boolean;
   onVideoEnd: () => void;
   onVideoLoad: () => void;
+  markStoryRead: (storyId: string) => void;
 }
 
 /**
- * A component that renders the content of a story, given its type.
+ * A component that renders the content of a story.
  *
- * If the story type is "image", it renders an Image component with the story's image.
- * If the story type is "video", it renders a video element with the story's video.
- * If the story type is "text", it renders a div with the story's description.
+ * @param {Story | SelfStory} story - The story object.
+ * @param {React.RefObject<HTMLVideoElement>} videoRef - A reference to the video element.
+ * @param {boolean} isMuted - Whether the video is muted or not.
+ * @param {() => void} onVideoEnd - A callback that is called when the video ends.
+ * @param {() => void} onVideoLoad - A callback that is called when the video is loaded.
+ * @param {(storyId: string) => void} markStoryRead - A callback that marks a story as read.
  *
- * @param {StoryContentProps} props - The properties passed to the component.
- * @returns {JSX.Element} The rendered content of the story.
+ * @returns {JSX.Element} The rendered StoryContent component.
  */
 const StoryContent: React.FC<StoryContentProps> = ({
   story,
@@ -26,45 +30,65 @@ const StoryContent: React.FC<StoryContentProps> = ({
   isMuted,
   onVideoEnd,
   onVideoLoad,
+  markStoryRead,
 }) => {
-  switch (story.type) {
-    case "image":
-      return (
-        <Image
-          src={story.image}
-          alt={story.description || "story image"}
-          layout="fill"
-          className="w-full h-auto object-contain"
-        />
-      );
-    case "video":
-      return (
-        <div className="w-full h-full flex items-center justify-center py-4 relative">
-          <video
-            ref={videoRef}
-            src={story.video}
-            className="w-full h-auto object-contain"
-            autoPlay
-            playsInline
-            muted={isMuted}
-            onLoadedMetadata={onVideoLoad}
-            onEnded={onVideoEnd}
-          />
-        </div>
-      );
-    case "text":
-      return (
-        <div className="w-full h-full flex items-center justify-center p-4">
-          <p
-            style={{ color: getContrastTextColor(story.color || "#000000") }}
-            className="text-lg text-center"
-          >
-            {story.description}
-          </p>
-        </div>
-      );
-    default:
-      return null;
+  const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (story.type === "image" && imageRef.current) {
+      const img = imageRef.current;
+      if (img.complete) {
+        markStoryRead(story.id.toString());
+      } else {
+        img.onload = () => markStoryRead(story.id.toString());
+      }
+    }
+  }, [story, markStoryRead]);
+
+  const handleVideoPlay = () => {
+    if (story.type === "video") {
+      markStoryRead(story.id.toString());
+    }
+  };
+
+  if (story.type === "video") {
+    return (
+      <video
+        ref={videoRef}
+        src={story.video}
+        className="w-full h-full object-contain"
+        autoPlay
+        playsInline
+        muted={isMuted}
+        onEnded={onVideoEnd}
+        onLoadedMetadata={onVideoLoad}
+        onPlay={handleVideoPlay}
+      />
+    );
+  } else if (story.type === "image") {
+    return (
+      <Image
+        ref={imageRef}
+        src={story.image}
+        alt="Story"
+        layout="fill"
+        objectFit="contain"
+      />
+    );
+  } else {
+    return (
+      <div
+        className="flex items-center justify-center w-full h-full  dark:bg-gray-800"
+        style={{
+          background: story.color,
+          color: getContrastTextColor(story.color || "#000000"),
+        }}
+      >
+        <p className="text-3xl font-medium text-center px-4">
+          {story.description}
+        </p>
+      </div>
+    );
   }
 };
 
