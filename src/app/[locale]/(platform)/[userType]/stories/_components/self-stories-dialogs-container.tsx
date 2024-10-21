@@ -8,6 +8,7 @@ import AddStoryTextDialog from "./add-story-text-dialog";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
 import StoriesViewerDialog from "./stories-Viewer-dialog";
+import { useSession } from "next-auth/react";
 
 const SelfStoriesDialogsContainer = () => {
   const { isStoryReviewDialogOpen, setIsStoryReviewDialogOpen } =
@@ -37,13 +38,15 @@ const SelfStoriesDialogsContainer = () => {
     setIsStoryReviewDialogOpen(false);
   };
 
+  const { data: session } = useSession();
+
   // Create a storyGroup object that matches the expected structure
   const storyGroup = data?.stories
     ? {
         podcaster: {
           id: 0, // Assuming the podcaster's own ID is 0 for self-stories
           name: "You", // Or any other appropriate name for self-stories
-          image: data.stories[0]?.image || "/placeholder.svg", // Use the first story's image or a placeholder
+          image: session?.user?.image || "/podcaster-filler.webp", // Use the first story's image or a placeholder
         },
         stories: data.stories,
       }

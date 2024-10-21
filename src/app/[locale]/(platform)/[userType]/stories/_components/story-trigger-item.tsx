@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Story } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 
 interface StoryTriggerItemProps {
   storyGroup: {
@@ -27,6 +28,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 }) => {
   const { setIsStoryReviewDialogOpen } = useAddStoryDialogsStore();
   const [firstUnreadIndex, setFirstUnreadIndex] = useState(0);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const unreadIndex = storyGroup.stories.findIndex(
@@ -44,7 +46,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   const segmentCount = Math.max(storyGroup.stories.length, 1);
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 12; // 4 degrees gap between segments
+  const gapAngle = 12; // 12 degrees gap between segments
 
   const createArcPath = (
     startAngle: number,
@@ -94,7 +96,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
             alt={storyGroup.podcaster.name}
             className="object-cover"
           />
-          <AvatarFallback className="uppercase bg-primary text-2xl">
+          <AvatarFallback className="uppercase bg-primary text-white text-2xl">
             {storyGroup.podcaster.name.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
@@ -112,7 +114,11 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 d={createArcPath(startAngle, endAngle, 48)}
                 fill="none"
                 stroke={
-                  story && !story.is_viewd ? "hsl(var(--greeny))" : "#fff5"
+                  story && !story.is_viewd
+                    ? "hsl(var(--greeny))"
+                    : theme === "dark"
+                    ? "#fff5"
+                    : "#0003"
                 }
                 strokeWidth="4"
                 strokeLinecap="round"

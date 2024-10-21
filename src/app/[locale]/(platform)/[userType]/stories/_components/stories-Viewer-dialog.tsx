@@ -14,6 +14,7 @@ import { markStoryReadAction } from "@/app/actions/storiesActions";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import debounce from "lodash/debounce";
+import StoryHeader from "./story-header";
 
 const STORY_DURATION = 10000; // 10 seconds per story
 
@@ -276,6 +277,7 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
+        dir="ltr"
         dialogClose={false}
         ref={containerRef}
         style={{
@@ -287,14 +289,19 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
         onTouchEnd={handleTouchEnd}
       >
         <DialogTitle className="sr-only">Story Viewer</DialogTitle>
-        <StoryProgress
-          stories={storyGroup.stories as Story[]}
-          currentIndex={currentStoryIndex}
-          progress={progress}
-          onStoryChange={setCurrentStoryIndex}
-          onProgressStart={startProgressTimer}
-        />
+
         <div className="relative flex-grow">
+          <StoryProgress
+            stories={storyGroup.stories as Story[]}
+            currentIndex={currentStoryIndex}
+            progress={progress}
+            onStoryChange={setCurrentStoryIndex}
+            onProgressStart={startProgressTimer}
+          />
+          <StoryHeader
+            podcaster={storyGroup.podcaster}
+            createdAt={currentStory.created_at}
+          />
           <StoryContent
             story={currentStory}
             videoRef={videoRef}

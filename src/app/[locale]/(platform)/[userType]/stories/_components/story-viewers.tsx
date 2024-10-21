@@ -51,8 +51,14 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Avatar className="w-6 h-6 border-2 border-white">
-                    <AvatarImage src={viewer.image} alt={viewer.name} />
-                    <AvatarFallback>{viewer.name[0]}</AvatarFallback>
+                    <AvatarImage
+                      src={viewer.image}
+                      alt={viewer.name}
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="uppercase text-black text-3xl">
+                      {viewer.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -100,7 +106,9 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
                     alt={viewer.name}
                     className="object-cover"
                   />
-                  <AvatarFallback>{viewer.name[0]}</AvatarFallback>
+                  <AvatarFallback className="uppercase text-black text-3xl">
+                    {viewer.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
                   <span className="text-white font-medium">{viewer.name}</span>

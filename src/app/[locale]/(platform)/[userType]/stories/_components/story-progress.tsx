@@ -33,7 +33,7 @@ const StoryProgress: React.FC<StoryProgressProps> = ({
   onProgressStart,
 }) => {
   return (
-    <div className="flex w-full px-2 py-2 gap-1 bg-black/30">
+    <div className="flex w-full px-2 py-2 gap-1 bg-black/30 absolute top-0 left-0 right-0 z-10 rounded-t-lg">
       {stories.map((_, index) => (
         <div
           key={index}
