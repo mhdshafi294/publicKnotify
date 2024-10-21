@@ -101,7 +101,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
           </AvatarFallback>
         </Avatar>
         <svg
-          className="absolute top-0 left-0 size-[6rem]"
+          className="absolute top-0 left-0 size-[6rem] stroke-[#fff5]"
           viewBox="0 0 100 100"
         >
           {Array.from({ length: segmentCount }).map((_, i) => {
