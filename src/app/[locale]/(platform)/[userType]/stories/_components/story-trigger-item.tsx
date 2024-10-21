@@ -116,9 +116,9 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 stroke={
                   story && !story.is_viewd
                     ? "hsl(var(--greeny))"
-                    : theme === "dark"
-                    ? "#fff5"
-                    : "#0003"
+                    : theme !== "dark"
+                    ? "#0003"
+                    : "#fff5"
                 }
                 strokeWidth="4"
                 strokeLinecap="round"
