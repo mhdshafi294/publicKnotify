@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import AddStoryDropdownMenuSub from "../../[userType]/stories/_components/add-story-dropdownsub-menu";
+import SelfStoriesDropdownSubMenu from "../../[userType]/stories/_components/self-stories-dropdownsub-menu";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -97,7 +97,7 @@ const UserOptions = () => {
               </DropdownMenuItem>
             </Link>
             {session?.user?.type === "podcaster" ? (
-              <AddStoryDropdownMenuSub
+              <SelfStoriesDropdownSubMenu
                 setUserOptionDropdownMenu={setUserOptionDropdownMenu}
               />
             ) : null}

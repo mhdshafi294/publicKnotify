@@ -44,7 +44,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   const segmentCount = Math.max(storyGroup.stories.length, 1);
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 4; // 4 degrees gap between segments
+  const gapAngle = 12; // 4 degrees gap between segments
 
   const createArcPath = (
     startAngle: number,
@@ -87,8 +87,8 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
       onClick={handleOpenStories}
       className="flex flex-col items-center space-y-2"
     >
-      <div className="relative">
-        <Avatar className="size-20 border-2 border-transparent">
+      <div className="relative size-[6rem] flex justify-center items-center">
+        <Avatar className="size-[5.5rem] border-2 border-transparent">
           <AvatarImage
             src={storyGroup.podcaster.image}
             alt={storyGroup.podcaster.name}
@@ -98,7 +98,10 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
             {storyGroup.podcaster.name.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <svg className="absolute top-0 left-0 size-20" viewBox="0 0 100 100">
+        <svg
+          className="absolute top-0 left-0 size-[6rem]"
+          viewBox="0 0 100 100"
+        >
           {Array.from({ length: segmentCount }).map((_, i) => {
             const startAngle = i * segmentAngle;
             const endAngle = (i + 1) * segmentAngle;

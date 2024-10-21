@@ -22,6 +22,8 @@ import { useDebounceEffect } from "@/hooks/useDebounceEffect";
 import { canvasPreview } from "@/lib/reactImageCrop/canvasPreview";
 import { Slider } from "@/components/ui/slider";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { set } from "lodash";
+import Loader from "@/components/ui/loader";
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -35,13 +37,14 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const [error, setError] = useState<string | null>(null);
   const [fileSrc, setFileSrc] = useState<string | File | null>(file);
   const [crop, setCrop] = useState<Crop>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+  const [isCropping, setIsCropping] = useState(false);
   const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [videoTrimStart, setVideoTrimStart] = useState(0);
   const [videoTrimEnd, setVideoTrimEnd] = useState(100);
   const [videoDuration, setVideoDuration] = useState(0);
@@ -49,6 +52,12 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const [isTrimming, setIsTrimming] = useState(false);
 
   useEffect(() => {
+    /**
+     * Loads the ffmpeg library if it hasn't been loaded yet.
+     * If ffmpeg is already loaded, it does nothing.
+     * Once ffmpeg is loaded, it sets isFFmpegReady to true.
+     * @returns {Promise<void>}
+     */
     const loadFFmpeg = async () => {
       if (ffmpeg.isLoaded()) {
         return;
@@ -111,6 +120,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   }, []);
 
   const onSaveEditedImage = useCallback(async () => {
+    setIsCropping(true);
     const generateCroppedImage = async () => {
       const image = imgRef.current;
       const previewCanvas = previewCanvasRef.current;
@@ -157,6 +167,8 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
     if (croppedImageFile) {
       setFile(croppedImageFile);
     }
+    setIsCropping(false);
+    setCrop(undefined);
   }, [setFile, completedCrop]);
 
   const onSaveTrimmedVideo = useCallback(async () => {
@@ -344,7 +356,13 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
               disabled={!convertFileToURL(fileSrc) || !crop}
               onClick={onSaveEditedImage}
             >
-              Crop <SaveIcon className="h-4 w-4" />
+              {isCropping ? "Croping..." : "Crop"}
+              {isCropping ? (
+                <Loader className="h-4 w-4" />
+              ) : (
+                <Scissors className="h-4 w-4" />
+              )}
+              {/* <SaveIcon className="h-4 w-4" /> */}
             </Button>
           </div>
           <ReactCrop
@@ -362,7 +380,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
                 ref={imgRef}
                 className="h-full w-full object-contain"
                 alt="Crop me"
-                src={convertFileToURL(fileSrc)}
+                src={convertFileToURL(file instanceof File ? file : fileSrc)}
                 style={{ transform: `scale(${scale}) rotate(${rotate}deg)` }}
               />
             </div>

@@ -17,15 +17,17 @@ import {
   ImagesIcon,
   PencilIcon,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Dispatch, Fragment, SetStateAction } from "react";
 
-const AddStoryDropdownMenuSub = ({
+const SelfStoriesDropdownSubMenu = ({
   setUserOptionDropdownMenu,
 }: {
   setUserOptionDropdownMenu: Dispatch<SetStateAction<boolean>>;
 }) => {
   const t = useTranslations("Index");
+  const { data: session } = useSession();
 
   const {
     setStoryMediaDialogIsOpen: setIsMediaDialogOpen,
@@ -34,11 +36,12 @@ const AddStoryDropdownMenuSub = ({
   } = useAddStoryDialogsStore();
 
   const { data } = useQuery<SelfStoriesResponse>({
-    queryKey: ["self_stories"],
+    queryKey: ["self_stories", session?.user?.id],
     queryFn: () =>
       getSelfStoriesAction({
-        type: "podcaster",
+        type: session?.user?.type!,
       }),
+    enabled: !!session?.user?.type,
   });
 
   return (
@@ -48,7 +51,7 @@ const AddStoryDropdownMenuSub = ({
           <CircleFadingPlusIcon className="me-2 h-4 w-4" />
           <span>{t("add-story")}</span>
         </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent className="rounded-2xl">
+        <DropdownMenuSubContent className="rounded-2xl p-2">
           <DropdownMenuItem
             className="flex"
             onClick={() => {
@@ -91,4 +94,4 @@ const AddStoryDropdownMenuSub = ({
   );
 };
 
-export default AddStoryDropdownMenuSub;
+export default SelfStoriesDropdownSubMenu;
