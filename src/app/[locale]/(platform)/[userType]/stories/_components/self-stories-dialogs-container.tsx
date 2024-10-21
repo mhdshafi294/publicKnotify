@@ -14,13 +14,16 @@ const SelfStoriesDialogsContainer = () => {
   const { isStoryReviewDialogOpen, setIsStoryReviewDialogOpen } =
     useAddStoryDialogsStore();
 
+  const { data: session } = useSession();
+
   const { data } = useQuery<SelfStoriesResponse>({
-    queryKey: ["self_stories"],
+    queryKey: ["self_stories", session?.user?.id],
     queryFn: () =>
       getSelfStoriesAction({
-        type: "podcaster",
+        type: session?.user?.type!,
       }),
-    refetchInterval: 30000, // 30 seconds
+    enabled: !!session?.user?.type,
+    // refetchInterval: 30000, // 30 seconds
   });
 
   const queryClient = useQueryClient();
@@ -29,16 +32,14 @@ const SelfStoriesDialogsContainer = () => {
   useEffect(() => {
     if (isStoryReviewDialogOpen) {
       queryClient.invalidateQueries({
-        queryKey: ["self_stories"], // Pass the queryKey correctly in an object
+        queryKey: ["self_stories", session?.user?.id], // Pass the queryKey correctly in an object
       });
     }
-  }, [isStoryReviewDialogOpen, queryClient]);
+  }, [isStoryReviewDialogOpen, queryClient, session?.user?.id]);
 
   const handleFinishStories = () => {
     setIsStoryReviewDialogOpen(false);
   };
-
-  const { data: session } = useSession();
 
   // Create a storyGroup object that matches the expected structure
   const storyGroup = data?.stories
@@ -56,7 +57,7 @@ const SelfStoriesDialogsContainer = () => {
     <Fragment>
       <AddStoryMediaDialog />
       <AddStoryTextDialog />
-      {isStoryReviewDialogOpen && storyGroup && (
+      {storyGroup ? (
         <StoriesViewerDialog
           storyGroup={storyGroup}
           allStories={[storyGroup]}
@@ -65,7 +66,7 @@ const SelfStoriesDialogsContainer = () => {
           onIndexChange={() => {}}
           onFinish={handleFinishStories}
         />
-      )}
+      ) : null}
     </Fragment>
   );
 };

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BoomBoxIcon,
   CircleFadingPlusIcon,
@@ -35,13 +35,16 @@ const SelfStoriesDropdownSubMenu = ({
     setIsStoryReviewDialogOpen: setIsReviewDialogOpen,
   } = useAddStoryDialogsStore();
 
-  const { data } = useQuery<SelfStoriesResponse>({
+  const queryClient = useQueryClient();
+
+  const { data, isPending, isError } = useQuery<SelfStoriesResponse>({
     queryKey: ["self_stories", session?.user?.id],
     queryFn: () =>
       getSelfStoriesAction({
         type: session?.user?.type!,
       }),
     enabled: !!session?.user?.type,
+    // refetchInterval: 30000, // 30 seconds
   });
 
   return (

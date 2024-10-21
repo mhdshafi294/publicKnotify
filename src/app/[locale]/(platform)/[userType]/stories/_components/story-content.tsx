@@ -13,6 +13,19 @@ interface StoryContentProps {
   markStoryRead: (storyId: string) => void;
 }
 
+/**
+ * StoryContent component that renders the content of a story based on its type.
+ * It renders a video if the story is a video, an image if it is an image, or a
+ * text if it is a text.
+ * @param {{ story: Story | SelfStory, videoRef: React.RefObject<HTMLVideoElement>, isMuted: boolean, onVideoEnd: () => void, onVideoLoad: () => void, markStoryRead: (storyId: string) => void }} props - The props for the component.
+ * @param {Story | SelfStory} props.story - The story object that contains the content.
+ * @param {React.RefObject<HTMLVideoElement>} props.videoRef - The ref of the video element.
+ * @param {boolean} props.isMuted - Whether the video is muted or not.
+ * @param {() => void} props.onVideoEnd - The callback when the video ends.
+ * @param {() => void} props.onVideoLoad - The callback when the video is loaded.
+ * @param {(storyId: string) => void} props.markStoryRead - The callback to mark the story as read.
+ * @returns {JSX.Element} The rendered StoryContent component.
+ */
 const StoryContent: React.FC<StoryContentProps> = ({
   story,
   videoRef,
