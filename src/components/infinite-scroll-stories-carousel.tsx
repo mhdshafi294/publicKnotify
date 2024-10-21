@@ -119,7 +119,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
           allStories.map((storyGroup, index) => (
             <CarouselItem
               key={storyGroup.podcaster.id}
-              className="basis-1/5 md:basis-1/6 lg:basis-[8%] xl:basis-[6%] ps-0"
+              className="basis-1/5 md:basis-1/6 lg:basis-[9%] xl:basis-[7%] ps-0"
             >
               <StoryTriggerItem
                 storyGroup={storyGroup}
