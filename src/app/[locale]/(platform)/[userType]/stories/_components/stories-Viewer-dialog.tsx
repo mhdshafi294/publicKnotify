@@ -281,8 +281,8 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
         dialogClose={false}
         ref={containerRef}
         style={{
-          backgroundColor: currentStory.color,
-          borderColor: currentStory.color,
+          backgroundColor: currentStory.color ? currentStory.color : "#000000",
+          borderColor: currentStory.color ? currentStory.color : "#000000",
         }}
         className={cn("p-0 max-w-md w-full h-[80vh] flex flex-col")}
         onTouchStart={handleTouchStart}
