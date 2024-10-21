@@ -1,7 +1,9 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Story } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useTheme } from "next-themes";
 
 interface StoryTriggerItemProps {
@@ -29,6 +31,11 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
   const { setIsStoryReviewDialogOpen } = useAddStoryDialogsStore();
   const [firstUnreadIndex, setFirstUnreadIndex] = useState(0);
   const { theme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const unreadIndex = storyGroup.stories.findIndex(
@@ -116,7 +123,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 stroke={
                   story && !story.is_viewd
                     ? "hsl(var(--greeny))"
-                    : theme !== "dark"
+                    : !!theme && theme !== "dark"
                     ? "#0003"
                     : "#fff5"
                 }
