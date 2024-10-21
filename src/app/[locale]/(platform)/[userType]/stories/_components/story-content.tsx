@@ -86,7 +86,7 @@ const StoryContent: React.FC<StoryContentProps> = ({
       <div
         className="flex items-center justify-center w-full h-full dark:bg-gray-800"
         style={{
-          background: story.color,
+          background: story?.color ? story?.color : "#000000",
           color: getContrastTextColor(story.color || "#000000"),
         }}
       >
