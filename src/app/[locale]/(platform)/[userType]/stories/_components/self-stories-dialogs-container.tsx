@@ -8,18 +8,22 @@ import AddStoryTextDialog from "./add-story-text-dialog";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
 import StoriesViewerDialog from "./stories-Viewer-dialog";
+import { useSession } from "next-auth/react";
 
 const SelfStoriesDialogsContainer = () => {
   const { isStoryReviewDialogOpen, setIsStoryReviewDialogOpen } =
     useAddStoryDialogsStore();
 
+  const { data: session } = useSession();
+
   const { data } = useQuery<SelfStoriesResponse>({
-    queryKey: ["self_stories"],
+    queryKey: ["self_stories", session?.user?.id],
     queryFn: () =>
       getSelfStoriesAction({
-        type: "podcaster",
+        type: session?.user?.type!,
       }),
-    refetchInterval: 30000, // 30 seconds
+    enabled: !!session?.user?.type,
+    // refetchInterval: 30000, // 30 seconds
   });
 
   const queryClient = useQueryClient();
@@ -28,10 +32,10 @@ const SelfStoriesDialogsContainer = () => {
   useEffect(() => {
     if (isStoryReviewDialogOpen) {
       queryClient.invalidateQueries({
-        queryKey: ["self_stories"], // Pass the queryKey correctly in an object
+        queryKey: ["self_stories", session?.user?.id], // Pass the queryKey correctly in an object
       });
     }
-  }, [isStoryReviewDialogOpen, queryClient]);
+  }, [isStoryReviewDialogOpen, queryClient, session?.user?.id]);
 
   const handleFinishStories = () => {
     setIsStoryReviewDialogOpen(false);
@@ -43,7 +47,7 @@ const SelfStoriesDialogsContainer = () => {
         podcaster: {
           id: 0, // Assuming the podcaster's own ID is 0 for self-stories
           name: "You", // Or any other appropriate name for self-stories
-          image: data.stories[0]?.image || "/placeholder.svg", // Use the first story's image or a placeholder
+          image: session?.user?.image || "/podcaster-filler.webp", // Use the first story's image or a placeholder
         },
         stories: data.stories,
       }
@@ -53,7 +57,7 @@ const SelfStoriesDialogsContainer = () => {
     <Fragment>
       <AddStoryMediaDialog />
       <AddStoryTextDialog />
-      {isStoryReviewDialogOpen && storyGroup && (
+      {storyGroup ? (
         <StoriesViewerDialog
           storyGroup={storyGroup}
           allStories={[storyGroup]}
@@ -62,7 +66,7 @@ const SelfStoriesDialogsContainer = () => {
           onIndexChange={() => {}}
           onFinish={handleFinishStories}
         />
-      )}
+      ) : null}
     </Fragment>
   );
 };

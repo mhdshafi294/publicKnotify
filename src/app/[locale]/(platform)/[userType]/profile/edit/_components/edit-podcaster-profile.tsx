@@ -147,7 +147,7 @@ const EditPodcasterProfile = ({
                     alt={user?.full_name ? user.full_name : ""}
                     className="object-cover"
                   />
-                  <AvatarFallback>
+                  <AvatarFallback className="uppercase text-black text-3xl">
                     {user?.full_name!.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>

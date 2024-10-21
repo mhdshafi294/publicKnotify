@@ -9,6 +9,7 @@ export type Story = {
   image: string;
   thumbnail: string;
   is_viewd: boolean;
+  created_at: string;
 };
 
 export type SelfStory = {

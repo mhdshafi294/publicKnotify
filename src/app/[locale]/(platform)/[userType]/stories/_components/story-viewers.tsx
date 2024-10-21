@@ -51,8 +51,14 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Avatar className="w-6 h-6 border-2 border-white">
-                    <AvatarImage src={viewer.image} alt={viewer.name} />
-                    <AvatarFallback>{viewer.name[0]}</AvatarFallback>
+                    <AvatarImage
+                      src={viewer.image}
+                      alt={viewer.name}
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="uppercase text-black text-3xl">
+                      {viewer.name.slice(0, 2).toUpperCase()}
+                    </AvatarFallback>
                   </Avatar>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -71,10 +77,10 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
 
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/80 rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-200 md:duration-300 ease-in-out ",
+          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/80 rounded-t-2xl lg:rounded-none lg:rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-200 md:duration-300 ease-in-out lg:translate-x-full z-20",
           isViewAllOpen
-            ? "opacity-100 lg:translate-x-full z-20"
-            : "opacity-0 translate-x-0"
+            ? "opacity-100 lg:translate-y-0 z-20"
+            : "opacity-0 translate-y-full"
         )}
       >
         <div className="flex flex-col h-full">
@@ -100,7 +106,9 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
                     alt={viewer.name}
                     className="object-cover"
                   />
-                  <AvatarFallback>{viewer.name[0]}</AvatarFallback>
+                  <AvatarFallback className="uppercase text-black text-3xl">
+                    {viewer.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
                   <span className="text-white font-medium">{viewer.name}</span>
