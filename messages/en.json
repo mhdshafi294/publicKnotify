@@ -566,7 +566,9 @@
     "go-to-home": "Go to Home",
     "story-viewer": "Story Viewer",
     "viewers": "Viewers",
-    "stories": "stories"
+    "stories": "stories",
+    "unpublish": "unPublish",
+    "podcastUnpublished": "Podcast un-published successfully"
   },
   "notifications": {
     "notifications": "notifications"

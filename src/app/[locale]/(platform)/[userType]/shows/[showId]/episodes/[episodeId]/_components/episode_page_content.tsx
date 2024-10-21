@@ -12,6 +12,7 @@ import { getDistanceToNow } from "@/lib/utils";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import PublishButton from "../../../publish/_components/publish-button";
 
 /**
  * The EpisodePageContent component renders detailed information about a specific podcast episode.
@@ -126,12 +127,24 @@ const EpisodePageContent = async ({
         <DashboardCardContainer className="p-4 flex flex-col gap-8">
           <div className="flex justify-between">
             <h1 className="text-xl font-bold">{t("Publishing")}</h1>
-            <p className="font-semibold">
-              {t("Order")}: {podcastResponse?.podcast?.order}
-            </p>
+            <div className="flex justify-end items-center gap-4">
+              <p className="font-semibold">
+                {t("Order")}: {podcastResponse?.podcast?.order}
+              </p>
+              <PublishButton
+                podcast_id={params.episodeId!}
+                isPublished={podcastResponse?.podcast?.is_published}
+                disabled={
+                  session?.user?.type !== "podcaster" ||
+                  !podcastResponse?.podcast?.podcast
+                }
+                isToggled={true}
+                className="h-fit"
+              />
+            </div>
           </div>
           <div className="flex gap-4 flex-col">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-end">
               <div className="flex gap-2 items-center">
                 <p className="opacity-70">{t("Main Feed")}</p>
                 {podcastResponse?.podcast?.is_published ? (

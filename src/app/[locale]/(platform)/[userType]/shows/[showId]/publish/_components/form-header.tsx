@@ -20,7 +20,7 @@ type FormHeaderProps = {
   isShow: boolean;
   setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
   podcast_id: string | null;
-  selectedPlatforms: string[];
+  // selectedPlatforms: string[];
   isPublished: boolean;
   uploadedNewPodcast: boolean;
   t: (key: string) => string;
@@ -61,7 +61,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
   isShow,
   setIsShow,
   podcast_id,
-  selectedPlatforms,
+  // selectedPlatforms,
   isPublished,
   uploadedNewPodcast,
   t,
@@ -129,7 +129,7 @@ const FormHeader: React.FC<FormHeaderProps> = ({
           className={cn({ hidden: step === 1 })}
           podcast_id={podcast_id!}
           disabled={isPublished || !podcast_id || !uploadedNewPodcast}
-          selectedPlatform={selectedPlatforms}
+          // selectedPlatform={selectedPlatforms}
         />
       </div>
     </div>

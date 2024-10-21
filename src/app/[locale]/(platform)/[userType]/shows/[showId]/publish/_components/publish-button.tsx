@@ -26,7 +26,9 @@ interface PublishButtonProps {
   podcast_id: string;
   disabled?: boolean;
   className?: string;
-  selectedPlatform: string[];
+  isPublished?: boolean;
+  isToggled?: boolean;
+  // selectedPlatform: string[];
 }
 
 /**
@@ -49,7 +51,9 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   podcast_id,
   disabled,
   className,
-  selectedPlatform,
+  isPublished = false,
+  isToggled = false,
+  // selectedPlatform,
 }) => {
   const t = useTranslations("Index");
   const queryClient = useQueryClient();
@@ -69,15 +73,27 @@ const PublishButton: React.FC<PublishButtonProps> = ({
       toast.loading(t("publishingPodcast"));
     },
     onSuccess: () => {
-      setPublished(true);
-      toast.dismiss();
-      router.push(
-        `/podcaster/shows/${params.showId}/episodes/${searchParams.get(
-          "podcast_id"
-        )}`
-      );
+      if (!isToggled) {
+        setPublished(true);
+        router.push(
+          `/podcaster/shows/${params.showId}/episodes/${
+            searchParams.get("podcast_id")
+              ? searchParams.get("podcast_id")
+              : podcast_id
+          }`
+        );
+        toast.dismiss();
+        toast.success(t("podcastPublished"));
+      } else {
+        router.refresh();
+        toast.dismiss();
+
+        toast.success(
+          isPublished ? t("podcastUnpublished") : t("podcastPublished")
+        );
+      }
       // router.push(`/podcaster/podcast/${podcast_id}`); // Redirect to podcast page that users would see after publishing
-      toast.success(t("podcastPublished"));
+
       queryClient.invalidateQueries({ queryKey: ["podcastsDrafts"] });
     },
     onError: () => {
@@ -87,39 +103,18 @@ const PublishButton: React.FC<PublishButtonProps> = ({
     },
   });
 
-  const {
-    mutate: server_publishYoutubeAction,
-    isPending: publishYoutubeActionIsPending,
-    isError: publishYoutubeActionIsError,
-    error: publishYoutubeActionError,
-  } = useMutation({
-    mutationFn: publishYoutubeAction,
-    onMutate: () => {
-      toast.loading(t("publishingPodcast"));
-    },
-    onSuccess: () => {
-      toast.dismiss();
-      toast.success(t("podcastPublished"));
-    },
-    onError: () => {
-      toast.dismiss();
-      toast.error(t("publishFailed"));
-      console.error(publishYoutubeActionError);
-    },
-  });
-
   const handlePublish = () => {
     server_publishPodcastAction({
       id: podcast_id,
       type: "podcaster",
     });
 
-    if (selectedPlatform.includes("youtube")) {
-      server_publishYoutubeAction({
-        id: podcast_id,
-        type: "podcaster",
-      });
-    }
+    // if (selectedPlatform.includes("youtube")) {
+    //   server_publishYoutubeAction({
+    //     id: podcast_id,
+    //     type: "podcaster",
+    //   });
+    // }
   };
 
   return (
@@ -130,9 +125,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
             <Button
               disabled={
                 publishPodcastActionIsPending ||
-                publishYoutubeActionIsPending ||
                 publishPodcastActionIsError ||
-                publishYoutubeActionIsError ||
                 disabled ||
                 published
               }
@@ -141,13 +134,12 @@ const PublishButton: React.FC<PublishButtonProps> = ({
               onClick={handlePublish}
             >
               <Router className="size-4 me-1.5" />
-              {publishPodcastActionIsPending ||
-              publishYoutubeActionIsPending ||
-              publishPodcastActionIsError ||
-              publishYoutubeActionIsError ? (
+              {publishPodcastActionIsPending || publishPodcastActionIsError ? (
                 <ButtonLoader />
-              ) : (
+              ) : !isPublished ? (
                 t("publishButton")
+              ) : (
+                t("unpublish")
               )}
             </Button>
           </div>
