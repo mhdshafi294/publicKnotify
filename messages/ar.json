@@ -535,7 +535,9 @@
     "last-payment-at": "الأخيرة في",
     "to-be-transferred": "يتم نقلها",
     "total-received": "اجمالي الاستلام",
-    "contract-id": "رقم العقد"
+    "contract-id": "رقم العقد",
+    "unpublish": "إلغاء النشر",
+    "podcastUnpublished": "تم إلغاء نشر البودكاست بنجاح"
   },
   "notifications": {
     "notifications": "notifications"

@@ -22,8 +22,8 @@ type StepContentProps = {
   addToPlayList: boolean;
   setAddToPlayList: React.Dispatch<React.SetStateAction<boolean>>;
   podcastResponse: PodcastResponseType;
-  selectedPlatforms: string[];
-  setSelectedPlatforms: React.Dispatch<React.SetStateAction<string[]>>;
+  // selectedPlatforms: string[];
+  // setSelectedPlatforms: React.Dispatch<React.SetStateAction<string[]>>;
   setUploadedNewPodcast: React.Dispatch<React.SetStateAction<boolean>>;
   podcast_id: string | null;
   t: (key: string) => string;
@@ -57,8 +57,8 @@ const StepContent: React.FC<StepContentProps> = ({
   addToPlayList,
   setAddToPlayList,
   podcastResponse,
-  selectedPlatforms,
-  setSelectedPlatforms,
+  // selectedPlatforms,
+  // setSelectedPlatforms,
   setUploadedNewPodcast,
   podcast_id,
   t,

@@ -14,8 +14,8 @@ type FormSectionProps = {
   addToPlayList: boolean;
   setAddToPlayList: React.Dispatch<React.SetStateAction<boolean>>;
   podcastResponse: PodcastResponseType;
-  selectedPlatforms: string[];
-  setSelectedPlatforms: React.Dispatch<React.SetStateAction<string[]>>;
+  // selectedPlatforms: string[];
+  // setSelectedPlatforms: React.Dispatch<React.SetStateAction<string[]>>;
   setUploadedNewPodcast: React.Dispatch<React.SetStateAction<boolean>>;
   podcast_id: string | null;
   t: (key: string) => string;
@@ -49,8 +49,8 @@ const FormSection: React.FC<FormSectionProps> = ({
   addToPlayList,
   setAddToPlayList,
   podcastResponse,
-  selectedPlatforms,
-  setSelectedPlatforms,
+  // selectedPlatforms,
+  // setSelectedPlatforms,
   setUploadedNewPodcast,
   podcast_id,
   t,
@@ -65,8 +65,8 @@ const FormSection: React.FC<FormSectionProps> = ({
             addToPlayList={addToPlayList}
             setAddToPlayList={setAddToPlayList}
             podcastResponse={podcastResponse}
-            selectedPlatforms={selectedPlatforms}
-            setSelectedPlatforms={setSelectedPlatforms}
+            // selectedPlatforms={selectedPlatforms}
+            // setSelectedPlatforms={setSelectedPlatforms}
             setUploadedNewPodcast={setUploadedNewPodcast}
             podcast_id={podcast_id}
             t={t}
