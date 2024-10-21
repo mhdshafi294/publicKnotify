@@ -1,7 +1,8 @@
 import { getContrastTextColor } from "@/lib/utils";
 import { Story, SelfStory } from "@/types/stories";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Loader2 } from "lucide-react";
 
 interface StoryContentProps {
   story: Story | SelfStory;
@@ -12,18 +13,6 @@ interface StoryContentProps {
   markStoryRead: (storyId: string) => void;
 }
 
-/**
- * A component that renders the content of a story.
- *
- * @param {Story | SelfStory} story - The story object.
- * @param {React.RefObject<HTMLVideoElement>} videoRef - A reference to the video element.
- * @param {boolean} isMuted - Whether the video is muted or not.
- * @param {() => void} onVideoEnd - A callback that is called when the video ends.
- * @param {() => void} onVideoLoad - A callback that is called when the video is loaded.
- * @param {(storyId: string) => void} markStoryRead - A callback that marks a story as read.
- *
- * @returns {JSX.Element} The rendered StoryContent component.
- */
 const StoryContent: React.FC<StoryContentProps> = ({
   story,
   videoRef,
@@ -33,17 +22,25 @@ const StoryContent: React.FC<StoryContentProps> = ({
   markStoryRead,
 }) => {
   const imageRef = useRef<HTMLImageElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     if (story.type === "image" && imageRef.current) {
       const img = imageRef.current;
       if (img.complete) {
-        markStoryRead(story.id.toString());
+        handleImageLoad();
       } else {
-        img.onload = () => markStoryRead(story.id.toString());
+        img.onload = handleImageLoad;
       }
     }
-  }, [story, markStoryRead]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story]);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    markStoryRead(story.id.toString());
+  };
 
   const handleVideoPlay = () => {
     if (story.type === "video") {
@@ -67,18 +64,27 @@ const StoryContent: React.FC<StoryContentProps> = ({
     );
   } else if (story.type === "image") {
     return (
-      <Image
-        ref={imageRef}
-        src={story.image}
-        alt="Story"
-        layout="fill"
-        objectFit="contain"
-      />
+      <div className="relative w-full h-full">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-transparent">
+            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          </div>
+        )}
+        <Image
+          ref={imageRef}
+          src={story.image}
+          alt="Story"
+          layout="fill"
+          objectFit="contain"
+          className={isLoading ? "opacity-0" : "opacity-100"}
+          onLoad={handleImageLoad}
+        />
+      </div>
     );
   } else {
     return (
       <div
-        className="flex items-center justify-center w-full h-full  dark:bg-gray-800"
+        className="flex items-center justify-center w-full h-full dark:bg-gray-800"
         style={{
           background: story.color,
           color: getContrastTextColor(story.color || "#000000"),
