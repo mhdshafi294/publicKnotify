@@ -7,7 +7,7 @@ import AddStoryMediaDialog from "./add-story-media-dialog";
 import AddStoryTextDialog from "./add-story-text-dialog";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
-import StoriesViewerDialog from "./stories-viewer-dialog";
+import StoriesPlayerDialog from "./stories-player-dialog";
 import { useSession } from "next-auth/react";
 
 const SelfStoriesDialogsContainer = () => {
@@ -58,7 +58,7 @@ const SelfStoriesDialogsContainer = () => {
       <AddStoryMediaDialog />
       <AddStoryTextDialog />
       {storyGroup ? (
-        <StoriesViewerDialog
+        <StoriesPlayerDialog
           storyGroup={storyGroup}
           allStories={[storyGroup]}
           currentIndex={0}
