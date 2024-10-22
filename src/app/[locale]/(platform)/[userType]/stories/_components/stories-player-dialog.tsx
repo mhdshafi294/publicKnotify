@@ -45,7 +45,7 @@ const isSelfStory = (story: Story | SelfStory): story is SelfStory => {
   return "viewers_count" in story;
 };
 
-const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
+const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   storyGroup,
   allStories,
   currentIndex,
@@ -331,4 +331,4 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
   );
 };
 
-export default StoriesViewerDialog;
+export default StoriesPlayerDialog;

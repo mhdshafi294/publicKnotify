@@ -16,7 +16,7 @@ import { getDirection } from "@/lib/utils";
 import { StoriesResponse } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import StoryTriggerItem from "@/app/[locale]/(platform)/[userType]/stories/_components/story-trigger-item";
-import StoriesViewerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-viewer-dialog";
+import StoriesPlayerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-player-dialog";
 
 interface InfiniteScrollStoriesCarouselProps {
   initialData: StoriesResponse;
@@ -142,7 +142,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
         </CarouselItem>
       </CarouselContent>
       {currentPodcasterIndex !== null && (
-        <StoriesViewerDialog
+        <StoriesPlayerDialog
           storyGroup={allStories[currentPodcasterIndex]}
           allStories={allStories}
           currentIndex={currentPodcasterIndex}
