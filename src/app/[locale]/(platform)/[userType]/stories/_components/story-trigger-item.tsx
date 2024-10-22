@@ -1,10 +1,10 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Story } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { useState, useEffect, use } from "react";
+import { Story } from "@/types/stories";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 interface StoryTriggerItemProps {
   storyGroup: {
@@ -54,7 +54,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   const segmentCount = Math.max(storyGroup.stories.length, 1);
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 12; // 12 degrees gap between segments
+  const gapAngle = 6; // 6 degrees gap between segments
 
   const createArcPath = (
     startAngle: number,
@@ -99,8 +99,8 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
       onClick={handleOpenStories}
       className="flex flex-col items-center space-y-2"
     >
-      <div className="relative size-[6rem] flex justify-center items-center">
-        <Avatar className="size-[5.5rem] border-2 border-transparent">
+      <div className="relative size-[4rem] lg:size-[6rem] flex justify-center items-center">
+        <Avatar className="size-[3.6rem] lg:size-[5.5rem] border-2 border-transparent">
           <AvatarImage
             src={storyGroup.podcaster.image}
             alt={storyGroup.podcaster.name}
@@ -111,7 +111,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
           </AvatarFallback>
         </Avatar>
         <svg
-          className="absolute top-0 left-0 size-[6rem] stroke-[#fff5]"
+          className="absolute top-0 left-0 size-[4rem] lg:size-[6rem] stroke-[#8a8a8a]"
           viewBox="0 0 100 100"
         >
           {Array.from({ length: segmentCount }).map((_, i) => {
@@ -124,20 +124,16 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 d={createArcPath(startAngle, endAngle, 48)}
                 fill="none"
                 stroke={
-                  story && !story.is_viewd
-                    ? "hsl(var(--greeny))"
-                    : !!theme && theme !== "dark"
-                    ? "#0003"
-                    : "#fff5"
+                  story && !story.is_viewd ? "hsl(var(--greeny))" : "#8a8a8a"
                 }
-                strokeWidth="4"
+                strokeWidth="2"
                 strokeLinecap="round"
               />
             );
           })}
         </svg>
       </div>
-      <span className="text-sm font-medium truncate max-w-[80px]">
+      <span className="text-xs lg:text-sm font-medium truncate max-w-[80px]">
         {storyGroup.podcaster.name}
       </span>
     </button>
