@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   BoomBoxIcon,
   CircleFadingPlusIcon,
@@ -49,6 +49,8 @@ const SelfStoriesDropdownSubMenu = ({
     enabled: !!session?.user?.type && isMounted,
     // refetchInterval: 30000, // 30 seconds
   });
+
+  if (!isMounted) return null; // Avoid rendering during SSR phase
 
   return (
     <Fragment>

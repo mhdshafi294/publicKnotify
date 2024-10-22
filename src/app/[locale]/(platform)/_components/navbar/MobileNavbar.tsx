@@ -12,12 +12,12 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useParams, usePathname } from "next/navigation";
-import { useState } from "react";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -32,8 +32,8 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
-import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import SelfStoriesDropdownMenu from "../../[userType]/stories/_components/self-stories-dropdown-menu";
+import { useEffect, useState } from "react";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -44,13 +44,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
  * @param {Object} props - Component props.
  * @param {Playlist[]} [props.playlists] - The optional list of playlists to display in the navigation links.
  *
- * @returns {JSX.Element} The rendered MobileNavbar component.
+ * @returns {JSX.Element | null} The rendered MobileNavbar component.
  */
 const MobileNavbar = ({
   playlists,
 }: {
   playlists?: Playlist[];
-}): JSX.Element => {
+}): JSX.Element | null => {
   const { data: session } = useSession();
   const pathname = usePathname();
   const params = useParams();
@@ -58,8 +58,15 @@ const MobileNavbar = ({
   const isOpen = useNotificationStore((state) => state.isOpen);
   const setIsOpen = useNotificationStore((state) => state.setIsOpen);
   const unreadNotifications = useNotificationStore((state) => state.unread);
-  const [isStoryMediaDialogOpen, setStoryMediaDialogIsOpen] = useState(false);
-  const [isStoryTextDialogOpen, setStoryTextDialogIsOpen] = useState(false);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div className="flex md:hidden flex-row-reverse justify-end items-center h-full">
@@ -225,7 +232,7 @@ const MobileNavbar = ({
                 <DarkModeToggle />
               </div>
               {session?.user?.type === "podcaster" ? (
-                <AddStoryDropdownMenu />
+                <SelfStoriesDropdownMenu />
               ) : null}
               {session?.user?.type !== "user" ? (
                 <Link

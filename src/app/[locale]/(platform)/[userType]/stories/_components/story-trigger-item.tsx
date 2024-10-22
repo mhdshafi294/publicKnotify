@@ -35,6 +35,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   useEffect(() => {
     if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -90,6 +91,8 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
       y: centerY + radius * Math.sin(angleInRadians),
     };
   };
+
+  if (!isMounted) return null; // Avoid rendering during SSR phase
 
   return (
     <button

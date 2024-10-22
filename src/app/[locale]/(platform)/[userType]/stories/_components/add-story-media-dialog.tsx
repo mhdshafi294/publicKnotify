@@ -24,11 +24,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { ChevronRightIcon, PencilIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import MediaInputDropzone from "./media-input-dropzone";
-import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
 
 const AddStoryMediaDialog = () => {
   const t = useTranslations("Index");
@@ -74,8 +73,8 @@ const AddStoryMediaDialog = () => {
   });
 
   const handleSubmit = (data: AddStorySchema) => {
-    console.log(data?.media?.name);
-    console.log(data?.media?.size);
+    // console.log(data?.media?.name);
+    // console.log(data?.media?.size);
     const formData = new FormData();
     formData.append("scope", data.scope);
     formData.append("description", data.description || "");

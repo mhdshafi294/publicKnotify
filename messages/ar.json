@@ -537,7 +537,9 @@
     "total-received": "اجمالي الاستلام",
     "contract-id": "رقم العقد",
     "unpublish": "إلغاء النشر",
-    "podcastUnpublished": "تم إلغاء نشر البودكاست بنجاح"
+    "podcastUnpublished": "تم إلغاء نشر البودكاست بنجاح",
+    "scale": "حجم",
+    "rotate": "تناوب"
   },
   "notifications": {
     "notifications": "notifications"

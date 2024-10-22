@@ -21,7 +21,12 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Fragment, useEffect, useState } from "react";
 
-const AddStoryDropdownMenu = () => {
+/**
+ * A dropdown menu for the user to create a new story.
+ *
+ * @returns A dropdown menu component
+ */
+const SelfStoriesDropdownMenu = () => {
   const t = useTranslations("Index");
   const { data: session } = useSession();
   const {
@@ -45,6 +50,8 @@ const AddStoryDropdownMenu = () => {
     enabled: !!session?.user?.type && isMounted,
     // refetchInterval: 30000, // 30 seconds
   });
+
+  if (!isMounted) return null; // Avoid rendering during SSR phase
 
   return (
     <Fragment>
@@ -93,4 +100,4 @@ const AddStoryDropdownMenu = () => {
   );
 };
 
-export default AddStoryDropdownMenu;
+export default SelfStoriesDropdownMenu;

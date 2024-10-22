@@ -568,7 +568,9 @@
     "viewers": "Viewers",
     "stories": "stories",
     "unpublish": "unPublish",
-    "podcastUnpublished": "Podcast un-published successfully"
+    "podcastUnpublished": "Podcast un-published successfully",
+    "scale": "Scale",
+    "rotate": "Rotate"
   },
   "notifications": {
     "notifications": "notifications"
