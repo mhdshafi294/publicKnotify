@@ -1,29 +1,24 @@
 "use client";
 
-import { cn, convertFileToURL } from "@/lib/utils";
-import {
-  BadgeInfoIcon,
-  SaveIcon,
-  TrashIcon,
-  Upload,
-  X,
-  Scissors,
-} from "lucide-react";
-import { useTranslations } from "next-intl";
-import { Dispatch, FC, useCallback, useEffect, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+// External imports
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import { BadgeInfoIcon, Scissors, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import ReactCrop, { Crop, PixelCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+
+// Local imports
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
+import { Slider } from "@/components/ui/slider";
 import { useDebounceEffect } from "@/hooks/useDebounceEffect";
 import { canvasPreview } from "@/lib/reactImageCrop/canvasPreview";
-import { Slider } from "@/components/ui/slider";
-import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import { set } from "lodash";
-import Loader from "@/components/ui/loader";
+import { cn, convertFileToURL } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const ffmpeg = createFFmpeg({ log: true });
 
@@ -32,6 +27,17 @@ type PropsType = {
   setFile: Dispatch<React.SetStateAction<File | null>>;
 };
 
+/**
+ * MediaInputDropzone component for handling media file uploads,
+ * image cropping, and video trimming. Supports both images and videos,
+ * providing an interactive UI for users to edit files before saving.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {File | string | null} props.file - The initial file to be processed.
+ * @param {Dispatch<React.SetStateAction<File | null>>} props.setFile - Function to set the processed file.
+ *
+ * @returns {JSX.Element} The rendered MediaInputDropzone component.
+ */
 export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const t = useTranslations("Index");
   const [error, setError] = useState<string | null>(null);
@@ -50,6 +56,12 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const [videoDuration, setVideoDuration] = useState(0);
   const [isFFmpegReady, setIsFFmpegReady] = useState(false);
   const [isTrimming, setIsTrimming] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     /**
@@ -208,6 +220,8 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
 
       setFile(trimmedFile);
       setIsTrimming(false);
+      setVideoTrimStart(0);
+      setVideoTrimEnd(100);
     } catch (error) {
       console.error("Error during video trimming:", error);
       setError("An error occurred while trimming the video.");
@@ -247,8 +261,8 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
   useEffect(() => {
     if (
       videoRef.current &&
-      fileSrc instanceof File &&
-      fileSrc.type.startsWith("video/")
+      file instanceof File &&
+      file.type.startsWith("video/")
     ) {
       videoRef.current.onloadedmetadata = () => {
         if (videoRef.current) {
@@ -256,7 +270,9 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
         }
       };
     }
-  }, [fileSrc]);
+  }, [file]);
+
+  if (!isMounted) return null;
 
   return (
     <div className="flex flex-col gap-4 min-h-80 relative">
@@ -292,7 +308,11 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
                 <video
                   ref={videoRef}
                   src={
-                    fileSrc instanceof File
+                    file instanceof File
+                      ? convertFileToURL(file)
+                      : file
+                      ? file
+                      : fileSrc instanceof File
                       ? convertFileToURL(fileSrc)
                       : fileSrc
                   }
@@ -322,7 +342,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
         <div className="relative h-80 flex-1 flex flex-col gap-5">
           <div className="flex justify-between items-end gap-2">
             <div className="flex flex-col gap-1">
-              <Label htmlFor="scale-input">Scale: </Label>
+              <Label htmlFor="scale-input">{t("scale")} </Label>
               <Input
                 id="scale-input"
                 type="number"
@@ -334,7 +354,7 @@ export default function MediaInputDropzone({ file, setFile }: PropsType) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <Label htmlFor="rotate-input">Rotate: </Label>
+              <Label htmlFor="rotate-input">{t("rotate")} </Label>
               <Input
                 id="rotate-input"
                 type="number"

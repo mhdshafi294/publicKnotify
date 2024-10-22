@@ -77,7 +77,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
 
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/80 rounded-t-2xl lg:rounded-none lg:rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-200 md:duration-300 ease-in-out lg:translate-x-full z-20",
+          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/95 rounded-t-lg lg:rounded-none lg:rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-200 md:duration-300 ease-in-out lg:translate-x-full z-20",
           isViewAllOpen
             ? "opacity-100 lg:translate-y-0 z-20"
             : "opacity-0 translate-y-full"

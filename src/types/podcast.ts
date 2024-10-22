@@ -122,7 +122,6 @@ export type Playlist = {
 
 export type DistributionLinks = {
   id: number;
-  playlist_id: number;
   redirect_url: string;
   type: string;
   url: string;

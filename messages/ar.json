@@ -302,7 +302,19 @@
       "apple": "آبل بودكاست",
       "google": "جوجل بودكاست",
       "ivoox": "ايفوكس",
-      "instagram": "انستغرام"
+      "instagram": "انستغرام",
+      "amazon": "أمازون",
+      "tunein": "TuneIn",
+      "pandora": "Pandora",
+      "audiomack": "Audiomack",
+      "rss": "RSS",
+      "itunes": "iTunes",
+      "overcast": "Overcast",
+      "tiktok": "TikTok",
+      "amazon_music": "أمازون موسيقى",
+      "youtube_music": "يوتيوب موسيقى",
+      "spotify_music": "سبوتيفاي موسيقى",
+      "iHeart": "IHeartRadio"
     },
     "draft": "مسودة",
     "selectPodcaster": "اختر البودكاستر",
@@ -537,7 +549,12 @@
     "total-received": "اجمالي الاستلام",
     "contract-id": "رقم العقد",
     "unpublish": "إلغاء النشر",
-    "podcastUnpublished": "تم إلغاء نشر البودكاست بنجاح"
+    "podcastUnpublished": "تم إلغاء نشر البودكاست بنجاح",
+    "scale": "حجم",
+    "rotate": "تناوب",
+    "get-started-by-submitting-your-podcast-to-iheartradio-and-get-your-url": "ابدأ بإرسال البودكاست الخاص بك إلى iHeartRadio واحصل على عنوان URL الخاص بك.",
+    "paste-your-iheartradio-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق عنوان URL الخاص بـ iHeartRadio. \nسنعرض رابطًا على مشغل الصوت وصفحة العرض وصفحات الحلقات.",
+    "Type": "النوع"
   },
   "notifications": {
     "notifications": "notifications"

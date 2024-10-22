@@ -7,7 +7,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { PlatformCounter } from "@/types/statistics";
-import { DateRange } from "react-day-picker";
 import {
   Bar,
   BarChart,

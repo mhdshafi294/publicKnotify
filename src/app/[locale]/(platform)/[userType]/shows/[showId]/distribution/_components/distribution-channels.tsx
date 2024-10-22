@@ -1,22 +1,46 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import ChannelCard from "./channel-card";
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { getDistributionLinksAction } from "@/app/actions/podcastActions";
+import AmazonIcon from "@/components/icons/amazon-icon";
 import AppleIcon from "@/components/icons/apple-icon";
 import SpotifyIcon from "@/components/icons/spotify-icon";
 import YoutubeIcon from "@/components/icons/youtube-icon";
-import AmazonIcon from "@/components/icons/amazon-icon";
 import { useQuery } from "@tanstack/react-query";
-import { getDistributionLinksAction } from "@/app/actions/podcastActions";
-import { DistributionLinks } from "@/types/podcast";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+import ChannelCard from "./channel-card";
+import iHeartIcon from "@/components/icons/iheart-icon";
 
 type DistributionChannelsProps = {
   showId: string;
   rssUrl: string;
 };
 
+/**
+ * The DistributionChannels component renders a list of distribution platforms
+ * for a podcast, with steps to follow to submit to each platform.
+ *
+ * @param {DistributionChannelsProps} props - The properties for the component.
+ * @param {string} props.showId - The ID of the podcast show.
+ * @param {string} props.rssUrl - The URL of the podcast's RSS feed.
+ *
+ * @example
+ * const distributionChannels = (
+ *   <DistributionChannels
+ *     showId="123"
+ *     rssUrl="https://example.com/podcast.rss"
+ *   />
+ * );
+ *
+ * return (
+ *   <div>
+ *     {distributionChannels}
+ *   </div>
+ * );
+ *
+ * @returns {JSX.Element} The rendered DistributionChannels component.
+ */
 const DistributionChannels: React.FC<DistributionChannelsProps> = ({
   showId,
   rssUrl,
@@ -46,6 +70,8 @@ const DistributionChannels: React.FC<DistributionChannelsProps> = ({
     data?.links.find((link) => link.type === "amazon")?.url,
     "amazon"
   );
+
+  if (!isMounted) return null;
 
   return (
     <div className="flex flex-col gap-5">
@@ -125,10 +151,29 @@ const DistributionChannels: React.FC<DistributionChannelsProps> = ({
           ),
           submitLink:
             data?.links.find((link) => link.type === "amazon")?.redirect_url ||
-            `https://www.amazon.com/podcasters`,
+            `https://podcasters.amazon.com/submit-rss`,
           link: data?.links.find((link) => link.type === "amazon")?.url,
           step2: t(
             "find-your-amazon-music-podcast-url-here-paste-your-amazon-music-url-and-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
+          ),
+        }}
+      />
+      <ChannelCard
+        playlist_id={showId}
+        PlatfotmIcon={iHeartIcon}
+        title="platform.iHeart"
+        type="iHeart"
+        content={{
+          header: "",
+          step1: t(
+            "get-started-by-submitting-your-podcast-to-iheartradio-and-get-your-url"
+          ),
+          submitLink:
+            data?.links.find((link) => link.type === "iHeart")?.redirect_url ||
+            `https://podcasters.iheart.com/#submit-podcast`,
+          link: data?.links.find((link) => link.type === "iHeart")?.url,
+          step2: t(
+            "paste-your-iheartradio-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages"
           ),
         }}
       />

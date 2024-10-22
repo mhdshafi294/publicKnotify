@@ -22,13 +22,13 @@ import { Playlist } from "@/types/podcast";
  * @param {Object} props - Component props.
  * @param {Playlist[]} [props.playlists] - The optional list of playlists to display in the navigation links.
  *
- * @returns {JSX.Element} The rendered DesktopNavbar component.
+ * @returns {JSX.Element | null} The rendered DesktopNavbar component.
  */
 const DesktopNavbar = ({
   playlists,
 }: {
   playlists?: Playlist[];
-}): JSX.Element => {
+}): JSX.Element | null => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [searchText, setSearchText] = useState<string | null>(null);
@@ -41,6 +41,15 @@ const DesktopNavbar = ({
     const updatedSearchText = searchParams.get("podcasterId");
     setSearchText(updatedSearchText);
   }, [searchParams]);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!isMounted) return null; // Avoid rendering during SSR phase
 
   return (
     <div className="hidden md:flex flex-row-reverse justify-end items-center h-full gap-6">

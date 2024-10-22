@@ -1,5 +1,6 @@
 "use client";
 
+import { getSelfStoriesAction } from "@/app/actions/storiesActions";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,22 +9,49 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
+import { SelfStoriesResponse } from "@/types/stories";
+import { useQuery } from "@tanstack/react-query";
 import {
   BoomBoxIcon,
   CircleFadingPlusIcon,
   ImagesIcon,
   PencilIcon,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 
-const AddStoryDropdownMenu = () => {
+/**
+ * A dropdown menu for the user to create a new story.
+ *
+ * @returns A dropdown menu component
+ */
+const SelfStoriesDropdownMenu = () => {
   const t = useTranslations("Index");
+  const { data: session } = useSession();
   const {
     setStoryMediaDialogIsOpen: setIsMediaDialogOpen,
     setStoryTextDialogIsOpen: setIsTextDialogOpen,
     setIsStoryReviewDialogOpen: setIsReviewDialogOpen,
   } = useAddStoryDialogsStore();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { data, isPending, isError } = useQuery<SelfStoriesResponse>({
+    queryKey: ["self_stories", session?.user?.id],
+    queryFn: () =>
+      getSelfStoriesAction({
+        type: session?.user?.type!,
+      }),
+    enabled: !!session?.user?.type && isMounted,
+    // refetchInterval: 30000, // 30 seconds
+  });
+
+  if (!isMounted) return null; // Avoid rendering during SSR phase
 
   return (
     <Fragment>
@@ -52,15 +80,19 @@ const AddStoryDropdownMenu = () => {
             <span>{t("text")}</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="flex"
-            onClick={() => {
-              setIsReviewDialogOpen(true);
-            }}
-          >
-            <BoomBoxIcon className="me-3 h-4 w-4" />
-            <span>{t("your-active-stories")}</span>
-          </DropdownMenuItem>
+          {data?.stories && data?.stories?.length > 0 ? (
+            <Fragment>
+              <DropdownMenuItem
+                className="flex"
+                onClick={() => {
+                  setIsReviewDialogOpen(true);
+                }}
+              >
+                <BoomBoxIcon className="me-3 h-4 w-4" />
+                <span>{t("your-active-stories")}</span>
+              </DropdownMenuItem>
+            </Fragment>
+          ) : null}
         </DropdownMenuContent>
       </DropdownMenu>
       {/* <AddStoryMediaDialog isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}
@@ -68,4 +100,4 @@ const AddStoryDropdownMenu = () => {
   );
 };
 
-export default AddStoryDropdownMenu;
+export default SelfStoriesDropdownMenu;

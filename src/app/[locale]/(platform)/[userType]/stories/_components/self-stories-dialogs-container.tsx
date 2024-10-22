@@ -7,7 +7,7 @@ import AddStoryMediaDialog from "./add-story-media-dialog";
 import AddStoryTextDialog from "./add-story-text-dialog";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStoriesResponse } from "@/types/stories";
-import StoriesViewerDialog from "./stories-Viewer-dialog";
+import StoriesViewerDialog from "./stories-viewer-dialog";
 import { useSession } from "next-auth/react";
 
 const SelfStoriesDialogsContainer = () => {

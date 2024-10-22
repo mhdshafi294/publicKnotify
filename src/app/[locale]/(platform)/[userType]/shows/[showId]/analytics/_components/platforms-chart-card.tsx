@@ -1,17 +1,15 @@
 "use client";
 
-import {
-  getShowPlatformStatisticsAction,
-  getShowViewsStatisticsAction,
-} from "@/app/actions/statisticsActions";
+import { getShowPlatformStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import { useQuery } from "@tanstack/react-query";
-import { addDays, format } from "date-fns";
-import React, { use } from "react";
+import { format } from "date-fns";
+import { useTranslations } from "next-intl";
+import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import PlatformChart from "./most-platforms-chart";
-import { useTranslations } from "next-intl";
+import MostPlatformTable from "./most-platform-table";
 
 type PlatformsChartCardProps = {
   params: { userType: string; showId: string };
@@ -63,7 +61,7 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
       </div>
       {/* {chart} */}
       {isPending ? (
-        <PlatformChart
+        <MostPlatformTable
           platformsDownloads={[
             {
               platform: "",
@@ -73,7 +71,7 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
           totalCount={0}
         />
       ) : data ? (
-        <PlatformChart
+        <MostPlatformTable
           platformsDownloads={data?.top_platforms!}
           totalCount={data?.total_count!}
         />
