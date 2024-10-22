@@ -145,6 +145,7 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
         clearInterval(progressIntervalRef.current);
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, storyGroup, currentStoryIndex, isPaused]);
 
   const startProgressTimer = useCallback(() => {
@@ -175,6 +176,7 @@ const StoriesViewerDialog: React.FC<StoriesViewerDialogProps> = ({
     if (currentStory.type === "text" && !isSelfStory(currentStory)) {
       markStoryRead(currentStory.id.toString());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storyGroup.stories, currentStoryIndex, isPaused, markStoryRead]);
 
   const moveToNextStory = useCallback(() => {
