@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react";
 import debounce from "lodash/debounce";
 import StoryHeader from "./story-header";
 
-const STORY_DURATION = 10000; // 10 seconds per story
+const STORY_DURATION = 10000; // 10 seconds duration per story
 
 type StoriesViewerDialogProps = {
   storyGroup: {
