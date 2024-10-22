@@ -1,5 +1,9 @@
-import React from "react";
 import Navbar from "@/app/[locale]/(platform)/_components/navbar/Navbar";
+import { getProfileAction } from "@/app/actions/profileActions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
+import React from "react";
 import Player from "./_components/player/player";
 
 type PlatformLayoutProps = {
@@ -14,7 +18,24 @@ type PlatformLayoutProps = {
  *
  * @param {React.ReactNode} children - The content to be rendered between the Navbar and Player components.
  */
-const PlatformLayout: React.FC<PlatformLayoutProps> = ({ children }) => {
+const PlatformLayout: React.FC<PlatformLayoutProps> = async ({ children }) => {
+  // Fetch the current session using NextAuth's getServerSession
+  const session = await getServerSession(authOptions);
+
+  if (!session || session.expires) {
+    redirect("/sign-in");
+  }
+  const profileResponse = await getProfileAction({
+    type: session?.user?.type!,
+  });
+
+  console.log(profileResponse.message, "<<<<profileResponse.message");
+
+  if (profileResponse.message === "Unauthenticated.") {
+    redirect("/sign-in");
+  }
+
+  // If a session exists, redirect the user to their respective type page
   return (
     <div className="h-full min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-between ">
       {/* Navbar component at the top */}
