@@ -25,13 +25,22 @@ const PlatformLayout: React.FC<PlatformLayoutProps> = async ({ children }) => {
   if (!session || session.expires) {
     redirect("/sign-in");
   }
-  const profileResponse = await getProfileAction({
-    type: session?.user?.type!,
-  });
 
-  // console.log(profileResponse.user, "<<<<profileResponse.message");
+  try {
+    const profileResponse = await getProfileAction({
+      type: session?.user?.type!,
+    });
 
-  if (profileResponse.message === "Unauthenticated." || !profileResponse.user) {
+    // console.log(profileResponse.user, "<<<<profileResponse.message");
+
+    if (
+      profileResponse.message === "Unauthenticated." ||
+      !profileResponse.user
+    ) {
+      redirect("/sign-in");
+    }
+  } catch (error) {
+    console.log(error);
     redirect("/sign-in");
   }
 
