@@ -1,6 +1,5 @@
 "use client";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -18,6 +17,15 @@ type TopCountriesTableProps = {
   total_count: number;
 };
 
+/**
+ * TopCountriesTable component displays a table with the top countries and their download counts.
+ *
+ * @param {TopCountriesTableProps} props - The props for the component.
+ * @param {Array} props.top_countries - An array of objects representing each country and its count.
+ * @param {number} props.total_count - The total count of downloads across all countries.
+ *
+ * @returns {JSX.Element} The rendered TopCountriesTable component.
+ */
 export default function TopCountriesTable({
   top_countries,
   total_count,

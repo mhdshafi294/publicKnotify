@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
 const SelfStoriesDropdownSubMenu = ({
   setUserOptionDropdownMenu,
@@ -28,14 +28,17 @@ const SelfStoriesDropdownSubMenu = ({
 }) => {
   const t = useTranslations("Index");
   const { data: session } = useSession();
-
+  const [isMounted, setIsMounted] = useState(false);
   const {
     setStoryMediaDialogIsOpen: setIsMediaDialogOpen,
     setStoryTextDialogIsOpen: setIsTextDialogOpen,
     setIsStoryReviewDialogOpen: setIsReviewDialogOpen,
   } = useAddStoryDialogsStore();
 
-  const queryClient = useQueryClient();
+  useEffect(() => {
+    if (!isMounted) setIsMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { data, isPending, isError } = useQuery<SelfStoriesResponse>({
     queryKey: ["self_stories", session?.user?.id],
@@ -43,7 +46,7 @@ const SelfStoriesDropdownSubMenu = ({
       getSelfStoriesAction({
         type: session?.user?.type!,
       }),
-    enabled: !!session?.user?.type,
+    enabled: !!session?.user?.type && isMounted,
     // refetchInterval: 30000, // 30 seconds
   });
 

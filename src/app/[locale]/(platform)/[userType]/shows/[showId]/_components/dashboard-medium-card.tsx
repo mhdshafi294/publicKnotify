@@ -43,7 +43,7 @@ const DashboardMediumCard: React.FC<DashboardMediumCardProps> = ({
   const t = useTranslations("Index");
 
   return (
-    <DashboardCardContainer className="2xl:h-[404px] flex flex-col sm:flex-row 2xl:flex-col justify-between gap-5 rounded-[32px]">
+    <DashboardCardContainer className="2xl:h-[404px] flex flex-col sm:flex-row 2xl:flex-col justify-between gap-5 md:rounded-[32px]">
       {/* Image Section */}
       <div
         className={cn(

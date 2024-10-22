@@ -33,6 +33,7 @@ import { Link } from "@/navigation";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
 import AddStoryDropdownMenu from "../../[userType]/stories/_components/add-story-dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -93,28 +94,79 @@ const MobileNavbar = ({
             <SheetDescription></SheetDescription>
           </SheetHeader>
           <Separator className="my-2 bg-border-secondary" />
-          <div className="flex flex-col gap-2 px-6">
-            <div className="flex flex-col justify-start items-start gap-0">
-              {mainNavLinks.map((link) => {
-                if (link.label !== "Add Podcast") {
-                  return (
+          <ScrollArea className="h-[calc(100dvh-100px)]">
+            <div className="flex flex-col gap-2 px-6">
+              <div className="flex flex-col justify-start items-start gap-0">
+                {mainNavLinks.map((link) => {
+                  if (link.label !== "Add Podcast") {
+                    return (
+                      <Link
+                        key={link.href}
+                        href={
+                          link.label === "Dashboard"
+                            ? params.showId !== undefined
+                              ? `/${session?.user?.type}${link.href}/${params.showId}`
+                              : `/${session?.user?.type}/`
+                            : link.label === "Statistics" &&
+                              session?.user?.type === "podcaster"
+                            ? `/podcasters/shows/${params.showId}/analytics`
+                            : link.label === "Statistics" &&
+                              session?.user?.type === "podcaster" &&
+                              playlists !== undefined &&
+                              playlists?.length > 0 &&
+                              playlists[0].id !== undefined
+                            ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                            : `/${session?.user?.type}${link.href}`
+                        }
+                        className={cn(
+                          buttonVariants({ variant: "link" }),
+                          "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline ",
+                          {
+                            "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
+                              (pathname.includes(link.href) &&
+                                link.href !== "/" &&
+                                link.href !== "/shows") ||
+                              (link.href === "/" &&
+                                pathname.lastIndexOf("/") === 0) ||
+                              (link.href === "/shows" &&
+                                pathname.lastIndexOf("/") === 16),
+                          },
+                          {
+                            hidden:
+                              session?.user?.type === "user" &&
+                              (link.label === "Requests" ||
+                                link.label === "Statistics"),
+                          },
+                          {
+                            hidden:
+                              (session?.user?.type === "user" ||
+                                session?.user?.type === "company") &&
+                              link.label === "Dashboard",
+                          },
+                          {
+                            hidden:
+                              session?.user?.type === "podcaster" &&
+                              link.label === "Home",
+                          }
+                        )}
+                      >
+                        {session?.user?.type === "podcaster" &&
+                        link.label === "Home"
+                          ? t("dashboard")
+                          : t(link.label)}
+                      </Link>
+                    );
+                  } else {
                     <Link
                       key={link.href}
                       href={
-                        link.label === "Dashboard"
-                          ? params.showId !== undefined
-                            ? `/${session?.user?.type}${link.href}/${params.showId}`
-                            : `/${session?.user?.type}/`
-                          : link.label === "Statistics" &&
-                            session?.user?.type === "podcaster"
-                          ? `/podcasters/shows/${params.showId}/analytics`
-                          : link.label === "Statistics" &&
-                            session?.user?.type === "podcaster" &&
-                            playlists !== undefined &&
+                        params.showId
+                          ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
+                          : playlists !== undefined &&
                             playlists?.length > 0 &&
                             playlists[0].id !== undefined
-                          ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
-                          : `/${session?.user?.type}${link.href}`
+                          ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
+                          : `/`
                       }
                       className={cn(
                         buttonVariants({ variant: "link" }),
@@ -122,157 +174,109 @@ const MobileNavbar = ({
                         {
                           "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
                             (pathname.includes(link.href) &&
-                              link.href !== "/" &&
-                              link.href !== "/shows") ||
+                              link.href !== "/") ||
                             (link.href === "/" &&
-                              pathname.lastIndexOf("/") === 0) ||
-                            (link.href === "/shows" &&
-                              pathname.lastIndexOf("/") === 16),
+                              pathname.lastIndexOf("/") === 0),
                         },
-                        {
-                          hidden:
-                            session?.user?.type === "user" &&
-                            (link.label === "Requests" ||
-                              link.label === "Statistics"),
-                        },
-                        {
-                          hidden:
-                            (session?.user?.type === "user" ||
-                              session?.user?.type === "company") &&
-                            link.label === "Dashboard",
-                        },
-                        {
-                          hidden:
-                            session?.user?.type === "podcaster" &&
-                            link.label === "Home",
-                        }
+                        { hidden: session?.user?.type !== "podcaster" }
                       )}
                     >
-                      {session?.user?.type === "podcaster" &&
-                      link.label === "Home"
-                        ? t("dashboard")
-                        : t(link.label)}
-                    </Link>
-                  );
-                } else {
-                  <Link
-                    key={link.href}
-                    href={
-                      params.showId
-                        ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
-                        : playlists !== undefined &&
-                          playlists?.length > 0 &&
-                          playlists[0].id !== undefined
-                        ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
-                        : `/`
-                    }
-                    className={cn(
-                      buttonVariants({ variant: "link" }),
-                      "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline ",
-                      {
-                        "before:absolute before:size-[6px] before:bg-primary hover:before:bg-primary before:start-0 before:translate-x-1.5 before:rounded-full":
-                          (pathname.includes(link.href) && link.href !== "/") ||
-                          (link.href === "/" &&
-                            pathname.lastIndexOf("/") === 0),
-                      },
-                      { hidden: session?.user?.type !== "podcaster" }
-                    )}
-                  >
-                    {t(link.label)}
-                  </Link>;
-                }
-              })}
-              <Link
-                href={`/terms`}
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
-                )}
-              >
-                <span>{t("terms")}</span>
-              </Link>
-              <Link
-                href={`/privacy`}
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
-                )}
-              >
-                <span>{t("privacy")}</span>
-              </Link>
-              <Link
-                href={`/support`}
-                className={cn(
-                  buttonVariants({ variant: "link" }),
-                  "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
-                )}
-              >
-                <span>{t("support")}</span>
-              </Link>
+                      {t(link.label)}
+                    </Link>;
+                  }
+                })}
+                <Link
+                  href={`/terms`}
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
+                  )}
+                >
+                  <span>{t("terms")}</span>
+                </Link>
+                <Link
+                  href={`/privacy`}
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
+                  )}
+                >
+                  <span>{t("privacy")}</span>
+                </Link>
+                <Link
+                  href={`/support`}
+                  className={cn(
+                    buttonVariants({ variant: "link" }),
+                    "text-forground font-semibold dark:text-white p-0 no-underline hover:no-underline "
+                  )}
+                >
+                  <span>{t("support")}</span>
+                </Link>
+              </div>
             </div>
-          </div>
-          <Separator className="my-5  bg-border-secondary" />
-          <div className="mx-6 flex flex-col gap-5">
-            <div className="flex justify-between items-center">
-              <p>{t("language")}</p>
-              <LanguageSwitcher />
-            </div>
-            <div className="flex justify-between items-center">
-              <p>{t("toggle-theme")}</p>
-              <DarkModeToggle />
-            </div>
-            {session?.user?.type === "podcaster" ? (
-              <AddStoryDropdownMenu />
-            ) : null}
-            {session?.user?.type !== "user" ? (
+            <Separator className="my-5  bg-border-secondary" />
+            <div className="mx-6 flex flex-col gap-5">
+              <div className="flex justify-between items-center">
+                <p>{t("language")}</p>
+                <LanguageSwitcher />
+              </div>
+              <div className="flex justify-between items-center">
+                <p>{t("toggle-theme")}</p>
+                <DarkModeToggle />
+              </div>
+              {session?.user?.type === "podcaster" ? (
+                <AddStoryDropdownMenu />
+              ) : null}
+              {session?.user?.type !== "user" ? (
+                <Link
+                  className="flex gap-1 items-center"
+                  href={`/${session?.user?.type}/chats`}
+                >
+                  <MessagesSquareIcon className="me-2 h-4 w-4" />
+                  <span>{t("messages")}</span>
+                </Link>
+              ) : null}
+              {session?.user?.type !== "user" ? (
+                <Link
+                  className="flex gap-1 items-center"
+                  href={`/${session?.user?.type}/wallet`}
+                >
+                  <WalletIcon className="me-2 h-4 w-4" />
+                  <span>{t("wallet")}</span>
+                </Link>
+              ) : null}
+              {session?.user?.type !== "user" ? (
+                <Link
+                  className="flex gap-1 items-center"
+                  href={`/${session?.user?.type}/contracts`}
+                >
+                  <HandshakeIcon className="me-2 h-4 w-4" />
+                  <span>{t("contracts")}</span>
+                </Link>
+              ) : null}
               <Link
                 className="flex gap-1 items-center"
-                href={`/${session?.user?.type}/chats`}
+                href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
               >
-                <MessagesSquareIcon className="me-2 h-4 w-4" />
-                <span>{t("messages")}</span>
+                <User className="me-2 h-4 w-4" />
+                <span>{t("profile")}</span>
               </Link>
-            ) : null}
-            {session?.user?.type !== "user" ? (
-              <Link
-                className="flex gap-1 items-center"
-                href={`/${session?.user?.type}/wallet`}
-              >
-                <WalletIcon className="me-2 h-4 w-4" />
-                <span>{t("wallet")}</span>
-              </Link>
-            ) : null}
-            {session?.user?.type !== "user" ? (
-              <Link
-                className="flex gap-1 items-center"
-                href={`/${session?.user?.type}/contracts`}
-              >
-                <HandshakeIcon className="me-2 h-4 w-4" />
-                <span>{t("contracts")}</span>
-              </Link>
-            ) : null}
-            <Link
-              className="flex gap-1 items-center"
-              href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}
-            >
-              <User className="me-2 h-4 w-4" />
-              <span>{t("profile")}</span>
-            </Link>
-            {/* <Link
+              {/* <Link
               className="flex gap-1 items-center"
               href={`/${session?.user?.type}/settings`}
             >
               <SettingsIcon className="me-2 h-4 w-4" />
               <span>{t("settings")}</span>
             </Link> */}
-            <div
-              className="text-red-500 flex gap-1 items-center"
-              onClick={() => signOut()}
-            >
-              <LogOutIcon className="me-2 h-4 w-4" />
-              <span>{t("logOut")}</span>
+              <div
+                className="text-red-500 flex gap-1 items-center"
+                onClick={() => signOut()}
+              >
+                <LogOutIcon className="me-2 h-4 w-4" />
+                <span>{t("logOut")}</span>
+              </div>
             </div>
-          </div>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
       {/* <NotificationsDropdown className="block lg:hidden" /> */}

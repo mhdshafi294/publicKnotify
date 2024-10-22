@@ -16,7 +16,7 @@ import { getDirection } from "@/lib/utils";
 import { StoriesResponse } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import StoryTriggerItem from "@/app/[locale]/(platform)/[userType]/stories/_components/story-trigger-item";
-import StoriesViewerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-Viewer-dialog";
+import StoriesViewerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-viewer-dialog";
 
 interface InfiniteScrollStoriesCarouselProps {
   initialData: StoriesResponse;
