@@ -1,6 +1,5 @@
 import { getServerSession } from "next-auth";
 
-import { getProfileAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
@@ -20,14 +19,15 @@ export default async function Home() {
   if (!session || session.expires) {
     redirect("/sign-in");
   }
+  // const profileResponse = await getProfileAction({
+  //   type: session?.user?.type!,
+  // });
 
-  const profileResponse = await getProfileAction({
-    type: session?.user?.type!,
-  });
+  // console.log(profileResponse.message, "<<<<profileResponse.message");
 
-  if (profileResponse.message === "Unauthenticated.") {
-    redirect("/sign-in");
-  }
+  // if (profileResponse.message === "Unauthenticated.") {
+  //   redirect("/sign-in");
+  // }
 
   // If a session exists, redirect the user to their respective type page
   if (session) {
