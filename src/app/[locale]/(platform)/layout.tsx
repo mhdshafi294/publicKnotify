@@ -29,9 +29,9 @@ const PlatformLayout: React.FC<PlatformLayoutProps> = async ({ children }) => {
     type: session?.user?.type!,
   });
 
-  console.log(profileResponse.message, "<<<<profileResponse.message");
+  // console.log(profileResponse.user, "<<<<profileResponse.message");
 
-  if (profileResponse.message === "Unauthenticated.") {
+  if (profileResponse.message === "Unauthenticated." || !profileResponse.user) {
     redirect("/sign-in");
   }
 
