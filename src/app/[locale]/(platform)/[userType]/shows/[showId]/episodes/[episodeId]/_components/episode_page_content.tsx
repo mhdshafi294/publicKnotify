@@ -44,7 +44,7 @@ const EpisodePageContent = async ({
   return (
     <MaxWidthContainer className="flex max-md:flex-col w-full flex-1 lg:min-h-[calc(100vh-72px)] relative h-full justify-between p-4 sm:p-6 md:p-8 gap-4">
       {/* Left Column: Podcast Details */}
-      <DashboardCardContainer className="flex flex-col col-span-1 gap-6 h-full justify-center p-4 w-full md:w-1/3">
+      <DashboardCardContainer className="flex flex-col col-span-1 gap-6 justify-center p-4 w-full md:w-1/3 grow">
         <div className="w-full">
           {podcastResponse?.podcast?.background ? (
             <div className="w-full h-[200px] relative">
@@ -124,7 +124,7 @@ const EpisodePageContent = async ({
 
       {/* Right Column: Episode Metadata and Additional Info */}
       <div className="w-full md:w-2/3 flex flex-col gap-4">
-        <DashboardCardContainer className="p-4 flex flex-col gap-8">
+        <DashboardCardContainer className="grow p-4 flex flex-col justify-between gap-8">
           <div className="flex justify-between">
             <h1 className="text-xl font-bold">{t("Publishing")}</h1>
             <div className="flex justify-end items-center gap-4">
@@ -189,7 +189,7 @@ const EpisodePageContent = async ({
           </div>
         </DashboardCardContainer>
 
-        <DashboardCardContainer className="p-4 flex flex-col gap-8">
+        <DashboardCardContainer className=" p-4 flex flex-col gap-8">
           <h1 className="text-xl font-bold">{t("categories")}</h1>
           <div className="flex flex-wrap gap-4">
             {podcastResponse?.podcast?.categories.map((category) => (
@@ -218,7 +218,7 @@ const EpisodePageContent = async ({
           </div>
         </DashboardCardContainer>
 
-        <DashboardCardContainer className="p-4 flex flex-col gap-8">
+        <DashboardCardContainer className=" p-4 flex flex-col gap-8">
           <h1 className="text-xl font-bold">{t("hashtags")}</h1>
           <div className="flex items-center gap-4">
             {podcastResponse?.podcast?.hashTags.map((hashtag) => (
@@ -232,15 +232,18 @@ const EpisodePageContent = async ({
           </div>
         </DashboardCardContainer>
 
-        <DashboardCardContainer className="p-4 flex flex-col gap-8">
+        <DashboardCardContainer className=" p-4 flex flex-col gap-8">
           <h1 className="text-xl font-bold">{t("episode")}</h1>
           <div className="flex gap-4 justify-between items-start w-full">
-            <p className="text-light text-sm">
-              {podcastResponse?.podcast?.episode_type}
-            </p>
-            <Link className={buttonVariants({ variant: "outline" })} href={"/"}>
+            <div className="flex gap-2 items-center">
+              <p className="text-light text-sm text-muted">{t("Type")}</p>
+              <p className="text-light text-sm">
+                {podcastResponse?.podcast?.episode_type_translation}
+              </p>
+            </div>
+            {/* <Link className={buttonVariants({ variant: "outline" })} href={"/"}>
               {t("Alternate Episode")}
-            </Link>
+            </Link> */}
           </div>
         </DashboardCardContainer>
       </div>

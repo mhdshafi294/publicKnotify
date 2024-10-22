@@ -74,7 +74,7 @@
             [[59]]
           ],
           "id": "840",
-          "properties": { "name": "United States of America" }
+          "properties": { "name": "United States" }
         },
         {
           "type": "Polygon",
@@ -538,12 +538,7 @@
           "id": "108",
           "properties": { "name": "Burundi" }
         },
-        {
-          "type": "Polygon",
-          "arcs": [[325, 326, 327, 328, 329, 330, 331]],
-          "id": "376",
-          "properties": { "name": "Israel" }
-        },
+
         {
           "type": "Polygon",
           "arcs": [[-331, 332, 333]],
@@ -558,10 +553,11 @@
         },
         {
           "type": "Polygon",
-          "arcs": [[-327, 335]],
-          "id": "275",
-          "properties": { "name": "Palestine" }
+          "arcs": [[325, 326, 327, 328, 329, 330, 331, -327, 335]],
+          "id": "376",
+          "properties": { "name": "Palastine" }
         },
+
         {
           "type": "Polygon",
           "arcs": [[-265, 336]],
