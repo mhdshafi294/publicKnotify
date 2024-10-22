@@ -1,20 +1,20 @@
 "use client";
 
+import { markStoryReadAction } from "@/app/actions/storiesActions";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { SelfStory, Story } from "@/types/stories";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import debounce from "lodash/debounce";
+import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import StoryContent from "./story-content";
 import StoryControls from "./story-controls";
+import StoryHeader from "./story-header";
 import StoryProgress from "./story-progress";
 import StoryViewers from "./story-viewers";
-import { markStoryReadAction } from "@/app/actions/storiesActions";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import debounce from "lodash/debounce";
-import StoryHeader from "./story-header";
 
 const STORY_DURATION = 10000; // 10 seconds per story
 

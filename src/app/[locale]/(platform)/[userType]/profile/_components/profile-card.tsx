@@ -14,22 +14,19 @@ import {
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import AuthSpotifyButton from "./auth-spotify-button";
 import AuthYoutubeButton from "./auth-youtube-button";
 import ProfileCardImageAndName from "./profile-card-image-and-name";
 import ProfileCategories from "./profile-categories";
 import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
+import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
 import { Company } from "@/types/company";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
+import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
-import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
-import SpotifyActiveAccountIcon from "@/components/icons/spotify-active-account-icon";
-import ContractPayButton from "../../contracts/_components/contract-pay-button";
-import AssignPayButton from "../../contracts/_components/assign-pay-button";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -62,6 +59,13 @@ const ProfileCard = async ({
         <ProfileCardImageAndName
           name={profileData?.full_name}
           image={profileData?.image}
+          stories={
+            "stories" in profileData &&
+            profileData?.stories &&
+            profileData?.stories.length > 0
+              ? profileData?.stories
+              : undefined
+          }
         />
         {/* Display categories if present */}
         {"categories" in profileData ? (
