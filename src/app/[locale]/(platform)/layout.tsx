@@ -1,5 +1,4 @@
 import Navbar from "@/app/[locale]/(platform)/_components/navbar/Navbar";
-import { getProfileAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
@@ -25,15 +24,15 @@ const PlatformLayout: React.FC<PlatformLayoutProps> = async ({ children }) => {
   if (!session || session.expires) {
     redirect("/sign-in");
   }
-  const profileResponse = await getProfileAction({
-    type: session?.user?.type!,
-  });
+  // const profileResponse = await getProfileAction({
+  //   type: session?.user?.type!,
+  // });
 
-  // console.log(profileResponse.user, "<<<<profileResponse.message");
+  // // console.log(profileResponse.user, "<<<<profileResponse.message");
 
-  if (profileResponse.message === "Unauthenticated." || !profileResponse.user) {
-    redirect("/sign-in");
-  }
+  // if (profileResponse.message === "Unauthenticated." || !profileResponse.user) {
+  //   redirect("/sign-in");
+  // }
 
   // If a session exists, redirect the user to their respective type page
   return (
