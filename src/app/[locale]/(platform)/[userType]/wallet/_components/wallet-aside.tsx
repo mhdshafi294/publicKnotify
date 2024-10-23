@@ -1,11 +1,11 @@
-import React from "react";
-import ProfileCardImageAndName from "../../profile/_components/profile-card-image-and-name";
-import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Wallet } from "@/types/wallet";
-import DashboardCardContainer from "../../shows/_components/dashboard-card-container";
-import { getTranslations } from "next-intl/server";
 import { format } from "date-fns";
+import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
+import React from "react";
+import ProfileCardImageAndName from "../../profile/_components/profile-card-image-and-name";
+import DashboardCardContainer from "../../shows/_components/dashboard-card-container";
 
 type WalletAsideProps = {
   wallet_data: Wallet;
@@ -21,6 +21,7 @@ const WalletAside: React.FC<WalletAsideProps> = async ({ wallet_data }) => {
         <ProfileCardImageAndName
           name={session?.user?.full_name!}
           image={session?.user?.image!}
+          isSelfProfile
         />
         <div className="w-full flex flex-col items-center gap-7">
           <div className="w-full grid grid-rows-2 items-baseline justify-items-center">
