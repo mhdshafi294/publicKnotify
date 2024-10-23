@@ -257,20 +257,27 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
           Date.now() - (storyStartTimeRef.current || 0);
         startProgressTimer();
         if (videoRef.current) {
-          videoRef.current.play();
+          try {
+            videoRef.current.play();
+          } catch (error) {
+            console.error("Error playing video:", error);
+          }
         }
       } else {
         if (progressIntervalRef.current) {
           clearInterval(progressIntervalRef.current);
           if (videoRef.current) {
-            videoRef.current.pause();
+            try {
+              videoRef.current.pause();
+            } catch (error) {
+              console.error("Error pausing video:", error);
+            }
           }
         }
       }
       return !prevIsPaused;
     });
   }, [startProgressTimer]);
-
   const toggleMute = useCallback(() => {
     setIsMuted(!isMuted);
     if (videoRef.current) {
