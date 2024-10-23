@@ -79,6 +79,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   const touchStartY = useRef<number | null>(null);
   const storyStartTimeRef = useRef<number | null>(null);
   const markedAsReadRef = useRef<Set<string>>(new Set());
+  const storyDurationRef = useRef<number>(STORY_DURATION);
 
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -170,56 +171,54 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
     };
   }, []);
 
+  const startProgressTimer = useCallback(() => {
+    if (isPaused) return;
+
+    setProgress(0);
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+    }
+
+    const currentStory = storyGroup.stories[currentStoryIndex];
+    storyDurationRef.current =
+      currentStory?.type === "video"
+        ? (videoRef.current?.duration || 25) * 1000
+        : STORY_DURATION;
+
+    storyStartTimeRef.current = Date.now();
+
+    progressIntervalRef.current = setInterval(() => {
+      const elapsedTime = Date.now() - (storyStartTimeRef.current || 0);
+      const newProgress = (elapsedTime / storyDurationRef.current) * 100;
+
+      if (newProgress >= 100) {
+        clearInterval(progressIntervalRef.current!);
+        moveToNextStory();
+      } else {
+        setProgress(newProgress);
+      }
+    }, 100);
+
+    if (currentStory.type === "text" && !isSelfStory(currentStory)) {
+      const markAsReadTimeout = setTimeout(() => {
+        markStoryRead(currentStory.id.toString());
+      }, 1000); // Increased to 1 second for better user experience
+
+      return () => clearTimeout(markAsReadTimeout);
+    }
+  }, [isPaused, storyGroup.stories, currentStoryIndex, markStoryRead]);
+
   useEffect(() => {
-    let progressInterval: NodeJS.Timeout | null = null;
-
-    const startProgressTimer = () => {
-      if (isPaused) return;
-
-      setProgress(0);
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
-
-      const currentStory = storyGroup.stories[currentStoryIndex];
-      const duration =
-        currentStory?.type === "video"
-          ? (videoRef.current?.duration || 25) * 1000
-          : STORY_DURATION;
-
-      storyStartTimeRef.current = Date.now();
-
-      progressInterval = setInterval(() => {
-        const elapsedTime = Date.now() - (storyStartTimeRef.current || 0);
-        const newProgress = (elapsedTime / duration) * 100;
-
-        if (newProgress >= 100) {
-          clearInterval(progressInterval!);
-          moveToNextStory();
-        } else {
-          setProgress(newProgress);
-        }
-      }, 100);
-
-      if (currentStory.type === "text" && !isSelfStory(currentStory)) {
-        const markAsReadTimeout = setTimeout(() => {
-          markStoryRead(currentStory.id.toString());
-        }, 10);
-
-        return () => clearTimeout(markAsReadTimeout);
-      }
-    };
-
     if (isOpen && storyGroup.stories && storyGroup.stories.length > 0) {
       startProgressTimer();
     }
 
     return () => {
-      if (progressInterval) {
-        clearInterval(progressInterval);
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
       }
     };
-  }, [isOpen, storyGroup, currentStoryIndex, isPaused, markStoryRead]);
+  }, [isOpen, storyGroup, currentStoryIndex, isPaused, startProgressTimer]);
 
   const moveToNextStory = useCallback(() => {
     if (currentStoryIndex < storyGroup.stories.length - 1) {
@@ -256,11 +255,29 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
       if (prevIsPaused) {
         storyStartTimeRef.current =
           Date.now() - (storyStartTimeRef.current || 0);
+        startProgressTimer();
+        if (videoRef.current) {
+          try {
+            videoRef.current.play();
+          } catch (error) {
+            console.error("Error playing video:", error);
+          }
+        }
+      } else {
+        if (progressIntervalRef.current) {
+          clearInterval(progressIntervalRef.current);
+          if (videoRef.current) {
+            try {
+              videoRef.current.pause();
+            } catch (error) {
+              console.error("Error pausing video:", error);
+            }
+          }
+        }
       }
       return !prevIsPaused;
     });
-  }, []);
-
+  }, [startProgressTimer]);
   const toggleMute = useCallback(() => {
     setIsMuted(!isMuted);
     if (videoRef.current) {
@@ -336,7 +353,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
             videoRef={videoRef}
             isMuted={isMuted}
             onVideoEnd={moveToNextStory}
-            onVideoLoad={() => {}}
+            onVideoLoad={startProgressTimer}
             markStoryRead={markStoryRead}
           />
           {isSelfStory(currentStory) && <StoryViewers story={currentStory} />}
