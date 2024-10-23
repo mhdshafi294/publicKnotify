@@ -4,6 +4,7 @@ import getShowCountryStatistics from "@/services/statistics/get-show-country-sta
 import getShowMostPopularStatistics from "@/services/statistics/get-show-most-popular-statistics";
 import getShowPlatformStatistics from "@/services/statistics/get-show-platform-statistics";
 import getShowStatistics from "@/services/statistics/get-show-statistics";
+import getShowStatisticsForVisitors from "@/services/statistics/get-show-statistics-for-visitors";
 import getShowTimeStatistics from "@/services/statistics/get-show-time-statistics";
 import getShowViewsStatistics from "@/services/statistics/get-show-views-statistics";
 // Importing the statistics service
@@ -240,6 +241,22 @@ export const getShowCountryStatisticsAction = async ({
   return await getShowCountryStatistics({
     start_date,
     end_date,
+    show_id,
+    type,
+  });
+};
+
+export const getShowStatisticsForVisitorsAction = async ({
+  podcaster_id,
+  show_id,
+  type,
+}: {
+  podcaster_id?: string;
+  show_id: string;
+  type: string;
+}) => {
+  return await getShowStatisticsForVisitors({
+    podcaster_id,
     show_id,
     type,
   });

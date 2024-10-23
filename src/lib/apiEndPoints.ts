@@ -75,6 +75,7 @@ export const MARK_READ = "/mark-read";
 export const TIME = "/time";
 export const PLATFORM = "/platform";
 export const COUNTRY = "/country";
+export const PODCASTER_PLAYLIST = "/podcaster-playlist";
 
 // Social interaction endpoints
 export const POST_URL = "/post";
