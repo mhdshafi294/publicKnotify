@@ -63,8 +63,8 @@ const InfiniteScrollRequests: React.FC<{
       };
     },
     getNextPageParam: (lastPage) => {
-      if (lastPage.pagination.next_page_url) {
-        return lastPage.pagination.current_page + 1;
+      if (lastPage?.pagination.next_page_url) {
+        return lastPage?.pagination.current_page + 1;
       } else {
         return undefined;
       }

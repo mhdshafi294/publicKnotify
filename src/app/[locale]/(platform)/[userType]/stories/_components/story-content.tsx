@@ -87,9 +87,8 @@ const StoryContent: React.FC<StoryContentProps> = ({
           ref={imageRef}
           src={story.image}
           alt="Story"
-          layout="fill"
-          objectFit="contain"
-          className={isLoading ? "opacity-0" : "opacity-100"}
+          fill
+          className={isLoading ? "opacity-0" : "opacity-100 object-contain"}
           onLoad={handleImageLoad}
         />
       </div>

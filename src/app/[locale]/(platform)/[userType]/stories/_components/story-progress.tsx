@@ -5,7 +5,7 @@ interface StoryProgressProps {
   currentIndex: number;
   progress: number;
   onStoryChange: (index: number) => void;
-  onProgressStart: () => void;
+  onProgressStart?: () => void;
 }
 
 /**
@@ -40,7 +40,7 @@ const StoryProgress: React.FC<StoryProgressProps> = ({
           className="h-1 bg-white/30 flex-grow rounded-full overflow-hidden"
           onClick={() => {
             onStoryChange(index);
-            onProgressStart();
+            // onProgressStart();
           }}
         >
           <div
