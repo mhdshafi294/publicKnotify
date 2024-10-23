@@ -4,44 +4,37 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { Story } from "@/types/stories";
-import { useEffect, useState } from "react";
 import StoriesPlayerDialog from "../../stories/_components/stories-player-dialog";
+import { useProfileStories } from "@/hooks/stories/use-profile-stories";
 
 interface ProfileCardImageAndNameProps {
   name: string;
   image: string;
+  isSelfProfile: boolean;
   stories?: Story[];
 }
 
 const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
   name,
   image,
-  stories = [],
+  isSelfProfile,
+  stories: initStories,
 }) => {
-  const [firstUnreadIndex, setFirstUnreadIndex] = useState(0);
-  const { setIsStoryReviewDialogOpen } = useAddStoryDialogsStore();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const {
+    stories,
+    setStories,
+    firstUnreadIndex,
+    isDialogOpen,
+    storyGroup,
+    handleOpenStories,
+    handleCloseStories,
+  } = useProfileStories(isSelfProfile, initStories);
 
-  useEffect(() => {
-    const unreadIndex = stories.findIndex((story) => !story.is_viewd);
-    setFirstUnreadIndex(unreadIndex === -1 ? 0 : unreadIndex);
-  }, [stories]);
-
-  const handleOpenStories = () => {
-    if (stories.length > 0) {
-      setIsDialogOpen(true);
-      setIsStoryReviewDialogOpen(true);
-    }
-  };
-
-  const handleCloseStories = () => {
-    setIsDialogOpen(false);
-    setIsStoryReviewDialogOpen(false);
-  };
-
-  const hasUnreadStories = stories.some((story) => !story.is_viewd);
-
-  const segmentCount = Math.max(stories.length, 1);
+  const segmentCount = Math.max(
+    stories?.length || 0,
+    storyGroup?.stories?.length || 0,
+    1
+  );
   const segmentAngle = 360 / segmentCount;
   const gapAngle = 6; // 6 degrees gap between segments
 
@@ -98,7 +91,8 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
               {name?.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
-          {stories.length > 0 && (
+          {(stories && stories?.length > 0) ||
+          (storyGroup && storyGroup?.stories?.length > 0) ? (
             <svg
               className="absolute top-0 left-0 w-full h-full"
               viewBox="0 0 100 100"
@@ -106,14 +100,14 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
               {Array.from({ length: segmentCount }).map((_, i) => {
                 const startAngle = i * segmentAngle;
                 const endAngle = (i + 1) * segmentAngle;
-                const story = stories[i];
+                const story = stories ? stories[i] : storyGroup?.stories?.[i];
                 return (
                   <path
                     key={i}
                     d={createArcPath(startAngle, endAngle, 48)}
                     fill="none"
                     stroke={
-                      story && !story.is_viewd
+                      story && "is_viewd" in story && !story.is_viewd
                         ? "hsl(var(--greeny))"
                         : "#8a8a8a"
                     }
@@ -123,23 +117,42 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
                 );
               })}
             </svg>
-          )}
+          ) : null}
         </div>
         <h1 className="text-2xl font-semibold text-center mt-2">{name}</h1>
       </div>
-      {isDialogOpen && stories.length > 0 && (
+      {isDialogOpen &&
+      ((stories && stories?.length > 0) ||
+        (storyGroup && storyGroup?.stories?.length > 0)) ? (
         <StoriesPlayerDialog
-          storyGroup={{
-            podcaster: { id: 0, name, image },
-            stories,
-          }}
-          allStories={[{ podcaster: { id: 0, name, image }, stories }]}
+          storyGroup={
+            stories
+              ? {
+                  podcaster: { id: 0, name, image },
+                  stories,
+                }
+              : storyGroup!
+          }
+          allStories={
+            stories
+              ? [{ podcaster: { id: 0, name, image }, stories }]
+              : [storyGroup!]
+          }
           currentIndex={0}
           initialStoryIndex={firstUnreadIndex}
           onIndexChange={() => {}}
           onFinish={handleCloseStories}
+          fromProfile={
+            stories
+              ? {
+                  isInProfile: true,
+                  stories: stories,
+                  setStories: setStories,
+                }
+              : undefined
+          }
         />
-      )}
+      ) : null}
     </>
   );
 };

@@ -9,7 +9,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import debounce from "lodash/debounce";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import StoryContent from "./story-content";
 import StoryControls from "./story-controls";
 import StoryHeader from "./story-header";
@@ -39,6 +46,11 @@ type StoriesViewerDialogProps = {
   initialStoryIndex: number;
   onIndexChange: (index: number) => void;
   onFinish: () => void;
+  fromProfile?: {
+    isInProfile: boolean;
+    stories: Story[];
+    setStories: Dispatch<SetStateAction<Story[] | undefined>>;
+  };
 };
 
 const isSelfStory = (story: Story | SelfStory): story is SelfStory => {
@@ -52,6 +64,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   initialStoryIndex,
   onIndexChange,
   onFinish,
+  fromProfile,
 }) => {
   const t = useTranslations("Index");
   const [currentStoryIndex, setCurrentStoryIndex] = useState(initialStoryIndex);
@@ -64,6 +77,8 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const storyStartTimeRef = useRef<number | null>(null);
+  const markedAsReadRef = useRef<Set<string>>(new Set());
 
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -76,34 +91,49 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   const { mutate: server_markStoryRead } = useMutation({
     mutationFn: markStoryReadAction,
     onMutate: async (variables) => {
-      await queryClient.cancelQueries({ queryKey: ["trending_stories"] });
+      if (markedAsReadRef.current.has(variables.id)) {
+        return; // Skip if already marked as read
+      }
+      markedAsReadRef.current.add(variables.id);
 
-      const previousStories = queryClient.getQueryData([
-        "trending_stories",
-        { type: session?.user?.type },
-      ]);
+      if (fromProfile && fromProfile.isInProfile) {
+        fromProfile.setStories((prev) =>
+          prev?.map((story) =>
+            story.id.toString() === variables.id
+              ? { ...story, is_viewd: true }
+              : story
+          )
+        );
+      } else {
+        await queryClient.cancelQueries({ queryKey: ["trending_stories"] });
 
-      queryClient.setQueryData(
-        ["trending_stories", { type: session?.user?.type }],
-        (old: any) => {
-          return {
-            ...old,
-            pages: old.pages.map((page: any) => ({
-              ...page,
-              stories: page.stories.map((storyGroup: any) => ({
-                ...storyGroup,
-                stories: storyGroup.stories.map((story: Story) =>
-                  story.id.toString() === variables.id
-                    ? { ...story, is_viewd: true }
-                    : story
-                ),
+        const previousStories = queryClient.getQueryData([
+          "trending_stories",
+          { type: session?.user?.type },
+        ]);
+
+        queryClient.setQueryData(
+          ["trending_stories", { type: session?.user?.type }],
+          (old: any) => {
+            return {
+              ...old,
+              pages: old.pages.map((page: any) => ({
+                ...page,
+                stories: page.stories.map((storyGroup: any) => ({
+                  ...storyGroup,
+                  stories: storyGroup.stories.map((story: Story) =>
+                    story.id.toString() === variables.id
+                      ? { ...story, is_viewd: true }
+                      : story
+                  ),
+                })),
               })),
-            })),
-          };
-        }
-      );
+            };
+          }
+        );
 
-      return { previousStories };
+        return { previousStories };
+      }
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(["trending_stories"], context?.previousStories);
@@ -116,7 +146,11 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
 
   const markStoryRead = useCallback(
     debounce((storyId: string) => {
-      if (session?.user?.type && session?.user?.type !== "podcaster") {
+      if (
+        session?.user?.type &&
+        session?.user?.type !== "podcaster" &&
+        !markedAsReadRef.current.has(storyId)
+      ) {
         server_markStoryRead({ id: storyId, type: session.user.type });
       }
     }, 300),
@@ -137,52 +171,59 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   }, []);
 
   useEffect(() => {
+    let progressInterval: NodeJS.Timeout | null = null;
+
+    const startProgressTimer = () => {
+      if (isPaused) return;
+
+      setProgress(0);
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+
+      const currentStory = storyGroup.stories[currentStoryIndex];
+      const duration =
+        currentStory?.type === "video"
+          ? (videoRef.current?.duration || 25) * 1000
+          : STORY_DURATION;
+
+      storyStartTimeRef.current = Date.now();
+
+      progressInterval = setInterval(() => {
+        const elapsedTime = Date.now() - (storyStartTimeRef.current || 0);
+        const newProgress = (elapsedTime / duration) * 100;
+
+        if (newProgress >= 100) {
+          clearInterval(progressInterval!);
+          moveToNextStory();
+        } else {
+          setProgress(newProgress);
+        }
+      }, 100);
+
+      if (currentStory.type === "text" && !isSelfStory(currentStory)) {
+        const markAsReadTimeout = setTimeout(() => {
+          markStoryRead(currentStory.id.toString());
+        }, 10);
+
+        return () => clearTimeout(markAsReadTimeout);
+      }
+    };
+
     if (isOpen && storyGroup.stories && storyGroup.stories.length > 0) {
       startProgressTimer();
     }
+
     return () => {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
+      if (progressInterval) {
+        clearInterval(progressInterval);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, storyGroup, currentStoryIndex, isPaused]);
-
-  const startProgressTimer = useCallback(() => {
-    if (isPaused) return;
-
-    setProgress(0);
-    if (progressIntervalRef.current) {
-      clearInterval(progressIntervalRef.current);
-    }
-
-    const currentStory = storyGroup.stories[currentStoryIndex];
-    const duration =
-      currentStory?.type === "video"
-        ? (videoRef.current?.duration || 25) * 1000
-        : STORY_DURATION;
-
-    progressIntervalRef.current = setInterval(() => {
-      setProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(progressIntervalRef.current!);
-          moveToNextStory();
-          return 0;
-        }
-        return prevProgress + (100 / duration) * 100; // Update every 100ms
-      });
-    }, 100);
-
-    if (currentStory.type === "text" && !isSelfStory(currentStory)) {
-      markStoryRead(currentStory.id.toString());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storyGroup.stories, currentStoryIndex, isPaused, markStoryRead]);
+  }, [isOpen, storyGroup, currentStoryIndex, isPaused, markStoryRead]);
 
   const moveToNextStory = useCallback(() => {
     if (currentStoryIndex < storyGroup.stories.length - 1) {
       setCurrentStoryIndex(currentStoryIndex + 1);
-      startProgressTimer();
     } else if (currentIndex < allStories.length - 1) {
       onIndexChange(currentIndex + 1);
       setCurrentStoryIndex(0);
@@ -199,39 +240,26 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
     onIndexChange,
     onOpenChange,
     onFinish,
-    startProgressTimer,
   ]);
 
   const moveToPreviousStory = useCallback(() => {
     if (currentStoryIndex > 0) {
       setCurrentStoryIndex(currentStoryIndex - 1);
-      startProgressTimer();
     } else if (currentIndex > 0) {
       onIndexChange(currentIndex - 1);
       setCurrentStoryIndex(allStories[currentIndex - 1].stories.length - 1);
     }
-  }, [
-    currentStoryIndex,
-    currentIndex,
-    onIndexChange,
-    allStories,
-    startProgressTimer,
-  ]);
+  }, [currentStoryIndex, currentIndex, onIndexChange, allStories]);
 
   const togglePause = useCallback(() => {
-    setIsPaused(!isPaused);
-    if (!isPaused) {
-      clearInterval(progressIntervalRef.current!);
-      if (videoRef.current) {
-        videoRef.current.pause();
+    setIsPaused((prevIsPaused) => {
+      if (prevIsPaused) {
+        storyStartTimeRef.current =
+          Date.now() - (storyStartTimeRef.current || 0);
       }
-    } else {
-      startProgressTimer();
-      if (videoRef.current) {
-        videoRef.current.play();
-      }
-    }
-  }, [isPaused, startProgressTimer]);
+      return !prevIsPaused;
+    });
+  }, []);
 
   const toggleMute = useCallback(() => {
     setIsMuted(!isMuted);
@@ -283,8 +311,8 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
         dialogClose={false}
         ref={containerRef}
         style={{
-          backgroundColor: currentStory.color ? currentStory.color : "#000000",
-          borderColor: currentStory.color ? currentStory.color : "#000000",
+          backgroundColor: currentStory?.color ? currentStory.color : "#000000",
+          borderColor: currentStory?.color ? currentStory.color : "#000000",
         }}
         className={cn("p-0 max-w-md w-full h-[80vh] flex flex-col")}
         onTouchStart={handleTouchStart}
@@ -293,28 +321,27 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
         <DialogTitle className="sr-only">Story Viewer</DialogTitle>
 
         <div className="relative flex-grow">
-          <StoryProgress
+          <MemoizedStoryProgress
             stories={storyGroup.stories as Story[]}
             currentIndex={currentStoryIndex}
             progress={progress}
             onStoryChange={setCurrentStoryIndex}
-            onProgressStart={startProgressTimer}
           />
-          <StoryHeader
+          <MemoizedStoryHeader
             podcaster={storyGroup.podcaster}
             createdAt={currentStory.created_at}
           />
-          <StoryContent
+          <MemoizedStoryContent
             story={currentStory}
             videoRef={videoRef}
             isMuted={isMuted}
             onVideoEnd={moveToNextStory}
-            onVideoLoad={startProgressTimer}
+            onVideoLoad={() => {}}
             markStoryRead={markStoryRead}
           />
           {isSelfStory(currentStory) && <StoryViewers story={currentStory} />}
         </div>
-        <StoryControls
+        <MemoizedStoryControls
           currentIndex={currentStoryIndex}
           totalStories={storyGroup.stories.length}
           isVideo={currentStory.type === "video"}
@@ -330,5 +357,10 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
     </Dialog>
   );
 };
+
+const MemoizedStoryProgress = React.memo(StoryProgress);
+const MemoizedStoryHeader = React.memo(StoryHeader);
+const MemoizedStoryContent = React.memo(StoryContent);
+const MemoizedStoryControls = React.memo(StoryControls);
 
 export default StoriesPlayerDialog;

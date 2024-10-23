@@ -59,6 +59,7 @@ const ProfileCard = async ({
         <ProfileCardImageAndName
           name={profileData?.full_name}
           image={profileData?.image}
+          isSelfProfile={isSelfProfile}
           stories={
             "stories" in profileData &&
             profileData?.stories &&
