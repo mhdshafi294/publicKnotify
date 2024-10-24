@@ -1,19 +1,19 @@
-import axiosInstance from "@/lib/axios.config";
 import { PLAYLIST, STATISTICS } from "@/lib/apiEndPoints";
+import axiosInstance from "@/lib/axios.config";
 import { ShowStatisticsResponse } from "@/types/statistics";
 
 const getShowStatistics = async ({
   start_date,
   end_date,
   day,
-  podcat_id,
+  podcast_id,
   show_id,
   type,
 }: {
   start_date?: string;
   end_date?: string;
   day?: string;
-  podcat_id?: string;
+  podcast_id?: string;
   show_id: string;
   type: string;
 }) => {
@@ -24,7 +24,7 @@ const getShowStatistics = async ({
         start_date,
         end_date,
         day,
-        podcat_id,
+        podcast_id,
       },
     }
   );

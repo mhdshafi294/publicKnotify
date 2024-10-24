@@ -2,20 +2,27 @@
 
 import { getShowPlatformStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
+import { EnabledStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
-import PlatformChart from "./most-platforms-chart";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
 import MostPlatformTable from "./most-platform-table";
 
-type PlatformsChartCardProps = {
-  params: { userType: string; showId: string };
+type PlatformsTableCardProps = {
+  showId: string;
+  userType: string;
+  enabled: EnabledStatistics;
 };
 
-const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
+const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
+  showId,
+  userType,
+  enabled,
+}) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
     to: new Date(),
@@ -34,10 +41,10 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
           ? undefined
           : format(date?.from!, "yyyy-MM-dd"),
         end_date: !isDateModified ? undefined : format(date?.to!, "yyyy-MM-dd"),
-        show_id: params.showId,
-        type: params.userType,
+        show_id: showId,
+        type: userType,
       }),
-    enabled: !!params.showId && !!params.userType,
+    enabled: !!showId && !!userType,
   });
 
   return (
@@ -56,6 +63,13 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
               setDate={setDate}
               className="w-fit"
             />
+            {userType === "podcaster" ? (
+              <AnalyticsEnableSwitch
+                className="ms-auto"
+                enabled={enabled}
+                statisticsType="platform"
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -80,4 +94,4 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
   );
 };
 
-export default PlatformsChartCard;
+export default PlatformsTableCard;

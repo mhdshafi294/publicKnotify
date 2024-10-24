@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
 import { SearchIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import NotificationsPopover from "@/components/notifications-popover";
 import { buttonVariants } from "@/components/ui/button";
 import { mainNavLinks } from "@/config/links";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import UserOptions from "./user-0ptions";
 import { Playlist } from "@/types/podcast";
+import UserOptions from "./user-0ptions";
 
 /**
  * The DesktopNavbar component renders the navigation bar for larger screens.
@@ -104,7 +104,7 @@ const DesktopNavbar = ({
                     : link.label === "Statistics" &&
                       session?.user?.type === "podcaster" &&
                       params.showId
-                    ? `/podcaster/shows/${params.showId}/analytics`
+                    ? `/${session?.user?.type}/shows/${params.showId}/analytics`
                     : link.label === "Statistics" &&
                       session?.user?.type === "podcaster" &&
                       playlists !== undefined &&

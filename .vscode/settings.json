@@ -1,14 +1,5 @@
 {
-<<<<<<< HEAD
   "cSpell.words": ["Podcasters"],
   "i18n-ally.localesPaths": ["messages"],
-=======
-  "cSpell.words": [
-    "Podcasters"
-  ],
-  "i18n-ally.localesPaths": [
-    "messages"
-  ],
->>>>>>> 43d42bdcc9c49300ac03ff5d3be2533f96f74ba8
   "i18n-ally.keystyle": "nested"
 }

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { SelfStoriesResponse, Story } from "@/types/stories";
 import { getSelfStoriesAction } from "@/app/actions/storiesActions";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
+import { SelfStoriesResponse, Story } from "@/types/stories";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export const useProfileStories = (
   isSelfProfile: boolean,
@@ -19,7 +19,7 @@ export const useProfileStories = (
   const { data: selfStoriesData } = useQuery<SelfStoriesResponse>({
     queryKey: ["self_stories", session?.user?.id],
     queryFn: () => getSelfStoriesAction({ type: session?.user?.type! }),
-    enabled: !!session?.user?.type && isSelfProfile,
+    enabled: session?.user?.type === "podcaster" && isSelfProfile,
   });
 
   const storyGroup = selfStoriesData?.stories
@@ -30,6 +30,15 @@ export const useProfileStories = (
           image: session?.user?.image || "/podcaster-filler.webp",
         },
         stories: selfStoriesData.stories,
+      }
+    : stories
+    ? {
+        podcaster: {
+          id: 0,
+          name: "You",
+          image: session?.user?.image || "/podcaster-filler.webp",
+        },
+        stories: stories,
       }
     : null;
 

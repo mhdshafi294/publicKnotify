@@ -16,14 +16,13 @@ import MostViewsChart from "./most-views-chart";
 
 type ViewsChartCardProps = {
   title: string;
-  // description?: string;
   value: string;
-  params: { userType: string; showId: string };
+  showId: string;
+  userType: string;
   link?: {
     href: string;
     name: string;
   };
-  // chart: React.ReactNode;
   enabled: EnabledStatistics;
 };
 
@@ -44,11 +43,10 @@ type ViewsChartCardProps = {
  */
 const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   title,
-  // description,
   value,
-  params,
+  showId,
+  userType,
   link,
-  // chart,
   enabled,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -67,10 +65,10 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
       getShowViewsStatisticsAction({
         start_date: format(date?.from!, "yyyy-MM-dd"),
         end_date: format(date?.to!, "yyyy-MM-dd"),
-        show_id: params.showId,
-        type: params.userType,
+        show_id: showId,
+        type: userType,
       }),
-    enabled: !!params.showId && !!params.userType,
+    enabled: !!showId && !!userType,
   });
 
   return (
@@ -89,11 +87,13 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
                 className="w-fit"
               />
             ) : null}
-            <AnalyticsEnableSwitch
-              className="ms-auto"
-              enabled={enabled}
-              statiscsType="top_episodes"
-            />
+            {userType === "podcaster" ? (
+              <AnalyticsEnableSwitch
+                className="ms-auto"
+                enabled={enabled}
+                statisticsType="top_episodes"
+              />
+            ) : null}
           </div>
           {link ? (
             <Link

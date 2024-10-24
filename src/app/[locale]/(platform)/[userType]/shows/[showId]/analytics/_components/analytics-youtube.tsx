@@ -1,10 +1,9 @@
-import React from "react";
-import { useTranslations } from "next-intl";
 import { OctagonAlert } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import YoutubeIconWhite from "@/components/icons/youtube-icon-white";
 import { EnabledStatistics, YoutubeChannel } from "@/types/statistics";
+import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
 
 /**
@@ -44,7 +43,7 @@ const AnalyticsYoutube = ({
         <AnalyticsEnableSwitch
           className="ms-auto self-end"
           enabled={enabled}
-          statiscsType="youtube_channel"
+          statisticsType="youtube_channel"
         />
       </div>
 

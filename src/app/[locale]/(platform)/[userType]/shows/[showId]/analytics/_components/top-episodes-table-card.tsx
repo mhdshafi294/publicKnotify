@@ -14,12 +14,10 @@ import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 
 type TopEpisodesTableProps = {
-  params: { userType: string; showId: string };
   top_episodes: { id: number; name: string; views_count: number }[];
 };
 
 const TopEpisodesTable: React.FC<TopEpisodesTableProps> = ({
-  params,
   top_episodes,
 }) => {
   const t = useTranslations("Index");

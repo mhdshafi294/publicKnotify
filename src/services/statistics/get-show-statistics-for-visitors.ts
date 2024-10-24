@@ -7,7 +7,7 @@ const getShowStatisticsForVisitors = async ({
   show_id,
   type,
 }: {
-  podcaster_id?: string;
+  podcaster_id: string;
   show_id: string;
   type: string;
 }) => {

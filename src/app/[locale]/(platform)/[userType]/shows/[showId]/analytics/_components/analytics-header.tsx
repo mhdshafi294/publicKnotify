@@ -1,7 +1,6 @@
-import React from "react";
-import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import { ShowStatistics } from "@/types/statistics";
 import { useTranslations } from "next-intl";
+import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
 
 /**
@@ -66,7 +65,7 @@ const AnalyticsHeader = ({
       <AnalyticsEnableSwitch
         className="ms-auto self-start absolute right-4 top-6"
         enabled={showStatistics?.enabled}
-        statiscsType="playlist_statistics"
+        statisticsType="playlist_statistics"
       />
     </DashboardCardContainer>
   );

@@ -17,17 +17,20 @@ import { toast } from "sonner";
 
 type AnalyticsEnableSwitchProps = {
   enabled: EnabledStatistics;
-  statiscsType:
+  statisticsType:
     | "playlist_statistics"
     | "top_episodes"
     | "youtube_channel"
-    | "most_popular";
+    | "most_popular"
+    | "time"
+    | "platform"
+    | "country";
   className?: string;
 };
 
 const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
   enabled,
-  statiscsType,
+  statisticsType,
   className,
 }) => {
   const t = useTranslations("Index");
@@ -45,7 +48,7 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
   });
 
   const [currentTypeValue, setCurrentTypeValue] = React.useState(
-    enabled[statiscsType]
+    enabled[statisticsType]
   );
 
   const handleAnalyticsEnable = () => {
@@ -56,7 +59,7 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
         top_episodes: +enabled["playlist_statistics"],
         youtube_channel: +enabled["youtube_channel"],
         most_popular: +enabled["most_popular"],
-        [statiscsType]: currentTypeValue ? 0 : 1,
+        [statisticsType]: currentTypeValue ? 0 : 1,
       },
     });
   };

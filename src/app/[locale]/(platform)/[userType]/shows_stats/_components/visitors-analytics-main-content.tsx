@@ -1,40 +1,31 @@
-import { getShowStatisticsAction } from "@/app/actions/statisticsActions";
+import { getShowStatisticsForVisitorsAction } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
-import ViewsChartCard from "../../_components/views-chart-card";
-import AnalyticsHeader from "./analytics-header";
-import AnalyticsYoutube from "./analytics-youtube";
-import DownloadsMapCard from "./downloads-map-card";
-import HourlyViewsChartCard from "./hourly-views-chart-card";
-import LastFiveFirstSevenDaysChartCard from "./last5-first7days-chart-card";
-import PlatformsTableCard from "./platforms-table-card";
-import TopCountriesTable from "./top-countries-table";
-import TopEpisodesTable from "./top-episodes-table-card";
+import ViewsChartCard from "../../shows/[showId]/_components/views-chart-card";
+import AnalyticsHeader from "../../shows/[showId]/analytics/_components/analytics-header";
+import AnalyticsYoutube from "../../shows/[showId]/analytics/_components/analytics-youtube";
+import DownloadsMapCard from "../../shows/[showId]/analytics/_components/downloads-map-card";
+import HourlyViewsChartCard from "../../shows/[showId]/analytics/_components/hourly-views-chart-card";
+import LastFiveFirstSevenDaysChartCard from "../../shows/[showId]/analytics/_components/last5-first7days-chart-card";
+import PlatformsTableCard from "../../shows/[showId]/analytics/_components/platforms-table-card";
+import TopCountriesTable from "../../shows/[showId]/analytics/_components/top-countries-table";
+import TopEpisodesTable from "../../shows/[showId]/analytics/_components/top-episodes-table-card";
 
-/**
- * The AnalyticsMainContent component is responsible for rendering the main content of the analytics page.
- *
- * It displays various statistics about a show, including views over time, performance of the latest episodes,
- * and YouTube channel analytics if applicable.
- *
- * @param {Object} props - Component props.
- * @param {Object} props.params - Route parameters containing user type and show ID.
- * @param {Object} props.searchParams - Query string parameters for filtering or additional actions.
- *
- * @returns {Promise<JSX.Element>} The rendered AnalyticsMainContent component.
- */
-const AnalyticsMainContent = async ({
+const VisitorsAnalyticsMainContent = async ({
+  podcasterId,
   showId,
   userType,
 }: {
+  podcasterId: string;
   showId: string;
   userType: string;
 }): Promise<JSX.Element> => {
   const t = await getTranslations("Index");
 
   // Fetch show general statistics
-  const showStatistics = await getShowStatisticsAction({
+  const showStatistics = await getShowStatisticsForVisitorsAction({
     show_id: showId,
     type: userType,
+    podcaster_id: podcasterId,
   });
 
   return (
@@ -109,4 +100,4 @@ const AnalyticsMainContent = async ({
   );
 };
 
-export default AnalyticsMainContent;
+export default VisitorsAnalyticsMainContent;

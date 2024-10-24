@@ -1,16 +1,13 @@
-import React from "react";
-import DashboardCardContainer from "../../_components/dashboard-card-container";
-import MostViewsChart from "./most-views-chart";
-import { Separator } from "@/components/ui/separator";
-import ViewsChartCard from "./views-chart-card";
 import {
   getShowMostPopularStatisticsAction,
   getShowStatisticsAction,
-  getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
-import { getTranslations } from "next-intl/server";
-import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import { Separator } from "@/components/ui/separator";
 import { formatTo12Hour } from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
+import DashboardCardContainer from "../../_components/dashboard-card-container";
+import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import ViewsChartCard from "./views-chart-card";
 
 type DashboardAnalyticsSectionProps = {
   params: { userType: string; showId: string };
@@ -30,14 +27,6 @@ const DashboardAnalyticsSection = async ({
 }: DashboardAnalyticsSectionProps): Promise<JSX.Element> => {
   const t = await getTranslations("Index");
 
-  // Fetch show views statistics for the last 7 days
-  const showViews = await getShowViewsStatisticsAction({
-    start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    end_date: new Date().toISOString(),
-    show_id: params.showId,
-    type: "podcaster",
-  });
-
   const showMostPopular = await getShowMostPopularStatisticsAction({
     show_id: params.showId,
     type: "podcaster",
@@ -55,7 +44,8 @@ const DashboardAnalyticsSection = async ({
       <ViewsChartCard
         title={t("views-last-7-days")}
         value={showStatistics?.playlist_statistics?.last_7_days_views.toString()}
-        params={params}
+        showId={params.showId}
+        userType="podcaster"
         link={{ name: t("view-analytics"), href: `${params.showId}/analytics` }}
         // chart={<MostViewsChart showViews={showViews} />}
         enabled={showStatistics?.enabled}
@@ -66,7 +56,7 @@ const DashboardAnalyticsSection = async ({
         <AnalyticsEnableSwitch
           className="ms-auto self-end"
           enabled={showStatistics?.enabled}
-          statiscsType="most_popular"
+          statisticsType="most_popular"
         />
         <div className="w-full flex flex-col gap-1">
           <h2 className="text-sm font-bold opacity-70 dark:opacity-50">

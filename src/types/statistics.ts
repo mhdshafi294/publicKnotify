@@ -22,6 +22,31 @@ export type ShowStatistics = {
   enabled: EnabledStatistics;
 };
 
+export type ShowStatisticsForVisitors = {
+  playlist_statistics: PlaylistStatistics | null;
+  top_episodes:
+    | {
+        id: number;
+        name: string;
+        views_count: number;
+      }[]
+    | null;
+  youtube_channel?: YoutubeChannel | null;
+  most_popular: {
+    most_popular_time: number | null;
+    most_popular_day: string | null;
+    top_country: {
+      country: string;
+      count: number;
+    } | null;
+    all_time_views: number;
+    enabled: EnabledStatistics;
+  } | null;
+  country: ShowCountryStatistics | null;
+  platform: ShowPlatformStatistics | null;
+  time: ShowTimeStatistics | null;
+};
+
 export type ShowViewsStatistics = {
   views_over_time: {
     date: string;
@@ -102,6 +127,9 @@ export type EnabledStatistics = {
   playlist_statistics: boolean;
   top_episodes: boolean;
   youtube_channel: boolean;
+  time: boolean;
+  platform: boolean;
+  country: boolean;
   most_popular: boolean;
   created_at: string;
   updated_at: string;
@@ -133,4 +161,8 @@ export type ShowPlatformStatisticsResponse = ApiResponse & {
 
 export type ShowCountryStatisticsResponse = ApiResponse & {
   statistics: ShowCountryStatistics;
+};
+
+export type ShowStatisticsForVisitorsResponse = ApiResponse & {
+  statistics: ShowStatisticsForVisitors;
 };

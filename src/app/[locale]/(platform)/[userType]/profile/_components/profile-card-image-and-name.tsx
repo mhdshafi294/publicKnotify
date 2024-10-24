@@ -1,11 +1,10 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useProfileStories } from "@/hooks/stories/use-profile-stories";
 import { cn } from "@/lib/utils";
-import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
 import { Story } from "@/types/stories";
 import StoriesPlayerDialog from "../../stories/_components/stories-player-dialog";
-import { useProfileStories } from "@/hooks/stories/use-profile-stories";
 
 interface ProfileCardImageAndNameProps {
   name: string;
