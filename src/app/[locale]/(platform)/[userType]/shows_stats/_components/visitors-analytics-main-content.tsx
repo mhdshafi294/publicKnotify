@@ -40,7 +40,7 @@ const VisitorsAnalyticsMainContent = async ({
         </p>
       </header>
       {/* Overview Header */}
-      <AnalyticsHeader showStatistics={showStatistics} />
+      <AnalyticsHeader showStatistics={showStatistics} userType={userType} />
 
       {/* All Time Views Chart */}
       <div className="w-full lg:h-[637px]">

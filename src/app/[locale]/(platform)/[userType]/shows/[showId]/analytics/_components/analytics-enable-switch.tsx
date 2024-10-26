@@ -59,6 +59,9 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
         top_episodes: +enabled["playlist_statistics"],
         youtube_channel: +enabled["youtube_channel"],
         most_popular: +enabled["most_popular"],
+        time: +enabled["time"],
+        platform: +enabled["platform"],
+        country: +enabled["country"],
         [statisticsType]: currentTypeValue ? 0 : 1,
       },
     });

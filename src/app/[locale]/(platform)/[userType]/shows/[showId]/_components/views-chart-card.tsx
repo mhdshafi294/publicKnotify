@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { EnabledStatistics } from "@/types/statistics";
+import { EnabledStatistics, ShowViewsStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { addDays, format } from "date-fns";
 import React from "react";
@@ -24,6 +24,7 @@ type ViewsChartCardProps = {
     name: string;
   };
   enabled: EnabledStatistics;
+  showViewsForVisitors?: ShowViewsStatistics;
 };
 
 /**
@@ -48,6 +49,7 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   userType,
   link,
   enabled,
+  showViewsForVisitors,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: addDays(new Date(), -7),
@@ -68,7 +70,7 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
         show_id: showId,
         type: userType,
       }),
-    enabled: !!showId && !!userType,
+    enabled: !!showId && userType === "podcaster",
   });
 
   return (
@@ -111,7 +113,9 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
         </div>
       </div>
       {/* {chart} */}
-      {isPending ? (
+      {showViewsForVisitors ? (
+        <MostViewsChart showViews={showViewsForVisitors} date={date} />
+      ) : isPending ? (
         <MostViewsChart
           showViews={{
             views_over_time: [

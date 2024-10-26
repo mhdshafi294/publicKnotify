@@ -15,8 +15,10 @@ import AnalyticsEnableSwitch from "./analytics-enable-switch";
  */
 const AnalyticsHeader = ({
   showStatistics,
+  userType = "podcaster",
 }: {
   showStatistics: ShowStatistics;
+  userType?: string;
 }): JSX.Element => {
   const t = useTranslations("Index");
 
@@ -62,11 +64,13 @@ const AnalyticsHeader = ({
           {showStatistics?.playlist_statistics?.unique_listeners_last_7_days}
         </p>
       </div>
-      <AnalyticsEnableSwitch
-        className="ms-auto self-start absolute right-4 top-6"
-        enabled={showStatistics?.enabled}
-        statisticsType="playlist_statistics"
-      />
+      {userType === "podcaster" ? (
+        <AnalyticsEnableSwitch
+          className="ms-auto self-start absolute right-4 top-6"
+          enabled={showStatistics?.enabled}
+          statisticsType="playlist_statistics"
+        />
+      ) : null}
     </DashboardCardContainer>
   );
 };

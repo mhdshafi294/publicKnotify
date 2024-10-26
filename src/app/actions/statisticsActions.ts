@@ -159,6 +159,9 @@ export const postEnableStatisticsAction = async ({
     top_episodes: number;
     youtube_channel: number;
     most_popular: number;
+    time: number;
+    platform: number;
+    country: number;
   };
 }) => {
   return await postEnableStatistics({
