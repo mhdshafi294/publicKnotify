@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { EnabledStatistics } from "@/types/statistics";
+import { EnabledStatistics, ShowViewsStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { addDays, format } from "date-fns";
 import React from "react";
@@ -16,15 +16,14 @@ import MostViewsChart from "./most-views-chart";
 
 type ViewsChartCardProps = {
   title: string;
-  // description?: string;
   value: string;
-  params: { userType: string; showId: string };
+  showId: string;
+  userType: string;
   link?: {
     href: string;
     name: string;
   };
-  // chart: React.ReactNode;
-  enabled: EnabledStatistics;
+  showViewsForVisitors?: ShowViewsStatistics;
 };
 
 /**
@@ -44,12 +43,11 @@ type ViewsChartCardProps = {
  */
 const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   title,
-  // description,
   value,
-  params,
+  showId,
+  userType,
   link,
-  // chart,
-  enabled,
+  showViewsForVisitors,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: addDays(new Date(), -7),
@@ -67,10 +65,10 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
       getShowViewsStatisticsAction({
         start_date: format(date?.from!, "yyyy-MM-dd"),
         end_date: format(date?.to!, "yyyy-MM-dd"),
-        show_id: params.showId,
-        type: params.userType,
+        show_id: showId,
+        type: userType,
       }),
-    enabled: !!params.showId && !!params.userType,
+    enabled: !!showId && userType === "podcaster",
   });
 
   return (
@@ -89,11 +87,6 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
                 className="w-fit"
               />
             ) : null}
-            <AnalyticsEnableSwitch
-              className="ms-auto"
-              enabled={enabled}
-              statiscsType="top_episodes"
-            />
           </div>
           {link ? (
             <Link
@@ -111,7 +104,9 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
         </div>
       </div>
       {/* {chart} */}
-      {isPending ? (
+      {showViewsForVisitors ? (
+        <MostViewsChart showViews={showViewsForVisitors} date={date} />
+      ) : isPending ? (
         <MostViewsChart
           showViews={{
             views_over_time: [

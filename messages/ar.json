@@ -554,7 +554,13 @@
     "rotate": "تناوب",
     "get-started-by-submitting-your-podcast-to-iheartradio-and-get-your-url": "ابدأ بإرسال البودكاست الخاص بك إلى iHeartRadio واحصل على عنوان URL الخاص بك.",
     "paste-your-iheartradio-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق عنوان URL الخاص بـ iHeartRadio. \nسنعرض رابطًا على مشغل الصوت وصفحة العرض وصفحات الحلقات.",
-    "Type": "النوع"
+    "Type": "النوع",
+    "selectShow": "حدد العرض",
+    "searchShow": "ابحث عن عرض",
+    "selected-show": "البرنامج المختار",
+    "more-detailed-stats": "إحصائيات أكثر تفصيلا",
+    "hourly-views": "المشاهدات كل ساعة",
+    "time-of-day": "الوقت من اليوم"
   },
   "notifications": {
     "notifications": "notifications"

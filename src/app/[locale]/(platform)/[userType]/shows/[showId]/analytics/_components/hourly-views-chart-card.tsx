@@ -2,20 +2,26 @@
 
 import { getShowTimeStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
+import { EnabledStatistics, ShowTimeStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
 import HourlyViewsChart from "./hourly-views-chart";
 
 type HourlyViewsChartCardProps = {
-  params: { userType: string; showId: string };
+  showId: string;
+  userType: string;
+  visitorData?: ShowTimeStatistics;
 };
 
 const HourlyViewsChartCard: React.FC<HourlyViewsChartCardProps> = ({
-  params,
+  showId,
+  userType,
+  visitorData,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
@@ -35,10 +41,10 @@ const HourlyViewsChartCard: React.FC<HourlyViewsChartCardProps> = ({
           ? undefined
           : format(date?.from!, "yyyy-MM-dd"),
         end_date: !isDateModified ? undefined : format(date?.to!, "yyyy-MM-dd"),
-        show_id: params.showId,
-        type: params.userType,
+        show_id: showId,
+        type: userType,
       }),
-    enabled: !!params.showId && !!params.userType,
+    enabled: !!showId && userType === "podcaster" && !visitorData,
   });
 
   return (
@@ -51,17 +57,26 @@ const HourlyViewsChartCard: React.FC<HourlyViewsChartCardProps> = ({
           <p className="font-bold text-3xl">{t("time-of-day")}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="flex justify-end items-center gap-5">
-            <DatePickerWithRange
-              date={isDateModified ? date : undefined}
-              setDate={setDate}
-              className="w-fit"
-            />
-          </div>
+          {userType === "podcaster" ? (
+            <div className="flex justify-end items-center gap-5">
+              <DatePickerWithRange
+                date={isDateModified ? date : undefined}
+                setDate={setDate}
+                className="w-fit"
+              />
+
+              <AnalyticsEnableSwitch
+                className="ms-auto"
+                statisticsType="time"
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       {/* {chart} */}
-      {isPending ? (
+      {visitorData ? (
+        <HourlyViewsChart data={visitorData.times} />
+      ) : isPending ? (
         <HourlyViewsChart
           data={[
             {

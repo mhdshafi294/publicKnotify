@@ -60,14 +60,14 @@ export const getShowStatisticsAction = async ({
   start_date,
   end_date,
   day,
-  podcat_id,
+  podcast_id,
   show_id,
   type,
 }: {
   start_date?: string;
   end_date?: string;
   day?: string;
-  podcat_id?: string;
+  podcast_id?: string;
   show_id: string;
   type: string;
 }) => {
@@ -75,7 +75,7 @@ export const getShowStatisticsAction = async ({
     start_date,
     end_date,
     day,
-    podcat_id,
+    podcast_id,
     show_id,
     type,
   });
@@ -159,6 +159,9 @@ export const postEnableStatisticsAction = async ({
     top_episodes: number;
     youtube_channel: number;
     most_popular: number;
+    time: number;
+    platform: number;
+    country: number;
   };
 }) => {
   return await postEnableStatistics({
@@ -251,7 +254,7 @@ export const getShowStatisticsForVisitorsAction = async ({
   show_id,
   type,
 }: {
-  podcaster_id?: string;
+  podcaster_id: string;
   show_id: string;
   type: string;
 }) => {

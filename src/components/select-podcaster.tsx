@@ -1,7 +1,14 @@
 "use client";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -11,16 +18,9 @@ import {
   CommandList,
 } from "./ui/command";
 import { Input } from "./ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { ScrollArea } from "./ui/scroll-area";
 import Loader from "./ui/loader";
-import { useLocale, useTranslations } from "next-intl";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { ScrollArea } from "./ui/scroll-area";
 
 type PropsType = {
   value: string;
@@ -92,9 +92,9 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80" dir={dir}>
+      <PopoverContent className="PopoverContent min-w-80" dir={dir}>
         <Command dir={dir}>
-          <div className="flex items-center border-b px-3 overflow-hidden">
+          <div className="flex items-center border-b border-border-secondary px-3 overflow-hidden">
             <Search className="me-2 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
             <Input
               defaultValue={debouncedValue}

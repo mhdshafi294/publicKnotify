@@ -1,5 +1,7 @@
 "use client";
 
+import { getShowCountryStatisticsAction } from "@/app/actions/statisticsActions";
+import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import {
   Table,
   TableBody,
@@ -8,13 +10,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import React from "react";
+import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
+import { ShowCountryStatistics } from "@/types/statistics";
 
 type TopCountriesTableProps = {
-  top_countries: { country: string; count: number }[];
-  total_count: number;
+  showId: string;
+  userType: string;
+  visitorData?: ShowCountryStatistics;
 };
 
 /**
@@ -27,10 +34,35 @@ type TopCountriesTableProps = {
  * @returns {JSX.Element} The rendered TopCountriesTable component.
  */
 export default function TopCountriesTable({
-  top_countries,
-  total_count,
+  showId,
+  userType,
+  visitorData,
 }: TopCountriesTableProps) {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(0),
+    to: new Date(),
+  });
+
+  const date0 = new Date(0);
+  const isDateModified = date?.from?.toString() !== date0.toString();
+
   const t = useTranslations("Index");
+
+  const { data, isPending, isError, refetch } = useQuery({
+    queryKey: ["showCountryStatistics", date],
+    queryFn: () =>
+      getShowCountryStatisticsAction({
+        start_date: !isDateModified
+          ? undefined
+          : format(date?.from!, "yyyy-MM-dd"),
+        end_date: !isDateModified ? undefined : format(date?.to!, "yyyy-MM-dd"),
+        show_id: showId,
+        type: userType,
+      }),
+    enabled: !!showId && userType === "podcaster" && !visitorData,
+  });
+
+  const tableData = visitorData ? visitorData : data;
 
   return (
     <DashboardCardContainer className="flex-1 h-fit flex flex-col gap-8">
@@ -41,6 +73,17 @@ export default function TopCountriesTable({
           </h2>
           <p className="font-bold text-3xl">{t("top-countries")}</p>
         </div>
+        {userType === "podcaster" ? (
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-end items-center gap-5">
+              <DatePickerWithRange
+                date={isDateModified ? date : undefined}
+                setDate={setDate}
+                className="w-fit"
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
       <Table className="flex-1 shrink-0 grow w-full text-lg">
         <TableHeader className="w-full">
@@ -52,13 +95,15 @@ export default function TopCountriesTable({
           </TableRow>
         </TableHeader>
         <TableBody className="w-full">
-          {top_countries.map((country, index) => (
+          {tableData?.top_countries.map((country, index) => (
             <TableRow
               key={country.country}
               className="relative"
               style={
                 {
-                  "--row-bg-width": `${(country.count / total_count) * 100}%`,
+                  "--row-bg-width": `${
+                    (country.count / tableData?.total_count) * 100
+                  }%`,
                 } as React.CSSProperties
               }
             >
@@ -68,7 +113,7 @@ export default function TopCountriesTable({
                 {country.count}
               </TableCell>
               <TableCell className="text-right font-bold">
-                {((country.count / total_count) * 100).toFixed(0)}%
+                {((country.count / tableData?.total_count) * 100).toFixed(0)}%
               </TableCell>
               <div
                 className="absolute left-0 top-0 h-full bg-primary/20 z-0"

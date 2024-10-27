@@ -1,11 +1,12 @@
 "use client";
 
 // External imports
-import React from "react";
+import { PieChartIcon, SquareArrowOutUpRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { BanknoteIcon, PieChartIcon, SquarePen } from "lucide-react";
+import React from "react";
 
 // Local imports
+import { buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,9 +14,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { Statistics } from "@/types/podcaster";
 import { useTranslations } from "next-intl";
 import PricingCard from "../../pricings/_components/pricing-card";
-import { Statistics } from "@/types/podcaster";
 
 /**
  * Modal Component
@@ -28,8 +31,10 @@ import { Statistics } from "@/types/podcaster";
  */
 const VisitorsStatisticsModal = ({
   statistics,
+  profileId,
 }: {
   statistics: Statistics | null;
+  profileId: number;
 }) => {
   const router = useRouter();
   const t = useTranslations("Index");
@@ -42,8 +47,15 @@ const VisitorsStatisticsModal = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <div className="flex">
+          <div className="w-full flex justify-between">
             <DialogTitle className="text-3xl">{t("statistics")}</DialogTitle>
+            <Link
+              href={`/company/shows_stats?podcaster_id=${profileId}`}
+              className="flex items-center gap-2 opacity-85 hover:opacity-100 duration-200"
+            >
+              <SquareArrowOutUpRightIcon className="size-4" strokeWidth={3} />
+              More detailed stats
+            </Link>
           </div>
           <div className="w-full py-2 flex gap-4 flex-col justify-start items-start">
             {/* Display the pricing cards with prices for different sections */}
@@ -70,6 +82,19 @@ const VisitorsStatisticsModal = ({
                 price={statistics?.youtube.viewCount.toString()}
               />
             ) : null}
+            <Link
+              href={`/company/shows_stats?podcaster_id=${profileId}`}
+              className={cn(
+                buttonVariants({
+                  variant: "default",
+                  className:
+                    "w-full flex justify-center items-center gap-2 font-semibold text-lg rounded-lg",
+                })
+              )}
+            >
+              {t("more-detailed-stats")}
+              <SquareArrowOutUpRightIcon className="size-4" strokeWidth={3} />
+            </Link>
           </div>
         </DialogHeader>
       </DialogContent>

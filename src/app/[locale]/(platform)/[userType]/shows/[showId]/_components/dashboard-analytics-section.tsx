@@ -1,16 +1,14 @@
-import React from "react";
-import DashboardCardContainer from "../../_components/dashboard-card-container";
-import MostViewsChart from "./most-views-chart";
-import { Separator } from "@/components/ui/separator";
-import ViewsChartCard from "./views-chart-card";
 import {
   getShowMostPopularStatisticsAction,
   getShowStatisticsAction,
-  getShowViewsStatisticsAction,
 } from "@/app/actions/statisticsActions";
-import { getTranslations } from "next-intl/server";
-import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import { Separator } from "@/components/ui/separator";
 import { formatTo12Hour } from "@/lib/utils";
+import { getTranslations } from "next-intl/server";
+import DashboardCardContainer from "../../_components/dashboard-card-container";
+import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
+import ViewsChartCard from "./views-chart-card";
+import { StatsEnabledProvider } from "@/providers/stats-enabled-provider";
 
 type DashboardAnalyticsSectionProps = {
   params: { userType: string; showId: string };
@@ -30,14 +28,6 @@ const DashboardAnalyticsSection = async ({
 }: DashboardAnalyticsSectionProps): Promise<JSX.Element> => {
   const t = await getTranslations("Index");
 
-  // Fetch show views statistics for the last 7 days
-  const showViews = await getShowViewsStatisticsAction({
-    start_date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-    end_date: new Date().toISOString(),
-    show_id: params.showId,
-    type: "podcaster",
-  });
-
   const showMostPopular = await getShowMostPopularStatisticsAction({
     show_id: params.showId,
     type: "podcaster",
@@ -51,65 +41,69 @@ const DashboardAnalyticsSection = async ({
 
   return (
     <section className="flex flex-col lg:flex-row gap-8 lg:h-[358px] 2xl:h-[583px]">
-      {/* Views Chart Card */}
-      <ViewsChartCard
-        title={t("views-last-7-days")}
-        value={showStatistics?.playlist_statistics?.last_7_days_views.toString()}
-        params={params}
-        link={{ name: t("view-analytics"), href: `${params.showId}/analytics` }}
-        // chart={<MostViewsChart showViews={showViews} />}
-        enabled={showStatistics?.enabled}
-      />
-
-      {/* Summary Card with Key Metrics */}
-      <DashboardCardContainer className="lg:w-56 lg:h-full flex flex-col sm:flex-row lg:flex-col gap-3">
-        <AnalyticsEnableSwitch
-          className="ms-auto self-end"
-          enabled={showStatistics?.enabled}
-          statiscsType="most_popular"
+      <StatsEnabledProvider enabled={showStatistics?.enabled}>
+        {/* Views Chart Card */}
+        <ViewsChartCard
+          title={t("views-last-7-days")}
+          value={showStatistics?.playlist_statistics?.last_7_days_views.toString()}
+          showId={params.showId}
+          userType="podcaster"
+          link={{
+            name: t("view-analytics"),
+            href: `${params.showId}/analytics`,
+          }}
+          // chart={<MostViewsChart showViews={showViews} />}
         />
-        <div className="w-full flex flex-col gap-1">
-          <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
-            {t("all_time_views")}
-          </h2>
-          <p className="font-bold text-xl">
-            {showStatistics?.playlist_statistics?.total_views}
-          </p>
-        </div>
-        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
-        <div className="w-full flex flex-col gap-1">
-          <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
-            {t("top-country")}
-          </h2>
-          <p className="font-bold text-xl capitalize">
-            {showMostPopular?.top_country
-              ? showMostPopular?.top_country?.country
-              : "N/A"}
-          </p>
-        </div>
-        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
-        <div className="w-full flex flex-col gap-1">
-          <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
-            {t("most-popular-time")}
-          </h2>
-          <p className="font-bold text-xl">
-            {showMostPopular?.most_popular_time
-              ? formatTo12Hour(showMostPopular?.most_popular_time)
-              : "N/A"}
-          </p>
-        </div>
-        <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
-        <div className="w-full flex flex-col gap-1">
-          <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
-            {t("most-popular-day")}
-          </h2>
-          <p className="font-bold text-xl">
-            {showMostPopular?.most_popular_day
-              ? showMostPopular?.most_popular_day
-              : "N/A"}
-          </p>
-        </div>
-      </DashboardCardContainer>
+
+        {/* Summary Card with Key Metrics */}
+        <DashboardCardContainer className="lg:w-56 lg:h-full flex flex-col sm:flex-row lg:flex-col gap-3">
+          <AnalyticsEnableSwitch
+            className="ms-auto self-end"
+            statisticsType="most_popular"
+          />
+          <div className="w-full flex flex-col gap-1">
+            <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
+              {t("all_time_views")}
+            </h2>
+            <p className="font-bold text-xl">
+              {showMostPopular?.all_time_views}
+            </p>
+          </div>
+          <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
+          <div className="w-full flex flex-col gap-1">
+            <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
+              {t("top-country")}
+            </h2>
+            <p className="font-bold text-xl capitalize">
+              {showMostPopular?.top_country
+                ? showMostPopular?.top_country?.country
+                : "N/A"}
+            </p>
+          </div>
+          <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
+          <div className="w-full flex flex-col gap-1">
+            <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
+              {t("most-popular-time")}
+            </h2>
+            <p className="font-bold text-xl">
+              {showMostPopular?.most_popular_time
+                ? formatTo12Hour(showMostPopular?.most_popular_time)
+                : "N/A"}
+            </p>
+          </div>
+          <Separator className="block sm:hidden lg:block w-full bg-border-secondary" />
+          <div className="w-full flex flex-col gap-1">
+            <h2 className="text-sm font-bold opacity-70 dark:opacity-50">
+              {t("most-popular-day")}
+            </h2>
+            <p className="font-bold text-xl">
+              {showMostPopular?.most_popular_day
+                ? showMostPopular?.most_popular_day
+                : "N/A"}
+            </p>
+          </div>
+        </DashboardCardContainer>
+      </StatsEnabledProvider>
     </section>
   );
 };

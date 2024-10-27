@@ -1,8 +1,8 @@
-import React from "react";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
+import React from "react";
 
-import DashboardCardContainer from "../../../_components/dashboard-card-container";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -11,12 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { EpisodesStatistics } from "@/types/statistics";
+import DashboardCardContainer from "../../../_components/dashboard-card-container";
+import LastFiveFirstSevenDaysChart from "./last5-first7days-chart";
 
 type LastFiveFirstSevenDaysChartCardProps = {
-  params: { userType: string; showId: string };
-  chart: React.ReactNode;
   five_latest_episodes: EpisodesStatistics[];
 };
 
@@ -33,7 +32,7 @@ type LastFiveFirstSevenDaysChartCardProps = {
  */
 const LastFiveFirstSevenDaysChartCard: React.FC<
   LastFiveFirstSevenDaysChartCardProps
-> = ({ params, chart, five_latest_episodes }) => {
+> = ({ five_latest_episodes }) => {
   const t = useTranslations("Index");
 
   return (
@@ -50,7 +49,11 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
       </div>
 
       {/* Chart Section */}
-      <div className="w-full pt-5 h-96 relative">{chart}</div>
+      <div className="w-full pt-5 h-96 relative">
+        <LastFiveFirstSevenDaysChart
+          five_latest_episodes={five_latest_episodes}
+        />
+      </div>
 
       {/* Table Section */}
       <ScrollArea className="w-full h-48">

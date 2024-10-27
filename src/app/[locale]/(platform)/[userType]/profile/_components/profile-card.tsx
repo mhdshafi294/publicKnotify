@@ -20,8 +20,10 @@ import ProfileCategories from "./profile-categories";
 import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
 import { Company } from "@/types/company";
+import { Playlist } from "@/types/podcast";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
@@ -52,6 +54,17 @@ const ProfileCard = async ({
   // Fetch translations for the current locale
   const t = await getTranslations("Index");
 
+  let playlists: Playlist[] | undefined;
+
+  if (isSelfProfile) {
+    if (profileType === "podcaster") {
+      const data1Response = await getPlayListsAction({
+        type: "podcaster",
+      });
+      playlists = data1Response.playlists;
+    }
+  }
+
   return (
     <aside className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
       {/* Profile image and name */}
@@ -61,6 +74,7 @@ const ProfileCard = async ({
           image={profileData?.image}
           isSelfProfile={isSelfProfile}
           stories={
+            profileType === "podcaster" &&
             "stories" in profileData &&
             profileData?.stories &&
             profileData?.stories.length > 0
@@ -101,11 +115,20 @@ const ProfileCard = async ({
           "statistics" in profileData &&
           profileData?.statistics &&
           session?.user?.type === "company" ? (
-            <VisitorsStatisticsModal statistics={profileData?.statistics} />
+            <VisitorsStatisticsModal
+              statistics={profileData?.statistics}
+              profileId={profileData?.id}
+            />
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
             <Link
-              href={`/${session?.user?.type}/statistics`}
+              href={
+                playlists !== undefined &&
+                playlists?.length > 0 &&
+                playlists[0].id !== undefined
+                  ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                  : `/${session?.user?.type}/statistics`
+              }
               className="flex justify-center items-center gap-5 opacity-75 hover:opacity-100 duration-200"
             >
               <PieChart className="size-5" strokeWidth={3} />

@@ -2,20 +2,36 @@
 
 import { getShowPlatformStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
+import { EnabledStatistics, ShowPlatformStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
-import PlatformChart from "./most-platforms-chart";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
 import MostPlatformTable from "./most-platform-table";
 
-type PlatformsChartCardProps = {
-  params: { userType: string; showId: string };
+type PlatformsTableCardProps = {
+  showId: string;
+  userType: string;
+  visitorsData?: ShowPlatformStatistics;
 };
 
-const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
+/**
+ * Functional component that displays a table with the top platforms and their download counts.
+ * @param {PlatformsTableCardProps} props - The props containing necessary data for the component.
+ * @param {string} props.showId - The ID of the show.
+ * @param {string} props.userType - The type of user, either "podcaster" or "visitor".
+ * @param {ShowPlatformStatistics} [props.visitorsData] - The data for the component if the user is a visitor.
+ *
+ * @returns {JSX.Element} A table component displaying download information.
+ */
+const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
+  showId,
+  userType,
+  visitorsData,
+}) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
     to: new Date(),
@@ -34,10 +50,10 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
           ? undefined
           : format(date?.from!, "yyyy-MM-dd"),
         end_date: !isDateModified ? undefined : format(date?.to!, "yyyy-MM-dd"),
-        show_id: params.showId,
-        type: params.userType,
+        show_id: showId,
+        type: userType,
       }),
-    enabled: !!params.showId && !!params.userType,
+    enabled: !!showId && userType === "podcaster" && !visitorsData,
   });
 
   return (
@@ -50,17 +66,29 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
           <p className="font-bold text-3xl">{t("top-listening-methods")}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="flex justify-end items-center gap-5">
-            <DatePickerWithRange
-              date={isDateModified ? date : undefined}
-              setDate={setDate}
-              className="w-fit"
-            />
-          </div>
+          {userType === "podcaster" ? (
+            <div className="flex justify-end items-center gap-5">
+              <DatePickerWithRange
+                date={isDateModified ? date : undefined}
+                setDate={setDate}
+                className="w-fit"
+              />
+
+              <AnalyticsEnableSwitch
+                className="ms-auto"
+                statisticsType="platform"
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       {/* {chart} */}
-      {isPending ? (
+      {visitorsData ? (
+        <MostPlatformTable
+          platformsDownloads={visitorsData?.top_platforms!}
+          totalCount={visitorsData?.total_count!}
+        />
+      ) : isPending ? (
         <MostPlatformTable
           platformsDownloads={[
             {
@@ -80,4 +108,4 @@ const PlatformsChartCard: React.FC<PlatformsChartCardProps> = ({ params }) => {
   );
 };
 
-export default PlatformsChartCard;
+export default PlatformsTableCard;

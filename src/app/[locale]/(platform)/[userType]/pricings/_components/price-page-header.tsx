@@ -6,7 +6,7 @@ import { SquarePen } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 // Internal Imports
-import usePricingsStore from "@/store/edit-pricings-store";
+import usePricingsStore from "@/store/use-edit-pricings-store";
 
 /**
  * PricePageHeader Component

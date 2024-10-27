@@ -5,7 +5,7 @@ import { Check, SquarePen } from "lucide-react";
 
 // Internal Imports
 import FormInput from "@/components/ui/form-input";
-import usePricingsStore from "@/store/edit-pricings-store";
+import usePricingsStore from "@/store/use-edit-pricings-store";
 import { useTranslations } from "next-intl";
 
 type PropsType = {

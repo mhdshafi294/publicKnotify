@@ -11,7 +11,7 @@ import {
 // import { useReadLocalStorage } from "@/hooks/use-read-local-storge";
 import { useState } from "react";
 
-import useCurrentUser from "@/store/useCurrentUser";
+import useCurrentUser from "@/store/use-current-user";
 import ButtonLoader from "@/components/ui/button-loader";
 import { useLocale, useTranslations } from "next-intl";
 import { getDirection } from "@/lib/utils";

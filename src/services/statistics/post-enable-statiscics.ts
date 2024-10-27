@@ -1,7 +1,6 @@
 import { ENABLE_DISABLE, STATISTICS } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { ApiResponse } from "@/types";
-import { MetadataResponse } from "@/types/podcast";
 
 const postEnableStatistics = async ({
   type,
@@ -13,6 +12,9 @@ const postEnableStatistics = async ({
     top_episodes: number;
     youtube_channel: number;
     most_popular: number;
+    time: number;
+    platform: number;
+    country: number;
   };
 }) => {
   const { data } = await axiosInstance.post<ApiResponse>(

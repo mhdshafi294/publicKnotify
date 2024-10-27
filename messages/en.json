@@ -584,7 +584,11 @@
     "rotate": "Rotate",
     "get-started-by-submitting-your-podcast-to-iheartradio-and-get-your-url": "Get started by submitting your podcast to iHeartRadio and get your URL.",
     "paste-your-iheartradio-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "Paste your iHeartRadio URL. We'll display a link on your audio player, show page and episode pages.",
-    "Type": "Type"
+    "Type": "Type",
+    "selectShow": "Select show",
+    "searchShow": "Search for a show",
+    "selected-show": "Selected Show",
+    "more-detailed-stats": "More detailed stats"
   },
   "notifications": {
     "notifications": "notifications"
