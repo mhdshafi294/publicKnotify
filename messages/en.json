@@ -587,7 +587,8 @@
     "Type": "Type",
     "selectShow": "Select show",
     "searchShow": "Search for a show",
-    "selected-show": "Selected Show"
+    "selected-show": "Selected Show",
+    "more-detailed-stats": "More detailed stats"
   },
   "notifications": {
     "notifications": "notifications"

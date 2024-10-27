@@ -8,15 +8,14 @@ import {
 } from "@/components/ui/hover-card";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { EnabledStatistics } from "@/types/statistics";
+import useEnableStatsStore from "@/store/use-stats-enable-store";
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 type AnalyticsEnableSwitchProps = {
-  enabled: EnabledStatistics;
   statisticsType:
     | "playlist_statistics"
     | "top_episodes"
@@ -29,17 +28,19 @@ type AnalyticsEnableSwitchProps = {
 };
 
 const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
-  enabled,
   statisticsType,
   className,
 }) => {
   const t = useTranslations("Index");
   const { data: session } = useSession();
 
+  const enabled = useEnableStatsStore((state) => state.enabled);
+  const updateEnabled = useEnableStatsStore((state) => state.updateEnabled);
+
   const { mutate: server_postEnableStatisticsAction, isPending } = useMutation({
     mutationFn: postEnableStatisticsAction,
     onSuccess: () => {
-      setCurrentTypeValue((prev) => !prev);
+      updateEnabled(statisticsType);
       toast.success(t("updatedSuccessfully"));
     },
     onError: () => {
@@ -47,32 +48,36 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
     },
   });
 
-  const [currentTypeValue, setCurrentTypeValue] = React.useState(
-    enabled[statisticsType]
-  );
-
   const handleAnalyticsEnable = () => {
-    server_postEnableStatisticsAction({
-      type: "podcaster",
-      body: {
-        playlist_statistics: +enabled["playlist_statistics"],
-        top_episodes: +enabled["playlist_statistics"],
-        youtube_channel: +enabled["youtube_channel"],
-        most_popular: +enabled["most_popular"],
-        time: +enabled["time"],
-        platform: +enabled["platform"],
-        country: +enabled["country"],
-        [statisticsType]: currentTypeValue ? 0 : 1,
-      },
-    });
+    if (enabled) {
+      server_postEnableStatisticsAction({
+        type: "podcaster",
+        body: {
+          playlist_statistics: +enabled["playlist_statistics"],
+          top_episodes: +enabled["top_episodes"],
+          youtube_channel: +enabled["youtube_channel"],
+          most_popular: +enabled["most_popular"],
+          time: +enabled["time"],
+          platform: +enabled["platform"],
+          country: +enabled["country"],
+          [statisticsType]: enabled[statisticsType] ? 0 : 1,
+        },
+      });
+    }
   };
+
+  useEffect(() => {
+    if (enabled) console.log(enabled, enabled[statisticsType]);
+  }, [enabled, statisticsType]);
 
   if (
     session?.user?.type !== "podcaster" ||
-    enabled.podcaster_id !== session?.user?.id
+    enabled?.podcaster_id !== session?.user?.id
   ) {
     return null;
   }
+
+  if (!enabled) return null;
 
   return (
     <HoverCard>
@@ -82,14 +87,14 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
         <div>
           <Switch
             id="airplane-mode"
-            checked={currentTypeValue}
+            checked={enabled[statisticsType]}
             onCheckedChange={handleAnalyticsEnable}
             disabled={isPending}
           />
         </div>
       </HoverCardTrigger>
       <HoverCardContent className="border-border-secondary bg-card-secondary/90 rounded-2xl">
-        {currentTypeValue
+        {enabled[statisticsType]
           ? t("disable-this-analytics-to-be-seen-by-companies")
           : t("enable-this-analytics-to-be-seen-by-companies")}
       </HoverCardContent>

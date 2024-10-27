@@ -557,7 +557,10 @@
     "Type": "النوع",
     "selectShow": "حدد العرض",
     "searchShow": "ابحث عن عرض",
-    "selected-show": "البرنامج المختار"
+    "selected-show": "البرنامج المختار",
+    "more-detailed-stats": "إحصائيات أكثر تفصيلا",
+    "hourly-views": "المشاهدات كل ساعة",
+    "time-of-day": "الوقت من اليوم"
   },
   "notifications": {
     "notifications": "notifications"

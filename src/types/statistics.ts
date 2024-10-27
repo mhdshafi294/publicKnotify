@@ -31,20 +31,15 @@ export type ShowStatisticsForVisitors = {
         views_count: number;
       }[]
     | null;
-  youtube_channel?: YoutubeChannel | null;
-  most_popular: {
-    most_popular_time: number | null;
-    most_popular_day: string | null;
-    top_country: {
-      country: string;
-      count: number;
-    } | null;
-    all_time_views: number;
-    enabled: EnabledStatistics;
-  } | null;
+  youtube_channel: YoutubeChannel | null;
+  most_popular: MostPopular | null;
   country: ShowCountryStatistics | null;
   platform: ShowPlatformStatistics | null;
   time: ShowTimeStatistics | null;
+};
+
+export type MostPopular = ShowMostPopularStatistics & {
+  enabled: EnabledStatistics;
 };
 
 export type ShowViewsStatistics = {

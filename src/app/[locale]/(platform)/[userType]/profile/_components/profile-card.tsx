@@ -115,7 +115,10 @@ const ProfileCard = async ({
           "statistics" in profileData &&
           profileData?.statistics &&
           session?.user?.type === "company" ? (
-            <VisitorsStatisticsModal statistics={profileData?.statistics} />
+            <VisitorsStatisticsModal
+              statistics={profileData?.statistics}
+              profileId={profileData?.id}
+            />
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
             <Link

@@ -1,6 +1,6 @@
 import { PODCASTER_PLAYLIST, STATISTICS } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { ShowStatisticsResponse } from "@/types/statistics";
+import { ShowStatisticsForVisitorsResponse } from "@/types/statistics";
 
 const getShowStatisticsForVisitors = async ({
   podcaster_id,
@@ -11,7 +11,7 @@ const getShowStatisticsForVisitors = async ({
   show_id: string;
   type: string;
 }) => {
-  const { data } = await axiosInstance.get<ShowStatisticsResponse>(
+  const { data } = await axiosInstance.get<ShowStatisticsForVisitorsResponse>(
     `/${type}${STATISTICS}${PODCASTER_PLAYLIST}`,
     {
       params: {

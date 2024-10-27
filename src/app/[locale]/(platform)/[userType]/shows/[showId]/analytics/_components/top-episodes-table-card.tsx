@@ -12,13 +12,17 @@ import {
 import { useTranslations } from "next-intl";
 import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
+import AnalyticsEnableSwitch from "./analytics-enable-switch";
+import { EnabledStatistics } from "@/types/statistics";
 
 type TopEpisodesTableProps = {
   top_episodes: { id: number; name: string; views_count: number }[];
+  userType: string;
 };
 
 const TopEpisodesTable: React.FC<TopEpisodesTableProps> = ({
   top_episodes,
+  userType = "podcaster",
 }) => {
   const t = useTranslations("Index");
 
@@ -31,7 +35,14 @@ const TopEpisodesTable: React.FC<TopEpisodesTableProps> = ({
           </h2>
           <p className="font-bold text-3xl">{t("top-episodes")}</p>
         </div>
+        {userType === "podcaster" ? (
+          <AnalyticsEnableSwitch
+            className="ms-auto"
+            statisticsType="top_episodes"
+          />
+        ) : null}
       </div>
+
       {/* Table Section */}
       <ScrollArea className="w-full h-96 lg:h-48 2xl:h-96 flex-1">
         <Table className="flex-1 shrink-0 grow w-full text-lg">

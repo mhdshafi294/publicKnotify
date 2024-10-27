@@ -23,7 +23,6 @@ type ViewsChartCardProps = {
     href: string;
     name: string;
   };
-  enabled: EnabledStatistics;
   showViewsForVisitors?: ShowViewsStatistics;
 };
 
@@ -48,7 +47,6 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
   showId,
   userType,
   link,
-  enabled,
   showViewsForVisitors,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -87,13 +85,6 @@ const ViewsChartCard: React.FC<ViewsChartCardProps> = ({
                 date={date}
                 setDate={setDate}
                 className="w-fit"
-              />
-            ) : null}
-            {userType === "podcaster" ? (
-              <AnalyticsEnableSwitch
-                className="ms-auto"
-                enabled={enabled}
-                statisticsType="top_episodes"
               />
             ) : null}
           </div>

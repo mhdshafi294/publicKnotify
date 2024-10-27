@@ -18,10 +18,10 @@ import AnalyticsEnableSwitch from "./analytics-enable-switch";
  */
 const AnalyticsYoutube = ({
   youtube_channel,
-  enabled,
+  userType,
 }: {
   youtube_channel: YoutubeChannel | null | undefined;
-  enabled: EnabledStatistics;
+  userType: string;
 }): JSX.Element => {
   const t = useTranslations("Index");
 
@@ -40,11 +40,12 @@ const AnalyticsYoutube = ({
             )}
           </p>
         </div>
-        <AnalyticsEnableSwitch
-          className="ms-auto self-end"
-          enabled={enabled}
-          statisticsType="youtube_channel"
-        />
+        {userType === "podcaster" ? (
+          <AnalyticsEnableSwitch
+            className="ms-auto"
+            statisticsType="youtube_channel"
+          />
+        ) : null}
       </div>
 
       {/* YouTube Analytics Details */}

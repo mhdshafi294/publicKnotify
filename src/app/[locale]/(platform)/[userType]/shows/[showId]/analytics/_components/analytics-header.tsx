@@ -1,4 +1,4 @@
-import { ShowStatistics } from "@/types/statistics";
+import { ShowStatistics, ShowStatisticsForVisitors } from "@/types/statistics";
 import { useTranslations } from "next-intl";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
@@ -17,7 +17,7 @@ const AnalyticsHeader = ({
   showStatistics,
   userType = "podcaster",
 }: {
-  showStatistics: ShowStatistics;
+  showStatistics: ShowStatistics | ShowStatisticsForVisitors;
   userType?: string;
 }): JSX.Element => {
   const t = useTranslations("Index");
@@ -67,7 +67,6 @@ const AnalyticsHeader = ({
       {userType === "podcaster" ? (
         <AnalyticsEnableSwitch
           className="ms-auto self-start absolute right-4 top-6"
-          enabled={showStatistics?.enabled}
           statisticsType="playlist_statistics"
         />
       ) : null}

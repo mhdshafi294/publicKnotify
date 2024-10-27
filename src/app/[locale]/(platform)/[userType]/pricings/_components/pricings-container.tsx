@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { EditPricingSchema } from "@/schema/pricingsSchema";
-import usePricingsStore from "@/store/edit-pricings-store";
+import usePricingsStore from "@/store/use-edit-pricings-store";
 import { Price } from "@/types/profile";
 import PricingCard from "./pricing-card";
 

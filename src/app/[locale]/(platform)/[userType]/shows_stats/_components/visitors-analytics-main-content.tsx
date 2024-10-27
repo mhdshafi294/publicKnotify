@@ -1,14 +1,14 @@
 import { getShowStatisticsForVisitorsAction } from "@/app/actions/statisticsActions";
 import { getTranslations } from "next-intl/server";
-import ViewsChartCard from "../../shows/[showId]/_components/views-chart-card";
+import { Fragment } from "react";
 import AnalyticsHeader from "../../shows/[showId]/analytics/_components/analytics-header";
 import AnalyticsYoutube from "../../shows/[showId]/analytics/_components/analytics-youtube";
 import DownloadsMapCard from "../../shows/[showId]/analytics/_components/downloads-map-card";
 import HourlyViewsChartCard from "../../shows/[showId]/analytics/_components/hourly-views-chart-card";
-import LastFiveFirstSevenDaysChartCard from "../../shows/[showId]/analytics/_components/last5-first7days-chart-card";
 import PlatformsTableCard from "../../shows/[showId]/analytics/_components/platforms-table-card";
 import TopCountriesTable from "../../shows/[showId]/analytics/_components/top-countries-table";
 import TopEpisodesTable from "../../shows/[showId]/analytics/_components/top-episodes-table-card";
+import MostPopularStatsCard from "./most-popular-stats-card";
 
 const VisitorsAnalyticsMainContent = async ({
   podcasterId,
@@ -39,63 +39,72 @@ const VisitorsAnalyticsMainContent = async ({
           .
         </p>
       </header>
+
       {/* Overview Header */}
-      <AnalyticsHeader showStatistics={showStatistics} userType={userType} />
-
-      {/* All Time Views Chart */}
-      <div className="w-full lg:h-[637px]">
-        <ViewsChartCard
-          title={t("all_time_views")}
-          value={showStatistics?.playlist_statistics?.total_views.toString()}
-          showId={showId}
-          userType={userType}
-          enabled={showStatistics?.enabled}
-        />
-      </div>
-
-      {/* Performance of Last Five Episodes in First Seven Days */}
-      <div className="w-full h-fit">
-        <LastFiveFirstSevenDaysChartCard
-          five_latest_episodes={showStatistics.five_latest_episodes}
-        />
-      </div>
+      {showStatistics?.playlist_statistics ? (
+        <AnalyticsHeader showStatistics={showStatistics} userType={userType} />
+      ) : null}
 
       {/*  Charts */}
-      <div className="w-full flex flex-col lg:flex-row lg:justify-between gap-5 lg:h-[637px]">
-        <TopEpisodesTable top_episodes={showStatistics.top_episodes} />
-        <PlatformsTableCard
-          showId={showId}
-          userType={userType}
-          enabled={showStatistics?.enabled}
-        />
-      </div>
+      {showStatistics?.top_episodes || showStatistics?.platform ? (
+        <div className="w-full flex flex-col lg:flex-row lg:justify-between gap-5 lg:h-[637px]">
+          {showStatistics?.top_episodes ? (
+            <TopEpisodesTable
+              top_episodes={showStatistics?.top_episodes}
+              userType={userType}
+            />
+          ) : null}
+          {showStatistics?.platform ? (
+            <PlatformsTableCard
+              showId={showId}
+              userType={userType}
+              visitorsData={showStatistics?.platform}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
+      {showStatistics?.most_popular ? (
+        <MostPopularStatsCard showStatistics={showStatistics?.most_popular} />
+      ) : null}
 
       {/* hourly views Chart */}
-      <div className="w-full lg:h-[637px]">
-        <HourlyViewsChartCard
-          showId={showId}
-          userType={userType}
-          enabled={showStatistics?.enabled}
-        />
-      </div>
+      {showStatistics.time ? (
+        <div className="w-full lg:h-[637px]">
+          <HourlyViewsChartCard
+            showId={showId}
+            userType={userType}
+            visitorData={showStatistics.time}
+          />
+        </div>
+      ) : null}
 
-      <div className="w-full lg:h-[637px]">
-        <DownloadsMapCard
-          showId={showId}
-          userType={userType}
-          enabled={showStatistics?.enabled}
-        />
-      </div>
-
-      <div className="w-full ">
-        <TopCountriesTable showId={showId} userType={userType} />
-      </div>
+      {showStatistics.country ? (
+        <Fragment>
+          <div className="w-full lg:h-[637px]">
+            <DownloadsMapCard
+              showId={showId}
+              userType={userType}
+              visitorData={showStatistics.country}
+            />
+          </div>
+          <div className="w-full ">
+            <TopCountriesTable
+              showId={showId}
+              userType={userType}
+              visitorData={showStatistics.country}
+            />
+          </div>
+        </Fragment>
+      ) : null}
 
       {/* YouTube Channel Analytics */}
-      <AnalyticsYoutube
-        youtube_channel={showStatistics.youtube_channel}
-        enabled={showStatistics?.enabled}
-      />
+      {showStatistics?.youtube_channel ? (
+        <AnalyticsYoutube
+          youtube_channel={showStatistics?.youtube_channel}
+          userType={userType}
+        />
+      ) : null}
     </main>
   );
 };

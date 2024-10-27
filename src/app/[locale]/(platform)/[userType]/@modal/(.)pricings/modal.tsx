@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import usePricingsStore from "@/store/edit-pricings-store";
+import usePricingsStore from "@/store/use-edit-pricings-store";
 import { useTranslations } from "next-intl";
 
 /**

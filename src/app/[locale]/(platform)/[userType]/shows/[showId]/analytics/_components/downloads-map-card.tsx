@@ -2,7 +2,7 @@
 
 import { getShowCountryStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
-import { EnabledStatistics } from "@/types/statistics";
+import { EnabledStatistics, ShowCountryStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -15,7 +15,7 @@ import DownloadsMap from "./downloads-map";
 type DownloadsMapCardProps = {
   showId: string;
   userType: string;
-  enabled: EnabledStatistics;
+  visitorData?: ShowCountryStatistics;
 };
 
 /**
@@ -26,7 +26,7 @@ type DownloadsMapCardProps = {
 const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
   showId,
   userType,
-  enabled,
+  visitorData,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
@@ -49,7 +49,7 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         show_id: showId,
         type: userType,
       }),
-    enabled: !!showId && !!userType,
+    enabled: !!showId && userType === "podcaster" && !visitorData,
   });
 
   return (
@@ -62,24 +62,26 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
           <p className="font-bold text-3xl">{t("downloads-by-country")}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="flex justify-end items-center gap-5">
-            <DatePickerWithRange
-              date={isDateModified ? date : undefined}
-              setDate={setDate}
-              className="w-fit"
-            />
-            {userType === "podcaster" ? (
+          {userType === "podcaster" ? (
+            <div className="flex justify-end items-center gap-5">
+              <DatePickerWithRange
+                date={isDateModified ? date : undefined}
+                setDate={setDate}
+                className="w-fit"
+              />
+
               <AnalyticsEnableSwitch
                 className="ms-auto"
-                enabled={enabled}
                 statisticsType="country"
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
       {/* {map} */}
-      {isPending ? (
+      {visitorData ? (
+        <DownloadsMap downloads={visitorData.downloads_by_location} />
+      ) : isPending ? (
         <DownloadsMap
           downloads={[
             {

@@ -2,7 +2,7 @@
 
 import { getShowPlatformStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
-import { EnabledStatistics } from "@/types/statistics";
+import { EnabledStatistics, ShowPlatformStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -15,13 +15,13 @@ import MostPlatformTable from "./most-platform-table";
 type PlatformsTableCardProps = {
   showId: string;
   userType: string;
-  enabled: EnabledStatistics;
+  visitorsData?: ShowPlatformStatistics;
 };
 
 const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
   showId,
   userType,
-  enabled,
+  visitorsData,
 }) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(0),
@@ -44,7 +44,7 @@ const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
         show_id: showId,
         type: userType,
       }),
-    enabled: !!showId && !!userType,
+    enabled: !!showId && userType === "podcaster" && !visitorsData,
   });
 
   return (
@@ -57,24 +57,29 @@ const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
           <p className="font-bold text-3xl">{t("top-listening-methods")}</p>
         </div>
         <div className="flex flex-col gap-3">
-          <div className="flex justify-end items-center gap-5">
-            <DatePickerWithRange
-              date={isDateModified ? date : undefined}
-              setDate={setDate}
-              className="w-fit"
-            />
-            {userType === "podcaster" ? (
+          {userType === "podcaster" ? (
+            <div className="flex justify-end items-center gap-5">
+              <DatePickerWithRange
+                date={isDateModified ? date : undefined}
+                setDate={setDate}
+                className="w-fit"
+              />
+
               <AnalyticsEnableSwitch
                 className="ms-auto"
-                enabled={enabled}
                 statisticsType="platform"
               />
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </div>
       </div>
       {/* {chart} */}
-      {isPending ? (
+      {visitorsData ? (
+        <MostPlatformTable
+          platformsDownloads={visitorsData?.top_platforms!}
+          totalCount={visitorsData?.total_count!}
+        />
+      ) : isPending ? (
         <MostPlatformTable
           platformsDownloads={[
             {
