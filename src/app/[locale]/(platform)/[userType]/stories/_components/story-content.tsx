@@ -14,17 +14,20 @@ interface StoryContentProps {
 }
 
 /**
- * StoryContent component that renders the content of a story based on its type.
- * It renders a video if the story is a video, an image if it is an image, or a
- * text if it is a text.
- * @param {{ story: Story | SelfStory, videoRef: React.RefObject<HTMLVideoElement>, isMuted: boolean, onVideoEnd: () => void, onVideoLoad: () => void, markStoryRead: (storyId: string) => void }} props - The props for the component.
- * @param {Story | SelfStory} props.story - The story object that contains the content.
- * @param {React.RefObject<HTMLVideoElement>} props.videoRef - The ref of the video element.
- * @param {boolean} props.isMuted - Whether the video is muted or not.
- * @param {() => void} props.onVideoEnd - The callback when the video ends.
- * @param {() => void} props.onVideoLoad - The callback when the video is loaded.
- * @param {(storyId: string) => void} props.markStoryRead - The callback to mark the story as read.
- * @returns {JSX.Element} The rendered StoryContent component.
+ * StoryContent Component
+ * Renders the content of a story depending on its type: video, image, or text.
+ * - For a video story, it auto-plays with mute options.
+ * - For an image story, it loads the image with a loading indicator.
+ * - For a text story, it displays the description over a colored background.
+ *
+ * @param {StoryContentProps} props - The component props.
+ * @param {Story | SelfStory} props.story - The story object containing content details.
+ * @param {React.RefObject<HTMLVideoElement>} props.videoRef - Ref to the video element.
+ * @param {boolean} props.isMuted - Whether the video should play muted.
+ * @param {() => void} props.onVideoEnd - Callback triggered when the video ends.
+ * @param {() => void} props.onVideoLoad - Callback triggered when the video metadata is loaded.
+ * @param {(storyId: string) => void} props.markStoryRead - Callback to mark the story as read.
+ * @returns {JSX.Element} Rendered StoryContent component.
  */
 const StoryContent: React.FC<StoryContentProps> = ({
   story,
@@ -50,17 +53,24 @@ const StoryContent: React.FC<StoryContentProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story]);
 
+  /**
+   * Sets loading state to false and marks the story as read after the image loads.
+   */
   const handleImageLoad = () => {
     setIsLoading(false);
     markStoryRead(story.id.toString());
   };
 
+  /**
+   * Marks the story as read when the video starts playing.
+   */
   const handleVideoPlay = () => {
     if (story.type === "video") {
       markStoryRead(story.id.toString());
     }
   };
 
+  // Render video content if story type is "video"
   if (story.type === "video") {
     return (
       <video
@@ -75,7 +85,10 @@ const StoryContent: React.FC<StoryContentProps> = ({
         onPlay={handleVideoPlay}
       />
     );
-  } else if (story.type === "image") {
+  }
+
+  // Render image content with loading indicator if story type is "image"
+  if (story.type === "image") {
     return (
       <div className="relative w-full h-full">
         {isLoading && (
@@ -93,22 +106,22 @@ const StoryContent: React.FC<StoryContentProps> = ({
         />
       </div>
     );
-  } else {
-    return (
-      <div
-        className="flex items-center justify-center w-full h-full dark:bg-gray-800 rounded-xl"
-        style={{
-          // background: story?.color ?? "#000000",
-          background: story?.color ? story?.color : "#000000",
-          color: getContrastTextColor(story.color || "#000000"),
-        }}
-      >
-        <p className="text-3xl font-medium text-center px-4">
-          {story.description}
-        </p>
-      </div>
-    );
   }
+
+  // Render text content if story type is "text"
+  return (
+    <div
+      className="flex items-center justify-center w-full h-full dark:bg-gray-800 rounded-xl"
+      style={{
+        background: story.color || "#000000",
+        color: getContrastTextColor(story.color || "#000000"),
+      }}
+    >
+      <p className="text-3xl font-medium text-center px-4">
+        {story.description}
+      </p>
+    </div>
+  );
 };
 
 export default StoryContent;

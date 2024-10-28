@@ -21,6 +21,21 @@ interface StoryTriggerItemProps {
   onFinish: () => void;
 }
 
+/**
+ * StoryTriggerItem Component
+ * Renders a circular trigger button for a story group, displaying a podcaster's avatar,
+ * with segments indicating the story's viewed/unviewed status.
+ *
+ * @param {StoryTriggerItemProps} props - Component properties.
+ * @param {{ id: number; name: string; image: string; }} props.storyGroup.podcaster - Podcaster's details.
+ * @param {Story[]} props.storyGroup.stories - Array of stories in the group.
+ * @param {number} props.index - Index of the story group.
+ * @param {boolean} props.isActive - Indicates if the story is currently active.
+ * @param {(index: number, firstUnreadIndex: number) => void} props.onActivate - Callback to activate a story group.
+ * @param {() => void} props.onFinish - Callback when the story finishes.
+ *
+ * @returns {JSX.Element | null} The rendered StoryTriggerItem component.
+ */
 const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
   storyGroup,
   index,
@@ -35,8 +50,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   useEffect(() => {
     if (!isMounted) setIsMounted(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isMounted]);
 
   useEffect(() => {
     const unreadIndex = storyGroup.stories.findIndex(
@@ -45,6 +59,9 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
     setFirstUnreadIndex(unreadIndex === -1 ? 0 : unreadIndex);
   }, [storyGroup.stories]);
 
+  /**
+   * Opens the story review dialog and activates the story at the specified index.
+   */
   const handleOpenStories = () => {
     onActivate(index, firstUnreadIndex);
     setIsStoryReviewDialogOpen(true);
@@ -54,8 +71,16 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   const segmentCount = Math.max(storyGroup.stories.length, 1);
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 6; // 6 degrees gap between segments
+  const gapAngle = 6; // Gap in degrees between segments for visual separation
 
+  /**
+   * Generates the path for each story segment in the circular progress indicator.
+   *
+   * @param {number} startAngle - Starting angle of the segment.
+   * @param {number} endAngle - Ending angle of the segment.
+   * @param {number} radius - Radius of the circular path.
+   * @returns {string} - The SVG path data for the arc.
+   */
   const createArcPath = (
     startAngle: number,
     endAngle: number,
@@ -79,6 +104,15 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
     ].join(" ");
   };
 
+  /**
+   * Converts polar coordinates to cartesian for creating arcs in SVG paths.
+   *
+   * @param {number} centerX - X center of the circle.
+   * @param {number} centerY - Y center of the circle.
+   * @param {number} radius - Radius of the circle.
+   * @param {number} angleInDegrees - Angle in degrees.
+   * @returns {{x: number, y: number}} - Cartesian coordinates.
+   */
   const polarToCartesian = (
     centerX: number,
     centerY: number,
@@ -126,7 +160,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 stroke={
                   story && !story.is_viewd ? "hsl(var(--greeny))" : "#8a8a8a"
                 }
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
             );

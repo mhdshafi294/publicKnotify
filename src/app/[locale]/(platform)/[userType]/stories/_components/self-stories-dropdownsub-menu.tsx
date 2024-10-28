@@ -1,6 +1,13 @@
 "use client";
 
+import { Fragment, useEffect, useState, Dispatch, SetStateAction } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+
 import { getSelfStoriesAction } from "@/app/actions/storiesActions";
+import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
+import { SelfStoriesResponse } from "@/types/stories";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -8,38 +15,41 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
-import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { SelfStoriesResponse } from "@/types/stories";
-import { useQuery } from "@tanstack/react-query";
 import {
   BoomBoxIcon,
   CircleFadingPlusIcon,
   ImagesIcon,
   PencilIcon,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 
-const SelfStoriesDropdownSubMenu = ({
-  setUserOptionDropdownMenu,
-}: {
+/**
+ * SelfStoriesDropdownSubMenu Component
+ * Renders a dropdown submenu for creating and managing user stories, with options
+ * to add media, text, and view active stories if available.
+ *
+ * @param {Object} props - Component properties
+ * @param {Dispatch<SetStateAction<boolean>>} props.setUserOptionDropdownMenu - Function to toggle the user option dropdown
+ * @returns {JSX.Element | null} - A dropdown menu component or null during server-side rendering
+ */
+const SelfStoriesDropdownSubMenu: React.FC<{
   setUserOptionDropdownMenu: Dispatch<SetStateAction<boolean>>;
-}) => {
+}> = ({ setUserOptionDropdownMenu }) => {
   const t = useTranslations("Index");
   const { data: session } = useSession();
   const [isMounted, setIsMounted] = useState(false);
+
   const {
     setStoryMediaDialogIsOpen: setIsMediaDialogOpen,
     setStoryTextDialogIsOpen: setIsTextDialogOpen,
     setIsStoryReviewDialogOpen: setIsReviewDialogOpen,
   } = useAddStoryDialogsStore();
 
+  // Ensures component is mounted before rendering to avoid SSR issues
   useEffect(() => {
     if (!isMounted) setIsMounted(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isMounted]);
 
+  // Query to fetch the user's self-stories, enabled only when session data is available
   const { data, isPending, isError } = useQuery<SelfStoriesResponse>({
     queryKey: ["self_stories", session?.user?.id],
     queryFn: () =>
@@ -47,10 +57,10 @@ const SelfStoriesDropdownSubMenu = ({
         type: session?.user?.type!,
       }),
     enabled: !!session?.user?.type && isMounted,
-    // refetchInterval: 30000, // 30 seconds
+    // refetchInterval: 30000, // Uncomment to refresh every 30 seconds
   });
 
-  if (!isMounted) return null; // Avoid rendering during SSR phase
+  if (!isMounted) return null; // Prevents rendering during SSR
 
   return (
     <Fragment>
@@ -80,7 +90,7 @@ const SelfStoriesDropdownSubMenu = ({
             <PencilIcon className="me-3 h-4 w-4" />
             <span>{t("text")}</span>
           </DropdownMenuItem>
-          {data?.stories && data?.stories?.length > 0 ? (
+          {data?.stories && data.stories.length > 0 ? (
             <Fragment>
               <DropdownMenuSeparator />
               <DropdownMenuItem
@@ -97,7 +107,7 @@ const SelfStoriesDropdownSubMenu = ({
           ) : null}
         </DropdownMenuSubContent>
       </DropdownMenuSub>
-      {/* <AddStoryMediaDialog isOpen={isOpen} onClose={() => setIsOpen(false)} /> */}
+      {/* Placeholder for AddStoryMediaDialog or other dialog components */}
     </Fragment>
   );
 };

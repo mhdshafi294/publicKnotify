@@ -14,14 +14,12 @@ import {
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import AuthYoutubeButton from "./auth-youtube-button";
 import ProfileCardImageAndName from "./profile-card-image-and-name";
 import ProfileCategories from "./profile-categories";
 import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import YoutubeActiveAccountIcon from "@/components/icons/youtube-active-account-icon";
 import { Company } from "@/types/company";
 import { Playlist } from "@/types/podcast";
 import { PodcasterDetails } from "@/types/podcaster";

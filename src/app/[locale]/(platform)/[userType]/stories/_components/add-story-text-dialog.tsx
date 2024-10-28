@@ -1,5 +1,14 @@
 "use client";
 
+// External imports
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRightIcon, PencilIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+// Local imports
 import { createStoryAction } from "@/app/actions/storiesActions";
 import { Button } from "@/components/ui/button";
 import ColorPicker from "@/components/ui/color-picker";
@@ -23,16 +32,21 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn, getContrastTextColor } from "@/lib/utils";
 import { AddStorySchema } from "@/schema/addStorySchema";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { ChevronRightIcon, PencilIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 
+/**
+ * Component for the Add Story Text Dialog.
+ * Allows users to write text, select background color, set scope, and submit the story.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered AddStoryTextDialog component.
+ *
+ * @example
+ * <AddStoryTextDialog />
+ */
 const AddStoryTextDialog = () => {
   const t = useTranslations("Index");
 
+  // Dialog open state management
   const isOpen = useAddStoryDialogsStore(
     (state) => state.isStoryTextDialogOpen
   );
@@ -40,6 +54,7 @@ const AddStoryTextDialog = () => {
     (state) => state.setStoryTextDialogIsOpen
   );
 
+  // Form setup with validation schema and default values
   const form = useForm<AddStorySchema>({
     resolver: zodResolver(AddStorySchema),
     defaultValues: {
@@ -51,11 +66,8 @@ const AddStoryTextDialog = () => {
     },
   });
 
-  const {
-    data,
-    mutate: server_createStoryAction,
-    isPending,
-  } = useMutation({
+  // Mutation to handle story submission
+  const { mutate: server_createStoryAction, isPending } = useMutation({
     mutationFn: createStoryAction,
     onMutate: () => {
       toast.loading(t("sharing-your-story"));
@@ -72,28 +84,37 @@ const AddStoryTextDialog = () => {
     },
   });
 
+  /**
+   * Handles the form submission, sending story data to the server.
+   *
+   * @param {AddStorySchema} data - The form data to submit.
+   */
   const handleSubmit = (data: AddStorySchema) => {
-    console.log(data?.media?.size);
     const formData = new FormData();
     formData.append("scope", data.scope);
     formData.append("description", data.description || "");
     formData.append("color", data.color || "#000000");
+
+    // Append media files to formData if present
     if (data.media && data.media.size > 0) formData.append("media", data.media);
     if (data.thumbnail && data.thumbnail.size > 0)
       formData.append("thumbnail", data.thumbnail);
 
+    // Call mutation function
     server_createStoryAction({ type: "podcaster", formData });
   };
 
-  // Error handler for form validation
+  /**
+   * Handles form validation errors.
+   *
+   * @param {object} errors - Validation errors object.
+   */
   const handleError = (errors: any) => {
     console.error("Validation Errors:", errors);
   };
 
-  // console.log(form.getValues());
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      {/* <DialogTrigger className="w-full flex"></DialogTrigger> */}
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex gap-3">
@@ -109,6 +130,7 @@ const AddStoryTextDialog = () => {
             className="w-full flex flex-col gap-5"
             onSubmit={form.handleSubmit(handleSubmit, handleError)}
           >
+            {/* Text area with background color picker */}
             <div
               style={{
                 backgroundColor: form.watch("color"),
@@ -135,7 +157,9 @@ const AddStoryTextDialog = () => {
                 )}
               />
             </div>
-            <div className="w-full flex  justify-between gap-5">
+
+            {/* Input fields for scope selection and color picking */}
+            <div className="w-full flex justify-between gap-5">
               <SelectFormInput
                 name="scope"
                 className="w-full flex-1 rounded"
@@ -151,13 +175,15 @@ const AddStoryTextDialog = () => {
                 label={t("background-color")}
               />
             </div>
+
+            {/* Submit button with loader and icon */}
             <Button
               type="submit"
               className="w-fit ms-auto flex justify-between items-center rounded-full gap-3"
               disabled={isPending || form.getValues().description?.length === 0}
             >
               {t("share")}
-              {isPending ? <Loader size={"sm"} /> : ""}
+              {isPending ? <Loader size="sm" /> : ""}
               <ChevronRightIcon size={18} />
             </Button>
           </form>
