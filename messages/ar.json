@@ -560,7 +560,9 @@
     "selected-show": "البرنامج المختار",
     "more-detailed-stats": "إحصائيات أكثر تفصيلا",
     "hourly-views": "المشاهدات كل ساعة",
-    "time-of-day": "الوقت من اليوم"
+    "time-of-day": "الوقت من اليوم",
+    "no-show-created-by-this-podcaster-yet": "لم يتم انشاء عرض لهذا البودكاست بعد",
+    "subsicribe": "اشترك"
   },
   "notifications": {
     "notifications": "notifications"

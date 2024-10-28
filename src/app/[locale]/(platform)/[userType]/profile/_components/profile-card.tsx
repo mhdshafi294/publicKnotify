@@ -184,7 +184,7 @@ const ProfileCard = async ({
       {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" ? (
         <div className="flex justify-center items-center gap-7 flex-wrap w-full mt-3">
-          {"youtube_account" in profileData ? (
+          {/* {"youtube_account" in profileData ? (
             isSelfProfile ? (
               <AuthYoutubeButton
                 youtube_account={profileData?.youtube_account}
@@ -200,29 +200,6 @@ const ProfileCard = async ({
               </Link>
             ) : (
               <YoutubeActiveAccountIcon
-                className={cn("transition-opacity", {
-                  "opacity-75 hover:opacity-100":
-                    !!profileData?.youtube_account,
-                })}
-              />
-            )
-          ) : null}
-          {/* {"youtube_account" in profileData ? (
-            isSelfProfile ? (
-              <AuthSpotifyButton
-                spotify_account={profileData?.spotify_account}
-              />
-            ) : profileData?.spotify_account ? (
-              <Link href={profileData?.spotify_account} target="_blank">
-                <SpotifyActiveAccountIcon
-                  className={cn("transition-opacity", {
-                    "opacity-75 hover:opacity-100":
-                      !!profileData?.youtube_account,
-                  })}
-                />
-              </Link>
-            ) : (
-              <SpotifyActiveAccountIcon
                 className={cn("transition-opacity", {
                   "opacity-75 hover:opacity-100":
                     !!profileData?.youtube_account,

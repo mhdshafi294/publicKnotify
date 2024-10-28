@@ -54,7 +54,7 @@ const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
       disabled={isPending || disabled}
       onClick={handlePayment}
     >
-      {t("payment")}
+      {t("subsicribe")}
       <BanknoteIcon />
     </Button>
   );
