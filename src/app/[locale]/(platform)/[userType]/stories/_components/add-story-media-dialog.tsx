@@ -1,5 +1,15 @@
 "use client";
 
+// External imports
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { ChevronRightIcon, PencilIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+// Local imports
 import { createStoryAction } from "@/app/actions/storiesActions";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,19 +30,23 @@ import Loader from "@/components/ui/loader";
 import SelectFormInput from "@/components/ui/select-form-input";
 import { AddStorySchema } from "@/schema/addStorySchema";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { ChevronRightIcon, PencilIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import MediaInputDropzone from "./media-input-dropzone";
 
+/**
+ * Component for the Add Story Media Dialog.
+ * Allows users to upload media content, set a scope, and submit the story.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered AddStoryMediaDialog component.
+ *
+ * @example
+ * <AddStoryMediaDialog />
+ */
 const AddStoryMediaDialog = () => {
   const t = useTranslations("Index");
-  const [values, setValues] = useState([20, 80]); // Initial values for the two points
+  const [values, setValues] = useState([20, 80]); // Initial values for the slider
 
+  // Dialog open state management
   const isOpen = useAddStoryDialogsStore(
     (state) => state.isStoryMediaDialogOpen
   );
@@ -40,6 +54,7 @@ const AddStoryMediaDialog = () => {
     (state) => state.setStoryMediaDialogIsOpen
   );
 
+  // Form setup with default values and validation
   const form = useForm<AddStorySchema>({
     resolver: zodResolver(AddStorySchema),
     defaultValues: {
@@ -51,11 +66,8 @@ const AddStoryMediaDialog = () => {
     },
   });
 
-  const {
-    data,
-    mutate: server_createStoryAction,
-    isPending,
-  } = useMutation({
+  // Mutation to handle story submission
+  const { mutate: server_createStoryAction, isPending } = useMutation({
     mutationFn: createStoryAction,
     onMutate: () => {
       toast.loading(t("sharing-your-story"));
@@ -72,13 +84,18 @@ const AddStoryMediaDialog = () => {
     },
   });
 
+  /**
+   * Handles the form submission, sending story data to the server.
+   *
+   * @param {AddStorySchema} data - The form data to submit.
+   */
   const handleSubmit = (data: AddStorySchema) => {
-    // console.log(data?.media?.name);
-    // console.log(data?.media?.size);
     const formData = new FormData();
     formData.append("scope", data.scope);
     formData.append("description", data.description || "");
     formData.append("color", data.color || "#000000");
+
+    // Append media files to formData based on type and size
     if (
       data.media &&
       data.media.size > 0 &&
@@ -94,19 +111,22 @@ const AddStoryMediaDialog = () => {
     if (data.thumbnail && data.thumbnail.size > 0)
       formData.append("thumbnail", data.thumbnail);
 
+    // Call mutation function
     server_createStoryAction({ type: "podcaster", formData });
   };
 
-  // Error handler for form validation
+  /**
+   * Handles form validation errors.
+   *
+   * @param {object} errors - Validation errors object.
+   */
   const handleError = (errors: any) => {
     console.error("Validation Errors:", errors);
   };
 
-  // console.log(form.getValues());
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      {/* <DialogTrigger className="w-full flex"></DialogTrigger> */}
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex gap-3">
             <span>{t("photos-and-videos")}</span>
@@ -121,6 +141,7 @@ const AddStoryMediaDialog = () => {
             className="w-full flex flex-col gap-5"
             onSubmit={form.handleSubmit(handleSubmit, handleError)}
           >
+            {/* Media input for story media upload */}
             <FormField
               control={form.control}
               name="media"
@@ -137,7 +158,8 @@ const AddStoryMediaDialog = () => {
               )}
             />
 
-            <div className=" flex  justify-between gap-5">
+            {/* Dropdown selection for scope */}
+            <div className="flex justify-between gap-5">
               <SelectFormInput
                 name="scope"
                 className="w-full flex-1 rounded"
@@ -147,6 +169,8 @@ const AddStoryMediaDialog = () => {
                 options={["all", "company"]}
               />
             </div>
+
+            {/* Submit button with loader and icon */}
             <Button
               type="submit"
               className="w-fit ms-auto flex justify-between items-center rounded-full gap-3"
@@ -157,7 +181,7 @@ const AddStoryMediaDialog = () => {
               }
             >
               {t("share")}
-              {isPending ? <Loader size={"sm"} /> : ""}
+              {isPending ? <Loader size="sm" /> : ""}
               <ChevronRightIcon size={18} />
             </Button>
           </form>
