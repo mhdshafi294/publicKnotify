@@ -18,6 +18,15 @@ type PlatformsTableCardProps = {
   visitorsData?: ShowPlatformStatistics;
 };
 
+/**
+ * Functional component that displays a table with the top platforms and their download counts.
+ * @param {PlatformsTableCardProps} props - The props containing necessary data for the component.
+ * @param {string} props.showId - The ID of the show.
+ * @param {string} props.userType - The type of user, either "podcaster" or "visitor".
+ * @param {ShowPlatformStatistics} [props.visitorsData] - The data for the component if the user is a visitor.
+ *
+ * @returns {JSX.Element} A table component displaying download information.
+ */
 const PlatformsTableCard: React.FC<PlatformsTableCardProps> = ({
   showId,
   userType,

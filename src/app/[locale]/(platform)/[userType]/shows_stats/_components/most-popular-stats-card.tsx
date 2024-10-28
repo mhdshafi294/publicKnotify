@@ -4,6 +4,15 @@ import { MostPopular } from "@/types/statistics";
 import { formatTo12Hour } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
 
+/**
+ * The MostPopularStatsCard component displays key metrics about a show's most popular day and time.
+ *
+ * @param {Object} props - The props for the component.
+ * @param {MostPopular} props.showStatistics - The show's most popular statistics.
+ *
+ * @returns {Promise<JSX.Element>} The rendered MostPopularStatsCard component.
+ */
+
 const MostPopularStatsCard = async ({
   showStatistics,
 }: {

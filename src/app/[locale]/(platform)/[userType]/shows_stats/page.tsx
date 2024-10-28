@@ -54,8 +54,6 @@ const ShowsStatsPage = async ({
       redirect(
         `/${session?.user?.type}/shows_stats?podcaster_id=${podcaster_id}&show_id=${initial_podcaster_playlist_response?.playlists[0].id}`
       );
-    } else {
-      redirect(`/${session?.user?.type}/profile/podcaster/${podcaster_id}`);
     }
   }
 

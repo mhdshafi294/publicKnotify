@@ -17,7 +17,7 @@ const VisitorsAnalyticsSidebar = ({
   show_id,
 }: {
   podcaster_id: string;
-  show_id: string;
+  show_id?: string;
 }): JSX.Element => {
   const t = useTranslations("Index");
 
@@ -29,7 +29,13 @@ const VisitorsAnalyticsSidebar = ({
         <h4 className="text-muted-foreground text-sm font-semibold">
           {t("selected-show")}
         </h4>
-        <ShowSelector podcaster_id={podcaster_id} show_id={show_id} />
+        {show_id ? (
+          <ShowSelector podcaster_id={podcaster_id} show_id={show_id} />
+        ) : (
+          <h5 className="text-muted-foreground text-sm font-semibold italic">
+            {t("no-show-created-by-this-podcaster-yet")}
+          </h5>
+        )}
       </div>
     </aside>
   );
