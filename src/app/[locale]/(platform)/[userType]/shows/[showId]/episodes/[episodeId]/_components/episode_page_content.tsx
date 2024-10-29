@@ -1,17 +1,15 @@
-import React from "react";
-import Image from "next/image";
 import { format } from "date-fns";
+import Image from "next/image";
 
 import { getSelfPodcastAction } from "@/app/actions/podcastActions";
-import { getTranslations } from "next-intl/server";
-import { buttonVariants } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import DashboardCardContainer from "../../../../_components/dashboard-card-container";
-import { Link } from "@/navigation";
-import { getDistanceToNow } from "@/lib/utils";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getServerSession } from "next-auth";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { Separator } from "@/components/ui/separator";
+import { getDistanceToNow } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
+import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import PublishButton from "../../../publish/_components/publish-button";
 
 /**

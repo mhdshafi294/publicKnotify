@@ -1,5 +1,6 @@
 "use server";
 
+// Story service imports
 import createStory from "@/services/stories/create-story";
 import deleteStory from "@/services/stories/delete-story";
 import getSelfStories from "@/services/stories/get-self-stories";
@@ -7,12 +8,16 @@ import getStories from "@/services/stories/get-stories";
 import markStoryRead from "@/services/stories/mark-read";
 
 /**
- * Retrieves stories based on the provided parameters.
- * @param {Object} param0 - An object containing the parameters for fetching stories.
- * @param {string} param0.page - The page number of the stories to retrieve.
- * @param {string} param0.count - The number of stories to retrieve.
- * @param {string} param0.type - The type of stories to fetch.
- * @returns {Promise} A promise that resolves with the response from the API call.
+ * Fetches a paginated list of stories based on the specified parameters.
+ *
+ * @param {Object} params - Parameters for fetching stories.
+ * @param {string} params.page - The page number of the stories to retrieve.
+ * @param {string} params.count - The number of stories to retrieve.
+ * @param {string} params.type - The type of stories to fetch.
+ * @returns {Promise<Object>} A promise that resolves with the response from the API call.
+ *
+ * @example
+ * const stories = await getStoriesAction({ page: "1", count: "20", type: "public" });
  */
 export const getStoriesAction = async ({
   page = "1",
@@ -28,16 +33,19 @@ export const getStoriesAction = async ({
     count,
     type,
   });
-
   return getRequestsResponse;
 };
 
 /**
- * Creates a story action asynchronously using the provided form data and type.
- * @param {Object} param0 - An object containing formData and type properties.
- * @param {FormData} param0.formData - The form data for creating the story.
- * @param {string} param0.type - The type of the story.
- * @returns {Promise} A promise that resolves to the response from creating the story.
+ * Creates a new story using form data and specified type.
+ *
+ * @param {Object} params - Parameters for creating a story.
+ * @param {FormData} params.formData - The form data for creating the story.
+ * @param {string} params.type - The type of the story.
+ * @returns {Promise<Object>} A promise that resolves to the response from the create story API call.
+ *
+ * @example
+ * const response = await createStoryAction({ formData: form, type: "private" });
  */
 export const createStoryAction = async ({
   formData,
@@ -54,10 +62,14 @@ export const createStoryAction = async ({
 };
 
 /**
- * Asynchronously fetches self stories based on the provided type.
- * @param {Object} param0 - An object containing the type of stories to fetch.
- * @param {string} param0.type - The type of stories to fetch.
- * @returns {Promise} A promise that resolves to the response of the self stories request.
+ * Retrieves the current user's stories based on the provided type.
+ *
+ * @param {Object} params - Parameters for fetching self stories.
+ * @param {string} params.type - The type of stories to fetch.
+ * @returns {Promise<Object>} A promise that resolves to the user's stories.
+ *
+ * @example
+ * const selfStories = await getSelfStoriesAction({ type: "draft" });
  */
 export const getSelfStoriesAction = async ({ type }: { type: string }) => {
   const getRequestsResponse = await getSelfStories({
@@ -67,11 +79,15 @@ export const getSelfStoriesAction = async ({ type }: { type: string }) => {
 };
 
 /**
- * Marks a story as read by sending a request to the server.
- * @param {object} param0 - An object containing the id and type of the story to mark as read.
- * @param {string} param0.id - The id of the story to mark as read.
- * @param {string} param0.type - The type of the story to mark as read.
- * @returns {Promise} A promise that resolves with the response from the server.
+ * Marks a specific story as read.
+ *
+ * @param {Object} params - Parameters for marking a story as read.
+ * @param {string} params.id - The ID of the story to mark as read.
+ * @param {string} params.type - The type of the story.
+ * @returns {Promise<Object>} A promise that resolves with the response from the mark-read API call.
+ *
+ * @example
+ * const response = await markStoryReadAction({ id: "story123", type: "public" });
  */
 export const markStoryReadAction = async ({
   id,
@@ -88,11 +104,15 @@ export const markStoryReadAction = async ({
 };
 
 /**
- * Deletes a story based on the provided id and type.
- * @param {object} param0 - An object containing the id and type of the story to delete.
- * @param {string} param0.id - The id of the story to delete.
- * @param {string} param0.type - The type of the story to delete.
- * @returns {Promise} A promise that resolves with the response from the deleteStory API call.
+ * Deletes a specific story based on its ID and type.
+ *
+ * @param {Object} params - Parameters for deleting a story.
+ * @param {string} params.id - The ID of the story to delete.
+ * @param {string} params.type - The type of the story.
+ * @returns {Promise<Object>} A promise that resolves with the response from the delete story API call.
+ *
+ * @example
+ * const response = await deleteStoryAction({ id: "story123", type: "draft" });
  */
 export const deleteStoryAction = async ({
   id,

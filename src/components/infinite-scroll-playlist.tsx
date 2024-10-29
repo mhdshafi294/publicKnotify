@@ -1,14 +1,28 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useTranslations } from "next-intl";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import Loader from "@/components/ui/loader";
 import PlaylistCard from "./playlist-card";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import { useTranslations } from "next-intl";
 
+/**
+ * InfiniteScrollPlaylist Component
+ *
+ * Renders a list of playlists with infinite scroll functionality.
+ * Fetches and displays playlists based on the search query and user type.
+ *
+ * @param {Object} props - The props object.
+ * @param {Playlist[] | undefined} props.initialData - Initial playlist data.
+ * @param {string} [props.search] - The search query.
+ * @param {string} props.type - The type of the user or content.
+ *
+ * @returns {JSX.Element} The list of playlists with infinite scroll.
+ */
 const InfiniteScrollPlaylist = ({
   initialData,
   search,

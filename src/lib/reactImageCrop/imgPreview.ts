@@ -3,6 +3,12 @@ import { canvasPreview } from "./canvasPreview";
 
 let previewUrl = "";
 
+/**
+ * Converts a canvas element to a Blob.
+ *
+ * @param {HTMLCanvasElement} canvas - The canvas element to convert.
+ * @returns {Promise<Blob | null>} A promise that resolves to a Blob representing the image data, or null if the conversion fails.
+ */
 function toBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
   return new Promise((resolve) => {
     canvas.toBlob(resolve);

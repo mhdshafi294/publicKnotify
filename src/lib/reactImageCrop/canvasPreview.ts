@@ -3,6 +3,22 @@ import { PixelCrop } from "react-image-crop";
 
 const TO_RADIANS = Math.PI / 180;
 
+/**
+ * CanvasPreview
+ *
+ * This function takes an image and renders it on a canvas according to the
+ * given crop and scale parameters. It also applies the given rotation
+ * to the image. The function returns a Promise that resolves to the
+ * rendered canvas element.
+ *
+ * @param {HTMLImageElement} image the image element to be rendered.
+ * @param {HTMLCanvasElement} canvas the canvas element to render the image on.
+ * @param {PixelCrop} crop the crop parameters to use when rendering the image.
+ * @param {number} [scale=1] the scale to apply to the image.
+ * @param {number} [rotate=0] the rotation to apply to the image.
+ * @param {Dispatch<React.SetStateAction<File | null>>} [setFile] a function to be called with the rendered canvas as a blob.
+ * @returns {Promise<HTMLCanvasElement>}
+ */
 export async function canvasPreview(
   image: HTMLImageElement,
   canvas: HTMLCanvasElement,

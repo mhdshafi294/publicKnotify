@@ -6,6 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { useLocale } from "next-intl";
+
 import {
   FormControl,
   FormField,
@@ -29,6 +30,14 @@ import {
 import { Button } from "./button";
 import { Separator } from "./separator";
 
+/**
+ * MenuBar component for RichText editor
+ *
+ * A component that wraps all the editor menu buttons
+ *
+ * @param {Object} editor - The editor object
+ * @returns {ReactNode} - The rendered component
+ */
 const MenuBar = ({ editor }: { editor: any }) => {
   if (!editor) {
     return null;
@@ -151,6 +160,28 @@ interface PropsType<T extends FieldValues> {
   control: Control<T>;
 }
 
+/**
+ * FormInputRichText component that renders a rich text editor within a form.
+ *
+ * @template T - The type of the field values used in the form.
+ * @param {PropsType<T>} props - The properties passed to the component.
+ * @param {Control<T>} props.control - The control object from react-hook-form.
+ * @param {Path<T>} props.name - The name of the form field.
+ * @param {string} [props.className] - Optional additional class names for the editor.
+ * @param {string} props.label - The label for the form field.
+ * @param {string} [props.labelClassName] - Optional additional class names for the label.
+ * @param {string} [props.placeholder] - Optional placeholder text for the editor.
+ * @returns {JSX.Element} The rendered FormInputRichText component.
+ *
+ * @example
+ * ```tsx
+ * <FormInputRichText
+ *   name="content"
+ *   label="Content"
+ *   control={control}
+ * />
+ * ```
+ */
 function FormInputRichText<T extends FieldValues>({
   control,
   name,
