@@ -1,5 +1,15 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDebounce } from "use-debounce";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useLocale, useTranslations } from "next-intl";
+
+// Icons
+import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+
+// Local components
 import { getPlayListsByPodcasterAction } from "@/app/actions/podcastActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -20,18 +30,26 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
 
 type ShowSelectorProps = {
   podcaster_id: string;
   show_id: string;
 };
 
+/**
+ * ShowSelector Component
+ *
+ * This component allows users to select a show from a list of shows created by a specific podcaster.
+ * It includes a search feature with debounced input and infinite scrolling for seamless navigation through available shows.
+ *
+ * @param {ShowSelectorProps} props - Component properties.
+ * @param {string} props.podcaster_id - The ID of the podcaster whose shows are to be listed.
+ * @param {string} props.show_id - The currently selected show ID.
+ * @returns {JSX.Element} The rendered ShowSelector component.
+ *
+ * @example
+ * <ShowSelector podcaster_id="123" show_id="456" />
+ */
 export default function ShowSelector({
   podcaster_id,
   show_id,
@@ -39,9 +57,7 @@ export default function ShowSelector({
   const [open, setOpen] = useState(false);
   const [preDebouncedValue, setDebouncedValue] = useState("");
   const [debouncedValue] = useDebounce(preDebouncedValue, 750);
-  const { isIntersecting, ref } = useIntersectionObserver({
-    threshold: 0,
-  });
+  const { isIntersecting, ref } = useIntersectionObserver({ threshold: 0 });
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -49,6 +65,7 @@ export default function ShowSelector({
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  // Infinite query to fetch shows with pagination
   const {
     isPending,
     isError,
@@ -69,10 +86,9 @@ export default function ShowSelector({
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      if (lastPage.pagination.next_page_url) {
-        return lastPage.pagination.current_page + 1;
-      }
-      return undefined;
+      return lastPage.pagination.next_page_url
+        ? lastPage.pagination.current_page + 1
+        : undefined;
     },
   });
 
@@ -82,6 +98,12 @@ export default function ShowSelector({
     }
   }, [isFetchingNextPage, hasNextPage, isIntersecting, fetchNextPage]);
 
+  /**
+   * Handles the selection of a show, updates the URL with the selected show's ID,
+   * and closes the selection menu.
+   *
+   * @param {string} selectedShowId - The ID of the selected show.
+   */
   const handleShowSelect = (selectedShowId: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("show_id", selectedShowId);
@@ -140,7 +162,7 @@ export default function ShowSelector({
                       <CommandItem
                         key={show.id}
                         value={show.id.toString()}
-                        onSelect={handleShowSelect}
+                        onSelect={() => handleShowSelect(show.id.toString())}
                       >
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">

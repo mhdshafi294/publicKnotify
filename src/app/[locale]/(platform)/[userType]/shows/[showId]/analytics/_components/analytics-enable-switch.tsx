@@ -35,12 +35,14 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
   const { data: session } = useSession();
 
   const enabled = useEnableStatsStore((state) => state.enabled);
-  const updateEnabled = useEnableStatsStore((state) => state.updateEnabled);
+  const toggleSpecificEnabled = useEnableStatsStore(
+    (state) => state.toggleSpecificEnabled
+  );
 
   const { mutate: server_postEnableStatisticsAction, isPending } = useMutation({
     mutationFn: postEnableStatisticsAction,
     onSuccess: () => {
-      updateEnabled(statisticsType);
+      toggleSpecificEnabled(statisticsType);
       toast.success(t("updatedSuccessfully"));
     },
     onError: () => {

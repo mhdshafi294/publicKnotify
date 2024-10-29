@@ -9,21 +9,27 @@ interface StoryProgressProps {
 }
 
 /**
- * StoryProgress
+ * StoryProgress Component
+ * Displays a progress bar for stories, where each story is represented by a segment.
+ * The current story's segment shows its progress, while completed stories are fully filled.
  *
- * Progress bar for stories, with each story represented as a
- * bar segment. The width of each segment is determined by the
- * `progress` prop, which is a number between 0 and 100. The
- * `onStoryChange` prop is called when a story segment is clicked,
- * with the index of the segment as an argument. The `onProgressStart`
- * prop is called when a story segment is clicked, and is used to
- * start the progress animation.
+ * @param {StoryProgressProps} props - The component props.
+ * @param {Array<SelfStory | Story>} props.stories - Array of story objects to represent in the progress bar.
+ * @param {number} props.currentIndex - Index of the currently displayed story.
+ * @param {number} props.progress - Progress percentage of the current story (0-100).
+ * @param {(index: number) => void} props.onStoryChange - Callback triggered when a segment is clicked, with the segment index as argument.
+ * @param {() => void} [props.onProgressStart] - Optional callback triggered when a story segment is clicked, used to initiate the progress animation.
  *
- * @param stories - array of story objects
- * @param currentIndex - index of the currently displayed story
- * @param progress - progress of the current story as a number between 0 and 100
- * @param onStoryChange - callback when a story segment is clicked
- * @param onProgressStart - callback when a story segment is clicked
+ * @returns {JSX.Element} The rendered StoryProgress component.
+ *
+ * @example
+ * <StoryProgress
+ *   stories={storiesArray}
+ *   currentIndex={2}
+ *   progress={60}
+ *   onStoryChange={(index) => handleStoryChange(index)}
+ *   onProgressStart={() => handleProgressStart()}
+ * />
  */
 const StoryProgress: React.FC<StoryProgressProps> = ({
   stories,
@@ -40,7 +46,7 @@ const StoryProgress: React.FC<StoryProgressProps> = ({
           className="h-1 bg-white/30 flex-grow rounded-full overflow-hidden"
           onClick={() => {
             onStoryChange(index);
-            // onProgressStart();
+            if (onProgressStart) onProgressStart();
           }}
         >
           <div

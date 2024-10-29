@@ -28,15 +28,19 @@ type PropsType = {
 };
 
 /**
- * MediaInputDropzone component for handling media file uploads,
- * image cropping, and video trimming. Supports both images and videos,
- * providing an interactive UI for users to edit files before saving.
+ * @typedef {Object} PropsType
+ * @property {File | string | null} file - The file to be processed.
+ * @property {Dispatch<React.SetStateAction<File | null>>} setFile - Function to update the processed file.
+ */
+
+/**
+ * MediaInputDropzone component for handling media file uploads, cropping images, and trimming videos.
  *
- * @param {Object} props - The properties passed to the component.
- * @param {File | string | null} props.file - The initial file to be processed.
- * @param {Dispatch<React.SetStateAction<File | null>>} props.setFile - Function to set the processed file.
+ * @example
+ * <MediaInputDropzone file={file} setFile={setFileFunction} />
  *
- * @returns {JSX.Element} The rendered MediaInputDropzone component.
+ * @param {PropsType} props - Component properties.
+ * @returns {JSX.Element} The rendered component.
  */
 export default function MediaInputDropzone({ file, setFile }: PropsType) {
   const t = useTranslations("Index");

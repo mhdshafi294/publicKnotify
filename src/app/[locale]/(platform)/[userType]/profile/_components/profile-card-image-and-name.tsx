@@ -13,6 +13,18 @@ interface ProfileCardImageAndNameProps {
   stories?: Story[];
 }
 
+/**
+ * ProfileCardImageAndName Component
+ * Displays a user's profile picture, name, and a circular story indicator.
+ * If stories are available, it shows the story viewer dialog on click.
+ *
+ * @param {ProfileCardImageAndNameProps} props - Component properties.
+ * @param {string} props.name - Name of the profile owner.
+ * @param {string} props.image - Profile image URL.
+ * @param {boolean} props.isSelfProfile - Indicates if this is the user's own profile.
+ * @param {Story[]} [props.stories] - Array of stories associated with the profile.
+ * @returns {JSX.Element} The rendered ProfileCardImageAndName component.
+ */
 const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
   name,
   image,
@@ -37,6 +49,14 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
   const segmentAngle = 360 / segmentCount;
   const gapAngle = 6; // 6 degrees gap between segments
 
+  /**
+   * Creates an SVG arc path for each story segment in the circular story indicator.
+   *
+   * @param {number} startAngle - Starting angle of the segment.
+   * @param {number} endAngle - Ending angle of the segment.
+   * @param {number} radius - Radius of the circular path.
+   * @returns {string} - The SVG path data for the arc.
+   */
   const createArcPath = (
     startAngle: number,
     endAngle: number,
@@ -60,6 +80,15 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
     ].join(" ");
   };
 
+  /**
+   * Converts polar coordinates to Cartesian coordinates for creating SVG arcs.
+   *
+   * @param {number} centerX - X center of the circle.
+   * @param {number} centerY - Y center of the circle.
+   * @param {number} radius - Radius of the circle.
+   * @param {number} angleInDegrees - Angle in degrees.
+   * @returns {{x: number, y: number}} - Cartesian coordinates.
+   */
   const polarToCartesian = (
     centerX: number,
     centerY: number,
@@ -77,7 +106,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
     <>
       <div className="flex flex-col items-center">
         <div
-          className="relative cursor-pointer  size-[7.7rem] flex justify-center items-center"
+          className="relative cursor-pointer size-[7.7rem] flex justify-center items-center"
           onClick={handleOpenStories}
         >
           <Avatar className={cn("size-28", { "border-4": !stories })}>
@@ -90,8 +119,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
               {name?.slice(0, 2)}
             </AvatarFallback>
           </Avatar>
-          {(stories && stories?.length > 0) ||
-          (storyGroup && storyGroup?.stories?.length > 0) ? (
+          {stories?.length || storyGroup?.stories?.length ? (
             <svg
               className="absolute top-0 left-0 w-full h-full"
               viewBox="0 0 100 100"
@@ -110,7 +138,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
                         ? "hsl(var(--greeny))"
                         : "#8a8a8a"
                     }
-                    strokeWidth="2"
+                    strokeWidth="3"
                     strokeLinecap="round"
                   />
                 );
@@ -120,9 +148,8 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
         </div>
         <h1 className="text-2xl font-semibold text-center mt-2">{name}</h1>
       </div>
-      {isDialogOpen &&
-      ((stories && stories?.length > 0) ||
-        (storyGroup && storyGroup?.stories?.length > 0)) ? (
+
+      {isDialogOpen && (stories?.length || storyGroup?.stories?.length) ? (
         <StoriesPlayerDialog
           storyGroup={
             stories

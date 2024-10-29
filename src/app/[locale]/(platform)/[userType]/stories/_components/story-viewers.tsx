@@ -16,20 +16,29 @@ interface StoryViewersProps {
 }
 
 /**
- * The StoryViewers component renders a button that displays the number of
- * viewers for a story, and a dropdown menu that shows all the viewers. When
- * the button is clicked or touched, it toggles the visibility of the dropdown menu.
+ * StoryViewers Component
+ * Displays a button with the viewer count and a list of viewer avatars. When clicked, it opens
+ * a side panel showing all viewers with their names and types. Avatars in the button display
+ * tooltips with viewer names on hover.
  *
- * @param {{ story: SelfStory }} props - The props for the component.
- * @param {SelfStory} props.story - The story object that contains the viewers.
+ * @param {StoryViewersProps} props - Component properties.
+ * @param {SelfStory} props.story - Story object containing viewer details and count.
+ * @returns {JSX.Element} The rendered StoryViewers component.
  *
  * @example
- **/
+ * <StoryViewers story={storyObject} />
+ */
 const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
   const [isViewAllOpen, setIsViewAllOpen] = useState(false);
   const maxVisibleViewers = 5;
   const t = useTranslations("Index");
 
+  /**
+   * Handles click and touch events to toggle the visibility of the viewer dropdown panel.
+   * Prevents event propagation to avoid conflicts with other click handlers.
+   *
+   * @param {React.MouseEvent | React.TouchEvent} e - Event object for mouse or touch.
+   */
   const handleViewersTap = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -38,6 +47,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
 
   return (
     <Fragment>
+      {/* Button displaying viewer count and avatar icons */}
       <button
         className="absolute z-10 bottom-16 left-4 flex items-center bg-black/50 rounded-full px-3 py-1 cursor-pointer"
         onClick={handleViewersTap}
@@ -75,9 +85,10 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
         </div>
       </button>
 
+      {/* Dropdown panel listing all viewers */}
       <div
         className={cn(
-          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/95 rounded-t-lg lg:rounded-none lg:rounded-r-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-right-0 data-[state=open]:slide-in-from-right-0 duration-200 md:duration-300 ease-in-out lg:translate-x-full z-20",
+          "fixed inset-y-0 right-0 w-full sm:w-96 bg-black/95 rounded-t-lg lg:rounded-none lg:rounded-r-2xl duration-200 md:duration-300 ease-in-out z-20 lg:translate-x-full",
           isViewAllOpen
             ? "opacity-100 lg:translate-y-0 z-20"
             : "opacity-0 translate-y-full"

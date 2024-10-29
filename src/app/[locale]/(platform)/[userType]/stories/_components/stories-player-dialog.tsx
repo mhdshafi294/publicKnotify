@@ -14,6 +14,7 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -145,18 +146,34 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
     },
   });
 
-  const markStoryRead = useCallback(
-    debounce((storyId: string) => {
-      if (
-        session?.user?.type &&
-        session?.user?.type !== "podcaster" &&
-        !markedAsReadRef.current.has(storyId)
-      ) {
-        server_markStoryRead({ id: storyId, type: session.user.type });
-      }
-    }, 300),
+  // Create a debounced version of the function outside of useCallback
+  const debouncedMarkStoryRead = useMemo(
+    () =>
+      debounce((storyId: string) => {
+        if (
+          session?.user?.type &&
+          session?.user?.type !== "podcaster" &&
+          !markedAsReadRef.current.has(storyId)
+        ) {
+          server_markStoryRead({ id: storyId, type: session.user.type });
+        }
+      }, 300),
     [server_markStoryRead, session?.user?.type]
   );
+
+  const markStoryRead = useCallback(
+    (storyId: string) => {
+      debouncedMarkStoryRead(storyId);
+    },
+    [debouncedMarkStoryRead]
+  );
+
+  // Cleanup the debounce on component unmount
+  useEffect(() => {
+    return () => {
+      debouncedMarkStoryRead.cancel();
+    };
+  }, [debouncedMarkStoryRead]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -206,6 +223,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
 
       return () => clearTimeout(markAsReadTimeout);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPaused, storyGroup.stories, currentStoryIndex, markStoryRead]);
 
   useEffect(() => {

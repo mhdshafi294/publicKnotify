@@ -1,5 +1,14 @@
 // lib/cropUtils.ts
 
+/**
+ * Returns a blob of the cropped image
+ *
+ * @param {string} imageSrc URL of the image
+ * @param {object} crop Object with crop properties (x, y, width, height)
+ *
+ * @returns {Promise<string>} Promise that resolves to a blob URL of the cropped image
+ */
+
 export const getCroppedImg = async (imageSrc: string, crop: any) => {
   const image = new Image();
   image.src = imageSrc;

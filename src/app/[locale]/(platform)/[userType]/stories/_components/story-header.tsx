@@ -10,6 +10,22 @@ interface StoryHeaderProps {
   createdAt: string;
 }
 
+/**
+ * StoryHeader Component
+ * Displays the header for a story, including the podcaster's avatar, name,
+ * and the time since the story was created.
+ *
+ * @param {StoryHeaderProps} props - Component properties.
+ * @param {{ id: number; name: string; image: string }} props.podcaster - Podcaster details.
+ * @param {string} props.createdAt - Creation timestamp of the story.
+ * @returns {JSX.Element} The rendered StoryHeader component.
+ *
+ * @example
+ * <StoryHeader
+ *   podcaster={{ id: 1, name: "Podcaster Name", image: "/path/to/image.jpg" }}
+ *   createdAt="2023-09-01T12:34:56Z"
+ * />
+ */
 const StoryHeader: React.FC<StoryHeaderProps> = ({ podcaster, createdAt }) => {
   return (
     <div className="absolute top-5 left-0 right-0 z-10 flex items-center p-4 bg-gradient-to-b from-black/20 to-transparent">

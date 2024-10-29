@@ -1,18 +1,32 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
-import { Transaction } from "@/types/wallet";
 import { format } from "date-fns";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React from "react";
 
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
+import { Transaction } from "@/types/wallet";
+
 type TransactionCardProps = {
   transaction: Transaction;
 };
 
+/**
+ * TransactionCard Component
+ * Displays information for a transaction in a card layout. Links to the associated contract page.
+ * Shows company details, transaction ID, status, amount, and date.
+ *
+ * @param {TransactionCardProps} props - Component properties.
+ * @param {Transaction} props.transaction - The transaction object containing details to be displayed.
+ * @returns {Promise<JSX.Element>} The rendered TransactionCard component.
+ *
+ * @example
+ * ```jsx
+ * <TransactionCard transaction={transaction} />
+ * ```
+ */
 const TransactionCard: React.FC<TransactionCardProps> = async ({
   transaction,
 }) => {
@@ -23,6 +37,7 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
     <Link href={`contracts/${transaction?.contract?.id}`}>
       <div className="w-full p-4 rounded-2xl bg-background hover:bg-border-secondary duration-150 space-y-5">
         <div className="w-full flex justify-between">
+          {/* Company Logo and Details */}
           <div className="w-full flex gap-5">
             <Image
               src={
@@ -47,6 +62,8 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
               </div>
             </div>
           </div>
+
+          {/* Transaction Status, Amount, and Date */}
           <div className="flex flex-col justify-between items-end w-fit gap-2">
             <Badge
               className={cn(
@@ -69,7 +86,8 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
             </p>
           </div>
         </div>
-        {/* <Separator className="w-full opacity-20" /> */}
+
+        {/* Transaction Description */}
         <p className="text-xs opacity-90 dark:opacity-70">
           {transaction?.description}
         </p>
