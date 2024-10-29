@@ -1,59 +1,65 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
+  ZoomableGroupProps,
 } from "react-simple-maps";
-import { scaleLinear } from "d3-scale";
+import { scaleQuantile } from "d3-scale";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { Card, CardContent } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 
 const geoUrl = "/world-countries.json";
+const usStatesUrl = "/us-states.json";
 
-const colorScale = scaleLinear<string>()
-  .domain([0, 11])
-  .range(["#f0f0f0", "#2662d9"]);
-
-interface DownloadData {
-  country: string;
+type DownloadData = {
+  name: string;
   count: number;
-}
+  subRegions?: DownloadData[];
+};
 
-/**
- * Functional component that displays a map of downloads.
- * @param {Object} downloads - An array of DownloadData objects representing the downloads.
- * @param {Array<DownloadData>} downloads - An array of DownloadData objects representing the downloads.
- * @returns {JSX.Element} - A map component displaying the downloads.
- */
-export default function DownloadsMap({
-  downloads = [],
-}: {
-  downloads?: DownloadData[];
-}) {
+type MapChartProps = {
+  downloads: DownloadData[];
+};
+
+export default function MapChart({ downloads }: MapChartProps) {
   const t = useTranslations("Index");
-  const [activeCountry, setActiveCountry] = useState<DownloadData | null>(null);
+  const [activeRegion, setActiveRegion] = useState<DownloadData | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState<{
+    coordinates: [number, number];
+    zoom: number;
+  }>({ coordinates: [0, 0], zoom: 1 });
 
-  const getDownloadCount = useCallback(
-    (countryName: string) => {
-      if (!downloads || downloads.length === 0) return 0;
-      const country = downloads.find((d) => d.country === countryName);
-      return country ? country.count : 0;
-    },
+  const colorScale = useMemo(
+    () =>
+      scaleQuantile<string>()
+        .domain(downloads.map((d) => d.count))
+        .range(["#f0f0f0", "#2662d9"]),
     [downloads]
   );
 
+  const handleZoomEnd: ZoomableGroupProps["onMoveEnd"] = (event) => {
+    setPosition(event);
+  };
+
+  const visibleRegions = useMemo(() => {
+    if (position.zoom < 4) return downloads;
+    const country = downloads.find((d) => d.subRegions);
+    return country ? country.subRegions || [] : [];
+  }, [downloads, position.zoom]);
+
   if (!downloads || downloads.length === 0) {
     return (
-      <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
+      <Card className="relative w-full overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
         <CardContent>
           <p className="text-white text-lg">
             {t("no-download-data-available")}
@@ -64,31 +70,38 @@ export default function DownloadsMap({
   }
 
   return (
-    <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none">
+    <Card className="relative w-full overflow-hidden dark:bg-[#040a1b] rounded-xl border-none">
       <CardContent className="p-0">
         <ComposableMap projection="geoMercator">
-          <ZoomableGroup center={[0, 680]} zoom={0.85}>
-            <Geographies geography={geoUrl}>
+          <ZoomableGroup
+            zoom={position.zoom}
+            center={position.coordinates}
+            onMoveEnd={handleZoomEnd}
+          >
+            <Geographies geography={position.zoom >= 4 ? usStatesUrl : geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
-                  const count = getDownloadCount(geo.properties.name);
+                  const region = visibleRegions.find(
+                    (d) => d.name === geo.properties.name
+                  );
+                  const count = region ? region.count : 0;
                   return (
                     <Geography
                       key={geo.rsmKey}
                       geography={geo}
                       fill={colorScale(count)}
                       stroke="#D6D6DA"
-                      strokeWidth={0.3}
+                      strokeWidth={0.5}
                       onMouseEnter={(event) => {
-                        const { clientX, clientY } = event;
+                        const { clientX, clientY } = event.nativeEvent;
                         setHoverPosition({ x: clientX, y: clientY });
-                        setActiveCountry({
-                          country: geo.properties.name,
+                        setActiveRegion({
+                          name: geo.properties.name,
                           count: count,
                         });
                       }}
                       onMouseLeave={() => {
-                        setActiveCountry(null);
+                        setActiveRegion(null);
                       }}
                       style={{
                         default: { outline: "none" },
@@ -102,7 +115,7 @@ export default function DownloadsMap({
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
-        {activeCountry && (
+        {activeRegion && (
           <HoverCard open={true}>
             <HoverCardTrigger asChild>
               <div
@@ -123,10 +136,10 @@ export default function DownloadsMap({
                 <div className="space-y-1">
                   <h4 className="text-base font-bold gap-3 flex items-center">
                     <div className="size-2 bg-primary rounded-full" />
-                    {activeCountry.country}
+                    {activeRegion.name}
                   </h4>
                   <p className="text-sm gap-2 flex items-center ms-5">
-                    <span className="font-semibold">{activeCountry.count}</span>
+                    <span className="font-semibold">{activeRegion.count}</span>
                     <span className="capitalize text-xs opacity-75">
                       {t("downloads")}
                     </span>

@@ -11,6 +11,7 @@ import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
 import DownloadsMap from "./downloads-map";
+import EnhancedDownloadsMap from "./enhanced-downloads-map";
 
 type DownloadsMapCardProps = {
   showId: string;
@@ -79,7 +80,23 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         </div>
       </div>
       {/* {map} */}
-      {visitorData ? (
+      <EnhancedDownloadsMap
+        downloads={[
+          {
+            name: "United States",
+            count: 33,
+            subRegions: [
+              {
+                name: "California",
+                count: 22,
+              },
+              // Add other states here
+            ],
+          },
+          // Add other countries here
+        ]}
+      />
+      {/* {visitorData ? (
         <DownloadsMap downloads={visitorData.downloads_by_location} />
       ) : isPending ? (
         <DownloadsMap
@@ -92,7 +109,7 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         />
       ) : data ? (
         <DownloadsMap downloads={data.downloads_by_location} />
-      ) : null}
+      ) : null} */}
     </DashboardCardContainer>
   );
 };
