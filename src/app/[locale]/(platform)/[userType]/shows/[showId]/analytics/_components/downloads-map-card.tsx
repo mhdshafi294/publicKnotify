@@ -80,7 +80,7 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         </div>
       </div>
       {/* {map} */}
-      <EnhancedDownloadsMap
+      {/* <EnhancedDownloadsMap
         downloads={[
           {
             name: "United States",
@@ -95,8 +95,8 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
           },
           // Add other countries here
         ]}
-      />
-      {/* {visitorData ? (
+      /> */}
+      {visitorData ? (
         <DownloadsMap downloads={visitorData.downloads_by_location} />
       ) : isPending ? (
         <DownloadsMap
@@ -109,7 +109,7 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         />
       ) : data ? (
         <DownloadsMap downloads={data.downloads_by_location} />
-      ) : null} */}
+      ) : null}
     </DashboardCardContainer>
   );
 };
