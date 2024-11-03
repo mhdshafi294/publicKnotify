@@ -1,19 +1,17 @@
 import { getContractsAction } from "@/app/actions/contractActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import Search from "@/components/search";
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
 import { Link, redirect } from "@/navigation";
+import { FilePlus2Icon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
-import React from "react";
+import ContractStatusFilter from "./_components/contract-status-filter";
 import InfiniteScrollContracts from "./_components/infinite-scroll-contracts";
 import SelectCompanyFilter from "./_components/select-company-filter";
 import SelectPodcasterFilter from "./_components/select-podcaster-filter";
 import SelectRequestFilter from "./_components/select-request-filter";
-import ContractStatusFilter from "./_components/contract-status-filter";
-import { FilePlus2Icon } from "lucide-react";
 
 /**
  * Renders the ContractsPage component with the specified parameters.

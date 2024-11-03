@@ -2,7 +2,7 @@
 
 import { getShowCountryStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
-import { EnabledStatistics, ShowCountryStatistics } from "@/types/statistics";
+import { ShowCountryStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -11,7 +11,6 @@ import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
 import DownloadsMap from "./downloads-map";
-import EnhancedDownloadsMap from "./enhanced-downloads-map";
 
 type DownloadsMapCardProps = {
   showId: string;
