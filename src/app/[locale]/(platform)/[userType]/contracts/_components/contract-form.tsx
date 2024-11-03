@@ -196,7 +196,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
 
   return (
     <MaxWidthContainer>
-      <main className="flex flex-col flex-1 items-center justify-start gap-6 w-full min-h-[calc(100vh_-_112px)]">
+      <main className="flex flex-col flex-1 items-center justify-start gap-6 w-full min-h-[calc(100vh_-_112px)] py-10">
         <Form {...form}>
           <form
             className="w-full h-full flex flex-col flex-1 px-0"
