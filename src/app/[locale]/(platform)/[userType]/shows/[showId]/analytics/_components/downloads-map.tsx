@@ -67,7 +67,7 @@ export default function DownloadsMap({
     <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none">
       <CardContent className="p-0">
         <ComposableMap projection="geoMercator">
-          <ZoomableGroup center={[0, 680]} zoom={0.85}>
+          <ZoomableGroup center={[0, 680]} zoom={0.75}>
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
@@ -78,10 +78,10 @@ export default function DownloadsMap({
                       geography={geo}
                       fill={colorScale(count)}
                       stroke="#D6D6DA"
-                      strokeWidth={0.3}
+                      strokeWidth={0.4}
                       onMouseEnter={(event) => {
                         const { clientX, clientY } = event;
-                        setHoverPosition({ x: clientX, y: clientY });
+                        setHoverPosition({ x: clientX + 25, y: clientY - 55 });
                         setActiveCountry({
                           country: geo.properties.name,
                           count: count,

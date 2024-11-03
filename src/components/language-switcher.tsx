@@ -41,7 +41,7 @@ export function LanguageSwitcher() {
           {isDesktop ? (
             <DropdownMenuItem className="hidden md:flex">
               <Globe className="size-4 me-2" />
-              <span>{t("language")}</span>
+              <span>{t("Language")}</span>
             </DropdownMenuItem>
           ) : (
             <Button

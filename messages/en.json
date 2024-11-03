@@ -590,7 +590,10 @@
     "selected-show": "Selected Show",
     "more-detailed-stats": "More detailed stats",
     "no-show-created-by-this-podcaster-yet": "No show created by this podcaster yet",
-    "subsicribe": "Subsicribe"
+    "subsicribe": "Subsicribe",
+    "Profile": "Profile",
+    "Contracts": "Contracts",
+    "Language": "Language"
   },
   "notifications": {
     "notifications": "notifications"

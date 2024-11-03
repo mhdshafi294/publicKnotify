@@ -101,7 +101,7 @@ const UserOptions = () => {
             >
               <DropdownMenuItem>
                 <User className="me-2 h-4 w-4" />
-                <span>{t("profile")}</span>
+                <span>{t("Profile")}</span>
               </DropdownMenuItem>
             </Link>
             {session?.user?.type === "podcaster" ? (
@@ -129,7 +129,7 @@ const UserOptions = () => {
               <Link href={`/${session?.user?.type}/contracts`}>
                 <DropdownMenuItem>
                   <HandshakeIcon className="me-2 h-4 w-4" />
-                  <span>{t("contracts")}</span>
+                  <span>{t("Contracts")}</span>
                 </DropdownMenuItem>
               </Link>
             ) : null}

@@ -562,7 +562,10 @@
     "hourly-views": "المشاهدات كل ساعة",
     "time-of-day": "الوقت من اليوم",
     "no-show-created-by-this-podcaster-yet": "لم يتم انشاء عرض لهذا البودكاست بعد",
-    "subsicribe": "اشترك"
+    "subsicribe": "اشترك",
+    "Profile": "الملف الشخصي",
+    "Contracts": "العقود",
+    "Language": "اللغة"
   },
   "notifications": {
     "notifications": "notifications"
