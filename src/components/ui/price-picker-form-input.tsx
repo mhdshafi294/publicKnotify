@@ -70,7 +70,9 @@ function PricePickerFormInput<T extends FieldValues>({
                   onChange={(e) => setDollars(e.target.value)}
                   value={dollars}
                 />
-                <p className="text-xs opacity-70 font-bold">{t("dollars")}</p>
+                <p className="text-xs opacity-70 font-bold capitalize">
+                  {t("dollars")}
+                </p>
               </div>
               <span className="self-baseline ">.</span>
               <div className="flex flex-col gap-0.5 flex-1">
@@ -84,7 +86,9 @@ function PricePickerFormInput<T extends FieldValues>({
                   onChange={(e) => setCents(e.target.value)}
                   value={cents}
                 />
-                <p className="text-xs opacity-70 font-bold">{t("cents")}</p>
+                <p className="text-xs opacity-70 font-bold capitalize">
+                  {t("cents")}
+                </p>
               </div>
             </div>
           </FormControl>
