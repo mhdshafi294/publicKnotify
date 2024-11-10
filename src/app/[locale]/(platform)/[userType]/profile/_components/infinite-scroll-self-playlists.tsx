@@ -108,7 +108,7 @@ const InfiniteScrollSelfPlaylists = ({
   return (
     <Carousel opts={{ slidesToScroll: "auto", direction }} className="w-full">
       <div className="flex justify-between items-center">
-        <h2 className="font-bold text-2xl">{t("playlists")}</h2>
+        <h2 className="font-bold text-2xl">{t("shows")}</h2>
         <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />

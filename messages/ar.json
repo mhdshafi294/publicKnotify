@@ -565,7 +565,12 @@
     "subsicribe": "اشترك",
     "Profile": "الملف الشخصي",
     "Contracts": "العقود",
-    "Language": "اللغة"
+    "Language": "اللغة",
+    "contract-draft": "مسودة العقد",
+    "shows": "العروض",
+    "Assign": "تعيين",
+    "Month": "شهر",
+    "Annual": "سنوي"
   },
   "notifications": {
     "notifications": "notifications"

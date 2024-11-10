@@ -76,6 +76,7 @@ export const TIME = "/time";
 export const PLATFORM = "/platform";
 export const COUNTRY = "/country";
 export const PODCASTER_PLAYLIST = "/podcaster-playlist";
+export const PLANS = "/plans";
 
 // Social interaction endpoints
 export const POST_URL = "/post";

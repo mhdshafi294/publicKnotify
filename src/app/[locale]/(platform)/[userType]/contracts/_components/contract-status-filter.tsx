@@ -40,7 +40,7 @@ const ContractStatusFilter = ({ status }: { status?: string }) => {
         numCode: session?.user?.type === "podcaster" ? "1" : "2",
         title: t("pending"),
       },
-      { numCode: "2", title: t("acceptedByAdmin") },
+      // { numCode: "2", title: t("acceptedByAdmin") },
       { numCode: "3", title: t("rejected") },
       { numCode: "4", title: t("payed") },
       { numCode: "5", title: t("expired") },

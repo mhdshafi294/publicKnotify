@@ -593,7 +593,12 @@
     "subsicribe": "Subsicribe",
     "Profile": "Profile",
     "Contracts": "Contracts",
-    "Language": "Language"
+    "Language": "Language",
+    "contract-draft": "Contract Draft",
+    "shows": "Shows",
+    "Assign": "Assign",
+    "Month": "Month",
+    "Annual": "Annual"
   },
   "notifications": {
     "notifications": "notifications"

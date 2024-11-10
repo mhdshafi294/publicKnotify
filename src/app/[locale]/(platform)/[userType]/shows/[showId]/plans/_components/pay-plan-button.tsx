@@ -1,30 +1,39 @@
 "use client";
 
-import { assignPaymentAction } from "@/app/actions/profileActions";
+import { payPlanAction } from "@/app/actions/planActions";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { BanknoteIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import React from "react";
 import { toast } from "sonner";
 
-type PayButtonProps = {
+type PayPlanButtonProps = {
   disabled?: boolean;
   session?: Session;
+  playlist_id: string;
+  plan_id: string;
+  is_special?: boolean;
 };
 
 /**
  * Functional component for a payment button in a React application.
- * @param {PayButtonProps} disabled - Flag to disable the button.
- * @param {PayButtonProps} session - Session information for the payment.
+ * @param {PayPlanButtonProps} disabled - Flag to disable the button.
+ * @param {PayPlanButtonProps} session - Session information for the payment.
  * @returns A button component for initiating a payment action.
  */
-const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
+const PayPlanButton: React.FC<PayPlanButtonProps> = ({
+  disabled,
+  session,
+  playlist_id,
+  plan_id,
+  is_special,
+}) => {
   const t = useTranslations("Index");
 
-  const { mutate: server_assignPaymentAction, isPending } = useMutation({
-    mutationFn: assignPaymentAction,
+  const { mutate: server_payPlanAction, isPending } = useMutation({
+    mutationFn: payPlanAction,
     onMutate: () => {
       toast.loading(t("processing"));
     },
@@ -43,21 +52,27 @@ const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
   });
 
   const handlePayment = () => {
-    server_assignPaymentAction({ type: "podcaster" });
+    server_payPlanAction({
+      type: session?.user?.type as string,
+      playlist_id,
+      plan_id,
+    });
   };
 
   return (
     <Button
-      variant="default"
-      className="w-full text-xl gap-2 items-center font-bold bg-foreground text-background hover:bg-background hover:text-foreground"
+      variant={is_special ? "default" : "outline"}
+      className={cn(
+        "w-full text-xl gap-2 items-center font-bold  rounded-full",
+        { "bg-[#1ED760] hover:bg-[#1ED760]/90": is_special }
+      )}
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}
     >
-      {t("Assign")}
-      <BanknoteIcon />
+      {t("subsicribe")}
     </Button>
   );
 };
 
-export default AssignPayButton;
+export default PayPlanButton;

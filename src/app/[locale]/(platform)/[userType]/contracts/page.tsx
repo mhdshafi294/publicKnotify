@@ -1,12 +1,13 @@
+import { FilePlus2Icon } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
+
 import { getContractsAction } from "@/app/actions/contractActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
 import { Link, redirect } from "@/navigation";
-import { FilePlus2Icon } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { getTranslations } from "next-intl/server";
 import ContractStatusFilter from "./_components/contract-status-filter";
 import InfiniteScrollContracts from "./_components/infinite-scroll-contracts";
 import SelectCompanyFilter from "./_components/select-company-filter";
