@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axios.config";
-import { PLANS } from "@/lib/apiEndPoints";
+import { BUY, PLANS } from "@/lib/apiEndPoints";
 import { PayPlanResponse } from "@/types/plan";
 
 const payPlan = async ({
@@ -14,7 +14,7 @@ const payPlan = async ({
   type: string;
 }) => {
   const { data } = await axiosInstance.get<PayPlanResponse>(
-    `/${type}${PLANS}/${plan_id}/${playlist_id}`,
+    `/${type}${PLANS}${BUY}/${plan_id}/${playlist_id}`,
     {
       params: {
         annual,

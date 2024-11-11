@@ -77,6 +77,7 @@ export const PLATFORM = "/platform";
 export const COUNTRY = "/country";
 export const PODCASTER_PLAYLIST = "/podcaster-playlist";
 export const PLANS = "/plans";
+export const BUY = "/buy";
 
 // Social interaction endpoints
 export const POST_URL = "/post";
