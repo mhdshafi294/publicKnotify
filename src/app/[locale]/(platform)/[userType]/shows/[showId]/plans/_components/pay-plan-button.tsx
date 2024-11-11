@@ -6,15 +6,16 @@ import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 type PayPlanButtonProps = {
   disabled?: boolean;
-  session?: Session;
+  session: Session;
   playlist_id: string;
   plan_id: string;
-  is_special?: boolean;
+  best_deal?: boolean;
+  annual?: boolean;
 };
 
 /**
@@ -28,8 +29,16 @@ const PayPlanButton: React.FC<PayPlanButtonProps> = ({
   session,
   playlist_id,
   plan_id,
-  is_special,
+  best_deal,
+  annual,
 }) => {
+  const [mounted, setMounted] = React.useState(false);
+
+  useEffect(() => {
+    if (!mounted) setMounted(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const t = useTranslations("Index");
 
   const { mutate: server_payPlanAction, isPending } = useMutation({
@@ -56,21 +65,22 @@ const PayPlanButton: React.FC<PayPlanButtonProps> = ({
       type: session?.user?.type as string,
       playlist_id,
       plan_id,
+      annual: annual ? "1" : "0",
     });
   };
 
   return (
     <Button
-      variant={is_special ? "default" : "outline"}
+      variant={annual ? "default" : "outline"}
       className={cn(
         "w-full text-xl gap-2 items-center font-bold  rounded-full",
-        { "bg-[#1ED760] hover:bg-[#1ED760]/90": is_special }
+        { "bg-[#1ED760] hover:bg-[#1ED760]/90": annual }
       )}
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}
     >
-      {t("subsicribe")}
+      {t("subsicribe")} {annual ? t("Annual") : t("Monthly")}
     </Button>
   );
 };

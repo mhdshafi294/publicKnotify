@@ -570,11 +570,18 @@
     "shows": "العروض",
     "Assign": "تعيين",
     "Month": "شهر",
-    "Annual": "سنوي"
+    "Annual": "سنوي",
+    "pick-your-premium": "اختر الباقة الخاصة بك",
+    "upgrade-to-knotify-premium-and-take-your-music-journey-to-the-next-level-enjoy-uninterrupted-music-playback-even-in-offline-mode": " ترقية الى باقة Knotify Premium وافتح الرحلة الاغنية الخاصة بك للانتقاء من الحلقات السلوكية",
+    "more": "المزيد",
+    "terms-and-conditions-apply": "تطبيق الشروط والاحكام",
+    "Monthly": "شهري"
   },
   "notifications": {
     "notifications": "notifications"
   },
   "no-podcasts-in-this-playlist-yet": "",
-  "chat": "محادثة"
+  "chat": "محادثة",
+  "pick-your-premium": "",
+  "more": ""
 }

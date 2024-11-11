@@ -2,16 +2,20 @@ import { getPlansAction } from "@/app/actions/planActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 import PlanCard from "./_components/plan-card";
+import VisaIcon from "@/components/icons/visa-icon";
+import MastercardIcon from "@/components/icons/mastercard-icon";
+import GooglePayIcon from "@/components/icons/google-pay-icon";
+import ApplePayIcon from "@/components/icons/apple-pay-icon";
 
 const PlansPage = async ({
   params,
   searchParams,
 }: {
-  params: { userType: string; showId: string };
+  params: { lang: string; userType: string; showId: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   // Fetching the current session using NextAuth's getServerSession
@@ -32,6 +36,8 @@ const PlansPage = async ({
   // Fetching the contracts based on session type, search query, and status filters
   const contractsResponse = await getPlansAction({
     type: session?.user?.type!,
+    playlist_id: params.showId,
+    lang: params.lang,
   });
 
   return (
@@ -39,16 +45,31 @@ const PlansPage = async ({
       <main className="flex flex-col items-center gap-24 w-full">
         <div className="flex flex-col gap-5 w-full">
           <h1 className="text-6xl font-bold leading-[70px] tracking-[0.01em] text-center">
-            Pick Your Premium
+            {t("pick-your-premium")}
           </h1>
           <p className="text-sm font-semibold leading-5 text-center ">
-            Upgrade to Knotify Premium and take your music journey to the next
-            level. Enjoy uninterrupted music playback, even in offline mode
+            {t(
+              "upgrade-to-knotify-premium-and-take-your-music-journey-to-the-next-level-enjoy-uninterrupted-music-playback-even-in-offline-mode"
+            )}
           </p>
+          <div className="flex justify-center items-center gap-4">
+            <ApplePayIcon className="h-10 w-fit" />
+            <VisaIcon className="h-12 w-fit" />
+            <MastercardIcon className="h-10 w-fit" />
+            <GooglePayIcon className="h-10 w-fit" />
+            <span className="font-bold text-muted-foreground">
+              +{t("more")}
+            </span>
+          </div>
         </div>
         <div className="flex justify-center gap-3 w-full">
           {contractsResponse?.plans?.map((plan) => (
-            <PlanCard key={plan.id} playlist_id={params.showId} {...plan} />
+            <PlanCard
+              key={plan.id}
+              playlist_id={params.showId}
+              session={session as Session}
+              {...plan}
+            />
           ))}
         </div>
       </main>

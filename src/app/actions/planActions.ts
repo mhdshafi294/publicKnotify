@@ -11,9 +11,19 @@ import payPlan from "@/services/plans/pay-plan";
  * @returns {Promise<Object>} - The API response containing the list of plans.
  */
 
-export const getPlansAction = async ({ type }: { type: string }) => {
+export const getPlansAction = async ({
+  type,
+  playlist_id,
+  lang,
+}: {
+  type: string;
+  playlist_id: string;
+  lang: string;
+}) => {
   return await getPalns({
     type,
+    playlist_id,
+    lang,
   });
 };
 
