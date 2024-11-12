@@ -1,19 +1,11 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import React from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Plan } from "@/types/plan";
 import { Session } from "next-auth";
-import PayPlanButton from "./pay-plan-button";
+import SubscribeMonthlyYearly from "./subscribe-monthly-yearly";
 
 type PlanCardProps = Plan & {
   playlist_id: string;
@@ -81,43 +73,12 @@ const PlanCard: React.FC<PlanCardProps> = async ({ ...props }) => {
         {props.translations.find((t) => t.locale === locale)?.description}
       </p> */}
       <div className="mt-auto justify-self-end space-y-2">
-        {/* <PayPlanButton
+        <SubscribeMonthlyYearly
           playlist_id={props.playlist_id}
-          plan_id={props.id.toString()}
+          id={props.id}
           best_deal={props.best_deal}
-        /> */}
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button
-              variant={props.best_deal ? "default" : "outline"}
-              className={cn(
-                "w-full text-xl gap-2 items-center font-bold  rounded-full",
-                { "bg-[#1ED760] hover:bg-[#1ED760]/90": props.best_deal }
-              )}
-              size="lg"
-            >
-              {t("subsicribe")}
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-            </DialogHeader>
-            <PayPlanButton
-              playlist_id={props.playlist_id}
-              plan_id={props.id.toString()}
-              best_deal={props.best_deal}
-              session={props.session}
-            />
-            <PayPlanButton
-              playlist_id={props.playlist_id}
-              plan_id={props.id.toString()}
-              best_deal={props.best_deal}
-              session={props.session}
-              annual
-            />
-          </DialogContent>
-        </Dialog>
+          session={props.session}
+        />
 
         <div className="w-fit">
           <p className="text-xs opacity-80">
