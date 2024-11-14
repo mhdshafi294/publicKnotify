@@ -1,12 +1,16 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { checkCodeSchema, forgotPasswordSchema } from "@/schema/authSchema";
-import { useRouter } from "@/navigation";
+import {
+  confirmCheckCodeAction,
+  sendCodeAction,
+} from "@/app/actions/authActions";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
 import {
   Form,
   FormControl,
@@ -20,12 +24,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
-import {
-  confirmCheckCodeAction,
-  sendCodeAction,
-} from "@/app/actions/authActions";
+import { useRouter } from "@/navigation";
+import { checkCodeSchema, forgotPasswordSchema } from "@/schema/authSchema";
 
 interface CheckCodeProps {
   params: { userType: string };
@@ -83,7 +83,7 @@ const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
   const handleSubmit = async (data: checkCodeSchema) => {
     server_ConfirmCheckCode({
       code: data.code,
-      phone: searchParams.phone as string,
+      phone: `${searchParams.phone_code}${searchParams.phone}` as string,
       type: params.userType,
     });
   };

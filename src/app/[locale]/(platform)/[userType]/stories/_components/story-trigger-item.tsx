@@ -133,8 +133,8 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
       onClick={handleOpenStories}
       className="flex flex-col items-center space-y-2"
     >
-      <div className="relative size-[4rem] lg:size-[6rem] flex justify-center items-center">
-        <Avatar className="size-[3.6rem] lg:size-[5.5rem] border-2 border-transparent">
+      <div className="relative size-[4rem] xl:size-[6rem] flex justify-center items-center">
+        <Avatar className="size-[3.6rem] xl:size-[5.5rem] border-2 border-transparent">
           <AvatarImage
             src={storyGroup.podcaster.image}
             alt={storyGroup.podcaster.name}
@@ -145,7 +145,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
           </AvatarFallback>
         </Avatar>
         <svg
-          className="absolute top-0 left-0 size-[4rem] lg:size-[6rem] stroke-[#8a8a8a]"
+          className="absolute top-0 left-0 size-[4rem] xl:size-[6rem] stroke-[#8a8a8a]"
           viewBox="0 0 100 100"
         >
           {Array.from({ length: segmentCount }).map((_, i) => {
@@ -158,7 +158,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 d={createArcPath(startAngle, endAngle, 48)}
                 fill="none"
                 stroke={
-                  story && !story.is_viewd ? "hsl(var(--greeny))" : "#8a8a8a"
+                  story && !story.is_viewd ? "hsl(var(--primary))" : "#8a8a8a"
                 }
                 strokeWidth="2.5"
                 strokeLinecap="round"
@@ -167,7 +167,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
           })}
         </svg>
       </div>
-      <span className="text-xs lg:text-sm font-medium truncate max-w-[80px]">
+      <span className="text-xs xl:text-sm font-medium truncate max-w-16 xl:max-w-[80px]">
         {storyGroup.podcaster.name}
       </span>
     </button>
