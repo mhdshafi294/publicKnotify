@@ -128,7 +128,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
     <div className="mx-auto aspect-video relative">
       <video
         ref={videoRef} // Attach the ref to the video element
-        className="size-full object-cover rounded-md"
+        className="size-full object-cover rounded-md rounded-b-none"
         controlsList="nodownload"
         poster={thumbnail}
         src={src}

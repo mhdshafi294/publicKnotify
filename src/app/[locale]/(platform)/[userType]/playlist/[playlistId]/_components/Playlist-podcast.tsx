@@ -3,12 +3,12 @@ import { getServerSession } from "next-auth"; // External dependency for session
 import { getTranslations } from "next-intl/server"; // External dependency for internationalization
 
 // Local imports
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
-import { getPodcastDetailsAction } from "@/app/actions/podcastActions"; // Internal action import
 import AudioPodcast from "@/app/[locale]/(platform)/[userType]/podcast/_components/audio-podcast"; // Internal component import
 import VideoPodcast from "@/app/[locale]/(platform)/[userType]/podcast/_components/video-podcast"; // Internal component import
-import { SelfPodcastDetails } from "@/types/podcast"; // Internal type definitions
+import { getPodcastDetailsAction } from "@/app/actions/podcastActions"; // Internal action import
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
+import { SelfPodcastDetails } from "@/types/podcast"; // Internal type definitions
 
 /**
  * PlaylistPodcast Component
@@ -30,10 +30,12 @@ const PlaylistPodcast = async ({
   params,
   searchParams,
   podcasts,
+  playlistName,
 }: {
   params: { userType: string; playlistId: string };
   searchParams: { [key: string]: string | string[] | undefined };
   podcasts: SelfPodcastDetails[];
+  playlistName: string;
 }) => {
   const session = await getServerSession(authOptions);
   const t = await getTranslations("Index");
@@ -47,7 +49,8 @@ const PlaylistPodcast = async ({
   });
 
   return (
-    <MaxWidthContainer className="lg:ms-[20dvw] flex justify-center pb-10">
+    <MaxWidthContainer className="lg:ms-[20dvw] flex justify-center flex-col gap-4 ">
+      <h2 className="text-3xl font-bold capitalize w-fit">{playlistName}</h2>
       {podcast.type === "audio" ? (
         <AudioPodcast podcast={podcast} />
       ) : (

@@ -1,17 +1,15 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react"; // Core React imports
+import { useEffect, useRef, useState } from "react"; // Core React imports
 
+import { buttonVariants } from "@/components/ui/button"; // Internal button styles
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"; // Internal component imports
 import { cn, getDirection, getDistanceToNow } from "@/lib/utils"; // Internal utility functions
-import { useRouter } from "next/navigation"; // External dependency for navigation
 import { SelfPodcastDetails } from "@/types/podcast"; // Internal type definitions
-import { PlayIcon } from "lucide-react"; // External dependency for icons
-import { useSearchParams } from "next/navigation"; // External dependency for URL search params
-import { buttonVariants } from "@/components/ui/button"; // Internal button styles
-import ThumbnailsCover from "@/components/thumbnails-cover"; // Internal component for thumbnails
-import Image from "next/image"; // External dependency for images
+import { AlignLeftIcon, PlayIcon } from "lucide-react"; // External dependency for icons
 import { useLocale, useTranslations } from "next-intl"; // External dependencies for internationalization
+import Image from "next/image"; // External dependency for images
+import { useRouter, useSearchParams } from "next/navigation"; // External dependency for navigation
 
 /**
  * SideScrollPlaylistPodcasts Component
@@ -66,18 +64,19 @@ const SideScrollPlaylistPodcasts = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:absolute lg:bottom-0 lg:left-0 lg:bg-card-secondary lg:border lg:border-card-foreground/10 pt-10 lg:z-40",
+        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:absolute lg:left-0 pt-10 lg:pt-0 lg:z-40 ps-3",
         { "lg:rounded-tr-3xl": dir === "ltr" },
         { "lg:rounded-tl-3xl": dir === "rtl" }
       )}
     >
-      <ThumbnailsCover title={playlistName} className="hidden lg:flex" />
-      <h2 className="text-2xl font-bold lg:hidden text-center capitalize">
-        {playlistName}
-      </h2>
-      <ul className="w-full py-3 pe-0">
+      {/* <ThumbnailsCover title={playlistName} className="hidden lg:flex" /> */}
+      <div className="flex gap-5 items-center">
+        <AlignLeftIcon />
+        <p className="text-lg capitalize">List of show</p>
+      </div>
+      <ul className="w-full py-3 lg:py-0">
         <ScrollArea
-          className="w-full h-[calc(100vh-350px)] flex flex-col px-1"
+          className="w-full h-[calc(100vh-135px)] flex flex-col px-1 pe-3"
           dir={dir}
         >
           {podcasts.length === 0 ? (

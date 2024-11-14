@@ -24,7 +24,7 @@ interface PropsType {
 const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
   const session = await getServerSession(authOptions);
   return (
-    <div className="bg-card-secondary w-full xl:w-10/12 mx-auto space-y-4 p-3 md:p-6 rounded-xl mb-5">
+    <div className="bg-card-secondary space-y-4 py-6 lg:pt-0 px-0 rounded-xl mb-2 xl:w-[1050px]">
       {/* Video player */}
       <VideoPlayer
         podcastId={podcast.id}
@@ -33,7 +33,7 @@ const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
         playback_position={podcast.playback_position}
       />
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-6">
         <div className="space-y-2">
           <div className="flex items-end gap-5 w-full">
             <h1 className="text-2xl md:text-3xl capitalize font-bold">
