@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Category } from "@/types/podcast";
 
@@ -14,15 +15,20 @@ const ProfileCategories = ({ categories }: { categories: Category[] }) => {
       <div className="w-fit flex items-center gap-5">
         {/* Map through categories and display each category */}
         {categories?.map((category, index) => (
-          <div
+          <Badge
             key={category.id}
-            className="text-center flex items-center gap-5 text-sm"
+            variant={"secondary"}
+            className="bg-[#4285F40A]"
           >
-            {/* Display category name */}
-            <p className="opacity-75 capitalize">{category.name}</p>
-            {/* Show separator '|' for all but the last category */}
-            {index < categories.length - 1 && <p className="text-lg">|</p>}
-          </div>
+            {category.name}
+          </Badge>
+          // <div
+          //   key={category.id}
+          //   className="text-center flex items-center gap-5 text-sm"
+          // >
+          //   {/* Display category name */}
+          //   <p className="opacity-75 capitalize">{category.name}</p>
+          // </div>
         ))}
       </div>
       {/* Horizontal scrollbar, hidden by default */}

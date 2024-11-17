@@ -64,19 +64,19 @@ const SideScrollPlaylistPodcasts = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-full lg:w-[20dvw] lg:absolute lg:left-0 pt-10 lg:pt-0 lg:z-40 ps-3",
-        { "lg:rounded-tr-3xl": dir === "ltr" },
-        { "lg:rounded-tl-3xl": dir === "rtl" }
+        "flex flex-col gap-1 lg:w-[360px] pt-10 lg:pt-0 lg:z-40 ps-3 shrink-0"
+        // { "xl:rounded-tr-3xl": dir === "ltr" },
+        // { "xl:rounded-tl-3xl": dir === "rtl" }
       )}
     >
-      {/* <ThumbnailsCover title={playlistName} className="hidden lg:flex" /> */}
+      {/* <ThumbnailsCover title={playlistName} className="hidden xl:flex" /> */}
       <div className="flex gap-5 items-center">
         <AlignLeftIcon />
         <p className="text-lg capitalize">List of show</p>
       </div>
-      <ul className="w-full py-3 lg:py-0">
+      <ul className="w-full py-3 xl:py-0">
         <ScrollArea
-          className="w-full h-[calc(100vh-135px)] flex flex-col px-1 pe-3"
+          className="w-full h-[calc(100vh-144px)] flex flex-col px-1 pe-3"
           dir={dir}
         >
           {podcasts.length === 0 ? (

@@ -201,10 +201,11 @@ const ProfileContent = async ({
             />
           </MaxWidthContainer>
           <MaxWidthContainer className="w-full">
-            <InfiniteScrollPodcastsByPodcaster
-              initialData={contentData2 as Podcast[] | undefined}
-              type={session?.user?.type!}
+            <InfiniteScrollPlaylistsByPodcaster
               podcasterId={params.profileId}
+              initialData={contentData1 as Playlist[] | undefined}
+              search={search}
+              type={session?.user?.type!}
             />
           </MaxWidthContainer>
         </div>

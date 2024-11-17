@@ -40,7 +40,7 @@ export default async function PlaylistPage({
   const t = await getTranslations("Index");
 
   return (
-    <MaxWidthContainer className="flex flex-col lg:flex-row lg:justify-center relative pt-10 min-h-[calc(100vh-72px)]">
+    <MaxWidthContainer className="flex flex-col lg:flex-row-reverse lg:gap-5 lg:justify-center relative pt-10 min-h-[calc(100vh-72px)] lg:px-8">
       {data?.playlist?.podcasts?.length > 0 ? (
         <Fragment>
           <PlaylistPodcast

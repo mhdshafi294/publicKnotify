@@ -148,7 +148,8 @@ export const PodcasterProfileSchema = z
       .optional()
       .refine(
         (url) =>
-          !url || /^https:\/\/youtube\.com\/channel\/[A-Za-z0-9_-]+$/.test(url),
+          !url ||
+          /^https:\/\/(www\.)?youtube\.com\/channel\/[A-Za-z0-9_-]+$/.test(url),
         "Invalid YouTube URL."
       ),
     // Spotify URL validation

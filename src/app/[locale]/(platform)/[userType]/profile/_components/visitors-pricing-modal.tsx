@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { Price } from "@/types/podcaster";
 import PricingCard from "../../pricings/_components/pricing-card";
 import { Button } from "@/components/ui/button";
+import CheckGradientIcon from "@/components/icons/check-gradient-icon";
 
 /**
  * Modal Component
@@ -33,8 +34,8 @@ const VisitorsPricingModal = ({ pricings }: { pricings: Price | null }) => {
 
   return (
     <Dialog>
-      <DialogTrigger className="flex items-center justify-center gap-5 opacity-75 hover:opacity-100 duration-200">
-        <BanknoteIcon className="size-5" strokeWidth={3} />
+      <DialogTrigger className="flex items-center text-xl justify-center gap-3 font-semibold  hover:opacity-80 duration-200">
+        <CheckGradientIcon className="size-8" />
         {t("prices")}
       </DialogTrigger>
       <DialogContent>

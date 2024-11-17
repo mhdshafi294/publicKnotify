@@ -42,7 +42,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
   }, [podcast.id]);
 
   return (
-    <div className="bg-card-secondary space-y-4 py-6 lg:pt-0 px-0 rounded-xl mb-2 xl:w-[1050px]">
+    <div className="bg-card-secondary space-y-4 py-6 pt-0 px-0 rounded-xl mb-5 w-full">
       <div className="mx-auto aspect-video relative">
         <Image
           width={1920}

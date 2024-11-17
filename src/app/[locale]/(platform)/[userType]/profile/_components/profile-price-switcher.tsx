@@ -84,7 +84,7 @@ const ProfilePriceSwitcher = ({
           disabled={isPending}
           onCheckedChange={toggle}
           className={cn(
-            "h-4 w-9 data-[state=checked]:bg-input lg:data-[state=checked]:bg-background data-[state=unchecked]:bg-input *:size-5 *:data-[state=checked]:bg-greeny *:data-[state=unchecked]:bg-card lg:*:data-[state=unchecked]:bg-background *:duration-200 *:data-[state=checked]:translate-x-4 *:data-[state=unchecked]:-translate-x-1 disabled:opacity-20",
+            "h-4 w-9 data-[state=checked]:bg-input lg:data-[state=checked]:bg-input data-[state=unchecked]:bg-input *:size-5 *:data-[state=checked]:bg-greeny *:data-[state=unchecked]:bg-card lg:*:data-[state=unchecked]:bg-card *:duration-200 *:data-[state=checked]:translate-x-4 *:data-[state=unchecked]:-translate-x-1 disabled:opacity-20",
             {
               "*:data-[state=checked]:-translate-x-4 *:data-[state=unchecked]:translate-x-1":
                 dir === "rtl",
