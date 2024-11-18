@@ -19,6 +19,7 @@ import {
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
 import { buttonVariants } from "@/components/ui/button";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { Company } from "@/types/company";
@@ -30,8 +31,8 @@ import InfiniteScrollSelfCompanyPodcasts from "./infinite-scroll-company-self-po
 import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-podcaster";
 import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
 import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
-import InfiniteScrollPodcastsByPodcaster from "./infinite-scroll-podcasts-by-podcaster";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import Image from "next/image";
+import PodcasterProfileHeader from "./podcaster-profile-header";
 
 /**
  * Component for displaying profile content with infinite scroll functionality.
@@ -129,35 +130,45 @@ const ProfileContent = async ({
 
   return (
     <div className="w-full lg:w-9/12">
-      <div className="w-full flex justify-end min-h-10">
-        {/* Display a button for sending a request if the user is a company viewing a podcaster's profile */}
-        {profileType === "podcaster" && session?.user?.type === "company" ? (
+      {/* <div className="w-full flex justify-end min-h-10"> */}
+      {/* Display a button for sending a request if the user is a company viewing a podcaster's profile */}
+      {/* {profileType === "podcaster" && session?.user?.type === "company" ? (
           <Link
             href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
             className={cn(
               buttonVariants({ variant: "default" }),
-              "mb-7 font-bold px-10 flex justify-center items-center gap-2"
+              "mb-7 font-bold px-10 flex justify-center items-center gap-2 rounded-full"
             )}
           >
             <FileSymlinkIcon size={15} strokeWidth={3} />
             <span>{t("sendRequest")}</span>
           </Link>
         ) : null}
-      </div>
+      </div> */}
       {/* Render different content based on profile type and whether it's the user's own profile */}
       {isSelfProfile ? (
         profileType === "podcaster" ? (
-          <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+          <div className="w-full flex flex-col gap-10 h-[calc(100%-2.5rem)]">
             <MaxWidthContainer className="w-full">
-              <InfiniteScrollSelfPlaylists
-                initialData={contentData1 as Playlist[] | undefined}
-                search={search}
-                type={profileType}
+              <div className="flex justify-between mb-3">
+                <h2 className="font-bold text-[32px]">Latest Shows</h2>
+              </div>
+              <PodcasterProfileHeader
+                image={
+                  contentData1 && "image" in contentData1[0]
+                    ? contentData1[0]?.image
+                    : ""
+                }
+                name={
+                  contentData1 && "name" in contentData1[0]
+                    ? contentData1[0]?.name
+                    : ""
+                }
               />
             </MaxWidthContainer>
             <MaxWidthContainer className="w-full">
-              <InfiniteScrollSelfPodcasts
-                initialData={contentData2 as SelfPodcastDetails[] | undefined}
+              <InfiniteScrollSelfPlaylists
+                initialData={contentData1 as Playlist[] | undefined}
                 search={search}
                 type={profileType}
               />
@@ -191,13 +202,32 @@ const ProfileContent = async ({
           </div>
         ) : null
       ) : profileType === "podcaster" ? (
-        <div className="w-full flex flex-col gap-20 h-[calc(100%-2.5rem)]">
+        <div className="w-full flex flex-col gap-10 h-[calc(100%-2.5rem)]">
           <MaxWidthContainer className="w-full">
-            <InfiniteScrollPlaylistsByPodcaster
-              podcasterId={params.profileId}
-              initialData={contentData1 as Playlist[] | undefined}
-              search={search}
-              type={session?.user?.type!}
+            <div className="flex justify-between">
+              <h2 className="font-bold text-[32px]">Latest Shows</h2>
+              <Link
+                href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
+                className={cn(
+                  buttonVariants({ variant: "default" }),
+                  "mb-7 font-bold px-10 flex justify-center items-center gap-2 rounded-full"
+                )}
+              >
+                <FileSymlinkIcon size={15} strokeWidth={3} />
+                <span>{t("sendRequest")}</span>
+              </Link>
+            </div>
+            <PodcasterProfileHeader
+              image={
+                contentData1 && "image" in contentData1[0]
+                  ? contentData1[0]?.image
+                  : ""
+              }
+              name={
+                contentData1 && "name" in contentData1[0]
+                  ? contentData1[0]?.name
+                  : ""
+              }
             />
           </MaxWidthContainer>
           <MaxWidthContainer className="w-full">

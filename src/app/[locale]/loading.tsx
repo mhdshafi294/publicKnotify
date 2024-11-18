@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Loader from "@/components/ui/loader";
+import GradientSpinnerIcon from "@/components/icons/gradient-spinner";
 
 /**
  * Loading component that displays a loading screen with a background image and a loader.
@@ -18,7 +19,7 @@ const Loading = () => {
   return (
     <div className="h-[calc(100vh-72px)] w-screen overflow-hidden flex flex-col items-center justify-center bg-background">
       {/* Background Elements */}
-      <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
+      {/* <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
         <div className="absolute w-[580px] h-[580px] left-0 top-0 -z-10 -translate-x-1/2">
           <div className="absolute w-full h-full left-0 top-0 -z-30 rounded-full bg-primary/50 blur-xl" />
@@ -32,10 +33,10 @@ const Loading = () => {
             fill
           />
         </div>
-      </div>
+      </div> */}
       {/* Loader Component */}
       {/* <Loader variant="bars" size="xl" className="text-greeny" /> */}
-      <div className="loading-text flex items-center gap-2 text-greeny text-9xl font-sans">
+      {/* <div className="loading-text flex items-center gap-2 text-greeny text-9xl font-sans">
         <span className="loading-text-words animate-blur-1 blur-lg">
           <Image
             src="/KnotifyK.svg"
@@ -52,7 +53,16 @@ const Loading = () => {
         <span className="loading-text-words animate-blur-5 blur">i</span>
         <span className="loading-text-words animate-blur-6 blur">f</span>
         <span className="loading-text-words animate-blur-7 blur">y</span>
-      </div>
+      </div> */}
+      {/* <GradientSpinnerIcon className="size-96" /> */}
+      <Image
+        src="/loadingCircle.png"
+        alt="loading spinner"
+        width={1000}
+        height={1000}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="animate-slow-rotate size-80"
+      />
     </div>
   );
 };
