@@ -1,11 +1,10 @@
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
+import TrendyPodcasterCarousel from "@/components/trendy-podcaster-carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { getServerSession } from "next-auth";
-import FeaturedPodcastersGrid from "./featured-podcasters-grid";
 
-const PodcastersSection = async ({
+const TrendyPodcasterCarouselSection = async ({
   params,
   searchParams,
 }: {
@@ -19,16 +18,11 @@ const PodcastersSection = async ({
 
   return (
     <MaxWidthContainer className="w-full">
-      {/* <InfiniteScrollPodcasterersCarousel
-        initialData={firstPageTrendingResponse.podcasters}
-        type={session?.user?.type!}
-      /> */}
-      <FeaturedPodcastersGrid
+      <TrendyPodcasterCarousel
         podcasters={firstPageTrendingResponse.podcasters}
-        type={session?.user?.type!}
       />
     </MaxWidthContainer>
   );
 };
 
-export default PodcastersSection;
+export default TrendyPodcasterCarouselSection;

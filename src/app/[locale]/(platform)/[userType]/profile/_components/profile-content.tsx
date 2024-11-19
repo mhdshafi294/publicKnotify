@@ -155,12 +155,12 @@ const ProfileContent = async ({
               </div>
               <PodcasterProfileHeader
                 image={
-                  contentData1 && "image" in contentData1[0]
+                  contentData1 && contentData1[0] && "image" in contentData1[0]
                     ? contentData1[0]?.image
                     : ""
                 }
                 name={
-                  contentData1 && "name" in contentData1[0]
+                  contentData1 && contentData1[0] && "name" in contentData1[0]
                     ? contentData1[0]?.name
                     : ""
                 }
@@ -219,12 +219,12 @@ const ProfileContent = async ({
             </div>
             <PodcasterProfileHeader
               image={
-                contentData1 && "image" in contentData1[0]
+                contentData1 && contentData1[0] && "image" in contentData1[0]
                   ? contentData1[0]?.image
                   : ""
               }
               name={
-                contentData1 && "name" in contentData1[0]
+                contentData1 && contentData1[0] && "name" in contentData1[0]
                   ? contentData1[0]?.name
                   : ""
               }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { BadgeInfoIcon, Heart } from "lucide-react";
+import { BadgeInfoIcon, BookmarkIcon } from "lucide-react";
 
 import {
   Popover,
@@ -154,14 +154,14 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         {isFavorite ? (
-          <Heart
+          <BookmarkIcon
             size={triggerSize}
             fill="#004FFF"
             stroke="#004FFF"
             className="cursor-pointer hover:stroke-primary duration-300"
           />
         ) : (
-          <Heart
+          <BookmarkIcon
             size={triggerSize}
             className="cursor-pointer hover:stroke-primary duration-300"
           />

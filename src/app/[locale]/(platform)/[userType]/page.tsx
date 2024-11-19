@@ -8,6 +8,7 @@ import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import CategorySecrtion from "../_components/category-secrtion";
 import StoriesSection from "../_components/stories-section";
+import TrendyPodcasterCarouselSection from "../_components/trendy-podcaster-carousel-section";
 
 /**
  * Home page component that renders different sections based on user type and authentication status.
@@ -60,12 +61,23 @@ export default async function Home({
 
   // Render different sections based on user type
   const content = () => {
-    if (session?.user?.type !== "podcaster") {
+    if (session?.user?.type === "user") {
       return (
         <div className="mt-8 w-full flex flex-col gap-5">
           <StoriesSection params={params} searchParams={searchParams} />
           <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
+          <PodcastersSection params={params} searchParams={searchParams} />
+        </div>
+      );
+    } else if (session?.user?.type === "company") {
+      return (
+        <div className="mt-8 w-full flex flex-col gap-5">
+          <StoriesSection params={params} searchParams={searchParams} />
+          <TrendyPodcasterCarouselSection
+            params={params}
+            searchParams={searchParams}
+          />
           <PodcastersSection params={params} searchParams={searchParams} />
         </div>
       );
