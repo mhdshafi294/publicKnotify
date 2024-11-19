@@ -31,10 +31,16 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
   const { data: session } = useSession();
 
   return (
-    <Card className={cn("relative overflow-hidden rounded-none", className)}>
+    <Card
+      className={cn(
+        "relative overflow-hidden rounded-none lg:max-h-[305px]",
+        className
+      )}
+    >
       <Link
         passHref
         href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+        className="lg:max-h-[305px]"
       >
         <CardContent className={cn("p-0", contentRatio)}>
           <Image

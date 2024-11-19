@@ -18,7 +18,7 @@ const PodcastersSection = async ({
   });
 
   return (
-    <MaxWidthContainer className="w-full">
+    <MaxWidthContainer className="w-full mb-5">
       {/* <InfiniteScrollPodcasterersCarousel
         initialData={firstPageTrendingResponse.podcasters}
         type={session?.user?.type!}
