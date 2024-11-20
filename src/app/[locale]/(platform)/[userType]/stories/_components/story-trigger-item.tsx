@@ -71,7 +71,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
 
   const segmentCount = Math.max(storyGroup.stories.length, 1);
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 6; // Gap in degrees between segments for visual separation
+  const gapAngle = storyGroup.stories.length > 1 ? 6 : 1; // Gap in degrees between segments for visual separation
 
   /**
    * Generates the path for each story segment in the circular progress indicator.

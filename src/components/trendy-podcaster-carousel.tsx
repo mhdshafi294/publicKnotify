@@ -27,11 +27,11 @@ export default function TrendyPodcasterCarousel({
   return (
     <div className="w-full space-y-4">
       <h2 className="text-2xl font-semibold text-white">Trendy</h2>
-      <Carousel ref={emblaRef} className="w-full">
+      <Carousel ref={emblaRef} className="w-full overflow-hidden">
         <CarouselContent>
           {podcasters.map((podcaster) => (
             <CarouselItem key={podcaster.id}>
-              <Card className="border-0 overflow-hidden bg-gradient-to-b from-card/90 to-green-500/90 rounded-none lg:h-60">
+              <Card className="border-0 overflow-hidden bg-gradient-to-b from-[#393936] to-[#2FEA9B] rounded-none lg:h-60">
                 <CardContent className="p-0">
                   <div className="flex items-center gap-6 p-6">
                     <div className="relative size-48 flex-shrink-0 overflow-hidden rounded-none shadow-[0px_0px_29.68px_0px_rgba(5,5,5,0.61)]">
