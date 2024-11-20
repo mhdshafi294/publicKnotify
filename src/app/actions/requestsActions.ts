@@ -1,5 +1,6 @@
 "use server";
 
+import getAdvertisingTypes from "@/services/requests/advertising-types";
 // Importing request-related services
 import cancelRequest from "@/services/requests/cancel-status";
 import changeRequestStatus from "@/services/requests/change-status";
@@ -57,7 +58,6 @@ export const getRequestAction = async ({
   id: string;
   type: string;
 }) => {
-  console.log(id);
   const getRequestResponse = await getRequest({
     id,
     type,
@@ -156,4 +156,18 @@ export const getCompanySelfPodcastsAction = async ({
     type,
   });
   return getCompanySelfPodcastsResponse;
+};
+
+/**
+ * Fetches advertising types for a specific type of request.
+ *
+ * @param {Object} params - The parameters for the API request.
+ * @param {string} params.type - The type of request.
+ * @returns {Promise} - The API response containing the list of advertising types.
+ */
+export const getAdvertisingTypesAction = async ({ type }: { type: string }) => {
+  const getAdvertisingTypesResponse = await getAdvertisingTypes({
+    type,
+  });
+  return getAdvertisingTypesResponse;
 };

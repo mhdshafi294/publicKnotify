@@ -49,6 +49,8 @@ export default async function RequestPage({
     redirect(`/user`);
   }
 
+  redirect(session?.user?.type!);
+
   // Fetch translations
   const t = await getTranslations("Index");
 

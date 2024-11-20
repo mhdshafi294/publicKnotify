@@ -18,7 +18,7 @@ import {
 } from "@/app/actions/podcasterActions";
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
@@ -33,6 +33,7 @@ import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-c
 import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
 import Image from "next/image";
 import PodcasterProfileHeader from "./podcaster-profile-header";
+import CreateRequestDialog from "../../requests/create/_components/create-request-dialog";
 
 /**
  * Component for displaying profile content with infinite scroll functionality.
@@ -206,7 +207,7 @@ const ProfileContent = async ({
           <MaxWidthContainer className="w-full">
             <div className="flex justify-between">
               <h2 className="font-bold text-[32px]">Latest Shows</h2>
-              <Link
+              {/* <Link
                 href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
                 className={cn(
                   buttonVariants({ variant: "default" }),
@@ -215,7 +216,8 @@ const ProfileContent = async ({
               >
                 <FileSymlinkIcon size={15} strokeWidth={3} />
                 <span>{t("sendRequest")}</span>
-              </Link>
+              </Link> */}
+              <CreateRequestDialog podcasterID={params.profileId} />
             </div>
             <PodcasterProfileHeader
               image={

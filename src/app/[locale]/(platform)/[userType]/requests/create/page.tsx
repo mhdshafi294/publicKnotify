@@ -36,6 +36,8 @@ const CreateRequest = () => {
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  router.push(`/${session?.user?.type}`);
+
   // State to track if the component has mounted
   const [isMounted, setIsMounted] = useState(false);
 
@@ -46,7 +48,9 @@ const CreateRequest = () => {
   useEffect(() => {
     if (
       isMounted &&
-      (session?.user?.type === "user" || session?.user?.type === "podcaster")
+      (session?.user?.type === "user" ||
+        session?.user?.type === "podcaster" ||
+        session?.user?.type === "company")
     ) {
       router.push(`/${session?.user?.type}`);
     }

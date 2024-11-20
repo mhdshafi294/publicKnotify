@@ -86,11 +86,11 @@ const InfiniteScrollRequests: React.FC<{
 
   return (
     <>
-      <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <ul className="w-full grid grid-cols-1 gap-5">
         {data?.pages.map((page) =>
           page?.requests.map((request) => (
             <li key={request?.id}>
-              <RequestCard request={request!} />
+              <RequestCard request={request!} type={type} />
             </li>
           ))
         )}

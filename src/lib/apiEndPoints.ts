@@ -78,6 +78,7 @@ export const COUNTRY = "/country";
 export const PODCASTER_PLAYLIST = "/podcaster-playlist";
 export const PLANS = "/plans";
 export const BUY = "/buy";
+export const ADVERTISING_TYPES = "/advertising-types";
 
 // Social interaction endpoints
 export const POST_URL = "/post";
