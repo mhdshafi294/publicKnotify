@@ -47,7 +47,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
     1
   );
   const segmentAngle = 360 / segmentCount;
-  const gapAngle = 6; // 6 degrees gap between segments
+  const gapAngle = stories && stories?.length > 1 ? 6 : 1; // 6 degrees gap between segments
 
   /**
    * Creates an SVG arc path for each story segment in the circular story indicator.
@@ -109,7 +109,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
           className="relative cursor-pointer size-[7.7rem] flex justify-center items-center"
           onClick={handleOpenStories}
         >
-          <Avatar className={cn("size-28", { "border-4": !stories })}>
+          <Avatar className={cn("size-[6.7rem]", { "border-4": !stories })}>
             <AvatarImage
               src={image}
               alt={`${name} profile picture`}
