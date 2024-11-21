@@ -76,10 +76,10 @@ function ColorPicker<T extends FieldValues>({
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
-          <div className="PopoverContent border border-input justify-between px-5 p-2 flex items-center gap-1 relative bg-background rounded-md">
+          <div className="PopoverContent border border-input/50 justify-between px-5 p-2 flex items-center gap-1 relative bg-background rounded-md">
             <span className="text-sm">{field.value || "Pick a color"}</span>
             <div
-              className="size-5 border border-input bg-background"
+              className="size-5 border border-input/50 bg-background"
               style={{ backgroundColor: field.value }}
             />
             <FormControl>

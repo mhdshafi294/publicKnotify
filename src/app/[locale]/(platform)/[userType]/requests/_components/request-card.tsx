@@ -1,3 +1,5 @@
+"use client";
+
 import { MessageCircleMoreIcon, MessagesSquareIcon } from "lucide-react";
 import { FC } from "react";
 
@@ -9,6 +11,7 @@ import { Link } from "@/navigation";
 import { Request } from "@/types/request";
 import { format } from "date-fns";
 import { useLocale, useTranslations } from "next-intl";
+import ChangeRequestStatusButton from "../[requestId]/_components/change-request-status-button";
 
 /**
  * RequestCard Component
@@ -20,9 +23,9 @@ import { useLocale, useTranslations } from "next-intl";
  *
  * @returns {JSX.Element} The card displaying the request details.
  */
-const RequestCard: FC<{ request: Request; type: string }> = ({
+const RequestCard: FC<{ request: Request; userType: string }> = ({
   request,
-  type,
+  userType,
 }) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
@@ -30,7 +33,11 @@ const RequestCard: FC<{ request: Request; type: string }> = ({
 
   return (
     <Card className="bg-card/50 hover:bg-card/80 duration-200 border-card-foreground/0 w-full rounded-2xl h-28 ">
-      <CardContent className="flex items-end justify-between p-5">
+      <CardContent
+        className={cn("flex items-center justify-between p-5", {
+          "items-end": request.status !== "Pending",
+        })}
+      >
         <div className="flex gap-3">
           <Avatar className="size-[74px]">
             <AvatarImage
@@ -69,21 +76,45 @@ const RequestCard: FC<{ request: Request; type: string }> = ({
             </p>
           </div>
         </div>
-        <div className="flex h-full items-end">
-          <Link
-            href={`/&${type}/chats`}
-            className={cn(
-              buttonVariants({
-                variant: "secondary",
-                className:
-                  "font-bold bg-greeny_lighter text-secondary hover:text-foreground rounded-full px-6 py-3 gap-2 items-center",
-              })
-            )}
-          >
-            <MessageCircleMoreIcon size={20} />
-            {t("chat")}
-          </Link>
-        </div>
+        {/* {request?.status} */}
+        {request?.status !== "Pending" ? (
+          <div className="flex h-full items-end justify-end gap-4">
+            <Link
+              href={`/&${userType}/chats`}
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                  className:
+                    "font-bold bg-greeny_lighter text-secondary hover:text-foreground rounded-full px-6 py-3 gap-2 items-center w-36 h-11",
+                })
+              )}
+            >
+              <MessageCircleMoreIcon size={20} />
+              {t("chat")}
+            </Link>
+          </div>
+        ) : request?.status === "Pending" && userType === "podcaster" ? (
+          <div className="flex h-full items-center justify-end gap-4">
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="accept"
+            />
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="reject"
+            />
+          </div>
+        ) : request?.status === "Pending" && userType === "company" ? (
+          <div className="flex h-full items-center justify-end gap-4">
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="cancel"
+            />
+          </div>
+        ) : null}
       </CardContent>
     </Card>
   );

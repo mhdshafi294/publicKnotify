@@ -578,7 +578,15 @@
     "Monthly": "شهري",
     "go-for-a-month-or-get-a-much-better-deal-going-for-a-year": "اشترك لمدة شهر أو احصل على سعر افضل للغاية بالاشتراك لمدة سنة",
     "enterPhoneNumber": "أدخل رقم هاتفك",
-    "submit": "يُقدِّم"
+    "submit": "يُقدِّم",
+    "request-for-podcaster": "طلب بودكاستر",
+    "canceled": "تم الإلغاء",
+    "onProgress": "على التقدم",
+    "inProgress": "في تَقَدم",
+    "paid": "مدفوع",
+    "ad-type": "نوع الإعلان",
+    "view-contract": "عرض العقد",
+    "new-publish": "نشر جديد"
   },
   "notifications": {
     "notifications": "notifications"

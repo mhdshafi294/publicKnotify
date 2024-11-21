@@ -101,7 +101,7 @@ const InfiniteScrollContracts: React.FC<{
 
   return (
     <>
-      <ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <ul className="w-full grid grid-cols-1 gap-5">
         {data?.pages.map((page) =>
           page?.contracts.map((contract) => (
             <li key={contract?.id}>

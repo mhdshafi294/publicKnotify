@@ -12,10 +12,13 @@ export const ContractSchema = z.object({
   media_type: z.enum(["video", "audio"], {
     required_error: "createMetadataSchema.errorMessage.typeRequired",
   }),
-  episode_type: z.enum(["Full", "Bonus", "Trailer"], {
-    required_error: "createMetadataSchema.errorMessage.typeRequired",
+  // episode_type: z.enum(["Full", "Bonus", "Trailer"], {
+  //   required_error: "createMetadataSchema.errorMessage.typeRequired",
+  // }),
+  advertising_type: z.string({
+    required_error: "createMetadataSchema.errorMessage.addPlaceError",
   }),
-  ad_place: z.enum(["middle", "end", "first", "video"], {
+  advertising_section_id: z.string({
     required_error: "createMetadataSchema.errorMessage.addPlaceError",
   }),
   ad_period: z.string().refine((val) => periodRegex.test(val), {

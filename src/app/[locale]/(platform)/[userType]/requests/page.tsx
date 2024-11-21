@@ -84,7 +84,7 @@ export default async function RequestsPage({
           initialData={requestsResponse}
           search={search}
           status={statusArray}
-          type={session?.user?.type!}
+          userType={session?.user?.type!}
         />
       </MaxWidthContainer>
     </main>

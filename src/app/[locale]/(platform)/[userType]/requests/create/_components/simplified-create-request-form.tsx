@@ -34,9 +34,15 @@ import { toast } from "sonner";
 import * as z from "zod";
 
 const formSchema = z.object({
-  podcast_format: z.string(),
-  advertising_type: z.string(),
-  advertising_section_id: z.string(),
+  podcast_format: z.string({
+    required_error: "createMetadataSchema.errorMessage.typeRequired",
+  }),
+  advertising_type: z.string({
+    required_error: "createMetadataSchema.errorMessage.addPlaceError",
+  }),
+  advertising_section_id: z.string({
+    required_error: "createMetadataSchema.errorMessage.addPlaceError",
+  }),
 });
 
 export default function SimplifiedCreateRequestForm({

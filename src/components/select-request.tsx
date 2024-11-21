@@ -54,6 +54,7 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
         page: pageParam.toString(),
         type: "podcaster",
         search: debouncedValue,
+        status: ["3"],
       }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -89,7 +90,7 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
             ? data?.pages
                 .map((page) => page.requests)
                 .flat()
-                .find((client) => client.id.toString() === value)?.name
+                .find((client) => client.id.toString() === value)?.id
             : t("selectrequest")}
           <ChevronsUpDown className="size-4 shrink-0 opacity-70 dark:opacity-50 justify-self-end ms-auto" />
         </Button>
@@ -145,18 +146,18 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
                             <AvatarImage
-                              src={request.name}
-                              alt={request.name}
+                              src={request.id.toString()}
+                              alt={request.id.toString()}
                               className="object-cover"
                             />
                             <AvatarFallback className="bg-greeny_lighter text-[10px] text-black font-bold">
-                              {request.name.slice(0, 2).toUpperCase()}
+                              {request.id.toString().slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <p>{request.name}</p>
-                          <p className="text-sm text-muted-foreground">
+                          <p>{request.id.toString()}</p>
+                          {/* <p className="text-sm text-muted-foreground">
                             {request.id}
-                          </p>
+                          </p> */}
                         </div>
                         <CheckIcon
                           className={cn(

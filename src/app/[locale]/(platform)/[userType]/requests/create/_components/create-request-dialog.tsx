@@ -26,7 +26,7 @@ const CreateRequestDialog = ({ podcasterID }: { podcasterID: string }) => {
       <DialogContent className="border-none bg-card-secondary max-w-3xl sm:rounded-3xl">
         <DialogHeader>
           <DialogTitle className="font-bold text-xl">
-            Request for Podcaster
+            {t("request-for-podcaster")}
           </DialogTitle>
         </DialogHeader>
         <SimplifiedCreateRequestForm podcasterID={podcasterID} />

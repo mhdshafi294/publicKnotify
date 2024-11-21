@@ -50,8 +50,8 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
     defaultValues: {
       company_request_id: "",
       media_type: "audio",
-      episode_type: "Full",
-      ad_place: "first",
+      // episode_type: "Full",
+      advertising_type: "",
       ad_period: "00:00",
       ad_cost: "10.00",
       publishing_date: new Date(),
@@ -95,8 +95,8 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
       form.reset({
         company_request_id: contractResponseData.request_id.toString(),
         media_type: contractResponseData.media_type,
-        episode_type: contractResponseData.episode_type_translation,
-        ad_place: contractResponseData.ad_place,
+        // episode_type: contractResponseData.episode_type_translation,
+        advertising_type: contractResponseData.ad_place,
         ad_period: contractResponseData.ad_period,
         ad_cost: contractResponseData.ad_cost,
         publishing_date: new Date(contractResponseData.publishing_date!),
@@ -153,15 +153,16 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
     try {
       const formData = new FormData();
       formData.append("media_type", data.media_type);
-      formData.append(
-        "episode_type",
-        data.episode_type === "Trailer"
-          ? "3"
-          : data.episode_type === "Bonus"
-          ? "2"
-          : "1"
-      );
-      formData.append("ad_place", data.ad_place);
+      // formData.append(
+      //   "episode_type",
+      //   data.episode_type === "Trailer"
+      //     ? "3"
+      //     : data.episode_type === "Bonus"
+      //     ? "2"
+      //     : "1"
+      // );
+      // formData.append("ad_place", data.advertising_type);
+      formData.append("advertising_section_id", data?.advertising_section_id);
       formData.append("ad_period", data.ad_period);
       formData.append("ad_cost", data.ad_cost);
       if (data.publishing_date) {
@@ -199,7 +200,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ contract_id }) => {
       <main className="flex flex-col flex-1 items-center justify-start gap-6 w-full min-h-[calc(100vh_-_112px)] py-5">
         <Form {...form}>
           <form
-            className="w-full max-w-[800px] h-full flex flex-col flex-1"
+            className="w-full max-w-4xl h-full flex flex-col flex-1"
             onSubmit={form.handleSubmit(handleSubmit)}
           >
             <ContractFormHeader

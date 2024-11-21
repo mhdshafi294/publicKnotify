@@ -47,7 +47,7 @@ const StepFormContent: React.FC<StepFormContentProps> = ({
     return (
       <Card
         key={state}
-        className="bg-card-secondary duration-200 border-card-foreground/10 flex-1 relative flex flex-col p-4"
+        className="bg-card-secondary duration-200 border-card-foreground/0 flex-1 relative flex flex-col p-4"
       >
         <CardContent className="space-y-3">
           <FormFields form={form} contract_id={contract_id} dir={dir} />
@@ -62,12 +62,12 @@ const StepFormContent: React.FC<StepFormContentProps> = ({
           secondPartyData={secondPartyData}
           description={form.watch("description")}
           media_type={form.watch("media_type")}
-          ad_place={form.watch("ad_place")}
+          ad_place={form.watch("advertising_type")}
           ad_period={form.watch("ad_period")}
           ad_cost={form.watch("ad_cost")}
           publishing_date={format(form.watch("publishing_date"), "yyyy-MM-dd")}
           publishing_time={form.watch("publishing_time")}
-          episode_type_translation={form.watch("episode_type")}
+          // episode_type_translation={form.watch("episode_type")}
           session={session!}
         />
       </div>

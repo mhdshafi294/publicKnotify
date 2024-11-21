@@ -607,7 +607,15 @@
     "go-for-a-month-or-get-a-much-better-deal-going-for-a-year": "Go for a month, or get a much better deal going for a year",
     "enterPhoneNumber": "enter your phone number",
     "monthly-listeners": "Monthly Listeners",
-    "submit": "submit"
+    "submit": "submit",
+    "request-for-podcaster": "Request for Podcaster",
+    "canceled": "canceled",
+    "onProgress": "on progress",
+    "inProgress": "in progress",
+    "paid": "paid",
+    "ad-type": "ad type",
+    "view-contract": "View contract",
+    "new-publish": "new publish"
   },
   "notifications": {
     "notifications": "notifications"

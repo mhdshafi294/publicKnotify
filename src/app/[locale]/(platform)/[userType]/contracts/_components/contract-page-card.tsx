@@ -19,7 +19,7 @@ type ContractPageCardProps = {
   id?: number;
   status_translation?: string;
   status_code?: number;
-  request_name: string;
+  // request_name: string;
   secondPartyData: {
     name: string;
     image: string;
@@ -27,11 +27,12 @@ type ContractPageCardProps = {
   description: string;
   media_type: string;
   ad_place: string;
+  ad_type: string;
   ad_period: string;
   ad_cost: string;
   publishing_date: string;
   publishing_time: string;
-  episode_type_translation: string;
+  // episode_type_translation: string;
   created_at?: string;
   session: Session;
 };
@@ -40,16 +41,16 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
   id,
   status_translation,
   status_code,
-  request_name,
   secondPartyData,
   description,
   media_type,
   ad_place,
+  ad_type,
   ad_period,
   ad_cost,
   publishing_date,
   publishing_time,
-  episode_type_translation,
+  // episode_type_translation,
   created_at,
   session,
 }) => {
@@ -57,7 +58,7 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
   const t = useTranslations("Index");
 
   return (
-    <Card className="bg-card-secondary duration-200 border-card-foreground/10 flex-1 relative flex flex-col p-4 mx-auto max-w-3xl w-full">
+    <Card className="bg-card-secondary duration-200 border-card-foreground/10 flex-1 relative flex flex-col p-4 mx-auto max-w-4xl w-full">
       <CardHeader>
         <div className="flex gap-3">
           <div className="w-full flex flex-col justify-start gap-3">
@@ -90,11 +91,9 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
             <div className="flex flex-col gap-3">
               <div className="text-sm lg:text-xl capitalize">
                 <span className="text-xs lg:text-lg font-bold text-card-foreground/80 dark:text-card-foreground/50 capitalize me-1">
-                  {t("request-name")}
+                  {t("ad-type")}
                 </span>
-                <span className="text-sm lg:text-xl capitalize">
-                  {request_name}
-                </span>
+                <span className="text-sm lg:text-xl capitalize">{ad_type}</span>
               </div>
               <div className="text-sm lg:text-xl capitalize flex gap-3">
                 <span className="text-xs lg:text-lg font-bold text-card-foreground/80 dark:text-card-foreground/50 capitalize me-1">
@@ -184,14 +183,14 @@ const ContractPageCard: React.FC<ContractPageCardProps> = ({
                   {publishing_time}
                 </p>
               </div>
-              <div>
+              {/* <div>
                 <p className="text-xs lg:text-base text-card-foreground/80 dark:text-card-foreground/50 capitalize">
                   {t("episode-type")}
                 </p>
                 <p className="text-sm lg:text-lg font-bold">
                   {episode_type_translation}
                 </p>
-              </div>
+              </div> */}
               <div>
                 <p className="text-xs lg:text-base text-card-foreground/80 dark:text-card-foreground/50 capitalize">
                   {t("media-type")}
