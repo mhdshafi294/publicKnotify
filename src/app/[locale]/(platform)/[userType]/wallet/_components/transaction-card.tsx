@@ -41,18 +41,24 @@ const TransactionCard: React.FC<TransactionCardProps> = async ({
           <div className="w-full flex gap-5">
             <Image
               src={
+                "company" in transaction?.contract &&
                 transaction?.contract?.company?.image
                   ? transaction?.contract?.company?.image
                   : "/podcaster-filler.webp"
               }
-              alt={`${transaction?.contract?.company?.full_name} logo`}
+              alt={`${
+                "company" in transaction?.contract
+                  ? transaction?.contract?.company?.full_name
+                  : "Podcaster"
+              } logo`}
               width={80}
               height={80}
               className="rounded object-cover size-[80px]"
             />
             <div className="flex flex-col justify-between">
               <h3 className="text-lg font-bold">
-                {transaction?.contract?.company?.full_name}
+                {"company" in transaction?.contract &&
+                  transaction?.contract?.company?.full_name}
               </h3>
               <div>
                 <p className="text-xs opacity-90 dark:opacity-70">
