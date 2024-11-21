@@ -91,14 +91,32 @@ const config = {
             height: "0",
           },
         },
+        "slow-rotate": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slow-rotate": "slow-rotate 5s linear infinite",
+      },
+      screens: {
+        // Define custom height-based breakpoints
+        "h-sm": { raw: "(min-height: 640px)" },
+        "h-md": { raw: "(min-height: 768px)" },
+        "h-lg": { raw: "(min-height: 1024px)" },
+      },
+      textShadow: {
+        custom: "0px 4px 4px rgba(0, 0, 0, 0.25)", // Adjust as needed
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    require("tailwindcss-textshadow"),
+  ],
 } satisfies Config;
 
 export default config;

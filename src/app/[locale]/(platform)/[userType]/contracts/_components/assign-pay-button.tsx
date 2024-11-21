@@ -49,13 +49,13 @@ const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
   return (
     <Button
       variant="default"
-      className="w-full text-xl gap-2 items-center font-bold bg-foreground text-background hover:bg-background hover:text-foreground"
+      className="w-full text-xl gap-2 items-center font-bold rounded-full mt-auto justify-self-end"
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}
     >
-      {t("subsicribe")}
-      <BanknoteIcon />
+      Boost
+      {/* <BanknoteIcon /> */}
     </Button>
   );
 };

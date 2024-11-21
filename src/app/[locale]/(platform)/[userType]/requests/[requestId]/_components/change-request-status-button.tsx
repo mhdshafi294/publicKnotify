@@ -2,13 +2,14 @@
 
 // Global imports
 import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@/navigation";
 
 // Local imports
 import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import { Request } from "@/types/request";
 
 /**
  * ChangeRequestStatusButton Component
@@ -29,7 +30,7 @@ const ChangeRequestStatusButton = ({
 }: {
   requestId: string;
   userType: string;
-  status: "accept" | "reject";
+  status: "accept" | "reject" | "cancel";
 }) => {
   // Define the success message based on the status
   const successToastMessage =
@@ -42,6 +43,8 @@ const ChangeRequestStatusButton = ({
   // Initialize the router for navigation
   const router = useRouter();
 
+  const queryClient = useQueryClient();
+
   // Define the mutation for changing the request status
   const {
     data,
@@ -53,6 +56,7 @@ const ChangeRequestStatusButton = ({
       // console.log(data, "dataInSuccess");
       toast.success(successToastMessage);
       router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["requests"] });
       // revalidatePath(`/${userType}/requests`); // Uncomment if revalidatePath works in your setup
     },
     onError: () => {
@@ -68,7 +72,14 @@ const ChangeRequestStatusButton = ({
   const handleAccept = async () => {
     server_changeRequestStatusAction({
       id: requestId,
-      status: status === "accept" ? "5" : status === "reject" ? "4" : "",
+      status:
+        status === "accept"
+          ? "3"
+          : status === "reject"
+          ? "2"
+          : status === "cancel"
+          ? "5"
+          : "",
       type: userType,
     });
   };
@@ -76,8 +87,8 @@ const ChangeRequestStatusButton = ({
   return (
     <Button
       disabled={isPending}
-      className="capitalize mx-auto w-full"
-      variant={status === "reject" ? "destructive" : "default"}
+      className="capitalize mx-auto w-36 h-11 rounded-full font-bold text-lg"
+      variant={status === "accept" ? "default" : "destructive"}
       onClick={handleAccept}
     >
       {isPending ? <ButtonLoader /> : status}

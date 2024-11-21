@@ -42,17 +42,17 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
   }, [podcast.id]);
 
   return (
-    <div className="bg-card-secondary w-full lg:w-9/12 mx-auto space-y-4 p-6 rounded-xl mb-5">
+    <div className="bg-card-secondary space-y-4 py-6 pt-0 px-0 rounded-xl mb-5 w-full">
       <div className="mx-auto aspect-video relative">
         <Image
           width={1920}
           height={500}
-          className="size-full object-cover rounded-lg"
+          className="size-full object-cover rounded-t-lg"
           src={podcast.background || "/podcast-filler.webp"}
           alt={podcast.name}
         />
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-6">
         <div className="space-y-2">
           <div className="flex items-end gap-5 w-full">
             <h1 className="text-2xl md:text-3xl capitalize font-bold">

@@ -43,15 +43,20 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  // authors: [{ name: "Knotify", url: process.env.NEXTAUTH_URL }],
+  creator: "R-Link",
+  // verification: {
+  //   google: "ZYEUDZ7APLY1a_xSZeVWi267waKXpewUtv_3zay8ZaM",
+  // },
   icons: [
     {
       url: "/logo.svg",
       href: "/logo.svg",
     },
   ],
-  twitter: {
-    card: "summary_large_image",
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  // },
 };
 
 /**

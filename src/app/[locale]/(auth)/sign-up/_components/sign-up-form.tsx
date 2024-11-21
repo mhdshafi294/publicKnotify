@@ -117,7 +117,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
         })}
       >
         <div className="flex flex-col items-center gap-7 min-w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">{t("signUp")}</h2>
           <div className="flex flex-col md:flex-row w-full justify-between gap-9">
             {/* Full name input field */}
             <FormInput

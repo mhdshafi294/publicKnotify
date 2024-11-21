@@ -116,6 +116,7 @@ export type Playlist = {
   owner_email: string | null;
   copyright: string | null;
   categories: Category[];
+  available_statistics: string[]; //! to be modified
   created_at: string;
   podcasts: SelfPodcastDetails[];
 };

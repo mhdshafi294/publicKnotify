@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { Button } from "./ui/button";
-import { BadgeInfoIcon, Heart } from "lucide-react";
+import { BadgeInfoIcon, BookmarkIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -71,7 +71,7 @@ const UnfavoriteButton: React.FC<UnfavoriteButtonProps> = ({
             className="size-fit bg-transparent hover:bg-transparent"
             onClick={handleUnFavorite}
           >
-            <Heart
+            <BookmarkIcon
               size={triggerSize}
               fill="#004FFF"
               stroke="#004FFF"

@@ -82,7 +82,7 @@ function MultiSelectPopover<
                 type="button"
                 variant="secondary"
                 disabled={isPending || isError || disabled}
-                className="w-full flex border border-input hover:bg-input bg-input justify-between mb-2 rounded-md flex-wrap min-h-10 h-fit gap-1"
+                className="w-full flex border border-input/50 hover:bg-input bg-input justify-between mb-2 rounded-md flex-wrap min-h-10 h-fit gap-1"
               >
                 <div className="flex gap-2">
                   {form.getValues(formFieldName).length > 0 ? (

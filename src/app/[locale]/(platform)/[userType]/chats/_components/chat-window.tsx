@@ -1,43 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import React, { use, useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import {
   ArrowLeftIcon,
   ChevronDownIcon,
   FilePlus2Icon,
   HandshakeIcon,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-import {
-  ConversationMessage,
-  ReceiverType,
-  ConversationMessagesResponse,
-  PusherMessage,
-} from "@/types/conversation";
 import { getConversationMessagesAction } from "@/app/actions/conversationsActions";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import useChatStore from "@/store/conversations/use-chat-store";
 import { usePusher } from "@/hooks/usePusher";
 import { cn } from "@/lib/utils";
+import useChatStore from "@/store/conversations/use-chat-store";
+import {
+  ConversationMessage,
+  ConversationMessagesResponse,
+  PusherMessage,
+  ReceiverType,
+} from "@/types/conversation";
 
-import EmptyState from "./empty-state";
-import ChatMessage from "./chat-message";
-import Loader from "@/components/ui/loader";
-import ChatInput from "./chat-input";
-import { Link } from "@/navigation";
 import { buttonVariants } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Link } from "@/navigation";
+import ChatInput from "./chat-input";
+import ChatMessage from "./chat-message";
+import EmptyState from "./empty-state";
 
 /**
  * ChatWindow Component
@@ -355,14 +355,14 @@ const ChatWindow = ({
                       )}
                       href={`/${session?.user?.type}/contracts/create`}
                     >
-                      <span className="hidden md:inline">
+                      <span className="hidden md:inline capitalize">
                         {t("new")} {t("contract")}
                       </span>
                       <FilePlus2Icon className="size-3" />
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>{t("create-contract")}</p>
+                    <p className="capitalize">{t("create-contract")}</p>
                   </TooltipContent>
                 </Tooltip>
                 <Tooltip>
@@ -381,7 +381,9 @@ const ChatWindow = ({
                           : "podcaster_id"
                       }=${receiver?.id}`}
                     >
-                      <span className="hidden md:inline">{t("contracts")}</span>
+                      <span className="hidden md:inline capitalize">
+                        {t("contracts")}
+                      </span>
                       <HandshakeIcon className="size-3" />
                     </Link>
                   </TooltipTrigger>

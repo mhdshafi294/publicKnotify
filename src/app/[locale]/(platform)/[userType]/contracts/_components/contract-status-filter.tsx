@@ -37,13 +37,11 @@ const ContractStatusFilter = ({ status }: { status?: string }) => {
   const STATUS = useMemo(
     () => [
       {
-        numCode: session?.user?.type === "podcaster" ? "1" : "2",
+        numCode: "1",
         title: t("pending"),
       },
-      { numCode: "2", title: t("acceptedByAdmin") },
-      { numCode: "3", title: t("rejected") },
-      { numCode: "4", title: t("payed") },
-      { numCode: "5", title: t("expired") },
+      { numCode: "2", title: t("paid") },
+      { numCode: "3", title: t("expired") },
     ],
     [session?.user?.type, t]
   );
@@ -76,7 +74,7 @@ const ContractStatusFilter = ({ status }: { status?: string }) => {
           variant="link"
           onClick={() => setFilter((prev) => (prev === numCode ? "" : numCode))}
           className={cn(
-            "capitalize text-foreground opacity-80 hover:opacity-100 font-bold duration-200 underline-offset-4 hover:no-underline text-base ",
+            "capitalize text-foreground opacity-80 hover:opacity-100 font-bold duration-200 transition-all underline-offset-4 hover:no-underline text-2xl",
             {
               "text-greeny before:absolute before:size-[6px] before:bg-greeny hover:before:bg-greeny_lighter before:translate-y-4 before:rounded-full hover:text-greeny_lighter":
                 numCode === status,

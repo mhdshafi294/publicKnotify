@@ -1,16 +1,17 @@
-import { FC } from "react";
-import { SquareArrowOutUpRightIcon } from "lucide-react";
+"use client";
 
-import { Request } from "@/types/request";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { MessageCircleMoreIcon, MessagesSquareIcon } from "lucide-react";
+import { FC } from "react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { useTranslations } from "next-intl";
+import { Request } from "@/types/request";
+import { format } from "date-fns";
+import { useLocale, useTranslations } from "next-intl";
+import ChangeRequestStatusButton from "../[requestId]/_components/change-request-status-button";
 
 /**
  * RequestCard Component
@@ -22,73 +23,100 @@ import { useTranslations } from "next-intl";
  *
  * @returns {JSX.Element} The card displaying the request details.
  */
-const RequestCard: FC<{ request: Request }> = ({ request }) => {
+const RequestCard: FC<{ request: Request; userType: string }> = ({
+  request,
+  userType,
+}) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
+  const lang = useLocale();
 
   return (
-    <Link href={`requests/${request.id}`}>
-      <Card className="bg-card/50 hover:bg-card/80 duration-200 border-card-foreground/10">
-        <CardHeader>
-          <div className="flex gap-3">
-            <div className="w-full flex flex-col justify-start gap-3">
-              <div className="w-full flex justify-between items-center">
-                <div className="flex gap-3 items-center">
-                  <CardTitle className="capitalize">{request.name}</CardTitle>
-                  <SquareArrowOutUpRightIcon
-                    size={14}
-                    className="text-card-foreground/30"
-                  />
-                </div>
-                <div className="text-xs rounded bg-card-foreground text-card px-2 py-1.5 font-semibold">
-                  {request.status}
-                </div>
-              </div>
-              <p className="text-sm capitalize">
-                <span className="text-xs text-card-foreground/50">
-                  {t("from")}
-                </span>
-                {request.company
-                  ? request.company.full_name
-                  : request.podcaster?.full_name}
+    <Card className="bg-card/50 hover:bg-card/80 duration-200 border-card-foreground/0 w-full rounded-2xl h-28 ">
+      <CardContent
+        className={cn("flex items-center justify-between p-5", {
+          "items-end": request.status !== "Pending",
+        })}
+      >
+        <div className="flex gap-3">
+          <Avatar className="size-[74px]">
+            <AvatarImage
+              src={
+                "podcaster" in request
+                  ? request.podcaster.image
+                  : request.company.image
+              }
+              alt={
+                "podcaster" in request
+                  ? request.podcaster.full_name
+                  : request.company.full_name
+              }
+              className="object-cover"
+            />
+            <AvatarFallback className="bg-greeny_lighter  text-black font-bold">
+              {"podcaster" in request
+                ? request.podcaster.full_name.slice(0, 2).toUpperCase()
+                : request.company.full_name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col justify-between">
+            <div className="flex items-center gap-2">
+              <h2 className="font-bold text-2xl capitalize">
+                {"podcaster" in request
+                  ? request.podcaster.full_name
+                  : request.company.full_name}
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                {format(new Date(request.created_at), "d MMM yyyy")}
               </p>
             </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-stretch gap-2">
-            <p className="w-4/5 text-wrap overflow-hidden">{request.summary}</p>
-            <div className="flex flex-col gap-2 w-1/5">
-              <div>
-                <p className="text-xs text-card-foreground/50">
-                  {t("publishDate")}
-                </p>
-                <p className="text-xs">{request.publishing_date}</p>
-              </div>
-              <div>
-                <p className="text-xs text-card-foreground/50">
-                  {t("offerValue")}
-                </p>
-                <p className="text-sm">{request.ad_cost} $</p>
-              </div>
-              <div>
-                <p className="text-xs text-card-foreground/50">
-                  {t("adPosition")}
-                </p>
-                <p className="text-sm">{request.ad_place}</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <div className="flex w-full items-baseline">
-            <p className="text-[10px] text-card-foreground/50">
-              {t("sentAt")} {request.created_at}
+            <p className="text-greeny capitalize text-sm">{request?.type}</p>
+            <p className="text-primary capitalize text-sm">
+              {request?.advertising_section?.type?.name[lang as "ar" | "en"]}
             </p>
           </div>
-        </CardFooter>
-      </Card>
-    </Link>
+        </div>
+        {/* {request?.status} */}
+        {request?.status !== "Pending" ? (
+          <div className="flex h-full items-end justify-end gap-4">
+            <Link
+              href={`/&${userType}/chats`}
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                  className:
+                    "font-bold bg-greeny_lighter text-secondary hover:text-foreground rounded-full px-6 py-3 gap-2 items-center w-36 h-11",
+                })
+              )}
+            >
+              <MessageCircleMoreIcon size={20} />
+              {t("chat")}
+            </Link>
+          </div>
+        ) : request?.status === "Pending" && userType === "podcaster" ? (
+          <div className="flex h-full items-center justify-end gap-4">
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="accept"
+            />
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="reject"
+            />
+          </div>
+        ) : request?.status === "Pending" && userType === "company" ? (
+          <div className="flex h-full items-center justify-end gap-4">
+            <ChangeRequestStatusButton
+              requestId={request.id.toString()}
+              userType={userType}
+              status="cancel"
+            />
+          </div>
+        ) : null}
+      </CardContent>
+    </Card>
   );
 };
 

@@ -8,6 +8,7 @@ import PlaylistPodcast from "./_components/Playlist-podcast"; // Internal compon
 import SideScrollPlaylistPodcasts from "./_components/side-scroll-playlist-podcasts"; // Internal component for side scrolling podcasts
 import { Fragment } from "react";
 import { getTranslations } from "next-intl/server";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 /**
  * PlaylistPage Component
@@ -39,13 +40,14 @@ export default async function PlaylistPage({
   const t = await getTranslations("Index");
 
   return (
-    <div className="flex flex-col lg:flex-row relative pt-10 min-h-[calc(100vh-72px)]">
+    <MaxWidthContainer className="flex flex-col lg:flex-row-reverse lg:gap-5 lg:justify-center relative pt-10 min-h-[calc(100vh-72px)] lg:px-8">
       {data?.playlist?.podcasts?.length > 0 ? (
         <Fragment>
           <PlaylistPodcast
             params={params}
             searchParams={searchParams}
             podcasts={data?.playlist?.podcasts!}
+            playlistName={data?.playlist?.name!}
           />
           <SideScrollPlaylistPodcasts
             podcasts={data?.playlist?.podcasts!}
@@ -62,6 +64,6 @@ export default async function PlaylistPage({
           </p>
         </div>
       )}
-    </div>
+    </MaxWidthContainer>
   );
 }

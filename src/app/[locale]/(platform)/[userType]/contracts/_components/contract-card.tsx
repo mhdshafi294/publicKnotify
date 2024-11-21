@@ -1,19 +1,31 @@
-import { SquareArrowOutUpRightIcon, SquarePenIcon } from "lucide-react";
+"use client";
+
+import {
+  CirclePlusIcon,
+  EllipsisVerticalIcon,
+  MessageCircleMoreIcon,
+  ScrollTextIcon,
+} from "lucide-react";
 import { FC } from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { Contract } from "@/types/contract";
+import { format } from "date-fns";
 import { Session } from "next-auth";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import EllipsisVerticalIconKnotify from "@/components/icons/ellipsis-verticalIcon-knotify";
 
 /**
  * contractCard Component
@@ -31,126 +43,119 @@ const ContractCard: FC<{ contract: Contract; session: Session }> = ({
 }) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
+  const lang = useLocale();
 
   return (
-    <Link href={`contracts/${contract?.id}`} className="min-h-full">
-      <Card className="bg-card-secondary/70 hover:bg-card-secondary duration-200 border-card-foreground/10 min-h-96 h-full relative flex flex-col rounded-sm">
-        <CardHeader>
-          <div className="flex gap-3">
-            <div className="w-full flex flex-col justify-start gap-3">
-              <div className="w-full flex justify-between items-center">
-                <div className="flex gap-3 items-baseline">
-                  <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                    {t("contract-id")}
-                  </p>
-                  <CardTitle className="capitalize">{contract?.id}</CardTitle>
-                  <SquareArrowOutUpRightIcon
-                    size={14}
-                    className="text-card-foreground/30"
-                  />
-                </div>
-                <div className="text-xs rounded-full bg-card-foreground text-card px-3 py-1.5 font-semibold">
-                  {contract?.status_translation}
-                </div>
-              </div>
-              <p className="text-sm capitalize">
-                <span className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50 me-1">
-                  {t("with")}
-                </span>
-                {contract?.company
-                  ? contract?.company?.full_name
-                  : contract?.podcaster?.full_name}
+    <Card className="bg-card/50 hover:bg-card/80 duration-200 border-card-foreground/0 w-full rounded-2xl h-28 ">
+      <CardContent className={cn("flex items-center justify-between p-5")}>
+        <div className="flex gap-3">
+          <Avatar className="size-[74px]">
+            <AvatarImage
+              src={
+                "podcaster" in contract
+                  ? contract?.podcaster?.image
+                  : contract?.company?.image
+              }
+              alt={
+                "podcaster" in contract
+                  ? contract?.podcaster?.full_name
+                  : contract?.company?.full_name
+              }
+              className="object-cover"
+            />
+            <AvatarFallback className="bg-greeny_lighter  text-black font-bold">
+              {"podcaster" in contract
+                ? contract.podcaster.full_name.slice(0, 2).toUpperCase()
+                : contract.company.full_name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col justify-between">
+            <div className="flex items-center gap-2">
+              <h2 className="font-bold text-2xl capitalize">
+                {"podcaster" in contract
+                  ? contract.podcaster.full_name
+                  : contract.company.full_name}
+              </h2>
+              <p className="text-muted-foreground text-sm">
+                {format(new Date(contract.created_at), "d MMM yyyy")}
               </p>
             </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col-reverse lg:flex-row items-stretch gap-2">
-            <div className="lg:w-9/12 text-wrap overflow-hidden flex flex-col gap-3 justify-between">
-              <article
-                className="text-wrap text-xl"
-                dangerouslySetInnerHTML={{
-                  __html: contract?.description,
-                }}
-              />
-              <div className="flex flex-wrap gap-2">
-                <div className="">
-                  <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                    {t("episode-type")}
-                  </p>
-                  <p className="text-xs">
-                    {contract?.episode_type_translation}
-                  </p>
-                </div>
-                <div className="">
-                  <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                    {t("media-type")}
-                  </p>
-                  <p className="text-xs">{contract?.media_type}</p>
-                </div>
-              </div>
-            </div>
-            <div className="flex lg:flex-col gap-2 lg:w-3/12">
-              <div>
-                <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                  {t("publishDate")}
-                </p>
-                <p className="text-xs">{contract?.publishing_date}</p>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                  {t("offerValue")}
-                </p>
-                <p className="text-xs lg:text-sm">{contract?.ad_cost} $</p>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                  {t("ad-period")}
-                </p>
-                <p className="text-xs lg:text-sm">
-                  {contract?.ad_period.split(":")[1]}m{" "}
-                  {contract?.ad_period.split(":")[2]}s
-                </p>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-card-foreground/80 dark:text-card-foreground/50">
-                  {t("adPosition")}
-                </p>
-                <p className="text-xs lg:text-sm">{contract?.ad_place}</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="!mt-auto justify-self-end">
-          <div className="flex w-full items-baseline justify-between">
-            <p className="text-[10px] font-bold text-card-foreground/80 dark:text-card-foreground/50">
-              {t("created-at")} {contract?.created_at}
+            <p className="text-greeny capitalize text-sm">
+              {contract?.advertising_section?.name[lang as "ar" | "en"]}
             </p>
-            {session?.user?.type === "podcaster" && contract?.status === 1 ? (
-              <Link
-                href={`contracts/${contract?.id}/update`}
-                legacyBehavior
-                passHref
-              >
-                <span
-                  className={cn(
-                    buttonVariants({
-                      variant: "secondary",
-                      size: "sm",
-                      className:
-                        "text-sm flex justify-center items-center gap-1 capitalize",
-                    })
-                  )}
-                >
-                  <SquarePenIcon size={16} />
-                  {t("update")}
-                </span>
-              </Link>
-            ) : null}
+            <p className="text-primary capitalize text-sm">
+              {contract?.advertising_section?.type?.name[lang as "ar" | "en"]}
+            </p>
           </div>
-        </CardFooter>
-      </Card>
-    </Link>
+        </div>
+        <div className="flex h-full items-center justify-end gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <EllipsisVerticalIconKnotify strokeWidth={3} className="size-7" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {/* {session?.user?.type === "podcaster" && (
+                  <>
+                    <DropdownMenuItem>
+                      <Link
+                        href={`/&${session?.user?.type}/chats`}
+                        className="flex items-center gap-2 capitalize"
+                      >
+                        <CirclePlusIcon size={16} strokeWidth={2.5} />
+                        {t("new-publish")}
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />{" "}
+                  </>
+                )} */}
+              <DropdownMenuItem>
+                <Link
+                  href={`/&${session?.user?.type}/chats`}
+                  className="flex items-center gap-2 capitalize"
+                >
+                  <MessageCircleMoreIcon size={16} strokeWidth={2.5} />
+                  {t("chat")}
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`contracts/${contract?.id}`}
+                  className="flex items-center gap-2 capitalize"
+                >
+                  <ScrollTextIcon size={16} strokeWidth={2.5} />
+                  {t("view-contract")}
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        {/* {contract?.status} */}
+        {/* {contract?.status_translation !== "Pending" ? (
+            <div className="flex h-full items-end justify-end gap-4">
+              <Link
+                href={`/&${session?.user?.type}/chats`}
+                className={cn(
+                  buttonVariants({
+                    variant: "secondary",
+                    className:
+                      "font-bold bg-greeny_lighter text-secondary hover:text-foreground rounded-full px-6 py-3 gap-2 items-center w-36 h-11",
+                  })
+                )}
+              >
+                <MessageCircleMoreIcon size={20} />
+                {t("chat")}
+              </Link>
+            </div>
+          ) : contract?.status_translation === "Pending" &&
+            session?.user?.type === "podcaster" ? (
+            <div className="flex h-full items-center justify-end gap-4"></div>
+          ) : contract?.status_translation === "Pending" &&
+            session?.user?.type === "company" ? (
+            <div className="flex h-full items-center justify-end gap-4"></div>
+          ) : null} */}
+      </CardContent>
+    </Card>
   );
 };
 

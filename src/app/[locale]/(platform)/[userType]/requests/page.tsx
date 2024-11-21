@@ -61,12 +61,12 @@ export default async function RequestsPage({
     <main className="py-10 flex-1">
       <MaxWidthContainer className="flex flex-col gap-7">
         {/* Status filter and search bar section */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center mb-10">
           {/* Status filter component */}
           <StatusFilter status={status} />
 
           {/* Search bar and create request button for companies */}
-          <div className="flex justify-end items-center gap-2">
+          {/* <div className="flex justify-end items-center gap-2">
             <Search searchText={search} searchFor="requests" />
             {session?.user?.type === "company" && (
               <Link
@@ -76,7 +76,7 @@ export default async function RequestsPage({
                 {t("create")}
               </Link>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Infinite scroll component for loading requests */}
@@ -84,7 +84,7 @@ export default async function RequestsPage({
           initialData={requestsResponse}
           search={search}
           status={statusArray}
-          type={session?.user?.type!}
+          userType={session?.user?.type!}
         />
       </MaxWidthContainer>
     </main>

@@ -150,13 +150,12 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
   return (
     <Form {...form}>
       <form
-        className="w-fit px-0"
+        className="w-full px-0"
         onSubmit={form.handleSubmit((data) => {
           handleSubmit(data);
         })}
       >
-        <div className="flex flex-col items-center gap-9 w-[358px]">
-          <h2 className="text-[32px] font-black mb-1">{t("signIn")}</h2>
+        <div className="flex flex-col items-center gap-9 w-full">
           {/* Phone number input field */}
           <FormField
             control={form.control}
@@ -192,7 +191,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         </div>
         <Button
           disabled={loading}
-          className="w-[358px] capitalize mt-9"
+          className="w-full capitalize mt-9"
           type="submit"
         >
           {loading ? <ButtonLoader /> : t("continue")}

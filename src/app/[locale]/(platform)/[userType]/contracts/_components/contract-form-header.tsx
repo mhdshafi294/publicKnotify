@@ -41,7 +41,7 @@ const ContractFormHeader: React.FC<ContractFormHeaderProps> = ({
   return (
     <div className="flex items-center justify-between w-full mb-3">
       <div className="flex flex-col justify-between lg:justify-center items-start">
-        <h1 className="text-xl font-bold">{t("podcastDraftLabel")}</h1>
+        <h1 className="text-2xl font-bold">{t("contract-draft")}</h1>
       </div>
       <div className="flex items-center justify-end gap-2">
         <Button

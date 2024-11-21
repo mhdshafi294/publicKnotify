@@ -2,7 +2,7 @@
 
 import { getShowCountryStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
-import { EnabledStatistics, ShowCountryStatistics } from "@/types/statistics";
+import { ShowCountryStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -79,6 +79,22 @@ const DownloadsMapCard: React.FC<DownloadsMapCardProps> = ({
         </div>
       </div>
       {/* {map} */}
+      {/* <EnhancedDownloadsMap
+        downloads={[
+          {
+            name: "United States",
+            count: 33,
+            subRegions: [
+              {
+                name: "California",
+                count: 22,
+              },
+              // Add other states here
+            ],
+          },
+          // Add other countries here
+        ]}
+      /> */}
       {visitorData ? (
         <DownloadsMap downloads={visitorData.downloads_by_location} />
       ) : isPending ? (

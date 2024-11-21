@@ -68,7 +68,7 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
   }, [inputField, code]);
 
   return (
-    <div className="flex justify-center overflow-hidden w-full items-center border border-input rounded-md ">
+    <div className="flex justify-center overflow-hidden w-full items-center border border-input/50 rounded-md ">
       <Popover open={openPopover} onOpenChange={setOpenPopover}>
         <PopoverTrigger asChild>
           <Button

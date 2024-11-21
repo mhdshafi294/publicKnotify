@@ -19,6 +19,7 @@ import { Link } from "@/navigation";
 import { Statistics } from "@/types/podcaster";
 import { useTranslations } from "next-intl";
 import PricingCard from "../../pricings/_components/pricing-card";
+import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 
 /**
  * Modal Component
@@ -41,8 +42,8 @@ const VisitorsStatisticsModal = ({
 
   return (
     <Dialog>
-      <DialogTrigger className="flex items-center justify-center gap-5 opacity-75 hover:opacity-100 duration-200">
-        <PieChartIcon className="size-5" strokeWidth={3} />
+      <DialogTrigger className="flex items-center justify-center gap-3 text-xl font-semibold hover:opacity-80 duration-200">
+        <TrendingUpGradientIcon className="size-7" />
         {t("statistics")}
       </DialogTrigger>
       <DialogContent>

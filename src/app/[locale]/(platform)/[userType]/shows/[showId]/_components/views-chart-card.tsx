@@ -5,13 +5,12 @@ import { buttonVariants } from "@/components/ui/button";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { EnabledStatistics, ShowViewsStatistics } from "@/types/statistics";
+import { ShowViewsStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { addDays, format } from "date-fns";
 import React from "react";
 import { DateRange } from "react-day-picker";
 import DashboardCardContainer from "../../_components/dashboard-card-container";
-import AnalyticsEnableSwitch from "../analytics/_components/analytics-enable-switch";
 import MostViewsChart from "./most-views-chart";
 
 type ViewsChartCardProps = {

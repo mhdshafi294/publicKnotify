@@ -562,11 +562,37 @@
     "hourly-views": "المشاهدات كل ساعة",
     "time-of-day": "الوقت من اليوم",
     "no-show-created-by-this-podcaster-yet": "لم يتم انشاء عرض لهذا البودكاست بعد",
-    "subsicribe": "اشترك"
+    "subsicribe": "اشترك",
+    "Profile": "الملف الشخصي",
+    "Contracts": "العقود",
+    "Language": "اللغة",
+    "contract-draft": "مسودة العقد",
+    "shows": "العروض",
+    "Assign": "تعيين",
+    "Month": "شهر",
+    "Annual": "سنوي",
+    "pick-your-premium": "اختر الباقة الخاصة بك",
+    "upgrade-to-knotify-premium-and-take-your-music-journey-to-the-next-level-enjoy-uninterrupted-music-playback-even-in-offline-mode": " ترقية الى باقة Knotify Premium وافتح الرحلة الاغنية الخاصة بك للانتقاء من الحلقات السلوكية",
+    "more": "المزيد",
+    "terms-and-conditions-apply": "تطبيق الشروط والاحكام",
+    "Monthly": "شهري",
+    "go-for-a-month-or-get-a-much-better-deal-going-for-a-year": "اشترك لمدة شهر أو احصل على سعر افضل للغاية بالاشتراك لمدة سنة",
+    "enterPhoneNumber": "أدخل رقم هاتفك",
+    "submit": "يُقدِّم",
+    "request-for-podcaster": "طلب بودكاستر",
+    "canceled": "تم الإلغاء",
+    "onProgress": "على التقدم",
+    "inProgress": "في تَقَدم",
+    "paid": "مدفوع",
+    "ad-type": "نوع الإعلان",
+    "view-contract": "عرض العقد",
+    "new-publish": "نشر جديد"
   },
   "notifications": {
     "notifications": "notifications"
   },
   "no-podcasts-in-this-playlist-yet": "",
-  "chat": "محادثة"
+  "chat": "محادثة",
+  "pick-your-premium": "",
+  "more": ""
 }

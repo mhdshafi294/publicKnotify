@@ -28,8 +28,8 @@ const InfiniteScrollRequests: React.FC<{
   initialData: RequestsResponse;
   search?: string;
   status?: string[];
-  type: string;
-}> = ({ initialData, search, status, type }) => {
+  userType: string;
+}> = ({ initialData, search, status, userType }) => {
   // Translation function for internationalization
   const t = useTranslations("Index");
 
@@ -45,10 +45,10 @@ const InfiniteScrollRequests: React.FC<{
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["requests", { type, search, status }],
+    queryKey: ["requests", { type: userType, search, status }],
     queryFn: async ({ pageParam = 1 }) => {
       const response: RequestsResponse = await getRequestsAction({
-        type,
+        type: userType,
         search,
         status,
         page: pageParam.toString(),
@@ -86,11 +86,11 @@ const InfiniteScrollRequests: React.FC<{
 
   return (
     <>
-      <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <ul className="w-full grid grid-cols-1 gap-5">
         {data?.pages.map((page) =>
           page?.requests.map((request) => (
             <li key={request?.id}>
-              <RequestCard request={request!} />
+              <RequestCard request={request!} userType={userType} />
             </li>
           ))
         )}

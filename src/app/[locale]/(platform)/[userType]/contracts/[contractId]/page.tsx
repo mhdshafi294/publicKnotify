@@ -17,7 +17,7 @@ import ContractPageCard from "../_components/contract-page-card";
 const ContractPage = async ({
   params,
 }: {
-  params: { userType: string; contractId: string };
+  params: { locale: string; userType: string; contractId: string };
 }) => {
   if (/^\d+$/.test(params.contractId)) {
     // Fetching the current session using NextAuth's getServerSession
@@ -32,12 +32,14 @@ const ContractPage = async ({
     });
 
     const secondPartyData = {
-      name: contract?.company
-        ? contract?.company?.full_name
-        : contract?.podcaster?.full_name!,
-      image: contract?.company
-        ? contract?.company?.image
-        : contract?.podcaster?.image!,
+      name:
+        "company" in contract
+          ? contract?.company?.full_name
+          : contract?.podcaster?.full_name!,
+      image:
+        "company" in contract
+          ? contract?.company?.image
+          : contract?.podcaster?.image!,
     };
 
     return (
@@ -46,16 +48,21 @@ const ContractPage = async ({
           id={contract?.id}
           status_translation={contract?.status_translation}
           status_code={contract?.status}
-          request_name={contract?.request_name}
           secondPartyData={secondPartyData}
           description={contract?.description}
           media_type={contract?.media_type}
-          ad_place={contract?.ad_place}
+          ad_place={
+            contract?.advertising_section?.name[params.locale as "en" | "ar"]
+          }
+          ad_type={
+            contract?.advertising_section?.type?.name[
+              params.locale as "en" | "ar"
+            ]
+          }
           ad_period={contract?.ad_period}
           ad_cost={contract?.ad_cost}
           publishing_date={contract?.publishing_date}
           publishing_time={contract?.publishing_time}
-          episode_type_translation={contract?.episode_type_translation}
           created_at={contract?.created_at}
           session={session!}
         />

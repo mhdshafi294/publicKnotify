@@ -44,7 +44,7 @@ const MenuBar = ({ editor }: { editor: any }) => {
   }
 
   return (
-    <div className="p-1 flex items-center justify-between border border-input rounded-t-lg">
+    <div className="p-1 flex items-center justify-between border border-input/50 rounded-t-lg">
       <div className="flex items-center flex-wrap">
         <Button
           variant={editor.isActive("bold") ? "default" : "ghost"}
@@ -201,7 +201,7 @@ function FormInputRichText<T extends FieldValues>({
     editorProps: {
       attributes: {
         class: cn(
-          "w-full text-white bg-background rounded-b-lg border border-input  min-h-[200px] p-4 prose prose-p:text-white prose-strong:text-white prose-blockquote:text-white prose-headings:text-white max-w-full",
+          "w-full text-white bg-background rounded-b-lg border border-input/50  min-h-[200px] p-4 prose prose-p:text-white prose-strong:text-white prose-blockquote:text-white prose-headings:text-white max-w-full",
           className
         ),
         dir,

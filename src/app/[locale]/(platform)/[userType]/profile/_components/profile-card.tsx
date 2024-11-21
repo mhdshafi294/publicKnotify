@@ -2,7 +2,13 @@
 import { Session } from "next-auth";
 
 // Third-party libraries
-import { MailIcon, PhoneIcon, PieChart } from "lucide-react";
+import {
+  MailIcon,
+  PhoneIcon,
+  PieChart,
+  SquarePenIcon,
+  TrendingUpIcon,
+} from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 // Local components and utilities
@@ -27,6 +33,7 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
+import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -64,7 +71,7 @@ const ProfileCard = async ({
   }
 
   return (
-    <aside className="w-full lg:w-3/12 rounded-lg lg:bg-card lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
+    <aside className="w-full lg:w-3/12 rounded-lg lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
       {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
@@ -80,6 +87,17 @@ const ProfileCard = async ({
               : undefined
           }
         />
+        {isSelfProfile ? (
+          <Link
+            href={`/${session?.user?.type}/profile/edit`}
+            className={cn(
+              "text-sm font-bold text-primary flex items-center gap-2 hover:text-greeny duration-200 "
+            )}
+          >
+            <SquarePenIcon size={18} />
+            <span className="">{t("editProfile")}</span>
+          </Link>
+        ) : null}
         {/* Display categories if present */}
         {"categories" in profileData ? (
           <ProfileCategories categories={profileData?.categories!} />
@@ -127,9 +145,9 @@ const ProfileCard = async ({
                   ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
                   : `/${session?.user?.type}/statistics`
               }
-              className="flex justify-center items-center gap-5 opacity-75 hover:opacity-100 duration-200"
+              className="flex justify-center items-center gap-3  hover:opacity-80 duration-200"
             >
-              <PieChart className="size-5" strokeWidth={3} />
+              <TrendingUpGradientIcon className="size-7" />
               <p className="text-lg font-medium capitalize">
                 {t("statistics")}
               </p>
@@ -165,17 +183,7 @@ const ProfileCard = async ({
         ) : null}
       </div>
       {/* Edit profile link for self profiles */}
-      {isSelfProfile ? (
-        <Link
-          href={`/${session?.user?.type}/profile/edit`}
-          className={cn(
-            buttonVariants({ variant: "default" }),
-            "w-full text-lg font-bold"
-          )}
-        >
-          {t("editProfile")}
-        </Link>
-      ) : null}
+
       {isSelfProfile && profileType === "podcaster" ? (
         <AssignPayButton />
       ) : null}
