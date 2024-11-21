@@ -58,11 +58,12 @@ const StepFormContent: React.FC<StepFormContentProps> = ({
     return (
       <div className="py-5 flex-1 flex flex-col">
         <ContractPageCard
-          request_name={requestResponse?.request?.name!}
+          // request_name={requestResponse?.request?.name!}
           secondPartyData={secondPartyData}
           description={form.watch("description")}
           media_type={form.watch("media_type")}
           ad_place={form.watch("advertising_type")}
+          ad_type={form.watch("advertising_section_id")}
           ad_period={form.watch("ad_period")}
           ad_cost={form.watch("ad_cost")}
           publishing_date={format(form.watch("publishing_date"), "yyyy-MM-dd")}
