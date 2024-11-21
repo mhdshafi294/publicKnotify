@@ -91,7 +91,7 @@ const ContractCard: FC<{ contract: Contract; session: Session }> = ({
         <div className="flex h-full items-center justify-end gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <EllipsisVerticalIconKnotify strokeWidth={3} className="size-5" />
+              <EllipsisVerticalIconKnotify strokeWidth={3} className="size-7" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {/* {session?.user?.type === "podcaster" && (
