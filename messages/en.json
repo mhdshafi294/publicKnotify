@@ -187,7 +187,7 @@
     "mediaTypeLabel": "Media Type",
     "episodeTypeLabel": "Episode Type",
     "typeLabel": "Type",
-    "summaryLabel": "Podcast Summary",
+    "summaryLabel": "Episode Summary",
     "summaryPlaceholder": "Tell us a little about your podcast",
     "companyTagPlaceholder": "Company",
     "companyTagLabel": "Company Tag",
@@ -279,6 +279,7 @@
     "unpublished": "Unpublished",
     "episodes": "Episodes",
     "add-episode": "Add Episode",
+    "Add Episode": "Add Episode",
     "episodes-page-description": "Find all of your drafts and episodes in the tabs below. When a draft is assigned a Publish Date and an audio file, it will automatically be moved to the Episodes tab and go live on its assigned date.",
     "show-distribution": "Show Distribution",
     "RSS Feed": "RSS Feed",
@@ -615,7 +616,8 @@
     "paid": "paid",
     "ad-type": "ad type",
     "view-contract": "View contract",
-    "new-publish": "new publish"
+    "new-publish": "new publish",
+    "open": "open"
   },
   "notifications": {
     "notifications": "notifications"

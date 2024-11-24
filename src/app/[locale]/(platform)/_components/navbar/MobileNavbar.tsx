@@ -32,8 +32,8 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
-import SelfStoriesDropdownMenu from "../../[userType]/stories/_components/self-stories-dropdown-menu";
 import { useEffect, useState } from "react";
+import SelfStoriesDropdownMenu from "../../[userType]/stories/_components/self-stories-dropdown-menu";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -105,7 +105,7 @@ const MobileNavbar = ({
             <div className="flex flex-col gap-2 px-6">
               <div className="flex flex-col justify-start items-start gap-0">
                 {mainNavLinks.map((link) => {
-                  if (link.label !== "Add Podcast") {
+                  if (link.label !== "Add Episode") {
                     return (
                       <Link
                         key={link.href}
@@ -154,6 +154,11 @@ const MobileNavbar = ({
                             hidden:
                               session?.user?.type === "podcaster" &&
                               link.label === "Home",
+                          },
+                          {
+                            hidden:
+                              session?.user?.type !== "user" &&
+                              link.label === "Favorite",
                           }
                         )}
                       >

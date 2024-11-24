@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { PlaylistsResponse } from "@/types/podcast";
 import SelfStoriesDialogsContainer from "../../[userType]/stories/_components/self-stories-dialogs-container";
@@ -38,7 +39,11 @@ const Navbar = async (): Promise<JSX.Element> => {
 
   return (
     <div className="sticky top-0 left-0 h-[71px] w-full z-50 bg-accent dark:bg-secondary">
-      <MaxWidthContainer className="h-full flex justify-between items-center">
+      <MaxWidthContainer
+        className={cn("h-full flex justify-between items-center", {
+          "max-w-[2000px]": session?.user?.type === "podcaster",
+        })}
+      >
         <div className="flex justify-start items-center gap-2">
           {/* Logo and Home Link */}
           <Link href="/" className="font-bold text-3xl text-white">

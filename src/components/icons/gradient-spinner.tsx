@@ -25,8 +25,8 @@ const GradientSpinnerIcon = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
             gradientUnits="userSpaceOnUse"
             gradientTransform="translate(133.306 133.435) rotate(90) scale(133.294)"
           >
-            <stop stop-color="#0079F3" />
-            <stop offset="1" stop-color="#001D3A" stop-opacity="0" />
+            <stop stopColor="#0079F3" />
+            <stop offset="1" stopColor="#001D3A" stop-opacity="0" />
           </radialGradient>
         </defs>
       </svg>

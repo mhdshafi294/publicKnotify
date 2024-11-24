@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircleMoreIcon, MessagesSquareIcon } from "lucide-react";
+import { MessageCircleMoreIcon } from "lucide-react";
 import { FC } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -85,12 +85,12 @@ const RequestCard: FC<{ request: Request; userType: string }> = ({
                 buttonVariants({
                   variant: "secondary",
                   className:
-                    "font-bold bg-greeny_lighter text-secondary hover:text-foreground rounded-full px-6 py-3 gap-2 items-center w-36 h-11",
+                    "font-bold bg-greeny text-secondary hover:bg-greeny_lighter rounded-full gap-2 items-center text-sm px-5 capitalize",
                 })
               )}
             >
-              <MessageCircleMoreIcon size={20} />
-              {t("chat")}
+              <MessageCircleMoreIcon size={16} />
+              {t("open")} {t("chat")}
             </Link>
           </div>
         ) : request?.status === "Pending" && userType === "podcaster" ? (

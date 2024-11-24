@@ -3,7 +3,7 @@ import { Link } from "@/navigation";
 import { CategoryDetails } from "@/types/podcast";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
-import React, { FC } from "react";
+import { FC } from "react";
 
 type PropsType = {
   category: CategoryDetails;
@@ -17,10 +17,10 @@ const CategoryCard: FC<PropsType> = async ({ category }) => {
       className="bg-background hover:bg-border/10 duration-150 flex justify-start items-center dark:border border-2 border-border-secondary rounded-xl w-48 gap-2 p-4"
       key={category.id}
     >
-      <div className="size-10 relative">
+      <div className="h-10 w-14 relative">
         <Image
           fill
-          className="rounded object-contain"
+          className="rounded object-cover"
           src={category.image ? category.image : "/podcast-filler.webp"}
           alt={category.name}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

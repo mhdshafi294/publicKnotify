@@ -117,7 +117,7 @@ const UserOptions = () => {
                 </DropdownMenuItem>
               </Link>
             ) : null}
-            {session?.user?.type !== "user" ? (
+            {session?.user?.type === "podcaster" ? (
               <Link href={`/${session?.user?.type}/wallet`}>
                 <DropdownMenuItem>
                   <WalletIcon className="me-2 h-4 w-4" />

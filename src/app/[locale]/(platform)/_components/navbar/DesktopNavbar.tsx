@@ -64,7 +64,7 @@ const DesktopNavbar = ({
           <span className="sr-only">{t("search")}</span>
         </Link>
         {mainNavLinks.map((link) => {
-          if (link.label === "Add Podcast") {
+          if (link.label === "Add Episode") {
             return (
               <Link
                 key={link.id}
@@ -141,6 +141,11 @@ const DesktopNavbar = ({
                     hidden:
                       session?.user?.type === "podcaster" &&
                       link.label === "Home",
+                  },
+                  {
+                    hidden:
+                      session?.user?.type !== "user" &&
+                      link.label === "Favorite",
                   }
                 )}
               >
