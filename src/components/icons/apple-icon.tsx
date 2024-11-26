@@ -39,8 +39,8 @@ const AppleIcon = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
             y2="-1.12969e-06"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#822CBE" />
-            <stop offset="1" stop-color="#D772FB" />
+            <stop stopColor="#822CBE" />
+            <stop offset="1" stopColor="#D772FB" />
           </linearGradient>
           <clipPath id="clip0_519_10674">
             <rect width="24.0997" height="24.0997" fill="white" />

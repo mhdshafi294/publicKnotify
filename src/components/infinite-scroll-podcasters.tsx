@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
-import { Podcaster, PodcastersResponse } from "@/types/podcaster";
-import { PodcasterCard } from "./podcaster-card";
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
+import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { PodcastersResponse } from "@/types/podcaster";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { PodcasterCard } from "./podcaster-card";
 
 const InfiniteScrollPodcasters = ({
   initialData,
@@ -77,7 +77,7 @@ const InfiniteScrollPodcasters = ({
 
   return (
     <>
-      <ul className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      <ul className="w-full grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-0">
         {data?.pages.map((page) =>
           page?.podcasters.map((podcaster) => (
             <li key={podcaster?.id}>

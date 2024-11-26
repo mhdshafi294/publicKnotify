@@ -1,4 +1,3 @@
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
@@ -20,9 +19,9 @@ const PodcasterProfileHeader: React.FC<PropsPodcasterProfileHeader> = async ({
       <Image
         src={image ? image : "/podcaster-profile-cover.png"}
         alt="Placeholder"
-        width={1100}
-        height={1100}
+        fill
         className="absolute inset-0 w-full h-full object-cover"
+        priority={true}
       />
       <div className="absolute inset-0 w-full h-full bg-black/30 flex flex-col gap-2 justify-center px-7 z-50">
         <h3 className="font-bold text-[32px]">{name ? name : ""}</h3>

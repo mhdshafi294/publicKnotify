@@ -185,6 +185,7 @@
     "nameLabel": "الاسم",
     "episodes": "الحلقات",
     "add-episode": "إضافة حلقة",
+    "Add Episode": "إضافة حلقة",
     "episodes-page-description": "ابحث عن جميع مسوداتك وحلقاتك في الألسنة أدناه. عندما يُعطى تاريخ نشر وملف صوتي للمسودة، سيتم نقلها تلقائيًا إلى علامة التبويب الحلقات وتُنشر في التاريخ المحدد.",
     "show-distribution": "عرض التوزيع",
     "RSS Feed": "تغذية RSS",
@@ -203,7 +204,7 @@
     "mediaTypeLabel": "نوع الوسائط",
     "episodeTypeLabel": "نوع الحلقة",
     "typeLabel": "النوع",
-    "summaryLabel": "ملخص البودكاست",
+    "summaryLabel": "ملخص الحلقة",
     "summaryPlaceholder": "أخبرنا قليلاً عن البودكاست الخاص بك",
     "companyTagPlaceholder": "الشركة",
     "companyTagLabel": "علامة الشركة",
@@ -586,7 +587,8 @@
     "paid": "مدفوع",
     "ad-type": "نوع الإعلان",
     "view-contract": "عرض العقد",
-    "new-publish": "نشر جديد"
+    "new-publish": "نشر جديد",
+    "open": "افتح"
   },
   "notifications": {
     "notifications": "notifications"

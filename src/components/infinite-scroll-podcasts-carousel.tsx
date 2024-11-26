@@ -1,25 +1,25 @@
 "use client";
 
 // Global imports
-import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 // Local imports
-import Loader from "@/components/ui/loader";
+import { getTrendingAction } from "@/app/actions/podcastActions";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { getTrendingAction } from "@/app/actions/podcastActions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
 import { getDirection } from "@/lib/utils";
-import { PodcastCard } from "./podcast-card";
 import { Link } from "@/navigation";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
+import { PodcastCard } from "./podcast-card";
 
 /**
  * InfiniteScrollPodcastsCarousel Component
@@ -136,7 +136,7 @@ const InfiniteScrollPodcastsCarousel = ({
           </Link>
         </div>
       </div>
-      <CarouselContent className="w-full mt-2 ms-0 gap-3">
+      <CarouselContent className="w-full mt-2 ms-0 gap-2">
         {data?.pages[0].podcasts.length === 0 ? (
           <p className="text-lg my-auto opacity-70 dark:opacity-50 italic">
             {t("noPodcastsYet")}

@@ -1,18 +1,12 @@
-import { FilePlus2Icon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
 import { getContractsAction } from "@/app/actions/contractActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { cn } from "@/lib/utils";
-import { Link, redirect } from "@/navigation";
+import { redirect } from "@/navigation";
 import ContractStatusFilter from "./_components/contract-status-filter";
 import InfiniteScrollContracts from "./_components/infinite-scroll-contracts";
-import SelectCompanyFilter from "./_components/select-company-filter";
-import SelectPodcasterFilter from "./_components/select-podcaster-filter";
-import SelectRequestFilter from "./_components/select-request-filter";
 
 /**
  * Renders the ContractsPage component with the specified parameters.
@@ -78,7 +72,7 @@ const ContractsPage = async ({
 
   return (
     <main className="py-10 flex-1">
-      <MaxWidthContainer className="flex flex-col gap-7">
+      <MaxWidthContainer className="flex flex-col gap-7 max-w-screen-lg">
         <div className="w-full flex justify-center items-center">
           {/* Status filter component */}
           <ContractStatusFilter status={status} />

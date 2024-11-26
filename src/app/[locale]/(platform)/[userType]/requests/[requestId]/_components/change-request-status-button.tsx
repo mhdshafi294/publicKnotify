@@ -1,15 +1,14 @@
 "use client";
 
 // Global imports
-import { toast } from "sonner";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "@/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 // Local imports
 import { changeRequestStatusAction } from "@/app/actions/requestsActions";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
-import { Request } from "@/types/request";
 
 /**
  * ChangeRequestStatusButton Component
@@ -87,7 +86,7 @@ const ChangeRequestStatusButton = ({
   return (
     <Button
       disabled={isPending}
-      className="capitalize mx-auto w-36 h-11 rounded-full font-bold text-lg"
+      className="capitalize mx-auto rounded-full font-bold text-sm px-7"
       variant={status === "accept" ? "default" : "destructive"}
       onClick={handleAccept}
     >

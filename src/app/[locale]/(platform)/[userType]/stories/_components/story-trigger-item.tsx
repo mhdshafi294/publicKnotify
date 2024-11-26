@@ -133,8 +133,8 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
       onClick={handleOpenStories}
       className="flex flex-col items-center space-y-2"
     >
-      <div className="relative size-[4rem] xl:size-[6rem] flex justify-center items-center">
-        <Avatar className="size-[3.6rem] xl:size-[5.5rem] border-2 border-transparent">
+      <div className="relative size-[4rem] xl:size-[5rem] flex justify-center items-center">
+        <Avatar className="size-[3.6rem] xl:size-[4.5rem] border-2 border-transparent">
           <AvatarImage
             src={storyGroup.podcaster.image}
             alt={storyGroup.podcaster.name}
@@ -145,9 +145,31 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
           </AvatarFallback>
         </Avatar>
         <svg
-          className="absolute top-0 left-0 size-[4rem] xl:size-[6rem] stroke-[#8a8a8a]"
+          className="absolute top-0 left-0 size-[4rem] xl:size-[5rem] stroke-[#8a8a8a]"
           viewBox="0 0 100 100"
         >
+          {/* Define the gradient */}
+          <defs>
+            <linearGradient
+              id="gradientStroke"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop
+                offset="0%"
+                style={{ stopColor: "#405DE6", stopOpacity: 1 }}
+              />
+
+              <stop
+                offset="100%"
+                style={{ stopColor: "#FD1D1D", stopOpacity: 1 }}
+              />
+            </linearGradient>
+          </defs>
+
+          {/* Render the paths */}
           {Array.from({ length: segmentCount }).map((_, i) => {
             const startAngle = i * segmentAngle;
             const endAngle = (i + 1) * segmentAngle;
@@ -158,7 +180,7 @@ const StoryTriggerItem: React.FC<StoryTriggerItemProps> = ({
                 d={createArcPath(startAngle, endAngle, 48)}
                 fill="none"
                 stroke={
-                  story && !story.is_viewd ? "hsl(var(--primary))" : "#8a8a8a"
+                  story && !story.is_viewd ? "url(#gradientStroke)" : "#8a8a8a"
                 }
                 strokeWidth="2.5"
                 strokeLinecap="round"

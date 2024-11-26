@@ -1,13 +1,10 @@
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
-import { Link, redirect } from "@/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getRequestsAction } from "@/app/actions/requestsActions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import Search from "@/components/search";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { redirect } from "@/navigation";
 import InfiniteScrollRequests from "./_components/infinite-scroll-requests";
 import StatusFilter from "./_components/status-filter";
 
@@ -59,7 +56,7 @@ export default async function RequestsPage({
 
   return (
     <main className="py-10 flex-1">
-      <MaxWidthContainer className="flex flex-col gap-7">
+      <MaxWidthContainer className="flex flex-col gap-7 max-w-screen-lg">
         {/* Status filter and search bar section */}
         <div className="flex justify-center items-center mb-10">
           {/* Status filter component */}

@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
-import Image from "next/image";
 import {
   ChevronDown,
   LayoutDashboard,
   PlusSquare,
   Settings,
 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,10 +18,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { Link, usePathname } from "@/navigation";
 import { Playlist } from "@/types/podcast";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /**
  * The ShowPopover component displays a dropdown-style popover menu
@@ -58,10 +58,10 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
           >
             <span className="inline-flex justify-between items-center gap-2 text-secondary-foreground">
               <Image
-                width={56}
+                width={40}
                 height={40}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover h-5 w-7 md:h-10 md:w-14"
+                className="object-cover size-5 md:size-10"
                 src={
                   playlists.find((show) => show.id.toString() === params.showId)
                     ?.image || "/draftC.png"
