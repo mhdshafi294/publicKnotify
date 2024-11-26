@@ -1,9 +1,7 @@
-import { FileSymlinkIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
 import InfiniteScrollSelfPlaylists from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-playlists";
-import InfiniteScrollSelfPodcasts from "@/app/[locale]/(platform)/[userType]/profile/_components/infinite-scroll-self-podcasts";
 import {
   getPlayListsAction,
   getPlayListsByPodcasterAction,
@@ -18,22 +16,18 @@ import {
 } from "@/app/actions/podcasterActions";
 import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import InfiniteScrollPlayback from "@/components/infinite-scroll-playback";
-import { Button, buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { cn } from "@/lib/utils";
-import { Link } from "@/navigation";
 import { Company } from "@/types/company";
 import { Playlist, Podcast, SelfPodcastDetails } from "@/types/podcast";
 import { Podcaster, PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
+import CreateRequestDialog from "../../requests/create/_components/create-request-dialog";
 import InfiniteScrollCompanySelfPodcasters from "./infinite-scroll-company-self-podcasters";
 import InfiniteScrollSelfCompanyPodcasts from "./infinite-scroll-company-self-podcasts";
 import InfiniteScrollPlaylistsByPodcaster from "./infinite-scroll-playlists-by-podcaster";
 import InfiniteScrollPodcastersByCompany from "./infinite-scroll-podcasters-by-company";
 import InfiniteScrollPodcastsByCompany from "./infinite-scroll-podcasts-by-company";
-import Image from "next/image";
 import PodcasterProfileHeader from "./podcaster-profile-header";
-import CreateRequestDialog from "../../requests/create/_components/create-request-dialog";
 
 /**
  * Component for displaying profile content with infinite scroll functionality.
@@ -165,6 +159,13 @@ const ProfileContent = async ({
                     ? contentData1[0]?.name
                     : ""
                 }
+                episodesCount={
+                  contentData1 &&
+                  contentData1[0] &&
+                  "podcasts_count" in contentData1[0]
+                    ? contentData1[0]?.podcasts_count
+                    : 0
+                }
               />
             </MaxWidthContainer>
             <MaxWidthContainer className="w-full">
@@ -229,6 +230,13 @@ const ProfileContent = async ({
                 contentData1 && contentData1[0] && "name" in contentData1[0]
                   ? contentData1[0]?.name
                   : ""
+              }
+              episodesCount={
+                contentData1 &&
+                contentData1[0] &&
+                "podcasts_count" in contentData1[0]
+                  ? contentData1[0]?.podcasts_count
+                  : 0
               }
             />
           </MaxWidthContainer>

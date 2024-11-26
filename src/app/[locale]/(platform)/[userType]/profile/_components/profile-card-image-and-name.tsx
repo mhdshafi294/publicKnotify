@@ -124,6 +124,26 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
               className="absolute top-0 left-0 w-full h-full"
               viewBox="0 0 100 100"
             >
+              {/* Define the gradient */}
+              <defs>
+                <linearGradient
+                  id="gradientStroke"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
+                >
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: "#405DE6", stopOpacity: 1 }}
+                  />
+
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: "#FD1D1D", stopOpacity: 1 }}
+                  />
+                </linearGradient>
+              </defs>
               {Array.from({ length: segmentCount }).map((_, i) => {
                 const startAngle = i * segmentAngle;
                 const endAngle = (i + 1) * segmentAngle;
@@ -135,7 +155,7 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
                     fill="none"
                     stroke={
                       story && "is_viewd" in story && !story.is_viewd
-                        ? "hsl(var(--greeny))"
+                        ? "url(#gradientStroke)"
                         : "#8a8a8a"
                     }
                     strokeWidth="3"

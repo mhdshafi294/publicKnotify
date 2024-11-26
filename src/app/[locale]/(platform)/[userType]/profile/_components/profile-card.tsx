@@ -102,6 +102,16 @@ const ProfileCard = async ({
         {"categories" in profileData ? (
           <ProfileCategories categories={profileData?.categories!} />
         ) : null}
+        {profileType === "podcaster" &&
+        "monthly_listeners" in profileData &&
+        session?.user?.type === "company" ? (
+          <div className="text-sm font-bold flex gap-2 items-baseline">
+            {profileData?.monthly_listeners}
+            <span className="text-xs text-muted-foreground">
+              {t("monthly-listeners")}
+            </span>
+          </div>
+        ) : null}
         {/* Display price switcher for podcasters under certain conditions */}
         {isSelfProfile && profileType === "podcaster" ? (
           <ProfilePriceSwitcher

@@ -1,7 +1,10 @@
+"use client";
+
 import PlayLarge from "@/components/icons/play-large";
 import { cn, getDistanceToNow } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { Playlist, SelfPodcastDetails } from "@/types/podcast";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import React from "react";
 
@@ -12,6 +15,7 @@ const PlaylistCard = ({
   playlist: Playlist;
   userType: string;
 }) => {
+  const t = useTranslations("Index");
   return (
     <Link href={`/${userType}/playlist/${playlist.id}`} className="w-full ">
       <div className="aspect-square rounded-lg relative">
@@ -33,7 +37,7 @@ const PlaylistCard = ({
         {playlist.name}
       </p>
       <p className="text-xs text-primary font-semibold opacity-75">
-        {playlist.podcasts_count} Podcasts
+        {playlist.podcasts_count} {t("episodes")}
       </p>
     </Link>
   );

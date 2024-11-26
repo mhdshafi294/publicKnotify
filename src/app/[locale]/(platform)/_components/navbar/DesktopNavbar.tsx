@@ -144,6 +144,11 @@ const DesktopNavbar = ({
                   },
                   {
                     hidden:
+                      session?.user?.type === "company" &&
+                      link.label === "Statistics",
+                  },
+                  {
+                    hidden:
                       session?.user?.type !== "user" &&
                       link.label === "Favorite",
                   }
