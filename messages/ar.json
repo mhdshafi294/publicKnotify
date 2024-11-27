@@ -588,7 +588,8 @@
     "ad-type": "نوع الإعلان",
     "view-contract": "عرض العقد",
     "new-publish": "نشر جديد",
-    "open": "افتح"
+    "open": "افتح",
+    "not-set-yet": "لم يتم تعيينه بعد"
   },
   "notifications": {
     "notifications": "notifications"

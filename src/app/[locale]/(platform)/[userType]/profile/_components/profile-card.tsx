@@ -2,17 +2,10 @@
 import { Session } from "next-auth";
 
 // Third-party libraries
-import {
-  MailIcon,
-  PhoneIcon,
-  PieChart,
-  SquarePenIcon,
-  TrendingUpIcon,
-} from "lucide-react";
+import { MailIcon, PhoneIcon, SquarePenIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 // Local components and utilities
-import { buttonVariants } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -26,6 +19,7 @@ import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 import { Company } from "@/types/company";
 import { Playlist } from "@/types/podcast";
 import { PodcasterDetails } from "@/types/podcaster";
@@ -33,7 +27,6 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
-import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -71,7 +64,7 @@ const ProfileCard = async ({
   }
 
   return (
-    <aside className="w-full lg:w-3/12 rounded-lg lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
+    <aside className="w-full lg:w-3/12 rounded-lg lg:py-0 px-5 lg:px-10 flex flex-col items-center lg:gap-14 gap-6">
       {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
@@ -147,21 +140,26 @@ const ProfileCard = async ({
             />
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
-            <Link
-              href={
-                playlists !== undefined &&
-                playlists?.length > 0 &&
-                playlists[0].id !== undefined
-                  ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
-                  : `/${session?.user?.type}/statistics`
-              }
-              className="flex justify-center items-center gap-3  hover:opacity-80 duration-200"
-            >
-              <TrendingUpGradientIcon className="size-7" />
-              <p className="text-lg font-medium capitalize">
-                {t("statistics")}
-              </p>
-            </Link>
+            <div className="w-full flex justify-between items-center gap-3 ">
+              <div className="flex items-center gap-2">
+                <TrendingUpGradientIcon className="size-7" />
+                <p className="text-lg font-semibold capitalize">
+                  {t("statistics")}
+                </p>
+              </div>
+              <Link
+                href={
+                  playlists !== undefined &&
+                  playlists?.length > 0 &&
+                  playlists[0].id !== undefined
+                    ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                    : `/${session?.user?.type}/statistics`
+                }
+                className="text-xs font-semibold text-primary hover:text-greeny duration-200 "
+              >
+                View
+              </Link>
+            </div>
           )}
         </div>
         {/* Phone number display for users and companies */}
@@ -192,11 +190,7 @@ const ProfileCard = async ({
           </HoverCard>
         ) : null}
       </div>
-      {/* Edit profile link for self profiles */}
 
-      {isSelfProfile && profileType === "podcaster" ? (
-        <AssignPayButton />
-      ) : null}
       {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" ? (
         <div className="flex justify-center items-center gap-7 flex-wrap w-full mt-3">
@@ -224,6 +218,9 @@ const ProfileCard = async ({
             )
           ) : null} */}
         </div>
+      ) : null}
+      {isSelfProfile && profileType === "podcaster" ? (
+        <AssignPayButton className="mt-auto" />
       ) : null}
     </aside>
   );

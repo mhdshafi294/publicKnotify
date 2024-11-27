@@ -3,36 +3,24 @@ import { z } from "zod";
 // Schema for editing pricing details
 export const EditPricingSchema = z.object({
   // First pricing tier
-  first: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
-
-  // Middle pricing tier
-  middle: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
-
-  // End pricing tier
-  end: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
-
-  // Video pricing tier
-  video: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
+  regular_preroll: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  regular_midroll: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  regular_endroll: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  sponsership_sectionOfEpo: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  sponsership_visual: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  hosting_fullEpo: z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
 });
 
 // Type definition for the EditPricingSchema

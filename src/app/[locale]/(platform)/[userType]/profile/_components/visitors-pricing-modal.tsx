@@ -28,7 +28,7 @@ import CheckGradientIcon from "@/components/icons/check-gradient-icon";
  *
  * @returns {JSX.Element} The modal dialog component with a header and content.
  */
-const VisitorsPricingModal = ({ pricings }: { pricings: Price | null }) => {
+const VisitorsPricingModal = ({ pricings }: { pricings: Price[] | null }) => {
   const router = useRouter();
   const t = useTranslations("Index");
 

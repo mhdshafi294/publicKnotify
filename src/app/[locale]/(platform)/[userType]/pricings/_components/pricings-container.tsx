@@ -27,27 +27,53 @@ import PricingCard from "./pricing-card";
  *
  * @returns {JSX.Element} The container with pricing form and details.
  */
-const PricingsContainer: FC<{ pricings: Price | null }> = ({ pricings }) => {
+const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
   // Retrieve edit mode state and the function to set it from the store
   const editMode = usePricingsStore((state) => state.editMode);
   const setEditMode = usePricingsStore((state) => state.setEditMode);
 
   // Manage the current pricing data in local state
-  const [currentPricings, setCurrentPricings] = useState<Price | null>(
+  const [currentPricings, setCurrentPricings] = useState<Price[] | null>(
     pricings
   );
 
   // Initialize the form using react-hook-form with Zod validation schema
   const form = useForm<EditPricingSchema>({
     resolver: zodResolver(EditPricingSchema),
-    defaultValues: currentPricings
-      ? currentPricings
-      : {
-          end: "",
-          first: "",
-          middle: "",
-          video: "",
-        },
+    defaultValues: {
+      regular_preroll:
+        currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Pre roll")
+          ?.podcaster_prices[0]?.price?.toString() || "",
+      regular_midroll:
+        currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Mid roll")
+          ?.podcaster_prices[0]?.price?.toString() || "",
+      regular_endroll:
+        currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Post roll")
+          ?.podcaster_prices[0]?.price?.toString() || "",
+      sponsership_sectionOfEpo:
+        currentPricings
+          ?.find((item) => item.name.en === "Sponsorship")
+          ?.sections.find((item) => item.name.en === "Section Of Episode")
+          ?.podcaster_prices[0]?.price?.toString() || "",
+      sponsership_visual:
+        currentPricings
+          ?.find((item) => item.name.en === "Sponsorship")
+          ?.sections.find(
+            (item) => item.name.en === "Visual Brand Representation"
+          )
+          ?.podcaster_prices[0]?.price?.toString() || "",
+      hosting_fullEpo:
+        currentPricings
+          ?.find((item) => item.name.en === "Hosting")
+          ?.sections.find((item) => item.name.en === "Full Episode")
+          ?.podcaster_prices[0]?.price?.toString() || "",
+    },
   });
 
   // Use the next-intl hook for translations
@@ -61,15 +87,7 @@ const PricingsContainer: FC<{ pricings: Price | null }> = ({ pricings }) => {
       toast.success(t("updateSuccess"));
 
       // Update the current pricing data state
-      setCurrentPricings({
-        created_at: new Date().toString(),
-        end: form.getValues().end,
-        first: form.getValues().first,
-        middle: form.getValues().middle,
-        video: form.getValues().video,
-        id: 0,
-        is_enabled: true,
-      });
+      setCurrentPricings((prev) => prev);
 
       // Exit edit mode after successful save
       setEditMode(false);

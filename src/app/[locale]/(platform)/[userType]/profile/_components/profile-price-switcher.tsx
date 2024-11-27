@@ -13,6 +13,8 @@ import { Link } from "@/navigation";
 import { cn, getDirection } from "@/lib/utils";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
+import { SquarePenIcon } from "lucide-react";
+import PriceColoredIcon from "@/components/icons/price-colored-icon";
 
 /**
  * Component for toggling the visibility of a podcaster's pricing on their profile.
@@ -71,27 +73,34 @@ const ProfilePriceSwitcher = ({
   const dir = getDirection(locale);
 
   return (
-    <div className="flex justify-center items-center gap-5 mt-6">
-      <Link
-        href="/podcaster/pricings"
-        className="text-lg font-medium capitalize hover:underline duration-300"
-      >
-        {t("price")}
-      </Link>
-      {profileType === "podcaster" && isSelfProfile && (
-        <Switch
-          checked={is_enabled}
-          disabled={isPending}
-          onCheckedChange={toggle}
-          className={cn(
-            "h-4 w-9 data-[state=checked]:bg-input lg:data-[state=checked]:bg-input data-[state=unchecked]:bg-input *:size-5 *:data-[state=checked]:bg-greeny *:data-[state=unchecked]:bg-card lg:*:data-[state=unchecked]:bg-card *:duration-200 *:data-[state=checked]:translate-x-4 *:data-[state=unchecked]:-translate-x-1 disabled:opacity-20",
-            {
-              "*:data-[state=checked]:-translate-x-4 *:data-[state=unchecked]:translate-x-1":
-                dir === "rtl",
-            }
-          )}
-        />
-      )}
+    <div className="w-full flex justify-between items-center gap-5 mt-6">
+      <div className="flex items-center gap-2">
+        <PriceColoredIcon />
+        <span className="font-semibold">{t("price")}</span>
+      </div>
+      <div>
+        <Link
+          href="/podcaster/pricings"
+          className="text-sm flex items-center gap-2 font-medium capitalize text-primary hover:text-greeny duration-200"
+        >
+          <SquarePenIcon size={16} />
+          {t("edit")}
+        </Link>
+        {/* {profileType === "podcaster" && isSelfProfile && (
+          <Switch
+            checked={is_enabled}
+            disabled={isPending}
+            onCheckedChange={toggle}
+            className={cn(
+              "h-4 w-9 data-[state=checked]:bg-input lg:data-[state=checked]:bg-input data-[state=unchecked]:bg-input *:size-5 *:data-[state=checked]:bg-greeny *:data-[state=unchecked]:bg-card lg:*:data-[state=unchecked]:bg-card *:duration-200 *:data-[state=checked]:translate-x-4 *:data-[state=unchecked]:-translate-x-1 disabled:opacity-20",
+              {
+                "*:data-[state=checked]:-translate-x-4 *:data-[state=unchecked]:translate-x-1":
+                  dir === "rtl",
+              }
+            )}
+          />
+        )} */}
+      </div>
     </div>
   );
 };

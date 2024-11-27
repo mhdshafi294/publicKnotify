@@ -1,5 +1,6 @@
 import { ApiResponse, Pagination } from ".";
 import { Category } from "./podcast";
+import { Price } from "./profile";
 import { YoutubeChannel } from "./statistics";
 import { Story } from "./stories";
 
@@ -16,15 +17,6 @@ export type Podcaster = {
   podcasts_count: number;
 };
 
-export type Price = {
-  id: number;
-  video: string;
-  first: string;
-  middle: string;
-  end: string;
-  created_at: string;
-};
-
 export type PodcasterDetails = {
   id: number;
   full_name: string;
@@ -34,7 +26,7 @@ export type PodcasterDetails = {
   spotify_account: string;
   phone: string;
   email: string;
-  price: Price;
+  price: Price[];
   categories: Category[];
   favourite_categories: Category[];
   statistics?: Statistics;

@@ -14,6 +14,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { User } from "@/types/profile";
 import { PodcasterDetails } from "@/types/podcaster";
 import { Company } from "@/types/company";
+import { cn } from "@/lib/utils";
 
 /**
  * Profile component for displaying user, podcaster, or company profile.
@@ -93,7 +94,12 @@ export default async function ProfilePage({
 
   return (
     <main className="flex lg:min-h-[calc(100vh-72px)] flex-col items-center justify-between flex-1 py-12">
-      <MaxWidthContainer className="w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10">
+      <MaxWidthContainer
+        className={cn(
+          "w-full lg:min-h-[calc(100vh-168px)] flex flex-col gap-2 lg:flex-row lg:gap-10",
+          { "max-w-[2000px]": session?.user?.type === "podcaster" }
+        )}
+      >
         <ProfileCard
           profileData={profileData!}
           session={session}
