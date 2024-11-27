@@ -11,6 +11,9 @@ export type Podcaster = {
   categories: Category[];
   favourite_categories: Category[];
   stories: string[];
+  total_time: number;
+  total_likes: number;
+  podcasts_count: number;
 };
 
 export type Price = {
@@ -36,6 +39,7 @@ export type PodcasterDetails = {
   favourite_categories: Category[];
   statistics?: Statistics;
   stories: Story[];
+  monthly_listeners: number;
 };
 
 export type Statistics = {

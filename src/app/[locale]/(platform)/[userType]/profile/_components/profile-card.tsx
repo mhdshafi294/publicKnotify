@@ -2,17 +2,10 @@
 import { Session } from "next-auth";
 
 // Third-party libraries
-import {
-  MailIcon,
-  PhoneIcon,
-  PieChart,
-  SquarePenIcon,
-  TrendingUpIcon,
-} from "lucide-react";
+import { MailIcon, PhoneIcon, SquarePenIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 // Local components and utilities
-import { buttonVariants } from "@/components/ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -26,6 +19,7 @@ import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 import { Company } from "@/types/company";
 import { Playlist } from "@/types/podcast";
 import { PodcasterDetails } from "@/types/podcaster";
@@ -33,7 +27,6 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
-import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -101,6 +94,16 @@ const ProfileCard = async ({
         {/* Display categories if present */}
         {"categories" in profileData ? (
           <ProfileCategories categories={profileData?.categories!} />
+        ) : null}
+        {profileType === "podcaster" &&
+        "monthly_listeners" in profileData &&
+        session?.user?.type === "company" ? (
+          <div className="text-sm font-bold flex gap-2 items-baseline">
+            {profileData?.monthly_listeners}
+            <span className="text-xs text-muted-foreground">
+              {t("monthly-listeners")}
+            </span>
+          </div>
         ) : null}
         {/* Display price switcher for podcasters under certain conditions */}
         {isSelfProfile && profileType === "podcaster" ? (

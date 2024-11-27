@@ -120,15 +120,26 @@ const InfiniteScrollSelfPlaylists = ({
             {t("noPlaylistsYet")}
           </p>
         ) : (
-          data?.pages.map((page) =>
-            page.playlists.map((playlist) => (
-              <CarouselItem
-                key={playlist.id}
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
-              >
-                <SelfplaylistCard playlist={playlist} userType={type} />
-              </CarouselItem>
-            ))
+          data?.pages.map((page, pageIndex) =>
+            pageIndex === 0
+              ? // For the first page, slice off the first playlist
+                page.playlists.slice(1).map((playlist) => (
+                  <CarouselItem
+                    key={playlist.id}
+                    className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
+                  >
+                    <SelfplaylistCard playlist={playlist} userType={type} />
+                  </CarouselItem>
+                ))
+              : // For other pages, display normally
+                page.playlists.map((playlist) => (
+                  <CarouselItem
+                    key={playlist.id}
+                    className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
+                  >
+                    <SelfplaylistCard playlist={playlist} userType={type} />
+                  </CarouselItem>
+                ))
           )
         )}
         <CarouselItem

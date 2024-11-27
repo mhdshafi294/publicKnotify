@@ -18,7 +18,7 @@ const ProfileCategories = ({ categories }: { categories: Category[] }) => {
           <Badge
             key={category.id}
             variant={"secondary"}
-            className="bg-[#4285F40A]"
+            className="bg-primary/20 text-foreground"
           >
             {category.name}
           </Badge>

@@ -5,12 +5,12 @@ import React from "react";
 type PropsPodcasterProfileHeader = {
   image?: string;
   name?: string;
-  monthlyListeners?: number;
+  episodesCount: number;
 };
 const PodcasterProfileHeader: React.FC<PropsPodcasterProfileHeader> = async ({
   image,
   name,
-  monthlyListeners,
+  episodesCount,
 }) => {
   const t = await getTranslations("Index");
 
@@ -24,8 +24,10 @@ const PodcasterProfileHeader: React.FC<PropsPodcasterProfileHeader> = async ({
         priority={true}
       />
       <div className="absolute inset-0 w-full h-full bg-black/30 flex flex-col gap-2 justify-center px-7 z-50">
-        <h3 className="font-bold text-[32px]">{name ? name : ""}</h3>
-        <p className="text-xl">40,142 {t("monthly-listeners")}</p>
+        <h3 className="font-bold text-[32px] text-white">{name ? name : ""}</h3>
+        <p className="text-xl text-white">
+          {episodesCount} {t("episodes")}
+        </p>
       </div>
     </div>
   );

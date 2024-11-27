@@ -1,7 +1,7 @@
 // External imports
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, intervalToDuration } from "date-fns";
 
 // Local constants and functions
 
@@ -163,4 +163,51 @@ export function getContrastTextColor(hex: string): "white" | "black" {
 
   // Return 'black' if the brightness is higher than 186 (or any threshold), else 'white'
   return brightness > 186 ? "black" : "white";
+}
+
+/**
+ * Convert a time duration in seconds to a human-readable format.
+ * @param {number} seconds - The time duration in seconds.
+ * @returns {string} A human-readable string (e.g., "about 10 hr", "about 15 min", "5 sec").
+ */
+export function formatTime(seconds: number): string {
+  const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+
+  if (duration.days && duration.days > 0) {
+    return `about ${duration.days} day${duration.days > 1 ? "s" : ""}`;
+  }
+  if (duration.hours && duration.hours > 0) {
+    return `about ${duration.hours} hr${duration.hours > 1 ? "s" : ""}`;
+  }
+  if (duration.minutes && duration.minutes > 0) {
+    return `about ${duration.minutes} min${duration.minutes > 1 ? "s" : ""}`;
+  }
+  return `${duration.seconds} sec`;
+}
+
+/**
+ * Convert seconds to a duration object in days, hours, minutes, and seconds.
+ * @param {number} seconds - The time duration in seconds.
+ * @returns {object} A duration object with days, hours, minutes, and seconds.
+ */
+export function getDuration(seconds: number) {
+  return intervalToDuration({ start: 0, end: seconds * 1000 });
+}
+
+/**
+ * Convert seconds into a readable duration, showing only the largest unit.
+ * Example: "2 hr" for 2 hours, or "5 sec" for 5 seconds.
+ * @param {number} seconds - The time duration in seconds.
+ * @returns {string} The human-readable duration string.
+ */
+export function formatLargestUnit(seconds: number): string {
+  const duration = getDuration(seconds);
+
+  if (duration.days && duration.days > 0)
+    return `${duration.days} day${duration.days > 1 ? "s" : ""}`;
+  if (duration.hours && duration.hours > 0)
+    return `${duration.hours} hr${duration.hours > 1 ? "s" : ""}`;
+  if (duration.minutes && duration.minutes > 0)
+    return `${duration.minutes} min${duration.minutes > 1 ? "s" : ""}`;
+  return `${duration.seconds} sec`;
 }
