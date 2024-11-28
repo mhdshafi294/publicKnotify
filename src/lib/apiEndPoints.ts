@@ -43,6 +43,7 @@ export const UPDATE = "/update";
 export const DELETE = "/delete";
 export const CANCEL = "/cancel";
 export const CHANGE_STATUS = "/change-status";
+export const TOGGLE_STATUS = "/toggle-status";
 export const METADATA = "/metadata";
 export const UPDATE_METADATA = "/update-metadata";
 export const UPLOAD_MEDIA_FILE = "/upload-media-file";

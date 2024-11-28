@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import usePricingsStore from "@/store/use-edit-pricings-store";
 import { useTranslations } from "next-intl";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 /**
  * Modal Component
@@ -39,25 +40,27 @@ const SelfPricingModal = ({ children }: { children: React.ReactNode }) => {
         router.back();
       }}
     >
-      <DialogContent>
-        <DialogHeader>
-          <div className="flex">
-            <DialogTitle className="text-3xl">{t("pricing")}</DialogTitle>
-            <DialogDescription asChild>
-              <div className="w-full flex justify-end items-center">
-                <Button
-                  onClick={() => setEditMode(true)}
-                  className="hover:bg-transparent hover:text-foreground"
-                  variant="ghost"
-                  size="icon"
-                >
-                  <SquarePen />
-                </Button>
-              </div>
-            </DialogDescription>
-          </div>
-          {children}
-        </DialogHeader>
+      <DialogContent className="md:max-w-[80vw] md:w-[1200px] bg-white dark:bg-black border-none p-9">
+        <ScrollArea className="max-h-[calc(100vh-200px)]">
+          <DialogHeader>
+            <div className="flex">
+              <DialogTitle className="text-3xl">{t("pricing")}</DialogTitle>
+              <DialogDescription asChild>
+                <div className="w-full flex justify-end items-center">
+                  <Button
+                    onClick={() => setEditMode(true)}
+                    className="hover:bg-transparent hover:text-foreground"
+                    variant="ghost"
+                    size="icon"
+                  >
+                    <SquarePen />
+                  </Button>
+                </div>
+              </DialogDescription>
+            </div>
+            {children}
+          </DialogHeader>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

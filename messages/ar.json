@@ -589,7 +589,10 @@
     "view-contract": "عرض العقد",
     "new-publish": "نشر جديد",
     "open": "افتح",
-    "not-set-yet": "لم يتم تعيينه بعد"
+    "not-set-yet": "لم يتم تعيينه بعد",
+    "podcaster-did-not-published-prices-yet": "لم ينشر Podcaster الأسعار بعد",
+    "latest-shows": "احدث العروض",
+    "view": "عرض"
   },
   "notifications": {
     "notifications": "notifications"

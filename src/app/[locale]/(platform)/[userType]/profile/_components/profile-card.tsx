@@ -27,6 +27,7 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
+import PriceColoredIcon from "@/components/icons/price-colored-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -107,17 +108,21 @@ const ProfileCard = async ({
         ) : null}
         {/* Display price switcher for podcasters under certain conditions */}
         {isSelfProfile && profileType === "podcaster" ? (
-          <ProfilePriceSwitcher
-            profileData={profileData as User | PodcasterDetails}
-            session={session}
-            is_enabled_price={
-              "is_enabled_price" in profileData
-                ? profileData?.is_enabled_price!
-                : false
-            }
-            profileType={profileType}
-            isSelfProfile={isSelfProfile}
-          />
+          <div className="w-full flex justify-between items-center gap-5 mt-6">
+            <div className="flex items-center gap-2">
+              <PriceColoredIcon />
+              <span className="font-semibold">{t("price")}</span>
+            </div>
+            <div>
+              <Link
+                href="/podcaster/pricings"
+                className="text-sm flex items-center gap-2 font-medium capitalize text-primary hover:text-greeny duration-200"
+              >
+                <SquarePenIcon size={16} />
+                {t("edit")}
+              </Link>
+            </div>
+          </div>
         ) : null}
       </div>
       {/* Contact and additional profile information */}
@@ -128,16 +133,34 @@ const ProfileCard = async ({
           "price" in profileData &&
           profileData?.price &&
           session?.user?.type === "company" ? (
-            <VisitorsPricingModal pricings={profileData?.price} />
+            <div className="w-full flex justify-between items-center gap-5 mt-6">
+              <div className="flex items-center gap-2">
+                <PriceColoredIcon />
+                <span className="font-semibold">{t("price")}</span>
+              </div>
+              <div>
+                <VisitorsPricingModal pricings={profileData?.price} />
+              </div>
+            </div>
           ) : null}
           {profileType === "podcaster" &&
           "statistics" in profileData &&
           profileData?.statistics &&
           session?.user?.type === "company" ? (
-            <VisitorsStatisticsModal
-              statistics={profileData?.statistics}
-              profileId={profileData?.id}
-            />
+            <div className="w-full flex justify-between items-center gap-5 mt-6">
+              <div className="flex items-center gap-2">
+                <TrendingUpGradientIcon className="size-7" />
+                <p className="text-lg font-semibold capitalize">
+                  {t("statistics")}
+                </p>
+              </div>
+              <div>
+                <VisitorsStatisticsModal
+                  statistics={profileData?.statistics}
+                  profileId={profileData?.id}
+                />
+              </div>
+            </div>
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
             <div className="w-full flex justify-between items-center gap-3 ">
@@ -157,7 +180,7 @@ const ProfileCard = async ({
                 }
                 className="text-xs font-semibold text-primary hover:text-greeny duration-200 "
               >
-                View
+                {t("view")}
               </Link>
             </div>
           )}

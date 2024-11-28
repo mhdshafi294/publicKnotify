@@ -17,6 +17,8 @@ import { EditPricingSchema } from "@/schema/pricingsSchema";
 import usePricingsStore from "@/store/use-edit-pricings-store";
 import { Price } from "@/types/profile";
 import PricingCard from "./pricing-card";
+import ProfilePriceSwitcher from "../../profile/_components/profile-price-switcher";
+import Loader from "@/components/ui/loader";
 
 /**
  * PricingsContainer Component
@@ -41,34 +43,34 @@ const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
   const form = useForm<EditPricingSchema>({
     resolver: zodResolver(EditPricingSchema),
     defaultValues: {
-      regular_preroll:
+      "Pre roll":
         currentPricings
           ?.find((item) => item.name.en === "Regular")
           ?.sections.find((item) => item.name.en === "Pre roll")
           ?.podcaster_prices[0]?.price?.toString() || "",
-      regular_midroll:
+      "Mid roll":
         currentPricings
           ?.find((item) => item.name.en === "Regular")
           ?.sections.find((item) => item.name.en === "Mid roll")
           ?.podcaster_prices[0]?.price?.toString() || "",
-      regular_endroll:
+      "Post roll":
         currentPricings
           ?.find((item) => item.name.en === "Regular")
           ?.sections.find((item) => item.name.en === "Post roll")
           ?.podcaster_prices[0]?.price?.toString() || "",
-      sponsership_sectionOfEpo:
+      "Section Of Episode":
         currentPricings
           ?.find((item) => item.name.en === "Sponsorship")
           ?.sections.find((item) => item.name.en === "Section Of Episode")
           ?.podcaster_prices[0]?.price?.toString() || "",
-      sponsership_visual:
+      "Visual Brand Representation":
         currentPricings
           ?.find((item) => item.name.en === "Sponsorship")
           ?.sections.find(
             (item) => item.name.en === "Visual Brand Representation"
           )
           ?.podcaster_prices[0]?.price?.toString() || "",
-      hosting_fullEpo:
+      "Full Episode":
         currentPricings
           ?.find((item) => item.name.en === "Hosting")
           ?.sections.find((item) => item.name.en === "Full Episode")
@@ -80,14 +82,91 @@ const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
   const t = useTranslations("Index");
 
   // Set up mutation for creating or updating pricing data
-  const { mutate, isPending, error } = useMutation({
+  const {
+    mutate: createOrCreatePrice_serverAction,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: createOrCreatePriceAction,
     onSuccess: () => {
       // Show success message when the mutation succeeds
       toast.success(t("updateSuccess"));
 
       // Update the current pricing data state
-      setCurrentPricings((prev) => prev);
+      setCurrentPricings((prev) => [
+        {
+          ...prev![0],
+          updated_at: new Date().toISOString(),
+          sections: [
+            {
+              ...prev![0].sections[0],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Pre roll")),
+                },
+              ],
+            },
+            {
+              ...prev![0].sections[1],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Mid roll")),
+                },
+              ],
+            },
+            {
+              ...prev![0].sections[2],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Post roll")),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          ...prev![1],
+          updated_at: new Date().toISOString(),
+          sections: [
+            {
+              ...prev![1].sections[0],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Section Of Episode")),
+                },
+              ],
+            },
+            {
+              ...prev![1].sections[1],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Visual Brand Representation")),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          ...prev![2],
+          updated_at: new Date().toISOString(),
+          sections: [
+            {
+              ...prev![2].sections[0],
+              updated_at: new Date().toISOString(),
+              podcaster_prices: [
+                {
+                  price: Number(form.getValues("Full Episode")),
+                },
+              ],
+            },
+          ],
+        },
+      ]);
 
       // Exit edit mode after successful save
       setEditMode(false);
@@ -98,45 +177,106 @@ const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
     },
   });
 
+  const handleSubmit = (data: EditPricingSchema) => {
+    console.log(
+      data["Visual Brand Representation"],
+      Number(data["Visual Brand Representation"])
+    );
+    console.log(data["Full Episode"], Number(data["Full Episode"]));
+    let dataArray = [];
+    Number(data["Pre roll"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Pre roll"]),
+        advertising_section_id: 1,
+      });
+    Number(data["Mid roll"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Mid roll"]),
+        advertising_section_id: 2,
+      });
+    Number(data["Post roll"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Post roll"]),
+        advertising_section_id: 3,
+      });
+    Number(data["Section Of Episode"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Section Of Episode"]),
+        advertising_section_id: 4,
+      });
+    Number(data["Visual Brand Representation"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Visual Brand Representation"]),
+        advertising_section_id: 5,
+      });
+    Number(data["Full Episode"]) > 0 &&
+      dataArray.push({
+        price: Number(data["Full Episode"]),
+        advertising_section_id: 6,
+      });
+
+    createOrCreatePrice_serverAction({
+      body: {
+        data: dataArray,
+      },
+    });
+  };
+
   return (
     <Form {...form}>
       {/* The form for submitting pricing data */}
       <form
-        onSubmit={form.handleSubmit((data) => mutate({ body: data }))}
-        className="w-full py-2 flex gap-4 flex-col justify-start items-start"
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="w-full py-2 flex gap-8 flex-col justify-start items-start"
       >
-        {/* Display the pricing cards with prices for different sections */}
-        <PricingCard
-          name="first"
-          text={t("first")}
-          price={currentPricings?.first}
-        />
-        <PricingCard
-          name="middle"
-          text={t("middle")}
-          price={currentPricings?.middle}
-        />
-        <PricingCard name="end" text={t("end")} price={currentPricings?.end} />
-        <PricingCard
-          name="video"
-          text={t("addingVideo")}
-          price={currentPricings?.video}
-        />
-
+        {currentPricings?.map((item, index) => (
+          <div key={item.id} className="space-y-8">
+            <div className="flex items-center gap-5 ">
+              <div className="flex items-center gap-2 ">
+                <div
+                  style={{
+                    backgroundImage: `linear-gradient(270deg, rgba(47, 234, 155, 0.15) 15.5%, rgba(127, 221, 83, 0.15) 85.5%)`,
+                  }}
+                  className="size-7 rounded-full flex justify-center items-center"
+                >
+                  {index + 1}
+                </div>
+                <h1 className="text-2xl font-semibold">{item.name.en}</h1>
+              </div>
+              <ProfilePriceSwitcher
+                is_enabled_price={item?.is_enabled!}
+                profileType={"podcaster"}
+                isSelfProfile
+                ad_type_id={item.id.toString()}
+              />
+            </div>
+            <div className="w-full flex flex-wrap gap-5">
+              {item.sections.map((section) => (
+                <PricingCard
+                  key={section.id}
+                  name={section.name.en}
+                  text={section.name.en}
+                  price={section.podcaster_prices[0]?.price?.toString()}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
         {/* Show save and cancel buttons if in edit mode */}
         {editMode ? (
-          <DialogFooter className="flex">
-            <Button size="lg" className="capitalize">
-              {t("save")}
-            </Button>
+          <DialogFooter className="w-full flex justify-end gap-2 items-center">
             <Button
               onClick={() => setEditMode(false)}
               variant="outline"
               type="button"
               size="lg"
-              className="capitalize"
+              className="capitalize rounded-full font-bold"
             >
               {t("cancel")}
+            </Button>
+            <Button size="lg" className="capitalize rounded-full font-bold">
+              {isPending ? <Loader className="mr-2 animate-spin" /> : null}
+              {t("save-changes")}
             </Button>
           </DialogFooter>
         ) : null}

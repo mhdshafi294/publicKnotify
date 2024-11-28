@@ -35,21 +35,21 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
   const t = useTranslations("Index");
 
   return (
-    <div className="flex gap-3 items-center px-2 py-[10px] bg-card/35 rounded-[20px]">
+    <div className="flex gap-3 items-center px-2 py-[10px] bg-card/50 rounded-[20px]">
       {/* Icon container with gradient background */}
       <div
         style={{
           backgroundImage: `linear-gradient(270deg, rgba(47, 234, 155, 0.15) 15.5%, rgba(127, 221, 83, 0.15) 85.5%)`,
         }}
-        className="size-8 rounded-full"
+        className="size-8 rounded-full "
       />
       {/* Description text below the price or input */}
       <p className="text-sm text-[#9098A3] font-semibold capitalize">{text}</p>
-      <div className="w-fit flex gap-2">
+      <div className="max-w-24 w-fit flex gap-2">
         {/* If in edit mode, show an input field for the price; otherwise, show the price text */}
         {editMode ? (
           <FormInput
-            className=" text-2xl focus-visible:ring-transparent bg-transparent border-0 px-0 py-2 w-full"
+            className=" text-lg font-bold focus-visible:ring-transparent bg-transparent border-0 px-0 py-2 !mt-0  text-end"
             control={form.control}
             placeholder="Enter price"
             name={name}
@@ -57,7 +57,7 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
           />
         ) : (
           <p className="capitalize font-semibold">
-            {price ? `${price}` : t("not-set-yet")}
+            {price ? `${price}` : "N/A"}
           </p>
         )}
       </div>
