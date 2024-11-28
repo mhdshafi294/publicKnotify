@@ -9,8 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Price } from "@/types/podcaster";
 import { useLocale, useTranslations } from "next-intl";
+import { Price } from "@/types/profile";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -23,7 +23,7 @@ interface PropsType<T extends FieldValues>
   radioGroupclassName?: string;
   control: Control<T>;
   options: string[];
-  price?: Price;
+  price?: Price[];
 }
 
 function PriceRadioGroupFormInput<T extends FieldValues>({
@@ -94,7 +94,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                       </span>
                       {option}
                     </div>
-                    {price ? (
+                    {/* {price ? (
                       <>
                         <span className=" text-gray-500">
                           $
@@ -109,7 +109,7 @@ function PriceRadioGroupFormInput<T extends FieldValues>({
                             : ""}
                         </span>
                       </>
-                    ) : null}
+                    ) : null} */}
                   </FormLabel>
                 </FormItem>
               ))}
