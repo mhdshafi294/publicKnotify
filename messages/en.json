@@ -617,7 +617,12 @@
     "ad-type": "ad type",
     "view-contract": "View contract",
     "new-publish": "new publish",
-    "open": "open"
+    "open": "open",
+    "not-set-yet": "not set yet",
+    "save-changes": "Save changes",
+    "podcaster-did-not-published-prices-yet": "Podcaster did not published prices yet",
+    "latest-shows": "Latest Shows",
+    "view": "View"
   },
   "notifications": {
     "notifications": "notifications"

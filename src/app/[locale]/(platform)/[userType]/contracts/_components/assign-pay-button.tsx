@@ -2,6 +2,7 @@
 
 import { assignPaymentAction } from "@/app/actions/profileActions";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { BanknoteIcon } from "lucide-react";
 import { Session } from "next-auth";
@@ -12,6 +13,7 @@ import { toast } from "sonner";
 type PayButtonProps = {
   disabled?: boolean;
   session?: Session;
+  className?: string;
 };
 
 /**
@@ -20,7 +22,11 @@ type PayButtonProps = {
  * @param {PayButtonProps} session - Session information for the payment.
  * @returns A button component for initiating a payment action.
  */
-const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
+const AssignPayButton: React.FC<PayButtonProps> = ({
+  disabled,
+  session,
+  className,
+}) => {
   const t = useTranslations("Index");
 
   const { mutate: server_assignPaymentAction, isPending } = useMutation({
@@ -49,7 +55,10 @@ const AssignPayButton: React.FC<PayButtonProps> = ({ disabled, session }) => {
   return (
     <Button
       variant="default"
-      className="w-full text-xl gap-2 items-center font-bold rounded-full mt-auto justify-self-end"
+      className={cn(
+        "w-full text-xl gap-2 items-center font-bold rounded-full mt-auto justify-self-end",
+        className
+      )}
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}

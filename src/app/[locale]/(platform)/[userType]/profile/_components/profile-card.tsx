@@ -27,6 +27,7 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
+import PriceColoredIcon from "@/components/icons/price-colored-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -64,7 +65,7 @@ const ProfileCard = async ({
   }
 
   return (
-    <aside className="w-full lg:w-3/12 rounded-lg lg:py-14 px-5 lg:px-10 flex flex-col items-center lg:gap-10 gap-6">
+    <aside className="w-full lg:w-3/12 rounded-lg lg:py-0 px-5 lg:px-10 flex flex-col items-center lg:gap-14 gap-6">
       {/* Profile image and name */}
       <div className="w-full flex flex-col items-center gap-3">
         <ProfileCardImageAndName
@@ -107,17 +108,21 @@ const ProfileCard = async ({
         ) : null}
         {/* Display price switcher for podcasters under certain conditions */}
         {isSelfProfile && profileType === "podcaster" ? (
-          <ProfilePriceSwitcher
-            profileData={profileData as User | PodcasterDetails}
-            session={session}
-            is_enabled_price={
-              "is_enabled_price" in profileData
-                ? profileData?.is_enabled_price!
-                : false
-            }
-            profileType={profileType}
-            isSelfProfile={isSelfProfile}
-          />
+          <div className="w-full flex justify-between items-center gap-5 mt-6">
+            <div className="flex items-center gap-2">
+              <PriceColoredIcon />
+              <span className="font-semibold">{t("price")}</span>
+            </div>
+            <div>
+              <Link
+                href="/podcaster/pricings"
+                className="text-sm flex items-center gap-2 font-medium capitalize text-primary hover:text-greeny duration-200"
+              >
+                <SquarePenIcon size={16} />
+                {t("edit")}
+              </Link>
+            </div>
+          </div>
         ) : null}
       </div>
       {/* Contact and additional profile information */}
@@ -128,33 +133,56 @@ const ProfileCard = async ({
           "price" in profileData &&
           profileData?.price &&
           session?.user?.type === "company" ? (
-            <VisitorsPricingModal pricings={profileData?.price} />
+            <div className="w-full flex justify-between items-center gap-5 mt-6">
+              <div className="flex items-center gap-2">
+                <PriceColoredIcon />
+                <span className="font-semibold">{t("price")}</span>
+              </div>
+              <div>
+                <VisitorsPricingModal pricings={profileData?.price} />
+              </div>
+            </div>
           ) : null}
           {profileType === "podcaster" &&
           "statistics" in profileData &&
           profileData?.statistics &&
           session?.user?.type === "company" ? (
-            <VisitorsStatisticsModal
-              statistics={profileData?.statistics}
-              profileId={profileData?.id}
-            />
+            <div className="w-full flex justify-between items-center gap-5 mt-6">
+              <div className="flex items-center gap-2">
+                <TrendingUpGradientIcon className="size-7" />
+                <p className="text-lg font-semibold capitalize">
+                  {t("statistics")}
+                </p>
+              </div>
+              <div>
+                <VisitorsStatisticsModal
+                  statistics={profileData?.statistics}
+                  profileId={profileData?.id}
+                />
+              </div>
+            </div>
           ) : null}
           {!isSelfProfile || profileType === "user" ? null : (
-            <Link
-              href={
-                playlists !== undefined &&
-                playlists?.length > 0 &&
-                playlists[0].id !== undefined
-                  ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
-                  : `/${session?.user?.type}/statistics`
-              }
-              className="flex justify-center items-center gap-3  hover:opacity-80 duration-200"
-            >
-              <TrendingUpGradientIcon className="size-7" />
-              <p className="text-lg font-medium capitalize">
-                {t("statistics")}
-              </p>
-            </Link>
+            <div className="w-full flex justify-between items-center gap-3 ">
+              <div className="flex items-center gap-2">
+                <TrendingUpGradientIcon className="size-7" />
+                <p className="text-lg font-semibold capitalize">
+                  {t("statistics")}
+                </p>
+              </div>
+              <Link
+                href={
+                  playlists !== undefined &&
+                  playlists?.length > 0 &&
+                  playlists[0].id !== undefined
+                    ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                    : `/${session?.user?.type}/statistics`
+                }
+                className="text-xs font-semibold text-primary hover:text-greeny duration-200 "
+              >
+                {t("view")}
+              </Link>
+            </div>
           )}
         </div>
         {/* Phone number display for users and companies */}
@@ -185,11 +213,7 @@ const ProfileCard = async ({
           </HoverCard>
         ) : null}
       </div>
-      {/* Edit profile link for self profiles */}
 
-      {isSelfProfile && profileType === "podcaster" ? (
-        <AssignPayButton />
-      ) : null}
       {/* Buttons for linking YouTube and Spotify accounts for podcasters */}
       {profileType === "podcaster" ? (
         <div className="flex justify-center items-center gap-7 flex-wrap w-full mt-3">
@@ -217,6 +241,9 @@ const ProfileCard = async ({
             )
           ) : null} */}
         </div>
+      ) : null}
+      {isSelfProfile && profileType === "podcaster" ? (
+        <AssignPayButton className="mt-auto" />
       ) : null}
     </aside>
   );

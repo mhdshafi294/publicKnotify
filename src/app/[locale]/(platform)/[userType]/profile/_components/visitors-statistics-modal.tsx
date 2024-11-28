@@ -42,11 +42,10 @@ const VisitorsStatisticsModal = ({
 
   return (
     <Dialog>
-      <DialogTrigger className="flex items-center justify-center gap-3 text-xl font-semibold hover:opacity-80 duration-200">
-        <TrendingUpGradientIcon className="size-7" />
-        {t("statistics")}
+      <DialogTrigger className="justify-center  hover:opacity-80  text-sm flex items-center gap-2 font-medium capitalize text-primary hover:text-greeny duration-200">
+        {t("view")}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="bg-white dark:bg-black border-none p-9">
         <DialogHeader>
           <div className="w-full flex justify-between">
             <DialogTitle className="text-3xl">{t("statistics")}</DialogTitle>
@@ -58,7 +57,7 @@ const VisitorsStatisticsModal = ({
               More detailed stats
             </Link>
           </div>
-          <div className="w-full py-2 flex gap-4 flex-col justify-start items-start">
+          <div className="w-full py-7 flex gap-7 flex-col justify-start items-start">
             {/* Display the pricing cards with prices for different sections */}
             {statistics?.average_listeners ? (
               <PricingCard

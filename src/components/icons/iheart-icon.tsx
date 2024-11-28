@@ -13,7 +13,7 @@ const iHeartIcon = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
         {...props}
       >
         <title> iHeart </title>
-        <g fill="none" fill-rule="evenodd">
+        <g fill="none" fillRule="evenodd">
           <path d="M-4-8h36v36H-4z"></path>
           <path
             fill="#C6002B"

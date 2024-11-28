@@ -68,10 +68,6 @@ const AnalyticsEnableSwitch: React.FC<AnalyticsEnableSwitchProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (enabled) console.log(enabled, enabled[statisticsType]);
-  }, [enabled, statisticsType]);
-
   if (
     session?.user?.type !== "podcaster" ||
     enabled?.podcaster_id !== session?.user?.id

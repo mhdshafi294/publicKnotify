@@ -146,7 +146,7 @@ const ProfileContent = async ({
           <div className="w-full flex flex-col gap-10 h-[calc(100%-2.5rem)]">
             <MaxWidthContainer className="w-full">
               <div className="flex justify-between mb-3">
-                <h2 className="font-bold text-[32px]">Latest Shows</h2>
+                <h2 className="font-bold text-[32px]">{t("latest-shows")}</h2>
               </div>
               <PodcasterProfileHeader
                 image={
@@ -207,7 +207,7 @@ const ProfileContent = async ({
         <div className="w-full flex flex-col gap-10 h-[calc(100%-2.5rem)]">
           <MaxWidthContainer className="w-full">
             <div className="flex justify-between">
-              <h2 className="font-bold text-[32px]">Latest Shows</h2>
+              <h2 className="font-bold text-[32px]">{t("latest-shows")}</h2>
               {/* <Link
                 href={`/${session?.user?.type}/requests/create?podcasterId=${params.profileId}`}
                 className={cn(

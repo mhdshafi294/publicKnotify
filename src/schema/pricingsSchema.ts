@@ -3,36 +3,26 @@ import { z } from "zod";
 // Schema for editing pricing details
 export const EditPricingSchema = z.object({
   // First pricing tier
-  first: z
+  "Pre roll": z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  "Mid roll": z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  "Post roll": z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  "Section Of Episode": z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
+  "Visual Brand Representation": z
     .string()
-    .min(1, "This field is required")
     .refine((val) => !isNaN(Number(val)), {
       message: "This field must be a number",
     }),
-
-  // Middle pricing tier
-  middle: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
-
-  // End pricing tier
-  end: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
-
-  // Video pricing tier
-  video: z
-    .string()
-    .min(1, "This field is required")
-    .refine((val) => !isNaN(Number(val)), {
-      message: "This field must be a number",
-    }),
+  "Full Episode": z.string().refine((val) => !isNaN(Number(val)), {
+    message: "This field must be a number",
+  }),
 });
 
 // Type definition for the EditPricingSchema

@@ -49,8 +49,25 @@ export const updateProfileAction = async ({
  * @param {string} params.type - The type of price.
  * @returns {Promise} - The API response.
  */
-export const togglePriceStatusAction = async ({ type }: { type: string }) => {
-  return await togglePriceStatus({ type });
+export const togglePriceStatusAction = async ({
+  type,
+  ad_type_id,
+}: {
+  type: string;
+  ad_type_id: string;
+}) => {
+  try {
+    return await togglePriceStatus({ type, ad_type_id });
+  } catch (error: any) {
+    // console.log("Error object: ", error); // Log the entire error
+    if (error.response) {
+      console.log(error.response.data.message);
+      return error.response.data.message;
+    } else {
+      console.log("Error: ", error.message);
+      return error.message;
+    }
+  }
 };
 
 /**
@@ -63,7 +80,7 @@ export const togglePriceStatusAction = async ({ type }: { type: string }) => {
 export const createOrCreatePriceAction = async ({
   body,
 }: {
-  body: EditPricingSchema;
+  body: { data: { price: number; advertising_section_id: number }[] };
 }) => {
   return await createOrUpdatePrice({ body });
 };

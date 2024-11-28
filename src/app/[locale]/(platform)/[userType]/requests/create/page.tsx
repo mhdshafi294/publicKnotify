@@ -167,10 +167,10 @@ const CreateRequest = () => {
         >
           <MaxWidthContainer className="flex flex-col-reverse gap-5 lg:grid lg:grid-cols-12 justify-items-stretch content-stretch items-stretch">
             <div className="lg:col-span-3 lg:me-10 lg:h-full">
-              <AddPositionAndChannelsCard
+              {/* <AddPositionAndChannelsCard
                 podcaster={podcaster}
                 isPending={isPending}
-              />
+              /> */}
             </div>
             <div className="lg:col-span-9 space-y-5">
               <div className="w-full flex justify-between">

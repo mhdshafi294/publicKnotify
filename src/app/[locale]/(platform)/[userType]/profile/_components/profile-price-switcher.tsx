@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import { useRouter } from "@/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { Session } from "next-auth";
-import { useRouter } from "@/navigation";
-import { toast } from "sonner";
 import { useLocale, useTranslations } from "next-intl";
+import { useState } from "react";
+import { toast } from "sonner";
 
 import { togglePriceStatusAction } from "@/app/actions/profileActions";
 import { Switch } from "@/components/ui/switch";
-import { Link } from "@/navigation";
 import { cn, getDirection } from "@/lib/utils";
 import { PodcasterDetails } from "@/types/podcaster";
 import { User } from "@/types/profile";
@@ -26,17 +25,15 @@ import { User } from "@/types/profile";
  * @returns {JSX.Element} The rendered component.
  */
 const ProfilePriceSwitcher = ({
-  profileData,
-  session,
   is_enabled_price,
   profileType,
   isSelfProfile,
+  ad_type_id,
 }: {
-  profileData: User | PodcasterDetails;
-  session: Session | null;
   is_enabled_price: boolean;
   profileType: string;
   isSelfProfile: boolean;
+  ad_type_id: string;
 }) => {
   const t = useTranslations("Index");
   const [is_enabled, set_enabled] = useState<boolean>(
@@ -46,38 +43,39 @@ const ProfilePriceSwitcher = ({
 
   const { mutate: server_sendCodeAction, isPending } = useMutation({
     mutationFn: togglePriceStatusAction,
-  });
-
-  const toggle = async () => {
-    if (profileData.price === null || profileData.price === undefined) {
-      router.push("/podcaster/pricings");
-    } else {
-      try {
-        await togglePriceStatusAction({ type: "podcaster" });
+    onSuccess: (data) => {
+      console.log(data);
+      if (typeof data === "string") {
+        console.error(data);
+        toast.dismiss();
+        toast.error(data);
+      } else {
         set_enabled((prev) => {
           toast.dismiss();
           toast.success(prev ? t("pricesHidden") : t("pricesVisible"));
           return !prev;
         });
-      } catch (error) {
-        console.error(error);
-        toast.dismiss();
-        toast.error(t("togglePriceError"));
       }
-    }
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.dismiss();
+      toast.error(t("togglePriceError"));
+    },
+  });
+
+  const toggle = async () => {
+    server_sendCodeAction({
+      type: "podcaster",
+      ad_type_id: ad_type_id.toString(),
+    });
   };
 
   const locale = useLocale();
   const dir = getDirection(locale);
 
   return (
-    <div className="flex justify-center items-center gap-5 mt-6">
-      <Link
-        href="/podcaster/pricings"
-        className="text-lg font-medium capitalize hover:underline duration-300"
-      >
-        {t("price")}
-      </Link>
+    <div className="flex justify-center items-center">
       {profileType === "podcaster" && isSelfProfile && (
         <Switch
           checked={is_enabled}

@@ -154,9 +154,9 @@ const ProfileCardImageAndName: React.FC<ProfileCardImageAndNameProps> = ({
                     d={createArcPath(startAngle, endAngle, 48)}
                     fill="none"
                     stroke={
-                      story && "is_viewd" in story && !story.is_viewd
-                        ? "url(#gradientStroke)"
-                        : "#8a8a8a"
+                      story && "is_viewd" in story && story.is_viewd
+                        ? "#8a8a8a"
+                        : "url(#gradientStroke)"
                     }
                     strokeWidth="3"
                     strokeLinecap="round"
