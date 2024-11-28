@@ -43,7 +43,7 @@ export type PriceSections = {
   podcaster_prices: { price: number }[];
 };
 
-export type PriceApiResponse = ApiResponse & { price: Price[] | null };
+export type PriceApiResponse = ApiResponse & { price: Price[] };
 
 export type ProfileResponse = {
   user: User;
