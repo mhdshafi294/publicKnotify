@@ -29,15 +29,13 @@ import Loader from "@/components/ui/loader";
  *
  * @returns {JSX.Element} The container with pricing form and details.
  */
-const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
+const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
   // Retrieve edit mode state and the function to set it from the store
   const editMode = usePricingsStore((state) => state.editMode);
   const setEditMode = usePricingsStore((state) => state.setEditMode);
 
   // Manage the current pricing data in local state
-  const [currentPricings, setCurrentPricings] = useState<Price[] | null>(
-    pricings
-  );
+  const [currentPricings, setCurrentPricings] = useState<Price[]>(pricings);
 
   // Initialize the form using react-hook-form with Zod validation schema
   const form = useForm<EditPricingSchema>({
@@ -178,41 +176,53 @@ const PricingsContainer: FC<{ pricings: Price[] | null }> = ({ pricings }) => {
   });
 
   const handleSubmit = (data: EditPricingSchema) => {
-    console.log(
-      data["Visual Brand Representation"],
-      Number(data["Visual Brand Representation"])
-    );
     console.log(data["Full Episode"], Number(data["Full Episode"]));
     let dataArray = [];
     Number(data["Pre roll"]) > 0 &&
       dataArray.push({
         price: Number(data["Pre roll"]),
-        advertising_section_id: 1,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Pre roll")?.id as number,
       });
     Number(data["Mid roll"]) > 0 &&
       dataArray.push({
         price: Number(data["Mid roll"]),
-        advertising_section_id: 2,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Mid roll")?.id as number,
       });
     Number(data["Post roll"]) > 0 &&
       dataArray.push({
         price: Number(data["Post roll"]),
-        advertising_section_id: 3,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Regular")
+          ?.sections.find((item) => item.name.en === "Post roll")?.id as number,
       });
     Number(data["Section Of Episode"]) > 0 &&
       dataArray.push({
         price: Number(data["Section Of Episode"]),
-        advertising_section_id: 4,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Sponsorship")
+          ?.sections.find((item) => item.name.en === "Section Of Episode")
+          ?.id as number,
       });
     Number(data["Visual Brand Representation"]) > 0 &&
       dataArray.push({
         price: Number(data["Visual Brand Representation"]),
-        advertising_section_id: 5,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Sponsorship")
+          ?.sections.find(
+            (item) => item.name.en === "Visual Brand Representation"
+          )?.id as number,
       });
     Number(data["Full Episode"]) > 0 &&
       dataArray.push({
         price: Number(data["Full Episode"]),
-        advertising_section_id: 6,
+        advertising_section_id: currentPricings
+          ?.find((item) => item.name.en === "Hosting")
+          ?.sections.find((item) => item.name.en === "Full Episode")
+          ?.id as number,
       });
 
     createOrCreatePrice_serverAction({
