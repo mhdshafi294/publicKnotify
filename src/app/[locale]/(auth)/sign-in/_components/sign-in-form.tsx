@@ -121,6 +121,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         toast.dismiss();
         toast.warning(t("notVerifiedByTheAdmenYet"));
         throw signInResponse?.error;
+      } else if (signInResponse?.error?.includes("401")) {
+        setLoading(false);
+        toast.dismiss();
+        toast.warning(t("unauthorized"));
+        throw signInResponse?.error;
       } else {
         setLoading(false);
         toast.dismiss();

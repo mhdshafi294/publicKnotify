@@ -1,6 +1,7 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
+import { AxiosError } from "axios";
 import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import AppleProvider from "next-auth/providers/apple";
@@ -82,6 +83,7 @@ export const authOptions: AuthOptions = {
       // Authorize the user with credentials
       async authorize(credentials, req) {
         const type = credentials?.type;
+        // try {
         const res = await axiosInstance.post(
           `${type}${LOGIN_URL}`,
           credentials
@@ -94,6 +96,22 @@ export const authOptions: AuthOptions = {
         } else {
           return null;
         }
+        // } catch (error) {
+        //   // Handling Axios-specific errors and throwing appropriate error messages.
+        //   if (error instanceof AxiosError) {
+        //     if (error.response) {
+        //       switch (error.response.status) {
+        //         case 400:
+        //           throw new Error("Email or password is incorrect");
+        //         case 434:
+        //           throw new Error("434");
+        //         default:
+        //           throw new Error("Something went wrong!");
+        //       }
+        //     }
+        //   }
+        //   throw new Error("Something went wrong!");
+        // }
       },
     }),
   ],

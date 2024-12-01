@@ -21,8 +21,19 @@ export const signUpAction = async ({
   formData: FormData;
   type: string;
 }) => {
-  const signUpResponse = await signUp({ formData, type });
-  return signUpResponse;
+  try {
+    const signUpResponse = await signUp({ formData, type });
+    return signUpResponse;
+  } catch (error: any) {
+    // console.log("Error object: ", error); // Log the entire error
+    if (error.response) {
+      console.log(error.response.data.message);
+      return error.response.data.message;
+    } else {
+      console.log("Error: ", error.message);
+      return error.message;
+    }
+  }
 };
 
 /**

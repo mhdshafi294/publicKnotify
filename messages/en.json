@@ -622,7 +622,8 @@
     "save-changes": "Save changes",
     "podcaster-did-not-published-prices-yet": "Podcaster did not published prices yet",
     "latest-shows": "Latest Shows",
-    "view": "View"
+    "view": "View",
+    "unauthorized": "unaithorized"
   },
   "notifications": {
     "notifications": "notifications"

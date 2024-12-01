@@ -125,7 +125,9 @@ export default async function RootLayout({
           >
             <AuthProvider session={session}>
               <QueryProvider>
-                <NotificationProvider>{children}</NotificationProvider>
+                {/* <NotificationProvider> */}
+                {children}
+                {/* </NotificationProvider> */}
                 <Toaster />
               </QueryProvider>
             </AuthProvider>

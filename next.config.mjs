@@ -6,6 +6,8 @@ const withNextIntl = createNextIntlPlugin();
 const nextConfig = {
   images: {
     domains: ["notify-back.r-link.io"],
+    domains: ["145.223.116.215"],
+    domains: ["192.168.132.43"], //! to delete
   },
   async headers() {
     return [

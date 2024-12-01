@@ -68,11 +68,17 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   // Initialize the mutation for signing up the user
   const { mutate: server_signUp, isPending } = useMutation({
     mutationFn: signUpAction,
-    onSuccess: () => {
-      toast.warning(t("verifyAccount"));
-      router.push(
-        `/${type}/verification-code?phone_code=${phone.code}&phone=${phone.phone}`
-      );
+    onSuccess: (data) => {
+      if (typeof data === "string") {
+        console.error(data);
+        toast.dismiss();
+        toast.error(data);
+      } else {
+        toast.warning(t("verifyAccount"));
+        router.push(
+          `/${type}/verification-code?phone_code=${phone.code}&phone=${phone.phone}`
+        );
+      }
     },
     onError: (error) => {
       if (error.message.includes("422")) {

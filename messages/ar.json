@@ -592,7 +592,8 @@
     "not-set-yet": "لم يتم تعيينه بعد",
     "podcaster-did-not-published-prices-yet": "لم ينشر Podcaster الأسعار بعد",
     "latest-shows": "احدث العروض",
-    "view": "عرض"
+    "view": "عرض",
+    "unauthorized": "غير مصرح به"
   },
   "notifications": {
     "notifications": "notifications"

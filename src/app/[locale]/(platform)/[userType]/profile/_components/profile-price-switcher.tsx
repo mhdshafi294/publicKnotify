@@ -44,7 +44,7 @@ const ProfilePriceSwitcher = ({
   const { mutate: server_sendCodeAction, isPending } = useMutation({
     mutationFn: togglePriceStatusAction,
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       if (typeof data === "string") {
         console.error(data);
         toast.dismiss();
