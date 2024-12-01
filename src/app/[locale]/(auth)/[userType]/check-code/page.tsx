@@ -110,7 +110,7 @@ const CheckCode: React.FC<CheckCodeProps> = ({ params, searchParams }) => {
   };
 
   return (
-    <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
+    <div className="md:max-w-[752px] flex flex-col justify-center items-center gap-8 px-3 md:px-14 py-16 rounded-[40px] bg-black/15 shadow-lg backdrop-blur-lg text-white">
       <h2>{t("otpCode")}</h2>
       <Form {...form}>
         <form

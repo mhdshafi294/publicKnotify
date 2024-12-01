@@ -17,7 +17,7 @@ import React from "react";
  */
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full min-h-[calc(100vh-72px)] w-full flex items-center justify-center relative overflow-hidden bg-[#004FFF] ">
+    <div className="h-full min-h-screen w-full flex items-center justify-center relative overflow-hidden ">
       {/* Background Elements */}
       {/* <div className="absolute overflow-hidden inset-0 h-full min-h-screen w-screen -z-10">
         <div className="absolute inset-0 h-full min-h-screen w-screen overflow-hidden -z-20" />
@@ -35,12 +35,13 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div> */}
       {/* <div className="absolute inset-0 h-full min-h-screen w-screen flex items-center justify-center"> */}
+      <div className="absolute inset-0 h-full min-h-screen w-screen flex items-center justify-center bg-[#004FFF] -z-20" />
       <Image
         src="/Vector1.png"
         alt="background logo"
         width={1000}
         height={1400}
-        className="absolute top-0 left-0 -translate-y-36 blur-3xl "
+        className="-z-10 absolute top-0 left-0 -translate-y-36 blur-3xl "
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
       <Image
@@ -48,7 +49,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         alt="background logo"
         width={1000}
         height={1400}
-        className="absolute top-0 right-0 -translate-y-20 blur-3xl "
+        className="-z-10 absolute top-0 right-0 -translate-y-20 blur-3xl "
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
       <Image
@@ -56,7 +57,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         alt="background logo"
         width={1000}
         height={1400}
-        className="absolute bottom-0 left-0 translate-y-36 translate-x-10 blur-3xl "
+        className="-z-10 absolute bottom-0 left-0 translate-y-36 translate-x-10 blur-3xl "
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
       />
       {/* </div> */}

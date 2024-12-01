@@ -1,13 +1,17 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { checkCodeSchema, forgotPasswordSchema } from "@/schema/authSchema";
-import { useRouter } from "@/navigation";
+import {
+  confirmVerificationCodeAction,
+  sendCodeAction,
+} from "@/app/actions/authActions";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
 import {
   Form,
   FormControl,
@@ -21,12 +25,8 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
-import {
-  confirmVerificationCodeAction,
-  sendCodeAction,
-} from "@/app/actions/authActions";
+import { useRouter } from "@/navigation";
+import { checkCodeSchema, forgotPasswordSchema } from "@/schema/authSchema";
 
 interface VerificationCodeProps {
   params: { userType: string };
@@ -79,7 +79,7 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
   const handleSubmit = async (data: checkCodeSchema) => {
     server_confirmVerificationCodeAction({
       code: data.code,
-      phone: searchParams.phone as string,
+      phone: `${searchParams.phone_code}${searchParams.phone}` as string,
       type: params.userType,
     });
   };
@@ -106,7 +106,7 @@ const VerificationCode: React.FC<VerificationCodeProps> = ({
   };
 
   return (
-    <div className="md:max-w-[752px] min-h-screen flex flex-col justify-center items-center gap-8">
+    <div className="md:max-w-[752px]  flex flex-col justify-center items-center gap-8 px-3 md:px-14 py-16 rounded-[40px] bg-black/15 shadow-lg backdrop-blur-lg text-white">
       <h2>{t("verificationCode")}</h2>
       <Form {...form}>
         <form

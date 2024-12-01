@@ -1,18 +1,18 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { newPasswordSchema } from "@/schema/authSchema";
-import { useRouter } from "@/navigation";
-import { Form } from "@/components/ui/form";
+import { newPasswordAction } from "@/app/actions/authActions";
 import { Button } from "@/components/ui/button";
 import ButtonLoader from "@/components/ui/button-loader";
+import { Form } from "@/components/ui/form";
 import PasswordInput from "@/components/ui/password-input";
-import { newPasswordAction } from "@/app/actions/authActions";
+import { useRouter } from "@/navigation";
+import { newPasswordSchema } from "@/schema/authSchema";
 
 interface NewPasswordProps {
   params: { userType: string };
@@ -69,7 +69,7 @@ const NewPassword: React.FC<NewPasswordProps> = ({ params, searchParams }) => {
   };
 
   return (
-    <div className="md:w-[360px] min-h-screen flex flex-col justify-center items-center gap-8">
+    <div className="md:w-[360px] flex flex-col justify-center items-center gap-8 px-3 md:px-14 py-16 rounded-[40px] bg-black/15 shadow-lg backdrop-blur-lg text-white">
       <h2>{t("verificationCode")}</h2>
       <Form {...form}>
         <form

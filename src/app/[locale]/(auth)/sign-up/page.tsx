@@ -1,6 +1,6 @@
-import { useTranslations } from "next-intl";
 import SignUpForm from "@/app/[locale]/(auth)/sign-up/_components/sign-up-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslations } from "next-intl";
 
 /**
  * SignUp component that displays a sign-up form with tabs for different user types.
@@ -26,11 +26,11 @@ const SignUp = ({
         defaultValue={
           searchParams.userType ? (searchParams.userType as string) : "user"
         }
-        className="md:w-[750px] w-full flex flex-col items-center px-3 md:px-14 py-16 rounded-[40px] bg-black/5 dark:bg-black/15 shadow-lg backdrop-blur-lg"
+        className="md:w-[750px] w-full flex flex-col items-center px-3 md:px-14 py-16 rounded-[40px] bg-black/15 shadow-lg backdrop-blur-lg text-white"
       >
         <h2 className="text-[32px] font-black mb-7">{t("signUp")}</h2>
         {/* Tabs List: container for the tab triggers */}
-        <TabsList className="w-full h-14 flex justify-between bg-transparent dark:text-white rounded-md mb-6 px-0 border-none border-transparent">
+        <TabsList className="w-full h-14 flex justify-between bg-transparent text-white rounded-md mb-6 px-0 border-none border-transparent">
           {/* Tab Trigger for 'podcaster' */}
           <TabsTrigger
             value="podcaster"

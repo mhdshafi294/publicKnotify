@@ -1,12 +1,15 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import country from "country-list-js";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-import { Link, useRouter } from "@/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "@/schema/authSchema";
+import { signUpAction } from "@/app/actions/authActions";
+import { AppleLogin } from "@/components/apple-login";
+import { GoogleLogin } from "@/components/google-login";
+import PhoneNumberInput from "@/components/phone-number-input";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
 import {
   Form,
   FormControl,
@@ -15,17 +18,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import FormInput from "@/components/ui/form-input";
-import PasswordInput from "@/components/ui/password-input";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
 import FormCheckbox from "@/components/ui/form-checkbox";
-import { AppleLogin } from "@/components/apple-login";
-import { GoogleLogin } from "@/components/google-login";
+import FormInput from "@/components/ui/form-input";
 import FormFileInput from "@/components/ui/form-input-file";
-import PhoneNumberInput from "@/components/phone-number-input";
+import PasswordInput from "@/components/ui/password-input";
+import { Link, useRouter } from "@/navigation";
+import { signUpSchema } from "@/schema/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { signUpAction } from "@/app/actions/authActions";
 import { useEffect } from "react";
 
 interface SignUpFormProps {
@@ -53,7 +53,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
     defaultValues: {
       full_name: "",
       phone: {
-        code: "",
+        code: "971",
         phone: "",
       },
       password: "",
@@ -65,7 +65,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   });
 
   useEffect(() => {
-    console.log(form.watch("phone"));
+    console.log(form.getValues("phone"));
   }, [form]);
 
   const phone = form.getValues("phone");

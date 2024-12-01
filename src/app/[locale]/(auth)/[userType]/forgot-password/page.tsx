@@ -1,13 +1,15 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-import { forgotPasswordSchema } from "@/schema/authSchema";
-import { useRouter } from "@/navigation";
+import { sendCodeAction } from "@/app/actions/authActions";
+import PhoneNumberInput from "@/components/phone-number-input";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
 import {
   Form,
   FormControl,
@@ -16,10 +18,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
-import PhoneNumberInput from "@/components/phone-number-input";
-import { sendCodeAction } from "@/app/actions/authActions";
+import { useRouter } from "@/navigation";
+import { forgotPasswordSchema } from "@/schema/authSchema";
 
 interface ForgotPasswordProps {
   params: { userType: string };
@@ -78,7 +78,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ params }) => {
   };
 
   return (
-    <div className="md:w-[360px] min-h-screen flex flex-col justify-center items-center gap-8">
+    <div className="md:w-[360px] flex flex-col justify-center items-center gap-8 px-3 md:px-14 py-16 rounded-[40px] bg-black/15 shadow-lg backdrop-blur-lg text-white">
       <h2>{t("forgotPassword")}</h2>
       <p className="text-xs">{t("enterPhoneNumber")}</p>
       <Form {...form}>
@@ -106,7 +106,7 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ params }) => {
           />
           <Button
             disabled={isPending}
-            className="md:w-[360px] capitalize mx-auto mt-14"
+            className="w-full capitalize mx-auto mt-14"
             type="submit"
           >
             {isPending ? <ButtonLoader /> : t("confirm")}
