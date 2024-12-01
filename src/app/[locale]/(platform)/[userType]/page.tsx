@@ -65,8 +65,8 @@ export default async function Home({
       return (
         <div className="mt-8 w-full flex flex-col gap-5">
           <StoriesSection params={params} searchParams={searchParams} />
-          <TrendingSection params={params} searchParams={searchParams} />
           <CategorySecrtion />
+          <TrendingSection params={params} searchParams={searchParams} />
           <PodcastersSection params={params} searchParams={searchParams} />
         </div>
       );

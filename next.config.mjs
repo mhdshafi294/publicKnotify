@@ -5,9 +5,12 @@ const withNextIntl = createNextIntlPlugin();
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["notify-back.r-link.io"],
-    domains: ["145.223.116.215"],
-    domains: ["192.168.132.43"], //! to delete
+    domains: [
+      "notify-back.r-link.io",
+      "back.podcasthub.ae",
+      "192.168.132.43",
+      "145.223.116.215",
+    ],
   },
   async headers() {
     return [
