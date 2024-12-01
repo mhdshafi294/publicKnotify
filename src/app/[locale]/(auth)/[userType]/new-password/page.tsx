@@ -90,7 +90,7 @@ const NewPassword: React.FC<NewPasswordProps> = ({ params, searchParams }) => {
           />
           <Button
             disabled={isPending}
-            className="md:w-[360px] capitalize mx-auto mt-14"
+            className="w-full capitalize mx-auto mt-14"
             type="submit"
           >
             {isPending ? <ButtonLoader /> : t("confirm")}
