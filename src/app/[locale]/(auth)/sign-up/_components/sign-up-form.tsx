@@ -26,6 +26,7 @@ import FormFileInput from "@/components/ui/form-input-file";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { useMutation } from "@tanstack/react-query";
 import { signUpAction } from "@/app/actions/authActions";
+import { useEffect } from "react";
 
 interface SignUpFormProps {
   type: "podcaster" | "user" | "company";
@@ -62,6 +63,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
       terms: false,
     },
   });
+
+  useEffect(() => {
+    console.log(form.watch("phone"));
+  }, [form]);
 
   const phone = form.getValues("phone");
 
