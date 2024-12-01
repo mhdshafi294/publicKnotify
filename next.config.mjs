@@ -7,7 +7,7 @@ const nextConfig = {
   images: {
     domains: [
       "notify-back.r-link.io",
-      "back.podcasthub.ae",
+      "back.knotify.ae",
       "192.168.132.43",
       "145.223.116.215",
     ],

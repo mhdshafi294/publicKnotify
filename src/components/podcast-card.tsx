@@ -46,7 +46,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
       <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
       <Link
         href={`/${user?.user?.type}/podcast/${podcast.id}`}
-        className="relative aspect-video rounded-lg"
+        className="relative aspect-square rounded-lg"
       >
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}
