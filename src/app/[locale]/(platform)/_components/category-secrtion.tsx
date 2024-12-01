@@ -27,7 +27,7 @@ const CategorySecrtion = async () => {
         className="w-full"
       >
         <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl capitalize">{t("moods")}</h2>
+          <h2 className="font-bold text-2xl capitalize">{t("categories")}</h2>
           {/* <div className="flex relative justify-end items-center end-[50px]">
           <CarouselPrevious />
           <CarouselNext />

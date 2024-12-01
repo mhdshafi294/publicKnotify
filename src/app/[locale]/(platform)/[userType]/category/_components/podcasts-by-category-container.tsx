@@ -83,7 +83,7 @@ const PodcastsByCategoryContainer = ({
   return (
     <>
       {/* Display the list of podcasts */}
-      <ul className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+      <ul className="w-full grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-0">
         {data?.pages.map((page) =>
           page?.podcasts.map((podcast) => (
             <li key={podcast?.id}>
