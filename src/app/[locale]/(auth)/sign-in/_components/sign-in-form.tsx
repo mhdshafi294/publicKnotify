@@ -185,7 +185,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
               name={"password"}
               label={t("password")}
               control={form.control}
-              className="mb-2 text-black"
+              className="mb-2 text-black dark:text-white"
             />
             <Link
               href={`${type}/forgot-password`}

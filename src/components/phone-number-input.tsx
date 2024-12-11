@@ -82,7 +82,7 @@ const PhoneNumberInput: FC<PropsType> = ({
             aria-expanded={openPopover}
             tabIndex={-1}
             className={cn(
-              "justify-between border-e rounded-none bg-input ps-2 pe-1 py-1",
+              "justify-between border-e rounded-none bg-input ps-2 pe-1 py-1 dark:text-white",
               inputClassName
             )}
           >
@@ -135,7 +135,7 @@ const PhoneNumberInput: FC<PropsType> = ({
         value={inputField}
         onChange={(e) => setInputField(e.target.value)}
         className={cn(
-          "w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0",
+          "w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 dark:text-white",
           inputClassName
         )}
       />

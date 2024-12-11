@@ -102,7 +102,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
         : undefined;
     },
     initialPageParam: 1,
-    enabled: !!session?.user?.type,
+    enabled: !!session?.user?.type && isMounted,
   });
 
   useEffect(() => {

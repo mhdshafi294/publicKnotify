@@ -5,12 +5,14 @@ import { getSelfPodcastAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Separator } from "@/components/ui/separator";
-import { getDistanceToNow } from "@/lib/utils";
+import { cn, getDistanceToNow } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import PublishButton from "../../../publish/_components/publish-button";
+import { buttonVariants } from "@/components/ui/button";
+import { PencilIcon } from "lucide-react";
 
 /**
  * The EpisodePageContent component renders detailed information about a specific podcast episode.
@@ -125,20 +127,38 @@ const EpisodePageContent = async ({
         <DashboardCardContainer className="grow p-4 flex flex-col justify-between gap-8">
           <div className="flex justify-between">
             <h1 className="text-xl font-bold">{t("Publishing")}</h1>
-            <div className="flex justify-end items-center gap-4">
+            <div className="flex justify-end items-start gap-4">
               <p className="font-semibold">
                 {t("Order")}: {podcastResponse?.podcast?.order}
               </p>
-              <PublishButton
-                podcast_id={params.episodeId!}
-                isPublished={podcastResponse?.podcast?.is_published}
-                disabled={
-                  session?.user?.type !== "podcaster" ||
-                  !podcastResponse?.podcast?.podcast
-                }
-                isToggled={true}
-                className="h-fit"
-              />
+              <div className="flex flex-col gap-2">
+                <PublishButton
+                  podcast_id={params.episodeId!}
+                  isPublished={podcastResponse?.podcast?.is_published}
+                  disabled={
+                    session?.user?.type !== "podcaster" ||
+                    !podcastResponse?.podcast?.podcast
+                  }
+                  isToggled={true}
+                  className="h-fit"
+                />
+                {!podcastResponse?.podcast?.is_published ? (
+                  <Link
+                    href={`/${params.userType}/shows/${params.showId}/publish?podcast_id=${params.episodeId}`}
+                    className={cn(
+                      buttonVariants({
+                        variant: "outline",
+                        size: "sm",
+                        className:
+                          "h-fit py-1 capitalize flex gap-2 items-center",
+                      })
+                    )}
+                  >
+                    <PencilIcon className="size-3" />
+                    {t("edit")}
+                  </Link>
+                ) : null}
+              </div>
             </div>
           </div>
           <div className="flex gap-4 flex-col">

@@ -36,30 +36,35 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       </div> */}
       {/* <div className="absolute inset-0 h-full min-h-screen w-screen flex items-center justify-center"> */}
       <div className="absolute inset-0 h-full min-h-screen w-screen flex items-center justify-center bg-[#004FFF] -z-20" />
-      <Image
-        src="/Vector1.png"
-        alt="background logo"
-        width={1000}
-        height={1400}
-        className="-z-10 absolute top-0 left-0 -translate-y-36 blur-3xl "
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      />
-      <Image
-        src="/Vector2.png"
-        alt="background logo"
-        width={1000}
-        height={1400}
-        className="-z-10 absolute top-0 right-0 -translate-y-20 blur-3xl "
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      />
-      <Image
-        src="/Vector3.png"
-        alt="background logo"
-        width={1000}
-        height={1400}
-        className="-z-10 absolute bottom-0 left-0 translate-y-36 translate-x-10 blur-3xl "
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      />
+      <div
+        style={{ animation: "spin 30s linear infinite" }}
+        className="absolute w-full h-[200%]"
+      >
+        <Image
+          src="/Vector1.png"
+          alt="background logo"
+          width={1000}
+          height={1400}
+          className="-z-10 absolute top-0 left-0 -translate-y-36 blur-3xl scale-125"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        <Image
+          src="/Vector2.png"
+          alt="background logo"
+          width={1000}
+          height={1400}
+          className="-z-10 absolute top-0 right-0 -translate-y-20 blur-3xl scale-125"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        <Image
+          src="/Vector3.png"
+          alt="background logo"
+          width={1000}
+          height={1400}
+          className="-z-10 absolute bottom-0 left-0 translate-y-36 translate-x-10 blur-3xl scale-125"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      </div>
       {/* </div> */}
       {/* <Image
         src="/auth-bg1.png"
