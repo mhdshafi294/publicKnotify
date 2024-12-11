@@ -160,7 +160,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
           handleSubmit(data);
         })}
       >
-        <div className="flex flex-col items-center gap-9 w-full">
+        <div className="flex flex-col items-center gap-9 w-full ">
           {/* Phone number input field */}
           <FormField
             control={form.control}
@@ -172,6 +172,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
                   <PhoneNumberInput
                     phone={field.value}
                     setPhone={field.onChange}
+                    inputClassName="text-black"
                   />
                 </FormControl>
                 <FormMessage />
@@ -184,7 +185,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
               name={"password"}
               label={t("password")}
               control={form.control}
-              className="mb-2"
+              className="mb-2 text-black"
             />
             <Link
               href={`${type}/forgot-password`}

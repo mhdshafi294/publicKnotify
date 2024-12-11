@@ -35,9 +35,14 @@ type PhoneWithCodeType = {
 type PropsType = {
   setPhone: Dispatch<SetStateAction<PhoneWithCodeType>>;
   phone: PhoneWithCodeType;
+  inputClassName?: string;
 };
 
-const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
+const PhoneNumberInput: FC<PropsType> = ({
+  setPhone,
+  phone,
+  inputClassName,
+}) => {
   const t = useTranslations("Index");
   const [code, setCode] = useState("");
   const [label, setLabel] = useState(
@@ -76,7 +81,10 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
             role="combobox"
             aria-expanded={openPopover}
             tabIndex={-1}
-            className="justify-between border-e rounded-none bg-input ps-2 pe-1 py-1"
+            className={cn(
+              "justify-between border-e rounded-none bg-input ps-2 pe-1 py-1",
+              inputClassName
+            )}
           >
             {!code.includes("+") ? `+${code}` : code}
             <ChevronsUpDown className="ms-1 h-4 w-4 shrink-0 opacity-70 dark:opacity-50" />
@@ -126,7 +134,10 @@ const PhoneNumberInput: FC<PropsType> = ({ setPhone, phone }) => {
       <Input
         value={inputField}
         onChange={(e) => setInputField(e.target.value)}
-        className="w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0"
+        className={cn(
+          "w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0",
+          inputClassName
+        )}
       />
     </div>
   );

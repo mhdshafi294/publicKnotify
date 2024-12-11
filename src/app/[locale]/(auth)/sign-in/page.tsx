@@ -36,21 +36,21 @@ const SignIp = ({
           {/* Tab Trigger for 'podcaster' */}
           <TabsTrigger
             value="podcaster"
-            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny"
+            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny_lighter dark:data-[state=active]:sm:before:bg-greeny data-[state=active]:md:text-white  data-[state=active]:bg-greeny_lighter dark:data-[state=active]:bg-greeny"
           >
             {t("podcaster")}
           </TabsTrigger>
           {/* Tab Trigger for 'user' */}
           <TabsTrigger
             value="user"
-            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny"
+            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny_lighter dark:data-[state=active]:sm:before:bg-greeny data-[state=active]:md:text-white  data-[state=active]:bg-greeny_lighter dark:data-[state=active]:bg-greeny"
           >
             {t("user")}
           </TabsTrigger>
           {/* Tab Trigger for 'company' */}
           <TabsTrigger
             value="company"
-            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny"
+            className="font-normal md:px-0 data-[state=active]:sm:text-greeny data-[state=active]:sm:!bg-transparent data-[state=active]:!text-xl data-[state=active]:!font-normal transition-all relative data-[state=active]:before:absolute data-[state=active]:before:bottom-0 data-[state=active]:sm:before:h-0.5 data-[state=active]:sm:before:end-0 sm:before:end-[100%] sm:before:start-0 sm:before:!z-50 sm:before:transition-all sm:before:duration-300 data-[state=active]:sm:before:bg-greeny_lighter dark:data-[state=active]:sm:before:bg-greeny data-[state=active]:md:text-white  data-[state=active]:bg-greeny_lighter dark:data-[state=active]:bg-greeny"
           >
             {t("company")}
           </TabsTrigger>

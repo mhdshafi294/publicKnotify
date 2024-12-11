@@ -31,7 +31,7 @@ const DashboardHeaderSection: React.FC<DashboardHeaderSectionProps> = ({
         imageSrc="/podcast-filler.webp"
         title={t("publish-episode")}
         description={t("publish-episode-description")}
-        linkName={t("add-podcast")}
+        linkName={t("add-episode")}
         linkHref={`/podcaster/shows/${params.showId}/publish`}
         done={showData?.playlist?.podcasts_count > 0}
       />
