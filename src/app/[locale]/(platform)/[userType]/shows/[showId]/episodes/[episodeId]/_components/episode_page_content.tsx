@@ -207,7 +207,7 @@ const EpisodePageContent = async ({
           </div>
         </DashboardCardContainer>
 
-        <DashboardCardContainer className=" p-4 flex flex-col gap-8">
+        <DashboardCardContainer className="p-4 flex flex-col gap-8">
           <h1 className="text-xl font-bold">{t("categories")}</h1>
           <div className="flex flex-wrap gap-4">
             {podcastResponse?.podcast?.categories.map((category) => (

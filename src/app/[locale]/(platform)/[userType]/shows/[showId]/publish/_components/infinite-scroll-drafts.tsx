@@ -32,9 +32,9 @@ interface InfiniteScrollDraftsProps {
  * @returns {JSX.Element} The infinite scroll drafts component.
  *
  * @example
- * ```tsx
+ * \`\`\`tsx
  * <InfiniteScrollDrafts isShow={true} setIsShow={setIsShow} search="podcast" />
- * ```
+ * \`\`\`
  */
 const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   isShow,
@@ -69,41 +69,59 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   });
 
   const {
+    refetch,
     isError,
     error,
     data,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isLoading,
+    isPending,
+    isInitialLoading,
   } = useInfiniteQuery({
     queryKey: ["podcastsDrafts", { search, is_published, showId, session }],
     queryFn: async ({ pageParam = 1 }) => {
-      const response: SelfPodcastsDetailsResponse = await getSelfPodcastsAction(
-        {
-          type: "podcaster",
-          search,
-          is_published,
-          page: pageParam.toString(),
-          playlist_id: showId,
-        }
-      );
-      return {
-        podcasts: response.podcasts,
-        pagination: {
-          ...response.pagination,
-          next_page_url: response.pagination.next_page_url,
-          prev_page_url: response.pagination.prev_page_url,
-        },
-      };
+      console.log("Fetching page:", pageParam);
+      try {
+        const response: SelfPodcastsDetailsResponse =
+          await getSelfPodcastsAction({
+            type: session?.user?.type!,
+            search,
+            is_published,
+            page: pageParam.toString(),
+            playlist_id: showId,
+          });
+        console.log("API response:", response);
+        return {
+          podcasts: response.podcasts,
+          pagination: {
+            ...response.pagination,
+            next_page_url: response.pagination.next_page_url,
+            prev_page_url: response.pagination.prev_page_url,
+          },
+        };
+      } catch (error) {
+        console.error("Error fetching podcasts:", error);
+        throw error;
+      }
     },
+
     getNextPageParam: (lastPage) => {
       return lastPage.pagination.next_page_url
         ? lastPage.pagination.current_page + 1
         : undefined;
     },
     initialPageParam: 1,
-    enabled: !!session?.user?.type && isMounted,
+    enabled: !!session?.user?.type,
   });
+
+  useEffect(() => {
+    if (session?.user?.type) {
+      console.log("Refetching due to dependency change");
+      refetch();
+    }
+  }, [session?.user?.type, refetch, search, is_published, showId]);
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
@@ -140,6 +158,22 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   const locale = useLocale();
   const dir = getDirection(locale);
   const t = useTranslations("Index");
+
+  console.log("Component state:", {
+    isLoading,
+    isPending,
+    isInitialLoading,
+    isError,
+    error,
+    data,
+    session: session?.user?.type,
+  });
+
+  if (!isMounted) return null;
+  if (isError) {
+    console.error("Query error:", error);
+    return <div>Error loading podcasts. Please try again.</div>;
+  }
 
   return (
     <div
