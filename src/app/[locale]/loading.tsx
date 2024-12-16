@@ -63,8 +63,8 @@ const Loading = () => {
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="animate-slow-rotate size-80"
       /> */}
-      <div className="w-[286px] h-[2px] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-[#191919]">
-        <div className="h-full animate-progress bg-gradient-to-r from-[#00000000] from-10% via-[#0045DFCC] via-45% to-[#57d6f08e] to-80% shadow-[0px_0px_75px_5px_#4299e1]" />
+      <div className="w-[286px] h-[2px] absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] bg-[#191919] rounded-full">
+        <div className="h-full animate-progress bg-gradient-to-r from-[#00000000] from-10% via-[#0045DFCC] via-45% to-[#57d6f08e] to-80% shadow-[0px_0px_75px_5px_#4299e1] rounded-full" />
       </div>
     </div>
   );
