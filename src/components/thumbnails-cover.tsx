@@ -20,6 +20,7 @@ const ThumbnailsCover = ({
       <div className="w-full h-fit flex items-center justify-center">
         <Image
           src="/draftL.png"
+          priority
           alt="draft"
           width={126}
           height={124}

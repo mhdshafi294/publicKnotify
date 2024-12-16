@@ -80,7 +80,7 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
     isPending,
     isInitialLoading,
   } = useInfiniteQuery({
-    queryKey: ["podcastsDrafts", { search, is_published, showId, session }],
+    queryKey: ["addPodcastsDrafts", { showId, isMounted }],
     queryFn: async ({ pageParam = 1 }) => {
       console.log("Fetching page:", pageParam);
       try {
@@ -113,15 +113,28 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
         : undefined;
     },
     initialPageParam: 1,
-    enabled: !!session?.user?.type,
+    enabled: true,
+    retry: 3, // Number of retry attempts
+    retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 30000), // Exponential backoff
+    // staleTime: 0,
+    // cacheTime: 0,
   });
 
   useEffect(() => {
     if (session?.user?.type) {
+      // console.log(session?.user?.type);
       console.log("Refetching due to dependency change");
+
       refetch();
     }
   }, [session?.user?.type, refetch, search, is_published, showId]);
+
+  useEffect(() => {
+    if (isMounted && session?.user?.type) {
+      console.log("Force refetch on mount");
+      refetch();
+    }
+  }, [isMounted, session?.user?.type, refetch]);
 
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage && isIntersecting) {
