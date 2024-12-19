@@ -45,8 +45,8 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
       >
         <CardContent className={cn("p-0", contentRatio)}>
           <Image
-            src={podcaster.image ? podcaster.image : "/podcaster-filler.webp"}
-            alt={podcaster.full_name}
+            src={podcaster?.image ? podcaster?.image : "/podcaster-filler.webp"}
+            alt={podcaster?.full_name}
             className="object-cover group-hover:scale-110 duration-500"
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -54,10 +54,10 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
           <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
             <div className="text-white">
               <div className="font-medium group-hover:-translate-y-2 duration-500 capitalize">
-                {podcaster.full_name}
+                {podcaster?.full_name}
               </div>
               <div className="text-xs opacity-90">
-                {podcaster.categories.map((category) => (
+                {podcaster?.categories.map((category) => (
                   <span key={category?.id} className="mr-2">
                     {category.name}
                   </span>
