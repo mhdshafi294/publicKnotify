@@ -6,7 +6,7 @@ import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import CategorySecrtion from "../_components/category-secrtion";
+import CategorySection from "../_components/category-secrtion";
 import StoriesSection from "../_components/stories-section";
 import TrendyPodcasterCarouselSection from "../_components/trendy-podcaster-carousel-section";
 
@@ -65,7 +65,7 @@ export default async function Home({
       return (
         <div className="mt-8 w-full flex flex-col gap-5">
           <StoriesSection params={params} searchParams={searchParams} />
-          <CategorySecrtion />
+          <CategorySection />
           <TrendingSection params={params} searchParams={searchParams} />
           <PodcastersSection params={params} searchParams={searchParams} />
         </div>

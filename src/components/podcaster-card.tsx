@@ -22,10 +22,10 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
   className,
 }) => {
   const [isFavorite, setIsFavorite] = useState(
-    podcaster.is_favorite ? true : false
+    podcaster?.is_favorite ? true : false
   );
   const [selectedItems, setSelectedItems] = useState<string[]>(
-    podcaster.favourite_categories.map((category) => category.name)
+    podcaster?.favourite_categories.map((category) => category.name)
   );
   const { data: session } = useSession();
 

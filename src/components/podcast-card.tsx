@@ -24,10 +24,10 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
   const router = useRouter();
   const { data: user } = useSession();
   const [isFavorite, setIsFavorite] = useState(
-    podcast.is_favorite ? true : false
+    podcast?.is_favorite ? true : false
   );
   const [selectedItems, setSelectedItems] = useState<string[]>(
-    podcast.favourite_categories.map((category) => category.name)
+    podcast?.favourite_categories.map((category) => category.name)
   );
   const [isHydrated, setIsHydrated] = useState(false);
   useEffect(() => {

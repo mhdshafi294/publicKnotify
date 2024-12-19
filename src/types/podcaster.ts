@@ -21,7 +21,7 @@ export type PodcasterDetails = {
   id: number;
   full_name: string;
   image: string;
-  is_favorite: boolean;
+  is_favorite: boolean | null;
   youtube_account: string;
   spotify_account: string;
   phone: string;

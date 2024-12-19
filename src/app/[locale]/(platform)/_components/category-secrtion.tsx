@@ -1,16 +1,16 @@
-import getCategories from "@/services/podcast/get-categories";
-import { getTranslations } from "next-intl/server";
-import CategoryCard from "./category-card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { useLocale } from "next-intl";
 import { cn, getDirection } from "@/lib/utils";
+import getCategories from "@/services/podcast/get-categories";
+import { useLocale } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import CategoryCard from "./category-card";
 
-const CategorySecrtion = async () => {
+const CategorySection = async () => {
   const t = await getTranslations("Index");
   const categories = await getCategories();
   const locale = useLocale();
@@ -47,4 +47,4 @@ const CategorySecrtion = async () => {
   );
 };
 
-export default CategorySecrtion;
+export default CategorySection;
