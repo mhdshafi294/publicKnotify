@@ -1,5 +1,5 @@
 import { ApiResponse, Pagination, TranslationsType } from ".";
-import { Podcaster, PodcasterDetails } from "./podcaster";
+import { Podcaster } from "./podcaster";
 
 export type PodcastDetails = {
   id: number;
@@ -80,7 +80,7 @@ export type Podcast = {
   name: string;
   podcaster: PodcastPodcaster;
   type: "video" | "audio";
-  is_favorite: boolean;
+  is_favorite: boolean | null;
   favourite_categories: Category[];
   playback_position: PlaybackPosition | null;
   belongs_to_playlist: 1 | 0;

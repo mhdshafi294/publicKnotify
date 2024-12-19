@@ -23,7 +23,9 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
   className,
   contentRatio,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(podcaster.is_favorite);
+  const [isFavorite, setIsFavorite] = useState(
+    podcaster.is_favorite ? true : false
+  );
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcaster.favourite_categories.map((category) => category.name)
   );

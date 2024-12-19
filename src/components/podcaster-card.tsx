@@ -1,12 +1,12 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 
-import { Link } from "@/navigation";
 import { removeFromFavoriteAction } from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
 import { Podcaster } from "@/types/podcaster";
 import PodcasterFavoritePopover from "./podcaster-favorite-popover";
 import { Skeleton } from "./ui/skeleton";
@@ -21,7 +21,9 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
   podcaster,
   className,
 }) => {
-  const [isFavorite, setIsFavorite] = useState(podcaster.is_favorite);
+  const [isFavorite, setIsFavorite] = useState(
+    podcaster.is_favorite ? true : false
+  );
   const [selectedItems, setSelectedItems] = useState<string[]>(
     podcaster.favourite_categories.map((category) => category.name)
   );

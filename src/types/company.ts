@@ -8,7 +8,7 @@ export type Company = {
   iso_code: string;
   email: string;
   image: string;
-  is_favorite: boolean;
+  is_favorite: boolean | null;
   favourite_categories: Category[];
 };
 
