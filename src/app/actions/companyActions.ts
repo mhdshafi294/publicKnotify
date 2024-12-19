@@ -7,7 +7,7 @@ import getCompany from "@/services/company/get-company"; // Service to get detai
  * Action to get details of a specific company.
  *
  * @param {Object} params - The parameters for getting the company details.
- * @param {string} params.id - The ID of the company.
+ * @param {string} params?.id - The ID of the company.
  * @param {string} params.type - The type of the request.
  * @returns {Promise<any>} - The response from the getCompany service.
  */

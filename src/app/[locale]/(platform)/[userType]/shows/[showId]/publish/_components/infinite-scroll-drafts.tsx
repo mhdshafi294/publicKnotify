@@ -1,21 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import { SquareArrowOutUpRightIcon, X } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useRef, useState } from "react";
 
 import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
 import ThumbnailsCover from "@/components/thumbnails-cover";
+import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
-import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { useRouter } from "@/navigation";
+import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 
 interface InfiniteScrollDraftsProps {
   isShow: boolean;

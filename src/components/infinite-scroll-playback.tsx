@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import Loader from "@/components/ui/loader";
-import { getSelfPlaybackAction } from "@/app/actions/podcastActions";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
-import { getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
+import { getSelfPlaybackAction } from "@/app/actions/podcastActions";
+import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { getDirection } from "@/lib/utils";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 const InfiniteScrollPlayback = ({
   initialData,

@@ -1,25 +1,25 @@
 "use client";
 
 // Global imports
-import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 // Local imports
-import Loader from "@/components/ui/loader";
+import { getPodcastersAction } from "@/app/actions/podcasterActions";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { getPodcastersAction } from "@/app/actions/podcasterActions";
-import { Podcaster, PodcastersResponse } from "@/types/podcaster";
 import { getDirection } from "@/lib/utils";
-import { PodcasterCard } from "./podcaster-card";
 import { Link } from "@/navigation";
+import { Podcaster, PodcastersResponse } from "@/types/podcaster";
+import { PodcasterCard } from "./podcaster-card";
 
 /**
  * InfiniteScrollPodcastersCarousel Component
@@ -145,7 +145,7 @@ const InfiniteScrollPodcastersCarousel = ({
           data?.pages.map((page) =>
             page.podcasters.map((podcaster) => (
               <CarouselItem
-                key={podcaster.id}
+                key={podcaster?.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0"
               >
                 <PodcasterCard podcaster={podcaster} />

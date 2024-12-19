@@ -1,31 +1,31 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import { useLocale, useTranslations } from "next-intl";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // Local imports
-import { getDirection } from "@/lib/utils";
-import { createMetadataSchema } from "@/schema/createMetadataSchema";
 import {
   createMetadataAction,
   getSelfPodcastAction,
   updateMetadataAction,
 } from "@/app/actions/podcastActions";
 import { getRequestAction } from "@/app/actions/requestsActions";
-import { SelfPodcastDetails } from "@/types/podcast";
-import { RequestDetails } from "@/types/request";
 import { Form } from "@/components/ui/form";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { getDirection } from "@/lib/utils";
+import { createMetadataSchema } from "@/schema/createMetadataSchema";
+import { SelfPodcastDetails } from "@/types/podcast";
+import { RequestDetails } from "@/types/request";
+import { ZodError } from "zod";
 import FormHeader from "./form-header";
 import FormSection from "./form-section";
-import { ZodError } from "zod";
 
 // Type definition for the component props
 type CreatePodcastFormProps = {
@@ -195,7 +195,7 @@ const CreatePodcastForm: React.FC<CreatePodcastFormProps> = ({
         publishing_time: draft.publishing_time?.slice(0, 5),
         company_tag: draft.company_tag ? draft.company_tag : "",
         play_list_id: showId,
-        categories: draft.categories.map((category) => category.id.toString()),
+        categories: draft.categories.map((category) => category?.id.toString()),
         hashtags: draft.hashTags.map((hashtag) => hashtag.name),
         contributors:
           "contributors" in draft &&

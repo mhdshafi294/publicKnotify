@@ -13,7 +13,6 @@ import { useTranslations } from "next-intl";
 import React from "react";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
-import { EnabledStatistics } from "@/types/statistics";
 
 type TopEpisodesTableProps = {
   top_episodes: { id: number; name: string; views_count: number }[];
@@ -58,9 +57,9 @@ const TopEpisodesTable: React.FC<TopEpisodesTableProps> = ({
           </TableHeader>
           <TableBody className="w-full">
             {top_episodes.map((episode, index) => (
-              <TableRow key={episode.id}>
+              <TableRow key={episode?.id}>
                 <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell className="font-medium">{episode.id}</TableCell>
+                <TableCell className="font-medium">{episode?.id}</TableCell>
                 <TableCell className="capitalize">{episode.name}</TableCell>
                 <TableCell className="text-right font-bold">
                   {episode.views_count}

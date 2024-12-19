@@ -1,8 +1,8 @@
+import { PlaylistResponse } from "@/types/podcast";
 import React from "react";
 import DashboardAnalyticsSection from "./dashboard-analytics-section";
 import DashboardHeaderSection from "./dashboard-header-section";
 import LastEpisodeCard from "./last-episode-card";
-import { PlaylistResponse } from "@/types/podcast";
 
 type DashboardMainContentProps = {
   params: { userType: string; showId: string };
@@ -40,7 +40,7 @@ const DashboardMainContent: React.FC<DashboardMainContentProps> = ({
           imgSrc="/podcast-filler.webp"
           title={showData.playlist.podcasts[0].name}
           showId={params.showId}
-          episodeId={showData.playlist.podcasts[0].id.toString()}
+          episodeId={showData.playlist.podcasts[0]?.id.toString()}
           publishDate={showData.playlist.podcasts[0].publishing_date}
         />
       ) : null}

@@ -1,17 +1,17 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { CreateShowSchema } from "@/schema/showsSchema";
+import { getPlayListAction } from "@/app/actions/podcastActions";
 import { Form } from "@/components/ui/form";
-import ShowInfoSection from "../../../create/_components/show-info-section";
-import ShowArtworkSection from "../../../create/_components/show-artwork-section";
-import FormatSection from "../../../create/_components/format-section";
-import CategorizationSection from "../../../create/_components/categorization-section";
+import { CreateShowSchema } from "@/schema/showsSchema";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getPlayListAction } from "@/app/actions/podcastActions";
+import CategorizationSection from "../../../create/_components/categorization-section";
+import FormatSection from "../../../create/_components/format-section";
+import ShowArtworkSection from "../../../create/_components/show-artwork-section";
+import ShowInfoSection from "../../../create/_components/show-info-section";
 import EditOwnerDetailsSection from "./edit-owner-details-section";
 
 interface EditShowContainerProps {
@@ -74,7 +74,7 @@ const EditShowContainer: React.FC<EditShowContainerProps> = ({ showId }) => {
         tags: showData.tags,
         authors: showData.authors,
         categories: showData.categories
-          ? showData.categories.map((category) => category.id.toString())
+          ? showData.categories.map((category) => category?.id.toString())
           : [],
         categories1: showData.categories
           ? showData.categories.map((category) =>

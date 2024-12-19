@@ -49,7 +49,7 @@ export default async function Home({
     // }
     if (showsResponse?.playlists?.length > 0) {
       redirect(
-        `/${session?.user?.type}/shows/${showsResponse.playlists[0].id}`
+        `/${session?.user?.type}/shows/${showsResponse.playlists[0]?.id}`
       );
     } else {
       redirect(`/${session?.user?.type}/shows/create`);

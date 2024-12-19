@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useLocale, useTranslations } from "next-intl";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
-import Loader from "@/components/ui/loader";
+import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
 import {
   Carousel,
   CarouselContent,
@@ -14,12 +14,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
+import Loader from "@/components/ui/loader";
+import { getDirection } from "@/lib/utils";
 import {
   SelfPodcastDetails,
   SelfPodcastsDetailsResponse,
 } from "@/types/podcast";
-import { getDirection } from "@/lib/utils";
 import SelfPodcastCard from "./self-podcast-card";
 
 /**
@@ -129,7 +129,7 @@ const InfiniteScrollSelfPodcasts = ({
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
-                key={podcast.id}
+                key={podcast?.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <SelfPodcastCard podcast={podcast} userType={type} />

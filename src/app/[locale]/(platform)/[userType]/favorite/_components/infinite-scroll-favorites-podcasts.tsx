@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 // Internal Imports
 import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
@@ -94,7 +93,7 @@ const InfiniteScrollFavoritesPodcasts: React.FC<
         {/* Render the list of favorite podcasts */}
         {favoritePodcasts?.pages.map((page) =>
           page.podcasts.map((podcast) => (
-            <li key={podcast.id} className="w-full lg:max-w-80">
+            <li key={podcast?.id} className="w-full lg:max-w-80">
               <PodcastCard
                 podcast={podcast}
                 className="hover:bg-secondary/75 bg-secondary/50"

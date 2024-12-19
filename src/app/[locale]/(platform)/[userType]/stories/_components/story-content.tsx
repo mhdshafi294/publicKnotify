@@ -1,8 +1,8 @@
 import { getContrastTextColor } from "@/lib/utils";
-import { Story, SelfStory } from "@/types/stories";
+import { SelfStory, Story } from "@/types/stories";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Loader2 } from "lucide-react";
 
 interface StoryContentProps {
   story: Story | SelfStory;
@@ -58,7 +58,7 @@ const StoryContent: React.FC<StoryContentProps> = ({
    */
   const handleImageLoad = () => {
     setIsLoading(false);
-    markStoryRead(story.id.toString());
+    markStoryRead(story?.id.toString());
   };
 
   /**
@@ -66,7 +66,7 @@ const StoryContent: React.FC<StoryContentProps> = ({
    */
   const handleVideoPlay = () => {
     if (story.type === "video") {
-      markStoryRead(story.id.toString());
+      markStoryRead(story?.id.toString());
     }
   };
 

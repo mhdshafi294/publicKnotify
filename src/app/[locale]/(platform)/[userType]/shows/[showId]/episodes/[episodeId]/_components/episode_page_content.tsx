@@ -3,16 +3,16 @@ import Image from "next/image";
 
 import { getSelfPodcastAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Separator } from "@/components/ui/separator";
 import { cn, getDistanceToNow } from "@/lib/utils";
 import { Link } from "@/navigation";
+import { PencilIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import DashboardCardContainer from "../../../../_components/dashboard-card-container";
 import PublishButton from "../../../publish/_components/publish-button";
-import { buttonVariants } from "@/components/ui/button";
-import { PencilIcon } from "lucide-react";
 
 /**
  * The EpisodePageContent component renders detailed information about a specific podcast episode.
@@ -212,9 +212,9 @@ const EpisodePageContent = async ({
           <div className="flex flex-wrap gap-4">
             {podcastResponse?.podcast?.categories.map((category) => (
               <Link
-                href={`/${session?.user?.type}/category/${category.id}`}
+                href={`/${session?.user?.type}/category/${category?.id}`}
                 className="bg-background hover:bg-background/60 flex justify-start items-center border border-border-secondary rounded-xl gap-2 px-2.5 py-2 w-fit"
-                key={category.id}
+                key={category?.id}
               >
                 <div className="size-4 relative">
                   <Image
@@ -241,7 +241,7 @@ const EpisodePageContent = async ({
           <div className="flex items-center gap-4">
             {podcastResponse?.podcast?.hashTags.map((hashtag) => (
               <div
-                key={hashtag.id}
+                key={hashtag?.id}
                 className="shrink-0 text-sm bg-greeny_lighter/30 text-greeny px-3 py-1 font-semibold rounded-lg cursor-default"
               >
                 #{hashtag.name}

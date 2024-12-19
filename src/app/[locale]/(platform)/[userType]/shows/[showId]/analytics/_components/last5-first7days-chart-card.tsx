@@ -71,9 +71,9 @@ const LastFiveFirstSevenDaysChartCard: React.FC<
           </TableHeader>
           <TableBody className="w-full">
             {five_latest_episodes.map((episode) => (
-              <TableRow key={episode.podcast.id}>
+              <TableRow key={episode.podcast?.id}>
                 <TableCell className="font-medium">
-                  {episode.podcast.id}
+                  {episode.podcast?.id}
                 </TableCell>
                 <TableCell>{episode.podcast.name}</TableCell>
                 <TableCell className="text-right">

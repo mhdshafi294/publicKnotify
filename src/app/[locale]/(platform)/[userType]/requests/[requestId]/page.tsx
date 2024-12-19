@@ -1,8 +1,5 @@
-import { getServerSession } from "next-auth";
-import { getTranslations } from "next-intl/server";
-import { format } from "date-fns";
-import Image from "next/image";
 import { Link, redirect } from "@/navigation";
+import { format } from "date-fns";
 import {
   CalendarClockIcon,
   CircleDollarSignIcon,
@@ -11,24 +8,26 @@ import {
   ReplaceAllIcon,
   RouterIcon,
 } from "lucide-react";
+import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { getRequestAction } from "@/app/actions/requestsActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardContent,
-  CardFooter,
-  CardDescription,
 } from "@/components/ui/card";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import ChangeRequestStatusButton from "./_components/change-request-status-button";
-import { useLocale } from "next-intl";
 import { cn, getDirection } from "@/lib/utils";
+import { useLocale } from "next-intl";
 import CancelRequestButton from "./_components/cancel-request-button";
-import { buttonVariants } from "@/components/ui/button";
+import ChangeRequestStatusButton from "./_components/change-request-status-button";
 
 /**
  * RequestPage Component
@@ -96,7 +95,7 @@ export default async function RequestPage({
                 <div className="flex w-max gap-2 pb-3">
                   {request.hashTags.map((hashTag) => (
                     <div
-                      key={hashTag.id}
+                      key={hashTag?.id}
                       className="shrink-0 text-sm bg-greeny_lighter/30 text-greeny px-3 py-1 font-semibold rounded-lg cursor-default"
                     >
                       #{hashTag.name}
@@ -162,9 +161,9 @@ export default async function RequestPage({
                 <div className="flex md:justify-end gap-2 w-full pb-3">
                   {request.categories.map((category) => (
                     <Link
-                      href={`/${session?.user?.type}/category/${category.id}`}
+                      href={`/${session?.user?.type}/category/${category?.id}`}
                       className="bg-background hover:bg-background/60 flex justify-start items-center border rounded-xl gap-2 px-2.5 py-2 w-fit"
-                      key={category.id}
+                      key={category?.id}
                     >
                       <div className="size-4 relative">
                         <Image

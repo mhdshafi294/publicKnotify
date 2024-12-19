@@ -1,9 +1,10 @@
 // External dependencies
-import { cache } from "react"; // React cache utility import
-import Image from "next/image"; // Next.js image component import
 import { getTranslations } from "next-intl/server"; // Next.js i18n import
+import Image from "next/image"; // Next.js image component import
+import { cache } from "react"; // React cache utility import
 
 // Internal dependencies
+import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
 import { buttonVariants } from "@/components/ui/button"; // Internal button variants import
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal UI component import
 import { Progress } from "@/components/ui/progress"; // Internal progress component import
@@ -11,7 +12,6 @@ import axiosInstance from "@/lib/axios.config"; // Internal axios configuration 
 import { cn } from "@/lib/utils"; // Internal utility function import
 import { Link } from "@/navigation"; // Internal navigation import
 import { ApiResponse } from "@/types"; // Internal API response type import
-import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
 
 // Function to fetch podcasts, cached to optimize performance
 const getPodcasts = cache(async (type: string) => {
@@ -89,9 +89,9 @@ const StatisticsPage = async ({
               </h2>
               {selfPodcastsList.map((podcast) => (
                 <Link
-                  href={{ search: `?podcastId=${podcast.id}` }}
+                  href={{ search: `?podcastId=${podcast?.id}` }}
                   scroll={false}
-                  key={podcast.id}
+                  key={podcast?.id}
                   className={cn(
                     buttonVariants({ variant: "link" }),
                     "text-lg px-0 capitalize"

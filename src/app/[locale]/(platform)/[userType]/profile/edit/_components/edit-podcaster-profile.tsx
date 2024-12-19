@@ -1,20 +1,17 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import country from "country-list-js";
+import { Camera } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { Camera } from "lucide-react";
-import country from "country-list-js";
-import { useTranslations } from "next-intl";
 
 import { podcasterEditProfileAction } from "@/app/actions/profileActions";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
-import { PodcasterProfileSchema } from "@/schema/profileSchema";
-import { ProfileResponse } from "@/types/profile";
-import { CategoryDetails } from "@/types/podcast";
 import MultiSelectPopover from "@/components/multi-select-popover";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,6 +27,9 @@ import {
 } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import { convertFileToURL } from "@/lib/utils";
+import { PodcasterProfileSchema } from "@/schema/profileSchema";
+import { CategoryDetails } from "@/types/podcast";
+import { ProfileResponse } from "@/types/profile";
 
 /**
  * Component for editing a podcaster's profile.
@@ -71,7 +71,7 @@ const EditPodcasterProfile = ({
       full_name: user?.full_name || "",
       image: new File([], ""),
       iso_code: user?.iso_code || "",
-      categories: profile.user.categories.map((c) => c.id.toString()) || [],
+      categories: profile.user.categories.map((c) => c?.id.toString()) || [],
       spotify: profile.user.spotify_account || "",
       youtube: profile.user.youtube_account || "",
       phone: {

@@ -47,7 +47,7 @@ export const getRequestsAction = async ({
  * Fetches the details of a specific request.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the request.
+ * @param {string} params?.id - The ID of the request.
  * @param {string} params.type - The type of request.
  * @returns {Promise} - The API response containing the request details.
  */
@@ -69,7 +69,7 @@ export const getRequestAction = async ({
  * Changes the status of a specific request.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the request.
+ * @param {string} params?.id - The ID of the request.
  * @param {string} params.status - The new status for the request.
  * @param {string} params.type - The type of request.
  * @returns {Promise} - The API response after changing the request status.
@@ -95,7 +95,7 @@ export const changeRequestStatusAction = async ({
  * Cancels a specific request.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the request.
+ * @param {string} params?.id - The ID of the request.
  * @param {string} params.type - The type of request.
  * @returns {Promise} - The API response after canceling the request.
  */

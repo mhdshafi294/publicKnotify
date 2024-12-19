@@ -12,7 +12,7 @@ import useEnableStatsStore from "@/store/use-stats-enable-store";
 import { useMutation } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
+import React from "react";
 import { toast } from "sonner";
 
 type AnalyticsEnableSwitchProps = {

@@ -1,9 +1,7 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState, useCallback } from "react";
+import StoriesPlayerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-player-dialog";
+import StoryTriggerItem from "@/app/[locale]/(platform)/[userType]/stories/_components/story-trigger-item";
 import { getStoriesAction } from "@/app/actions/storiesActions";
 import {
   Carousel,
@@ -13,10 +11,12 @@ import {
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { getDirection } from "@/lib/utils";
-import { StoriesResponse } from "@/types/stories";
 import useAddStoryDialogsStore from "@/store/use-add-story-dialogs-store";
-import StoryTriggerItem from "@/app/[locale]/(platform)/[userType]/stories/_components/story-trigger-item";
-import StoriesPlayerDialog from "@/app/[locale]/(platform)/[userType]/stories/_components/stories-player-dialog";
+import { StoriesResponse } from "@/types/stories";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
 
 interface InfiniteScrollStoriesCarouselProps {
   initialData: StoriesResponse;
@@ -118,7 +118,7 @@ const InfiniteScrollStoriesCarousel: React.FC<
         ) : (
           allStories.map((storyGroup, index) => (
             <CarouselItem
-              key={storyGroup.podcaster.id}
+              key={storyGroup.podcaster?.id}
               className="basis-1/5 md:basis-1/6 lg:basis-[9%] xl:basis-[7%] ps-0"
             >
               <StoryTriggerItem

@@ -37,7 +37,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
 
   return (
     <div
-      // onClick={() => router.push(`/${user?.user?.type}/podcast/${podcast.id}`)}
+      // onClick={() => router.push(`/${user?.user?.type}/podcast/${podcast?.id}`)}
       // role="button"
       tabIndex={0}
       className={cn(
@@ -45,9 +45,9 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
         className
       )}
     >
-      <PodcastCardPlayButton podcastId={podcast.id} type={podcast.type} />
+      <PodcastCardPlayButton podcastId={podcast?.id} type={podcast.type} />
       <Link
-        href={`/${user?.user?.type}/podcast/${podcast.id}`}
+        href={`/${user?.user?.type}/podcast/${podcast?.id}`}
         className="relative aspect-square rounded-lg"
       >
         <Image
@@ -58,20 +58,20 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover rounded cursor-pointer"
           onClick={() =>
-            router.push(`/${user?.user?.type}/podcast/${podcast.id}`)
+            router.push(`/${user?.user?.type}/podcast/${podcast?.id}`)
           }
         />
       </Link>
       <div className="flex items-end justify-between ">
         <div>
-          <Link passHref href={`/${user?.user?.type}/podcast/${podcast.id}`}>
+          <Link passHref href={`/${user?.user?.type}/podcast/${podcast?.id}`}>
             <h3 className="font-bold text-sm text-wrap">{podcast.name}</h3>
           </Link>
           <p className="text-xs font-medium">{podcast.podcaster.full_name}</p>
         </div>
         {isFavorite ? (
           <UnfavoriteButton
-            id={podcast.id.toString()}
+            id={podcast?.id.toString()}
             setIsFavorite={setIsFavorite}
             setSelectedItems={setSelectedItems}
             removeFromFavoriteAction={removeFromFavoriteAction}
@@ -79,7 +79,7 @@ export const PodcastCard: React.FC<PodCastCardProps> = ({
           />
         ) : (
           <PodcastFavoritePopover
-            podcastId={podcast.id.toString()}
+            podcastId={podcast?.id.toString()}
             isFavorite={isFavorite}
             setIsFavorite={setIsFavorite}
             selectedItems={selectedItems}

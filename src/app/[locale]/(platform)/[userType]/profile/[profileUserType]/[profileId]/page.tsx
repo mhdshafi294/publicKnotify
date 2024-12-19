@@ -1,20 +1,20 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import ProfileCard from "../../_components/profile-card";
 import ProfileContent from "../../_components/profile-content";
 
-import { getProfileAction } from "@/app/actions/profileActions";
-import { getPodcasterAction } from "@/app/actions/podcasterActions";
 import { getCompanyAction } from "@/app/actions/companyActions";
+import { getPodcasterAction } from "@/app/actions/podcasterActions";
+import { getProfileAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
-import { User } from "@/types/profile";
-import { PodcasterDetails } from "@/types/podcaster";
-import { Company } from "@/types/company";
 import { cn } from "@/lib/utils";
+import { Company } from "@/types/company";
+import { PodcasterDetails } from "@/types/podcaster";
+import { User } from "@/types/profile";
 
 /**
  * Profile component for displaying user, podcaster, or company profile.

@@ -15,9 +15,9 @@ const CategoryCard: FC<PropsType> = async ({ category }) => {
   const t = await getTranslations("Index");
   return (
     <Link
-      href={`/${session?.user?.type}/category/${category.id}`}
+      href={`/${session?.user?.type}/category/${category?.id}`}
       className="hover:bg-foreground/10 duration-150 transition-colors flex justify-start items-center border-2 border-transparent hover:border-greeny/50 rounded-[10px] w-52 h-[184px] gap-2 p-4 relative group overflow-hidden"
-      key={category.id}
+      key={category?.id}
     >
       <div className="absolute inset-0 w-full -z-10 ">
         <Image

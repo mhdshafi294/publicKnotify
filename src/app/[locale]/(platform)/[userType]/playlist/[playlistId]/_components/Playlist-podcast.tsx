@@ -45,7 +45,7 @@ const PlaylistPodcast = async ({
     id:
       typeof searchParams.podcast_id === "string"
         ? searchParams.podcast_id
-        : podcasts[0].id.toString(),
+        : podcasts[0]?.id.toString(),
   });
 
   return (

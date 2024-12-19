@@ -1,9 +1,9 @@
 "use client";
 
 // External imports
-import { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 // Local imports
 import CompanyCard from "@/app/[locale]/(platform)/_components/company-card";
@@ -11,7 +11,6 @@ import { getCompaniesAction } from "@/app/actions/companyActions";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { CompaniesResponse, Company } from "@/types/company";
-import { useSession } from "next-auth/react";
 
 /**
  * InfiniteScrollCompanies Component

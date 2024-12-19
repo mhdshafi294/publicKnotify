@@ -1,17 +1,16 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import React, { useEffect } from "react";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { usePusher } from "@/hooks/usePusher";
+import { cn } from "@/lib/utils";
+import { useRouter } from "@/navigation";
+import useChatStore from "@/store/conversations/use-chat-store";
 import { Conversation } from "@/types/conversation";
 import ConversationCard from "./conversation-card";
-import { cn } from "@/lib/utils";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import useChatStore from "@/store/conversations/use-chat-store";
-import { usePusher } from "@/hooks/usePusher";
-import { useRouter } from "@/navigation";
-import { lastIndexOf } from "lodash";
 
 /**
  * ConversationsList Component
@@ -101,14 +100,14 @@ const ConversationsList: React.FC<ConversationListProps> = ({
 
       // const updatedConversation: Conversation | undefined = conversationsList.find(
       //   (conversation) =>
-      //     conversation.id === pusherNewConversation.conversation.id
+      //     conversation?.id === pusherNewConversation.conversation?.id
       // )
 
       // Update the conversation list to reflect real-time changes
       setConversationsList((prevConversationsList) => [
         updatedConversation,
         ...prevConversationsList.filter(
-          (conversation) => conversation.id !== updatedConversation.id
+          (conversation) => conversation?.id !== updatedConversation?.id
         ),
       ]);
     };

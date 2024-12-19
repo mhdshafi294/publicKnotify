@@ -1,13 +1,13 @@
 //external dependencies
-import { cache, Fragment } from "react"; // React cache utility import
-import Image from "next/image"; // Next.js image component import
 import { getTranslations } from "next-intl/server"; // Next.js i18n import
+import Image from "next/image"; // Next.js image component import
+import { cache, Fragment } from "react"; // React cache utility import
 
 //internal dependencies
+import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
 import { Progress } from "@/components/ui/progress"; // Internal progress component import
 import axiosInstance from "@/lib/axios.config"; // Internal axios configuration import
 import { ApiResponse } from "@/types"; // Internal API response type import
-import { getStatisticsAction } from "@/app/actions/statisticsActions"; // Internal statistics action import
 import StatisticsContainer from "./_components/statistics_container";
 
 // Function to fetch podcasts, cached to optimize performance
@@ -58,7 +58,7 @@ const StatisticsPage = async ({
   const podcastId = searchParams.podcastId
     ? (searchParams.podcastId as string)
     : selfPodcastsList[0]
-    ? selfPodcastsList[0].id.toString()
+    ? selfPodcastsList[0]?.id.toString()
     : undefined;
 
   // If no podcast ID is provided, show a prompt to publish podcasts

@@ -96,12 +96,12 @@ const RequestCard: FC<{ request: Request; userType: string }> = ({
         ) : request?.status === "Pending" && userType === "podcaster" ? (
           <div className="flex h-full items-center justify-end gap-4">
             <ChangeRequestStatusButton
-              requestId={request.id.toString()}
+              requestId={request?.id.toString()}
               userType={userType}
               status="accept"
             />
             <ChangeRequestStatusButton
-              requestId={request.id.toString()}
+              requestId={request?.id.toString()}
               userType={userType}
               status="reject"
             />
@@ -109,7 +109,7 @@ const RequestCard: FC<{ request: Request; userType: string }> = ({
         ) : request?.status === "Pending" && userType === "company" ? (
           <div className="flex h-full items-center justify-end gap-4">
             <ChangeRequestStatusButton
-              requestId={request.id.toString()}
+              requestId={request?.id.toString()}
               userType={userType}
               status="cancel"
             />

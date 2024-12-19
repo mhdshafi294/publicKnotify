@@ -10,7 +10,7 @@ import updateContract from "@/services/contract/update-contract";
  * Asynchronously retrieves a contract action based on the provided type and id.
  * @param {object} param0 - An object containing the type and id of the contract action.
  * @param {string} param0.type - The type of the contract action.
- * @param {string} param0.id - The id of the contract action.
+ * @param {string} param0?.id - The id of the contract action.
  * @returns {Promise} A promise that resolves to the contract action.
  */
 export const getContractAction = async ({
@@ -89,7 +89,7 @@ export const createContractAction = async ({
  * @param {Object} param0 - An object containing the form data, type, and id of the contract action.
  * @param {FormData} param0.formData - The form data to update the contract action with.
  * @param {string} param0.type - The type of the contract action.
- * @param {string} param0.id - The id of the contract action.
+ * @param {string} param0?.id - The id of the contract action.
  * @returns {Promise} A promise that resolves when the contract action is successfully updated.
  */
 export const updateContractAction = async ({
@@ -112,7 +112,7 @@ export const updateContractAction = async ({
  * Perform a payment action on a contract asynchronously.
  * @param {Object} param0 - An object containing the type and id of the contract.
  * @param {string} param0.type - The type of the contract.
- * @param {string} param0.id - The ID of the contract.
+ * @param {string} param0?.id - The ID of the contract.
  * @returns {Promise} A promise that resolves with the result of the payment action.
  */
 export const contractPaymentAction = async ({

@@ -1,15 +1,14 @@
 import { getPlansAction } from "@/app/actions/planActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import ApplePayIcon from "@/components/icons/apple-pay-icon";
+import GooglePayIcon from "@/components/icons/google-pay-icon";
+import MastercardIcon from "@/components/icons/mastercard-icon";
+import VisaIcon from "@/components/icons/visa-icon";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
 import { getServerSession, Session } from "next-auth";
 import { getTranslations } from "next-intl/server";
-import React from "react";
 import PlanCard from "./_components/plan-card";
-import VisaIcon from "@/components/icons/visa-icon";
-import MastercardIcon from "@/components/icons/mastercard-icon";
-import GooglePayIcon from "@/components/icons/google-pay-icon";
-import ApplePayIcon from "@/components/icons/apple-pay-icon";
 
 const PlansPage = async ({
   params,
@@ -65,7 +64,7 @@ const PlansPage = async ({
         <div className="flex justify-center gap-3 w-full">
           {contractsResponse?.plans?.map((plan) => (
             <PlanCard
-              key={plan.id}
+              key={plan?.id}
               playlist_id={params.showId}
               session={session as Session}
               {...plan}

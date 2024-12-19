@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { format, isToday, isYesterday } from "date-fns";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
 import useChatStore from "@/store/conversations/use-chat-store";
@@ -54,10 +54,10 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
 
   // Reset the message count for the currently selected conversation
   useEffect(() => {
-    if (conversationId === conversation.id) {
+    if (conversationId === conversation?.id) {
       setConversationsList((prevConversationsList) => {
         return prevConversationsList.map((prevConversation) => {
-          if (prevConversation.id === conversation.id) {
+          if (prevConversation?.id === conversation?.id) {
             return {
               ...prevConversation,
               messages_count: 0,
@@ -75,9 +75,9 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     const currentPath = window.location.pathname; // Safe to use here
     const searchParams = new URLSearchParams(window.location.search);
 
-    searchParams.set("conversation_id", conversation.id.toString());
+    searchParams.set("conversation_id", conversation?.id.toString());
 
-    setConversationId(conversation.id);
+    setConversationId(conversation?.id);
     setUserImage(conversation.user_image);
     setUserName(conversation.user_name);
     setUuid(conversation.uuid ? conversation.uuid : undefined);
@@ -85,7 +85,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
     // Reset the message count for the selected conversation
     setConversationsList((prevConversationsList) => {
       return prevConversationsList.map((prevConversation) => {
-        if (prevConversation.id === conversation.id) {
+        if (prevConversation?.id === conversation?.id) {
           return {
             ...prevConversation,
             messages_count: 0,
@@ -103,7 +103,7 @@ const ConversationCard: React.FC<ConversationCardProps> = ({
       className={cn(
         "w-full  flex gap-5 cursor-pointer px-3 py-2 hover:bg-border dark:hover:bg-secondary relative",
         {
-          "dark:bg-secondary bg-border": conversationId === conversation.id,
+          "dark:bg-secondary bg-border": conversationId === conversation?.id,
         }
       )}
       onClick={goToConversation}

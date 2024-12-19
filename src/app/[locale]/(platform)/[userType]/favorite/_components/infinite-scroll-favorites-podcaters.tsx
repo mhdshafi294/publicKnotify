@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 // Internal Imports
+import { PodcastCardLoading } from "@/components/podcast-card";
 import { PodcasterCard } from "@/components/podcaster-card";
-import { PodcastCard, PodcastCardLoading } from "@/components/podcast-card";
 import Loader from "@/components/ui/loader";
 import useGetFavoritePodcasters from "@/hooks/queries/use-get-favorite-podcasters";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
@@ -90,7 +89,7 @@ const InfiniteScrollFavoritesPodcasters: React.FC<
         {/* Render the list of favorite podcasters */}
         {favoritePodcasters?.pages.map((page) =>
           page.podcasters.map((podcaster) => (
-            <li key={podcaster.id} className="w-full lg:max-w-56">
+            <li key={podcaster?.id} className="w-full lg:max-w-56">
               <PodcasterCard
                 podcaster={podcaster}
                 className="hover:bg-secondary/75 bg-secondary/50"

@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useDebounce } from "use-debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 // Icons
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
@@ -113,7 +113,7 @@ export default function ShowSelector({
 
   const selectedShow = data?.pages
     .flatMap((page) => page.playlists)
-    .find((show) => show.id.toString() === show_id);
+    .find((show) => show?.id.toString() === show_id);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -160,9 +160,9 @@ export default function ShowSelector({
                   data?.pages.map((page) =>
                     page.playlists.map((show) => (
                       <CommandItem
-                        key={show.id}
-                        value={show.id.toString()}
-                        onSelect={() => handleShowSelect(show.id.toString())}
+                        key={show?.id}
+                        value={show?.id.toString()}
+                        onSelect={() => handleShowSelect(show?.id.toString())}
                       >
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
@@ -180,7 +180,7 @@ export default function ShowSelector({
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            show_id === show.id.toString()
+                            show_id === show?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

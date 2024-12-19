@@ -1,23 +1,20 @@
 "use client";
 
-import * as React from "react";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Clock, Heart, Music2 } from "lucide-react";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
-import { Podcaster } from "@/types/podcaster";
-import { formatDistance } from "date-fns";
 import { formatTime } from "@/lib/utils";
 import { Link } from "@/navigation";
+import { Podcaster } from "@/types/podcaster";
+import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
+import { Clock, Heart, Music2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function TrendyPodcasterCarousel({
   podcasters = [],
@@ -36,7 +33,7 @@ export default function TrendyPodcasterCarousel({
       <Carousel ref={emblaRef} className="w-full overflow-hidden">
         <CarouselContent>
           {podcasters.map((podcaster) => (
-            <CarouselItem key={podcaster.id}>
+            <CarouselItem key={podcaster?.id}>
               <Card className="border-0 overflow-hidden bg-gradient-to-b from-greeny/50 to-transparent  rounded-none lg:h-60 bg-transparent">
                 <CardContent className="p-0">
                   <div className="flex items-center gap-6 p-6">
@@ -52,7 +49,7 @@ export default function TrendyPodcasterCarousel({
                     <div className="flex-1 flex flex-col justify-center h-48">
                       <div className="my-auto">
                         <Link
-                          href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+                          href={`/${session?.user?.type}/profile/podcaster/${podcaster?.id}`}
                           className="text-3xl font-bold text-white mb-2 hover:underline duration-200"
                         >
                           {podcaster.full_name}

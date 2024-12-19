@@ -16,14 +16,14 @@ const ProfileCategories = ({ categories }: { categories: Category[] }) => {
         {/* Map through categories and display each category */}
         {categories?.map((category, index) => (
           <Badge
-            key={category.id}
+            key={category?.id}
             variant={"secondary"}
             className="bg-primary/20 text-foreground"
           >
             {category.name}
           </Badge>
           // <div
-          //   key={category.id}
+          //   key={category?.id}
           //   className="text-center flex items-center gap-5 text-sm"
           // >
           //   {/* Display category name */}

@@ -1,35 +1,32 @@
 "use client";
+import { BadgeInfoIcon, BookmarkIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { BadgeInfoIcon, BookmarkIcon } from "lucide-react";
 
+import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
+import { addToFavoriteAction } from "@/app/actions/podcasterActions";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSession } from "next-auth/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addToFavoriteAction,
-  removeFromFavoriteAction,
-} from "@/app/actions/podcasterActions";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Category } from "@/types/podcast";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
-import { useTranslations } from "next-intl";
 
 type PodcasterFavoritePopoverProps = {
   podcasterId: string;
@@ -104,7 +101,7 @@ const PodcasterFavoritePopover: React.FC<PodcasterFavoritePopoverProps> = ({
             return [
               ...old,
               {
-                id: old.length > 0 ? old[old.length - 1].id + 1 : 1,
+                id: old.length > 0 ? old[old.length - 1]?.id + 1 : 1,
                 name: createdCategory,
                 created_at: new Date().getDay().toString(),
               },

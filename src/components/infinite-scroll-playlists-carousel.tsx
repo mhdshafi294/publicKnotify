@@ -1,25 +1,25 @@
 "use client";
 
 // Global imports
-import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
 import { SquareArrowOutUpRightIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 // Local imports
-import Loader from "@/components/ui/loader";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { getDirection } from "@/lib/utils";
+import { Link } from "@/navigation";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import PlaylistCard from "./playlist-card";
-import { Link } from "@/navigation";
-import { getDirection } from "@/lib/utils";
 
 /**
  * InfiniteScrollPlaylistsCarousel Component
@@ -143,7 +143,7 @@ const InfiniteScrollPlaylistsCarousel = ({
           data?.pages.map((page) =>
             page.playlists.map((playlist) => (
               <CarouselItem
-                key={playlist.id}
+                key={playlist?.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-[13%] ps-0 group"
               >
                 <PlaylistCard playlist={playlist} userType={type} />

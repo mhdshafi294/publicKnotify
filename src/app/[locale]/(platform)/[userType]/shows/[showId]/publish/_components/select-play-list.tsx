@@ -1,17 +1,12 @@
 "use client";
 
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import { useDebounce } from "use-debounce";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -21,22 +16,21 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
+import Loader from "@/components/ui/loader";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Loader from "@/components/ui/loader";
 import DrawerDialogAddNewPlaylist from "./add-playlist-drawer-dialog";
 
 import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { cn, getDirection } from "@/lib/utils";
 
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
+import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
 
 type PropsType = {
   value?: string;
@@ -112,7 +106,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
           {value
             ? data?.pages
                 .flatMap((page) => page.playlists)
-                .find((client) => client.id.toString() === value)?.name
+                .find((client) => client?.id.toString() === value)?.name
             : `${t("selectPlaylist")}`}
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
@@ -150,23 +144,23 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                   data?.pages.map((page) =>
                     page?.playlists.map((playList) => (
                       <CommandItem
-                        key={playList.id}
-                        value={playList.id.toString()}
+                        key={playList?.id}
+                        value={playList?.id.toString()}
                         onSelect={(currentValue) => {
                           setValue(
                             page?.playlists
                               .find(
                                 (playlist) =>
-                                  playlist.id.toString() === currentValue
+                                  playlist?.id.toString() === currentValue
                               )
                               ?.id.toString() === value
                               ? ""
                               : page?.playlists
                                   .find(
                                     (playlist) =>
-                                      playlist.id.toString() === currentValue
+                                      playlist?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -187,7 +181,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            value === playList.id.toString()
+                            value === playList?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

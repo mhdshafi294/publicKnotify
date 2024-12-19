@@ -12,7 +12,7 @@ import PodcastsByCategoryContainer from "../_components/podcasts-by-category-con
  *
  * @param {Object} props - The component props.
  * @param {Object} props.params - The route parameters.
- * @param {string} props.params.id - The ID of the podcast category.
+ * @param {string} props.params?.id - The ID of the podcast category.
  * @param {string} props.params.userType - The type of user to filter podcasts.
  *
  * @returns {JSX.Element} The rendered page with podcasts by category.
@@ -25,7 +25,7 @@ const Page = async ({
   // Fetch the list of podcasts by category
   const podcastsByCategory = await getTrendingAction({
     type: params.userType,
-    category_id: params.id,
+    category_id: params?.id,
     page: "1",
   });
 
@@ -36,14 +36,14 @@ const Page = async ({
     <MaxWidthContainer className="pt-8 space-y-4">
       {/* Display the category name as the page title */}
       <h1 className="text-3xl font-bold capitalize">
-        {getCategories.find((item) => item.id.toString() === params.id)?.name ||
-          ""}
+        {getCategories.find((item) => item?.id.toString() === params?.id)
+          ?.name || ""}
       </h1>
 
       {/* Render the podcasts in a container */}
       <PodcastsByCategoryContainer
         initialData={podcastsByCategory}
-        categoryId={params.id}
+        categoryId={params?.id}
         type={params.userType}
       />
     </MaxWidthContainer>

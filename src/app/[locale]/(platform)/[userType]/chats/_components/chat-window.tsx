@@ -207,7 +207,7 @@ const ChatWindow = ({
 
     const handleNewMessage = (pusherNewMessage: PusherMessage) => {
       const newMessage: ConversationMessage = {
-        id: pusherNewMessage.id,
+        id: pusherNewMessage?.id,
         content: pusherNewMessage.content,
         media: pusherNewMessage.media || [],
         is_sender: pusherNewMessage.sender_type
@@ -419,7 +419,7 @@ const ChatWindow = ({
                     <div className="flex flex-col w-full gap-3">
                       {newMessages.map((message, index) => (
                         <ChatMessage
-                          key={`new-${message.id}`} // Ensure unique key for real-time messages
+                          key={`new-${message?.id}`} // Ensure unique key for real-time messages
                           message={message}
                           type={type}
                           isSending={message?.is_sending ? true : false}
@@ -434,7 +434,7 @@ const ChatWindow = ({
                     {data?.pages.map((page) =>
                       page.messages.map((message, index) => (
                         <ChatMessage
-                          key={message.id}
+                          key={message?.id}
                           message={message}
                           type={type}
                           previousMessage={page.messages[index + 1]}

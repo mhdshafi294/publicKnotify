@@ -38,7 +38,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
     >
       <Link
         passHref
-        href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+        href={`/${session?.user?.type}/profile/podcaster/${podcaster?.id}`}
         className="relative aspect-square rounded-lg"
       >
         <Image
@@ -54,7 +54,7 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
       <div className="flex items-center justify-between">
         <Link
           passHref
-          href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+          href={`/${session?.user?.type}/profile/podcaster/${podcaster?.id}`}
         >
           <h3 className="font-bold text-xs text-wrap capitalize">
             {podcaster.full_name}
@@ -62,14 +62,14 @@ export const PodcasterCard: React.FC<PodCasterCardProps> = ({
         </Link>
         {isFavorite ? (
           <UnfavoriteButton
-            id={podcaster.id.toString()}
+            id={podcaster?.id.toString()}
             setIsFavorite={setIsFavorite}
             setSelectedItems={setSelectedItems}
             removeFromFavoriteAction={removeFromFavoriteAction}
           />
         ) : (
           <PodcasterFavoritePopover
-            podcasterId={podcaster.id.toString()}
+            podcasterId={podcaster?.id.toString()}
             isFavorite={isFavorite}
             setIsFavorite={setIsFavorite}
             selectedItems={selectedItems}

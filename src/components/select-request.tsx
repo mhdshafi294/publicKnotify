@@ -1,7 +1,14 @@
 "use client";
+import { getRequestsAction } from "@/app/actions/requestsActions";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   Command,
@@ -11,16 +18,9 @@ import {
   CommandList,
 } from "./ui/command";
 import { Input } from "./ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { ScrollArea } from "./ui/scroll-area";
 import Loader from "./ui/loader";
-import { useLocale, useTranslations } from "next-intl";
-import { getRequestsAction } from "@/app/actions/requestsActions";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { ScrollArea } from "./ui/scroll-area";
 
 type PropsType = {
   value: string;
@@ -90,7 +90,7 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
             ? data?.pages
                 .map((page) => page.requests)
                 .flat()
-                .find((client) => client.id.toString() === value)?.id
+                .find((client) => client?.id.toString() === value)?.id
             : t("selectrequest")}
           <ChevronsUpDown className="size-4 shrink-0 opacity-70 dark:opacity-50 justify-self-end ms-auto" />
         </Button>
@@ -122,23 +122,23 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
                   data?.pages.map((page) =>
                     page?.requests.map((request) => (
                       <CommandItem
-                        key={request.id}
-                        value={request.id.toString()}
+                        key={request?.id}
+                        value={request?.id.toString()}
                         onSelect={(currentValue) => {
                           setValue(
                             page?.requests
                               .find(
                                 (request) =>
-                                  request.id.toString() === currentValue
+                                  request?.id.toString() === currentValue
                               )
                               ?.id.toString() === value
                               ? ""
                               : page?.requests
                                   .find(
                                     (request) =>
-                                      request.id.toString() === currentValue
+                                      request?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -146,23 +146,23 @@ const SelectRequest: FC<PropsType> = ({ value, setValue, disabled }) => {
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
                             <AvatarImage
-                              src={request.id.toString()}
-                              alt={request.id.toString()}
+                              src={request?.id.toString()}
+                              alt={request?.id.toString()}
                               className="object-cover"
                             />
                             <AvatarFallback className="bg-greeny_lighter text-[10px] text-black font-bold">
-                              {request.id.toString().slice(0, 2).toUpperCase()}
+                              {request?.id.toString().slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <p>{request.id.toString()}</p>
+                          <p>{request?.id.toString()}</p>
                           {/* <p className="text-sm text-muted-foreground">
-                            {request.id}
+                            {request?.id}
                           </p> */}
                         </div>
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            value === request.id.toString()
+                            value === request?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

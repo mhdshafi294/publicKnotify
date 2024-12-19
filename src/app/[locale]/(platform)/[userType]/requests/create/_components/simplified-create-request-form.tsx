@@ -161,7 +161,7 @@ export default function SimplifiedCreateRequestForm({
                         <Separator className="bg-border-secondary" />
                       )}
                       <SelectItem
-                        key={ad_type.id}
+                        key={ad_type?.id}
                         value={ad_type.name[lang as "en" | "ar"]}
                         className="capitalize cursor-pointer"
                       >
@@ -197,7 +197,7 @@ export default function SimplifiedCreateRequestForm({
                     )
                     ?.sections?.map((section) => (
                       <FormItem
-                        key={section.id}
+                        key={section?.id}
                         className="flex items-center space-x-3 space-y-0 bg-card/35 rounded-[20px] px-2 py-3 w-60"
                       >
                         <FormControl>

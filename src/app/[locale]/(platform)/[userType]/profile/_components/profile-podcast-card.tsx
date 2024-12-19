@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import { Link } from "@/navigation";
-import { Progress } from "@/components/ui/progress";
 import PlayLarge from "@/components/icons/play-large";
-import { cn, getDistanceToNow } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import { Link } from "@/navigation";
 import { Podcast } from "@/types/podcast";
+import Image from "next/image";
 
 /**
  * Component for displaying a podcast card on a user's profile.
@@ -33,7 +32,7 @@ const ProfilePodcastCard = ({
     : 0;
 
   return (
-    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
+    <Link href={`/${userType}/podcast/${podcast?.id}`} className="w-full">
       <div className="aspect-square rounded-lg relative">
         {/* Conditional rendering to handle missing thumbnails */}
         <Image

@@ -29,7 +29,7 @@ import { Separator } from "@radix-ui/react-select";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import { Control, useFormContext } from "react-hook-form";
+import { Control } from "react-hook-form";
 
 interface FormFieldsProps {
   form: {
@@ -118,7 +118,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ form, contract_id, dir }) => {
                         <Separator className="bg-border-secondary" />
                       )}
                       <SelectItem
-                        key={ad_type.id}
+                        key={ad_type?.id}
                         value={ad_type.name[lang as "en" | "ar"]}
                         className="capitalize cursor-pointer"
                       >
@@ -155,7 +155,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ form, contract_id, dir }) => {
                     )
                     ?.sections?.map((section) => (
                       <FormItem
-                        key={section.id}
+                        key={section?.id}
                         className="flex items-center space-x-3 space-y-0 bg-card/35 rounded-[20px] px-2 py-3"
                       >
                         <FormControl>

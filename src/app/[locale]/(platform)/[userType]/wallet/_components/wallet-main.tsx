@@ -1,9 +1,9 @@
-import React from "react";
 import { WalletIcon } from "lucide-react";
 import { getTranslations } from "next-intl/server";
+import React from "react";
 
-import { Wallet } from "@/types/wallet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Wallet } from "@/types/wallet";
 import DashboardCardContainer from "../../shows/_components/dashboard-card-container";
 import TransactionCard from "./transaction-card";
 
@@ -46,7 +46,7 @@ const WalletMain: React.FC<WalletMainProps> = async ({ wallet_data }) => {
             <ScrollArea className="w-full h-full py-1">
               {wallet_data.transactions.map((transaction) => (
                 <TransactionCard
-                  key={transaction.id}
+                  key={transaction?.id}
                   transaction={transaction}
                 />
               ))}

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
-import Loader from "@/components/ui/loader";
+import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
+import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
 import {
   Carousel,
   CarouselContent,
@@ -14,10 +15,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { getDirection } from "@/lib/utils";
-import { getPodcastsByPodcasterAction } from "@/app/actions/podcastActions";
 import { Podcast, PodcastsResponse } from "@/types/podcast";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
 
 /**
  * Component to display podcasts by a specific podcaster with infinite scrolling in a carousel.
@@ -122,7 +122,7 @@ const InfiniteScrollPodcastsByPodcaster = ({
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
-                key={podcast.id}
+                key={podcast?.id}
                 className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <ProfilePodcastCard podcast={podcast} userType={type} />

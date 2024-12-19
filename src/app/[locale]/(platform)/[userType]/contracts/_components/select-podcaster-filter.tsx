@@ -127,7 +127,7 @@ const SelectPodcasterFilter: React.FC<{ filterFor: string }> = ({
             ? data?.pages
                 .map((page) => page.podcasters)
                 .flat()
-                .find((client) => client.id.toString() === debouncedValue)
+                .find((client) => client?.id.toString() === debouncedValue)
                 ?.full_name || t("selectPodcaster")
             : t("selectPodcaster")}
           <SlidersHorizontalIcon className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
@@ -160,23 +160,23 @@ const SelectPodcasterFilter: React.FC<{ filterFor: string }> = ({
                   data?.pages.map((page) =>
                     page?.podcasters.map((podcaster) => (
                       <CommandItem
-                        key={podcaster.id}
-                        value={podcaster.id.toString()}
+                        key={podcaster?.id}
+                        value={podcaster?.id.toString()}
                         onSelect={(currentValue) => {
                           setFilter(
                             page?.podcasters
                               .find(
                                 (podcaster) =>
-                                  podcaster.id.toString() === currentValue
+                                  podcaster?.id.toString() === currentValue
                               )
                               ?.id.toString() === debouncedValue
                               ? ""
                               : page?.podcasters
                                   .find(
                                     (podcaster) =>
-                                      podcaster.id.toString() === currentValue
+                                      podcaster?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -197,7 +197,7 @@ const SelectPodcasterFilter: React.FC<{ filterFor: string }> = ({
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            debouncedValue === podcaster.id.toString()
+                            debouncedValue === podcaster?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

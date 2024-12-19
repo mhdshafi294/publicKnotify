@@ -3,13 +3,13 @@
 // Import statements organized by categories
 
 // Podcaster services
-import getMyFavoritePodcasters from "@/services/podcaster/get-my-favorite-podcasters";
 import addPodcastToFavorite from "@/services/podcaster/add-to-favorite";
+import getCompanySelfPodcasters from "@/services/podcaster/get-company-self-podcasters";
+import getMyFavoritePodcasters from "@/services/podcaster/get-my-favorite-podcasters";
 import getPodcaster from "@/services/podcaster/get-podcaster";
 import getPodcasters from "@/services/podcaster/get-podcasters";
-import removeFromFavorite from "@/services/podcaster/remove-from-favorite";
-import getCompanySelfPodcasters from "@/services/podcaster/get-company-self-podcasters";
 import getPodcastersByCompany from "@/services/podcaster/get-podcasters-by-company";
+import removeFromFavorite from "@/services/podcaster/remove-from-favorite";
 
 /**
  * Fetches a list of podcasters with optional search and pagination.
@@ -39,7 +39,7 @@ export const getPodcastersAction = async ({
  * Fetches details of a specific podcaster.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcaster.
+ * @param {string} params?.id - The ID of the podcaster.
  * @param {string} params.type - The type of podcaster.
  * @returns {Promise} - The API response containing podcaster details.
  */
@@ -58,7 +58,7 @@ export const getPodcasterAction = async ({
  *
  * @param {Object} params - The parameters for the API request.
  * @param {string[]} params.categories - The categories to add to the favorite list.
- * @param {string} params.id - The ID of the podcaster.
+ * @param {string} params?.id - The ID of the podcaster.
  * @param {string} params.type - The type of podcaster.
  * @returns {Promise} - The API response.
  */
@@ -78,7 +78,7 @@ export const addToFavoriteAction = async ({
  * Removes a podcaster from the favorites list.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcaster.
+ * @param {string} params?.id - The ID of the podcaster.
  * @param {string} params.type - The type of podcaster.
  * @returns {Promise} - The API response.
  */

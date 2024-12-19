@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 import PlayLarge from "@/components/icons/play-large";
@@ -22,7 +21,7 @@ const SelfPodcastCard = ({
   userType: string;
 }) => {
   return (
-    <Link href={`/${userType}/podcast/${podcast.id}`} className="w-full">
+    <Link href={`/${userType}/podcast/${podcast?.id}`} className="w-full">
       <div className="aspect-square rounded-lg relative">
         <Image
           src={podcast.thumbnail ? podcast.thumbnail : "/podcast-filler.webp"}

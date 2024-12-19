@@ -3,8 +3,8 @@ import { useLocale, useTranslations } from "next-intl";
 
 // Internal utility and type imports
 import { cn, getDirection } from "@/lib/utils";
-import { CategoryDetails } from "@/types/podcast";
 import { Link } from "@/navigation";
+import { CategoryDetails } from "@/types/podcast";
 
 // Component Definition
 const FavoriteCategoriesUL = ({
@@ -52,19 +52,19 @@ const FavoriteCategoriesUL = ({
 
       {/* Links for individual categories */}
       {favoriteCategoriesData.map((category) => (
-        <li key={category.id} className="relative">
+        <li key={category?.id} className="relative">
           <Link
             dir="ltr"
             href={{
               pathname: "favorite",
-              query: { ...searchParams, favoriteCategory: category.id },
+              query: { ...searchParams, favoriteCategory: category?.id },
             }}
             className={cn(
               "capitalize text-white p-0 hover:before:absolute lg:hover:before:h-1 lg:hover:before:w-2 hover:before:bg-primary lg:hover:before:-translate-x-5 lg:hover:before:translate-y-3 hover:before:rounded-full font-bold relative",
               {
                 "before:absolute before:size-[6px] before:bg-greeny hover:before:bg-greeny before:translate-y-7 before:start-1/2 lg:before:start-0  before:-translate-x-1/2 before:rounded-full lg:before:absolute lg:before:size-2 lg:before:bg-greeny hover:lg:before:bg-greeny lg:before:-translate-x-5 lg:before:rounded-full lg:before:translate-y-2.5 text-greeny":
                   typeof favoriteCategory === "string" &&
-                  favoriteCategory === category.id.toString(),
+                  favoriteCategory === category?.id.toString(),
               },
               {
                 "lg:hover:before:translate-x-5 lg:before:translate-x-5":
@@ -73,7 +73,7 @@ const FavoriteCategoriesUL = ({
               {
                 "before:translate-x-1/2 lg:before:translate-x-16  lg:hover:before:translate-x-16":
                   typeof favoriteCategory === "string" &&
-                  favoriteCategory === category.id.toString() &&
+                  favoriteCategory === category?.id.toString() &&
                   dir === "rtl",
               }
             )}

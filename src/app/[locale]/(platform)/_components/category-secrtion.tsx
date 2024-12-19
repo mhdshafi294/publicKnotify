@@ -37,8 +37,8 @@ const CategorySection = async () => {
           className={cn("w-full mt-2", { "ms-0": dir === "rtl" })}
         >
           {categories.map((category) => (
-            <CarouselItem key={category.id} className="basis-auto">
-              <CategoryCard key={category.id} category={category} />
+            <CarouselItem key={category?.id} className="basis-auto">
+              <CategoryCard key={category?.id} category={category} />
             </CarouselItem>
           ))}
         </CarouselContent>

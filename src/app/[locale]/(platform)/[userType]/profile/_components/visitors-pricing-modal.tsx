@@ -1,9 +1,9 @@
 "use client";
 
 // External imports
-import React from "react";
+import { BadgeAlertIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { BadgeAlertIcon, BanknoteIcon, SquarePen } from "lucide-react";
+import React from "react";
 
 // Local imports
 import {
@@ -13,10 +13,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Price } from "@/types/profile";
 import { useTranslations } from "next-intl";
 import PricingCard from "../../pricings/_components/pricing-card";
-import CheckGradientIcon from "@/components/icons/check-gradient-icon";
-import { Price } from "@/types/profile";
 
 /**
  * Modal Component
@@ -52,7 +51,7 @@ const VisitorsPricingModal = ({ pricings }: { pricings: Price[] | null }) => {
             ) : null}
             {/* Display the pricing cards with prices for different sections */}
             {pricings?.map((item, index) => (
-              <div key={item.id} className="space-y-5">
+              <div key={item?.id} className="space-y-5">
                 <div className="flex items-center gap-2 ">
                   <div
                     style={{
@@ -67,7 +66,7 @@ const VisitorsPricingModal = ({ pricings }: { pricings: Price[] | null }) => {
                 <div className="w-full flex flex-wrap gap-5">
                   {item.sections.map((section) => (
                     <PricingCard
-                      key={section.id}
+                      key={section?.id}
                       name={section.name.en}
                       text={section.name.en}
                       price={section.podcaster_prices[0]?.price?.toString()}

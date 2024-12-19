@@ -93,15 +93,15 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
   const { mutate: server_markStoryRead } = useMutation({
     mutationFn: markStoryReadAction,
     onMutate: async (variables) => {
-      if (markedAsReadRef.current.has(variables.id)) {
+      if (markedAsReadRef.current.has(variables?.id)) {
         return; // Skip if already marked as read
       }
-      markedAsReadRef.current.add(variables.id);
+      markedAsReadRef.current.add(variables?.id);
 
       if (fromProfile && fromProfile.isInProfile) {
         fromProfile.setStories((prev) =>
           prev?.map((story) =>
-            story.id.toString() === variables.id
+            story?.id.toString() === variables?.id
               ? { ...story, is_viewd: true }
               : story
           )
@@ -124,7 +124,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
                 stories: page.stories.map((storyGroup: any) => ({
                   ...storyGroup,
                   stories: storyGroup.stories.map((story: Story) =>
-                    story.id.toString() === variables.id
+                    story?.id.toString() === variables?.id
                       ? { ...story, is_viewd: true }
                       : story
                   ),
@@ -218,7 +218,7 @@ const StoriesPlayerDialog: React.FC<StoriesViewerDialogProps> = ({
 
     if (currentStory.type === "text" && !isSelfStory(currentStory)) {
       const markAsReadTimeout = setTimeout(() => {
-        markStoryRead(currentStory.id.toString());
+        markStoryRead(currentStory?.id.toString());
       }, 1000); // Increased to 1 second for better user experience
 
       return () => clearTimeout(markAsReadTimeout);

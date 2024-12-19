@@ -1,19 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
-import Image from "next/image";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import {
   AirplayIcon,
   EllipsisIcon,
-  PencilIcon,
   SettingsIcon,
   SquareArrowOutUpRightIcon,
   TrendingUpIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useState } from "react";
 
-import { Link, redirect, useRouter } from "@/navigation";
+import Loading from "@/app/[locale]/loading";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -22,18 +29,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button, buttonVariants } from "@/components/ui/button";
-import DashboardCardContainer from "./_components/dashboard-card-container";
-import Loading from "@/app/[locale]/loading";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
-import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import { cn } from "@/lib/utils";
+import { Link, useRouter } from "@/navigation";
+import { Playlist, PlaylistsResponse } from "@/types/podcast";
+import DashboardCardContainer from "./_components/dashboard-card-container";
 
 /**
  * Fetches playlists from the server based on the page number.
@@ -119,7 +118,7 @@ export default function AllShowsPage(): JSX.Element | null {
             </TableHeader>
             <TableBody>
               {data?.playlists.map((playlist: Playlist) => (
-                <TableRow key={playlist.id}>
+                <TableRow key={playlist?.id}>
                   <TableCell className="flex gap-3 items-center">
                     <Image
                       src={playlist.image}
@@ -130,7 +129,7 @@ export default function AllShowsPage(): JSX.Element | null {
                       alt={playlist.name}
                     />
                     <Link
-                      href={`/podcaster/shows/${playlist.id}`}
+                      href={`/podcaster/shows/${playlist?.id}`}
                       className="flex gap-2 "
                     >
                       <p className="font-bold capitalize">{playlist.name}</p>
@@ -148,7 +147,7 @@ export default function AllShowsPage(): JSX.Element | null {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="p-1.5">
                           <Link
-                            href={`/podcaster/shows/${playlist.id}/episodes`}
+                            href={`/podcaster/shows/${playlist?.id}/episodes`}
                           >
                             <DropdownMenuItem className="text-xs">
                               <AirplayIcon className="size-4 mr-2" />
@@ -156,20 +155,20 @@ export default function AllShowsPage(): JSX.Element | null {
                             </DropdownMenuItem>
                           </Link>
                           <Link
-                            href={`/podcaster/shows/${playlist.id}/analytics`}
+                            href={`/podcaster/shows/${playlist?.id}/analytics`}
                           >
                             <DropdownMenuItem className="text-xs">
                               <TrendingUpIcon className="size-4 mr-2" />
                               {t("audience")}
                             </DropdownMenuItem>
                           </Link>
-                          <Link href={`/podcaster/shows/${playlist.id}`}>
+                          <Link href={`/podcaster/shows/${playlist?.id}`}>
                             <DropdownMenuItem className="text-xs">
                               <SquareArrowOutUpRightIcon className="size-4 mr-2" />
                               {t("show-dashboard")}
                             </DropdownMenuItem>
                           </Link>
-                          <Link href={`/podcaster/shows/${playlist.id}/edit`}>
+                          <Link href={`/podcaster/shows/${playlist?.id}/edit`}>
                             <DropdownMenuItem className="text-xs">
                               <SettingsIcon className="size-4 mr-2" />
                               {t("edit")}

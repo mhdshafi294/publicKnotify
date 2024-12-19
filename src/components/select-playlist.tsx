@@ -1,7 +1,7 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import DrawerDialogAddNewPlaylist from "@/app/[locale]/(platform)/[userType]/shows/[showId]/publish/_components/add-playlist-drawer-dialog";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -11,21 +11,21 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Input } from "@/components/ui/input";
+import Loader from "@/components/ui/loader";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { useDebounce } from "use-debounce";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Loader from "@/components/ui/loader";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { cn } from "@/lib/utils";
+import { AvatarImage } from "@radix-ui/react-avatar";
 import { ScrollAreaScrollbar } from "@radix-ui/react-scroll-area";
-import DrawerDialogAddNewPlaylist from "@/app/[locale]/(platform)/[userType]/shows/[showId]/publish/_components/add-playlist-drawer-dialog";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { CheckIcon, ChevronsUpDown, Search } from "lucide-react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 type PropsType = {
   value?: string;
@@ -87,7 +87,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
             ? data?.pages
                 .map((page) => page.playlists)
                 .flat()
-                .find((client) => client.id.toString() === value)?.name
+                .find((client) => client?.id.toString() === value)?.name
             : `${"Select playlist"}`}
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
@@ -124,23 +124,23 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                   data?.pages.map((page) =>
                     page?.playlists.map((playList) => (
                       <CommandItem
-                        key={playList.id}
-                        value={playList.id.toString()}
+                        key={playList?.id}
+                        value={playList?.id.toString()}
                         onSelect={(currentValue) => {
                           setValue(
                             page?.playlists
                               .find(
                                 (playlist) =>
-                                  playlist.id.toString() === currentValue
+                                  playlist?.id.toString() === currentValue
                               )
                               ?.id.toString() === value
                               ? ""
                               : page?.playlists
                                   .find(
                                     (playlist) =>
-                                      playlist.id.toString() === currentValue
+                                      playlist?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -161,7 +161,7 @@ const SelectPlaylist: FC<PropsType> = ({ value, setValue }) => {
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            value === playList.id.toString()
+                            value === playList?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

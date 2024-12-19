@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import React from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
@@ -53,9 +53,9 @@ const StatisticsContainer = ({
               {selfPodcastsList.length > 0 ? (
                 selfPodcastsList.map((podcast) => (
                   <Link
-                    href={{ search: `?podcastId=${podcast.id}` }}
+                    href={{ search: `?podcastId=${podcast?.id}` }}
                     scroll={false}
-                    key={podcast.id}
+                    key={podcast?.id}
                     className={cn(
                       buttonVariants({ variant: "link" }),
                       "text-lg px-0 capitalize"

@@ -1,7 +1,7 @@
 // External imports
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 // Local imports
 import { getPlayListsByPodcasterAction } from "@/app/actions/podcastActions";
@@ -63,7 +63,7 @@ const ShowsStatsPage = async ({
       initial_podcaster_playlist_response.playlists?.length > 0
     ) {
       redirect(
-        `/${session?.user?.type}/shows_stats?podcaster_id=${podcaster_id}&show_id=${initial_podcaster_playlist_response.playlists[0].id}`
+        `/${session?.user?.type}/shows_stats?podcaster_id=${podcaster_id}&show_id=${initial_podcaster_playlist_response.playlists[0]?.id}`
       );
     }
   }

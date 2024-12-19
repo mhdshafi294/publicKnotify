@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { SquareArrowOutUpRightIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { SquareArrowOutUpRightIcon, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 import { getSelfPodcastsAction } from "@/app/actions/podcastActions";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Loader from "@/components/ui/loader";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { cn, getDirection } from "@/lib/utils";
-import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import { Link, useRouter } from "@/navigation";
+import { SelfPodcastsDetailsResponse } from "@/types/podcast";
 import Image from "next/image";
 
 interface InfiniteScrollDraftsProps {

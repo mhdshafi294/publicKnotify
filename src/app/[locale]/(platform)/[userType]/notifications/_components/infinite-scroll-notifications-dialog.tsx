@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useEffect } from "react"; // Core React import
 import { useInfiniteQuery } from "@tanstack/react-query"; // External dependency for infinite query
 import { formatDistanceToNow } from "date-fns"; // External utility for date formatting
 import { useTranslations } from "next-intl"; // External dependency for internationalization
+import React, { useEffect } from "react"; // Core React import
 
-import { Notification, NotificationsResponse } from "@/types/notification"; // Internal type definitions
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"; // Internal custom hook for intersection observer
 import { getNotificationsAction } from "@/app/actions/notificationActions"; // Internal function for fetching notifications
 import Loader from "@/components/ui/loader"; // Internal component for loading indicator
 import { Separator } from "@/components/ui/separator"; // Internal component for separator
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver"; // Internal custom hook for intersection observer
+import { Notification, NotificationsResponse } from "@/types/notification"; // Internal type definitions
 
 /**
  * InfiniteScrollNotificationsDialog Component

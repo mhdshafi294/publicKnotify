@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
-import Loader from "@/components/ui/loader";
+import { getPlayListsByPodcasterAction } from "@/app/actions/podcastActions";
+import PlaylistCard from "@/components/playlist-card";
 import {
   Carousel,
   CarouselContent,
@@ -13,11 +14,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { getDirection } from "@/lib/utils";
-import { useSession } from "next-auth/react";
-import { getPlayListsByPodcasterAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
-import PlaylistCard from "@/components/playlist-card";
+import { useSession } from "next-auth/react";
 
 /**
  * Component to display playlists by a specific podcaster in a carousel with infinite scrolling.
@@ -124,7 +124,7 @@ const InfiniteScrollPlaylistsByPodcaster = ({
               ? // For the first page, slice off the first playlist
                 page.playlists.slice(1).map((playlist) => (
                   <CarouselItem
-                    key={playlist.id}
+                    key={playlist?.id}
                     className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
                   >
                     <PlaylistCard playlist={playlist} userType={type} />
@@ -133,7 +133,7 @@ const InfiniteScrollPlaylistsByPodcaster = ({
               : // For other pages, display normally
                 page.playlists.map((playlist) => (
                   <CarouselItem
-                    key={playlist.id}
+                    key={playlist?.id}
                     className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
                   >
                     <PlaylistCard playlist={playlist} userType={type} />

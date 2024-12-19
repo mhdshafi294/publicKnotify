@@ -1,27 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 
-import TextareaAutosize from "react-textarea-autosize";
 import { PaperclipIcon, SendHorizontalIcon } from "lucide-react";
 
-import { MessageStoreSchema } from "@/schema/messageStoreSchema";
+import { storeMessageAction } from "@/app/actions/conversationsActions";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ConversationMessage } from "@/types/conversation";
 import { convertFileToURL } from "@/lib/utils";
-import { storeMessageAction } from "@/app/actions/conversationsActions";
+import { MessageStoreSchema } from "@/schema/messageStoreSchema";
+import { ConversationMessage } from "@/types/conversation";
 
-import MessageContentFieltd from "./message-content-fieltd";
-import ChatImageInputDialog from "./chat-image-input-dialog";
 import useChatStore from "@/store/conversations/use-chat-store";
+import ChatImageInputDialog from "./chat-image-input-dialog";
+import MessageContentFieltd from "./message-content-fieltd";
 
 /**
  * ChatInput Component
@@ -146,7 +145,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
       // Update message status to sent
       setNewMessages((prevMessages) =>
         prevMessages.map((message) =>
-          message.id === id ? { ...message, is_sending: false } : message
+          message?.id === id ? { ...message, is_sending: false } : message
         )
       );
     } catch (error) {

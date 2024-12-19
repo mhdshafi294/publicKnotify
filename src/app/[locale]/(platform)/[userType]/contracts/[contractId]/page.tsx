@@ -4,7 +4,6 @@ import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
-import React from "react";
 import ContractPageCard from "../_components/contract-page-card";
 
 /**

@@ -1,10 +1,10 @@
-import { FC } from "react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Badge } from "@/components/ui/badge"; // Internal UI component import
 import { Link } from "@/navigation"; // Internal navigation import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import
-import VideoPlayer from "./video-player"; // Import the client component
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getServerSession } from "next-auth";
+import { FC } from "react";
+import VideoPlayer from "./video-player"; // Import the client component
 
 // Props interface for VideoPodcast
 interface PropsType {
@@ -27,7 +27,7 @@ const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
     <div className="bg-card-secondary space-y-4 py-6 pt-0 px-0 rounded-xl mb-5 w-full">
       {/* Video player */}
       <VideoPlayer
-        podcastId={podcast.id}
+        podcastId={podcast?.id}
         thumbnail={podcast.thumbnail}
         src={podcast.podcast}
         playback_position={podcast.playback_position}
@@ -43,7 +43,7 @@ const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
               {podcast.hashTags.map((tag) => (
                 <Badge
                   className="bg-greeny/20 text-greeny hover:bg-greeny/30 hover:text-greeny cursor-default"
-                  key={tag.id}
+                  key={tag?.id}
                 >
                   #{tag.name}
                 </Badge>
@@ -51,7 +51,7 @@ const VideoPodcast: FC<PropsType> = async ({ podcast }) => {
             </div>
           </div>
           <Link
-            href={`/${session?.user?.type}/profile/podcaster/${podcast.podcaster.id}`}
+            href={`/${session?.user?.type}/profile/podcaster/${podcast.podcaster?.id}`}
             className="inline-block text-greeny/90 font-bold capitalize hover:underline"
           >
             {podcast.podcaster.full_name}

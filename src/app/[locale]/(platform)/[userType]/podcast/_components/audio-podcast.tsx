@@ -1,12 +1,12 @@
 "use client";
 
-import { FC, useEffect, useState } from "react"; // Core React imports
 import Image from "next/image"; // External dependency
+import { FC, useEffect, useState } from "react"; // Core React imports
 
-import usePlayerStore from "@/store/use-player-store"; // Internal store import
-import { PodcastDetails } from "@/types/podcast"; // Internal type import
 import { Badge } from "@/components/ui/badge";
 import { Link } from "@/navigation";
+import usePlayerStore from "@/store/use-player-store"; // Internal store import
+import { PodcastDetails } from "@/types/podcast"; // Internal type import
 
 // Props interface for AudioPodcast
 interface PropsType {
@@ -36,10 +36,10 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
   }, [isMounted]);
 
   useEffect(() => {
-    setPodcastId(podcast.id);
+    setPodcastId(podcast?.id);
     setIsRunning(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [podcast.id]);
+  }, [podcast?.id]);
 
   return (
     <div className="bg-card-secondary space-y-4 py-6 pt-0 px-0 rounded-xl mb-5 w-full">
@@ -62,7 +62,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
               {podcast.hashTags.map((tag) => (
                 <Badge
                   className="bg-greeny/20 text-greeny hover:bg-greeny/30 hover:text-greeny cursor-default"
-                  key={tag.id}
+                  key={tag?.id}
                 >
                   #{tag.name}
                 </Badge>
@@ -70,7 +70,7 @@ const AudioPodcast: FC<PropsType> = ({ podcast }) => {
             </div>
           </div>
           <Link
-            href={`/podcaster/profile/${podcast.podcaster.id}`}
+            href={`/podcaster/profile/${podcast.podcaster?.id}`}
             className="inline-block text-greeny/90 font-bold capitalize hover:underline"
           >
             {podcast.podcaster.full_name}

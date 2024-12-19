@@ -87,7 +87,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
             ? data?.pages
                 .map((page) => page.podcasters)
                 .flat()
-                .find((client) => client.id.toString() === value)?.full_name
+                .find((client) => client?.id.toString() === value)?.full_name
             : t("selectPodcaster")}
           <ChevronsUpDown className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
         </Button>
@@ -119,23 +119,23 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                   data?.pages.map((page) =>
                     page?.podcasters.map((podcaster) => (
                       <CommandItem
-                        key={podcaster.id}
-                        value={podcaster.id.toString()}
+                        key={podcaster?.id}
+                        value={podcaster?.id.toString()}
                         onSelect={(currentValue) => {
                           setValue(
                             page?.podcasters
                               .find(
                                 (podcaster) =>
-                                  podcaster.id.toString() === currentValue
+                                  podcaster?.id.toString() === currentValue
                               )
                               ?.id.toString() === value
                               ? ""
                               : page?.podcasters
                                   .find(
                                     (podcaster) =>
-                                      podcaster.id.toString() === currentValue
+                                      podcaster?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -156,7 +156,7 @@ const SelectPodcaster: FC<PropsType> = ({ value, setValue }) => {
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            value === podcaster.id.toString()
+                            value === podcaster?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

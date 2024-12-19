@@ -30,14 +30,14 @@ import publishYoutube from "@/services/podcast/platform/youtube/publish-youtube"
 // Playlist services
 import createPlaylist from "@/services/podcast/playList/create-playlist";
 import deletePlaylist from "@/services/podcast/playList/delete-playlist";
+import createUpdateDistributionLinks from "@/services/podcast/playList/dstributionLinks/crearte-update-distribution-links";
+import getDistributionLinks from "@/services/podcast/playList/dstributionLinks/get-distribution-links";
 import getPlaylist from "@/services/podcast/playList/get-playlist";
 import getPlaylists from "@/services/podcast/playList/get-playlists";
 import getPlaylistsByPodcaster from "@/services/podcast/playList/get-playlists-by-podcaster";
 import updatePlaylist from "@/services/podcast/playList/update-playlist";
-import getRss from "@/services/rss/get-rss";
 import createShowRss from "@/services/rss/create-show-rss";
-import getDistributionLinks from "@/services/podcast/playList/dstributionLinks/get-distribution-links";
-import createUpdateDistributionLinks from "@/services/podcast/playList/dstributionLinks/crearte-update-distribution-links";
+import getRss from "@/services/rss/get-rss";
 
 // Actions related to podcasts
 /**
@@ -101,7 +101,7 @@ export const getMyFavoriteCategoriesListAction = async ({
  * Fetches podcast details.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response containing podcast details.
  */
@@ -120,7 +120,7 @@ export const getPodcastDetailsAction = async ({
  *
  * @param {Object} params - The parameters for the API request.
  * @param {string[]} params.categories - The categories to add to the favorite list.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -140,7 +140,7 @@ export const addToFavoriteAction = async ({
  * Removes a podcast from the favorites list.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -177,7 +177,7 @@ export const createMetadataAction = async ({
  *
  * @param {Object} params - The parameters for the API request.
  * @param {FormData} params.formData - The form data containing updated metadata.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -197,7 +197,7 @@ export const updateMetadataAction = async ({
  * Saves playback position of a podcast.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @param {number} params.current_position - The current playback position.
  * @param {number} params.total_time - The total playback time.
@@ -275,7 +275,7 @@ export const getSelfPodcastsAction = async ({
  * Fetches details of a specific self podcast.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response containing self podcast details.
  */
@@ -293,7 +293,7 @@ export const getSelfPodcastAction = async ({
  * Publishes a podcast.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -311,7 +311,7 @@ export const publishPodcastAction = async ({
  * Publishes a podcast on YouTube.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -329,7 +329,7 @@ export const publishYoutubeAction = async ({
  * Deletes a self podcast.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the podcast.
+ * @param {string} params?.id - The ID of the podcast.
  * @param {string} params.type - The type of podcast.
  * @returns {Promise} - The API response.
  */
@@ -397,7 +397,7 @@ export const getPlayListsAction = async ({
  * Fetches details of a specific playlist.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the playlist.
+ * @param {string} params?.id - The ID of the playlist.
  * @param {string} params.type - The type of playlist.
  * @returns {Promise} - The API response containing playlist details.
  */
@@ -434,7 +434,7 @@ export const createPlayListAction = async ({
  *
  * @param {Object} params - The parameters for the API request.
  * @param {FormData} params.formData - The form data containing updated playlist details.
- * @param {string} params.id - The ID of the playlist.
+ * @param {string} params?.id - The ID of the playlist.
  * @param {string} params.type - The type of playlist.
  * @returns {Promise} - The API response.
  */
@@ -454,7 +454,7 @@ export const updatePlayListAction = async ({
  * Deletes a playlist.
  *
  * @param {Object} params - The parameters for the API request.
- * @param {string} params.id - The ID of the playlist.
+ * @param {string} params?.id - The ID of the playlist.
  * @param {string} params.type - The type of playlist.
  * @returns {Promise} - The API response.
  */

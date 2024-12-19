@@ -82,7 +82,7 @@ export const getSelfStoriesAction = async ({ type }: { type: string }) => {
  * Marks a specific story as read.
  *
  * @param {Object} params - Parameters for marking a story as read.
- * @param {string} params.id - The ID of the story to mark as read.
+ * @param {string} params?.id - The ID of the story to mark as read.
  * @param {string} params.type - The type of the story.
  * @returns {Promise<Object>} A promise that resolves with the response from the mark-read API call.
  *
@@ -107,7 +107,7 @@ export const markStoryReadAction = async ({
  * Deletes a specific story based on its ID and type.
  *
  * @param {Object} params - Parameters for deleting a story.
- * @param {string} params.id - The ID of the story to delete.
+ * @param {string} params?.id - The ID of the story to delete.
  * @param {string} params.type - The type of the story.
  * @returns {Promise<Object>} A promise that resolves with the response from the delete story API call.
  *

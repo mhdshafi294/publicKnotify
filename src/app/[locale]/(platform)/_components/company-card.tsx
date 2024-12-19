@@ -6,7 +6,7 @@ const CompanyCard = ({ company }: { company: Company }) => {
   return (
     <div className="w-full hover:bg-secondary/50 flex flex-col rounded-lg p-3 gap-3 overflow-hidden duration-300">
       <Link
-        href={`/podcaster/profile/company/${company.id}`}
+        href={`/podcaster/profile/company/${company?.id}`}
         className="w-full"
       >
         <div className="relative aspect-square rounded-lg">

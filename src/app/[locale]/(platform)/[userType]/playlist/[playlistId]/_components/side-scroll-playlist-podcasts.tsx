@@ -84,14 +84,14 @@ const SideScrollPlaylistPodcasts = ({
           ) : (
             podcasts.map((podcast) => (
               <li
-                key={podcast.id}
-                onClick={() => setSelectedPodcastId(podcast.id.toString())}
+                key={podcast?.id}
+                onClick={() => setSelectedPodcastId(podcast?.id.toString())}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
                   "w-full h-fit flex gap-1 items-center justify-start mt-3 border-none ps-1 py-2 group cursor-default",
                   {
                     "bg-primary/20 dark:bg-primary/50":
-                      podcast.id === parseInt(currentPodcastId),
+                      podcast?.id === parseInt(currentPodcastId),
                   }
                 )}
               >
@@ -117,7 +117,7 @@ const SideScrollPlaylistPodcasts = ({
                   className={cn(
                     "w-5 h-5 opacity-0 ms-auto group-hover:opacity-100",
                     {
-                      "opacity-100": podcast.id === parseInt(currentPodcastId),
+                      "opacity-100": podcast?.id === parseInt(currentPodcastId),
                     }
                   )}
                 />

@@ -1,31 +1,24 @@
 "use client";
 
-import {
-  CirclePlusIcon,
-  EllipsisVerticalIcon,
-  MessageCircleMoreIcon,
-  ScrollTextIcon,
-} from "lucide-react";
+import { MessageCircleMoreIcon, ScrollTextIcon } from "lucide-react";
 import { FC } from "react";
 
+import EllipsisVerticalIconKnotify from "@/components/icons/ellipsis-verticalIcon-knotify";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import { Contract } from "@/types/contract";
 import { format } from "date-fns";
 import { Session } from "next-auth";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import EllipsisVerticalIconKnotify from "@/components/icons/ellipsis-verticalIcon-knotify";
 
 /**
  * contractCard Component

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useLocale, useTranslations } from "next-intl";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
-import Loader from "@/components/ui/loader";
+import { getPlayListsAction } from "@/app/actions/podcastActions";
 import {
   Carousel,
   CarouselContent,
@@ -14,8 +14,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { getDirection } from "@/lib/utils";
-import { getPlayListsAction } from "@/app/actions/podcastActions";
 import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import SelfplaylistCard from "./self-playlist-card";
 
@@ -125,7 +125,7 @@ const InfiniteScrollSelfPlaylists = ({
               ? // For the first page, slice off the first playlist
                 page.playlists.slice(1).map((playlist) => (
                   <CarouselItem
-                    key={playlist.id}
+                    key={playlist?.id}
                     className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
                   >
                     <SelfplaylistCard playlist={playlist} userType={type} />
@@ -134,7 +134,7 @@ const InfiniteScrollSelfPlaylists = ({
               : // For other pages, display normally
                 page.playlists.map((playlist) => (
                   <CarouselItem
-                    key={playlist.id}
+                    key={playlist?.id}
                     className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 ps-0 group"
                   >
                     <SelfplaylistCard playlist={playlist} userType={type} />

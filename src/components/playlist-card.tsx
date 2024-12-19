@@ -1,12 +1,11 @@
 "use client";
 
 import PlayLarge from "@/components/icons/play-large";
-import { cn, getDistanceToNow } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
-import { Playlist, SelfPodcastDetails } from "@/types/podcast";
+import { Playlist } from "@/types/podcast";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import React from "react";
 
 const PlaylistCard = ({
   playlist,
@@ -17,7 +16,7 @@ const PlaylistCard = ({
 }) => {
   const t = useTranslations("Index");
   return (
-    <Link href={`/${userType}/playlist/${playlist.id}`} className="w-full ">
+    <Link href={`/${userType}/playlist/${playlist?.id}`} className="w-full ">
       <div className="aspect-square rounded-lg relative">
         <Image
           src={playlist.image ? playlist.image : "/playlist-filler.webp"}

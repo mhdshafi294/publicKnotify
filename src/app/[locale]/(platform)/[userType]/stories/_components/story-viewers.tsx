@@ -57,7 +57,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
         <span className="text-white text-sm mr-2">{story.viewers_count}</span>
         <div className="flex -space-x-2 overflow-hidden">
           {story.viewers.slice(0, maxVisibleViewers).map((viewer) => (
-            <TooltipProvider key={viewer.id}>
+            <TooltipProvider key={viewer?.id}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Avatar className="w-6 h-6 border-2 border-white">
@@ -108,7 +108,7 @@ const StoryViewers: React.FC<StoryViewersProps> = ({ story }) => {
           <div className="flex-grow overflow-y-auto">
             {story.viewers.map((viewer) => (
               <div
-                key={viewer.id}
+                key={viewer?.id}
                 className="flex items-center p-4 border-b border-gray-700"
               >
                 <Avatar className="w-10 h-10 mr-3">

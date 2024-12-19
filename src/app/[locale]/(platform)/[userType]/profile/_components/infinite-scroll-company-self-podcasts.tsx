@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 
-import Loader from "@/components/ui/loader";
-import { Podcast, PodcastsResponse } from "@/types/podcast";
+import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
+import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
 import {
   Carousel,
   CarouselContent,
@@ -14,9 +14,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Loader from "@/components/ui/loader";
 import { getDirection } from "@/lib/utils";
-import { getCompanySelfPodcastsAction } from "@/app/actions/requestsActions";
-import ProfilePodcastCard from "@/app/[locale]/(platform)/[userType]/profile/_components/profile-podcast-card";
+import { Podcast, PodcastsResponse } from "@/types/podcast";
 
 /**
  * Component to display podcasts from a company in a carousel with infinite scrolling.
@@ -123,7 +123,7 @@ const InfiniteScrollSelfCompanyPodcasts = ({
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
-                key={podcast.id}
+                key={podcast?.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/4 xl:basis-1/5 ps-0 group"
               >
                 <ProfilePodcastCard podcast={podcast} userType={type} />

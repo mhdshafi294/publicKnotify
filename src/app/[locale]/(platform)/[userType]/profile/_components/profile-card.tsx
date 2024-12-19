@@ -15,10 +15,10 @@ import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";
 import ProfileCardImageAndName from "./profile-card-image-and-name";
 import ProfileCategories from "./profile-categories";
-import ProfilePriceSwitcher from "./profile-price-switcher";
 
 // Type definitions
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import PriceColoredIcon from "@/components/icons/price-colored-icon";
 import TrendingUpGradientIcon from "@/components/icons/trending-up-gradient-icon";
 import { Company } from "@/types/company";
 import { Playlist } from "@/types/podcast";
@@ -27,7 +27,6 @@ import { User } from "@/types/profile";
 import AssignPayButton from "../../contracts/_components/assign-pay-button";
 import VisitorsPricingModal from "./visitors-pricing-modal";
 import VisitorsStatisticsModal from "./visitors-statistics-modal";
-import PriceColoredIcon from "@/components/icons/price-colored-icon";
 
 /**
  * Component to display a profile card with user, podcaster, or company details.
@@ -174,8 +173,8 @@ const ProfileCard = async ({
                 href={
                   playlists !== undefined &&
                   playlists?.length > 0 &&
-                  playlists[0].id !== undefined
-                    ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                  playlists[0]?.id !== undefined
+                    ? `/${session?.user?.type}/shows/${playlists[0]?.id}/analytics`
                     : `/${session?.user?.type}/statistics`
                 }
                 className="text-xs font-semibold text-primary hover:text-greeny duration-200 "

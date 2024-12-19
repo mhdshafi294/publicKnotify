@@ -1,16 +1,16 @@
 "use client";
 
 // Global imports
-import React, { useEffect } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import React, { useEffect } from "react";
 
 // Local imports
-import { Request, RequestsResponse } from "@/types/request";
-import RequestCard from "./request-card";
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { getRequestsAction } from "@/app/actions/requestsActions";
 import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Request, RequestsResponse } from "@/types/request";
+import RequestCard from "./request-card";
 
 /**
  * InfiniteScrollRequests Component

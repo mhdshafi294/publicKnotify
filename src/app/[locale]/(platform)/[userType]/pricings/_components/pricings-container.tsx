@@ -1,24 +1,24 @@
 "use client";
 
 // External Imports
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
 
 // Internal Imports
 import { createOrCreatePriceAction } from "@/app/actions/profileActions";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import Loader from "@/components/ui/loader";
 import { EditPricingSchema } from "@/schema/pricingsSchema";
 import usePricingsStore from "@/store/use-edit-pricings-store";
 import { Price } from "@/types/profile";
-import PricingCard from "./pricing-card";
 import ProfilePriceSwitcher from "../../profile/_components/profile-price-switcher";
-import Loader from "@/components/ui/loader";
+import PricingCard from "./pricing-card";
 
 /**
  * PricingsContainer Component
@@ -240,7 +240,7 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
         className="w-full py-2 flex gap-8 flex-col justify-start items-start"
       >
         {currentPricings?.map((item, index) => (
-          <div key={item.id} className="space-y-8">
+          <div key={item?.id} className="space-y-8">
             <div className="flex items-center gap-5 ">
               <div className="flex items-center gap-2 ">
                 <div
@@ -257,13 +257,13 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
                 is_enabled_price={item?.is_enabled!}
                 profileType={"podcaster"}
                 isSelfProfile
-                ad_type_id={item.id.toString()}
+                ad_type_id={item?.id.toString()}
               />
             </div>
             <div className="w-full flex flex-wrap gap-5">
               {item.sections.map((section) => (
                 <PricingCard
-                  key={section.id}
+                  key={section?.id}
                   name={section.name.en}
                   text={section.name.en}
                   price={section.podcaster_prices[0]?.price?.toString()}

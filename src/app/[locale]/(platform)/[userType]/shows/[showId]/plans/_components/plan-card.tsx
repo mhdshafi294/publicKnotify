@@ -75,7 +75,7 @@ const PlanCard: React.FC<PlanCardProps> = async ({ ...props }) => {
       <div className="mt-auto justify-self-end space-y-2">
         <SubscribeMonthlyYearly
           playlist_id={props.playlist_id}
-          id={props.id}
+          id={props?.id}
           best_deal={props.best_deal}
           session={props.session}
         />

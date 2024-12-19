@@ -127,7 +127,7 @@ const SelectRequestFilter: React.FC<{ filterFor: string }> = ({
             ? data?.pages
                 .map((page) => page.requests)
                 .flat()
-                .find((client) => client.id.toString() === debouncedValue)
+                .find((client) => client?.id.toString() === debouncedValue)
                 ?.id || t("selectRequest")
             : t("selectRequest")}
           <SlidersHorizontalIcon className="ms-2 size-4 shrink-0 opacity-70 dark:opacity-50" />
@@ -160,23 +160,23 @@ const SelectRequestFilter: React.FC<{ filterFor: string }> = ({
                   data?.pages.map((page) =>
                     page?.requests.map((request) => (
                       <CommandItem
-                        key={request.id}
-                        value={request.id.toString()}
+                        key={request?.id}
+                        value={request?.id.toString()}
                         onSelect={(currentValue) => {
                           setFilter(
                             page?.requests
                               .find(
                                 (request) =>
-                                  request.id.toString() === currentValue
+                                  request?.id.toString() === currentValue
                               )
                               ?.id.toString() === debouncedValue
                               ? ""
                               : page?.requests
                                   .find(
                                     (request) =>
-                                      request.id.toString() === currentValue
+                                      request?.id.toString() === currentValue
                                   )!
-                                  .id.toString()
+                                  ?.id.toString()
                           );
                           setOpen(false);
                         }}
@@ -184,20 +184,20 @@ const SelectRequestFilter: React.FC<{ filterFor: string }> = ({
                         <div className="flex justify-start items-center gap-2">
                           <Avatar className="size-6">
                             <AvatarImage
-                              src={request.id.toString()}
-                              alt={request.id.toString()}
+                              src={request?.id.toString()}
+                              alt={request?.id.toString()}
                               className="object-cover"
                             />
                             <AvatarFallback className="bg-greeny_lighter text-[10px] text-black font-bold">
-                              {request.id.toString().slice(0, 2).toUpperCase()}
+                              {request?.id.toString().slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <p>{request.id.toString()}</p>
+                          <p>{request?.id.toString()}</p>
                         </div>
                         <CheckIcon
                           className={cn(
                             "ms-auto h-4 w-4",
-                            debouncedValue === request.id.toString()
+                            debouncedValue === request?.id.toString()
                               ? "opacity-100"
                               : "opacity-0"
                           )}

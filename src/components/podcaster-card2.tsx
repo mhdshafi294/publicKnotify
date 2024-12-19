@@ -40,7 +40,7 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
     >
       <Link
         passHref
-        href={`/${session?.user?.type}/profile/podcaster/${podcaster.id}`}
+        href={`/${session?.user?.type}/profile/podcaster/${podcaster?.id}`}
         className="lg:max-h-[305px] group"
       >
         <CardContent className={cn("p-0", contentRatio)}>
@@ -58,7 +58,7 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
               </div>
               <div className="text-xs opacity-90">
                 {podcaster.categories.map((category) => (
-                  <span key={category.id} className="mr-2">
+                  <span key={category?.id} className="mr-2">
                     {category.name}
                   </span>
                 ))}
@@ -74,14 +74,14 @@ export const PodcasterCard2: React.FC<PodCasterCard2Props> = ({
         >
           {isFavorite ? (
             <UnfavoriteButton
-              id={podcaster.id.toString()}
+              id={podcaster?.id.toString()}
               setIsFavorite={setIsFavorite}
               setSelectedItems={setSelectedItems}
               removeFromFavoriteAction={removeFromFavoriteAction}
             />
           ) : (
             <PodcasterFavoritePopover
-              podcasterId={podcaster.id.toString()}
+              podcasterId={podcaster?.id.toString()}
               isFavorite={isFavorite}
               setIsFavorite={setIsFavorite}
               selectedItems={selectedItems}

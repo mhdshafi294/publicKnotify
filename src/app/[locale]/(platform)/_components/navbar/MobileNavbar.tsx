@@ -121,8 +121,8 @@ const MobileNavbar = ({
                               session?.user?.type === "podcaster" &&
                               playlists !== undefined &&
                               playlists?.length > 0 &&
-                              playlists[0].id !== undefined
-                            ? `/${session?.user?.type}/shows/${playlists[0].id}/analytics`
+                              playlists[0]?.id !== undefined
+                            ? `/${session?.user?.type}/shows/${playlists[0]?.id}/analytics`
                             : `/${session?.user?.type}${link.href}`
                         }
                         className={cn(
@@ -181,8 +181,8 @@ const MobileNavbar = ({
                           ? `/${session?.user?.type}/shows/${params.showId}${link.href}`
                           : playlists !== undefined &&
                             playlists?.length > 0 &&
-                            playlists[0].id !== undefined
-                          ? `/${session?.user?.type}/shows/${playlists[0].id}${link.href}`
+                            playlists[0]?.id !== undefined
+                          ? `/${session?.user?.type}/shows/${playlists[0]?.id}${link.href}`
                           : `/`
                       }
                       className={cn(

@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 import { getContractsAction } from "@/app/actions/contractActions";
 import Loader from "@/components/ui/loader";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { Contract, ContractsResponse } from "@/types/contract";
+import { ContractsResponse } from "@/types/contract";
 import { Session } from "next-auth";
 import ContractCard from "./contract-card";
 

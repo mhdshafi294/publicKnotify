@@ -63,13 +63,14 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover size-5 md:size-10"
                 src={
-                  playlists.find((show) => show.id.toString() === params.showId)
-                    ?.image || "/draftC.png"
+                  playlists.find(
+                    (show) => show?.id.toString() === params.showId
+                  )?.image || "/draftC.png"
                 }
                 alt="show image preview"
               />
               <p className="text-sm  font-bold capitalize">
-                {playlists.find((show) => show.id.toString() === params.showId)
+                {playlists.find((show) => show?.id.toString() === params.showId)
                   ?.name || t("select_show_here")}
               </p>
               <ChevronDown className="size-4" />
@@ -89,8 +90,9 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 height={36}
                 className="object-cover h-9 w-12"
                 src={
-                  playlists.find((show) => show.id.toString() === params.showId)
-                    ?.image || "/draftC.png"
+                  playlists.find(
+                    (show) => show?.id.toString() === params.showId
+                  )?.image || "/draftC.png"
                 }
                 alt="show image preview"
               />
@@ -98,14 +100,14 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                 <p className="leading-4 text-sm text-foreground/90 group-hover:text-primary duration-200 capitalize">
                   {
                     playlists.find(
-                      (show) => show.id.toString() === params.showId
+                      (show) => show?.id.toString() === params.showId
                     )?.name
                   }
                 </p>
                 <p className="leading-4 text-sm text-foreground/60">
                   {
                     playlists.find(
-                      (show) => show.id.toString() === params.showId
+                      (show) => show?.id.toString() === params.showId
                     )?.owner_email
                   }
                 </p>
@@ -125,12 +127,12 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
           <div className="w-full flex justify-start items-center gap-3 flex-col px-4 py-3">
             {playlists.slice(0, 5).map((playlist) => (
               <Link
-                key={playlist.id}
+                key={playlist?.id}
                 passHref
                 href={
                   !params.showId
-                    ? `/podcaster/shows/${playlist.id}`
-                    : pathname.replace(/shows\/[^/]+/, `shows/${playlist.id}`)
+                    ? `/podcaster/shows/${playlist?.id}`
+                    : pathname.replace(/shows\/[^/]+/, `shows/${playlist?.id}`)
                 }
                 className="w-full group"
               >
@@ -151,10 +153,10 @@ const ShowPopover = ({ playlists }: { playlists: Playlist[] }): JSX.Element => {
                     </p>
                     {/* <p className="leading-4 text-xs text-foreground/40">
                       {!params.showId
-                        ? `/podcaster/shows/${playlist.id}`
+                        ? `/podcaster/shows/${playlist?.id}`
                         : pathname.replace(
                             /shows\/[^/]+/,
-                            `shows/${playlist.id}`
+                            `shows/${playlist?.id}`
                           )}
                     </p> */}
                   </div>

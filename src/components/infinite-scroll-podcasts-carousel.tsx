@@ -145,7 +145,7 @@ const InfiniteScrollPodcastsCarousel = ({
           data?.pages.map((page) =>
             page.podcasts.map((podcast) => (
               <CarouselItem
-                key={podcast.id}
+                key={podcast?.id}
                 className="basis-1/2 md:basis-1/4 lg:basis-1/6 xl:basis-[14%] ps-0"
               >
                 <PodcastCard podcast={podcast} />

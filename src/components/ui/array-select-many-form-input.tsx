@@ -1,6 +1,5 @@
 "use client";
 
-import { Control, FieldValues, useFormContext } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -8,15 +7,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn, getDirection } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { cn, getDirection } from "@/lib/utils";
 import { CategoryDetails } from "@/types/podcast";
 import { useQuery } from "@tanstack/react-query";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useSearchParams } from "next/navigation";
-import Loader from "./loader";
 import { useLocale } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import { Control, FieldValues, useFormContext } from "react-hook-form";
+import Loader from "./loader";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -100,11 +100,11 @@ function ArraySelectManyFormInput<T extends FieldValues>({
                   ) : (
                     categories?.map((category) => (
                       <ToggleGroupItem
-                        key={category.id}
-                        value={category.id.toString()}
-                        onClick={() => handleToggle(category.id.toString())}
+                        key={category?.id}
+                        value={category?.id.toString()}
+                        onClick={() => handleToggle(category?.id.toString())}
                         data-state={
-                          selectedItems.includes(category.id.toString())
+                          selectedItems.includes(category?.id.toString())
                             ? "on"
                             : "off"
                         }

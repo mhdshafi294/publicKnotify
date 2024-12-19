@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
 import { format, isSameDay, isToday, isYesterday } from "date-fns";
 import { useTranslations } from "next-intl";
+import React from "react";
 
-import { ConversationMessage } from "@/types/conversation";
 import { commonImageExtensions } from "@/constant";
+import { ConversationMessage } from "@/types/conversation";
 import MessageBox from "./message-box";
 import MessageFileBox from "./message-file-box";
 import MessageImagesBox from "./message-images-box";
@@ -42,7 +42,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
 
   // Common settings for message components
   const setting = {
-    key: message.id,
+    key: message?.id,
     isSending,
     messageDate: message.created_at,
     isSender: message.is_sender,
@@ -52,7 +52,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
   // Determine the type of message to display (text, image, or file)
   const msg = () => {
     if (message?.media?.length === 0) {
-      return <MessageBox {...setting} key={message.id} />;
+      return <MessageBox {...setting} key={message?.id} />;
     } else if (
       message.media.length === 1 &&
       !commonImageExtensions.includes(
@@ -68,7 +68,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
             ),
             url: message?.media[0],
           }}
-          key={message.id}
+          key={message?.id}
         />
       );
     } else if (
@@ -83,7 +83,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         <MessageImagesBox
           {...setting}
           images={message?.media}
-          key={message.id}
+          key={message?.id}
         />
       );
     } else {
@@ -93,7 +93,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         ) ? (
           <MessageFileBox
             {...setting}
-            key={`${message.id} ${index}`}
+            key={`${message?.id} ${index}`}
             content={
               index === message?.media?.length - 1 ? message?.content : ""
             }
@@ -105,7 +105,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         ) : (
           <MessageImagesBox
             {...setting}
-            key={`${message.id} ${index}`}
+            key={`${message?.id} ${index}`}
             content={
               index === message?.media?.length - 1 ? message?.content : ""
             }

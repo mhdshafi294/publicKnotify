@@ -77,7 +77,7 @@
 //                 action = () => {};
 //               }
 //               return (
-//                 <Fragment key={notification.id}>
+//                 <Fragment key={notification?.id}>
 //                   <PopoverClose asChild>
 //                     <button
 //                       onClick={() => action()}

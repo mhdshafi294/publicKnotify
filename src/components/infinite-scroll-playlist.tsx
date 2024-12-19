@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
 
-import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import Loader from "@/components/ui/loader";
-import PlaylistCard from "./playlist-card";
-import { Playlist, PlaylistsResponse } from "@/types/podcast";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
+import Loader from "@/components/ui/loader";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { Playlist, PlaylistsResponse } from "@/types/podcast";
+import PlaylistCard from "./playlist-card";
 
 /**
  * InfiniteScrollPlaylist Component
