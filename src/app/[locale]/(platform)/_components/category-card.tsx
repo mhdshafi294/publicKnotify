@@ -30,7 +30,7 @@ const CategoryCard: FC<PropsType> = async ({ category }) => {
       </div>
       <div className="flex flex-col justify-center gap-1 rounded-t-[10px] absolute bottom-0 left-0 w-full text-black bg-white/50 backdrop-blur-sm p-3">
         <p className="text-sm font-bold capitalize">{category.name}</p>
-        <p className="text-xs font-bold capitalize text-muted-foreground">{`${
+        <p className="text-xs font-bold capitalize text-muted-foreground dark:text-background/70">{`${
           category.podcasts_count
         } ${t("episodes")}`}</p>
       </div>
