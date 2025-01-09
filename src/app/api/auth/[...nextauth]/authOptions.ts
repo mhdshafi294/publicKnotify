@@ -1,6 +1,8 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
+import generateAppleClientSecret from "@/lib/appleClientSecret";
 import axiosInstance from "@/lib/axios.config";
+import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -31,7 +33,7 @@ export interface CustomUser {
 export const authOptions: AuthOptions = {
   callbacks: {
     // Handle JWT callbacks to include custom user data and handle session updates
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session, account }) {
       // If there is a user object, attach it to the token
       if (user) {
         token.user = user;
@@ -50,6 +52,35 @@ export const authOptions: AuthOptions = {
           session?.is_notification_enabled ||
           updatedUser.is_notification_enabled;
       }
+      if (account) {
+        if (account.provider === "google") {
+          const googleToken = account.access_token;
+          try {
+            const response = await fetcher<CustomUser>("/login/google", "en", {
+              method: "POST",
+              body: JSON.stringify({ token: googleToken }),
+            });
+            if (response.ok && response.data) {
+              token.user = response.data;
+            }
+          } catch (error) {
+            console.error("Error verifying Google token:", error);
+          }
+        } else if (account.provider === "apple") {
+          const idToken = account.id_token;
+          try {
+            const response = await fetcher<CustomUser>("/login/apple", "en", {
+              method: "POST",
+              body: JSON.stringify({ token: idToken }),
+            });
+            if (response.ok && response.data) {
+              token.user = response.data;
+            }
+          } catch (error) {
+            console.error("Error verifying Apple token:", error);
+          }
+        }
+      }
 
       return token;
     },
@@ -62,12 +93,19 @@ export const authOptions: AuthOptions = {
 
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     AppleProvider({
-      clientId: process.env.APPLE_ID as string,
-      clientSecret: process.env.APPLE_SECRET as string,
+      clientId: process.env.APPLE_CLIENT_ID!,
+      clientSecret: generateAppleClientSecret(),
+      authorization: {
+        params: {
+          scope: "name email",
+          response_mode: "form_post",
+          response_type: "code",
+        },
+      },
     }),
     CredentialsProvider({
       name: "login",

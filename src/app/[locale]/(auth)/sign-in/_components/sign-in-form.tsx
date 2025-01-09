@@ -1,12 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schema/authSchema";
+import { sendCodeAction } from "@/app/actions/authActions";
+import { AppleLogin } from "@/components/apple-login";
+import { GoogleLogin } from "@/components/google-login";
+import PhoneNumberInput from "@/components/phone-number-input";
+import { Button } from "@/components/ui/button";
+import ButtonLoader from "@/components/ui/button-loader";
 import {
   Form,
   FormControl,
@@ -16,16 +20,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import PasswordInput from "@/components/ui/password-input";
-import { Button } from "@/components/ui/button";
-import ButtonLoader from "@/components/ui/button-loader";
 import { Link, useRouter } from "@/navigation";
-import { AppleLogin } from "@/components/apple-login";
-import { GoogleLogin } from "@/components/google-login";
-import { toast } from "sonner";
-import { signIn } from "next-auth/react";
+import { loginSchema } from "@/schema/authSchema";
 import sendCode from "@/services/auth/send-code";
-import PhoneNumberInput from "@/components/phone-number-input";
-import { sendCodeAction } from "@/app/actions/authActions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { toast } from "sonner";
 
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
@@ -214,11 +214,11 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
         </p>
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
-            <div className="w-full max-w-[146px] h-[1px] dark:bg-white" />
+            <div className="w-full max-w-[146px] h-[1px] bg-white" />
             <span className="dark:text-white text-lg font-bold leading-5">
               {t("or")}
             </span>
-            <div className="w-full max-w-[146px] h-[1px] dark:bg-white" />
+            <div className="w-full max-w-[146px] h-[1px] bg-white" />
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">
             <AppleLogin />

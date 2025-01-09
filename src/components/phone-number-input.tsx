@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils";
+import country from "country-list-js";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Button } from "./ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,9 +14,6 @@ import {
 } from "./ui/command";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
-import country from "country-list-js";
-import { useTranslations } from "next-intl";
 
 const countriesCode = (
   Object.values(country.all) as { name: string; dialing_code: string }[]
@@ -82,7 +82,7 @@ const PhoneNumberInput: FC<PropsType> = ({
             aria-expanded={openPopover}
             tabIndex={-1}
             className={cn(
-              "justify-between border-e rounded-none bg-input ps-2 pe-1 py-1 dark:text-white",
+              "justify-between border-e rounded-none bg-input ps-2 pe-1 py-1 text-black dark:text-white",
               inputClassName
             )}
           >
@@ -135,7 +135,7 @@ const PhoneNumberInput: FC<PropsType> = ({
         value={inputField}
         onChange={(e) => setInputField(e.target.value)}
         className={cn(
-          "w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 dark:text-white",
+          "w-full rounded-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-ring focus-visible:ring-offset-0 text-black dark:text-white",
           inputClassName
         )}
       />

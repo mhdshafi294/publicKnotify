@@ -17,18 +17,15 @@ import {
 import { cn, getDirection } from "@/lib/utils";
 import { Link } from "@/navigation";
 import {
-  HandshakeIcon,
   HeartHandshakeIcon,
   LifeBuoyIcon,
   LogOutIcon,
-  MessagesSquareIcon,
   ShieldAlertIcon,
   User,
   WalletIcon,
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
-import SelfStoriesDropdownSubMenu from "../../[userType]/stories/_components/self-stories-dropdownsub-menu";
 
 const UserOptions = () => {
   const { data: session, status } = useSession();
@@ -104,19 +101,19 @@ const UserOptions = () => {
                 <span>{t("Profile")}</span>
               </DropdownMenuItem>
             </Link>
-            {session?.user?.type === "podcaster" ? (
+            {/* {session?.user?.type === "podcaster" ? (
               <SelfStoriesDropdownSubMenu
                 setUserOptionDropdownMenu={setUserOptionDropdownMenu}
               />
-            ) : null}
-            {session?.user?.type !== "user" ? (
+            ) : null} */}
+            {/* {session?.user?.type !== "user" ? (
               <Link href={`/${session?.user?.type}/chats`}>
                 <DropdownMenuItem>
                   <MessagesSquareIcon className="me-2 h-4 w-4" />
                   <span>{t("messages")}</span>
                 </DropdownMenuItem>
               </Link>
-            ) : null}
+            ) : null} */}
             {session?.user?.type === "podcaster" ? (
               <Link href={`/${session?.user?.type}/wallet`}>
                 <DropdownMenuItem>
@@ -125,14 +122,14 @@ const UserOptions = () => {
                 </DropdownMenuItem>
               </Link>
             ) : null}
-            {session?.user?.type !== "user" ? (
+            {/* {session?.user?.type !== "user" ? (
               <Link href={`/${session?.user?.type}/contracts`}>
                 <DropdownMenuItem>
                   <HandshakeIcon className="me-2 h-4 w-4" />
                   <span>{t("Contracts")}</span>
                 </DropdownMenuItem>
               </Link>
-            ) : null}
+            ) : null} */}
             <LanguageSwitcher />
             <DarkModeToggle />
             {/* <Link href={`/${session?.user?.type}/settings`}>

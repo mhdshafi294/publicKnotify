@@ -86,7 +86,7 @@ const ChangeRequestStatusButton = ({
   return (
     <Button
       disabled={isPending}
-      className="capitalize mx-auto rounded-full font-bold text-sm px-7"
+      className="capitalize mx-auto rounded-full font-bold text-xs h-8 lg:h-10 lg:text-sm px-3 lg:px-7"
       variant={status === "accept" ? "default" : "destructive"}
       onClick={handleAccept}
     >

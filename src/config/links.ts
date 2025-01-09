@@ -31,10 +31,10 @@ export const mainNavLinks: Link[] = [
     label: "Dashboard",
     href: "/shows",
   },
-  {
-    label: "Requests",
-    href: "/requests",
-  },
+  // {
+  //   label: "Requests",
+  //   href: "/requests",
+  // },
   {
     label: "Statistics",
     href: "/statistics",

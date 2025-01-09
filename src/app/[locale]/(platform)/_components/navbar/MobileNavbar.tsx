@@ -3,9 +3,7 @@
 import {
   AlignJustifyIcon,
   BellRingIcon,
-  HandshakeIcon,
   LogOutIcon,
-  MessagesSquareIcon,
   User,
   WalletIcon,
 } from "lucide-react";
@@ -33,7 +31,6 @@ import { Link } from "@/navigation";
 import useNotificationStore from "@/store/use-notification-store";
 import { Playlist } from "@/types/podcast";
 import { useEffect, useState } from "react";
-import SelfStoriesDropdownMenu from "../../[userType]/stories/_components/self-stories-dropdown-menu";
 
 /**
  * The MobileNavbar component is responsible for rendering a responsive navigation menu for mobile devices.
@@ -241,10 +238,10 @@ const MobileNavbar = ({
                 <p>{t("toggle-theme")}</p>
                 <DarkModeToggle />
               </div>
-              {session?.user?.type === "podcaster" ? (
+              {/* {session?.user?.type === "podcaster" ? (
                 <SelfStoriesDropdownMenu />
-              ) : null}
-              {session?.user?.type !== "user" ? (
+              ) : null} */}
+              {/* {session?.user?.type !== "user" ? (
                 <Link
                   className="flex gap-1 items-center"
                   href={`/${session?.user?.type}/chats`}
@@ -252,7 +249,7 @@ const MobileNavbar = ({
                   <MessagesSquareIcon className="me-2 h-4 w-4" />
                   <span>{t("messages")}</span>
                 </Link>
-              ) : null}
+              ) : null} */}
               {session?.user?.type !== "user" ? (
                 <Link
                   className="flex gap-1 items-center"
@@ -262,7 +259,7 @@ const MobileNavbar = ({
                   <span>{t("wallet")}</span>
                 </Link>
               ) : null}
-              {session?.user?.type !== "user" ? (
+              {/* {session?.user?.type !== "user" ? (
                 <Link
                   className="flex gap-1 items-center"
                   href={`/${session?.user?.type}/contracts`}
@@ -270,7 +267,7 @@ const MobileNavbar = ({
                   <HandshakeIcon className="me-2 h-4 w-4" />
                   <span>{t("contracts")}</span>
                 </Link>
-              ) : null}
+              ) : null} */}
               <Link
                 className="flex gap-1 items-center"
                 href={`/${session?.user?.type}/profile/${session?.user?.type}/${session?.user?.id}`}

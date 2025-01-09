@@ -61,16 +61,18 @@ const RequestCard: FC<{ request: Request; userType: string }> = ({
           </Avatar>
           <div className="flex flex-col justify-between">
             <div className="flex items-center gap-2">
-              <h2 className="font-bold text-2xl capitalize">
+              <h2 className="font-bold lg:text-2xl capitalize">
                 {"podcaster" in request
                   ? request.podcaster.full_name
                   : request.company.full_name}
               </h2>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-xs lg:text-sm">
                 {format(new Date(request.created_at), "d MMM yyyy")}
               </p>
             </div>
-            <p className="text-greeny capitalize text-sm">{request?.type}</p>
+            <p className="text-greeny capitalize text-xs lg:text-sm">
+              {request?.type}
+            </p>
             <p className="text-primary capitalize text-sm">
               {request?.advertising_section?.type?.name[lang as "ar" | "en"]}
             </p>
@@ -85,16 +87,16 @@ const RequestCard: FC<{ request: Request; userType: string }> = ({
                 buttonVariants({
                   variant: "secondary",
                   className:
-                    "font-bold bg-greeny text-secondary hover:bg-greeny_lighter rounded-full gap-2 items-center text-sm px-5 capitalize",
+                    "font-bold bg-greeny dark:text-secondary hover:bg-greeny_lighter rounded-full gap-0.5 lg:gap-2 items-center text-xs lg:text-sm px-5 capitalize",
                 })
               )}
             >
-              <MessageCircleMoreIcon size={16} />
+              <MessageCircleMoreIcon size={16} className="hidden lg:block" />
               {t("open")} {t("chat")}
             </Link>
           </div>
         ) : request?.status === "Pending" && userType === "podcaster" ? (
-          <div className="flex h-full items-center justify-end gap-4">
+          <div className="flex flex-col md:flex-row h-full items-center justify-end gap-4">
             <ChangeRequestStatusButton
               requestId={request?.id.toString()}
               userType={userType}

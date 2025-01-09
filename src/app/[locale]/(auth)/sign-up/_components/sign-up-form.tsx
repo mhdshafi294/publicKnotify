@@ -134,6 +134,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
               name="full_name"
               label={t("name")}
               control={form.control}
+              className="text-black dark:text-white"
             />
             {/* Phone number input field */}
             <FormField
@@ -141,7 +142,9 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
               name="phone"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>{t("phone")}</FormLabel>
+                  <FormLabel className="capitalize text-lg">
+                    {t("phone")}
+                  </FormLabel>
                   <FormControl>
                     <PhoneNumberInput
                       phone={field.value}
@@ -159,12 +162,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
               name={"password"}
               label={t("password")}
               control={form.control}
+              className="text-black dark:text-white"
             />
             {/* Password confirmation input field */}
             <PasswordInput
               name={"password_confirmation"}
               label={t("confirmPassword")}
               control={form.control}
+              className="text-black dark:text-white"
             />
           </div>
           {/* Document upload field for company sign-up */}
@@ -205,11 +210,11 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
         {/* Social login options */}
         <div className="max-w-[360px] mt-12 mx-auto flex flex-col items-center gap-8">
           <div className="flex justify-between items-center w-full gap-4">
-            <div className="w-full max-w-[146px] h-[1px] bg-black dark:bg-white" />
+            <div className="w-full max-w-[146px] h-[1px] bg-white" />
             <span className="dark:text-white text-lg font-bold leading-5">
               {t("or")}
             </span>
-            <div className="w-full max-w-[146px] h-[1px] bg-black dark:bg-white" />
+            <div className="w-full max-w-[146px] h-[1px] bg-white" />
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">
             <AppleLogin />
