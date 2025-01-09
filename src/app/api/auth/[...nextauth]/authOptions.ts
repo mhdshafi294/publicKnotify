@@ -64,20 +64,21 @@ export const authOptions: AuthOptions = {
           } catch (error) {
             console.error("Error verifying Google token:", error);
           }
-        } else if (account.provider === "apple") {
-          const idToken = account.id_token;
-          try {
-            const response = await fetcher<CustomUser>("/login/apple", "en", {
-              method: "POST",
-              body: JSON.stringify({ token: idToken }),
-            });
-            if (response.ok && response.data) {
-              token.user = response.data;
-            }
-          } catch (error) {
-            console.error("Error verifying Apple token:", error);
-          }
         }
+        // else if (account.provider === "apple") {
+        //   const idToken = account.id_token;
+        //   try {
+        //     const response = await fetcher<CustomUser>("/login/apple", "en", {
+        //       method: "POST",
+        //       body: JSON.stringify({ token: idToken }),
+        //     });
+        //     if (response.ok && response.data) {
+        //       token.user = response.data;
+        //     }
+        //   } catch (error) {
+        //     console.error("Error verifying Apple token:", error);
+        //   }
+        // }
       }
 
       return token;
