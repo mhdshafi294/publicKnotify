@@ -1,14 +1,19 @@
-// Importing NextAuth from next-auth/next
-import NextAuth from "next-auth/next";
+// Importing NextAuth from next-auth
+import NextAuth from "next-auth";
 // Importing the authentication options from the specified path
-import { authOptions } from "./authOptions";
+import { getAuthOptions } from "./authOptions";
 
 /**
  * Configures NextAuth with the provided authentication options.
  *
  * Exports the configuration for both GET and POST methods.
  */
-const nextAuth = NextAuth(authOptions);
+export async function GET(req: Request) {
+  const handler = NextAuth(await getAuthOptions());
+  return handler(req);
+}
 
-// Exporting nextAuth configuration as GET and POST methods
-export { nextAuth as GET, nextAuth as POST };
+export async function POST(req: Request) {
+  const handler = NextAuth(await getAuthOptions());
+  return handler(req);
+}

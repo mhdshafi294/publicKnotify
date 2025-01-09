@@ -3,8 +3,10 @@
 import jwt from "jsonwebtoken";
 import { readFileSync } from "fs";
 import path from "path";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export async function generateAppleClientSecret() {
+export async function getAppleClientSecret() {
   const teamId = process.env.APPLE_TEAM_ID;
   const clientId = process.env.APPLE_CLIENT_ID;
   const keyId = process.env.APPLE_KEY_ID;
@@ -43,4 +45,15 @@ export async function generateAppleClientSecret() {
     }
   );
   return token;
+}
+
+export async function getSession() {
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get("next-auth.session-token");
+  
+  if (!sessionToken) {
+    redirect("/sign-in");
+  }
+  
+  return sessionToken;
 }
