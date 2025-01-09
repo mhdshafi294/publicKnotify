@@ -1,7 +1,8 @@
-import React, { ComponentPropsWithoutRef, useState } from "react";
-import { Control, FieldValues } from "react-hook-form";
 import { Eye, EyeOff } from "lucide-react";
+import { ComponentPropsWithoutRef, useState } from "react";
+import { Control, FieldValues } from "react-hook-form";
 
+import { cn } from "@/lib/utils";
 import {
   FormControl,
   FormField,
@@ -10,7 +11,6 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { cn } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -68,7 +68,7 @@ function PasswordInput<T extends FieldValues>({
                 tabIndex={-1}
                 onClick={() => setToggle((prev) => !prev)}
                 type="button"
-                className="absolute end-4 top-1/2 -translate-y-1/2 p-0.5 border-transparent border focus-visible:rounded focus-visible:border-primary focus-visible:outline-0"
+                className="absolute end-4 top-1/2 -translate-y-1/2 p-0.5 border-transparent border focus-visible:rounded focus-visible:border-primary focus-visible:outline-0 text-foreground"
               >
                 {!toggle ? (
                   <Eye className="size-4" />

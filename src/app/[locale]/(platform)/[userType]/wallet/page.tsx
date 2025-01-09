@@ -1,11 +1,11 @@
-import React from "react";
-import { getServerSession } from "next-auth";
 import { WalletIcon } from "lucide-react";
+import { getServerSession } from "next-auth";
+import React from "react";
 
-import { redirect } from "@/navigation";
 import { getWalletAction } from "@/app/actions/walletActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { redirect } from "@/navigation";
 import { getTranslations } from "next-intl/server";
 import WalletAside from "./_components/wallet-aside";
 import WalletMain from "./_components/wallet-main";

@@ -1,6 +1,5 @@
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { getServerSession } from "next-auth";
 import FeaturedPodcastersGrid from "./featured-podcasters-grid";

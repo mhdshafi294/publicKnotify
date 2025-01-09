@@ -1,14 +1,13 @@
-import { useTranslations } from "next-intl"; // External dependency for translations
 import { getServerSession } from "next-auth"; // External dependency for session management
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
 import { getPlayListAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlist data
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
 
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
+import { getTranslations } from "next-intl/server";
+import { Fragment } from "react";
 import PlaylistPodcast from "./_components/Playlist-podcast"; // Internal component for displaying playlist podcasts
 import SideScrollPlaylistPodcasts from "./_components/side-scroll-playlist-podcasts"; // Internal component for side scrolling podcasts
-import { Fragment } from "react";
-import { getTranslations } from "next-intl/server";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 /**
  * PlaylistPage Component

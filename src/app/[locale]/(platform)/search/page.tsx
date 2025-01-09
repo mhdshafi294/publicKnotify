@@ -1,21 +1,20 @@
 // Global imports
+import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
-import { redirect } from "@/navigation";
-import React from "react";
 
 // Local imports
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import { getSearchAction } from "@/app/actions/podcastActions";
 import { getCompaniesAction } from "@/app/actions/companyActions";
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
-import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
-import InfiniteScrollPlaylistsCarousel from "@/components/infinite-scroll-playlists-carousel";
+import { getSearchAction } from "@/app/actions/podcastActions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
+import InfiniteScrollPlaylistsCarousel from "@/components/infinite-scroll-playlists-carousel";
+import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
+import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 import Search from "@/components/search";
-import { SearchResponse } from "@/types/podcast";
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { CompaniesResponse } from "@/types/company";
+import { SearchResponse } from "@/types/podcast";
 
 /**
  * SearchPage Component

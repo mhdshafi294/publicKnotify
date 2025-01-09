@@ -1,10 +1,8 @@
-"use server";
-
-import jwt from "jsonwebtoken";
 import { readFileSync } from "fs";
+import jwt from "jsonwebtoken";
 import path from "path";
 
-export async function generateAppleClientSecret() {
+const generateAppleClientSecret = () => {
   const teamId = process.env.APPLE_TEAM_ID;
   const clientId = process.env.APPLE_CLIENT_ID;
   const keyId = process.env.APPLE_KEY_ID;
@@ -43,4 +41,6 @@ export async function generateAppleClientSecret() {
     }
   );
   return token;
-}
+};
+
+export default generateAppleClientSecret;

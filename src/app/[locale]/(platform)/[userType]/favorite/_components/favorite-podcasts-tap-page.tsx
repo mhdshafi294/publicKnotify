@@ -1,10 +1,9 @@
-import React from "react";
 import { getServerSession } from "next-auth";
+import React from "react";
 
 import { getMyFavoritePodcastsAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import InfiniteScrollFavoritesPodcasts from "./infinite-scroll-favorites-podcasts";
-import { Podcast } from "@/types/podcast";
 
 interface FavoritePodcastsTapPageProps {
   tab: string;

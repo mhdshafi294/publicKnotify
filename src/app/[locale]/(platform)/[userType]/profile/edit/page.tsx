@@ -2,12 +2,11 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Authentication options import
 import { getServerSession } from "next-auth"; // NextAuth utility to get server session
 import { redirect } from "next/navigation"; // Next.js utility for redirection
-import React from "react"; // React import
 
 // Internal dependencies
-import EditUserProfile from "./_components/edit-user-profile"; // Internal component for editing user profiles
 import EditCompanyProfile from "./_components/edit-company-profile"; // Internal component for editing company profiles
 import EditPodcasterContainer from "./_components/edit-podcaster-container"; // Internal component for editing podcaster profiles
+import EditUserProfile from "./_components/edit-user-profile"; // Internal component for editing user profiles
 
 /**
  * EditProfilepage Component

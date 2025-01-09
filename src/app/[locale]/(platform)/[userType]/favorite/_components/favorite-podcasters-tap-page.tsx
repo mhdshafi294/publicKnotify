@@ -1,5 +1,5 @@
-import React from "react";
 import { getServerSession } from "next-auth";
+import React from "react";
 
 import { getMyFavoritePodcastersAction } from "@/app/actions/podcasterActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";

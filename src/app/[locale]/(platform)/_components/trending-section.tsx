@@ -3,7 +3,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 
 const TrendingSection = async ({

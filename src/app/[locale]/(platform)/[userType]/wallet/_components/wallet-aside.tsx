@@ -1,7 +1,7 @@
-import React from "react";
 import { format } from "date-fns";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
+import React from "react";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Wallet } from "@/types/wallet";

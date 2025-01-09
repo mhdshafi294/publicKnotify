@@ -1,13 +1,13 @@
+import { HeartIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { useLocale } from "next-intl";
-import { HeartIcon } from "lucide-react";
 
 import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import FavoriteCategoriesUL from "./favorite-categories-ul";
 import { getDirection } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
+import FavoriteCategoriesUL from "./favorite-categories-ul";
 
 /**
  * FavoriteCategories Component

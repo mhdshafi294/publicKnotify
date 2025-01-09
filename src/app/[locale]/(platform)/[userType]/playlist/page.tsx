@@ -3,10 +3,10 @@ import { getServerSession } from "next-auth"; // External dependency for session
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
 import { getTranslations } from "next-intl/server"; // External dependency for translations
 
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component for container styling
-import Search from "@/components/search"; // Internal component for search functionality
 import { getPlayListsAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlists
 import InfiniteScrollPlaylist from "@/components/infinite-scroll-playlist"; // Internal component for infinite scroll
+import Search from "@/components/search"; // Internal component for search functionality
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component for container styling
 
 /**
  * PodcastsPage Component

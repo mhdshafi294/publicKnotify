@@ -1,11 +1,11 @@
-import React from "react";
-import { getServerSession } from "next-auth";
-import { redirect } from "@/navigation";
-import DashboardMainContent from "./dashboard-main-content";
-import DashboardSidebar from "./dashboard-sidebar";
 import { getPlayListAction } from "@/app/actions/podcastActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { redirect } from "@/navigation";
 import { PlaylistResponse } from "@/types/podcast";
+import { getServerSession } from "next-auth";
+import React from "react";
+import DashboardMainContent from "./dashboard-main-content";
+import DashboardSidebar from "./dashboard-sidebar";
 
 type PodcasterDashboardProps = {
   params: { userType: string; showId: string };

@@ -1,15 +1,15 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
 
 import {
   getConversationMessagesAction,
   getConversationsAction,
 } from "@/app/actions/conversationsActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import ConversationsList from "./_components/Conversations-list";
-import ChatWindow from "./_components/chat-window";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { ConversationMessagesResponse } from "@/types/conversation";
+import ConversationsList from "./_components/Conversations-list";
+import ChatWindow from "./_components/chat-window";
 import EmptyState from "./_components/empty-state";
 
 /**

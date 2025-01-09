@@ -1,18 +1,16 @@
-import React from "react";
-
 import DashboardCardContainer from "../../_components/dashboard-card-container";
 
-import MainFeed from "./_components/main-feed";
-import { getTranslations } from "next-intl/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import {
   createShowRssAction,
   getDistributionLinksAction,
   getRssAction,
 } from "@/app/actions/podcastActions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "@/navigation";
+import { getServerSession } from "next-auth";
+import { getTranslations } from "next-intl/server";
 import DistributionChannels from "./_components/distribution-channels";
+import MainFeed from "./_components/main-feed";
 
 /**
  * The DistributionPage component renders the show distribution settings,

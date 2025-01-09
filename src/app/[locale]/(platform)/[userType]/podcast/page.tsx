@@ -3,11 +3,11 @@ import { getServerSession } from "next-auth"; // External dependency for session
 import { getTranslations } from "next-intl/server"; // External dependency for internationalization
 
 // Local imports
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
-import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
-import Search from "@/components/search"; // Internal component import
 import { getTrendingAction } from "@/app/actions/podcastActions"; // Internal action import
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
 import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts"; // Internal component import
+import Search from "@/components/search"; // Internal component import
+import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
 
 /**
  * PodcastsPage Component

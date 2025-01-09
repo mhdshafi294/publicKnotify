@@ -5,8 +5,8 @@ import { getServerSession } from "next-auth";
 import { getPricingsAction } from "@/app/actions/profileActions";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
-import PricingsContainer from "./_components/pricings-container";
 import PricePageHeader from "./_components/price-page-header";
+import PricingsContainer from "./_components/pricings-container";
 
 /**
  * PricingsPage Component
