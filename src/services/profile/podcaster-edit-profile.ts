@@ -1,4 +1,4 @@
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import { PROFILE } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { ApiResponse } from "@/types";
@@ -13,7 +13,7 @@ const podcasterEditProfile = async (body: FormData) => {
     `podcaster${PROFILE}`,
     body
   );
-  revalidatePath('/[locale]/podcaster/profile/edit')
+  revalidatePath("/[locale]/podcaster/profile/edit");
   return data.user;
 };
 

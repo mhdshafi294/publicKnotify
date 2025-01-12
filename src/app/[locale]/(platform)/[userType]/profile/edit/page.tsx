@@ -1,5 +1,5 @@
 // External dependencies
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Authentication options import
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Authentication options import
 import { getServerSession } from "next-auth"; // NextAuth utility to get server session
 import { redirect } from "next/navigation"; // Next.js utility for redirection
 

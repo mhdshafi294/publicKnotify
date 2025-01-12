@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";

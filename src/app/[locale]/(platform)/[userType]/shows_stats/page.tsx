@@ -1,5 +1,5 @@
 // External imports
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 

@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 import React from "react";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Wallet } from "@/types/wallet";
 import ProfileCardImageAndName from "../../profile/_components/profile-card-image-and-name";
 import DashboardCardContainer from "../../shows/_components/dashboard-card-container";

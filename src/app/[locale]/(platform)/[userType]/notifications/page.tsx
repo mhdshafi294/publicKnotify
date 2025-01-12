@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth"; // External dependency for session
 import { getTranslations } from "next-intl/server"; // External dependency for internationalization
 
 import { getNotificationsAction } from "@/app/actions/notificationActions"; // Internal function for fetching notifications
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal configuration for authentication
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal configuration for authentication
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component for max-width container
 import { ScrollArea } from "@/components/ui/scroll-area"; // Internal component for scrollable area
 import InfiniteScrollNotifications from "./_components/infinite-scroll-notifications"; // Internal component for infinite scroll

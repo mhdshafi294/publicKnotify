@@ -1,5 +1,5 @@
 import { getStoriesAction } from "@/app/actions/storiesActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import InfiniteScrollStoriesCarousel from "@/components/infinite-scroll-stories-carousel";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";

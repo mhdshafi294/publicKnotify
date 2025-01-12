@@ -8,15 +8,14 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import AuthProvider from "@/providers/AuthProvider";
-import QueryProvider from "@/providers/QueryClientProvider";
 import NotificationProvider from "@/providers/NotificationProvider";
+import QueryProvider from "@/providers/QueryClientProvider";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 import "react-photo-view/dist/react-photo-view.css";
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/authOptions";
-import { redirect } from "@/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/auth-options";
 
 // Font configurations
 const fontSans = FontSans({

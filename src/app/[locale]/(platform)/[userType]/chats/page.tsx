@@ -5,7 +5,7 @@ import {
   getConversationMessagesAction,
   getConversationsAction,
 } from "@/app/actions/conversationsActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { ConversationMessagesResponse } from "@/types/conversation";
 import ConversationsList from "./_components/Conversations-list";

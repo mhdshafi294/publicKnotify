@@ -1,19 +1,19 @@
 "use client";
 
 // External Libraries
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import country from "country-list-js";
+import { Camera } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
-import { Camera } from "lucide-react";
-import country from "country-list-js";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 // Internal Modules and Components
 import { userEditProfileAction } from "@/app/actions/profileActions";
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";

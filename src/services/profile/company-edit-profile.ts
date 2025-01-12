@@ -1,4 +1,4 @@
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import { PROFILE } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { ApiResponse } from "@/types";
@@ -8,7 +8,10 @@ type Response = ApiResponse & {
 };
 
 const CompanyEditProfile = async (body: FormData) => {
-  const { data } = await axiosInstance.post<Response>(`company${PROFILE}`, body);
+  const { data } = await axiosInstance.post<Response>(
+    `company${PROFILE}`,
+    body
+  );
   return data.user;
 };
 

@@ -9,7 +9,7 @@ import ProfileContent from "../../_components/profile-content";
 import { getCompanyAction } from "@/app/actions/companyActions";
 import { getPodcasterAction } from "@/app/actions/podcasterActions";
 import { getProfileAction } from "@/app/actions/profileActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 
 import { cn } from "@/lib/utils";
 import { Company } from "@/types/company";

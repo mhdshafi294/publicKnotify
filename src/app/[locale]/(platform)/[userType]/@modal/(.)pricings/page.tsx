@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 // Internal Imports
 import { getPricingsAction } from "@/app/actions/profileActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import PricingsContainer from "../../pricings/_components/pricings-container";
 import SelfPricingModal from "./modal";
 

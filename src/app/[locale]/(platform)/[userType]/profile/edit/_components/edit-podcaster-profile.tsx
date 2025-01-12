@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { podcasterEditProfileAction } from "@/app/actions/profileActions";
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import MultiSelectPopover from "@/components/multi-select-popover";
 import PhoneNumberInput from "@/components/phone-number-input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

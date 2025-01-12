@@ -5,7 +5,7 @@ import {
   getDistributionLinksAction,
   getRssAction,
 } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";

@@ -20,16 +20,16 @@ export function getClientIP(req?: NextApiRequest | Request): string {
   if (!req) return "";
 
   // Handle NextApiRequest
-  if ('headers' in req && !('url' in req)) {
+  if ("headers" in req && !("url" in req)) {
     const headers = req.headers;
-    const xForwardedFor = headers['x-forwarded-for'];
-    const cfConnectingIP = headers['cf-connecting-ip'];
-    const xRealIP = headers['x-real-ip'];
+    const xForwardedFor = headers["x-forwarded-for"];
+    const cfConnectingIP = headers["cf-connecting-ip"];
+    const xRealIP = headers["x-real-ip"];
 
     if (xForwardedFor) {
-      const ips = Array.isArray(xForwardedFor) 
-        ? xForwardedFor[0] 
-        : xForwardedFor.split(',')[0].trim();
+      const ips = Array.isArray(xForwardedFor)
+        ? xForwardedFor[0]
+        : xForwardedFor.split(",")[0].trim();
       return ips;
     }
 
@@ -47,7 +47,7 @@ export function getClientIP(req?: NextApiRequest | Request): string {
     const xRealIP = req.headers.get("x-real-ip");
 
     if (xForwardedFor) {
-      return xForwardedFor.split(',')[0].trim();
+      return xForwardedFor.split(",")[0].trim();
     }
 
     return cfConnectingIP || xRealIP || "";
@@ -92,9 +92,9 @@ export async function fetcher<T>(
       );
     }
 
-    const pathPrefix = localServer ? "api" : "user";
+    const pathPrefix = localServer ? "api" : "podcaster";
     const fullUrl = constructFullUrl(baseUrl, pathPrefix, url);
-    
+
     const response = await fetch(fullUrl, config);
     const contentType = response.headers.get("content-type");
 
@@ -133,6 +133,8 @@ function constructFullUrl(
   pathPrefix: string,
   url: string
 ): string {
-  return `${baseUrl.replace(/\/$/, "")}/${pathPrefix}/${url.replace(/^\//, "")}`;
+  return `${baseUrl.replace(/\/$/, "")}/${pathPrefix}/${url.replace(
+    /^\//,
+    ""
+  )}`;
 }
-

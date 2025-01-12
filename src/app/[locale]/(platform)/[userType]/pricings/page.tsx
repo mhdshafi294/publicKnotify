@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 
 // Local imports
 import { getPricingsAction } from "@/app/actions/profileActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import PricePageHeader from "./_components/price-page-header";
 import PricingsContainer from "./_components/pricings-container";

@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import Image from "next/image";
 
 import { getSelfPodcastAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { buttonVariants } from "@/components/ui/button";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { Separator } from "@/components/ui/separator";

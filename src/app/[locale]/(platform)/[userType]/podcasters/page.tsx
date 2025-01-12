@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth"; // Core NextAuth import
 
 import { getPodcastersAction } from "@/app/actions/podcasterActions"; // Internal action import
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal auth options import
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal auth options import
 import InfiniteScrollPodcasters from "@/components/infinite-scroll-podcasters"; // Internal infinite scroll component import
 import Search from "@/components/search"; // Internal search component import
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal UI component import

@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import React from "react";
 
 import { getMyFavoritePodcastersAction } from "@/app/actions/podcasterActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import InfiniteScrollFavoritesPodcasters from "./infinite-scroll-favorites-podcaters";
 
 interface FavoritePodcastersTapPageProps {

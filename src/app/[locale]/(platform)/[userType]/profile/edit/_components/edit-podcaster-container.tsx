@@ -1,7 +1,7 @@
 // Internal Imports
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
 import { getProfileAction } from "@/app/actions/profileActions";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import EditPodcasterProfile from "./edit-podcaster-profile";
 
 /**

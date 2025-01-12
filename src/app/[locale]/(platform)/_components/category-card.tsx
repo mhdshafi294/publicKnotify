@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Link } from "@/navigation";
 import { CategoryDetails } from "@/types/podcast";
 import { getServerSession } from "next-auth";

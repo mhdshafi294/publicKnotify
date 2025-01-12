@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import React from "react";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Link } from "@/navigation";

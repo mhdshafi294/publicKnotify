@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { getTranslations } from "next-intl/server";
 
 import { getRequestsAction } from "@/app/actions/requestsActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { redirect } from "@/navigation";
 import InfiniteScrollRequests from "./_components/infinite-scroll-requests";

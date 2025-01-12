@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { useLocale } from "next-intl";
 
 import { getMyFavoriteCategoriesListAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getDirection } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";

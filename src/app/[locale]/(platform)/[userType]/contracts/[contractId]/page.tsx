@@ -1,5 +1,5 @@
 import { getContractAction } from "@/app/actions/contractActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 
 import { getServerSession } from "next-auth";

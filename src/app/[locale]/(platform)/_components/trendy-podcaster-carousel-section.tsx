@@ -1,5 +1,5 @@
 import { getPodcastersAction } from "@/app/actions/podcasterActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import TrendyPodcasterCarousel from "@/components/trendy-podcaster-carousel";
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { getServerSession } from "next-auth";

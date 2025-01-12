@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth"; // External dependency for session management
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal authentication options
 import { getTranslations } from "next-intl/server"; // External dependency for translations
 
 import { getPlayListsAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlists

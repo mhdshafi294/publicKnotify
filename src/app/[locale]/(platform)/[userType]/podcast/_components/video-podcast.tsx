@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { Badge } from "@/components/ui/badge"; // Internal UI component import
 import { Link } from "@/navigation"; // Internal navigation import
 import { PodcastDetails } from "@/types/podcast"; // Internal type import

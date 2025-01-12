@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server"; // External dependency for i
 
 // Local imports
 import { getTrendingAction } from "@/app/actions/podcastActions"; // Internal action import
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal authentication options
 import InfiniteScrollPodcasts from "@/components/infinite-scroll-podcasts"; // Internal component import
 import Search from "@/components/search"; // Internal component import
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import

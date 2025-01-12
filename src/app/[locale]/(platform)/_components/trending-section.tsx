@@ -1,5 +1,5 @@
 import { getTrendingAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import InfiniteScrollPodcastsCarousel from "@/components/infinite-scroll-podcasts-carousel";
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";

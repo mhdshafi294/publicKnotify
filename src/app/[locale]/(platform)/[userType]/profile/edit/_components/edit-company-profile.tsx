@@ -1,16 +1,16 @@
 "use client";
 
 // External Imports
-import { CustomUser } from "@/app/api/auth/[...nextauth]/authOptions";
-import { useSession } from "next-auth/react";
-import { ElementRef, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { CustomUser } from "@/app/api/auth/[...nextauth]/auth-options";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
 import country from "country-list-js";
 import { Camera } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
+import { ElementRef, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // Internal Imports
 import { companyEditProfileAction } from "@/app/actions/profileActions";

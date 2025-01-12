@@ -1,5 +1,5 @@
 import { getPlayListAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { redirect } from "@/navigation";
 import { PlaylistResponse } from "@/types/podcast";
 import { getServerSession } from "next-auth";

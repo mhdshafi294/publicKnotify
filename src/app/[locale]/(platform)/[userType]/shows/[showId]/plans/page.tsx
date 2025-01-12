@@ -1,5 +1,5 @@
 import { getPlansAction } from "@/app/actions/planActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import ApplePayIcon from "@/components/icons/apple-pay-icon";
 import GooglePayIcon from "@/components/icons/google-pay-icon";
 import MastercardIcon from "@/components/icons/mastercard-icon";

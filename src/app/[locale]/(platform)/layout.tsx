@@ -1,6 +1,6 @@
 import Navbar from "@/app/[locale]/(platform)/_components/navbar/Navbar";
 import { getProfileAction } from "@/app/actions/profileActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { redirect } from "@/navigation";
 import { getServerSession } from "next-auth";
 import React from "react";

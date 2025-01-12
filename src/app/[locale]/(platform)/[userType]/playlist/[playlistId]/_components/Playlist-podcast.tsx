@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server"; // External dependency for i
 import AudioPodcast from "@/app/[locale]/(platform)/[userType]/podcast/_components/audio-podcast"; // Internal component import
 import VideoPodcast from "@/app/[locale]/(platform)/[userType]/podcast/_components/video-podcast"; // Internal component import
 import { getPodcastDetailsAction } from "@/app/actions/podcastActions"; // Internal action import
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal authentication options
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer"; // Internal component import
 import { SelfPodcastDetails } from "@/types/podcast"; // Internal type definitions
 

@@ -1,7 +1,7 @@
 // Importing NextAuth from next-auth/next
 import NextAuth from "next-auth/next";
 // Importing the authentication options from the specified path
-import { authOptions } from "./authOptions";
+import { authOptions } from "./auth-options";
 
 /**
  * Configures NextAuth with the provided authentication options.

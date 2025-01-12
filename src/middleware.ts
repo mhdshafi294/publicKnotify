@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 import { withAuth } from "next-auth/middleware";
 import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
-import { CustomUser } from "./app/api/auth/[...nextauth]/authOptions";
+import { CustomUser } from "./app/api/auth/[...nextauth]/auth-options";
 
 // Define supported locales
 const locales = ["ar", "en"];

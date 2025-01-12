@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth"; // External dependency for session management
 
 import { getPlayListAction } from "@/app/actions/podcastActions"; // Internal function for fetching playlist data
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"; // Internal authentication options
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options"; // Internal authentication options
 
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
 import { getTranslations } from "next-intl/server";

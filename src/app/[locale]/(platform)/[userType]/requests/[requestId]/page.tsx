@@ -13,7 +13,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 import { getRequestAction } from "@/app/actions/requestsActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,

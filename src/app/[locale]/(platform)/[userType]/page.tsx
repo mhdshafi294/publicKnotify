@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import PodcastersSection from "@/app/[locale]/(platform)/_components/podcasters-section";
 import TrendingSection from "@/app/[locale]/(platform)/_components/trending-section";
 import { getPlayListsAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import CategorySection from "../_components/category-secrtion";
 import StoriesSection from "../_components/stories-section";
 import TrendyPodcasterCarouselSection from "../_components/trendy-podcaster-carousel-section";

@@ -2,12 +2,12 @@
 import axios from "axios";
 
 // Component-specific imports
-import { API_URL } from "./apiEndPoints";
 import {
   authOptions,
   CustomSession,
-} from "@/app/api/auth/[...nextauth]/authOptions";
+} from "@/app/api/auth/[...nextauth]/auth-options";
 import { getServerSession } from "next-auth";
+import { API_URL } from "./apiEndPoints";
 
 /**
  * Create an Axios instance with a base URL and default headers.

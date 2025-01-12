@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 // Local imports
 import { getCompaniesAction } from "@/app/actions/companyActions";
 import { getSearchAction } from "@/app/actions/podcastActions";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth-options";
 import InfiniteScrollCompanies from "@/components/infinite-scroll-companies";
 import InfiniteScrollPlaylistsCarousel from "@/components/infinite-scroll-playlists-carousel";
 import InfiniteScrollPodcasterersCarousel from "@/components/infinite-scroll-podcasters-carousel";
