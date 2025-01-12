@@ -1,6 +1,6 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
-import generateAppleClientSecret from "@/lib/appleClientSecret";
+// import generateAppleClientSecret from "@/lib/appleClientSecret";
 import axiosInstance from "@/lib/axios.config";
 import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
@@ -29,6 +29,13 @@ export interface CustomUser {
   is_notification_enabled?: boolean;
 }
 
+let appleClientSecret: string | undefined;
+
+if (typeof window === "undefined") {
+  // Import only on the server side
+  const generateAppleClientSecret = require("@/lib/appleClientSecret").default;
+  appleClientSecret = generateAppleClientSecret();
+}
 // Configure NextAuth options
 export const authOptions: AuthOptions = {
   callbacks: {
@@ -123,7 +130,7 @@ export const authOptions: AuthOptions = {
     }),
     AppleProvider({
       clientId: process.env.APPLE_CLIENT_ID!,
-      clientSecret: generateAppleClientSecret(),
+      clientSecret: appleClientSecret!,
       authorization: {
         params: {
           scope: "name email",
