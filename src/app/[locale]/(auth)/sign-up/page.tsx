@@ -20,7 +20,7 @@ const SignUp = ({
   const t = useTranslations("Index");
 
   return (
-    <div className="md:max-w-[952px] w-full min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh]">
+    <div className="md:max-w-[952px] w-full min-h-screen flex flex-col items-center pt-[7dvh] pb-[2dvh] z-10">
       {/* Container for the sign-up tabs */}
       <Tabs
         defaultValue={
