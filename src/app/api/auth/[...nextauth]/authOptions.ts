@@ -1,10 +1,12 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
+import generateAppleClientSecret from "@/lib/appleClientSecret";
 import axiosInstance from "@/lib/axios.config";
 import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -64,21 +66,20 @@ export const authOptions: AuthOptions = {
           } catch (error) {
             console.error("Error verifying Google token:", error);
           }
+        } else if (account.provider === "apple") {
+          const idToken = account.id_token;
+          try {
+            const response = await fetcher<CustomUser>("/login/apple", "en", {
+              method: "POST",
+              body: JSON.stringify({ token: idToken }),
+            });
+            if (response.ok && response.data) {
+              token.user = response.data;
+            }
+          } catch (error) {
+            console.error("Error verifying Apple token:", error);
+          }
         }
-        // else if (account.provider === "apple") {
-        //   const idToken = account.id_token;
-        //   try {
-        //     const response = await fetcher<CustomUser>("/login/apple", "en", {
-        //       method: "POST",
-        //       body: JSON.stringify({ token: idToken }),
-        //     });
-        //     if (response.ok && response.data) {
-        //       token.user = response.data;
-        //     }
-        //   } catch (error) {
-        //     console.error("Error verifying Apple token:", error);
-        //   }
-        // }
       }
 
       return token;
@@ -90,22 +91,47 @@ export const authOptions: AuthOptions = {
     },
   },
 
+  pages: {
+    signIn: "/login",
+  },
+  session: { strategy: "jwt" },
+  cookies: {
+    csrfToken: {
+      name: "next-auth.csrf-token",
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: true,
+      },
+    },
+    pkceCodeVerifier: {
+      name: "next-auth.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
+
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    // AppleProvider({
-    //   clientId: process.env.APPLE_CLIENT_ID!,
-    //   clientSecret: generateAppleClientSecret(),
-    //   authorization: {
-    //     params: {
-    //       scope: "name email",
-    //       response_mode: "form_post",
-    //       response_type: "code",
-    //     },
-    //   },
-    // }),
+    AppleProvider({
+      clientId: process.env.APPLE_CLIENT_ID!,
+      clientSecret: generateAppleClientSecret(),
+      authorization: {
+        params: {
+          scope: "name email",
+          response_mode: "form_post",
+          response_type: "code",
+        },
+      },
+    }),
     CredentialsProvider({
       name: "login",
       credentials: {
