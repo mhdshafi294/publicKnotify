@@ -1,4 +1,3 @@
-// Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { AxiosError } from "axios";
@@ -8,13 +7,13 @@ import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-// Define CustomSession interface extending the default session with custom user data
-export interface CustomSession {
-  user?: CustomUser;
-  expires: ISODateString;
+// Define the type for the LoginResponse
+export interface LoginResponse {
+  success: boolean;
+  message: string;
+  user: CustomUser;
 }
 
-// Define CustomUser interface to include additional user properties
 export interface CustomUser {
   id?: number;
   full_name?: string;
@@ -27,10 +26,9 @@ export interface CustomUser {
   is_notification_enabled?: boolean;
 }
 
-export interface LoginResponse {
-  success: boolean;
-  message: string;
-  user: CustomUser;
+export interface CustomSession {
+  user?: CustomUser;
+  expires: ISODateString;
 }
 
 let appleClientSecret: string | undefined;
@@ -41,175 +39,7 @@ if (typeof window === "undefined") {
   appleClientSecret = generateAppleClientSecret();
 }
 
-// Configure NextAuth options
 export const authOptions: AuthOptions = {
-  callbacks: {
-    // Handle JWT callbacks to include custom user data and handle session updates
-    async jwt({ token, user, trigger, session, account }) {
-      // If there is a user object, attach it to the token
-      if (user) {
-        token.user = user;
-        token.access_token = user.access_token;
-      }
-
-      // Handle session updates
-      if (trigger === "update") {
-        const updatedUser = token.user as CustomUser;
-        updatedUser.full_name = session?.full_name || updatedUser.full_name;
-        updatedUser.email = session?.email || updatedUser.email;
-        updatedUser.phone = session?.phone || updatedUser.phone;
-        updatedUser.image = session?.image || updatedUser.image;
-        updatedUser.iso_code = session?.iso_code || updatedUser.iso_code;
-        updatedUser.is_notification_enabled =
-          session?.is_notification_enabled ||
-          updatedUser.is_notification_enabled;
-      }
-
-      if (account) {
-        if (account.provider === "google") {
-          const googleToken = account.access_token;
-          try {
-            console.log(
-              "Google token received:",
-              googleToken ? "Token present" : "No token"
-            );
-
-            const response = await axiosInstance.post<LoginResponse>(
-              `podcaster/login/google`,
-              {
-                token: googleToken,
-                provider: "google",
-              }
-            );
-
-            console.log(
-              "Full API response:",
-              JSON.stringify(response, null, 2)
-            );
-
-            if (
-              response.status === 200 &&
-              response.data &&
-              response.data.user
-            ) {
-              console.log("Google login successful:", response.data);
-              // Update token with user data
-              token.user = response.data.user;
-              token.access_token = response.data.user.access_token;
-            } else {
-              console.error(
-                "Google auth failed:",
-                response.status,
-                response.data
-              );
-              throw new Error(
-                `Google authentication failed: ${response.status}`
-              );
-            }
-          } catch (error) {
-            console.error("Error in Google authentication:", error);
-            throw error;
-          }
-        } else if (account.provider === "apple") {
-          const appleToken = account.access_token;
-          try {
-            console.log(
-              "Apple token received:",
-              appleToken ? "Token present" : "No token"
-            );
-
-            const response = await axiosInstance.post<LoginResponse>(
-              `podcaster/login/apple`,
-              {
-                token: appleToken,
-                provider: "apple",
-              }
-            );
-
-            console.log(
-              "Full API response:",
-              JSON.stringify(response, null, 2)
-            );
-
-            if (
-              response.status === 200 &&
-              response.data &&
-              response.data.user
-            ) {
-              console.log("Apple login successful:", response.data);
-              // Update token with user data
-              token.user = response.data.user;
-              token.access_token = response.data.user.access_token;
-            } else {
-              console.error(
-                "Apple auth failed:",
-                response.status,
-                response.data
-              );
-              throw new Error(
-                `Apple authentication failed: ${response.status}`
-              );
-            }
-          } catch (error) {
-            console.error("Error in Apple authentication:", error);
-            throw error;
-          }
-        }
-      }
-
-      return token;
-    },
-
-    // Handle session callbacks to include custom user data in the session
-    async session({ session, token }: { session: CustomSession; token: JWT }) {
-      if (token.user) {
-        session.user = token.user as CustomUser;
-      }
-      return session;
-    },
-
-    // Add redirect callback to handle the post-authentication redirect
-    async redirect({ url, baseUrl }) {
-      // If the url starts with the base url, allow it
-      if (url.startsWith(baseUrl)) return url;
-      // If it's an absolute URL with a different domain, redirect to the home page
-      if (url.startsWith("http")) return baseUrl;
-      // Otherwise, prefix with the base URL
-      return new URL(url, baseUrl).toString();
-    },
-  },
-
-  pages: {
-    signIn: "/login",
-    error: "/auth/error",
-  },
-
-  session: {
-    strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-
-  cookies: {
-    csrfToken: {
-      name: "next-auth.csrf-token",
-      options: {
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
-        secure: true,
-      },
-    },
-    pkceCodeVerifier: {
-      name: "next-auth.pkce.code_verifier",
-      options: {
-        httpOnly: true,
-        sameSite: "none",
-        path: "/",
-        secure: true,
-      },
-    },
-  },
-
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -294,5 +124,178 @@ export const authOptions: AuthOptions = {
         }
       },
     }),
+    // ... other providers
   ],
+  callbacks: {
+    // Handle JWT callbacks to include custom user data and handle session updates
+    async jwt({ token, user, trigger, session, account }) {
+      // If there is a user object from initial sign in, attach it to the token
+      if (user) {
+        token.user = user;
+      }
+
+      if (account) {
+        console.log(">>>>>Account:", account);
+        if (account.provider === "google") {
+          const googleToken = account.access_token;
+          // @ts-ignore
+          const userType = "podcaster"; // Default to 'podcaster' if not provided
+          try {
+            console.log(
+              "Google token received:",
+              googleToken ? "Token present" : "No token"
+            );
+            console.log("User type:", userType);
+
+            const response = await axiosInstance.post<LoginResponse>(
+              `${userType}/login/google`,
+              {
+                token: googleToken,
+                provider: "google",
+              }
+            );
+
+            console.log("API response status:", response.status);
+            console.log("API response data:", {
+              success: response.data?.success,
+              message: response.data?.message,
+              user: response.data?.user,
+            });
+
+            if (response.status === 200 && response.data?.user) {
+              console.log("Google login successful, user:", {
+                id: response.data.user.id,
+                email: response.data.user.email,
+                full_name: response.data.user.full_name,
+              });
+
+              // Update token with user data and explicitly set properties
+              token.user = {
+                ...response.data.user,
+                access_token: response.data.user.access_token,
+                type: userType,
+              };
+              token.access_token = response.data.user.access_token;
+              return token;
+            } else {
+              console.error(
+                "Google auth failed:",
+                response.status,
+                response.data
+              );
+              throw new Error(
+                `Google authentication failed: ${response.status}`
+              );
+            }
+          } catch (error) {
+            console.error("Error in Google authentication:", error);
+            throw error;
+          }
+        } else if (account.provider === "apple") {
+          const appleToken = account.access_token;
+          try {
+            console.log(
+              "Apple token received:",
+              appleToken ? "Token present" : "No token"
+            );
+
+            const response = await axiosInstance.post<LoginResponse>(
+              `podcaster/login/apple`,
+              {
+                token: appleToken,
+                provider: "apple",
+              }
+            );
+
+            console.log(
+              "Full API response:",
+              JSON.stringify(response, null, 2)
+            );
+
+            if (
+              response.status === 200 &&
+              response.data &&
+              response.data.user
+            ) {
+              console.log("Apple login successful:", response.data);
+              // Update token with user data
+              token.user = response.data.user;
+              token.access_token = response.data.user.access_token;
+            } else {
+              console.error(
+                "Apple auth failed:",
+                response.status,
+                response.data
+              );
+              throw new Error(
+                `Apple authentication failed: ${response.status}`
+              );
+            }
+          } catch (error) {
+            console.error("Error in Apple authentication:", error);
+            throw error;
+          }
+        }
+      }
+
+      return token;
+    },
+
+    // Handle session callbacks to include custom user data in the session
+    async session({ session, token }: { session: CustomSession; token: JWT }) {
+      if (token.user) {
+        session.user = token.user as CustomUser;
+      }
+      return session;
+    },
+
+    // Add redirect callback to handle the post-authentication redirect
+    async redirect({ url, baseUrl }) {
+      // Handle callback URLs for different user types
+      if (
+        url.includes("/podcaster") ||
+        url.includes("/user") ||
+        url.includes("/company")
+      ) {
+        return url;
+      }
+      // If it's a relative URL, make it absolute
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+      // Default to base URL
+      return baseUrl;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/en/sign-in",
+    error: "/en/auth/error",
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  cookies: {
+    csrfToken: {
+      name: "next-auth.csrf-token",
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: true,
+      },
+    },
+    pkceCodeVerifier: {
+      name: "next-auth.pkce.code_verifier",
+      options: {
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
 };
+
+export default authOptions;

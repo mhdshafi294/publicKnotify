@@ -9,15 +9,20 @@ import { Button } from "./ui/button";
  *
  * @example
  * ```tsx
- * <AppleLogin />
+ * <AppleLogin type="example"/>
  * ```
  */
-export const AppleLogin = () => {
+export const AppleLogin = ({ type }: { type: string }) => {
   const { theme } = useTheme();
   return (
     <Button
       type="button"
-      onClick={() => signIn("apple")}
+      onClick={() =>
+        signIn("apple", {
+          callbackUrl: `/${type}`,
+          redirect: true,
+        })
+      }
       variant="default"
       size={"icon"}
       className="bg-transparent hover:bg-transparent size-7"

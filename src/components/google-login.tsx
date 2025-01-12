@@ -1,6 +1,5 @@
-import React from "react";
-import { Button } from "./ui/button";
 import { signIn } from "next-auth/react";
+import { Button } from "./ui/button";
 
 /**
  * GoogleLogin component that renders a button for signing in with Google.
@@ -9,14 +8,24 @@ import { signIn } from "next-auth/react";
  *
  * @example
  * ```tsx
- * <GoogleLogin />
+ * <GoogleLogin type="example" />
  * ```
  */
-export const GoogleLogin = () => {
+export const GoogleLogin = ({ type }: { type: string }) => {
   return (
     <Button
       type="button"
-      onClick={() => signIn("google")}
+      onClick={
+        () =>
+          signIn(
+            "google",
+            {
+              callbackUrl: `/${type}`,
+              redirect: true,
+            },
+            { userType: type }
+          ) // Pass type as a custom parameter
+      }
       variant="default"
       size={"icon"}
       className="bg-transparent hover:bg-transparent size-7"
