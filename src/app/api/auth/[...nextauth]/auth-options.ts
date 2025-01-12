@@ -1,7 +1,6 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
-import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
 import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -28,7 +27,7 @@ export interface CustomUser {
   is_notification_enabled?: boolean;
 }
 
-export interface CustomResponse {
+export interface LoginResponse {
   success: boolean;
   message: string;
   user: CustomUser;
@@ -70,23 +69,29 @@ export const authOptions: AuthOptions = {
         if (account.provider === "google") {
           const googleToken = account.access_token;
           try {
-            console.log("Google token received:", googleToken ? "Token present" : "No token");
+            console.log(
+              "Google token received:",
+              googleToken ? "Token present" : "No token"
+            );
 
-            const response = await fetcher<CustomResponse>(
-              "/login/google",
-              "en",
+            const response = await axiosInstance.post<LoginResponse>(
+              `podcaster/login/google`,
               {
-                method: "POST",
-                body: JSON.stringify({
-                  token: googleToken,
-                  provider: "google",
-                }),
+                token: googleToken,
+                provider: "google",
               }
             );
 
-            console.log("Full API response:", JSON.stringify(response, null, 2));
+            console.log(
+              "Full API response:",
+              JSON.stringify(response, null, 2)
+            );
 
-            if (response.ok && response.data && response.data.user) {
+            if (
+              response.status === 200 &&
+              response.data &&
+              response.data.user
+            ) {
               console.log("Google login successful:", response.data);
               // Update token with user data
               token.user = response.data.user;
@@ -95,7 +100,7 @@ export const authOptions: AuthOptions = {
               console.error(
                 "Google auth failed:",
                 response.status,
-                response.error
+                response.data
               );
               throw new Error(
                 `Google authentication failed: ${response.status}`
@@ -103,6 +108,50 @@ export const authOptions: AuthOptions = {
             }
           } catch (error) {
             console.error("Error in Google authentication:", error);
+            throw error;
+          }
+        } else if (account.provider === "apple") {
+          const appleToken = account.access_token;
+          try {
+            console.log(
+              "Apple token received:",
+              appleToken ? "Token present" : "No token"
+            );
+
+            const response = await axiosInstance.post<LoginResponse>(
+              `podcaster/login/apple`,
+              {
+                token: appleToken,
+                provider: "apple",
+              }
+            );
+
+            console.log(
+              "Full API response:",
+              JSON.stringify(response, null, 2)
+            );
+
+            if (
+              response.status === 200 &&
+              response.data &&
+              response.data.user
+            ) {
+              console.log("Apple login successful:", response.data);
+              // Update token with user data
+              token.user = response.data.user;
+              token.access_token = response.data.user.access_token;
+            } else {
+              console.error(
+                "Apple auth failed:",
+                response.status,
+                response.data
+              );
+              throw new Error(
+                `Apple authentication failed: ${response.status}`
+              );
+            }
+          } catch (error) {
+            console.error("Error in Apple authentication:", error);
             throw error;
           }
         }
@@ -134,8 +183,8 @@ export const authOptions: AuthOptions = {
     signIn: "/login",
     error: "/auth/error",
   },
-  
-  session: { 
+
+  session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
