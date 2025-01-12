@@ -15,12 +15,11 @@ export const GoogleLogin = ({ type }: { type: string }) => {
   return (
     <Button
       type="button"
-      onClick={
-        () =>
-          signIn("google", {
-            callbackUrl: `/${type}`,
-            redirect: true,
-          }) // Pass type as a custom parameter
+      onClick={() =>
+        signIn("google", {
+          callbackUrl: `/${type}`,
+          redirect: true,
+        })
       }
       variant="default"
       size={"icon"}

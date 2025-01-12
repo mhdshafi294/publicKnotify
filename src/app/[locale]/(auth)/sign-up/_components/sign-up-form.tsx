@@ -217,8 +217,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
             <div className="w-full max-w-[146px] h-[1px] bg-white" />
           </div>
           <div className="flex justify-between w-full max-w-[70px] mb-5">
-            <AppleLogin />
-            <GoogleLogin />
+            <AppleLogin type={type} />
+            <GoogleLogin type={type} />
           </div>
         </div>
       </form>
