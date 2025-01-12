@@ -67,11 +67,18 @@ export const authOptions: AuthOptions = {
               body: JSON.stringify({ token: googleToken }),
             });
             if (response.ok && response.data) {
+              console.log("Google login response:", response.data); // Debug log
               token.user = response.data;
-              // token.access_token = response.data.access_token;
+              token.access_token = response.data.access_token;
+            } else {
+              console.error(
+                "Failed to verify Google token - no data in response"
+              );
+              throw new Error("Failed to verify Google token");
             }
           } catch (error) {
             console.error("Error verifying Google token:", error);
+            throw error; // Re-throw to prevent silent failures
           }
         } else if (account.provider === "apple") {
           const idToken = account.id_token;
@@ -82,7 +89,7 @@ export const authOptions: AuthOptions = {
             });
             if (response.ok && response.data) {
               token.user = response.data;
-              // token.access_token = response.data.access_token;
+              token.access_token = response.data.access_token;
             }
           } catch (error) {
             console.error("Error verifying Apple token:", error);
@@ -99,10 +106,13 @@ export const authOptions: AuthOptions = {
     },
   },
 
-  // pages: {
-  //   signIn: "/login",
-  // },
-  // session: { strategy: "jwt" },
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   cookies: {
     csrfToken: {
       name: "next-auth.csrf-token",
