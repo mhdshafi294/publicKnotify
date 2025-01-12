@@ -1,6 +1,5 @@
 // Import necessary modules and types
 import { LOGIN_URL } from "@/lib/apiEndPoints";
-// import generateAppleClientSecret from "@/lib/appleClientSecret";
 import axiosInstance from "@/lib/axios.config";
 import { fetcher } from "@/lib/fetcher";
 import { AxiosError } from "axios";
