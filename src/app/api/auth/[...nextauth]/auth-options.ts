@@ -138,13 +138,17 @@ export const authOptions: AuthOptions = {
         console.log(">>>>>Account:", account);
         if (account.provider === "google") {
           const googleToken = account.access_token;
-          // @ts-ignore
-          const userType = "podcaster"; // Default to 'podcaster' if not provided
+
           try {
             console.log(
               "Google token received:",
               googleToken ? "Token present" : "No token"
             );
+
+            // Extract userType from the custom parameters or use a default
+            // @ts-ignore
+            const userType = session?.userType || "podcaster";
+
             console.log("User type:", userType);
 
             const response = await axiosInstance.post<LoginResponse>(

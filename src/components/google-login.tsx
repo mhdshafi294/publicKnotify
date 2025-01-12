@@ -16,10 +16,14 @@ export const GoogleLogin = ({ type }: { type: string }) => {
     <Button
       type="button"
       onClick={() =>
-        signIn("google", {
-          callbackUrl: `/${type}`,
-          redirect: true,
-        })
+        signIn(
+          "google",
+          {
+            callbackUrl: `/${type}`,
+            redirect: true,
+          },
+          { userType: type }
+        )
       }
       variant="default"
       size={"icon"}
