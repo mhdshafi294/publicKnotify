@@ -68,6 +68,7 @@ export const authOptions: AuthOptions = {
             });
             if (response.ok && response.data) {
               token.user = response.data;
+              token.access_token = response.data.access_token;
             }
           } catch (error) {
             console.error("Error verifying Google token:", error);
@@ -81,6 +82,7 @@ export const authOptions: AuthOptions = {
             });
             if (response.ok && response.data) {
               token.user = response.data;
+              token.access_token = response.data.access_token;
             }
           } catch (error) {
             console.error("Error verifying Apple token:", error);
