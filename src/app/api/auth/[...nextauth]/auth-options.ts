@@ -28,6 +28,12 @@ export interface CustomUser {
   is_notification_enabled?: boolean;
 }
 
+export interface CustomResponse {
+  success: boolean;
+  message: string;
+  user: CustomUser;
+}
+
 let appleClientSecret: string | undefined;
 
 if (typeof window === "undefined") {
@@ -35,6 +41,7 @@ if (typeof window === "undefined") {
   const generateAppleClientSecret = require("@/lib/appleClientSecret").default;
   appleClientSecret = generateAppleClientSecret();
 }
+
 // Configure NextAuth options
 export const authOptions: AuthOptions = {
   callbacks: {
@@ -43,7 +50,7 @@ export const authOptions: AuthOptions = {
       // If there is a user object, attach it to the token
       if (user) {
         token.user = user;
-        token.access_token = user.access_token; // Ensure access_token is in the token
+        token.access_token = user.access_token;
       }
 
       // Handle session updates
@@ -58,61 +65,81 @@ export const authOptions: AuthOptions = {
           session?.is_notification_enabled ||
           updatedUser.is_notification_enabled;
       }
+
       if (account) {
         if (account.provider === "google") {
           const googleToken = account.access_token;
           try {
-            const response = await fetcher<CustomUser>("/login/google", "en", {
-              method: "POST",
-              body: JSON.stringify({ token: googleToken }),
-            });
-            if (response.ok && response.data) {
-              console.log("Google login response:", response.data); // Debug log
-              token.user = response.data;
-              token.access_token = response.data.access_token;
+            console.log("Google token received:", googleToken ? "Token present" : "No token");
+
+            const response = await fetcher<CustomResponse>(
+              "/login/google",
+              "en",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                  token: googleToken,
+                  provider: "google",
+                }),
+              }
+            );
+
+            console.log("Full API response:", JSON.stringify(response, null, 2));
+
+            if (response.ok && response.data && response.data.user) {
+              console.log("Google login successful:", response.data);
+              // Update token with user data
+              token.user = response.data.user;
+              token.access_token = response.data.user.access_token;
             } else {
               console.error(
-                "Failed to verify Google token - no data in response"
+                "Google auth failed:",
+                response.status,
+                response.error
               );
-              throw new Error("Failed to verify Google token");
+              throw new Error(
+                `Google authentication failed: ${response.status}`
+              );
             }
           } catch (error) {
-            console.error("Error verifying Google token:", error);
-            throw error; // Re-throw to prevent silent failures
-          }
-        } else if (account.provider === "apple") {
-          const idToken = account.id_token;
-          try {
-            const response = await fetcher<CustomUser>("/login/apple", "en", {
-              method: "POST",
-              body: JSON.stringify({ token: idToken }),
-            });
-            if (response.ok && response.data) {
-              token.user = response.data;
-              token.access_token = response.data.access_token;
-            }
-          } catch (error) {
-            console.error("Error verifying Apple token:", error);
+            console.error("Error in Google authentication:", error);
+            throw error;
           }
         }
       }
 
       return token;
     },
+
     // Handle session callbacks to include custom user data in the session
     async session({ session, token }: { session: CustomSession; token: JWT }) {
-      session.user = token.user as CustomUser;
+      if (token.user) {
+        session.user = token.user as CustomUser;
+      }
       return session;
+    },
+
+    // Add redirect callback to handle the post-authentication redirect
+    async redirect({ url, baseUrl }) {
+      // If the url starts with the base url, allow it
+      if (url.startsWith(baseUrl)) return url;
+      // If it's an absolute URL with a different domain, redirect to the home page
+      if (url.startsWith("http")) return baseUrl;
+      // Otherwise, prefix with the base URL
+      return new URL(url, baseUrl).toString();
     },
   },
 
   pages: {
     signIn: "/login",
+    error: "/auth/error",
   },
-  session: {
+  
+  session: { 
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+
   cookies: {
     csrfToken: {
       name: "next-auth.csrf-token",
