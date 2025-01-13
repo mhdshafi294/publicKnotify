@@ -85,7 +85,7 @@ const DesktopNavbar = ({
                         ? "default"
                         : "outline",
                   }),
-                  " text-secondary-foreground hover:text-secondary-foreground  border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
+                  " text-secondary-foreground hover:text-secondary-foreground border-white/50 hover:bg-white/10 h-9 px-5 rounded-xl",
                   { hidden: session?.user?.type !== "podcaster" }
                 )}
               >

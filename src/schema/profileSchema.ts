@@ -20,27 +20,27 @@ export const UserProfileSchema = z.object({
       }
     )
     .refine((data) => !data?.name || data.size < 4 * 1024 * 1024, {
-      message: "Image size should be less than 4MB.",
+      message: "createMetadataSchema.errorMessage.imageSize",
     }),
   // Full name validation
-  full_name: z.string().min(1, "Full name is required."),
+  full_name: z.string().min(1, "createMetadataSchema.errorMessage.name"),
   // Phone number validation
   phone: z
     .object({
       code: z.string(),
       phone: z.string(),
     })
-    .refine((data) => data.phone.length !== 0, "Phone number is required.")
+    // .refine((data) => data.phone.length !== 0, "Phone number is required.")
     .refine(
       (data) => phoneRegex.test(`${data.code}${data.phone}`),
-      "Invalid phone number format."
+      "invalidPhone"
     ),
   // ISO code validation
   iso_code: z.string(),
   // Email validation
   email: z
     .string()
-    .min(1, "Email is required.")
+    .min(1, "createMetadataSchema.errorMessage.email")
     .email("Invalid email address."),
 });
 
@@ -59,20 +59,20 @@ export const CompanyProfileSchema = z.object({
       }
     )
     .refine((data) => !data?.name || data.size < 4 * 1024 * 1024, {
-      message: "Image size should be less than 4MB.",
+      message: "createMetadataSchema.errorMessage.imageSize",
     }),
   // Full name validation
-  full_name: z.string().min(1, "Full name is required."),
+  full_name: z.string().min(1, "createMetadataSchema.errorMessage.name"),
   // Phone number validation
   phone: z
     .object({
       code: z.string(),
       phone: z.string(),
     })
-    .refine((data) => data.phone.length !== 0, "Phone number is required.")
+    // .refine((data) => data.phone.length !== 0, "Phone number is required.")
     .refine(
       (data) => phoneRegex.test(`${data.code}${data.phone}`),
-      "Invalid phone number format."
+      "invalidPhone"
     ),
   // ISO code validation
   iso_code: z.string(),
@@ -100,7 +100,7 @@ export const CompanyProfileSchema = z.object({
   // Email validation
   email: z
     .string()
-    .min(1, "Email is required.")
+    .min(1, "createMetadataSchema.errorMessage.email")
     .email("Invalid email address."),
 });
 
@@ -120,27 +120,28 @@ export const PodcasterProfileSchema = z
         }
       )
       .refine((data) => !data?.name || data.size < 4 * 1024 * 1024, {
-        message: "Image size should be less than 4MB.",
+        message: "createMetadataSchema.errorMessage.imageSize",
       }),
     // Full name validation
-    full_name: z.string().min(1, "Full name is required."),
+    full_name: z.string().min(1, "createMetadataSchema.errorMessage.name"),
     // Phone number validation
     phone: z
       .object({
         code: z.string(),
         phone: z.string(),
       })
-      .refine((data) => data.phone.length !== 0, "Phone number is required.")
+      // .refine((data) => data.phone.length !== 0, "Phone number is required.")
       .refine(
         (data) => phoneRegex.test(`${data.code}${data.phone}`),
-        "Invalid phone number format."
-      ),
+        "invalidPhone"
+      )
+      .optional(),
     // ISO code validation
     iso_code: z.string(),
     // Email validation
     email: z
       .string()
-      .min(1, "Email is required.")
+      .min(1, "createMetadataSchema.errorMessage.email")
       .email("Invalid email address."),
     // YouTube URL validation
     youtube: z
@@ -150,7 +151,7 @@ export const PodcasterProfileSchema = z
         (url) =>
           !url ||
           /^https:\/\/(www\.)?youtube\.com\/channel\/[A-Za-z0-9_-]+$/.test(url),
-        "Invalid YouTube URL."
+        "createMetadataSchema.errorMessage.youtubeURL"
       ),
     // Spotify URL validation
     spotify: z
@@ -160,7 +161,7 @@ export const PodcasterProfileSchema = z
         (url) =>
           !url ||
           /^https:\/\/open\.spotify\.com\/artist\/[A-Za-z0-9]+$/.test(url),
-        "Invalid Spotify URL."
+        "createMetadataSchema.errorMessage.spotifyURL"
       ),
     // Categories validation
     categories: z.array(z.string()),

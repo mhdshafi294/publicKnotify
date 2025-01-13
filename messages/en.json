@@ -231,6 +231,7 @@
         "thumbnailSize": "Thumbnail size must be less than 4MB.",
         "invalidBackground": "Invalid background image.",
         "backgroundSize": "Background size must be less than 4MB.",
+        "imageSize": "Image size must be less than 4MB.",
         "categoriesEmpty": "Categories can't be empty!",
         "hashtagsEmpty": "Hashtags can't be empty!",
         "contributorsEmpty": "Contributors can't be empty!",
@@ -249,7 +250,9 @@
         "thumbnail-type": "file type must be image",
         "background-size": "Background size must be less than 4MB",
         "explicit_language": "Explicit language is required",
-        "notes": "Notes is required"
+        "notes": "Notes is required",
+        "youtubeURL": "Invalid YouTube URL",
+        "spotifyURL": "Invalid Spotify URL"
       }
     },
     "selectPlaylist": "Select playlist",

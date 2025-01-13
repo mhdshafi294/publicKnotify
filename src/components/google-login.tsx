@@ -19,12 +19,9 @@ export const GoogleLogin = ({ type }: { type: string }) => {
         signIn(
           "google",
           {
-            callbackUrl: `/${type}?userType=podcaster`,
+            callbackUrl: `/${type}`,
             redirect: true,
-            userType: type,
-          },
-          {
-            userType: type,
+            userType: type // This will be available in the profile object
           }
         )
       }

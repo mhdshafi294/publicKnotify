@@ -62,7 +62,7 @@ const EditPodcasterProfile = ({
 
   const dialingCode =
     countriesCode.find((country) => country.iso2 === user?.iso_code)
-      ?.dialing_code || "";
+      ?.dialing_code || "971";
 
   const form = useForm<PodcasterProfileSchema>({
     resolver: zodResolver(PodcasterProfileSchema),
@@ -75,7 +75,7 @@ const EditPodcasterProfile = ({
       spotify: profile.user.spotify_account || "",
       youtube: profile.user.youtube_account || "",
       phone: {
-        code: dialingCode,
+        code: dialingCode || "971",
         phone: user?.phone?.slice(dialingCode.length) || "",
       },
     },
@@ -89,7 +89,7 @@ const EditPodcasterProfile = ({
         full_name: data.full_name,
         email: data.email,
         iso_code: data.iso_code,
-        phone: data.phone,
+        phone: data.phone ? data?.phone : user?.phone,
         image: data.image,
       });
     },
@@ -108,7 +108,7 @@ const EditPodcasterProfile = ({
     const formData = new FormData();
 
     const countryCode = countriesCode.find(
-      (country) => country.dialing_code === data.phone.code
+      (country) => country.dialing_code === data?.phone?.code
     )?.iso2;
 
     formData.append("full_name", data.full_name);
@@ -116,7 +116,7 @@ const EditPodcasterProfile = ({
     if (data.spotify) formData.append("spotify_account", data.spotify);
     if (data.youtube) formData.append("youtube_account", data.youtube);
     formData.append("iso_code", countryCode!);
-    formData.append("phone", `${data.phone.code}${data.phone.phone}`);
+    formData.append("phone", `${data?.phone?.code}${data?.phone?.phone}`);
     if (data.image && data.image.name) formData.append("image", data.image);
     formData.append("email", data.email);
 
@@ -198,7 +198,7 @@ const EditPodcasterProfile = ({
                     </FormLabel>
                     <FormControl>
                       <PhoneNumberInput
-                        phone={field.value}
+                        phone={field?.value!}
                         setPhone={field.onChange}
                       />
                     </FormControl>

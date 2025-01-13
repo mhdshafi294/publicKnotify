@@ -128,32 +128,17 @@ export const authOptions: AuthOptions = {
     // ... other providers
   ],
   callbacks: {
-    // Add redirect callback to handle the post-authentication redirect
-    async redirect({ url, baseUrl }) {
-      // Handle callback URLs for different user types
-      console.log(url, "<<<<<<<url");
-      console.log(baseUrl, "<<<<<<<baseUrl");
-      if (
-        url.includes("/podcaster") ||
-        url.includes("/user") ||
-        url.includes("/company")
-      ) {
-        return url;
-      }
-      // If it's a relative URL, make it absolute
-      if (url.startsWith("/")) {
-        return `${baseUrl}${url}`;
-      }
-      // Default to base URL
-      return baseUrl;
-    },
     // Handle JWT callbacks to include custom user data and handle session updates
-    async jwt({ token, user, trigger, session, account, profile, isNewUser }) {
+    async jwt({ token, user, account }) {
       // If there is a user object from initial sign in, attach it to the token
       if (user) {
         token.user = user;
       }
-      console.log(token, "<<<<<<<token");
+
+      // Store userType in token during sign in
+      if (account?.provider === "google" && !token.userType) {
+        token.userType = (account as any).userType || "podcaster";
+      }
 
       if (account) {
         console.log(">>>>>Account:", account);
@@ -166,11 +151,11 @@ export const authOptions: AuthOptions = {
               googleToken ? "Token present" : "No token"
             );
 
-            // Extract userType from the custom parameters or use a default
-            // @ts-ignore
-            const userType = session?.userType || "podcaster";
+            // Get userType from the token if it exists, otherwise use default
+            const userType = token.userType || "podcaster";
 
             console.log("User type:", userType);
+            console.log("Token:", token);
 
             const response = await axiosInstance.post<LoginResponse>(
               `${userType}/login/google`,
@@ -180,12 +165,12 @@ export const authOptions: AuthOptions = {
               }
             );
 
-            console.log("API response status:", response.status);
-            console.log("API response data:", {
-              success: response.data?.success,
-              message: response.data?.message,
-              user: response.data?.user,
-            });
+            // console.log("API response status:", response.status);
+            // console.log("API response data:", {
+            //   success: response.data?.success,
+            //   message: response.data?.message,
+            //   user: response.data?.user,
+            // });
 
             if (response.status === 200 && response.data?.user) {
               console.log("Google login successful, user:", {
@@ -268,12 +253,36 @@ export const authOptions: AuthOptions = {
 
     // Handle session callbacks to include custom user data in the session
     async session({ session, token }: { session: CustomSession; token: JWT }) {
-      console.log(session, "<<<<<<<sessionInSession");
-      console.log(token, "<<<<<<<tokenInSession");
       if (token.user) {
         session.user = token.user as CustomUser;
       }
       return session;
+    },
+
+    // Add redirect callback to handle the post-authentication redirect
+    async redirect({ url, baseUrl }) {
+      // Handle callback URLs for different user types
+
+      // console.log(url, "<<<< url");
+
+      // const parsedUrl = new URL(url, baseUrl); // Parse the URL
+      // const userType = parsedUrl.searchParams.get("userType");
+
+      // console.log(userType, "<<<< userType from redirect");
+
+      if (
+        url.includes("/podcaster") ||
+        url.includes("/user") ||
+        url.includes("/company")
+      ) {
+        return url;
+      }
+      // If it's a relative URL, make it absolute
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+      // Default to base URL
+      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
