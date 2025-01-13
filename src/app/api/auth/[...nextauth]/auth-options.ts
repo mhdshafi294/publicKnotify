@@ -1,6 +1,7 @@
 import { LOGIN_URL } from "@/lib/apiEndPoints";
 import axiosInstance from "@/lib/axios.config";
 import { AxiosError } from "axios";
+
 import { AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import AppleProvider from "next-auth/providers/apple";
@@ -127,12 +128,32 @@ export const authOptions: AuthOptions = {
     // ... other providers
   ],
   callbacks: {
+    // Add redirect callback to handle the post-authentication redirect
+    async redirect({ url, baseUrl }) {
+      // Handle callback URLs for different user types
+      console.log(url, "<<<<<<<url");
+      console.log(baseUrl, "<<<<<<<baseUrl");
+      if (
+        url.includes("/podcaster") ||
+        url.includes("/user") ||
+        url.includes("/company")
+      ) {
+        return url;
+      }
+      // If it's a relative URL, make it absolute
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+      // Default to base URL
+      return baseUrl;
+    },
     // Handle JWT callbacks to include custom user data and handle session updates
-    async jwt({ token, user, trigger, session, account }) {
+    async jwt({ token, user, trigger, session, account, profile, isNewUser }) {
       // If there is a user object from initial sign in, attach it to the token
       if (user) {
         token.user = user;
       }
+      console.log(token, "<<<<<<<token");
 
       if (account) {
         console.log(">>>>>Account:", account);
@@ -247,28 +268,12 @@ export const authOptions: AuthOptions = {
 
     // Handle session callbacks to include custom user data in the session
     async session({ session, token }: { session: CustomSession; token: JWT }) {
+      console.log(session, "<<<<<<<sessionInSession");
+      console.log(token, "<<<<<<<tokenInSession");
       if (token.user) {
         session.user = token.user as CustomUser;
       }
       return session;
-    },
-
-    // Add redirect callback to handle the post-authentication redirect
-    async redirect({ url, baseUrl }) {
-      // Handle callback URLs for different user types
-      if (
-        url.includes("/podcaster") ||
-        url.includes("/user") ||
-        url.includes("/company")
-      ) {
-        return url;
-      }
-      // If it's a relative URL, make it absolute
-      if (url.startsWith("/")) {
-        return `${baseUrl}${url}`;
-      }
-      // Default to base URL
-      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

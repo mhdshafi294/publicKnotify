@@ -19,10 +19,13 @@ export const GoogleLogin = ({ type }: { type: string }) => {
         signIn(
           "google",
           {
-            callbackUrl: `/${type}`,
+            callbackUrl: `/${type}?userType=podcaster`,
             redirect: true,
+            userType: type,
           },
-          { userType: type }
+          {
+            userType: type,
+          }
         )
       }
       variant="default"
