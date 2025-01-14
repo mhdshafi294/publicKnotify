@@ -21,6 +21,7 @@ export const AppleLogin = ({ type }: { type: string }) => {
         signIn("apple", {
           callbackUrl: `/${type}`,
           redirect: true,
+          userType: type,
         })
       }
       variant="default"

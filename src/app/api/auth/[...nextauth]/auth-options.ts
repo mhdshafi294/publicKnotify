@@ -140,6 +140,7 @@ export const authOptions: AuthOptions = {
 
       if (account) {
         console.log(">>>>>Account:", account);
+
         if (account.provider === "google") {
           const googleToken = account.access_token;
 
@@ -201,11 +202,14 @@ export const authOptions: AuthOptions = {
           }
         } else if (account.provider === "apple") {
           const idToken = account.id_token;
+
           try {
             console.log(
               "Apple token received:",
               idToken ? "Token present" : "No token"
             );
+
+            const userType = token.userType || "podcaster";
 
             const response = await axiosInstance.post<LoginResponse>(
               `podcaster/login/apple`,
@@ -215,12 +219,7 @@ export const authOptions: AuthOptions = {
               }
             );
 
-            console.log(
-              "Full API response:",
-              JSON.stringify(response, null, 2)
-            );
-
-            if (response.status === 200 && response.data.user) {
+            if (response.status === 200 && response.data?.user) {
               console.log("Apple login successful:", response.data);
               // Update token with user data
 
