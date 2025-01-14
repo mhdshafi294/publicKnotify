@@ -1,6 +1,5 @@
 "use client";
 
-import { Control, FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormDescription,
@@ -10,8 +9,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ComponentPropsWithoutRef } from "react";
 import { useLocale } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
 import { cn, getDirection } from "@/lib/utils";
 
@@ -60,6 +65,18 @@ function TimePicker<T extends FieldValues>({
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
@@ -68,6 +85,7 @@ function TimePicker<T extends FieldValues>({
         <FormItem
           className={cn("flex flex-col space-y-2 min-w-32", className)}
           dir={dir}
+          ref={fieldRef}
         >
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}

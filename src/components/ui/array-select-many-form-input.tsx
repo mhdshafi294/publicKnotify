@@ -14,8 +14,13 @@ import { CategoryDetails } from "@/types/podcast";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { Control, FieldValues, useFormContext } from "react-hook-form";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 import Loader from "./loader";
 
 interface PropsType<T extends FieldValues>
@@ -39,12 +44,15 @@ function ArraySelectManyFormInput<T extends FieldValues>({
   defaultValues,
   ...props
 }: PropsType<T>) {
-  const { setValue, getValues } = useFormContext();
+  const { setValue, setFocus } = useFormContext();
   const [selectedItems, setSelectedItems] = useState<string[]>(
     (defaultValues[name] as string[]) || []
   );
   const searchParams = useSearchParams();
   const podcast_id = searchParams.get("podcast_id");
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
 
   useEffect(() => {
     setSelectedItems((defaultValues[name] as string[]) || []);
@@ -53,6 +61,13 @@ function ArraySelectManyFormInput<T extends FieldValues>({
   useEffect(() => {
     setValue(name.toString(), selectedItems);
   }, [selectedItems, name, setValue]);
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
 
   const {
     data: categories,
@@ -80,7 +95,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full" dir={dir}>
+        <FormItem className="w-full" dir={dir} ref={fieldRef}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

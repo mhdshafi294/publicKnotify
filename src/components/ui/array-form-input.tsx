@@ -1,6 +1,16 @@
 "use client";
 
-import { Control, FieldValues, useFormContext } from "react-hook-form";
+import { cn, getDirection } from "@/lib/utils";
+import { X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
+import { Button } from "./button";
 import {
   FormControl,
   FormDescription,
@@ -10,20 +20,7 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  LegacyRef,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { cn, getDirection } from "@/lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
-import { Plus, Trash, X } from "lucide-react";
-import { useLocale, useTranslations } from "next-intl";
-import { Button } from "./button";
-import { undefined } from "zod";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -46,13 +43,13 @@ function ArrayFormInput<T extends FieldValues>({
   description = "",
   ...props
 }: PropsType<T>) {
-  const { setValue, getValues } = useFormContext();
+  const { setValue, setFocus } = useFormContext();
   const [items, setItems] = useState<string[]>(
     (defaultValues[name] as string[]) || []
   );
-  // const [inputCurrentValue, setInputCurrentValue] = useState("");
-
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
 
   const t = useTranslations("Index");
 
@@ -64,6 +61,13 @@ function ArrayFormInput<T extends FieldValues>({
     setValue(name.toString(), items);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
 
   const createNewCategory = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === " " && event.currentTarget.value.trim() !== "") {
@@ -87,7 +91,7 @@ function ArrayFormInput<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full" dir={dir}>
+        <FormItem className="w-full" dir={dir} ref={fieldRef}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

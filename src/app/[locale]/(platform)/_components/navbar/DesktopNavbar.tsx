@@ -123,7 +123,9 @@ const DesktopNavbar = ({
                         link.href !== "/shows") ||
                       (link.href === "/" && pathname.lastIndexOf("/") === 0) ||
                       (link.href === "/shows" &&
-                        pathname.lastIndexOf("/") === 16),
+                        pathname.split("/").length <= 5) ||
+                      (pathname.split("/")[5] === "analytics" &&
+                        link.href === "/statistics"),
                   },
                   {
                     hidden:

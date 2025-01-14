@@ -1,11 +1,14 @@
 "use client";
 
-import { Control, FieldValues } from "react-hook-form";
-import { ComponentPropsWithoutRef, useState } from "react";
 import { useLocale } from "next-intl";
-import { PipetteIcon } from "lucide-react";
+import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
-import { cn, getDirection } from "@/lib/utils";
 import {
   FormControl,
   FormDescription,
@@ -14,13 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn, getDirection } from "@/lib/utils";
 
 /**
  * PropsType interface for the ColorPicker component.
@@ -67,12 +65,28 @@ function ColorPicker<T extends FieldValues>({
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className={cn("flex flex-col", className)} dir={dir}>
+        <FormItem
+          className={cn("flex flex-col", className)}
+          dir={dir}
+          ref={fieldRef}
+        >
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

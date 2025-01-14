@@ -1,7 +1,13 @@
-import React, { ComponentPropsWithoutRef } from "react";
-import { Control, FieldValues } from "react-hook-form";
 import { useLocale } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
+import { cn, getDirection } from "@/lib/utils";
 import {
   FormControl,
   FormField,
@@ -10,7 +16,6 @@ import {
   FormMessage,
 } from "./form";
 import { Textarea } from "./textarea";
-import { cn, getDirection } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -50,12 +55,24 @@ function FormInputTextarea<T extends FieldValues>({
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem dir={dir}>
+        <FormItem dir={dir} ref={fieldRef}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

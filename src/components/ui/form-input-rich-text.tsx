@@ -1,11 +1,17 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import { Control, FieldValues, Path } from "react-hook-form";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { useLocale } from "next-intl";
+import { useEffect, useRef } from "react";
+import {
+  Control,
+  FieldValues,
+  Path,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
 import {
   FormControl,
@@ -194,6 +200,18 @@ function FormInputRichText<T extends FieldValues>({
   const locale = useLocale();
   const dir = getDirection(locale);
 
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
+
   const editor = useEditor({
     extensions: [StarterKit, Underline],
     immediatelyRender: false,
@@ -226,7 +244,7 @@ function FormInputRichText<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name}
       render={({ field }) => (
-        <FormItem dir={dir}>
+        <FormItem dir={dir} ref={fieldRef}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

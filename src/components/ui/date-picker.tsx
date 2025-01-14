@@ -1,10 +1,17 @@
-import { Control, FieldValues } from "react-hook-form";
-import { ComponentPropsWithoutRef } from "react";
 import { format } from "date-fns";
-import { useLocale, useTranslations } from "next-intl";
 import { CalendarIcon } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 
 import { cn, getDirection } from "@/lib/utils";
+import { Button } from "./button";
+import { Calendar } from "./calendar";
 import {
   FormControl,
   FormDescription,
@@ -14,8 +21,6 @@ import {
   FormMessage,
 } from "./form";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { Button } from "./button";
-import { Calendar } from "./calendar";
 
 /**
  * PropsType interface for the DatePicker component.
@@ -63,12 +68,28 @@ function DatePicker<T extends FieldValues>({
   const dir = getDirection(locale);
   const t = useTranslations("Index");
 
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
+
   return (
     <FormField
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className={cn("flex flex-col", className)} dir={dir}>
+        <FormItem
+          className={cn("flex flex-col", className)}
+          dir={dir}
+          ref={fieldRef}
+        >
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>

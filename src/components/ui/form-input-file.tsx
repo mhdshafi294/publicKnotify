@@ -1,8 +1,15 @@
 "use client";
 
-import { Control, FieldValues } from "react-hook-form";
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
+import { ImageIcon, ReplaceIcon, Upload, X } from "lucide-react";
+import { Button } from "./button";
 import {
   FormControl,
   FormField,
@@ -11,12 +18,10 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { Button } from "./button";
-import { ImageIcon, ReplaceIcon, Upload, X } from "lucide-react";
 
-import { ComponentPropsWithoutRef, useState } from "react";
 import { cn, convertFileToURL, getDirection } from "@/lib/utils";
 import { useLocale } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 
 /**
  * PropsType interface for the FormFileInput component.
@@ -63,6 +68,17 @@ function FormFileInput<T extends FieldValues>({
     field.onChange(null);
     setFileUrl(null);
   };
+  const { setFocus } = useFormContext();
+
+  const fieldRef = useRef<HTMLDivElement | null>(null); // Ref for the field
+  const { errors } = useFormState(); // Get the validation errors
+
+  useEffect(() => {
+    if (errors[name as keyof FieldValues]) {
+      fieldRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setFocus(name.toString());
+    }
+  }, [errors, name, setFocus]);
 
   const locale = useLocale();
   const dir = getDirection(locale);
@@ -72,7 +88,7 @@ function FormFileInput<T extends FieldValues>({
       control={control as Control<FieldValues>}
       name={name.toString()}
       render={({ field }) => (
-        <FormItem className="w-full" dir={dir}>
+        <FormItem className="w-full" dir={dir} ref={fieldRef}>
           <FormLabel className={cn("capitalize text-lg", labelClassName)}>
             {label}
           </FormLabel>
