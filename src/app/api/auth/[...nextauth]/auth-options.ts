@@ -131,9 +131,7 @@ export const authOptions: AuthOptions = {
     // Handle JWT callbacks to include custom user data and handle session updates
     async jwt({ token, user, account }) {
       // If there is a user object from initial sign in, attach it to the token
-      if (user) {
-        token.user = user;
-      }
+      if (user) token.user = user;
 
       // Store userType in token during sign in
       if (account?.provider === "google" && !token.userType) {
@@ -222,15 +220,16 @@ export const authOptions: AuthOptions = {
               JSON.stringify(response, null, 2)
             );
 
-            if (
-              response.status === 200 &&
-              response.data &&
-              response.data.user
-            ) {
+            if (response.status === 200 && response.data.user) {
               console.log("Apple login successful:", response.data);
               // Update token with user data
-              token.user = response.data.user;
+
+              token.user = {
+                ...response.data.user,
+                access_token: response.data.user.access_token,
+              };
               token.access_token = response.data.user.access_token;
+              return token;
             } else {
               console.error(
                 "Apple auth failed:",
