@@ -202,17 +202,17 @@ export const authOptions: AuthOptions = {
             throw error;
           }
         } else if (account.provider === "apple") {
-          const appleToken = account.access_token;
+          const idToken = account.id_token;
           try {
             console.log(
               "Apple token received:",
-              appleToken ? "Token present" : "No token"
+              idToken ? "Token present" : "No token"
             );
 
             const response = await axiosInstance.post<LoginResponse>(
               `podcaster/login/apple`,
               {
-                token: appleToken,
+                token: idToken,
                 provider: "apple",
               }
             );
