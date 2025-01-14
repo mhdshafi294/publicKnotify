@@ -220,7 +220,11 @@ export const authOptions: AuthOptions = {
             );
 
             if (response.status === 200 && response.data?.user) {
-              console.log("Apple login successful:", response.data);
+              console.log("Apple login successful user:", {
+                id: response.data.user.id,
+                email: response.data.user.email,
+                full_name: response.data.user.full_name,
+              });
               // Update token with user data
 
               token.user = {
