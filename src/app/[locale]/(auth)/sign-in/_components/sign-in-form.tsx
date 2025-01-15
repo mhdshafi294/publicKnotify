@@ -207,7 +207,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ type }) => {
           <Link
             locale="en"
             href={`/sign-up/?userType=${type}`}
-            className="font-bold text-sm text-greeny"
+            className="font-bold text-sm text-greeny_lighter dark:text-greeny"
           >
             {t("signUp")}
           </Link>

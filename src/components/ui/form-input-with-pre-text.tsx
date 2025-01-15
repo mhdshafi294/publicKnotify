@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 
 import { cn, getDirection } from "@/lib/utils";
+import { BadgeInfoIcon } from "lucide-react";
 import {
   FormControl,
   FormField,
@@ -15,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { Input } from "./input";
 
 interface PropsType<T extends FieldValues>
@@ -25,6 +27,7 @@ interface PropsType<T extends FieldValues>
   preText?: string;
   labelClassName?: string | undefined;
   control: Control<T>;
+  info?: string;
 }
 
 /**
@@ -50,6 +53,7 @@ function FormInputWithPreText<T extends FieldValues>({
   label,
   preText,
   labelClassName,
+  info,
   ...props
 }: PropsType<T>) {
   const locale = useLocale();
@@ -73,9 +77,21 @@ function FormInputWithPreText<T extends FieldValues>({
       name={name.toString()}
       render={({ field }) => (
         <FormItem className="w-full" dir={dir} ref={fieldRef}>
-          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
-            {label}
-          </FormLabel>
+          <div className="flex items-baseline gap-2">
+            <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+              {label}
+            </FormLabel>
+            {info ? (
+              <HoverCard>
+                <HoverCardTrigger>
+                  <BadgeInfoIcon className="size-4 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent className="border border-border-secondary/20 bg-card/80 text-sm">
+                  {info}
+                </HoverCardContent>
+              </HoverCard>
+            ) : null}
+          </div>
           <FormControl>
             <div className="w-full flex" dir="ltr">
               <div className="px-4 bg-input  rounded-s-sm flex justify-center items-center text-foreground/70">
@@ -88,7 +104,7 @@ function FormInputWithPreText<T extends FieldValues>({
               />
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

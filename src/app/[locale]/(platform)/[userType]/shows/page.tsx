@@ -93,7 +93,9 @@ export default function AllShowsPage(): JSX.Element | null {
         <div>
           <Link
             href="/podcaster/shows/create"
-            className={cn(buttonVariants({ variant: "outline" }))}
+            className={cn(
+              buttonVariants({ variant: "outline", className: "capitalize" })
+            )}
           >
             {t("add-show")}
           </Link>
@@ -109,11 +111,13 @@ export default function AllShowsPage(): JSX.Element | null {
           <Table className="flex-1 shrink-0 grow">
             <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead>{t("title")}</TableHead>
-                <TableHead>{t("episodes")}</TableHead>
-                <TableHead>{t("role")}</TableHead>
-                <TableHead>{t("owner")}</TableHead>
-                <TableHead className="text-end"></TableHead>
+                <TableHead className="capitalize">{t("title")}</TableHead>
+                <TableHead className="capitalize">{t("episodes")}</TableHead>
+                <TableHead className="capitalize">{t("role")}</TableHead>
+                <TableHead className="capitalize">{t("owner")}</TableHead>
+                <TableHead className="text-end capitalize">
+                  {t("actions")}
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -149,7 +153,7 @@ export default function AllShowsPage(): JSX.Element | null {
                           <Link
                             href={`/podcaster/shows/${playlist?.id}/episodes`}
                           >
-                            <DropdownMenuItem className="text-xs">
+                            <DropdownMenuItem className="text-xs capitalize">
                               <AirplayIcon className="size-4 mr-2" />
                               {t("episodes")}
                             </DropdownMenuItem>
@@ -157,19 +161,19 @@ export default function AllShowsPage(): JSX.Element | null {
                           <Link
                             href={`/podcaster/shows/${playlist?.id}/analytics`}
                           >
-                            <DropdownMenuItem className="text-xs">
+                            <DropdownMenuItem className="text-xs capitalize">
                               <TrendingUpIcon className="size-4 mr-2" />
                               {t("audience")}
                             </DropdownMenuItem>
                           </Link>
                           <Link href={`/podcaster/shows/${playlist?.id}`}>
-                            <DropdownMenuItem className="text-xs">
+                            <DropdownMenuItem className="text-xs capitalize">
                               <SquareArrowOutUpRightIcon className="size-4 mr-2" />
                               {t("show-dashboard")}
                             </DropdownMenuItem>
                           </Link>
                           <Link href={`/podcaster/shows/${playlist?.id}/edit`}>
-                            <DropdownMenuItem className="text-xs">
+                            <DropdownMenuItem className="text-xs capitalize">
                               <SettingsIcon className="size-4 mr-2" />
                               {t("edit")}
                             </DropdownMenuItem>

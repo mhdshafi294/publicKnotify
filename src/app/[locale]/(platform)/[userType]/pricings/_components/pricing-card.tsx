@@ -1,7 +1,6 @@
 // External Imports
 import { FC } from "react";
 import { useFormContext } from "react-hook-form";
-import { Check, SquarePen } from "lucide-react";
 
 // Internal Imports
 import FormInput from "@/components/ui/form-input";
@@ -51,7 +50,7 @@ const PricingCard: FC<PropsType> = ({ price, text, name }) => {
           <FormInput
             className=" text-lg font-bold focus-visible:ring-transparent bg-transparent border-0 px-0 py-2 !mt-0  text-end"
             control={form.control}
-            placeholder="Enter price"
+            placeholder={t("enter-price")}
             name={name}
             label=""
           />

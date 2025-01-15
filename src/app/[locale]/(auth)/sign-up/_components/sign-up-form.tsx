@@ -74,11 +74,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
   const { mutate: server_signUp, isPending } = useMutation({
     mutationFn: signUpAction,
     onSuccess: (data) => {
-      if (typeof data === "string") {
+      if (!data.success) {
         console.error(data);
         toast.dismiss();
-        toast.error(data);
+        toast.error(data.message.phone[0]);
       } else {
+        console.log(data);
         toast.warning(t("verifyAccount"));
         router.push(
           `/${type}/verification-code?phone_code=${phone.code}&phone=${phone.phone}`
@@ -202,7 +203,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ type }) => {
           <Link
             locale="en"
             href={`/sign-in/?userType=${type}`}
-            className="font-bold text-sm text-greeny"
+            className="font-bold text-sm text-greeny_lighter dark:text-greeny"
           >
             {t("signIn")}
           </Link>

@@ -1,6 +1,6 @@
 // External imports
-import { getTranslations } from "next-intl/server";
 import axiosInstance from "@/lib/axios.config";
+import { getTranslations } from "next-intl/server";
 
 // Local imports
 import MaxWidthContainer from "@/components/ui/MaxWidthContainer";
@@ -39,15 +39,23 @@ const PrivacyPage = async ({ params }: { params: { locale: string } }) => {
   return (
     <MaxWidthContainer className="pt-16 flex-1 space-y-5">
       <h1 className="text-2xl font-bold">{t("privacyPolicy")}</h1>
-      <article
-        dangerouslySetInnerHTML={{
-          __html:
-            data.policy.translations.find(
-              (item) => item.locale === params.locale
-            )?.content || "",
-        }}
-        className="w-full prose max-w-full bg-secondary p-6 rounded-xl !text-foreground *:text-foreground"
-      />
+      {data.policy.translations ? (
+        <article
+          dangerouslySetInnerHTML={{
+            __html:
+              data.policy.translations.find(
+                (item) => item.locale === params.locale
+              )?.content || "",
+          }}
+          className="w-full prose max-w-full bg-secondary p-6 rounded-xl !text-foreground *:text-foreground"
+        />
+      ) : (
+        <div>
+          <p className="italic font-semibold text-lg">
+            {t("no_policy_available")}
+          </p>
+        </div>
+      )}
     </MaxWidthContainer>
   );
 };

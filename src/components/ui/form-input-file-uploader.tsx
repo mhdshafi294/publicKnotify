@@ -2,6 +2,10 @@
 import { Control, FieldValues } from "react-hook-form";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
+import { cn, convertFileToURL } from "@/lib/utils";
+import { Image, Upload, X } from "lucide-react";
+import { ComponentPropsWithoutRef, useState } from "react";
+import { Button } from "./button";
 import {
   FormControl,
   FormField,
@@ -9,12 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import React, { ComponentPropsWithoutRef, useState } from "react";
-import { cn, convertFileToURL } from "@/lib/utils";
-import { Image, Upload, X } from "lucide-react";
-import { Button } from "./button";
-import FileUploader from "./file-uploader";
-import { PODCASTS, UPLOAD_MEDIA_FILE } from "@/lib/apiEndPoints";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -119,7 +117,7 @@ function FormFileInputUploader<T extends FieldValues>({
               ) : null}
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

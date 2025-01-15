@@ -1,5 +1,8 @@
 "use client";
 
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale, useTranslations } from "next-intl";
+import { ComponentPropsWithoutRef, useEffect, useState } from "react";
 import { Control, FieldValues, useFormContext } from "react-hook-form";
 import {
   FormControl,
@@ -9,9 +12,6 @@ import {
   FormMessage,
 } from "./form";
 import { Input } from "./input";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
-import { cn, getDirection } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
 
 interface PricePropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -92,7 +92,7 @@ function PricePickerFormInput<T extends FieldValues>({
               </div>
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

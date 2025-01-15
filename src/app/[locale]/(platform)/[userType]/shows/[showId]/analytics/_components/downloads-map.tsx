@@ -1,20 +1,20 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { scaleLinear } from "d3-scale";
+import { useTranslations } from "next-intl";
+import { useCallback, useState } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
-import { scaleLinear } from "d3-scale";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Card, CardContent } from "@/components/ui/card";
-import { useTranslations } from "next-intl";
 
 const geoUrl = "/world-countries.json";
 
@@ -53,9 +53,9 @@ export default function DownloadsMap({
 
   if (!downloads || downloads.length === 0) {
     return (
-      <Card className="relative w-full  overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
+      <Card className="relative w-full h-full overflow-hidden dark:bg-[#040a1b] rounded-xl border-none flex items-center justify-center">
         <CardContent>
-          <p className="text-white text-lg">
+          <p className="text-foreground text-lg">
             {t("no-download-data-available")}
           </p>
         </CardContent>

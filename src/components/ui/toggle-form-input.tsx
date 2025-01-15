@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+import { ComponentPropsWithoutRef, ReactNode } from "react";
 import { Control, FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -7,8 +9,6 @@ import {
   FormMessage,
 } from "./form";
 import { Toggle } from "./toggle"; // Import the Shadcn Toggle component
-import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { cn } from "@/lib/utils";
 
 interface CheckboxProps<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"button">, "name"> {
@@ -56,7 +56,7 @@ function ToggleFormInput<T extends FieldValues>({
               {icon}
             </Toggle>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

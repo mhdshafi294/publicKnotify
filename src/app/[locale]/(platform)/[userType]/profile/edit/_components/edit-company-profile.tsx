@@ -147,7 +147,7 @@ const EditCompanyProfile = ({ user }: { user: CustomUser }) => {
                           type="file"
                         />
                       </FormControl>
-                      <FormMessage className="capitalize font-normal" />
+                      <FormMessage className=" font-normal" />
                     </FormItem>
                   )}
                 />

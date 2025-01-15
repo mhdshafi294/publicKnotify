@@ -1,3 +1,7 @@
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn, getDirection } from "@/lib/utils";
+import { useLocale } from "next-intl";
+import { ComponentPropsWithoutRef } from "react";
 import { Control, FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -6,11 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import { Input } from "./input";
-import { ComponentPropsWithoutRef } from "react";
-import { cn, getDirection } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useLocale } from "next-intl";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -77,7 +76,7 @@ function FormCheckbox<T extends FieldValues>({
           >
             {label}
           </FormLabel>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

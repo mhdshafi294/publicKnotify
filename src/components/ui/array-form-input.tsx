@@ -1,7 +1,7 @@
 "use client";
 
 import { cn, getDirection } from "@/lib/utils";
-import { X } from "lucide-react";
+import { BadgeInfoIcon, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { ComponentPropsWithoutRef, useEffect, useRef, useState } from "react";
 import {
@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { Input } from "./input";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
@@ -31,6 +32,7 @@ interface PropsType<T extends FieldValues>
   control: Control<T>;
   description?: string;
   defaultValues: Partial<T>;
+  info?: string;
 }
 
 function ArrayFormInput<T extends FieldValues>({
@@ -41,6 +43,7 @@ function ArrayFormInput<T extends FieldValues>({
   labelClassName,
   defaultValues,
   description = "",
+  info,
   ...props
 }: PropsType<T>) {
   const { setValue, setFocus } = useFormContext();
@@ -92,9 +95,21 @@ function ArrayFormInput<T extends FieldValues>({
       name={name.toString()}
       render={({ field }) => (
         <FormItem className="w-full" dir={dir} ref={fieldRef}>
-          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
-            {label}
-          </FormLabel>
+          <div className="flex items-baseline gap-2">
+            <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+              {label}
+            </FormLabel>
+            {info ? (
+              <HoverCard>
+                <HoverCardTrigger>
+                  <BadgeInfoIcon className="size-4 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent className="border border-border-secondary/20 bg-card/80 text-sm">
+                  {info}
+                </HoverCardContent>
+              </HoverCard>
+            ) : null}
+          </div>
           <FormControl>
             <div className="flex justify-start flex-col gap-3 items-start">
               <div className="w-full flex items-stretch gap-2">
@@ -168,7 +183,7 @@ function ArrayFormInput<T extends FieldValues>({
             </div>
           </FormControl>
 
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

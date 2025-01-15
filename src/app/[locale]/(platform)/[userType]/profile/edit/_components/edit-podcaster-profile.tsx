@@ -176,7 +176,7 @@ const EditPodcasterProfile = ({
                           type="file"
                         />
                       </FormControl>
-                      <FormMessage className="capitalize font-normal" />
+                      <FormMessage className=" font-normal" />
                     </FormItem>
                   )}
                 />

@@ -3,12 +3,12 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-import FormInput from "@/components/ui/form-input";
-import FormInputTextarea from "@/components/ui/form-input-textarea";
-import SelectFormInput from "@/components/ui/select-form-input";
-import FormInputWithPreText from "@/components/ui/form-input-with-pre-text";
 import FormCheckbox from "@/components/ui/form-checkbox";
+import FormInput from "@/components/ui/form-input";
 import FormInputRichText from "@/components/ui/form-input-rich-text";
+import FormInputTextarea from "@/components/ui/form-input-textarea";
+import FormInputWithPreText from "@/components/ui/form-input-with-pre-text";
+import SelectFormInput from "@/components/ui/select-form-input";
 
 type BasicInfoSectionProps = {
   t: (key: string) => string;
@@ -37,6 +37,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           className="bg-background w-full"
           placeholder={t("podcastNamePlaceholder")}
           label={t("nameLabel")}
+          info={t("podcastNameInfo")}
           control={control}
         />
         <FormInputWithPreText
@@ -46,6 +47,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           label={t("eposideUrlLabel")}
           preText=".../episodes/"
           control={control}
+          info={t("episodeUrlInfo")}
         />
       </div>
       <FormCheckbox
@@ -71,6 +73,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           label={t("episodeTypeLabel")}
           control={control}
           options={["full", "bonus", "trailer"]}
+          info={t("episodeTypeInfo")}
         />
         <FormInput
           name="season"

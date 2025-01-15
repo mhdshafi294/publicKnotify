@@ -1,9 +1,9 @@
 "use client";
 
 // External imports
-import React from "react";
-import { useRouter } from "next/navigation";
 import { SquarePen } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 // Local imports
 import { Button } from "@/components/ui/button";
@@ -14,9 +14,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import usePricingsStore from "@/store/use-edit-pricings-store";
-import { useTranslations } from "next-intl";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getDirection } from "@/lib/utils";
+import usePricingsStore from "@/store/use-edit-pricings-store";
+import { useLocale, useTranslations } from "next-intl";
 
 /**
  * Modal Component
@@ -31,6 +32,8 @@ const SelfPricingModal = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const setEditMode = usePricingsStore((state) => state.setEditMode);
   const t = useTranslations("Index");
+  const locale = useLocale();
+  const dir = getDirection(locale);
 
   return (
     <Dialog
@@ -41,7 +44,7 @@ const SelfPricingModal = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <DialogContent className="md:max-w-[80vw] md:w-[1200px] bg-white dark:bg-black border-none p-9">
-        <ScrollArea className="max-h-[calc(100vh-200px)]">
+        <ScrollArea className="max-h-[calc(100vh-200px)]" dir={dir}>
           <DialogHeader>
             <div className="flex">
               <DialogTitle className="text-3xl">{t("pricing")}</DialogTitle>

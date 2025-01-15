@@ -3,9 +3,9 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
-import ArrayFormInput from "@/components/ui/array-form-input";
 import { getCategoriesAction } from "@/app/actions/podcastActions";
+import ArrayFormInput from "@/components/ui/array-form-input";
+import ArraySelectManyFormInput from "@/components/ui/array-select-many-form-input";
 
 type CategoryHashtagsSectionProps = {
   t: (key: string) => string;
@@ -35,6 +35,7 @@ const CategoryHashtagsSection: React.FC<CategoryHashtagsSectionProps> = ({
         label={t("contributorsLabel")}
         className="w-full bg-background"
         defaultValues={getValues()}
+        info={t("contributorsInfo")}
       />
       <ArrayFormInput
         name="hashtags"

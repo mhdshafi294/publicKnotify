@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { cn, getDirection } from "@/lib/utils";
 import {
+  BadgeInfoIcon,
   BoldIcon,
   HeadingIcon,
   ItalicIcon,
@@ -34,8 +35,8 @@ import {
   UndoIcon,
 } from "lucide-react";
 import { Button } from "./button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { Separator } from "./separator";
-
 /**
  * MenuBar component for RichText editor
  *
@@ -164,6 +165,7 @@ interface PropsType<T extends FieldValues> {
   labelClassName?: string;
   placeholder?: string;
   control: Control<T>;
+  info?: string;
 }
 
 /**
@@ -195,6 +197,7 @@ function FormInputRichText<T extends FieldValues>({
   label,
   labelClassName,
   placeholder,
+  info,
   ...props
 }: PropsType<T>) {
   const locale = useLocale();
@@ -219,7 +222,7 @@ function FormInputRichText<T extends FieldValues>({
     editorProps: {
       attributes: {
         class: cn(
-          "w-full text-white bg-background rounded-b-lg border border-input/50  min-h-[200px] p-4 prose prose-p:text-white prose-strong:text-white prose-blockquote:text-white prose-headings:text-white max-w-full",
+          "w-full dark:text-white bg-background rounded-b-lg border border-input/50  min-h-[200px] p-4 prose  dark:prose-p:text-white  dark:prose-strong:text-white  dark:prose-blockquote:text-white  dark:prose-headings:text-white max-w-full",
           className
         ),
         dir,
@@ -245,16 +248,28 @@ function FormInputRichText<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem dir={dir} ref={fieldRef}>
-          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
-            {label}
-          </FormLabel>
+          <div className="flex items-baseline gap-2">
+            <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+              {label}
+            </FormLabel>
+            {info ? (
+              <HoverCard>
+                <HoverCardTrigger>
+                  <BadgeInfoIcon className="size-4 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent className="border border-border-secondary/20 bg-card/80 text-sm">
+                  {info}
+                </HoverCardContent>
+              </HoverCard>
+            ) : null}
+          </div>
           <FormControl>
             <div className="w-full bg-background rounded-lg">
               <MenuBar editor={editor} />
               <EditorContent editor={editor} />
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

@@ -83,7 +83,7 @@ function FormInputTextarea<T extends FieldValues>({
               {...field}
             />
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

@@ -3,7 +3,7 @@
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -36,6 +36,12 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
 
   // Manage the current pricing data in local state
   const [currentPricings, setCurrentPricings] = useState<Price[]>(pricings);
+
+  // Use the next-intl hook for translations
+  const t = useTranslations("Index");
+
+  const locale = useLocale();
+  console.log(locale, "<<<<locale");
 
   // Initialize the form using react-hook-form with Zod validation schema
   const form = useForm<EditPricingSchema>({
@@ -75,9 +81,6 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
           ?.podcaster_prices[0]?.price?.toString() || "",
     },
   });
-
-  // Use the next-intl hook for translations
-  const t = useTranslations("Index");
 
   // Set up mutation for creating or updating pricing data
   const {
@@ -251,7 +254,9 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
                 >
                   {index + 1}
                 </div>
-                <h1 className="text-2xl font-semibold">{item.name.en}</h1>
+                <h1 className="text-2xl font-semibold">
+                  {item?.name[locale as "en" | "ar"]}
+                </h1>
               </div>
               <ProfilePriceSwitcher
                 is_enabled_price={item?.is_enabled!}
@@ -265,7 +270,7 @@ const PricingsContainer: FC<{ pricings: Price[] }> = ({ pricings }) => {
                 <PricingCard
                   key={section?.id}
                   name={section.name.en}
-                  text={section.name.en}
+                  text={section.name[locale as "en" | "ar"]}
                   price={section.podcaster_prices[0]?.price?.toString()}
                 />
               ))}

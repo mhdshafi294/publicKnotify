@@ -1,9 +1,11 @@
 "use client";
 
-import React, { ComponentPropsWithoutRef } from "react";
-import { Control, FieldValues } from "react-hook-form";
 import { useLocale } from "next-intl";
+import { ComponentPropsWithoutRef } from "react";
+import { Control, FieldValues } from "react-hook-form";
 
+import { cn, getDirection } from "@/lib/utils";
+import { BadgeInfoIcon } from "lucide-react";
 import {
   FormControl,
   FormField,
@@ -11,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import {
   Select,
   SelectContent,
@@ -18,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./select";
-import { cn, getDirection } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -28,6 +30,7 @@ interface PropsType<T extends FieldValues>
   label: string;
   labelClassName?: string;
   control: Control<T>;
+  info?: string;
 }
 
 /**
@@ -53,6 +56,7 @@ function SelectFormInput<T extends FieldValues>({
   className: className,
   label,
   labelClassName,
+  info,
   ...props
 }: PropsType<T>) {
   const locale = useLocale();
@@ -64,9 +68,21 @@ function SelectFormInput<T extends FieldValues>({
       name={name.toString()}
       render={({ field }) => (
         <FormItem className={cn("w-full", className)} dir={dir}>
-          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
-            {label}
-          </FormLabel>
+          <div className="flex items-baseline gap-2">
+            <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+              {label}
+            </FormLabel>
+            {info ? (
+              <HoverCard>
+                <HoverCardTrigger>
+                  <BadgeInfoIcon className="size-4 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent className="border border-border-secondary/20 bg-card/80 text-sm">
+                  {info}
+                </HoverCardContent>
+              </HoverCard>
+            ) : null}
+          </div>
           <Select
             onValueChange={field.onChange}
             defaultValue={field.value}

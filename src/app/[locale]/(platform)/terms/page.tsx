@@ -43,15 +43,23 @@ const TermsPage = async ({ params }: { params: { locale: string } }) => {
       <h1 className="text-2xl font-bold">{t("terms")}</h1>
 
       {/* Terms and conditions content */}
-      <article
-        dangerouslySetInnerHTML={{
-          __html:
-            data.terms.translations.find(
-              (item) => item.locale === params.locale
-            )?.content || "",
-        }}
-        className="w-full prose max-w-full bg-secondary p-6 rounded-xl text-foreground *:text-foreground prose-p:opacity-70"
-      />
+      {data.terms.translations ? (
+        <article
+          dangerouslySetInnerHTML={{
+            __html:
+              data.terms.translations.find(
+                (item) => item.locale === params.locale
+              )?.content || "",
+          }}
+          className="w-full prose max-w-full bg-secondary p-6 rounded-xl text-foreground *:text-foreground prose-p:opacity-70"
+        />
+      ) : (
+        <div>
+          <p className="italic font-semibold text-lg">
+            {t("no_terms_available")}
+          </p>
+        </div>
+      )}
     </MaxWidthContainer>
   );
 };

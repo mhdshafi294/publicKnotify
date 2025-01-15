@@ -2,7 +2,7 @@ import { OctagonAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import YoutubeIconWhite from "@/components/icons/youtube-icon-white";
-import { EnabledStatistics, YoutubeChannel } from "@/types/statistics";
+import { YoutubeChannel } from "@/types/statistics";
 import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import AnalyticsEnableSwitch from "./analytics-enable-switch";
 
@@ -55,7 +55,7 @@ const AnalyticsYoutube = ({
           <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("all-time-views")}
           </h2>
-          <p className="font-bold text-xl">
+          <p className="font-bold text-xl capitalize">
             {youtube_channel?.viewCount ? (
               youtube_channel.viewCount
             ) : (
@@ -89,7 +89,7 @@ const AnalyticsYoutube = ({
           <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("hidden-subscriber-count")}
           </h2>
-          <p className="font-bold text-xl">
+          <p className="font-bold text-xl capitalize">
             {youtube_channel?.hiddenSubscriberCount ? (
               youtube_channel.hiddenSubscriberCount
             ) : (
@@ -106,7 +106,7 @@ const AnalyticsYoutube = ({
           <h2 className="text-base font-bold opacity-70 dark:opacity-50">
             {t("video-count")}
           </h2>
-          <p className="font-bold text-xl">
+          <p className="font-bold text-xl capitalize">
             {youtube_channel?.videoCount ? (
               youtube_channel.videoCount
             ) : (

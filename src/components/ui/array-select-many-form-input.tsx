@@ -136,7 +136,7 @@ function ArraySelectManyFormInput<T extends FieldValues>({
               </ScrollArea>
             </div>
           </FormControl>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

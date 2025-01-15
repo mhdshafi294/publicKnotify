@@ -110,7 +110,7 @@ export default async function SearchPage({
     <main className="flex flex-1 flex-col items-start justify-start gap-6 w-full mt-8 mb-2">
       <MaxWidthContainer className="w-full">
         <div className="w-full flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-bold">{t("search")}</h1>
+          <h1 className="text-4xl font-bold capitalize">{t("search")}</h1>
           <Search searchText={search} searchFor="search" />
         </div>
         <div className="flex flex-col gap-7">{content()}</div>

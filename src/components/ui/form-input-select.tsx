@@ -1,3 +1,12 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import { ComponentPropsWithoutRef } from "react";
 import { Control, FieldValues } from "react-hook-form";
 import {
   FormControl,
@@ -6,16 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "./input";
-import { ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
 
 interface PropsType<T extends FieldValues>
   extends Omit<ComponentPropsWithoutRef<"input">, "name"> {
@@ -61,7 +60,7 @@ function FormInputSelect<T extends FieldValues>({
               ))}
             </SelectContent>
           </Select>
-          <FormMessage className="capitalize font-normal" />
+          <FormMessage className=" font-normal" />
         </FormItem>
       )}
     />

@@ -2,7 +2,7 @@
 
 import { getShowTimeStatisticsAction } from "@/app/actions/statisticsActions";
 import DatePickerWithRange from "@/components/ui/date-picker-with-range";
-import { EnabledStatistics, ShowTimeStatistics } from "@/types/statistics";
+import { ShowTimeStatistics } from "@/types/statistics";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
@@ -54,7 +54,7 @@ const HourlyViewsChartCard: React.FC<HourlyViewsChartCardProps> = ({
           <h2 className="text-sm font-bold uppercase opacity-70">
             {t("hourly-views")}
           </h2>
-          <p className="font-bold text-3xl">{t("time-of-day")}</p>
+          <p className="font-bold text-3xl capitalize">{t("time-of-day")}</p>
         </div>
         <div className="flex flex-col gap-3">
           {userType === "podcaster" ? (

@@ -76,7 +76,7 @@ export const authOptions: AuthOptions = {
 
         try {
           // Log the request data to see what is being sent
-          console.log("Sending request with credentials:", credentials);
+          // console.log("Sending request with credentials:", credentials);
 
           const res = await axiosInstance.post(
             `${type}${LOGIN_URL}`,
