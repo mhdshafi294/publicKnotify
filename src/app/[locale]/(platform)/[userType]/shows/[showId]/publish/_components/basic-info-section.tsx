@@ -103,6 +103,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
         name="notes"
         label={t("notesLabel")}
         control={control}
+        info={t("notesInfo")}
       />
       <FormInputRichText
         name="footer"

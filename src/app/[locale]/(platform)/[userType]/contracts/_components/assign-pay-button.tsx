@@ -4,7 +4,6 @@ import { assignPaymentAction } from "@/app/actions/profileActions";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { BanknoteIcon } from "lucide-react";
 import { Session } from "next-auth";
 import { useTranslations } from "next-intl";
 import React from "react";
@@ -56,14 +55,14 @@ const AssignPayButton: React.FC<PayButtonProps> = ({
     <Button
       variant="default"
       className={cn(
-        "w-full text-xl gap-2 items-center font-bold rounded-full mt-auto justify-self-end",
+        "w-full text-lg gap-2 items-center font-bold rounded-full mt-auto justify-self-end capitalize",
         className
       )}
       size="lg"
       disabled={isPending || disabled}
       onClick={handlePayment}
     >
-      Boost
+      {t("boostYourAccount")}
       {/* <BanknoteIcon /> */}
     </Button>
   );

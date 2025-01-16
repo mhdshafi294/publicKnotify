@@ -674,7 +674,10 @@
     "podcastNameInfo": "Give your episode a name. It can be helpful to use similar naming conventions for your episodes.",
     "episodeUrlInfo": "Customize the ‘slug’ of your episode URL, which is the part that comes at the end of the URL. By default, this will be the name of your episode. We recommend consistency with your naming conventions.",
     "contributorsInfo": "List everyone who appeared and was mentioned in this episode",
-    "episodeTypeInfo": "Specify 'Full' for when you are submitting the complete content of a show. Use 'Trailer' when you are submitting a short, promotional piece of content that represents a preview of a show. 'Bonus' is for submitting extra content for a show (for example, behind the scenes information or interviews with the cast). "
+    "episodeTypeInfo": "Specify 'Full' for when you are submitting the complete content of a show. Use 'Trailer' when you are submitting a short, promotional piece of content that represents a preview of a show. 'Bonus' is for submitting extra content for a show (for example, behind the scenes information or interviews with the cast). ",
+    "boost": "Boost",
+    "boostYourAccount": "boost your account",
+    "notesInfo": "Add a full description of what happened in this episode, including topics discussed, useful timestamps, other episode notes and any additional links you may want to share. Hyperlinks are supported and we recommend including your social media channels and contact information."
   },
   "notifications": {
     "notifications": "notifications"
