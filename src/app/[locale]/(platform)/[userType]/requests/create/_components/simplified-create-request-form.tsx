@@ -114,11 +114,13 @@ export default function SimplifiedCreateRequestForm({
           name="podcast_format"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Podcast Format</FormLabel>
+              <FormLabel>{t("podcast-format")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select the format of podcast media" />
+                    <SelectValue
+                      placeholder={t("select-the-format-of-podcast-media")}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -147,11 +149,13 @@ export default function SimplifiedCreateRequestForm({
           name="advertising_type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Advertising Type</FormLabel>
+              <FormLabel>{t("advertising-type")}</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select the type of your AD" />
+                    <SelectValue
+                      placeholder={t("select-the-type-of-your-ad")}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

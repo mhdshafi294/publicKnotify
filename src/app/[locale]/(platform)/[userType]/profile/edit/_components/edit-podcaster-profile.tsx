@@ -72,8 +72,8 @@ const EditPodcasterProfile = ({
       image: new File([], ""),
       iso_code: user?.iso_code || "",
       categories: profile.user.categories.map((c) => c?.id.toString()) || [],
-      spotify: profile.user.spotify_account || "",
-      youtube: profile.user.youtube_account || "",
+      // spotify: profile.user.spotify_account || "",
+      // youtube: profile.user.youtube_account || "",
       phone: {
         code: dialingCode || "971",
         phone: user?.phone?.slice(dialingCode.length) || "",
@@ -113,8 +113,8 @@ const EditPodcasterProfile = ({
 
     formData.append("full_name", data.full_name);
     formData.append("iso_code", data.iso_code);
-    if (data.spotify) formData.append("spotify_account", data.spotify);
-    if (data.youtube) formData.append("youtube_account", data.youtube);
+    // if (data.spotify) formData.append("spotify_account", data.spotify);
+    // if (data.youtube) formData.append("youtube_account", data.youtube);
     formData.append("iso_code", countryCode!);
     formData.append("phone", `${data?.phone?.code}${data?.phone?.phone}`);
     if (data.image && data.image.name) formData.append("image", data.image);
@@ -222,7 +222,7 @@ const EditPodcasterProfile = ({
                 label={t("categories")}
                 disabled={false}
               />
-              <FormInput
+              {/* <FormInput
                 name="youtube"
                 label={t("youtube")}
                 control={form.control}
@@ -231,7 +231,7 @@ const EditPodcasterProfile = ({
                 name="spotify"
                 label={t("spotify")}
                 control={form.control}
-              />
+              /> */}
             </div>
           </div>
         </div>

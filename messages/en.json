@@ -178,6 +178,7 @@
     "eposideUrlLabel": "Episode URL",
     "explicitLanguageLabel": "Contains explicit language",
     "nameLabel": "Name",
+    "titleLabel": "Title",
     "episode": "Episode",
     "episodeLabel": "Episode #",
     "session": "Session",
@@ -677,11 +678,24 @@
     "episodeTypeInfo": "Specify 'Full' for when you are submitting the complete content of a show. Use 'Trailer' when you are submitting a short, promotional piece of content that represents a preview of a show. 'Bonus' is for submitting extra content for a show (for example, behind the scenes information or interviews with the cast). ",
     "boost": "Boost",
     "boostYourAccount": "boost your account",
-    "notesInfo": "Add a full description of what happened in this episode, including topics discussed, useful timestamps, other episode notes and any additional links you may want to share. Hyperlinks are supported and we recommend including your social media channels and contact information."
+    "notesInfo": "Add a full description of what happened in this episode, including topics discussed, useful timestamps, other episode notes and any additional links you may want to share. Hyperlinks are supported and we recommend including your social media channels and contact information.",
+    "add": "Add",
+    "podcast-format": "Podcast Format",
+    "advertising-type": "Advertising Type",
+    "select-the-type-of-your-ad": "Select the type of your AD",
+    "select-the-format-of-podcast-media": "Select the format of podcast media",
+    "podcast-media-format": "Podcast Media Format",
+    "list-of-show": "List of show",
+    "mediaTypeInfo": "Select whether the file you plan to upload is a video or an audio file."
   },
   "notifications": {
     "notifications": "notifications"
   },
   "episodes": "episodes",
-  "categories": "categories"
+  "categories": "categories",
+  "seasonInfo": " Seasons can be a useful way to organize your podcast episodes. You can change whether your podcast is Episodic or Serial in your Show Settings. ",
+  "episodeInfo": " This number defines the order your episode will appear in the season you've selected. ",
+  "summaryInfo": "Add a brief summary (1- 2 sentences) of what this episode is all about. Hyperlinks are not supported.",
+  "footerInfo": "Use Episode Notes Footer to add text at the end of all your Episodes.",
+  "hashtagsInfo": "Add relevant search keywords about your episode to help people find it."
 }

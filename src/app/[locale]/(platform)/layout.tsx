@@ -46,7 +46,7 @@ const PlatformLayout: React.FC<PlatformLayoutProps> = async ({ children }) => {
 
   // If a session exists, redirect the user to their respective type page
   return (
-    <div className="h-full min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-between ">
+    <div className="h-full min-h-[100dvh] w-full max-w-[100vw] flex flex-col justify-between">
       {/* Navbar component at the top */}
       <Navbar />
 

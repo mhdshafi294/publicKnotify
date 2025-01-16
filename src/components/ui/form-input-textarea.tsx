@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 
 import { cn, getDirection } from "@/lib/utils";
+import { BadgeInfoIcon } from "lucide-react";
 import {
   FormControl,
   FormField,
@@ -15,6 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./form";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import { Textarea } from "./textarea";
 
 interface PropsType<T extends FieldValues>
@@ -25,6 +27,7 @@ interface PropsType<T extends FieldValues>
   labelClassName?: string;
   placeholder?: string;
   control: Control<T>;
+  info?: string;
 }
 
 /**
@@ -50,6 +53,7 @@ function FormInputTextarea<T extends FieldValues>({
   label,
   labelClassName,
   placeholder,
+  info,
   ...props
 }: PropsType<T>) {
   const locale = useLocale();
@@ -73,9 +77,21 @@ function FormInputTextarea<T extends FieldValues>({
       name={name.toString()}
       render={({ field }) => (
         <FormItem dir={dir} ref={fieldRef}>
-          <FormLabel className={cn("capitalize text-lg", labelClassName)}>
-            {label}
-          </FormLabel>
+          <div className="flex items-baseline gap-2">
+            <FormLabel className={cn("capitalize text-lg", labelClassName)}>
+              {label}
+            </FormLabel>
+            {info ? (
+              <HoverCard>
+                <HoverCardTrigger>
+                  <BadgeInfoIcon className="size-4 text-muted-foreground" />
+                </HoverCardTrigger>
+                <HoverCardContent className="border border-border-secondary/20 bg-card/80 text-sm">
+                  {info}
+                </HoverCardContent>
+              </HoverCard>
+            ) : null}
+          </div>
           <FormControl>
             <Textarea
               placeholder={placeholder}

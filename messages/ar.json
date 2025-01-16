@@ -1,7 +1,7 @@
 {
   "Index": {
     "new": "جديد",
-    "title": "مرحبا",
+    "title": "العنوان",
     "language": "اللغة",
     "edit": "تعديل",
     "delete": "حذف",
@@ -94,7 +94,7 @@
     "continue": "متابعه",
     "createRequest": "إنشاء طلب",
     "podcastNamePlaceholder": "اسم البودكاست",
-    "name": "اسم",
+    "name": "الاسم",
     "podcaster": "البودكاستر",
     "podcastSummary": "ملخص البودكاست",
     "podcastSummaryPlaceholder": "أخبرنا قليلاً عن البودكاست الخاص بك",
@@ -183,6 +183,7 @@
     "eposideUrlLabel": "عنوان URL للحلقة",
     "explicitLanguageLabel": "الحلقة تحتوى على لغة مخالفة",
     "nameLabel": "الاسم",
+    "titleLabel": "العنوان",
     "episodes": "الحلقات",
     "add-episode": "إضافة حلقة",
     "Add Episode": "إضافة حلقة",
@@ -490,6 +491,7 @@
     "pick-a-date": "اختر موعدًا",
     "there-are-no-drafts-fot-this-show": "لا توجد مسودات لهذا العرض",
     "select-a-chat-or-start-a-new-conversation": "حدد دردشة أو ابدأ محادثة جديدة",
+    "companies": "شركات",
     "select-a-chat": "حدد دردشة",
     "to-start-a-conversation-you-should-have-an-accepted-request-first-then-a-chat-with-the-related-user-will-be-opened-automatically": "لبدء محادثة، يجب أن يكون لديك طلب مقبول أولاً، ثم سيتم فتح الدردشة مع المستخدم ذي الصلة تلقائيًا.",
     "there-is-no-messages-in-this-chat-yet": "لا توجد رسائل في هذه الدردشة حتى الآن",
@@ -544,7 +546,7 @@
     "step-2-enter-url": "الخطوة 2: ادخال URL",
     "spotify-is-a-digital-music-service-that-gives-you-access-to-millions-of-podcasts-and-songs": " Spotify هو خدمة موسيقية ديجيتال تعيدك الوصول إلى الكثير من البودكاستات والائلائلائات.",
     "submit-your-podcast-to-spotify-and-get-your-show-url-your-podcast-should-appear-on-spotify-within-a-few-hours-of-submitting-your-rss-feed": "إرسل بودكاستك ألى Spotify وحصل على عنوان URL للعرض. \nالبودكاست يجب أن يظهر على Spotify في وقتٍ قليلٍ من طلب RSS الخاص بك.",
-    "request_name": "اسم الطلب",
+    "request_name": "اسم اطلب",
     "paste-your-spotify-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق رابط Spotify الخاص بك وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
     "you-can-distribute-your-audio-content-to-youtube-and-youtube-music-via-your-rss-feed-youtube-will-automatically-generate-videos-of-your-content-for-you-using-your-default-show-artwork-and-audio-we-support-16-9-images-in-your-show-settings-and-custom-artwork-for-each-episode": "يمكنك توزيع محتوى الصوت الخاص بك على YouTube و YouTube Music عبر خلاصة RSS الخاصة بك. سيقوم YouTube تلقائيًا بإنشاء مقاطع فيديو لمحتواك باستخدام العمل الفني الافتراضي لبرنامجك والصوت. نحن ندعم الصور بنسبة 16:9 في إعدادات العرض الخاصة بك والعمل الفني المخصص لكل حلقة",
     "paste-your-youtube-channel-url-well-display-a-link-on-your-audio-player-show-page-and-episode-pages": "الصق رابط قناتك على YouTube وسنعرض رابطًا على صفحة عرض مشغل الصوت الخاص بك وصفحات الحلقات",
@@ -559,6 +561,7 @@
     "text": "نص",
     "share": "مشاركة",
     "here-you-can-create-a-text-story": "هنا يمكنك إنشاء قصة نصية.",
+    "whats-on-your-mind": "بماذا تفكر؟",
     "scope": "نِطَاق",
     "background-color": "لون الخلفية",
     "re-send-code": "إعادة إرسال الرمز",
@@ -651,7 +654,16 @@
     "boostYourAccount": "عزز ظهور حسابك",
     "notesInfo": "أضف وصفًا كاملاً لما حدث في هذه الحلقة، بما في ذلك الموضوعات التي تمت مناقشتها، والطوابع الزمنية المفيدة، وملاحظات الحلقة الأخرى وأي روابط إضافية قد ترغب في مشاركتها. ندعم الروابط التشعبية ونوصي بتضمين قنوات الوسائط الاجتماعية ومعلومات الاتصال الخاصة بك.",
     "episodeNotes": "ملاحظات الحلقة",
-    "episodeNotesPlaceholder": "ملاحظات الحلقة"
+    "episodeNotesPlaceholder": "ملاحظات الحلقة",
+    "choose-file": "اختر ملف",
+    "add": "أضف",
+    "podcast-format": "تنسيق البودكاست",
+    "advertising-type": "نوع الإعلان",
+    "select-the-type-of-your-ad": "حدد نوع إعلانك",
+    "select-the-format-of-podcast-media": "حدد تنسيق وسائط البودكاست",
+    "podcast-media-format": "تنسيق وسائط البودكاست",
+    "list-of-show": "قائمة العرض",
+    "mediaTypeInfo": "حدد ما إذا كان الملف الذي تخطط لتحميله هو ملف فيديو أم ملف صوتي."
   },
   "notifications": {
     "notifications": "notifications"
@@ -661,5 +673,10 @@
   "pick-your-premium": "",
   "more": "",
   "episodes": "حلقات",
-  "categories": "الفئات"
+  "categories": "الفئات",
+  "seasonInfo": "يمكن أن تكون المواسم وسيلة مفيدة لتنظيم حلقات البودكاست الخاصة بك. \nيمكنك تغيير ما إذا كان البودكاست الخاص بك عرضيًا أو مسلسلًا في إعدادات العرض لديك.",
+  "episodeInfo": "يحدد هذا الرقم الترتيب الذي ستظهر به حلقتك في الموسم الذي حددته.",
+  "summaryInfo": "أضف ملخصًا مختصرًا (جملة أو جملتين) لما تتناوله هذه الحلقة. \nالارتباطات التشعبية غير مدعومة.",
+  "footerInfo": "استخدم تذييل ملاحظات الحلقة لإضافة نص في نهاية جميع حلقاتك.",
+  "hashtagsInfo": "أضف كلمات بحث رئيسية ذات صلة بحلقتك لمساعدة الأشخاص في العثور عليها."
 }

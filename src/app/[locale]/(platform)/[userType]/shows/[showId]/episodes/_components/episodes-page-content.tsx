@@ -1,11 +1,9 @@
 "use client";
 
-import React from "react";
 import { useTranslations } from "next-intl";
 
-import { Button } from "@/components/ui/button";
-import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DashboardCardContainer from "../../../_components/dashboard-card-container";
 import InfiniteScrollDrafts from "./infinite-scroll-episodes";
 
 /**
@@ -35,7 +33,7 @@ const EpisodesPageContent = ({
       {/* Header with page title and button */}
       <div className="flex w-full justify-between items-center px-4 sm:px-6 md:px-8 py-3 border-b border-b-secondary">
         <h2>{t("episodes")}</h2>
-        <Button variant="outline">{t("add-episode")}</Button>
+        {/* <Button variant="outline">{t("add-episode")}</Button> */}
       </div>
 
       {/* Description section */}

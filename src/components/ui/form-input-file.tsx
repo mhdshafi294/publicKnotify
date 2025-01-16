@@ -108,7 +108,7 @@ function FormFileInput<T extends FieldValues>({
                 }
                 {...props}
               />
-              <div className="absolute top-0 left-0 w-full h-full bg-greeny rounded flex justify-center items-center z-10">
+              <div className="absolute top-0 left-0 w-full h-full bg-greeny_lighter dark:bg-greeny rounded flex justify-center items-center z-10">
                 {field.value?.name ? (
                   <div className="flex justify-center items-center gap-2">
                     <ReplaceIcon color="black" size={16} />

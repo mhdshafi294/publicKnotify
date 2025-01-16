@@ -94,7 +94,7 @@ const FormFields: React.FC<FormFieldsProps> = ({ form, contract_id, dir }) => {
       <div className="w-full flex justify-between gap-5 flex-col md:flex-row">
         <SelectFormInput
           name="media_type"
-          placeholder={"Podcast Media Format"}
+          placeholder={t("podcast-media-format")}
           label={"Podcast Format"}
           control={form.control}
           options={["audio", "video"]}
@@ -108,7 +108,9 @@ const FormFields: React.FC<FormFieldsProps> = ({ form, contract_id, dir }) => {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select the type of your AD" />
+                    <SelectValue
+                      placeholder={t("select-the-type-of-your-ad")}
+                    />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>

@@ -94,7 +94,7 @@ function FormInputWithPreText<T extends FieldValues>({
           </div>
           <FormControl>
             <div className="w-full flex" dir="ltr">
-              <div className="px-4 bg-input  rounded-s-sm flex justify-center items-center text-foreground/70">
+              <div className="px-4 bg-card dark:bg-input rounded-s-sm flex justify-center items-center text-foreground/70">
                 {preText}
               </div>
               <Input

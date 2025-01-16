@@ -191,9 +191,9 @@ const InfiniteScrollDrafts: React.FC<InfiniteScrollDraftsProps> = ({
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 overflow-hidden w-[20dvw] absolute bottom-0 start-0 h-full bg-card-secondary border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
-        { "rounded-tr-lg -translate-x-full": dir === "ltr" },
-        { "rounded-tl-lg translate-x-full": dir === "rtl" },
+        "flex flex-col gap-1 overflow-hidden w-[20dvw] absolute bottom-0 start-0 h-full dark:bg-card-secondary bg-background border border-card-foreground/10 pt-10 -translate-x-full lg:translate-x-0 duration-300 z-40",
+        { "-translate-x-full": dir === "ltr" },
+        { " translate-x-full": dir === "rtl" },
         { "translate-x-0 w-[100dvw] rounded-tr-none rounded-tl-none": isShow }
       )}
     >

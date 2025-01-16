@@ -36,7 +36,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           name="name"
           className="bg-background w-full"
           placeholder={t("podcastNamePlaceholder")}
-          label={t("nameLabel")}
+          label={t("titleLabel")}
           info={t("podcastNameInfo")}
           control={control}
         />
@@ -65,6 +65,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           label={t("mediaTypeLabel")}
           control={control}
           options={["audio", "video"]}
+          info={t("mediaTypeInfo")}
         />
         {/* Select input for the podcast type (full/bonus/trailer) */}
         <SelectFormInput
@@ -80,8 +81,9 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           type="number"
           className="bg-background w-full"
           placeholder={"1"}
-          label={t("season")}
+          label={t("sessionLabel")}
           control={control}
+          info={t("seasonInfo")}
         />
         <FormInput
           name="episode_order"
@@ -90,6 +92,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
           placeholder={"1"}
           label={t("episodeLabel")}
           control={control}
+          info={t("episodeInfo")}
         />
       </div>
       {/* Textarea input for the podcast summary */}
@@ -98,6 +101,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
         label={t("summaryLabel")}
         placeholder={t("summaryPlaceholder")}
         control={control}
+        info={t("summaryInfo")}
       />
       <FormInputRichText
         name="notes"
@@ -109,6 +113,7 @@ const BasicInfoSection: React.FC<BasicInfoSectionProps> = ({ t }) => {
         name="footer"
         label={t("footerLabel")}
         control={control}
+        info={t("footerInfo")}
       />
     </>
   );

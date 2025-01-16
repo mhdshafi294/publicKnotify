@@ -166,7 +166,7 @@ const AddStoryTextDialog = () => {
                 placeholder="Select scope"
                 label={t("scope")}
                 control={form.control}
-                options={["all", "company"]}
+                options={[t("all"), t("company")]}
               />
               <ColorPicker
                 control={form.control}

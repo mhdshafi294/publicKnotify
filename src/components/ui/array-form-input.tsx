@@ -145,7 +145,7 @@ function ArrayFormInput<T extends FieldValues>({
                     }
                   }}
                 >
-                  Add
+                  {t("add")}
                 </Button>
               </div>
               {description ? (

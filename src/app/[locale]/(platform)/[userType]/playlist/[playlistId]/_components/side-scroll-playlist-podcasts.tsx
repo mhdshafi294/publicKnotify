@@ -72,7 +72,7 @@ const SideScrollPlaylistPodcasts = ({
       {/* <ThumbnailsCover title={playlistName} className="hidden xl:flex" /> */}
       <div className="flex gap-5 items-center">
         <AlignLeftIcon />
-        <p className="text-lg capitalize">List of show</p>
+        <p className="text-lg capitalize">{t("list-of-show")}</p>
       </div>
       <ul className="w-full py-3 xl:py-0">
         <ScrollArea

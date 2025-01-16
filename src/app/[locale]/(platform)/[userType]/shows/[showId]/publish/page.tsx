@@ -28,7 +28,7 @@ export default function NewPublish({ params, searchParams }: NewPublishProps) {
   const { request_id, podcast_id } = searchParams;
 
   return (
-    <div className="flex relative  min-h-[calc(100vh-112px)]">
+    <div className="flex relative  min-h-[calc(100vh-72px)] pt-10 bg-card-secondary dark:bg-background">
       {/* InfiniteScrollDrafts component for displaying the list of drafts */}
       <InfiniteScrollDrafts
         isShow={isShow}

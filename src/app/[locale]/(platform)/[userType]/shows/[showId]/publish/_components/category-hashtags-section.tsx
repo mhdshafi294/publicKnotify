@@ -43,6 +43,7 @@ const CategoryHashtagsSection: React.FC<CategoryHashtagsSectionProps> = ({
         label={t("hashtagsLabel")}
         className="w-full bg-background"
         defaultValues={getValues()}
+        info={t("hashtagsInfo")}
       />
       <div className="w-full flex justify-between gap-5">
         <ArraySelectManyFormInput

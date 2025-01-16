@@ -57,7 +57,7 @@ const EpisodePageContent = async ({
             </div>
           ) : (
             <video
-              src={podcastResponse?.podcast?.background}
+              src={podcastResponse?.podcast?.podcast}
               controls
               className="w-full max-h-[400px] object-cover"
             />
